@@ -350,7 +350,7 @@
     "codecInstallAllButton": "Instal·la els còdecs recomanats",
     "managePagePackageTypeLabel": "Tipus de paquet",
     "managePagePackageTypeAll": "Tot",
-    "managePagePackageTypeDeb": "DEB",
+    "managePagePackageTypeDeb": "Deb",
     "appUrlTypeHomepage": "Lloc web del desenvolupador",
     "appUrlTypeUnknown": "Enllaç",
     "appConfinementUnknown": "Desconegut",
@@ -359,5 +359,42 @@
     "appConfinementClassic": "Sense restriccions",
     "appConfinementUnrestricted": "Sense restriccions",
     "appLicenseUnknown": "Desconeguda",
-    "appMoreActionsSemanticLabel": "Més accions"
+    "appMoreActionsSemanticLabel": "Més accions",
+    "managePagePackageTypeSnap": "Snap",
+    "appUrlTypeContact": "Contacta amb {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appConfinementStrict": "En entorn aïllat",
+    "appConfinementDevelopment": "Mode de desenvolupament",
+    "appConfinementStrictTooltip": "Aquesta aplicació té un accés limitat als vostres recursos. Podeu controlar els seus permisos a l'aplicació Paràmetres.",
+    "appConfinementClassicTooltip": "Aquesta aplicació usa confinament clàssic, amb accés total als vostres recursos. Això és habitual a aplicacions de desenvolupament.",
+    "appConfinementUnrestrictedTooltip": "Aquesta aplicació té accés total als vostres recursos.",
+    "appPublishedUnknown": "Desconegut",
+    "snapActionRevertLabel": "Desfés l'actualització",
+    "snapActionRevertingLabel": "S'està desfent l'actualització",
+    "snapRevertConfirmTitle": "Voleu revertir a la versió anterior?",
+    "snapRevertConfirmMessage": "Les actualitzacions automàtiques es reprendran quan hi hagi disponible una nova versió.",
+    "snapRevertConfirmTitleWithVersions": "Voleu revertir de {currentVersion} (rev {currentRevision}) a {previousVersion} (rev {previousRevision})?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRevertNoPreviousRevisionMessage": "Cap revisió local anterior disponible per revertir a ella."
 }
