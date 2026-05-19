@@ -43,6 +43,7 @@ class _ActiveChangeText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final percentage = (progress * 100).toStringAsFixed(0);
     return Row(
       children: [
         SizedBox.square(
@@ -54,11 +55,21 @@ class _ActiveChangeText extends StatelessWidget {
         ),
         if (label != null) ...[
           const SizedBox(width: kSpacingSmall),
-          Text(
-            label!,
-            style: Theme.of(context).textTheme.bodyMedium,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label!,
+                style: Theme.of(context).textTheme.bodyMedium,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                '$percentage%',
+                style: Theme.of(context).textTheme.bodySmall,
+                maxLines: 1,
+              ),
+            ],
           ),
         ],
       ],

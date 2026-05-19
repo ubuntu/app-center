@@ -66,7 +66,7 @@ class DebData extends AppMetadata with _$DebData {
   String? get version => packageInfo?.packageId.version;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class DebModel extends _$DebModel {
   final packageKit = getService<PackageKitService>();
 
