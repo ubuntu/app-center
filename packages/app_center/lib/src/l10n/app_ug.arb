@@ -393,5 +393,6 @@
     "appConfinementUnrestricted": "چەكلىمىسىز",
     "appLicenseUnknown": "يوچۇن",
     "appPublishedUnknown": "يوچۇن",
-    "appMoreActionsSemanticLabel": "تېخىمۇ كۆپ مەشغۇلات"
+    "appMoreActionsSemanticLabel": "تېخىمۇ كۆپ مەشغۇلات",
+    "appConfinementStrictTooltip": "بۇ ئەپنىڭ مەنبەنى زىيارەت قىلىش ئىجازىتى چەكلىك. ئۇنىڭ ئىجازىتىنى تەڭشەك ئەپتە باشقۇرالايسىز."
 }
