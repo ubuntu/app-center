@@ -1,4 +1,6 @@
 import 'package:app_center/apps/apps_utils.dart';
+import 'package:app_center/deb/deb_architecture.dart';
+import 'package:app_center/deb/local_deb_exceptions.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:packagekit/packagekit.dart';
@@ -15,6 +17,7 @@ class LocalDebData extends AppMetadata with _$LocalDebData {
     required PackageKitDetailsEvent details,
     PackageKitPackageInfo? packageInfo,
     int? activeTransactionId,
+    PackageKitServiceError? error,
   }) = _LocalDebData;
 
   LocalDebData._();
@@ -55,9 +58,24 @@ class LocalDebModel extends _$LocalDebModel {
     if (details == null) {
       throw Exception('Failed to get package details');
     }
+    final packageArch = details.packageId.arch;
+    final systemArch = await packageKit.getNativeArchitecture();
+    if (!isDebArchitectureCompatible(
+      packageArch: packageArch,
+      systemArch: systemArch,
+    )) {
+      throw DebArchitectureMismatchException(
+        packageArch: packageArch,
+        systemArch: systemArch,
+      );
+    }
     final packageName = details.packageId.name;
     final results = await packageKit.resolve([packageName]);
     final packageInfo = results[packageName];
+
+    final errorListener = packageKit.errorStream.listen(_onError);
+    ref.onDispose(errorListener.cancel);
+
     return LocalDebData(path: path, details: details, packageInfo: packageInfo);
   }
 
@@ -68,8 +86,29 @@ class LocalDebModel extends _$LocalDebModel {
     state = AsyncValue.data(
       state.value!.copyWith(activeTransactionId: activeTransactionId),
     );
-    await packageKit.waitTransaction(activeTransactionId);
-    ref.invalidateSelf();
+    try {
+      await packageKit.waitTransaction(activeTransactionId);
+      ref.invalidateSelf();
+    } on Exception {
+      // The transaction failed. If it emitted a PackageKit error code, _onError
+      // has already recorded it and cleared activeTransactionId; a second update
+      // here would re-trigger the error dialog, so only clear the spinner when
+      // it is still set — i.e. for failures with no error code (a destroyed
+      // transaction or a closed stream), so the spinner never gets stuck.
+      if (state.value?.activeTransactionId != null) {
+        state =
+            AsyncValue.data(state.value!.copyWith(activeTransactionId: null));
+      }
+    }
+  }
+
+  Future<void> _onError(PackageKitServiceError error) async {
+    state = AsyncValue.data(
+      state.value!.copyWith(
+        error: error,
+        activeTransactionId: null,
+      ),
+    );
   }
 
   Future<void> cancel() async {
@@ -81,7 +120,4 @@ class LocalDebModel extends _$LocalDebModel {
     await packageKit.cancelTransaction(state.value!.activeTransactionId!);
     state = AsyncValue.data(state.value!.copyWith(activeTransactionId: null));
   }
-
-  Stream<PackageKitServiceError> get errorStream =>
-      getService<PackageKitService>().errorStream;
 }

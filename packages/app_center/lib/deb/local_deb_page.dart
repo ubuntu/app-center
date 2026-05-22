@@ -1,11 +1,13 @@
 import 'package:app_center/apps/app_page.dart';
 import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/constants.dart';
+import 'package:app_center/deb/local_deb_exceptions.dart';
 import 'package:app_center/deb/local_deb_model.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/extensions/string_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
+import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -20,15 +22,83 @@ class LocalDebPage extends ConsumerWidget {
 
   final String path;
 
+  Future<void> showError(BuildContext context, PackageKitServiceError e) =>
+      showErrorDialog(
+        context: context,
+        title: 'PackageKit error: ${e.code}',
+        message: e.details,
+      );
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final model = ref.watch(localDebModelProvider(path: path));
+
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => model.whenOrNull(
+        data: (data) {
+          if (data.error == null) return;
+          showError(context, data.error!);
+        },
+      ),
+    );
+
     return model.when(
       data: (debData) => _LocalDebPage(debData: debData),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
-      error: (error, stackTrace) => ErrorView(
-        error: error,
-        onRetry: () => ref.invalidate(localDebModelProvider(path: path)),
+      error: (error, stackTrace) {
+        if (error is DebArchitectureMismatchException) {
+          return _ArchMismatchView(error: error);
+        }
+        return ErrorView(
+          error: error,
+          onRetry: () => ref.invalidate(localDebModelProvider(path: path)),
+        );
+      },
+    );
+  }
+}
+
+class _ArchMismatchView extends StatelessWidget {
+  const _ArchMismatchView({required this.error});
+
+  final DebArchitectureMismatchException error;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(kPagePadding),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Spacer(),
+            const Icon(YaruIcons.warning_filled, size: 64),
+            const SizedBox(height: kPagePadding),
+            Text(
+              l10n.localDebArchMismatchTitle,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: kPagePadding),
+            Flexible(
+              child: Text(
+                l10n.localDebArchMismatchBody(
+                  error.packageArch,
+                  error.systemArch,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(height: kPagePadding),
+            OutlinedButton(
+              onPressed: () => Navigator.of(context).maybePop(),
+              child: Text(l10n.localDebArchMismatchClose),
+            ),
+            const Spacer(flex: 3),
+          ],
+        ),
       ),
     );
   }
