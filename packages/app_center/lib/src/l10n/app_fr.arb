@@ -349,7 +349,7 @@
     "codecPageDescription": "Vous devez installer les codecs suivants afin de gérer certains formats vidéo et audio :",
     "codecProprietaryDisclaimer": "Certains des codecs recommandés pourraient être propriétaires.",
     "codecInstallAllButton": "Installer codecs recommandés",
-    "snapRevertNoPreviousRevisionMessage": "Aucune révision précédente à laquelle revenir n'est disponible localement.",
+    "snapRevertNoPreviousRevisionMessage": "Aucune révision locale précédente vers laquelle revenir n'est disponible.",
     "snapRevertConfirmTitleWithVersions": "Repasser de {currentVersion} (rev {currentRevision}) à {previousVersion} (rev {previousRevision}) ?",
     "@snapRevertConfirmTitleWithVersions": {
         "placeholders": {
