@@ -221,7 +221,7 @@ class _CommunityTile extends StatelessWidget {
   }
 }
 
-
+/// Responsive functions are based on a design width of 375, which is a common width for mobile designs.
 double responsiveFont(
     BuildContext context,
     double size,
