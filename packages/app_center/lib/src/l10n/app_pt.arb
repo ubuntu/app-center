@@ -44,7 +44,7 @@
     "explorePageLabel": "Explorar",
     "searchFieldSnapSection": "Pacotes Snap",
     "managePageCheckForUpdates": "Procurar por atualizações",
-    "snapPageContactPublisherLabel": "Contacto {publisher}",
+    "snapPageContactPublisherLabel": "Contactar {publisher}",
     "@snapPageContactPublisherLabel": {
         "placeholders": {
             "publisher": {
@@ -52,7 +52,7 @@
             }
         }
     },
-    "snapPageDownloadSizeLabel": "Tamanho da descarga",
+    "snapPageDownloadSizeLabel": "Tamanho da transferência",
     "appCenterLabel": "Centro de Aplicações",
     "snapPageDeveloperWebsiteLabel": "Website do programador",
     "snapPagePublishedLabel": "Última atualização",
