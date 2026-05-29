@@ -9,7 +9,7 @@ const kPagePadding = 24.0;
 const kSpacingSmall = 8.0;
 const kSpacing = 16.0;
 const kSearchBarWidth = 424.0 - 2 * kCardMargin;
-const kIconSize = 56.0;
+const kIconSize = 52.0;
 const kSectionSpacing = 48.0;
 
 const kCardSizeNormal = Size(416.0, 170.0);

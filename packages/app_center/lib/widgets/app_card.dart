@@ -98,7 +98,7 @@ class AppCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppIcon(iconUrl: iconUrl),
-              const SizedBox(width: kCardSpacing, height: kCardSpacing),
+              const SizedBox(width: kCardSpacing),
               Expanded(
                 child: _AppCardBody(
                   title: title,
@@ -278,10 +278,7 @@ class _AppCardBody extends StatelessWidget {
         ExcludeSemantics(
           child: Container(
             constraints: BoxConstraints(minHeight: kIconSize),
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: title,
-            ),
+            child: title,
           ),
         ),
         if (summary.isNotEmpty) ...[
