@@ -89,10 +89,7 @@ dart pub global activate melos
 
 Bootstrap the monorepo:
 ```
-# Bootstrap the monorepo (links local packages, runs pub get)
 melos bootstrap
-
-# Generate code (mocks, freezed, JSON serialization)
 melos generate
 ```
 
@@ -100,13 +97,13 @@ melos generate
 
 ### Building and running the binaries
 
-You can run the application with:
+You can run the application with
 ```
 cd packages/app_center
 fvm flutter run
 ```
 
-Build a release version with:
+and build a release version with
 ```
 melos build
 ```
