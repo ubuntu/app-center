@@ -70,16 +70,17 @@ Translations are managed using [Weblate](https://hosted.weblate.org/projects/ubu
 
 ### Required dependencies
 
-[Install Flutter](https://flutter.dev/docs/get-started/install/linux) - the currently used version is specified in `.fvmrc`. If you're using [fvm](https://fvm.app) to manage your Flutter SDK, you can simply run `fvm install` to install the required version.
+[Install Flutter](https://flutter.dev/docs/get-started/install/linux) and the [Flutter Linux prerequisites](https://docs.flutter.dev/get-started/install/linux#linux-prerequisites).
 
-Install the [Flutter Linux prerequisites](https://docs.flutter.dev/get-started/install/linux#linux-prerequisites)
+This project uses [fvm](https://fvm.app) to manage Flutter SDK versions. Install fvm (you can also install it from the scripts directory in the repository):
 
-We provide a [Melos](https://docs.page/invertase/melos) configuration to make it straightforward to execute common tasks.
-
-Install fvm (you can also install it from the scripts directory in the repository):
 ```
 curl -fsSL https://fvm.app/install.sh | bash
 ```
+
+You can then run `fvm install` to install the required Flutter SDK version as specified in `.fvmrc`. This might seem redundant because installing Flutter was the first step above, but [the fvm documentation recommends installing one global Flutter SDK in addition to project-specific SDKs](https://fvm.app/documentation/getting-started/installation#recommendation).
+
+We provide a [Melos](https://docs.page/invertase/melos) configuration to make it straightforward to execute common tasks.
 
 Install Melos:
 ```
@@ -88,19 +89,24 @@ dart pub global activate melos
 
 Bootstrap the monorepo:
 ```
+# Bootstrap the monorepo (links local packages, runs pub get)
 melos bootstrap
+
+# Generate code (mocks, freezed, JSON serialization)
+melos generate
 ```
 
 `melos bootstrap` connects all the local packages/apps to each other with the help of `pubspec_overrides.yaml` files, and it also runs `pub get` in all packages/apps.
 
 ### Building and running the binaries
 
-You can run the application with
+You can run the application with:
 ```
+cd packages/app_center
 fvm flutter run
 ```
 
-and build a release version with
+Build a release version with:
 ```
 melos build
 ```
