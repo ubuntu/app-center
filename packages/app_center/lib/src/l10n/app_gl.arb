@@ -188,7 +188,7 @@
     },
     "snapCategoryArtAndDesign": "Arte e Deseño",
     "snapCategoryArtAndDesignButtonLabel": "Comezar a crear",
-    "snapCategoryArtAndDesignSlogan": "Desde o teu primeiro bosquexo ata o toque final, explora aplicacións para arte e deseño.",
+    "snapCategoryArtAndDesignSlogan": "Desde o teu primeiro borrador ata o toque final, explora aplicacións para arte e deseño.",
     "snapCategoryBooksAndReference": "Libros e referencia",
     "managePageUpdatedDaysAgo": "Actualizado hai {n, plural, =1{{n} día} other{{n} días}}",
     "@managePageUpdatedDaysAgo": {
@@ -321,7 +321,7 @@
     "snapReportOptionalEmailAddressLabel": "O seu correo electrónico (opcional)",
     "snapReportCancelButtonLabel": "Desbotar",
     "snapReportSubmitButtonLabel": "Enviar informe",
-    "snapReportEnterValidEmailError": "Introduza unha dirección de correo electrónico válida",
+    "snapReportEnterValidEmailError": "Introduza un enderezo de correo electrónico válido",
     "snapReportDetailsHint": "Comentar...",
     "managePageUpdatesFailed": "{n, plural, =1{Unha actualización fallou} other{{n} actualizacións fallaron}}",
     "@managePageUpdatesFailed": {
@@ -347,7 +347,7 @@
     "openInBrowser": "Abrir no navegador",
     "installAll": "Instalar todo",
     "localDebWarningTitle": "Potencialmente inseguro",
-    "localDebWarningBody": "Este paquete é proporcionado por un terceiro. Instalar paquetes dende fóra do Centro de aplicacións pode aumentar o risco para o teu sistema e os teus datos persoais. Asegúrate de confiar na fonte antes de continuar.",
+    "localDebWarningBody": "Este paquete é proporcionado por un terceiro. Instalar paquetes desde fóra do Centro de aplicacións pode aumentar o risco para o teu sistema e os teus datos persoais. Asegúrate de confiar na fonte antes de continuar.",
     "localDebLearnMore": "Aprenda máis sobre paquetes de terceiros",
     "localDebDialogMessage": "Este paquete é proporcionado por un terceiro e pode ameazar o teu sistema e os teus datos persoais.",
     "localDebDialogConfirmation": "Estás seguro de que queres instalalo?",
