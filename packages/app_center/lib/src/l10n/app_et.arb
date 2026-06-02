@@ -404,5 +404,13 @@
     "appConfinementDevelopment": "Arendusrežiimis",
     "appConfinementUnrestrictedTooltip": "Sellel rakendusel on täismahuline ligipääs sinu arvuti/seadme ressurssidele.",
     "appConfinementClassicTooltip": "Sellel rakendusel on kasutusel klassikaline eraldamine, aga ka täismahuline ligipääs sinu arvuti/seadme ressurssidele. See on tavaline arendustarvikute puhul.",
-    "appConfinementStrictTooltip": "Sellel rakendusel on piiratud ligipääs sinu arvuti/seadme ressurssidele. Õigusi saad kohendada Seadistuste rakendusest."
+    "appConfinementStrictTooltip": "Sellel rakendusel on piiratud ligipääs sinu arvuti/seadme ressurssidele. Õigusi saad kohendada Seadistuste rakendusest.",
+    "snapActionSwitchChannelTitle": "Vaheta „{appName}“ rakenduse jaoks kanalit",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }
