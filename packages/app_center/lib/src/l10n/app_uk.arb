@@ -397,5 +397,13 @@
     "appMoreActionsSemanticLabel": "Більше дій",
     "appConfinementStrictTooltip": "Цей застосунок має обмежений доступ до ваших ресурсів. Ви можете керувати його дозволами в застосунку Налаштування.",
     "appConfinementClassicTooltip": "Цей застосунок використовує класичне обмеження, що надає повний доступ до ваших ресурсів. Це поширена практика для застосунків для розробників.",
-    "appConfinementUnrestrictedTooltip": "Цей застосунок має повний доступ до ваших ресурсів."
+    "appConfinementUnrestrictedTooltip": "Цей застосунок має повний доступ до ваших ресурсів.",
+    "snapActionSwitchChannelTitle": "Переключити канал для {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }
