@@ -397,5 +397,13 @@
     "appMoreActionsSemanticLabel": "Ďalšie akcie",
     "appConfinementStrictTooltip": "Táto aplikácia má obmedzený prístup k vašim zdrojom. Jej oprávnenia môžete riadiť v aplikácii Nastavenia.",
     "appConfinementClassicTooltip": "Táto aplikácia používa klasické obmedzenie, čo znamená plný prístup k vašim zdrojom. Toto je bežné pri vývojárskych aplikáciách.",
-    "appConfinementUnrestrictedTooltip": "Táto aplikácia má plný prístup k vašim zdrojom."
+    "appConfinementUnrestrictedTooltip": "Táto aplikácia má plný prístup k vašim zdrojom.",
+    "snapActionSwitchChannelTitle": "Prepnúť kanál pre {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }
