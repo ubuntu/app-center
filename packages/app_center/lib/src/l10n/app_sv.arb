@@ -397,5 +397,13 @@
     "appMoreActionsSemanticLabel": "Fler åtgärder",
     "appConfinementStrictTooltip": "Appen har begränsad åtkomst till dina resurser. Du kan styra dess rättigheter i appen Inställningar.",
     "appConfinementClassicTooltip": "Appen använder klassiskt isoleringsläge, med fullständig åtkomst till dina resurser. Detta är normalt för utvecklarappar.",
-    "appConfinementUnrestrictedTooltip": "Appen har fullständig åtkomst till dina resurser."
+    "appConfinementUnrestrictedTooltip": "Appen har fullständig åtkomst till dina resurser.",
+    "snapActionSwitchChannelTitle": "Ändra kanal för {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }
