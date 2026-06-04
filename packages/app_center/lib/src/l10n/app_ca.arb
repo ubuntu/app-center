@@ -396,5 +396,13 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "Cap revisió local anterior disponible per revertir a ella."
+    "snapRevertNoPreviousRevisionMessage": "Cap revisió local anterior disponible per revertir a ella.",
+    "snapActionSwitchChannelTitle": "Canvia el canal per a {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }
