@@ -118,7 +118,7 @@
     "searchPageNoResultsCategoryHint": "Skúste inú kategóriu alebo použite všeobecnejšie kľúčové slová",
     "snapSortOrderAlphabeticalDesc": "Z–A",
     "searchPageNoResultsCategory": "Ľutujeme, v tejto kategórii sa nenašli žiadne balíky",
-    "snapRatingsVotes": "{n, plural, =1{{n} hlas} few{{n} hlasy} other{{n} hlasov}}",
+    "snapRatingsVotes": "Hlasov ({n})",
     "@snapRatingsVotes": {
         "placeholders": {
             "n": {
