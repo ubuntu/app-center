@@ -350,7 +350,7 @@
     "codecInstallAllButton": "ຕິດຕັ້ງ Codecs ທີ່ແນະນຳ",
     "managePagePackageTypeLabel": "ປະເພດແພັກເກດ",
     "managePagePackageTypeAll": "ທັງໝົດ",
-    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeSnap": "ສະແນບ",
     "managePagePackageTypeDeb": "Deb",
     "appUrlTypeContact": "ຕິດຕໍ່ {publisher}",
     "@appUrlTypeContact": {
@@ -396,5 +396,13 @@
     "snapRevertNoPreviousRevisionMessage": "ບໍ່ມີລາຍການປັບປຸງກ່ອນໜ້າໃນເຄື່ອງທີ່ຈະຍ້ອນກັບໄປໄດ້.",
     "appConfinementStrictTooltip": "ແອັບນີ້ມີການເຂົ້າເຖິງຊັບພະຍາກອນຂອງທ່ານແບບຈຳກັດ. ທ່ານສາມາດຄວບຄຸມການອະນຸຍາດຂອງມັນໄດ້ໃນແອັບການຕັ້ງຄ່າ.",
     "appConfinementClassicTooltip": "ແອັບນີ້ໃຊ້ການຈຳກັດຂອບເຂດແບບດັ້ງເດີມ, ເຊິ່ງໃຫ້ສິດເຂົ້າເຖິງຊັບພະຍາກອນຂອງທ່ານໄດ້ຢ່າງເຕັມສ່ວນ. ສິ່ງນີ້ມັກພົບເຫັນໄດ້ທົ່ວໄປໃນແອັບສຳລັບການພັດທະນາ.",
-    "appConfinementUnrestrictedTooltip": "Lao: ແອັບນີ້ມີສິດເຂົ້າເຖິງຊັບພະຍາກອນຂອງທ່ານຢ່າງເຕັມທີ່."
+    "appConfinementUnrestrictedTooltip": "Lao: ແອັບນີ້ມີສິດເຂົ້າເຖິງຊັບພະຍາກອນຂອງທ່ານຢ່າງເຕັມທີ່.",
+    "snapActionSwitchChannelTitle": "ປ່ຽນຊ້ອງສຳຫຼັຍ{appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }
