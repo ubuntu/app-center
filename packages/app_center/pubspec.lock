@@ -543,7 +543,7 @@ packages:
     source: hosted
     version: "4.1.0"
   gsettings:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: gsettings
       sha256: "1b0ce661f5436d2db1e51f3c4295a49849f03d304003a7ba177d01e3a858249c"
@@ -554,10 +554,10 @@ packages:
     dependency: "direct main"
     description:
       name: gtk
-      sha256: e8ce9ca4b1df106e4d72dad201d345ea1a036cc12c360f1a7d5a758f78ffa42c
+      sha256: "4ff85b2a16724029dd9e5bbb5a94b6918f9973f74ba571c949d2002801879cf5"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   handy_window:
     dependency: "direct main"
     description:

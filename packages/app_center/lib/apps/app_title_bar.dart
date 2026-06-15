@@ -1,4 +1,3 @@
-import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/deb/local_deb_model.dart';
 import 'package:app_center/layout.dart';
@@ -7,6 +6,8 @@ import 'package:app_center/widgets/app_icon.dart';
 import 'package:app_center/widgets/app_title.dart';
 import 'package:flutter/material.dart';
 
+const _kTitleIconSize = 96.0;
+
 /// Title bar for an app. Usually with an app icon, title, and action buttons.
 class AppTitleBar extends StatelessWidget {
   const AppTitleBar({
@@ -14,6 +15,7 @@ class AppTitleBar extends StatelessWidget {
     this.banner,
     this.actions,
     this.iconUrl,
+    this.iconWidget,
     super.key,
   });
 
@@ -38,7 +40,10 @@ class AppTitleBar extends StatelessWidget {
     Widget? banner,
   }) =>
       AppTitleBar(
-        iconUrl: debData.component.icon,
+        iconWidget: DebAppIcon(
+          component: debData.component,
+          size: _kTitleIconSize,
+        ),
         title: AppTitle.fromDeb(
           debData.component,
           large: true,
@@ -73,6 +78,9 @@ class AppTitleBar extends StatelessWidget {
   /// Optional URL to use for the app's icon.
   final String? iconUrl;
 
+  /// Optional pre-built icon widget (takes precedence over [iconUrl]).
+  final Widget? iconWidget;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -80,7 +88,11 @@ class AppTitleBar extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppIcon(iconUrl: iconUrl, size: 96),
+            iconWidget ??
+                AppIcon(
+                  iconUrl: iconUrl,
+                  size: _kTitleIconSize,
+                ),
             const SizedBox(width: 16),
             Expanded(
               child: Semantics(

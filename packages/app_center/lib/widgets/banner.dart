@@ -9,6 +9,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
+import 'package:yaru/yaru.dart';
 
 const _kDefaultBannerHeight = 242.0;
 
@@ -121,13 +122,15 @@ class _Banner extends StatelessWidget {
                   ),
                   if (buttonLabel != null) ...[
                     const SizedBox(height: 24),
-                    OutlinedButton(
-                      onPressed: onPressed,
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: _kForegroundColor,
-                        side: const BorderSide(color: _kForegroundColor),
+                    YaruFocusBorder.primary(
+                      child: OutlinedButton(
+                        onPressed: onPressed,
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: _kForegroundColor,
+                          side: const BorderSide(color: _kForegroundColor),
+                        ),
+                        child: Text(buttonLabel!),
                       ),
-                      child: Text(buttonLabel!),
                     ),
                   ],
                 ],
@@ -220,9 +223,13 @@ class _BannerIconState extends State<_BannerIcon> {
                     ),
                   ],
                 ),
-                child: AppIcon(
-                  iconUrl: widget.snap.iconUrl,
-                  size: widget.iconSize.height * scale,
+                child: Semantics(
+                  label: widget.snap.titleOrName,
+                  button: true,
+                  child: AppIcon(
+                    iconUrl: widget.snap.iconUrl,
+                    size: widget.iconSize.height * scale,
+                  ),
                 ),
               ),
             ),
@@ -275,15 +282,17 @@ class ToolsBanner extends ConsumerWidget {
                         .copyWith(color: Colors.white),
                   ),
                   const SizedBox(height: 24),
-                  OutlinedButton(
-                    onPressed: () {
-                      StoreNavigator.pushExternalTools(context);
-                    },
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      side: const BorderSide(color: Colors.white),
+                  YaruFocusBorder.primary(
+                    child: OutlinedButton(
+                      onPressed: () {
+                        StoreNavigator.pushExternalTools(context);
+                      },
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        side: const BorderSide(color: Colors.white),
+                      ),
+                      child: Text(buttonText),
                     ),
-                    child: Text(buttonText),
                   ),
                 ],
               ),

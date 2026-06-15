@@ -8,6 +8,7 @@ import 'package:app_center/layout.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/quit_to_update_notice.dart';
 import 'package:app_center/ratings/ratings.dart';
+import 'package:app_center/ratings/ratings_data.dart';
 import 'package:app_center/snapd/snap_report.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/snapd/snapd_cache.dart';
@@ -17,12 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:snapd/snapd.dart';
-import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru/yaru.dart';
-
-const _kChannelDropdownWidth = 220.0;
 
 typedef SnapInfo = ({Widget label, Widget value});
 
@@ -113,6 +110,7 @@ class _ActionBar extends ConsumerWidget {
         ? null
         : ref.watch(launchProvider(snapData.localSnap!));
     final primaryAction = snapData.primaryAction(snapLauncher);
+    final ratingsModel = ref.watch(ratingsModelProvider(snapData.name));
 
     return Wrap(
       runSpacing: kSpacing,
@@ -124,14 +122,16 @@ class _ActionBar extends ConsumerWidget {
             snapName: snapData.name,
             isPrimary: true,
           ),
-        if (snapData.availableChannels != null &&
-            snapData.selectedChannel != null) ...[
-          _ChannelDropdown(snapData: snapData),
-          _SwitchChannelButton(snapData: snapData),
-        ],
-        if (snapData.isInstalled) ...[
-          _RatingsActionButtons(snap: snapData.snap),
-        ],
+        if (snapData.isInstalled)
+          ...[
+            _UninstallButton(snapData: snapData),
+            ratingsModel.whenOrNull(
+              data: (ratingsData) => _RatingsActionButtons(
+                ratingsData: ratingsData,
+                snap: snapData.snap,
+              ),
+            ),
+          ].nonNulls,
         _MoreActionsButton(snapData: snapData),
       ],
     );
@@ -206,6 +206,25 @@ class _PrimaryActionButton extends ConsumerWidget {
   }
 }
 
+class _UninstallButton extends ConsumerWidget {
+  const _UninstallButton({required this.snapData});
+
+  final SnapData snapData;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final snapViewModel = ref.watch(snapModelProvider(snapData.name).notifier);
+
+    return OutlinedButton(
+      onPressed: snapData.activeChangeId == null
+          ? SnapAction.remove.callback(snapData, snapViewModel, null, context)
+          : null,
+      child: Text(SnapAction.remove.label(l10n)),
+    );
+  }
+}
+
 class _MoreActionsButton extends ConsumerWidget {
   const _MoreActionsButton({required this.snapData});
 
@@ -256,138 +275,96 @@ class _MoreActionsButton extends ConsumerWidget {
             onSelected: (value) => {},
             child: Icon(YaruIcons.view_more),
           )
-        : SizedBox.shrink();
-  }
-}
-
-class _SwitchChannelButton extends ConsumerWidget {
-  const _SwitchChannelButton({required this.snapData});
-
-  final SnapData snapData;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
-
-    final hasChangedChannel = snapData.selectedChannel != null &&
-        snapData.localSnap?.trackingChannel != null &&
-        snapData.selectedChannel != snapData.localSnap!.trackingChannel;
-    final snapViewModel = ref.watch(snapModelProvider(snapData.name).notifier);
-    final snapLauncher = snapData.localSnap == null
-        ? null
-        : ref.watch(launchProvider(snapData.localSnap!));
-
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        YaruSplitButton.outlined(
-          onPressed: hasChangedChannel && snapData.activeChangeId == null
-              ? SnapAction.switchChannel.callback(
-                  snapData,
-                  snapViewModel,
-                  snapLauncher,
-                  context,
-                )
-              : null,
-          child: Text(l10n.snapActionSwitchChannelLabel),
-        ),
-      ],
-    );
+        : const SizedBox.shrink();
   }
 }
 
 class _RatingsActionButtons extends ConsumerWidget {
-  const _RatingsActionButtons({required this.snap});
+  const _RatingsActionButtons({required this.ratingsData, required this.snap});
 
+  final RatingsData ratingsData;
   final Snap snap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ratingsModel = ref.watch(ratingsModelProvider(snap.name));
     final ratingsNotifier = ref.watch(ratingsModelProvider(snap.name).notifier);
 
-    return ratingsModel.when(
-      data: (ratingsData) {
-        return IntrinsicHeight(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              InkWell(
+    return IntrinsicHeight(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          InkWell(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(6),
+              bottomLeft: Radius.circular(6),
+            ),
+            onTap: () {
+              ratingsNotifier.castVote(VoteStatus.up);
+            },
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(color: Theme.of(context).dividerColor),
+                  bottom: BorderSide(color: Theme.of(context).dividerColor),
+                  left: BorderSide(color: Theme.of(context).dividerColor),
+                  right: BorderSide(
+                    color: Theme.of(context).dividerColor,
+                    width: 0.5,
+                  ),
+                ),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(6),
                   bottomLeft: Radius.circular(6),
                 ),
-                onTap: () {
-                  ratingsNotifier.castVote(VoteStatus.up);
-                },
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(color: Theme.of(context).dividerColor),
-                      bottom: BorderSide(color: Theme.of(context).dividerColor),
-                      left: BorderSide(color: Theme.of(context).dividerColor),
-                      right: BorderSide(
-                        color: Theme.of(context).dividerColor,
-                        width: 0.5,
-                      ),
-                    ),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(6),
-                      bottomLeft: Radius.circular(6),
-                    ),
-                  ),
-                  child: YaruIconButton(
-                    mouseCursor: SystemMouseCursors.click,
-                    icon: Icon(
-                      ratingsData.voteStatus == VoteStatus.up
-                          ? Icons.thumb_up
-                          : Icons.thumb_up_outlined,
-                      color: Theme.of(context).iconTheme.color,
-                    ),
-                  ),
+              ),
+              child: YaruIconButton(
+                mouseCursor: SystemMouseCursors.click,
+                icon: Icon(
+                  ratingsData.voteStatus == VoteStatus.up
+                      ? Icons.thumb_up
+                      : Icons.thumb_up_outlined,
+                  color: Theme.of(context).iconTheme.color,
                 ),
               ),
-              InkWell(
+            ),
+          ),
+          InkWell(
+            borderRadius: const BorderRadius.only(
+              topRight: Radius.circular(6),
+              bottomRight: Radius.circular(6),
+            ),
+            onTap: () {
+              ratingsNotifier.castVote(VoteStatus.down);
+            },
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(color: Theme.of(context).dividerColor),
+                  bottom: BorderSide(color: Theme.of(context).dividerColor),
+                  left: BorderSide(
+                    color: Theme.of(context).dividerColor,
+                    width: 0.5,
+                  ),
+                  right: BorderSide(color: Theme.of(context).dividerColor),
+                ),
                 borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(6),
                   bottomRight: Radius.circular(6),
                 ),
-                onTap: () {
-                  ratingsNotifier.castVote(VoteStatus.down);
-                },
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(color: Theme.of(context).dividerColor),
-                      bottom: BorderSide(color: Theme.of(context).dividerColor),
-                      left: BorderSide(
-                        color: Theme.of(context).dividerColor,
-                        width: 0.5,
-                      ),
-                      right: BorderSide(color: Theme.of(context).dividerColor),
-                    ),
-                    borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(6),
-                      bottomRight: Radius.circular(6),
-                    ),
-                  ),
-                  child: YaruIconButton(
-                    mouseCursor: SystemMouseCursors.click,
-                    icon: Icon(
-                      ratingsData.voteStatus == VoteStatus.down
-                          ? Icons.thumb_down
-                          : Icons.thumb_down_outlined,
-                      color: Theme.of(context).iconTheme.color,
-                    ),
-                  ),
+              ),
+              child: YaruIconButton(
+                mouseCursor: SystemMouseCursors.click,
+                icon: Icon(
+                  ratingsData.voteStatus == VoteStatus.down
+                      ? Icons.thumb_down
+                      : Icons.thumb_down_outlined,
+                  color: Theme.of(context).iconTheme.color,
                 ),
               ),
-            ],
+            ),
           ),
-        );
-      },
-      error: (error, stackTrace) => const SizedBox.shrink(),
-      loading: () => const SizedBox.shrink(),
+        ],
+      ),
     );
   }
 }
@@ -440,127 +417,6 @@ class _IconRow extends ConsumerWidget {
           },
         ),
       ],
-    );
-  }
-}
-
-class _ChannelDropdown extends ConsumerWidget {
-  const _ChannelDropdown({required this.snapData});
-
-  final SnapData snapData;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
-    final channelText =
-        '${snapData.selectedChannel} ${snapData.availableChannels![snapData.selectedChannel]!.version}';
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          l10n.snapPageChannelLabel,
-          style: Theme.of(context).textTheme.labelLarge,
-        ),
-        const SizedBox(width: kSpacingSmall),
-        SizedBox(
-          width: _kChannelDropdownWidth,
-          child: MenuButtonBuilder(
-            entries: snapData.availableChannels!.entries
-                .map(
-              (channelEntry) => MenuButtonEntry(
-                value: channelEntry.key,
-                child: _ChannelDropdownEntry(channelEntry: channelEntry),
-              ),
-            )
-                .fold(
-              <MenuButtonEntry<String>>[],
-              (p, e) =>
-                  [...p, e, const MenuButtonEntry(value: '', isDivider: true)],
-            )..removeLast(),
-            itemBuilder: (context, value, child) => Text(value),
-            selected: snapData.selectedChannel,
-            onSelected: (value) => ref
-                .read(snapModelProvider(snapData.name).notifier)
-                .selectChannel(value),
-            menuPosition: PopupMenuPosition.under,
-            menuStyle: const MenuStyle(
-              minimumSize:
-                  WidgetStatePropertyAll(Size(_kChannelDropdownWidth, 0)),
-              maximumSize:
-                  WidgetStatePropertyAll(Size(_kChannelDropdownWidth, 200)),
-              visualDensity: VisualDensity.standard,
-            ),
-            itemStyle: MenuItemButton.styleFrom(
-              maximumSize: const Size.fromHeight(100),
-            ),
-            child: Text(
-              channelText,
-              semanticsLabel: '${l10n.snapPageChannelLabel} $channelText',
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _ChannelDropdownEntry extends StatelessWidget {
-  const _ChannelDropdownEntry({required this.channelEntry});
-
-  final MapEntry<String, SnapChannel> channelEntry;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
-    final channelInfo = {
-      l10n.snapPageChannelLabel: channelEntry.key,
-      l10n.snapPageVersionLabel: channelEntry.value.version,
-      l10n.snapPagePublishedLabel:
-          DateFormat.yMd().format(channelEntry.value.releasedAt),
-    };
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: DefaultTextStyle(
-        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              overflow: TextOverflow.ellipsis,
-            ),
-        child: SizedBox(
-          width: _kChannelDropdownWidth - 24,
-          child: Semantics(
-            button: true,
-            label:
-                channelInfo.entries.map((e) => '${e.key} ${e.value}').join(' '),
-            child: ExcludeSemantics(
-              child: Row(
-                children: [
-                  DefaultTextStyle.merge(
-                    style: TextStyle(
-                      color: Theme.of(context).hintColor,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisSize: MainAxisSize.min,
-                      children: channelInfo.keys.map(Text.new).toList(),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: channelInfo.values.nonNulls
-                          .map((e) => Text(e, maxLines: 1))
-                          .toList(),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

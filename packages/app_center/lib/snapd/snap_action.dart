@@ -45,8 +45,9 @@ enum SnapAction {
       SnapAction.revert => (snapData?.canRevert ?? false)
           ? () => confirmRevertAndRun(context!, snapData!, model)
           : null,
-      SnapAction.switchChannel =>
-        snapData?.storeSnap != null ? model.refresh : null,
+      SnapAction.switchChannel => snapData?.storeSnap != null
+          ? () => showChannelSwitchDialog(context!, snapData!.name)
+          : null,
       SnapAction.update => snapData?.storeSnap != null ? model.refresh : null,
     };
   }

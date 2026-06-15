@@ -22,6 +22,7 @@ class AppCard extends StatelessWidget {
     this.compact = false,
     this.iconUrl,
     this.footer,
+    this.iconWidget,
   });
 
   AppCard.fromSnap({
@@ -43,7 +44,7 @@ class AppCard extends StatelessWidget {
           key: ValueKey(component.id),
           title: AppTitle.fromDeb(component),
           summary: component.getLocalizedSummary(),
-          iconUrl: component.icon,
+          iconWidget: DebAppIcon(component: component),
           onTap: onTap,
         );
 
@@ -73,6 +74,7 @@ class AppCard extends StatelessWidget {
   final VoidCallback? onTap;
   final bool compact;
   final String? iconUrl;
+  final Widget? iconWidget;
   final Widget? footer;
 
   @override
@@ -97,7 +99,7 @@ class AppCard extends StatelessWidget {
             direction: compact ? Axis.vertical : Axis.horizontal,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppIcon(iconUrl: iconUrl),
+              iconWidget ?? AppIcon(iconUrl: iconUrl),
               const SizedBox(width: kCardSpacing, height: kCardSpacing),
               Expanded(
                 child: _AppCardBody(

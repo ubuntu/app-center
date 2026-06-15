@@ -1,6 +1,9 @@
 import 'package:app_center/l10n.dart';
 import 'package:appstream/appstream.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_logger/ubuntu_logger.dart';
+
+final log = Logger('apps_utils');
 
 enum AppConfinement {
   unknown,

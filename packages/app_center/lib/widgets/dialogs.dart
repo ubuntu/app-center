@@ -123,6 +123,15 @@ Widget confirmDialogContent(
       ],
     );
 
+Future<void> showChannelSwitchDialog(
+  BuildContext context,
+  String snapName,
+) =>
+    showDialog(
+      context: context,
+      builder: (_) => ChannelSwitchDialog(snapName: snapName),
+    );
+
 Future<void> confirmRevertAndRun(
   BuildContext context,
   SnapData snapData,

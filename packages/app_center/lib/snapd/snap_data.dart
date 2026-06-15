@@ -47,6 +47,16 @@ class SnapData extends AppMetadata with _$SnapData {
 
   Snap get snap => storeSnap ?? localSnap!;
   SnapChannel? get channelInfo => storeSnap?.channels[selectedChannel];
+
+  /// Channel info reflecting the currently installed/tracking channel.
+  /// Falls back to [channelInfo] when the snap is not installed.
+  SnapChannel? get activeChannelInfo {
+    if (localSnap != null) {
+      return storeSnap?.channels[localSnap!.trackingChannel] ?? channelInfo;
+    }
+    return channelInfo;
+  }
+
   bool get isInstalled => localSnap != null;
   bool get hasGallery =>
       storeSnap != null && storeSnap!.screenshotUrls.isNotEmpty;
@@ -59,6 +69,7 @@ class SnapData extends AppMetadata with _$SnapData {
   static String? defaultSelectedChannel(Snap? localSnap, Snap? storeSnap) {
     final channels = storeSnap?.channels.keys;
     final localChannel = localSnap?.trackingChannel;
+
     if (localChannel != null && (channels?.contains(localChannel) ?? false)) {
       return localChannel;
     } else if (channels?.contains('latest/stable') ?? false) {
@@ -94,8 +105,11 @@ class SnapData extends AppMetadata with _$SnapData {
     return [
       if (canOpen) SnapAction.open,
       if (!shouldQuitToUpdate && hasUpdate) SnapAction.update,
+      if (availableChannels != null &&
+          availableChannels!.length > 1 &&
+          selectedChannel != null)
+        SnapAction.switchChannel,
       if (canRevert) SnapAction.revert,
-      if (isInstalled) SnapAction.remove,
     ];
   }
 
@@ -103,21 +117,30 @@ class SnapData extends AppMetadata with _$SnapData {
   String? get publisher => snap.publisher?.displayName;
 
   @override
-  String? get version =>
-      isInstalled ? localSnap!.version : (channelInfo?.version ?? snap.version);
+  String? get version {
+    final rawVersion = isInstalled
+        ? localSnap!.version
+        : (activeChannelInfo?.version ?? snap.version);
+    final trackingChannel = localSnap?.trackingChannel;
+    if (trackingChannel != null && trackingChannel != 'latest/stable') {
+      return '$trackingChannel $rawVersion';
+    }
+    return rawVersion;
+  }
 
   @override
-  DateTime? get published => channelInfo?.releasedAt;
+  DateTime? get published => activeChannelInfo?.releasedAt;
 
   @override
   String? get license => snap.license;
 
   @override
-  int? get downloadSize => channelInfo?.size;
+  int? get downloadSize => activeChannelInfo?.size;
 
   @override
-  AppConfinement? get confinement =>
-      AppConfinement.fromSnap(channelInfo?.confinement ?? snap.confinement);
+  AppConfinement? get confinement => AppConfinement.fromSnap(
+        activeChannelInfo?.confinement ?? snap.confinement,
+      );
 
   @override
   Map<AppLink, String>? get links => {

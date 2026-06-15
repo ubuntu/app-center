@@ -67,6 +67,8 @@ class _DebView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final layout = ResponsiveLayout.of(context);
     final l10n = AppLocalizations.of(context);
+    final currentDesktops = ref.watch(currentDesktopsProvider);
+    final isCompulsory = debModel.isCompulsoryFor(currentDesktops);
 
     return AppPage(
       titleBar: AppTitleBar.fromDeb(
@@ -99,7 +101,14 @@ class _DebView extends ConsumerWidget {
         spacing: kSpacing,
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
-          _DebActionButtons(debModel: debModel),
+          if (debModel.activeTransactionId != null)
+            _DebActionButtons(debModel: debModel)
+          else ...[
+            if (!debModel.isInstalled || debModel.hasUpdate)
+              _DebActionButtons(debModel: debModel),
+            if (!isCompulsory && (debModel.isInstalled || debModel.hasUpdate))
+              _DebUninstallButton(debModel: debModel),
+          ],
           _MoreActionsButton(debData: debModel),
         ],
       ),
@@ -140,13 +149,11 @@ class _DebActionButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final currentDesktops = ref.watch(currentDesktopsProvider);
-    final isCompulsory = debModel.isCompulsoryFor(currentDesktops);
 
     final primaryAction = debModel.hasUpdate
         ? DebAction.update
         : debModel.isInstalled
-            ? (isCompulsory ? null : DebAction.remove)
+            ? null
             : DebAction.install;
     final button = switch (primaryAction) {
       DebAction.install || DebAction.update => YaruSplitButton.new,
@@ -189,6 +196,24 @@ class _DebActionButtons extends ConsumerWidget {
   }
 }
 
+class _DebUninstallButton extends ConsumerWidget {
+  const _DebUninstallButton({required this.debModel});
+
+  final DebData debModel;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+
+    return OutlinedButton(
+      onPressed: debModel.activeTransactionId == null
+          ? DebAction.remove.callback(ref, debModel)
+          : null,
+      child: Text(DebAction.remove.label(l10n)),
+    );
+  }
+}
+
 class _MoreActionsButton extends ConsumerWidget {
   const _MoreActionsButton({required this.debData});
 
@@ -197,19 +222,12 @@ class _MoreActionsButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final currentDesktops = ref.watch(currentDesktopsProvider);
-    final isCompulsory = debData.isCompulsoryFor(currentDesktops);
 
-    final primaryAction = debData.hasUpdate
-        ? DebAction.update
-        : debData.isInstalled
-            ? (isCompulsory ? null : DebAction.remove)
-            : DebAction.install;
+    final primaryAction =
+        debData.hasUpdate ? DebAction.update : DebAction.install;
 
     final secondaryActions = [
       if (debData.hasUpdate) DebAction.update,
-      if (!isCompulsory && (debData.isInstalled || debData.hasUpdate))
-        DebAction.remove,
     ]..remove(primaryAction);
 
     return secondaryActions.isNotEmpty
@@ -219,9 +237,6 @@ class _MoreActionsButton extends ConsumerWidget {
             childPadding: EdgeInsets.symmetric(horizontal: 2),
             itemBuilder: (context) => [
               ...secondaryActions.map((action) {
-                final color = action == DebAction.remove
-                    ? Theme.of(context).colorScheme.error
-                    : null;
                 return PopupMenuItem(
                   onTap: action.callback(
                     ref,
@@ -230,10 +245,7 @@ class _MoreActionsButton extends ConsumerWidget {
                   child: IntrinsicWidth(
                     child: ListTile(
                       mouseCursor: SystemMouseCursors.click,
-                      title: Text(
-                        action.label(l10n),
-                        style: TextStyle(color: color),
-                      ),
+                      title: Text(action.label(l10n)),
                     ),
                   ),
                 );
@@ -242,7 +254,7 @@ class _MoreActionsButton extends ConsumerWidget {
             onSelected: (value) => {},
             child: Icon(YaruIcons.view_more),
           )
-        : SizedBox.shrink();
+        : const SizedBox.shrink();
   }
 }
 

@@ -240,6 +240,14 @@
     },
     "snapRevertNoPreviousRevisionMessage": "No previous local revision is available to revert to.",
     "snapActionSwitchChannelLabel": "Switch channel",
+    "snapActionSwitchChannelTitle": "Switch channel for {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
     "snapActionUpdateLabel": "Update",
     "snapCategoryAll": "All categories",
     "snapActionUpdatingLabel": "Updating",
