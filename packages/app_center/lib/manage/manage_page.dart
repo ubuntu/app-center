@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
@@ -13,6 +14,7 @@ import 'package:app_center/manage/manage_app_tile.dart';
 import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/snapd/currently_installing_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru/yaru.dart';
@@ -416,6 +418,7 @@ class _FilterRow extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final compact =
         ResponsiveLayout.of(context).type == ResponsiveLayoutType.small;
+    final packageType = ref.watch(packageTypeFilterProvider);
 
     final searchField = _DebouncedSearchField(
       hintText: l10n.managePageSearchFieldSearchHint,
@@ -453,9 +456,14 @@ class _FilterRow extends ConsumerWidget {
                     values: PackageTypeFilter.values,
                     itemBuilder: (context, type, child) =>
                         Text(type.localize(l10n)),
-                    onSelected: (value) => ref
-                        .read(packageTypeFilterProvider.notifier)
-                        .state = value,
+                    onSelected: (value) {
+                      ref.read(packageTypeFilterProvider.notifier).state =
+                          value;
+                      if (value != PackageTypeFilter.snap) {
+                        ref.read(showLocalSystemAppsProvider.notifier).state =
+                            false;
+                      }
+                    },
                     expanded: false,
                     child: Text(packageType.localize(l10n)),
                   ),
@@ -484,67 +492,354 @@ class _FilterRow extends ConsumerWidget {
     final sortBy = Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(l10n.searchPageSortByLabel),
+        Flexible(
+          child: Text(
+            l10n.searchPageSortByLabel,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
         const SizedBox(width: kSpacingSmall),
-        Consumer(
-          builder: (context, ref, child) {
-            final sortOrder = ref.watch(appSortOrderProvider);
-            return MenuButtonBuilder<AppSortOrder>(
-              values: const [
-                AppSortOrder.alphabeticalAsc,
-                AppSortOrder.alphabeticalDesc,
-                AppSortOrder.installedDateAsc,
-                AppSortOrder.installedDateDesc,
-                AppSortOrder.installedSizeAsc,
-                AppSortOrder.installedSizeDesc,
-              ],
-              itemBuilder: (context, sortOrder, child) =>
-                  Text(sortOrder.localize(l10n)),
-              onSelected: (value) =>
-                  ref.read(appSortOrderProvider.notifier).state = value,
-              expanded: false,
-              child: Text(sortOrder.localize(l10n)),
-            );
-          },
+        Flexible(
+          child: Consumer(
+            builder: (context, ref, child) {
+              final sortOrder = ref.watch(appSortOrderProvider);
+              return MenuButtonBuilder<AppSortOrder>(
+                values: const [
+                  AppSortOrder.alphabeticalAsc,
+                  AppSortOrder.alphabeticalDesc,
+                  AppSortOrder.installedDateAsc,
+                  AppSortOrder.installedDateDesc,
+                  AppSortOrder.installedSizeAsc,
+                  AppSortOrder.installedSizeDesc,
+                ],
+                itemBuilder: (context, sortOrder, child) =>
+                    Text(sortOrder.localize(l10n)),
+                onSelected: (value) =>
+                    ref.read(appSortOrderProvider.notifier).state = value,
+                expanded: false,
+                child: Text(
+                  sortOrder.localize(l10n),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              );
+            },
+          ),
         ),
       ],
+    );
+
+    final filterGroup = Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        packageTypeFilter,
+        if (packageType == PackageTypeFilter.snap) ...[
+          const SizedBox(width: kSpacing),
+          showSystemApps,
+        ],
+      ],
+    );
+
+    final filterAndSort = _FilterSortLayout(
+      spacing: kSpacing / 2,
+      filter: filterGroup,
+      sort: sortBy,
     );
 
     if (compact) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Expanded(child: searchField),
-              const SizedBox(width: kSpacing),
-              packageTypeFilter,
-            ],
-          ),
+          SizedBox(width: double.infinity, child: searchField),
           const SizedBox(height: kSpacing),
-          Row(
-            children: [
-              showSystemApps,
-              const Spacer(),
-              sortBy,
-            ],
-          ),
+          filterAndSort,
         ],
       );
     }
 
-    return Row(
-      children: [
-        Expanded(child: searchField),
-        const SizedBox(width: kSpacing),
-        packageTypeFilter,
-        const SizedBox(width: kSpacing),
-        showSystemApps,
-        const SizedBox(width: kSpacing),
-        sortBy,
-      ],
+    // Measure the hint text so the field grows when the hint doesn't fit at
+    // the default 200 px width. Overhead = icon slot (32) + padding on both
+    // sides (12 + 12) = 56.
+    const _searchFieldDecorationOverhead = 56.0;
+    const _searchFieldDefaultWidth = 200.0;
+    final hintPainter = TextPainter(
+      text: TextSpan(
+        text: l10n.managePageSearchFieldSearchHint,
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+      textDirection: Directionality.of(context),
+      maxLines: 1,
+    )..layout();
+    final searchWidth = hintPainter.width + _searchFieldDecorationOverhead;
+    final effectiveSearchWidth = searchWidth > _searchFieldDefaultWidth
+        ? searchWidth
+        : _searchFieldDefaultWidth;
+
+    return _SearchFilterSortLayout(
+      searchWidth: effectiveSearchWidth,
+      spacing: kSpacing,
+      search: searchField,
+      filter: filterGroup,
+      sort: sortBy,
     );
   }
+}
+
+/// Filter left, sort right. When they don't fit, sort wraps to a second line
+/// right-aligned.
+class _FilterSortLayout extends MultiChildRenderObjectWidget {
+  _FilterSortLayout({
+    required Widget filter,
+    required Widget sort,
+    this.spacing = 0,
+  }) : super(children: [filter, sort]);
+
+  final double spacing;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) =>
+      _RenderFilterSort(spacing: spacing);
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    _RenderFilterSort renderObject,
+  ) =>
+      renderObject.spacing = spacing;
+}
+
+class _FilterSortParentData extends ContainerBoxParentData<RenderBox> {}
+
+class _RenderFilterSort extends RenderBox
+    with
+        ContainerRenderObjectMixin<RenderBox, _FilterSortParentData>,
+        RenderBoxContainerDefaultsMixin<RenderBox, _FilterSortParentData> {
+  _RenderFilterSort({required double spacing}) : _spacing = spacing;
+
+  double _spacing;
+  set spacing(double v) {
+    if (_spacing == v) return;
+    _spacing = v;
+    markNeedsLayout();
+  }
+
+  @override
+  void setupParentData(RenderBox child) {
+    if (child.parentData is! _FilterSortParentData) {
+      child.parentData = _FilterSortParentData();
+    }
+  }
+
+  @override
+  void performLayout() {
+    final filter = firstChild!;
+    final sort = lastChild!;
+    final maxW = constraints.maxWidth;
+    final filterParent = filter.parentData! as _FilterSortParentData;
+    final sortParent = sort.parentData! as _FilterSortParentData;
+
+    // Layout both at their natural widths first.
+    filter.layout(BoxConstraints(maxWidth: maxW), parentUsesSize: true);
+    sort.layout(BoxConstraints(maxWidth: maxW), parentUsesSize: true);
+    final fS = filter.size;
+    final sS = sort.size;
+
+    if (fS.width + _spacing + sS.width <= maxW) {
+      // Inline: filter left, sort right-aligned.
+      filterParent.offset = Offset.zero;
+      sortParent.offset = Offset(maxW - sS.width, 0);
+      size = constraints.constrain(
+        Size(maxW, fS.height > sS.height ? fS.height : sS.height),
+      );
+    } else {
+      // Overflow: filter top-left, sort on second line right-aligned.
+      filterParent.offset = Offset.zero;
+      sortParent.offset = Offset(
+        (maxW - sS.width).clamp(0.0, maxW),
+        fS.height + _spacing,
+      );
+      size = constraints.constrain(
+        Size(maxW, fS.height + _spacing + sS.height),
+      );
+    }
+  }
+
+  @override
+  void paint(PaintingContext context, Offset offset) =>
+      defaultPaint(context, offset);
+
+  @override
+  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) =>
+      defaultHitTestChildren(result, position: position);
+}
+
+/// Lays out a search field, a filter group, and a sort control.
+///
+/// When the filter group fits beside the search field it is placed there, with
+/// the sort control right-aligned (wrapping to a second line if needed).
+/// When the filter group is too wide to sit beside the search field the search
+/// field occupies the first row and the filter + sort occupy the second row
+/// (sort right-aligned, wrapping to a third line if needed).
+class _SearchFilterSortLayout extends MultiChildRenderObjectWidget {
+  _SearchFilterSortLayout({
+    required Widget search,
+    required Widget filter,
+    required Widget sort,
+    required this.searchWidth,
+    this.spacing = 0,
+  }) : super(children: [search, filter, sort]);
+
+  final double searchWidth;
+  final double spacing;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) =>
+      _RenderSearchFilterSort(searchWidth: searchWidth, spacing: spacing);
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    _RenderSearchFilterSort renderObject,
+  ) {
+    renderObject
+      ..searchWidth = searchWidth
+      ..spacing = spacing;
+  }
+}
+
+class _RenderSearchFilterSort extends RenderBox
+    with
+        ContainerRenderObjectMixin<RenderBox, _FilterSortParentData>,
+        RenderBoxContainerDefaultsMixin<RenderBox, _FilterSortParentData> {
+  _RenderSearchFilterSort({
+    required double searchWidth,
+    required double spacing,
+  })  : _searchWidth = searchWidth,
+        _spacing = spacing;
+
+  double _searchWidth;
+  set searchWidth(double v) {
+    if (_searchWidth == v) return;
+    _searchWidth = v;
+    markNeedsLayout();
+  }
+
+  double _spacing;
+  set spacing(double v) {
+    if (_spacing == v) return;
+    _spacing = v;
+    markNeedsLayout();
+  }
+
+  @override
+  void setupParentData(RenderBox child) {
+    if (child.parentData is! _FilterSortParentData) {
+      child.parentData = _FilterSortParentData();
+    }
+  }
+
+  @override
+  void performLayout() {
+    final search = firstChild!;
+    final filter = childAfter(search)!;
+    final sort = lastChild!;
+
+    final searchParent = search.parentData! as _FilterSortParentData;
+    final filterParent = filter.parentData! as _FilterSortParentData;
+    final sortParent = sort.parentData! as _FilterSortParentData;
+
+    final maxW = constraints.maxWidth;
+
+    // Lay out sort and search to know their sizes.
+    sort.layout(BoxConstraints(maxWidth: maxW), parentUsesSize: true);
+    final sortSize = sort.size;
+
+    search.layout(
+      BoxConstraints.tightFor(width: _searchWidth),
+      parentUsesSize: true,
+    );
+    final searchSize = search.size;
+
+    // How much horizontal space is available to the right of the search field.
+    final spaceForFilter = maxW - _searchWidth - _spacing;
+
+    // Measure the filter group's natural (unconstrained) width.
+    final filterNatural = filter.getMaxIntrinsicWidth(double.infinity);
+
+    if (filterNatural <= spaceForFilter) {
+      // ── Inline layout ──
+      // [search]  [filter ·····] [sort right-aligned]
+      // Sort wraps to a second line if filter + sort don't both fit.
+      filter.layout(
+        BoxConstraints(maxWidth: spaceForFilter),
+        parentUsesSize: true,
+      );
+      final filterSize = filter.size;
+
+      searchParent.offset = Offset.zero;
+      filterParent.offset = Offset(_searchWidth + _spacing, 0);
+
+      if (filterSize.width + _spacing + sortSize.width <= spaceForFilter) {
+        sortParent.offset = Offset(maxW - sortSize.width, 0);
+        final rowH = [searchSize.height, filterSize.height, sortSize.height]
+            .reduce(math.max);
+        size = constraints.constrain(Size(maxW, rowH));
+      } else {
+        sortParent.offset = Offset(
+          maxW - sortSize.width,
+          filterSize.height + _spacing,
+        );
+        final row1H = math.max(searchSize.height, filterSize.height);
+        size = constraints.constrain(
+          Size(maxW, row1H + _spacing + sortSize.height),
+        );
+      }
+    } else {
+      // ── Stacked layout ──
+      // [search]
+      // [filter ·····] [sort right-aligned]
+      // Sort wraps to a third line if filter + sort don't both fit.
+      filter.layout(BoxConstraints(maxWidth: maxW), parentUsesSize: true);
+      final filterSize = filter.size;
+
+      searchParent.offset = Offset.zero;
+      filterParent.offset = Offset(0, searchSize.height + _spacing);
+
+      if (filterSize.width + _spacing + sortSize.width <= maxW) {
+        sortParent.offset = Offset(
+          maxW - sortSize.width,
+          searchSize.height + _spacing,
+        );
+        final row2H = math.max(filterSize.height, sortSize.height);
+        size = constraints.constrain(
+          Size(maxW, searchSize.height + _spacing + row2H),
+        );
+      } else {
+        sortParent.offset = Offset(
+          maxW - sortSize.width,
+          searchSize.height + _spacing + filterSize.height + _spacing,
+        );
+        size = constraints.constrain(
+          Size(
+            maxW,
+            searchSize.height +
+                _spacing +
+                filterSize.height +
+                _spacing +
+                sortSize.height,
+          ),
+        );
+      }
+    }
+  }
+
+  @override
+  void paint(PaintingContext context, Offset offset) =>
+      defaultPaint(context, offset);
+
+  @override
+  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) =>
+      defaultHitTestChildren(result, position: position);
 }
 
 class _DebouncedSearchField extends ConsumerStatefulWidget {
