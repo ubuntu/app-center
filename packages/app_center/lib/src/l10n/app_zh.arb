@@ -365,5 +365,45 @@
     "appConfinementClassic": "无限制",
     "appConfinementUnrestricted": "无限制",
     "appConfinementStrictTooltip": "此应用对资源访问有限。您可以在设置应用中管理权限。",
-    "appConfinementClassicTooltip": "此应用采用经典隔离机制，可以完全访问您的资源。这在开发类应用中常见。"
+    "appConfinementClassicTooltip": "此应用采用经典隔离机制，可以完全访问您的资源。这在开发类应用中常见。",
+    "appConfinementUnrestrictedTooltip": "此应用拥有所有资源的访问权。",
+    "appLicenseUnknown": "未知",
+    "appPublishedUnknown": "未知",
+    "appMoreActionsSemanticLabel": "更多操作",
+    "snapActionRevertLabel": "还原更新",
+    "snapActionRevertingLabel": "正在还原更新",
+    "snapRevertConfirmTitle": "还原到之前版本？",
+    "snapRevertConfirmMessage": "当有新版本时，自动更新将恢复。",
+    "snapRevertConfirmRevert": "还原",
+    "snapRevertConfirmCancel": "取消",
+    "snapRevertConfirmTitleWithVersions": "要从 {currentVersion} (rev {currentRevision}) 还原至 {previousVersion} (rev {previousRevision}) 吗？",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRevertNoPreviousRevisionMessage": "目前没有任何可还原的当地修订版。",
+    "snapActionSwitchChannelTitle": "切换 {appName} 的频道",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "codecPageTitle": "缺少媒体编解码器",
+    "codecPageDescription": "您需要安装以下编解码器以处理特定的视频和音频格式：",
+    "codecProprietaryDisclaimer": "有推荐的编解码器可能是所有权格式。",
+    "codecInstallAllButton": "安装推荐的编解码器"
 }
