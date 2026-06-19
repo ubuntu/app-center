@@ -397,5 +397,13 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "目前沒有可還原的先前本機修訂版。"
+    "snapRevertNoPreviousRevisionMessage": "目前沒有可還原的先前本機修訂版。",
+    "snapActionSwitchChannelTitle": "切換 {appName} 的頻道",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }
