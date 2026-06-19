@@ -39,8 +39,9 @@ void main() {
 
   test('init', () async {
     final container = createContainer();
-    final ratingsData =
-        await container.read(ratingsModelProvider(snap.name).future);
+    final ratingsData = await container.read(
+      ratingsModelProvider(snap.name).future,
+    );
     expect(
       ratingsData.rating,
       equals(

@@ -48,15 +48,15 @@ class DebData extends AppMetadata with _$DebData {
 
   @override
   Map<AppLink, String>? get links => Map.fromEntries(
-        component.urls
-            .where(
-              (url) => [
-                AppstreamUrlType.contact,
-                AppstreamUrlType.homepage,
-              ].contains(url.type),
-            )
-            .map((url) => MapEntry(AppLink.fromAppstream(url.type), url.url)),
-      );
+    component.urls
+        .where(
+          (url) => [
+            AppstreamUrlType.contact,
+            AppstreamUrlType.homepage,
+          ].contains(url.type),
+        )
+        .map((url) => MapEntry(AppLink.fromAppstream(url.type), url.url)),
+  );
 
   @override
   DateTime? get published =>
@@ -79,8 +79,9 @@ class DebModel extends _$DebModel {
 
     final packageInfo = await _getPackageInfo(component);
     final hasUpdate = await _getUpdates(packageInfo!);
-    final details = (await packageKit
-        .getDetails([packageInfo.packageId]))[packageInfo.packageId.name];
+    final details = (await packageKit.getDetails([
+      packageInfo.packageId,
+    ]))[packageInfo.packageId.name];
 
     final errorListener = packageKit.errorStream.listen(_onError);
     ref.onDispose(errorListener.cancel);
@@ -142,17 +143,20 @@ class DebModel extends _$DebModel {
   }
 
   Future<bool> _getUpdates(PackageKitPackageEvent packageInfo) async {
-    final detailsEvent =
-        await packageKit.getUpdateDetails(packageInfo.packageId);
+    final detailsEvent = await packageKit.getUpdateDetails(
+      packageInfo.packageId,
+    );
     // a package will list itself in its updates if its up-to-date, so ignore those
-    final updates =
-        detailsEvent?.updates.where((pid) => pid != packageInfo.packageId);
+    final updates = detailsEvent?.updates.where(
+      (pid) => pid != packageInfo.packageId,
+    );
     var hasUpdate = false;
 
     for (final packageUpdate in updates ?? <PackageKitPackageId>[]) {
       final packageName = packageUpdate.name;
-      final results =
-          await packageKit.resolve([packageName], installedOnly: true);
+      final results = await packageKit.resolve([
+        packageName,
+      ], installedOnly: true);
       hasUpdate = results[packageName]?.info == PackageKitInfo.installed;
       break;
     }

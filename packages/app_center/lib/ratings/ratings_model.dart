@@ -88,7 +88,4 @@ class RatingsModel extends _$RatingsModel {
   }
 }
 
-enum VoteStatus {
-  up,
-  down;
-}
+enum VoteStatus { up, down }

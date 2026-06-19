@@ -12,10 +12,10 @@ import 'package:yaru/yaru.dart';
 
 sealed class AutoCompleteOption {
   String get title => switch (this) {
-        AutoCompleteSnapOption(snap: final snap) => snap.titleOrName,
-        AutoCompleteDebOption(deb: final deb) => deb.getLocalizedName(),
-        AutoCompleteSearchOption(query: final query) => query,
-      };
+    AutoCompleteSnapOption(snap: final snap) => snap.titleOrName,
+    AutoCompleteDebOption(deb: final deb) => deb.getLocalizedName(),
+    AutoCompleteSearchOption(query: final query) => query,
+  };
 }
 
 class AutoCompleteSnapOption extends AutoCompleteOption {
@@ -81,10 +81,12 @@ class _SearchFieldState extends ConsumerState<SearchField> {
       optionsViewBuilder: (context, onSelected, options) {
         final snapOptions = options.whereType<AutoCompleteSnapOption>();
         final debOptions = options.whereType<AutoCompleteDebOption>();
-        final searchOption =
-            options.whereType<AutoCompleteSearchOption>().single;
-        final highlightedOption =
-            options.elementAt(AutocompleteHighlightedOption.of(context));
+        final searchOption = options
+            .whereType<AutoCompleteSearchOption>()
+            .single;
+        final highlightedOption = options.elementAt(
+          AutocompleteHighlightedOption.of(context),
+        );
 
         return Align(
           alignment: Alignment.topLeft,
@@ -139,8 +141,9 @@ class _SearchFieldState extends ConsumerState<SearchField> {
         );
       },
       onSelected: (option) => switch (option) {
-        AutoCompleteSnapOption(snap: final snap) =>
-          widget.onSnapSelected(snap.name),
+        AutoCompleteSnapOption(snap: final snap) => widget.onSnapSelected(
+          snap.name,
+        ),
         AutoCompleteDebOption(deb: final deb) => widget.onDebSelected(deb.id),
         AutoCompleteSearchOption(query: final query) => widget.onSearch(query),
       },
@@ -176,8 +179,9 @@ class _SearchFieldState extends ConsumerState<SearchField> {
                         icon: Icon(
                           YaruIcons.edit_clear,
                           size: 16,
-                          color:
-                              Theme.of(context).inputDecorationTheme.iconColor,
+                          color: Theme.of(
+                            context,
+                          ).inputDecorationTheme.iconColor,
                         ),
                         onPressed: controller.text.isEmpty
                             ? null
@@ -217,30 +221,30 @@ class _AutoCompleteTile extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return switch (option) {
       AutoCompleteSnapOption(snap: final snap) => ListTile(
-          selected: selected,
-          title: Text(snap.titleOrName),
-          leading: AppIcon(
-            size: _iconSize,
-            iconUrl: snap.iconUrl,
-          ),
-          onTap: onTap,
+        selected: selected,
+        title: Text(snap.titleOrName),
+        leading: AppIcon(
+          size: _iconSize,
+          iconUrl: snap.iconUrl,
         ),
+        onTap: onTap,
+      ),
       AutoCompleteDebOption(deb: final deb) => ListTile(
-          selected: selected,
-          title: Text(deb.getLocalizedName()),
-          leading: DebAppIcon(
-            size: _iconSize,
-            component: deb,
-          ),
-          onTap: onTap,
+        selected: selected,
+        title: Text(deb.getLocalizedName()),
+        leading: DebAppIcon(
+          size: _iconSize,
+          component: deb,
         ),
+        onTap: onTap,
+      ),
       AutoCompleteSearchOption(query: final query) => ListTile(
-          selected: selected,
-          title: Text(
-            l10n.searchFieldSearchForLabel(query),
-          ),
-          onTap: onTap,
+        selected: selected,
+        title: Text(
+          l10n.searchFieldSearchForLabel(query),
         ),
+        onTap: onTap,
+      ),
     };
   }
 }

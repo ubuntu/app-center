@@ -38,10 +38,10 @@ class CategoryBanner extends ConsumerWidget {
         .valueOrNull;
     final featuredSnaps = category.featuredSnapNames != null
         ? category.featuredSnapNames!
-            .map(
-              (name) => snaps?.singleWhereOrNull((snap) => snap.name == name),
-            )
-            .nonNulls
+              .map(
+                (name) => snaps?.singleWhereOrNull((snap) => snap.name == name),
+              )
+              .nonNulls
         : snaps;
     final l10n = AppLocalizations.of(context);
     return _Banner(
@@ -276,10 +276,9 @@ class ToolsBanner extends ConsumerWidget {
                 children: [
                   Text(
                     summary,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineSmall!
-                        .copyWith(color: Colors.white),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.headlineSmall!.copyWith(color: Colors.white),
                   ),
                   const SizedBox(height: 24),
                   YaruFocusBorder.primary(

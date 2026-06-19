@@ -34,7 +34,8 @@ class ChannelSwitchDialog extends ConsumerWidget {
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: snap.whenOrNull(
+            children:
+                snap.whenOrNull(
                   data: (snapData) => [
                     _ChannelDropdown(snapData: snapData),
                     const SizedBox(height: kPagePadding),
@@ -63,7 +64,8 @@ class _SwitchChannelButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
 
-    final hasChangedChannel = snapData.selectedChannel != null &&
+    final hasChangedChannel =
+        snapData.selectedChannel != null &&
         snapData.localSnap?.trackingChannel != null &&
         snapData.selectedChannel != snapData.localSnap!.trackingChannel;
     final snapViewModel = ref.watch(snapModelProvider(snapData.name).notifier);
@@ -124,18 +126,25 @@ class _ChannelDropdown extends ConsumerWidget {
         SizedBox(
           width: _kChannelDropdownWidth,
           child: MenuButtonBuilder(
-            entries: snapData.availableChannels!.entries
-                .map(
-              (channelEntry) => MenuButtonEntry(
-                value: channelEntry.key,
-                child: _ChannelDropdownEntry(channelEntry: channelEntry),
-              ),
-            )
-                .fold(
-              <MenuButtonEntry<String>>[],
-              (p, e) =>
-                  [...p, e, const MenuButtonEntry(value: '', isDivider: true)],
-            )..removeLast(),
+            entries:
+                snapData.availableChannels!.entries
+                    .map(
+                      (channelEntry) => MenuButtonEntry(
+                        value: channelEntry.key,
+                        child: _ChannelDropdownEntry(
+                          channelEntry: channelEntry,
+                        ),
+                      ),
+                    )
+                    .fold(
+                      <MenuButtonEntry<String>>[],
+                      (p, e) => [
+                        ...p,
+                        e,
+                        const MenuButtonEntry(value: '', isDivider: true),
+                      ],
+                    )
+                  ..removeLast(),
             itemBuilder: (context, value, child) => Text(value),
             selected: snapData.selectedChannel,
             onSelected: (value) => ref
@@ -143,10 +152,12 @@ class _ChannelDropdown extends ConsumerWidget {
                 .selectChannel(value),
             menuPosition: PopupMenuPosition.under,
             menuStyle: const MenuStyle(
-              minimumSize:
-                  WidgetStatePropertyAll(Size(_kChannelDropdownWidth, 0)),
-              maximumSize:
-                  WidgetStatePropertyAll(Size(_kChannelDropdownWidth, 200)),
+              minimumSize: WidgetStatePropertyAll(
+                Size(_kChannelDropdownWidth, 0),
+              ),
+              maximumSize: WidgetStatePropertyAll(
+                Size(_kChannelDropdownWidth, 200),
+              ),
               visualDensity: VisualDensity.standard,
             ),
             itemStyle: MenuItemButton.styleFrom(
@@ -175,22 +186,24 @@ class _ChannelDropdownEntry extends StatelessWidget {
     final channelInfo = {
       l10n.snapPageChannelLabel: channelEntry.key,
       l10n.snapPageVersionLabel: channelEntry.value.version,
-      l10n.snapPagePublishedLabel:
-          DateFormat.yMd().format(channelEntry.value.releasedAt),
+      l10n.snapPagePublishedLabel: DateFormat.yMd().format(
+        channelEntry.value.releasedAt,
+      ),
     };
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: DefaultTextStyle(
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              overflow: TextOverflow.ellipsis,
-            ),
+          overflow: TextOverflow.ellipsis,
+        ),
         child: SizedBox(
           width: _kChannelDropdownWidth - 24,
           child: Semantics(
             button: true,
-            label:
-                channelInfo.entries.map((e) => '${e.key} ${e.value}').join(' '),
+            label: channelInfo.entries
+                .map((e) => '${e.key} ${e.value}')
+                .join(' '),
             child: ExcludeSemantics(
               child: Row(
                 children: [

@@ -4,35 +4,38 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('AppstreamComponent.iconName', () {
-    final testCases = <({
-      String name,
-      List<AppstreamIcon> icons,
-      String? want,
-    })>[
-      (
-        name: 'no icons',
-        icons: [],
-        want: null,
-      ),
-      (
-        name: 'stock icon only',
-        icons: [AppstreamStockIcon('org.gnome.Nautilus')],
-        want: 'org.gnome.Nautilus',
-      ),
-      (
-        name: 'remote icon only',
-        icons: [AppstreamRemoteIcon('https://example.com/nautilus.png')],
-        want: null,
-      ),
-      (
-        name: 'stock and remote icon',
-        icons: [
-          AppstreamStockIcon('org.gnome.Nautilus'),
-          AppstreamRemoteIcon('https://example.com/nautilus.png'),
-        ],
-        want: 'org.gnome.Nautilus',
-      ),
-    ];
+    final testCases =
+        <
+          ({
+            String name,
+            List<AppstreamIcon> icons,
+            String? want,
+          })
+        >[
+          (
+            name: 'no icons',
+            icons: [],
+            want: null,
+          ),
+          (
+            name: 'stock icon only',
+            icons: [AppstreamStockIcon('org.gnome.Nautilus')],
+            want: 'org.gnome.Nautilus',
+          ),
+          (
+            name: 'remote icon only',
+            icons: [AppstreamRemoteIcon('https://example.com/nautilus.png')],
+            want: null,
+          ),
+          (
+            name: 'stock and remote icon',
+            icons: [
+              AppstreamStockIcon('org.gnome.Nautilus'),
+              AppstreamRemoteIcon('https://example.com/nautilus.png'),
+            ],
+            want: 'org.gnome.Nautilus',
+          ),
+        ];
 
     for (final testCase in testCases) {
       test(testCase.name, () {
@@ -84,35 +87,38 @@ void main() {
   });
 
   group('AppstreamComponent.remoteIconUrl', () {
-    final testCases = <({
-      String name,
-      List<AppstreamIcon> icons,
-      String? want,
-    })>[
-      (
-        name: 'no icons',
-        icons: [],
-        want: null,
-      ),
-      (
-        name: 'stock icon only',
-        icons: [AppstreamStockIcon('org.gnome.Nautilus')],
-        want: null,
-      ),
-      (
-        name: 'remote icon only',
-        icons: [AppstreamRemoteIcon('https://example.com/nautilus.png')],
-        want: 'https://example.com/nautilus.png',
-      ),
-      (
-        name: 'stock and remote icon',
-        icons: [
-          AppstreamStockIcon('org.gnome.Nautilus'),
-          AppstreamRemoteIcon('https://example.com/nautilus.png'),
-        ],
-        want: 'https://example.com/nautilus.png',
-      ),
-    ];
+    final testCases =
+        <
+          ({
+            String name,
+            List<AppstreamIcon> icons,
+            String? want,
+          })
+        >[
+          (
+            name: 'no icons',
+            icons: [],
+            want: null,
+          ),
+          (
+            name: 'stock icon only',
+            icons: [AppstreamStockIcon('org.gnome.Nautilus')],
+            want: null,
+          ),
+          (
+            name: 'remote icon only',
+            icons: [AppstreamRemoteIcon('https://example.com/nautilus.png')],
+            want: 'https://example.com/nautilus.png',
+          ),
+          (
+            name: 'stock and remote icon',
+            icons: [
+              AppstreamStockIcon('org.gnome.Nautilus'),
+              AppstreamRemoteIcon('https://example.com/nautilus.png'),
+            ],
+            want: 'https://example.com/nautilus.png',
+          ),
+        ];
 
     for (final testCase in testCases) {
       test(testCase.name, () {

@@ -4,7 +4,7 @@ repository: https://github.com/ubuntu/app-center/tree/main/packages/app_center_r
 version: 1.0.0
 
 environment:
-  sdk: ">=3.1.0 <4.0.0"
+  sdk: ">=3.12.0 <4.0.0"
 
 dependencies:
   fixnum: ^1.1.0
@@ -21,4 +21,4 @@ dev_dependencies:
   json_serializable: ^6.8.0
   mockito: ^5.4.4
   test: ^1.25.8
-  ubuntu_lints: ^0.4.1
+  ubuntu_lints: ^0.4.2

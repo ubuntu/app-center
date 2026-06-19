@@ -28,12 +28,14 @@ enum PackageTypeFilter {
 }
 
 /// Controls the package type filter for the installed apps list.
-final packageTypeFilterProvider =
-    StateProvider<PackageTypeFilter>((_) => PackageTypeFilter.all);
+final packageTypeFilterProvider = StateProvider<PackageTypeFilter>(
+  (_) => PackageTypeFilter.all,
+);
 
 /// Controls the sort order for the installed apps list.
-final appSortOrderProvider =
-    StateProvider<AppSortOrder>((_) => AppSortOrder.alphabeticalAsc);
+final appSortOrderProvider = StateProvider<AppSortOrder>(
+  (_) => AppSortOrder.alphabeticalAsc,
+);
 
 /// Combines snap and deb updates into a single sorted list of apps with
 /// pending updates, used to populate the "Updates" section of the manage page.
@@ -52,8 +54,8 @@ Future<List<ManageAppData>> appUpdates(Ref ref) async {
   final debApps = debUpdates.map((deb) => ManageAppData.localDeb(debInfo: deb));
 
   return [...snapApps, ...debApps]..sort(
-      (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()),
-    );
+    (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+  );
 }
 
 /// Manages the list of installed apps (snaps and debs) that do not have
@@ -72,9 +74,9 @@ class InstalledApps extends _$InstalledApps {
   Future<List<ManageAppData>> build() async {
     final snapListState = await ref.watch(localSnapsProvider.future);
     final debs = await ref.watch(localDebsProvider.future);
-    final refreshableSnaps = (await ref.read(snapUpdatesModelProvider.future))
-        .snaps
-        .map((s) => s.name);
+    final refreshableSnaps = (await ref.read(
+      snapUpdatesModelProvider.future,
+    )).snaps.map((s) => s.name);
 
     final snapApps = snapListState.snaps
         .where((s) => !refreshableSnaps.contains(s.name))
@@ -149,8 +151,9 @@ class InstalledApps extends _$InstalledApps {
     if (!state.hasValue) return;
     final app = _allApps.firstWhere((a) => a.id == debId);
     final debInfo = (app as ManageDebData).debInfo;
-    final transactionId =
-        await _packageKit.remove(debInfo.packageInfo.packageId);
+    final transactionId = await _packageKit.remove(
+      debInfo.packageInfo.packageId,
+    );
     log.info('Remove transaction started: $transactionId for $debId');
     _updateDebTransactionId(debId, transactionId);
     try {

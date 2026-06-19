@@ -62,8 +62,9 @@ void main() {
     await container.read(snapModelProvider('testsnap3').future);
     await container.read(snapUpdatesModelProvider.future);
     await container.read(snapUpdatesModelProvider.notifier).refreshAll();
-    verify(service.refresh('testsnap3', channel: anyNamed('channel')))
-        .called(1);
+    verify(
+      service.refresh('testsnap3', channel: anyNamed('channel')),
+    ).called(1);
   });
 
   group('localVersion', () {
@@ -72,8 +73,9 @@ void main() {
       registerMockSnapdService(installedSnaps: [localSnap]);
       final container = createContainer();
 
-      final version =
-          await container.read(localVersionProvider('testsnap').future);
+      final version = await container.read(
+        localVersionProvider('testsnap').future,
+      );
       expect(version, equals('1.0.0'));
     });
 
@@ -81,8 +83,9 @@ void main() {
       registerMockSnapdService(installedSnaps: []);
       final container = createContainer();
 
-      final version =
-          await container.read(localVersionProvider('nonexistent').future);
+      final version = await container.read(
+        localVersionProvider('nonexistent').future,
+      );
       expect(version, isNull);
     });
   });
@@ -133,8 +136,9 @@ void main() {
         SnapdException(message: ''),
       );
 
-      final snapListState =
-          await container.read(snapUpdatesModelProvider.future);
+      final snapListState = await container.read(
+        snapUpdatesModelProvider.future,
+      );
       expect(snapListState.hasInternet, isFalse);
     });
 

@@ -139,16 +139,16 @@ class SnapData extends AppMetadata with _$SnapData {
 
   @override
   AppConfinement? get confinement => AppConfinement.fromSnap(
-        activeChannelInfo?.confinement ?? snap.confinement,
-      );
+    activeChannelInfo?.confinement ?? snap.confinement,
+  );
 
   @override
   Map<AppLink, String>? get links => {
-        if (snap.website?.isNotEmpty ?? false) ...{
-          AppLink.homepage: snap.website!,
-        },
-        if ((snap.contact.isNotEmpty) && snap.publisher != null) ...{
-          AppLink.contact: snap.contact,
-        },
-      };
+    if (snap.website?.isNotEmpty ?? false) ...{
+      AppLink.homepage: snap.website!,
+    },
+    if ((snap.contact.isNotEmpty) && snap.publisher != null) ...{
+      AppLink.contact: snap.contact,
+    },
+  };
 }

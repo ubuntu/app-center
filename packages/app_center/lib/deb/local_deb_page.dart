@@ -119,10 +119,9 @@ class _LocalDebActionButtons extends ConsumerWidget {
             const SizedBox(height: kPagePadding),
             Text(
               l10n.localDebDialogConfirmation,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
             ),
           ],
         ),

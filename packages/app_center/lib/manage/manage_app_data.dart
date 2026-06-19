@@ -29,55 +29,55 @@ class ManageAppData with _$ManageAppData {
   /// Unique identifier: snap ID or Appstream component ID (falling back to
   /// package name).
   String get id => when(
-        snap: (snap, _) => snap.id,
-        localDeb: (debInfo) => debInfo.id,
-      );
+    snap: (snap, _) => snap.id,
+    localDeb: (debInfo) => debInfo.id,
+  );
 
   /// Display name: snap title or localized Appstream name.
   String get name => when(
-        snap: (snap, _) => snap.titleOrName,
-        localDeb: (debInfo) =>
-            debInfo.component?.getLocalizedName() ??
-            debInfo.packageInfo.packageId.name,
-      );
+    snap: (snap, _) => snap.titleOrName,
+    localDeb: (debInfo) =>
+        debInfo.component?.getLocalizedName() ??
+        debInfo.packageInfo.packageId.name,
+  );
 
   /// Icon URL for display in the app list.
   String? get iconUrl => when(
-        snap: (snap, _) => snap.iconUrl,
-        localDeb: (debInfo) => debInfo.component?.remoteIconUrl,
-      );
+    snap: (snap, _) => snap.iconUrl,
+    localDeb: (debInfo) => debInfo.component?.remoteIconUrl,
+  );
 
   /// Whether this package has a pending update.
   bool get hasUpdate => when(
-        snap: (_, updateVersion) => updateVersion != null,
-        localDeb: (debInfo) => debInfo.hasUpdate,
-      );
+    snap: (_, updateVersion) => updateVersion != null,
+    localDeb: (debInfo) => debInfo.hasUpdate,
+  );
 
   /// Whether this is a user-facing app (has desktop entries or Appstream data)
   /// vs a system/library package.
   bool get isLaunchable => when(
-        snap: (snap, _) => snap.apps.isNotEmpty,
-        localDeb: (debInfo) => debInfo.hasAppstreamEntry,
-      );
+    snap: (snap, _) => snap.apps.isNotEmpty,
+    localDeb: (debInfo) => debInfo.hasAppstreamEntry,
+  );
 
   /// Install/release date. For snaps, this is the install date. For debs,
   /// this is the release date of the installed version from AppStream metadata.
   DateTime? get installDate => when(
-        snap: (snap, _) => snap.installDate,
-        localDeb: (debInfo) => debInfo.releaseDate,
-      );
+    snap: (snap, _) => snap.installDate,
+    localDeb: (debInfo) => debInfo.releaseDate,
+  );
 
   /// Installed size in bytes, used for sort-by-size.
   int? get installedSize => when(
-        snap: (snap, _) => snap.installedSize,
-        localDeb: (debInfo) => debInfo.details?.size,
-      );
+    snap: (snap, _) => snap.installedSize,
+    localDeb: (debInfo) => debInfo.details?.size,
+  );
 
   /// Currently installed version string.
   String get version => when(
-        snap: (snap, _) => snap.version,
-        localDeb: (debInfo) => debInfo.packageInfo.packageId.version,
-      );
+    snap: (snap, _) => snap.version,
+    localDeb: (debInfo) => debInfo.packageInfo.packageId.version,
+  );
 }
 
 /// Sort order for apps on the manage page.
@@ -109,10 +109,12 @@ extension ManageAppSort on Iterable<ManageAppData> {
     final list = toList();
     list.sort((a, b) {
       return switch (order) {
-        AppSortOrder.alphabeticalAsc =>
-          a.name.toLowerCase().compareTo(b.name.toLowerCase()),
-        AppSortOrder.alphabeticalDesc =>
-          b.name.toLowerCase().compareTo(a.name.toLowerCase()),
+        AppSortOrder.alphabeticalAsc => a.name.toLowerCase().compareTo(
+          b.name.toLowerCase(),
+        ),
+        AppSortOrder.alphabeticalDesc => b.name.toLowerCase().compareTo(
+          a.name.toLowerCase(),
+        ),
         AppSortOrder.installedDateAsc => _compareDates(a, b, ascending: true),
         AppSortOrder.installedDateDesc => _compareDates(a, b, ascending: false),
         AppSortOrder.installedSizeAsc => _compareSizes(a, b, ascending: true),

@@ -41,7 +41,8 @@ class AppIcon extends StatelessWidget {
     final fallBackLoadingIcon = Shimmer.fromColors(
       baseColor:
           loadingBaseColor ?? (light ? kShimmerBaseLight : kShimmerBaseDark),
-      highlightColor: loadingHighlight ??
+      highlightColor:
+          loadingHighlight ??
           (light ? kShimmerHighLightLight : kShimmerHighLightDark),
       child: fallBackIcon,
     );

@@ -165,8 +165,9 @@ class _CarouselDialogState extends State<_CarouselDialog> {
                   SafeNetworkImage(
                     url: widget.urls[i],
                     fit: BoxFit.fitWidth,
-                    semanticLabel:
-                        l10n.snapPageGalleryImageSemanticLabel(i + 1),
+                    semanticLabel: l10n.snapPageGalleryImageSemanticLabel(
+                      i + 1,
+                    ),
                   ),
               ],
             ),
@@ -195,7 +196,8 @@ class SafeNetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fallBack = fallBackIcon ??
+    final fallBack =
+        fallBackIcon ??
         Icon(
           YaruIcons.image,
           size: 60,

@@ -30,8 +30,10 @@ class _CachedComponent {
     final package = component.getPackage();
     final mediaTypes = component.getLocalizedMediaTypes();
 
-    final keywords =
-        component.getLocalizedKeywords().map((e) => e.toLowerCase()).toList();
+    final keywords = component
+        .getLocalizedKeywords()
+        .map((e) => e.toLowerCase())
+        .toList();
 
     final nonWordCharacters = RegExp('\\W');
 
@@ -136,8 +138,8 @@ class _ScoredComponent {
 class AppstreamService {
   // TODO: cache AppstreamPool
   AppstreamService({@visibleForTesting AppstreamPool? pool})
-      : _pool = pool ?? AppstreamPool(),
-        _l10n = _loadL10n() {
+    : _pool = pool ?? AppstreamPool(),
+      _l10n = _loadL10n() {
     PlatformDispatcher.instance.onLocaleChanged = () async {
       await _loader;
       _populateCache();
@@ -288,8 +290,9 @@ class AppstreamService {
     // sources. Thus, we're using `firstWhereOrNull` instead of `singleWhereOrNull`
     // for now.
     // TODO: Remove duplicate appstream components.
-    final component =
-        _pool.components.firstWhereOrNull((component) => component.id == id);
+    final component = _pool.components.firstWhereOrNull(
+      (component) => component.id == id,
+    );
     assert(component != null, 'Component not found');
     return component!;
   }

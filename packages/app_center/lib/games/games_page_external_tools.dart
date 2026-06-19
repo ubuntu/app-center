@@ -49,9 +49,7 @@ class ExternalTools extends StatelessWidget {
                               const SizedBox(height: 24),
                               Text(
                                 l10n.externalResourcesDisclaimer,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium!
+                                style: Theme.of(context).textTheme.labelMedium!
                                     .copyWith(color: Colors.white),
                               ),
                             ],

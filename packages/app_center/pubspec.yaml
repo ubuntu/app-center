@@ -4,8 +4,8 @@ version: 1.0.0
 publish_to: "none"
 
 environment:
-  sdk: ">=3.1.0 <4.0.0"
-  flutter: ">=3.38.1"
+  sdk: ">=3.12.0 <4.0.0"
+  flutter: ">=3.44.2"
 
 dependencies:
   app_center_ratings_client: ^1.0.0
@@ -54,7 +54,7 @@ dependencies:
   url_launcher: ^6.3.0
   xdg_desktop_portal: ^0.1.14
   xdg_directories: ^1.0.4
-  yaru: ^10.1.0
+  yaru: ^10.2.0
   yaru_test: ^0.3.2
   yaru_window: ^0.2.1+1
 
@@ -70,7 +70,7 @@ dev_dependencies:
   json_serializable: ^6.8.0
   mockito: ^5.4.4
   riverpod_generator: ^2.6.1
-  ubuntu_lints: ^0.4.1
+  ubuntu_lints: ^0.4.2
 
 flutter:
   uses-material-design: true

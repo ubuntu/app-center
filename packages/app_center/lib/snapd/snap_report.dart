@@ -45,20 +45,22 @@ class _SnapReportState extends State<SnapReport> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: kCardMargin),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: kCardMargin,
+                      ),
                       child: Text(l10n.snapReportSelectReportReasonLabel),
                     ),
                     MenuButtonBuilder(
-                      entries: <String>[
-                        l10n.snapReportOptionCopyrightViolation,
-                        l10n.snapReportOptionStoreViolation,
-                      ].map<MenuButtonEntry<String>>((value) {
-                        return MenuButtonEntry<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
+                      entries:
+                          <String>[
+                            l10n.snapReportOptionCopyrightViolation,
+                            l10n.snapReportOptionStoreViolation,
+                          ].map<MenuButtonEntry<String>>((value) {
+                            return MenuButtonEntry<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
                       itemBuilder: (context, value, child) => Text(value),
                       selected: selectedReason,
                       onSelected: (value) {
@@ -85,8 +87,9 @@ class _SnapReportState extends State<SnapReport> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: kCardMargin),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: kCardMargin,
+                      ),
                       child: Text(l10n.snapReportDetailsLabel),
                     ),
                     SizedBox(
@@ -96,8 +99,12 @@ class _SnapReportState extends State<SnapReport> {
                           style: Theme.of(context).textTheme.bodyMedium,
                           textAlignVertical: TextAlignVertical.top,
                           decoration: InputDecoration(
-                            contentPadding:
-                                const EdgeInsets.fromLTRB(12, 8, 12, 8),
+                            contentPadding: const EdgeInsets.fromLTRB(
+                              12,
+                              8,
+                              12,
+                              8,
+                            ),
                             floatingLabelBehavior: FloatingLabelBehavior.never,
                             isDense: true,
                             hintText: l10n.snapReportDetailsHint,
@@ -119,8 +126,9 @@ class _SnapReportState extends State<SnapReport> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: kCardMargin),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: kCardMargin,
+                      ),
                       child: Text(
                         l10n.snapReportOptionalEmailAddressLabel,
                       ),

@@ -14,21 +14,21 @@ enum SnapAction {
   update;
 
   String label(AppLocalizations l10n) => switch (this) {
-        cancel => l10n.snapActionCancelLabel,
-        install => l10n.snapActionInstallLabel,
-        open => l10n.snapActionOpenLabel,
-        remove => l10n.snapActionRemoveLabel,
-        revert => l10n.snapActionRevertLabel,
-        switchChannel => l10n.snapActionSwitchChannelLabel,
-        update => l10n.snapActionUpdateLabel,
-      };
+    cancel => l10n.snapActionCancelLabel,
+    install => l10n.snapActionInstallLabel,
+    open => l10n.snapActionOpenLabel,
+    remove => l10n.snapActionRemoveLabel,
+    revert => l10n.snapActionRevertLabel,
+    switchChannel => l10n.snapActionSwitchChannelLabel,
+    update => l10n.snapActionUpdateLabel,
+  };
 
   IconData? get icon => switch (this) {
-        update => YaruIcons.refresh,
-        remove => YaruIcons.trash,
-        revert => YaruIcons.undo,
-        _ => null,
-      };
+    update => YaruIcons.refresh,
+    remove => YaruIcons.trash,
+    revert => YaruIcons.undo,
+    _ => null,
+  };
 
   void Function()? callback(
     SnapData? snapData,
@@ -42,12 +42,14 @@ enum SnapAction {
       SnapAction.open =>
         launcher?.isLaunchable ?? false ? launcher!.open : null,
       SnapAction.remove => model.remove,
-      SnapAction.revert => (snapData?.canRevert ?? false)
-          ? () => confirmRevertAndRun(context!, snapData!, model)
-          : null,
-      SnapAction.switchChannel => snapData?.storeSnap != null
-          ? () => showChannelSwitchDialog(context!, snapData!.name)
-          : null,
+      SnapAction.revert =>
+        (snapData?.canRevert ?? false)
+            ? () => confirmRevertAndRun(context!, snapData!, model)
+            : null,
+      SnapAction.switchChannel =>
+        snapData?.storeSnap != null
+            ? () => showChannelSwitchDialog(context!, snapData!.name)
+            : null,
       SnapAction.update => snapData?.storeSnap != null ? model.refresh : null,
     };
   }

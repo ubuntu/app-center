@@ -45,8 +45,9 @@ class GstreamerModel extends _$GstreamerModel {
       resources.list.map((resource) => packageKit.whatProvides(resource.id)),
     );
     final packageIds = providers.flattened.map((p) => p.packageId);
-    final packages =
-        await packageKit.resolve(packageIds.map((id) => id.name).toList());
+    final packages = await packageKit.resolve(
+      packageIds.map((id) => id.name).toList(),
+    );
     return GStreamerData(packageInfos: packages.values.nonNulls.toList());
   }
 
@@ -71,8 +72,9 @@ class GstreamerModel extends _$GstreamerModel {
   Future<void> installAll() async {
     final packageKit = getService<PackageKitService>();
 
-    final installTransaction = await packageKit
-        .installAll(state.value!.packageInfos.nonNulls.map((p) => p.packageId));
+    final installTransaction = await packageKit.installAll(
+      state.value!.packageInfos.nonNulls.map((p) => p.packageId),
+    );
     state = AsyncData(
       state.value!.copyWith(activeTransactionId: installTransaction),
     );

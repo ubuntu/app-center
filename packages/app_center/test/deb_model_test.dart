@@ -70,8 +70,9 @@ void main() {
     final packageKit = createMockPackageKitService(
       packageInfo: packageInfo,
       transactionId: 42,
-      packageUpdates:
-          PackageKitUpdateDetailEvent(packageId: packageInfo.packageId),
+      packageUpdates: PackageKitUpdateDetailEvent(
+        packageId: packageInfo.packageId,
+      ),
     );
     createMockAppstreamService(component: component);
     final container = ProviderContainer();

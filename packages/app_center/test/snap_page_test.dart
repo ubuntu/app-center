@@ -347,44 +347,46 @@ void main() {
     expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
   });
 
-  testWidgets('revert button appears in dropdown when previous revision exists',
-      (tester) async {
-    final service = registerMockSnapdService(
-      localSnap: localSnap,
-      storeSnap: storeSnap,
-    );
+  testWidgets(
+    'revert button appears in dropdown when previous revision exists',
+    (tester) async {
+      final service = registerMockSnapdService(
+        localSnap: localSnap,
+        storeSnap: storeSnap,
+      );
 
-    when(service.hasPreviousRevision(any)).thenAnswer((_) async => true);
+      when(service.hasPreviousRevision(any)).thenAnswer((_) async => true);
 
-    final snapLauncher = createMockSnapLauncher(isLaunchable: true);
+      final snapLauncher = createMockSnapLauncher(isLaunchable: true);
 
-    final container = createContainer(
-      overrides: [
-        launchProvider.overrideWith((ref, arg) => snapLauncher),
-      ],
-    );
+      final container = createContainer(
+        overrides: [
+          launchProvider.overrideWith((ref, arg) => snapLauncher),
+        ],
+      );
 
-    await tester.pumpApp(
-      (_) => UncontrolledProviderScope(
-        container: container,
-        child: const SnapPage(snapName: 'testsnap'),
-      ),
-    );
-    await container.read(snapModelProvider('testsnap').future);
-    await container.read(ratingsModelProvider('testsnap').future);
-    await tester.pumpAndSettle();
+      await tester.pumpApp(
+        (_) => UncontrolledProviderScope(
+          container: container,
+          child: const SnapPage(snapName: 'testsnap'),
+        ),
+      );
+      await container.read(snapModelProvider('testsnap').future);
+      await container.read(ratingsModelProvider('testsnap').future);
+      await tester.pumpAndSettle();
 
-    final viewMoreButton = find.descendant(
-      of: find.byType(YaruPopupMenuButton),
-      matching: find.byIcon(YaruIcons.view_more),
-    );
-    expect(viewMoreButton, findsOneWidget);
-    await tester.tap(viewMoreButton);
-    await tester.pumpAndSettle();
+      final viewMoreButton = find.descendant(
+        of: find.byType(YaruPopupMenuButton),
+        matching: find.byIcon(YaruIcons.view_more),
+      );
+      expect(viewMoreButton, findsOneWidget);
+      await tester.tap(viewMoreButton);
+      await tester.pumpAndSettle();
 
-    final revertButton = find.text(tester.l10n.snapActionRevertLabel);
-    expect(revertButton, findsOneWidget);
-  });
+      final revertButton = find.text(tester.l10n.snapActionRevertLabel);
+      expect(revertButton, findsOneWidget);
+    },
+  );
 
   testWidgets('switch channel appears in dropdown', (tester) async {
     registerMockSnapdService(
@@ -413,8 +415,9 @@ void main() {
     await tester.tap(viewMoreButton);
     await tester.pumpAndSettle();
 
-    final switchChannelButton =
-        find.text(tester.l10n.snapActionSwitchChannelLabel);
+    final switchChannelButton = find.text(
+      tester.l10n.snapActionSwitchChannelLabel,
+    );
     expect(switchChannelButton, findsOneWidget);
   });
 

@@ -29,14 +29,12 @@ class PackageKitService {
   PackageKitService({
     @visibleForTesting PackageKitClient? client,
     @visibleForTesting DBusClient? dbus,
-    @visibleForTesting XdgDocumentsPortal? documentsPortal,
+    @visibleForTesting this._documentsPortal,
     @visibleForTesting FileSystem? fs,
-    @visibleForTesting String? runtimeDir,
-  })  : _client = client ?? getService<PackageKitClient>(),
-        _dbus = dbus ?? DBusClient.system(),
-        _documentsPortal = documentsPortal,
-        _fs = fs ?? const LocalFileSystem(),
-        _runtimeDir = runtimeDir;
+    @visibleForTesting this._runtimeDir,
+  }) : _client = client ?? getService<PackageKitClient>(),
+       _dbus = dbus ?? DBusClient.system(),
+       _fs = fs ?? const LocalFileSystem();
 
   final PackageKitClient _client;
   final DBusClient _dbus;
@@ -233,12 +231,12 @@ class PackageKitService {
   /// returns the transaction ID.
   // TODO: Decide how to handle dependencies. Autoremove? Ask the user?
   Future<int> remove(PackageKitPackageId packageId) async => _createTransaction(
-        action: (transaction) => transaction.removePackages([packageId]),
-      );
+    action: (transaction) => transaction.removePackages([packageId]),
+  );
 
   Future<int> update(PackageKitPackageId packageId) async => _createTransaction(
-        action: (transaction) => transaction.updatePackages([packageId]),
-      );
+    action: (transaction) => transaction.updatePackages([packageId]),
+  );
 
   static Future<String> _getNativeArchitecture() async {
     final snapArch = io.Platform.environment['SNAP_ARCH'];
@@ -246,8 +244,9 @@ class PackageKitService {
       return snapArch;
     }
 
-    final result =
-        await io.Process.run('/usr/bin/dpkg', ['--print-architecture']);
+    final result = await io.Process.run('/usr/bin/dpkg', [
+      '--print-architecture',
+    ]);
     return (result.stdout as String).trim();
   }
 

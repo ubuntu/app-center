@@ -23,48 +23,45 @@ class AppTitleBar extends StatelessWidget {
     SnapData snapData, {
     Widget? actions,
     Widget? banner,
-  }) =>
-      AppTitleBar(
-        iconUrl: snapData.snap.iconUrl,
-        title: AppTitle.fromSnap(
-          snapData.snap,
-          large: true,
-        ),
-        actions: actions,
-        banner: banner,
-      );
+  }) => AppTitleBar(
+    iconUrl: snapData.snap.iconUrl,
+    title: AppTitle.fromSnap(
+      snapData.snap,
+      large: true,
+    ),
+    actions: actions,
+    banner: banner,
+  );
 
   factory AppTitleBar.fromDeb(
     DebData debData, {
     Widget? actions,
     Widget? banner,
-  }) =>
-      AppTitleBar(
-        iconWidget: DebAppIcon(
-          component: debData.component,
-          size: _kTitleIconSize,
-        ),
-        title: AppTitle.fromDeb(
-          debData.component,
-          large: true,
-        ),
-        actions: actions,
-        banner: banner,
-      );
+  }) => AppTitleBar(
+    iconWidget: DebAppIcon(
+      component: debData.component,
+      size: _kTitleIconSize,
+    ),
+    title: AppTitle.fromDeb(
+      debData.component,
+      large: true,
+    ),
+    actions: actions,
+    banner: banner,
+  );
 
   factory AppTitleBar.fromLocalDeb(
     LocalDebData localDebData, {
     Widget? actions,
     Widget? banner,
-  }) =>
-      AppTitleBar(
-        title: AppTitle.fromLocalDeb(
-          localDebData,
-          large: true,
-        ),
-        actions: actions,
-        banner: banner,
-      );
+  }) => AppTitleBar(
+    title: AppTitle.fromLocalDeb(
+      localDebData,
+      large: true,
+    ),
+    actions: actions,
+    banner: banner,
+  );
 
   /// [AppTitle] widget for the app.
   final Widget title;

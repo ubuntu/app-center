@@ -69,8 +69,10 @@ class _SnapView extends StatelessWidget {
     final layout = ResponsiveLayout.of(context);
 
     return AppPage(
-      titleBar:
-          AppTitleBar.fromSnap(snapData, actions: _IconRow(snapData: snapData)),
+      titleBar: AppTitleBar.fromSnap(
+        snapData,
+        actions: _IconRow(snapData: snapData),
+      ),
       actionBar: _ActionBar(snapData: snapData),
       infoBar: SnapInfoBar(snapData: snapData),
       body: Column(
@@ -176,7 +178,8 @@ class _PrimaryActionButton extends ConsumerWidget {
         actionLabel: ref
             .watch(activeChangeProvider(snapData.activeChangeId))
             ?.localize(l10n),
-        progress: ref
+        progress:
+            ref
                 .watch(activeChangeProvider(snapData.activeChangeId))
                 ?.progress ??
             0,

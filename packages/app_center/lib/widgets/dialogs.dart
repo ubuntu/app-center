@@ -58,15 +58,14 @@ Future<T?> showYaruInfoDialog<T>({
   required Widget child,
   required YaruInfoType type,
   required List<DialogAction<T>> actions,
-}) =>
-    showDialog(
-      context: context,
-      builder: (context) => _Dialog(
-        type: type,
-        actions: actions,
-        child: child,
-      ),
-    );
+}) => showDialog(
+  context: context,
+  builder: (context) => _Dialog(
+    type: type,
+    actions: actions,
+    child: child,
+  ),
+);
 
 class _Dialog<T> extends StatelessWidget {
   const _Dialog({
@@ -83,8 +82,9 @@ class _Dialog<T> extends StatelessWidget {
     return AlertDialog(
       contentPadding: const EdgeInsets.all(24.0),
       actions: actions.map((action) {
-        final button =
-            action.isPrimary ? PushButton.elevated : PushButton.outlined;
+        final button = action.isPrimary
+            ? PushButton.elevated
+            : PushButton.outlined;
         return button(
           onPressed: () => Navigator.of(context).pop(action.value),
           child: Text(action.label),
@@ -109,28 +109,26 @@ Widget confirmDialogContent(
   BuildContext context, {
   required String title,
   required String message,
-}) =>
-    Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        const SizedBox(height: 8),
-        Text(message),
-      ],
-    );
+}) => Column(
+  mainAxisSize: MainAxisSize.min,
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    Text(
+      title,
+      style: Theme.of(context).textTheme.titleMedium,
+    ),
+    const SizedBox(height: 8),
+    Text(message),
+  ],
+);
 
 Future<void> showChannelSwitchDialog(
   BuildContext context,
   String snapName,
-) =>
-    showDialog(
-      context: context,
-      builder: (_) => ChannelSwitchDialog(snapName: snapName),
-    );
+) => showDialog(
+  context: context,
+  builder: (_) => ChannelSwitchDialog(snapName: snapName),
+);
 
 Future<void> confirmRevertAndRun(
   BuildContext context,
@@ -143,10 +141,13 @@ Future<void> confirmRevertAndRun(
   // Try to compute version/revision information for the dialog title
   String title;
   try {
-    final revisions =
-        await getService<SnapdService>().getLocalRevisions(snapData.name);
-    final current =
-        revisions.firstWhere((r) => r.active, orElse: () => revisions.first);
+    final revisions = await getService<SnapdService>().getLocalRevisions(
+      snapData.name,
+    );
+    final current = revisions.firstWhere(
+      (r) => r.active,
+      orElse: () => revisions.first,
+    );
     final previous = revisions.firstWhere(
       (r) => !r.active && r.revision < current.revision,
       orElse: () => current,

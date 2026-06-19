@@ -93,8 +93,9 @@ void main() {
       fs: MemoryFileSystem.test(),
     );
     await packageKit.activateService();
-    final id = await packageKit
-        .install(const PackageKitPackageId(name: 'foo', version: '1.0'));
+    final id = await packageKit.install(
+      const PackageKitPackageId(name: 'foo', version: '1.0'),
+    );
     verify(
       mockTransaction.installPackages(
         [const PackageKitPackageId(name: 'foo', version: '1.0')],
@@ -178,11 +179,13 @@ void main() {
     );
     await packageKit.activateService();
 
-    final packages = await packageKit
-        .whatProvides('gstreamer1(decoder-video/x-h265)()(64bit)');
+    final packages = await packageKit.whatProvides(
+      'gstreamer1(decoder-video/x-h265)()(64bit)',
+    );
     verify(
-      mockTransaction
-          .whatProvides(['gstreamer1(decoder-video/x-h265)()(64bit)']),
+      mockTransaction.whatProvides([
+        'gstreamer1(decoder-video/x-h265)()(64bit)',
+      ]),
     ).called(1);
     expect(packages, contains(mockInfo));
   });
@@ -199,8 +202,9 @@ void main() {
       fs: MemoryFileSystem.test(),
     );
     await packageKit.activateService();
-    final id = await packageKit
-        .remove(const PackageKitPackageId(name: 'foo', version: '1.0'));
+    final id = await packageKit.remove(
+      const PackageKitPackageId(name: 'foo', version: '1.0'),
+    );
     verify(
       mockTransaction.removePackages(
         [const PackageKitPackageId(name: 'foo', version: '1.0')],
@@ -227,16 +231,18 @@ void main() {
       final mockTransaction = createMockPackageKitTransaction(
         events: [mockInfo],
       );
-      final mockClient =
-          createMockPackageKitClient(transaction: mockTransaction);
+      final mockClient = createMockPackageKitClient(
+        transaction: mockTransaction,
+      );
       final packageKit = PackageKitService(
         dbus: createMockDbusClient(),
         client: mockClient,
         fs: MemoryFileSystem.test(),
       );
       await packageKit.activateService();
-      final info =
-          (await packageKit.resolve(['foo'], architecture: 'amd64'))['foo'];
+      final info = (await packageKit.resolve([
+        'foo',
+      ], architecture: 'amd64'))['foo'];
       verify(mockTransaction.resolve(['foo'])).called(1);
       expect(info, equals(mockInfo));
     });
@@ -264,16 +270,18 @@ void main() {
           ),
         ],
       );
-      final mockClient =
-          createMockPackageKitClient(transaction: mockTransaction);
+      final mockClient = createMockPackageKitClient(
+        transaction: mockTransaction,
+      );
       final packageKit = PackageKitService(
         dbus: createMockDbusClient(),
         client: mockClient,
         fs: MemoryFileSystem.test(),
       );
       await packageKit.activateService();
-      final info =
-          (await packageKit.resolve(['foo'], architecture: 'amd64'))['foo'];
+      final info = (await packageKit.resolve([
+        'foo',
+      ], architecture: 'amd64'))['foo'];
       expect(info!.packageId.arch, equals('amd64'));
     });
 
@@ -291,16 +299,18 @@ void main() {
           ),
         ],
       );
-      final mockClient =
-          createMockPackageKitClient(transaction: mockTransaction);
+      final mockClient = createMockPackageKitClient(
+        transaction: mockTransaction,
+      );
       final packageKit = PackageKitService(
         dbus: createMockDbusClient(),
         client: mockClient,
         fs: MemoryFileSystem.test(),
       );
       await packageKit.activateService();
-      final info =
-          (await packageKit.resolve(['foo'], architecture: 'all'))['foo'];
+      final info = (await packageKit.resolve([
+        'foo',
+      ], architecture: 'all'))['foo'];
       expect(info!.packageId.arch, equals('all'));
     });
   });
@@ -344,8 +354,9 @@ void main() {
       fs: MemoryFileSystem.test(),
     );
     await packageKit.activateService();
-    final id = await packageKit
-        .install(const PackageKitPackageId(name: 'foo', version: '1.0'));
+    final id = await packageKit.install(
+      const PackageKitPackageId(name: 'foo', version: '1.0'),
+    );
     verify(
       mockTransaction.installPackages(
         [const PackageKitPackageId(name: 'foo', version: '1.0')],
@@ -390,13 +401,19 @@ void main() {
 
   test('getDetails for multiple packages', () async {
     final fooDetails = PackageKitDetailsEvent(
-      packageId:
-          const PackageKitPackageId(name: 'foo', version: '1.0', arch: 'amd64'),
+      packageId: const PackageKitPackageId(
+        name: 'foo',
+        version: '1.0',
+        arch: 'amd64',
+      ),
       summary: 'foo summary',
     );
     final barDetails = PackageKitDetailsEvent(
-      packageId:
-          const PackageKitPackageId(name: 'bar', version: '2.0', arch: 'amd64'),
+      packageId: const PackageKitPackageId(
+        name: 'bar',
+        version: '2.0',
+        arch: 'amd64',
+      ),
       summary: 'bar summary',
     );
     final mockTransaction = createMockPackageKitTransaction(
@@ -441,14 +458,20 @@ void main() {
   test('getInstalledPackages', () async {
     const fooPackage = PackageKitPackageEvent(
       info: PackageKitInfo.installed,
-      packageId:
-          PackageKitPackageId(name: 'foo', version: '1.0', arch: 'amd64'),
+      packageId: PackageKitPackageId(
+        name: 'foo',
+        version: '1.0',
+        arch: 'amd64',
+      ),
       summary: 'foo summary',
     );
     const barPackage = PackageKitPackageEvent(
       info: PackageKitInfo.installed,
-      packageId:
-          PackageKitPackageId(name: 'bar', version: '2.0', arch: 'amd64'),
+      packageId: PackageKitPackageId(
+        name: 'bar',
+        version: '2.0',
+        arch: 'amd64',
+      ),
       summary: 'bar summary',
     );
     final mockTransaction = createMockPackageKitTransaction(
@@ -480,8 +503,9 @@ void main() {
       final mockTransaction = createMockPackageKitTransaction(
         start: completer.future,
       );
-      final mockClient =
-          createMockPackageKitClient(transaction: mockTransaction);
+      final mockClient = createMockPackageKitClient(
+        transaction: mockTransaction,
+      );
       final packageKit = PackageKitService(
         dbus: createMockDbusClient(),
         documentsPortal: createMockDocumentsPortal(
@@ -510,8 +534,9 @@ void main() {
       final mockTransaction = createMockPackageKitTransaction(
         events: [mockDetails],
       );
-      final mockClient =
-          createMockPackageKitClient(transaction: mockTransaction);
+      final mockClient = createMockPackageKitClient(
+        transaction: mockTransaction,
+      );
       final packageKit = PackageKitService(
         dbus: createMockDbusClient(),
         documentsPortal: createMockDocumentsPortal(
@@ -532,8 +557,9 @@ void main() {
       final mockTransaction = createMockPackageKitTransaction(
         start: completer.future,
       );
-      final mockClient =
-          createMockPackageKitClient(transaction: mockTransaction);
+      final mockClient = createMockPackageKitClient(
+        transaction: mockTransaction,
+      );
       final packageKit = PackageKitService(
         dbus: createMockDbusClient(),
         documentsPortal: createMockDocumentsPortal(portalUnavailable: true),
@@ -549,69 +575,78 @@ void main() {
       await packageKit.waitTransaction(id);
     });
 
-    test('copies file to runtime dir when GetHostPaths is unavailable',
-        () async {
-      final completer = Completer();
-      final mockTransaction = createMockPackageKitTransaction(
-        start: completer.future,
-      );
-      final mockClient =
-          createMockPackageKitClient(transaction: mockTransaction);
-      final fs = MemoryFileSystem.test();
-      const portalPathForCopy =
-          '/run/user/1000/doc/8cf4b075/test-package_1.0_amd64.deb';
-      const runtimeDir = '/run/user/1000';
-      await fs.file(portalPathForCopy).create(recursive: true);
-      await fs.directory(runtimeDir).create(recursive: true);
-      final packageKit = PackageKitService(
-        dbus: createMockDbusClient(),
-        documentsPortal: createMockDocumentsPortal(
-          docId: '8cf4b075',
-          getHostPathsUnknown: true,
-        ),
-        client: mockClient,
-        fs: fs,
-        runtimeDir: runtimeDir,
-      );
-      await packageKit.activateService();
-      final id = await packageKit.installLocal(portalPathForCopy);
-      verify(
-        mockTransaction.installFiles(
-          argThat(
-            predicate<List<String>>(
-              (paths) =>
-                  paths.length == 1 &&
-                  paths.first.startsWith('$runtimeDir/packagekit-') &&
-                  paths.first.endsWith('test-package_1.0_amd64.deb'),
+    test(
+      'copies file to runtime dir when GetHostPaths is unavailable',
+      () async {
+        final completer = Completer();
+        final mockTransaction = createMockPackageKitTransaction(
+          start: completer.future,
+        );
+        final mockClient = createMockPackageKitClient(
+          transaction: mockTransaction,
+        );
+        final fs = MemoryFileSystem.test();
+        const portalPathForCopy =
+            '/run/user/1000/doc/8cf4b075/test-package_1.0_amd64.deb';
+        const runtimeDir = '/run/user/1000';
+        await fs.file(portalPathForCopy).create(recursive: true);
+        await fs.directory(runtimeDir).create(recursive: true);
+        final packageKit = PackageKitService(
+          dbus: createMockDbusClient(),
+          documentsPortal: createMockDocumentsPortal(
+            docId: '8cf4b075',
+            getHostPathsUnknown: true,
+          ),
+          client: mockClient,
+          fs: fs,
+          runtimeDir: runtimeDir,
+        );
+        await packageKit.activateService();
+        final id = await packageKit.installLocal(portalPathForCopy);
+        verify(
+          mockTransaction.installFiles(
+            argThat(
+              predicate<List<String>>(
+                (paths) =>
+                    paths.length == 1 &&
+                    paths.first.startsWith('$runtimeDir/packagekit-') &&
+                    paths.first.endsWith('test-package_1.0_amd64.deb'),
+              ),
             ),
           ),
-        ),
-      ).called(1);
-      final tempDir = fs
-          .directory(runtimeDir)
-          .listSync()
-          .whereType<Directory>()
-          .firstWhere((d) => d.basename.startsWith('packagekit-'));
-      expect(tempDir.existsSync(), isTrue);
-      completer.complete();
-      await packageKit.waitTransaction(id);
-      // Give onDone callback a chance to run
-      await Future<void>.delayed(Duration.zero);
-      expect(tempDir.existsSync(), isFalse);
-    });
+        ).called(1);
+        final tempDir = fs
+            .directory(runtimeDir)
+            .listSync()
+            .whereType<Directory>()
+            .firstWhere((d) => d.basename.startsWith('packagekit-'));
+        expect(tempDir.existsSync(), isTrue);
+        completer.complete();
+        await packageKit.waitTransaction(id);
+        // Give onDone callback a chance to run
+        await Future<void>.delayed(Duration.zero);
+        expect(tempDir.existsSync(), isFalse);
+      },
+    );
   });
 
   test('getUpdates', () async {
     const fooUpdate = PackageKitPackageEvent(
       info: PackageKitInfo.normal,
-      packageId:
-          PackageKitPackageId(name: 'foo', version: '2.0', arch: 'amd64'),
+      packageId: PackageKitPackageId(
+        name: 'foo',
+        version: '2.0',
+        arch: 'amd64',
+      ),
       summary: 'foo update',
     );
     const barUpdate = PackageKitPackageEvent(
       info: PackageKitInfo.normal,
-      packageId:
-          PackageKitPackageId(name: 'bar', version: '3.0', arch: 'amd64'),
+      packageId: PackageKitPackageId(
+        name: 'bar',
+        version: '3.0',
+        arch: 'amd64',
+      ),
       summary: 'bar update',
     );
     final mockTransaction = createMockPackageKitTransaction(

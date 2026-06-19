@@ -80,11 +80,13 @@ class _DebView extends ConsumerWidget {
                   semanticLabel: l10n.debPageShareSemanticLabel,
                 ),
                 onPressed: () {
-                  final navigationKey =
-                      ref.watch(materialAppNavigatorKeyProvider);
+                  final navigationKey = ref.watch(
+                    materialAppNavigatorKeyProvider,
+                  );
 
-                  ScaffoldMessenger.of(navigationKey.currentContext!)
-                      .showSnackBar(
+                  ScaffoldMessenger.of(
+                    navigationKey.currentContext!,
+                  ).showSnackBar(
                     SnackBar(
                       content: Text(l10n.snapPageShareLinkCopiedMessage),
                     ),
@@ -153,8 +155,8 @@ class _DebActionButtons extends ConsumerWidget {
     final primaryAction = debModel.hasUpdate
         ? DebAction.update
         : debModel.isInstalled
-            ? null
-            : DebAction.install;
+        ? null
+        : DebAction.install;
     final button = switch (primaryAction) {
       DebAction.install || DebAction.update => YaruSplitButton.new,
       _ => YaruSplitButton.outlined,
@@ -170,7 +172,8 @@ class _DebActionButtons extends ConsumerWidget {
     if (debModel.activeTransactionId != null) {
       return ActiveChangeStatus(
         onCancelPressed: DebAction.cancel.callback(ref, debModel),
-        progress: (ref
+        progress:
+            (ref
                     .watch(transactionProvider(debModel.activeTransactionId!))
                     .valueOrNull
                     ?.percentage ??
@@ -223,8 +226,9 @@ class _MoreActionsButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
 
-    final primaryAction =
-        debData.hasUpdate ? DebAction.update : DebAction.install;
+    final primaryAction = debData.hasUpdate
+        ? DebAction.update
+        : DebAction.install;
 
     final secondaryActions = [
       if (debData.hasUpdate) DebAction.update,
@@ -265,16 +269,16 @@ enum DebAction {
   remove;
 
   String label(AppLocalizations l10n) => switch (this) {
-        cancel => l10n.snapActionCancelLabel,
-        install => l10n.snapActionInstallLabel,
-        update => l10n.snapActionUpdateLabel,
-        remove => l10n.snapActionRemoveLabel,
-      };
+    cancel => l10n.snapActionCancelLabel,
+    install => l10n.snapActionInstallLabel,
+    update => l10n.snapActionUpdateLabel,
+    remove => l10n.snapActionRemoveLabel,
+  };
 
   IconData? get icon => switch (this) {
-        remove => YaruIcons.trash,
-        _ => null,
-      };
+    remove => YaruIcons.trash,
+    _ => null,
+  };
 
   VoidCallback? callback(WidgetRef ref, DebData data) {
     final provider = ref.read(debModelProvider(data.id).notifier);

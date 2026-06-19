@@ -69,8 +69,9 @@ void main() {
       findsOneWidget,
     );
   });
-  testWidgets('remove button hidden for compulsory deb on current desktop',
-      (tester) async {
+  testWidgets('remove button hidden for compulsory deb on current desktop', (
+    tester,
+  ) async {
     const compulsoryComponent = AppstreamComponent(
       id: 'gnome-shell',
       type: AppstreamComponentType.desktopApplication,
@@ -100,8 +101,9 @@ void main() {
     expect(find.text(tester.l10n.snapActionRemoveLabel), findsNothing);
   });
 
-  testWidgets('remove button shown for non-compulsory installed deb',
-      (tester) async {
+  testWidgets('remove button shown for non-compulsory installed deb', (
+    tester,
+  ) async {
     const installedPackageInfo = PackageKitPackageInfo(
       info: PackageKitInfo.installed,
       packageId: PackageKitPackageId(name: 'testdeb', version: '1.0'),

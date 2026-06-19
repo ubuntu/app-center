@@ -35,8 +35,8 @@ class LocalDebData extends AppMetadata with _$LocalDebData {
 
   @override
   Map<AppLink, String>? get links => {
-        AppLink.homepage: details.url,
-      };
+    AppLink.homepage: details.url,
+  };
 
   @override
   DateTime? get published => null;

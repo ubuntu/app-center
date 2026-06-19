@@ -23,16 +23,21 @@ void main() {
     );
     final container = createContainer();
     container.read(showLocalSystemAppsProvider.notifier).state = true;
-    final nonRefreshableSnaps =
-        await container.read(filteredLocalSnapsProvider.future);
-    final refreshableSnaps =
-        await container.read(snapUpdatesModelProvider.future);
+    final nonRefreshableSnaps = await container.read(
+      filteredLocalSnapsProvider.future,
+    );
+    final refreshableSnaps = await container.read(
+      snapUpdatesModelProvider.future,
+    );
 
     expect(
       nonRefreshableSnaps,
       equals(
         SnapListState(
-          snaps: [createSnap(name: 'firefox'), createSnap(name: 'thunderbird')],
+          snaps: [
+            createSnap(name: 'firefox'),
+            createSnap(name: 'thunderbird'),
+          ],
         ),
       ),
     );
@@ -51,10 +56,12 @@ void main() {
     );
     final container = createContainer();
     container.read(showLocalSystemAppsProvider.notifier).state = true;
-    final nonRefreshableSnaps =
-        await container.read(filteredLocalSnapsProvider.future);
-    final refreshableSnaps =
-        await container.read(snapUpdatesModelProvider.future);
+    final nonRefreshableSnaps = await container.read(
+      filteredLocalSnapsProvider.future,
+    );
+    final refreshableSnaps = await container.read(
+      snapUpdatesModelProvider.future,
+    );
 
     expect(
       nonRefreshableSnaps,
@@ -107,8 +114,10 @@ void main() {
             size: 50000,
           ),
           'inkscape': PackageKitDetailsEvent(
-            packageId:
-                const PackageKitPackageId(name: 'inkscape', version: '1.2'),
+            packageId: const PackageKitPackageId(
+              name: 'inkscape',
+              version: '1.2',
+            ),
             size: 30000,
           ),
         },

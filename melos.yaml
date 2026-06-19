@@ -8,11 +8,11 @@ command:
   bootstrap:
     enforceLockfile: true
     environment:
-      sdk: '>=3.1.0 <4.0.0'
-      flutter: '>=3.38.1'
+      sdk: '>=3.12.0 <4.0.0'
+      flutter: '>=3.44.2'
 
     dev_dependencies:
-      ubuntu_lints: ^0.4.1
+      ubuntu_lints: ^0.4.2
 
 scripts:
   # build all packages

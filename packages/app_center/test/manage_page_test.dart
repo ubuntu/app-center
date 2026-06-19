@@ -23,9 +23,9 @@ import 'test_utils.mocks.dart';
 
 /// Common overrides to disable deb-related providers for snap-focused tests.
 List<Override> get debProviderOverrides => [
-      localDebsProvider.overrideWith((ref) async => []),
-      localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
-    ];
+  localDebsProvider.overrideWith((ref) async => []),
+  localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
+];
 
 void main() {
   final nonRefreshableSnaps = [
@@ -318,8 +318,9 @@ void main() {
     );
 
     final snapName = refreshableSnaps.first.name;
-    when(snapd.getChanges(name: snapName))
-        .thenAnswer((_) async => [mockChange]);
+    when(
+      snapd.getChanges(name: snapName),
+    ).thenAnswer((_) async => [mockChange]);
 
     final container = createContainer(
       overrides: [
@@ -340,8 +341,9 @@ void main() {
     await container.read(snapModelProvider(snapData.name).future);
     await tester.pump();
 
-    final refreshButton =
-        find.buttonWithText(tester.l10n.snapActionUpdatingLabel);
+    final refreshButton = find.buttonWithText(
+      tester.l10n.snapActionUpdatingLabel,
+    );
     expect(refreshButton, findsOneWidget);
     expect(refreshButton, isDisabled);
 
@@ -488,8 +490,9 @@ void main() {
     );
   });
 
-  testWidgets('compulsory deb with update shows update button but not remove',
-      (tester) async {
+  testWidgets('compulsory deb with update shows update button but not remove', (
+    tester,
+  ) async {
     await resetAllServices();
     registerMockSnapdService(installedSnaps: []);
 
@@ -510,8 +513,9 @@ void main() {
         overrides: [
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
-          localDebsProvider
-              .overrideWith((ref) async => [compulsoryDebWithUpdate]),
+          localDebsProvider.overrideWith(
+            (ref) async => [compulsoryDebWithUpdate],
+          ),
           localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
           currentDesktopsProvider.overrideWithValue(['GNOME']),
         ],
@@ -696,8 +700,9 @@ void main() {
     expect(removeButton, findsOneWidget);
   });
 
-  testWidgets('update all triggers both snap refresh and deb update',
-      (tester) async {
+  testWidgets('update all triggers both snap refresh and deb update', (
+    tester,
+  ) async {
     final debUpdate = createLocalDebInfo(
       id: 'gimp',
       name: 'GIMP',
@@ -748,11 +753,11 @@ void main() {
 
 extension on CommonFinders {
   Finder snapTile(String title) => ancestor(
-        of: text(title),
-        matching: byType(YaruListTile),
-      );
+    of: text(title),
+    matching: byType(YaruListTile),
+  );
   Finder buttonWithText(String text) => ancestor(
-        of: this.text(text),
-        matching: byWidgetPredicate((widget) => widget is ButtonStyleButton),
-      );
+    of: this.text(text),
+    matching: byWidgetPredicate((widget) => widget is ButtonStyleButton),
+  );
 }

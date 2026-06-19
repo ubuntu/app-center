@@ -29,8 +29,9 @@ class _NavigationTile extends StatelessWidget {
     final scope = YaruMasterTileScope.maybeOf(context);
     final isSelected = scope?.selected ?? false;
 
-    final backgroundColor =
-        isSelected ? listTileTheme.selectedTileColor : listTileTheme.tileColor;
+    final backgroundColor = isSelected
+        ? listTileTheme.selectedTileColor
+        : listTileTheme.tileColor;
 
     return YaruMasterTile(
       title: title,
@@ -69,34 +70,34 @@ typedef StorePage = ({
 final pages = <StorePage>[
   (
     tileBuilder: (context, selected) => _NavigationTile(
-          leading: Icon(ExplorePage.icon(selected)),
-          title: Text(ExplorePage.label(context)),
-        ),
+      leading: Icon(ExplorePage.icon(selected)),
+      title: Text(ExplorePage.label(context)),
+    ),
     pageBuilder: (_, title) => YaruDetailPage(
-          appBar: title,
-          body: const ExplorePage(),
-        ),
+      appBar: title,
+      body: const ExplorePage(),
+    ),
   ),
   for (final category in displayedCategories)
     (
       tileBuilder: (context, selected) => _NavigationTile(
-            leading: Icon(category.icon(selected)),
-            title: Text(category.localize(AppLocalizations.of(context))),
-          ),
+        leading: Icon(category.icon(selected)),
+        title: Text(category.localize(AppLocalizations.of(context))),
+      ),
       pageBuilder: (_, title) => YaruDetailPage(
-            appBar: title,
-            body: SearchPage(category: category.categoryName),
-          ),
+        appBar: title,
+        body: SearchPage(category: category.categoryName),
+      ),
     ),
   (
     tileBuilder: (context, selected) => _NavigationTile(
-          leading: Icon(GamesPage.icon(selected)),
-          title: Text(GamesPage.label(context)),
-        ),
+      leading: Icon(GamesPage.icon(selected)),
+      title: Text(GamesPage.label(context)),
+    ),
     pageBuilder: (_, title) => YaruDetailPage(
-          appBar: title,
-          body: const GamesPage(),
-        ),
+      appBar: title,
+      body: const GamesPage(),
+    ),
   ),
   (
     tileBuilder: (context, selected) => const Spacer(),
@@ -104,36 +105,36 @@ final pages = <StorePage>[
   ),
   (
     tileBuilder: (context, selected) => _NavigationTile(
-          leading: Icon(ManagePage.icon(selected)),
-          title: Text(ManagePage.label(context)),
-          trailing: Consumer(
-            builder: (context, ref, child) {
-              final snapUpdates = ref.watch(snapUpdatesModelProvider);
-              final debUpdates = ref.watch(localDebUpdatesModelProvider);
+      leading: Icon(ManagePage.icon(selected)),
+      title: Text(ManagePage.label(context)),
+      trailing: Consumer(
+        builder: (context, ref, child) {
+          final snapUpdates = ref.watch(snapUpdatesModelProvider);
+          final debUpdates = ref.watch(localDebUpdatesModelProvider);
 
-              final snapCount = snapUpdates.valueOrNull?.length ?? 0;
-              final debCount = debUpdates.valueOrNull?.length ?? 0;
-              final totalCount = snapCount + debCount;
+          final snapCount = snapUpdates.valueOrNull?.length ?? 0;
+          final debCount = debUpdates.valueOrNull?.length ?? 0;
+          final totalCount = snapCount + debCount;
 
-              return totalCount > 0
-                  ? Badge(label: Text('$totalCount'))
-                  : const SizedBox.shrink();
-            },
-          ),
-        ),
+          return totalCount > 0
+              ? Badge(label: Text('$totalCount'))
+              : const SizedBox.shrink();
+        },
+      ),
+    ),
     pageBuilder: (_, title) => YaruDetailPage(
-          appBar: title,
-          body: const ManagePage(),
-        ),
+      appBar: title,
+      body: const ManagePage(),
+    ),
   ),
   (
     tileBuilder: (context, selected) => _NavigationTile(
-          leading: Icon(AboutPage.icon(selected)),
-          title: Text(AboutPage.label(context)),
-        ),
+      leading: Icon(AboutPage.icon(selected)),
+      title: Text(AboutPage.label(context)),
+    ),
     pageBuilder: (_, title) => YaruDetailPage(
-          appBar: title,
-          body: const AboutPage(),
-        ),
+      appBar: title,
+      body: const AboutPage(),
+    ),
   ),
 ];
