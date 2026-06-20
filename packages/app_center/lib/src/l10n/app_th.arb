@@ -388,5 +388,7 @@
     "snapCategoryGameContentCreation": "การสร้างเนื้อหา",
     "snapCategoryGameContentCreationSlogan": "การสร้างเนื้อหา",
     "snapCategoryHealthAndFitness": "สุขภาพและฟิตเนส",
-    "snapCategoryMusicAndAudio": "เพลงและเสียง"
+    "snapCategoryMusicAndAudio": "เพลงและเสียง",
+    "appstreamSearchGreylist": "แอป;แอปพลิเคชัน;แพ็กเกจ;โปรแกรม;โปรแกรม;ชุดแอป;เครื่องมือ",
+    "managePagePackageTypeDeb": "เดบ"
 }
