@@ -284,5 +284,109 @@
     "snapCategoryGameDev": "การพัฒนาเกม",
     "snapCategoryGameDevSlogan": "การพัฒนาเกม",
     "snapCategoryGameEmulators": "โปรแกรมจำลอง",
-    "snapCategoryGameEmulatorsSlogan": "โปรแกรมจำลอง"
+    "snapCategoryGameEmulatorsSlogan": "โปรแกรมจำลอง",
+    "snapCategoryPersonalisation": "การปรับแต่งเฉพาะบุคคล",
+    "snapCategoryNewsAndWeather": "ข่าวและสภาพอากาศ",
+    "snapCategoryPhotoAndVideo": "รูปและวิดีโอ",
+    "snapCategoryProductivity": "ผลผลิต",
+    "snapCategoryProductivityButtonLabel": "ค้นพบชุดผลิตภัณฑ์เพิ่มประสิทธิภาพการทำงาน",
+    "snapCategoryProductivitySlogan": "ขีดฆ่าหนึ่งอย่างออกจากรายการสิ่งที่ต้องทำของคุณ",
+    "snapCategoryScience": "วิทยาศาสตร์",
+    "snapCategorySecurity": "ความปลอดภัย",
+    "snapCategoryServerAndCloud": "เซิร์ฟเวอร์และคลาวด์",
+    "snapCategorySocial": "สังคม",
+    "snapCategoryUbuntuDesktop": "Ubuntu เดสก์ท็อป",
+    "snapCategoryUbuntuDesktopSlogan": "เริ่มต้นใช้งานเดสก์ท็อปของคุณ",
+    "snapCategoryUtilities": "ยูทิลิตี้",
+    "snapSortOrderAlphabeticalAsc": "เรียงอักษร (A ถึง Z)",
+    "snapSortOrderAlphabeticalDesc": "เรียงอักษร (Z ถึง A)",
+    "snapSortOrderDownloadSizeAsc": "ขนาด (เล็กไปใหญ่)",
+    "snapSortOrderDownloadSizeDesc": "ขนาด (ใหญ่ไปเล็ก)",
+    "snapSortOrderInstalledSizeAsc": "ขนาด (เล็กไปใหญ่)",
+    "snapSortOrderInstalledSizeDesc": "ขนาด (ใหญ่ไปเล็ก)",
+    "snapSortOrderInstalledDateAsc": "อัปเดตล่าสุด",
+    "snapSortOrderInstalledDateDesc": "อัปเดตล่าสุด",
+    "snapSortOrderRelevance": "ความเกี่ยวข้อง",
+    "snapRatingsBandVeryGood": "ดีมาก",
+    "snapRatingsBandGood": "ดี",
+    "snapRatingsBandNeutral": "กลาง ๆ",
+    "snapRatingsBandPoor": "ต่ำ",
+    "snapRatingsBandVeryPoor": "ต่ำมาก",
+    "snapRatingsBandInsufficientVotes": "คะแนนโหวตไม่เพียงพอ",
+    "snapRatingsVotes": "{n} โหวด",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapReportLabel": "รายงาน {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectReportReasonLabel": "เลือกเหตุผลที่คุณจะรายงาน snap นี้",
+    "snapReportSelectAnOptionLabel": "เลือกตัวเลือก",
+    "snapReportOptionCopyrightViolation": "การละเมิดลิขสิทธิ์หรือเครื่องหมายการค้า",
+    "snapReportOptionStoreViolation": "การละเมิดข้อกำหนดในการให้บริการของ Snap Store",
+    "snapReportDetailsLabel": "โปรดระบุเหตุผลโดยละเอียดเพิ่มเติมในรายงานของคุณ",
+    "snapReportOptionalEmailAddressLabel": "อีเมลของคุณ (ไม่บังคับ)",
+    "snapReportCancelButtonLabel": "ยกเลิก",
+    "snapReportSubmitButtonLabel": "ส่งรายงาน",
+    "snapReportEnterValidEmailError": "ใส่อีเมลที่ถูกต้อง",
+    "snapReportDetailsHint": "ความคิดเห็น...",
+    "snapReportPrivacyAgreementLabel": "ในการส่งแบบฟอร์มนี้ ฉันขอยืนยันว่าฉันได้อ่านและยอมรับข้อกำหนดและเงื่อนไข ",
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "นโยบายความเป็นส่วนตัวของ Canonical ",
+    "snapReportPrivacyAgreementAndLabel": "และ ",
+    "snapReportPrivacyAgreementPrivacyPolicy": "นโยบายความเป็นส่วนตัว",
+    "debPageErrorNoPackageInfo": "ไม่พบข้อมูลของแพ็กเกจ",
+    "debPageDocumentationLinkLabel": "เรียนรู้เกี่ยวกับการจัดการแพ็กเกจ Debian",
+    "debPageShareLinkCopiedMessage": "คัดลอกลิงก์ไปยังคลิปบอร์ดแล้ว",
+    "debPageShareSemanticLabel": "คัดลอกลิงก์",
+    "externalResources": "แหล่งข้อมูลเพิ่มเติม",
+    "externalResourcesButtonLabel": "สำรวจเพิ่มเติม",
+    "allGamesButtonLabel": "เกมทั้งหมด",
+    "externalResourcesDisclaimer": "หมายเหตุ: เครื่องมือเหล่านี้เป็นเครื่องมือภายนอกทั้งหมด ไม่ได้เป็นกรรมสิทธิ์หรือจัดจำหน่ายโดย Canonical",
+    "openInBrowser": "เปิดในเบราว์เซอร์",
+    "installAll": "ติดตั้งทั้งหมด",
+    "localDebWarningTitle": "อาจไม่ปลอดภัย",
+    "localDebWarningBody": "แพ็กเกจนี้จัดทำโดยบุคคลที่สาม การติดตั้งแพ็กเกจจากภายนอก App Center อาจเพิ่มความเสี่ยงต่อระบบและข้อมูลส่วนบุคคลของคุณ โปรดตรวจสอบให้แน่ใจว่าคุณเชื่อถือแหล่งที่มา ก่อนดำเนินการต่อ",
+    "localDebLearnMore": "เรียนรู้เพิ่มเติมเกี่ยวกับแพ็กเกจของบุคคลที่สาม",
+    "localDebDialogMessage": "โปรแกรมนี้จัดทำโดยบุคคลที่สามและอาจเป็นภัยคุกคามต่อระบบและข้อมูลส่วนบุคคลของคุณ",
+    "localDebDialogConfirmation": "คุณแน่ใจหรือที่คุณจะติดตั้งมัน?",
+    "snapdExceptionRunningApps": "เราไม่สามารถอัปเดต {snapName} ได้ เพราะว่ามันกำลังทำงานอยู่",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewCheckStatusLabel": "ตรวจสอบสถานะ",
+    "errorViewNetworkErrorTitle": "เชื่อมต่อกับอินเทอร์เน็ต",
+    "errorViewNetworkErrorDescription": "เราไม่สามารถโหลดเนื้อหาใน App Center ได้หากไม่มีการเชื่อมต่ออินเทอร์เน็ต",
+    "errorViewNetworkErrorAction": "ตรวจสอบการเชื่อมต่อและลองอีกครั้ง",
+    "errorViewServerErrorDescription": "ขออภัย ขณะนี้ App Center กำลังประสบปัญหาอยู่",
+    "errorViewServerErrorAction": "ตรวจสอบสถานะการอัปเดตหรือลองอีกครั้งในภายหลัง",
+    "errorViewUnknownErrorTitle": "มีบางอย่างไม่ถูกต้อง",
+    "errorViewUnknownErrorDescription": "เราขออภัย แต่เราไม่แน่ใจว่าข้อผิดพลาดคืออะไร",
+    "errorViewUnknownErrorAction": "คุณสามารถลองใหม่อีกครั้งได้แล้ว ตรวจสอบสถานะเพื่อดูการอัปเดต หรือลองใหม่อีกครั้งในภายหลัง",
+    "codecPageTitle": "ตัวแปลงสัญญาณสื่อหายไป",
+    "codecPageDescription": "คุณจำเป็นต้องติดตั้งโคเดกต่อไปนี้เพื่อรองรับรูปแบบวิดีโอและเสียงบางประเภท:",
+    "codecProprietaryDisclaimer": "ตัวแปลงสัญญาณบางตัวที่แนะนำอาจเป็นแบบกรรมสิทธิ์เฉพาะของผู้ผลิต",
+    "codecInstallAllButton": "ติดตั้งตัวแปลงสัญญาณที่แนะนำ",
+    "snapCategoryGnomeGames": "เกม GNOME",
+    "snapCategoryGnomeGamesSlogan": "เกม GNOME Suite",
+    "snapCategoryKdeGames": "เกม KDE",
+    "snapCategoryKdeGamesSlogan": "เกม KDE Suite",
+    "snapCategoryGameLaunchers": "ตัวเปิดเกม",
+    "snapCategoryGameLaunchersSlogan": "ตัวเปิดเกม",
+    "snapCategoryGameContentCreation": "การสร้างเนื้อหา",
+    "snapCategoryGameContentCreationSlogan": "การสร้างเนื้อหา",
+    "snapCategoryHealthAndFitness": "สุขภาพและฟิตเนส",
+    "snapCategoryMusicAndAudio": "เพลงและเสียง"
 }
