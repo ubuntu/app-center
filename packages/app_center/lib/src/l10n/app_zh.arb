@@ -257,7 +257,7 @@
         }
     },
     "errorViewServerErrorAction": "检查更新状态或稍后重试。",
-    "errorViewUnknownErrorTitle": "出了点问题",
+    "errorViewUnknownErrorTitle": "出现了一些问题",
     "errorViewNetworkErrorAction": "检查您的连接并重试。",
     "errorViewServerErrorDescription": "很道歉，应用中心目前遇到了问题。",
     "errorViewUnknownErrorAction": "您可以立即重试，检查更新状态，或稍后再试。",
