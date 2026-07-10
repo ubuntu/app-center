@@ -178,6 +178,8 @@
             }
         }
     },
+    "settingsPageLabel": "Settings",
+    "settingsPageAboutLabel": "About",
     "aboutPageLabel": "About",
     "aboutPageVersionLabel": "Version {version}",
     "@aboutPageVersionLabel": {
