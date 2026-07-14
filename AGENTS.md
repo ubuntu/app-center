@@ -59,3 +59,13 @@ In the snap, these are set to `ratings.ubuntu.com:443` with TLS on. See @snap/sn
 # Linting
 
 Uses `ubuntu_lints` — do not add a custom `analysis_options.yaml`.
+
+# Contribution Checklist
+
+Before finishing any code contribution, run the following and ensure all pass:
+
+```bash
+melos test
+melos analyze --fatal-infos
+melos format:exclude
+```

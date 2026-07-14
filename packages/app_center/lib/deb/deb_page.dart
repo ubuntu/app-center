@@ -13,6 +13,7 @@ import 'package:app_center/providers/current_desktops_provider.dart';
 import 'package:app_center/store/store_app.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -90,6 +91,11 @@ class _DebView extends ConsumerWidget {
                     SnackBar(
                       content: Text(l10n.snapPageShareLinkCopiedMessage),
                     ),
+                  );
+                  SemanticsService.sendAnnouncement(
+                    View.of(navigationKey.currentContext!),
+                    l10n.snapPageShareLinkCopiedMessage,
+                    Directionality.of(navigationKey.currentContext!),
                   );
                   Clipboard.setData(
                     ClipboardData(text: debModel.component.website!),
