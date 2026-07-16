@@ -11,6 +11,11 @@ parts:
     plugin: nil
     source: .
     override-build: |
+      if [ $CRAFT_ARCH_BUILD_FOR = riscv64 ]; then
+        FLUTTER_STORAGE_BASE_URL=https://flutter-experimental.ubuntu.com
+        export FLUTTER_STORAGE_BASE_URL
+      fi
+
       bash $CRAFT_PART_SRC/scripts/install-fvm.sh
       fvm install
       fvm flutter doctor
