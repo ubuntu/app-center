@@ -1,4 +1,5 @@
 import 'package:app_center/about/about.dart';
+import 'package:app_center/addons/addons.dart';
 import 'package:app_center/explore/explore.dart';
 import 'package:app_center/games/games.dart';
 import 'package:app_center/l10n.dart';
@@ -125,6 +126,16 @@ final pages = <StorePage>[
     pageBuilder: (_, title) => YaruDetailPage(
       appBar: title,
       body: const ManagePage(),
+    ),
+  ),
+  (
+    tileBuilder: (context, selected) => _NavigationTile(
+      leading: Icon(AddonsPage.icon(selected)),
+      title: Text(AddonsPage.label(context)),
+    ),
+    pageBuilder: (_, title) => YaruDetailPage(
+      appBar: title,
+      body: const AddonsPage(),
     ),
   ),
   (
