@@ -348,5 +348,59 @@
     "codecPageTitle": "Codecs de mídia ausentes",
     "codecPageDescription": "Você precisa instalar os seguintes codecs para lidar com determinados formatos de vídeo e áudio:",
     "codecProprietaryDisclaimer": "Alguns dos codecs recomendados podem ser proprietários.",
-    "codecInstallAllButton": "Instale os codecs recomendados"
+    "codecInstallAllButton": "Instale os codecs recomendados",
+    "managePagePackageTypeLabel": "Tipo do pacote",
+    "managePagePackageTypeAll": "Tudo",
+    "managePagePackageTypeSnap": "Snap",
+    "appUrlTypeContact": "Contato {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Site do desenvolvedor",
+    "appConfinementUnknown": "desconhecido",
+    "appConfinementDevelopment": "Modo desenvolvedor",
+    "appConfinementClassic": "Irrestrito",
+    "appConfinementUnrestricted": "Irrestrito",
+    "appConfinementStrictTooltip": "Esse ap tem acesso limitado aos seus recursos. Você pode controlar suas permissões no aplicativo Ajustes.",
+    "appConfinementClassicTooltip": "Esse aplicativo usa confinamento clássico, concedendo acesso total aos seus recursos. Isso é comum em aplicativos de desenvolvimento.",
+    "appConfinementUnrestrictedTooltip": "Esse aplicativo tem acesso total aos seus recursos.",
+    "appLicenseUnknown": "Desconhecido",
+    "appPublishedUnknown": "Desconhecido",
+    "appMoreActionsSemanticLabel": "Mais ações",
+    "snapActionRevertLabel": "Reverter atualização",
+    "snapActionRevertingLabel": "Revertendo a atualização",
+    "snapRevertConfirmTitle": "Reverter para a versão anterior?",
+    "snapRevertConfirmMessage": "Atualizações automáticas continuarão após a nova versão estar disponível.",
+    "snapRevertConfirmRevert": "Reverta",
+    "snapRevertConfirmCancel": "Cancelar",
+    "snapRevertConfirmTitleWithVersions": "Reverter de {currentVersion} (rev {currentRevision}) para {previousVersion} (rev {previousRevision})?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRevertNoPreviousRevisionMessage": "Não há revisão local anterior disponível para a qual reverter.",
+    "snapActionSwitchChannelTitle": "Troque o canal para {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }
