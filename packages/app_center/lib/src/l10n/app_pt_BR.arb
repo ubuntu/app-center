@@ -33,7 +33,7 @@
     "snapActionInstallLabel": "Instalar",
     "snapPageLicenseLabel": "Licença",
     "snapCategoryPhotoAndVideo": "Foto e Vídeo",
-    "snapPageConfinementLabel": "Confinamento",
+    "snapPageConfinementLabel": "Permissões",
     "snapCategoryMusicAndAudio": "Música e Áudio",
     "aboutPageGitHubLabel": "Encontre-nos no Github",
     "packageFormatSnapLabel": "Pacotes snap",
@@ -41,7 +41,7 @@
     "snapActionInstallingLabel": "Instalando",
     "searchFieldSearchHint": "Procurar por aplicativos",
     "snapCategoryFeatured": "Em Destaque",
-    "managePageSearchFieldSearchHint": "Procurar em seus aplicativos instalados",
+    "managePageSearchFieldSearchHint": "Procurar aplicativos instalados",
     "snapActionCancelLabel": "Cancelar",
     "snapPagePublisherLabel": "Editor",
     "snapPageDescriptionLabel": "Descrição",
@@ -63,7 +63,7 @@
     "managePageShowDetailsLabel": "Mostrar detalhes",
     "snapPageDownloadSizeLabel": "Tamanho da transferência",
     "snapCategoryProductivityButtonLabel": "Descubra a coleção de produtividade",
-    "snapPagePublishedLabel": "Publicado",
+    "snapPagePublishedLabel": "Última atualização",
     "aboutPageLearnMoreLabel": "Saiba mais",
     "snapRatingsBandNeutral": "Neutro",
     "appstreamUrlTypeTranslate": "Traduções",
@@ -79,7 +79,7 @@
     "snapCategoryPersonalisation": "Personalização",
     "aboutPagePublishLabel": "Publicar para a Snap Store",
     "aboutPageContributorTitle": "Projetado e desenvolvido por:",
-    "managePageInstalledAndUpdatedLabel": "Instalado e atualizado",
+    "managePageInstalledAndUpdatedLabel": "Aplicativos instalados",
     "appstreamUrlTypeHomepage": "Página inicial",
     "managePageCheckingForUpdates": "Verificando se há atualizações",
     "managePageUpdatedDaysAgo": "Atualizado {n, plural, =1{{n} dia} other{{n} dias}} atrás",
@@ -402,5 +402,6 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "managePagePackageTypeDeb": "Deb"
 }
