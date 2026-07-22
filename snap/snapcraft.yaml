@@ -12,8 +12,7 @@ parts:
     source: .
     override-build: |
       if [ $CRAFT_ARCH_BUILD_FOR = riscv64 ]; then
-        FLUTTER_STORAGE_BASE_URL=https://flutter-experimental.ubuntu.com
-        export FLUTTER_STORAGE_BASE_URL
+        export FLUTTER_STORAGE_BASE_URL=https://flutter-experimental.ubuntu.com
       fi
 
       bash $CRAFT_PART_SRC/scripts/install-fvm.sh
