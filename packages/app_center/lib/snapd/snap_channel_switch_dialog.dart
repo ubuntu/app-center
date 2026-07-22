@@ -64,10 +64,13 @@ class _SwitchChannelButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
 
+    final isInstalled = snapData.isInstalled;
     final hasChangedChannel =
         snapData.selectedChannel != null &&
-        snapData.localSnap?.trackingChannel != null &&
-        snapData.selectedChannel != snapData.localSnap!.trackingChannel;
+        (!isInstalled ||
+            (snapData.localSnap?.trackingChannel != null &&
+                snapData.selectedChannel !=
+                    snapData.localSnap!.trackingChannel));
     final snapViewModel = ref.watch(snapModelProvider(snapData.name).notifier);
 
     return Row(
@@ -76,7 +79,11 @@ class _SwitchChannelButton extends ConsumerWidget {
         YaruSplitButton.outlined(
           onPressed: hasChangedChannel && snapData.activeChangeId == null
               ? () {
-                  snapViewModel.refresh();
+                  if (isInstalled) {
+                    snapViewModel.refresh();
+                  } else {
+                    snapViewModel.install();
+                  }
                   Navigator.of(context).pop();
                 }
               : null,
@@ -89,7 +96,11 @@ class _SwitchChannelButton extends ConsumerWidget {
                 maintainAnimation: true,
                 maintainState: true,
                 visible: snapData.activeChangeId == null,
-                child: Text(l10n.snapActionSwitchChannelLabel),
+                child: Text(
+                  isInstalled
+                      ? l10n.snapActionSwitchChannelLabel
+                      : l10n.snapActionInstallLabel,
+                ),
               ),
               if (snapData.activeChangeId != null)
                 const SizedBox.square(
