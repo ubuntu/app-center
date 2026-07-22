@@ -418,8 +418,10 @@ class _IconRow extends ConsumerWidget {
               context: context,
               builder: (context) {
                 return ResponsiveLayoutBuilder(
-                  builder: (context) =>
-                      SnapReport(name: snapData.snap.titleOrName),
+                  builder: (context) => SnapReport(
+                    name: snapData.snap.titleOrName,
+                    snapName: snapData.snap.name,
+                  ),
                 );
               },
             );
