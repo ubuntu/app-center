@@ -78,6 +78,11 @@ scripts:
   # run pub upgrade in all packages
   upgrade: melos pub upgrade
 
+  # run the app in dev mode
+  start: >
+    melos exec -c 1 --flutter --scope=app_center -- \
+      fvm flutter run "$@"
+
   # generate protobuf files in app_center_ratings_client
   protoc:
     run: |
