@@ -1,4 +1,5 @@
 import 'package:app_center/appstream/appstream.dart';
+import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/deb/deb_page.dart';
 import 'package:app_center/packagekit/packagekit_service.dart';
 import 'package:app_center/providers/current_desktops_provider.dart';
@@ -68,6 +69,36 @@ void main() {
       find.text('PackageKit error: ${PackageKitError.internalError}'),
       findsOneWidget,
     );
+  });
+
+  testWidgets('error is consumed once shown', (tester) async {
+    createMockPackageKitService(
+      packageInfo: packageInfo,
+      errorStream: Stream.value(
+        const PackageKitServiceError(
+          code: PackageKitError.internalError,
+          details: 'internal error',
+        ),
+      ),
+    );
+    createMockAppstreamService(component: component);
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        child: const DebPage(id: 'testdeb'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('internal error'), findsOneWidget);
+
+    // The error must not stay in the state, otherwise the next rebuild — for
+    // instance the one triggered by starting another install — shows the same
+    // dialog again.
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(DebPage)),
+    );
+    expect(container.read(debModelProvider('testdeb')).value!.error, isNull);
   });
   testWidgets('remove button hidden for compulsory deb on current desktop', (
     tester,

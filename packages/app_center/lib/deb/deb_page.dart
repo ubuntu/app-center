@@ -39,6 +39,9 @@ class DebPage extends ConsumerWidget {
       (_) => debModel.whenOrNull(
         data: (data) {
           if (data.error == null) return;
+          // Consume the error before showing it, so that the rebuilds caused
+          // by the next action don't surface the same dialog again.
+          ref.read(debModelProvider(id).notifier).clearError();
           showError(context, data.error!);
         },
       ),

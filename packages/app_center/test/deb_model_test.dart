@@ -151,5 +151,33 @@ void main() {
     );
   });
 
+  test('clearError', () async {
+    createMockPackageKitService(
+      packageInfo: packageInfo,
+      errorStream: Stream.value(
+        const PackageKitServiceError(
+          code: PackageKitError.noNetwork,
+          details: 'error details',
+        ),
+      ),
+    );
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    final provider = container.listen(debModelProvider('testdeb'), (_, __) {});
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
+    );
+    expect(provider.read().value?.error, isNotNull);
+
+    container.read(debModelProvider('testdeb').notifier).clearError();
+    expect(provider.read().value?.error, isNull);
+
+    // Clearing an already cleared error is a no-op.
+    container.read(debModelProvider('testdeb').notifier).clearError();
+    expect(provider.read().value?.error, isNull);
+  });
+
   // TODO: test `activeTransactionId` and `cancel()`
 }
