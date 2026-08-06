@@ -61,8 +61,10 @@ Future<void> main(List<String> args) async {
 
   final appstream = AppstreamService();
   // Explicitly ignore the future to continue while appstream is reading the
-  // metadata from the disk.
-  unawaited(appstream.init());
+  // metadata from the disk. A failure is already logged by the service and
+  // resurfaces on whichever page actually needs the metadata, so swallow it
+  // here rather than let this fire-and-forget call report it as unhandled.
+  unawaited(appstream.init().catchError((_) {}));
   registerServiceInstance(appstream);
 
   registerService(PackageKitClient.new);

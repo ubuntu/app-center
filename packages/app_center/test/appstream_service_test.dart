@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_center/appstream/appstream.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -71,6 +73,19 @@ void main() {
     components.add(component1);
     await service.init();
     expect(service.cacheSize, 1);
+  });
+
+  test('load that never completes times out', () async {
+    // A catalog entry the parser can't handle kills the isolate the pool
+    // spawned, and `load()` is then left pending forever.
+    when(pool.load()).thenAnswer((_) => Completer<void>().future);
+    service = AppstreamService(
+      pool: pool,
+      loadTimeout: const Duration(milliseconds: 50),
+    );
+
+    await expectLater(service.init(), throwsA(isA<TimeoutException>()));
+    expect(service.initialized, isFalse);
   });
 
   test('search', () async {

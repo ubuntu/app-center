@@ -137,19 +137,42 @@ class _ScoredComponent {
 
 class AppstreamService {
   // TODO: cache AppstreamPool
-  AppstreamService({@visibleForTesting AppstreamPool? pool})
-    : _pool = pool ?? AppstreamPool(),
-      _l10n = _loadL10n() {
+  AppstreamService({
+    @visibleForTesting AppstreamPool? pool,
+    @visibleForTesting this._loadTimeout = _defaultLoadTimeout,
+  }) : _pool = pool ?? AppstreamPool(),
+       _l10n = _loadL10n() {
     PlatformDispatcher.instance.onLocaleChanged = () async {
       await _loader;
       _populateCache();
     };
   }
+
+  /// A catalog load that never returns must not be able to wedge the app.
+  /// Parsing happens in isolates the pool spawns, so a parse that neither
+  /// completes nor throws leaves `load()` pending and everything waiting on
+  /// the metadata waits with it — the manage page sits on a spinner with
+  /// nothing in the log to explain it.
+  ///
+  /// canonical/appstream.dart#44 fixed the case that caused this in practice,
+  /// a catalog entry the parser rejects. The cap stays as a backstop so that
+  /// any other way the load gets stuck fails visibly instead of silently.
+  static const _defaultLoadTimeout = Duration(seconds: 60);
+
   final AppstreamPool _pool;
-  late final Future<void> _loader = _pool.load().then((_) {
+  final Duration _loadTimeout;
+  late final Future<void> _loader = _load();
+
+  Future<void> _load() async {
+    try {
+      await _pool.load().timeout(_loadTimeout);
+    } on Object catch (error, stackTrace) {
+      log.error('Failed to load AppStream metadata', error, stackTrace);
+      rethrow;
+    }
     _populateCache();
     _initialized = true;
-  });
+  }
 
   bool get initialized => _initialized;
   bool _initialized = false;
