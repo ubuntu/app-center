@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
-      - uses: Atsumi3/actions-setup-fvm@0.0.3
+      - uses: ./.github/actions/setup-fvm
       - uses: bluefireteam/melos-action@v2
       - run: melos generate
       - run: melos gen-l10n
@@ -33,7 +33,7 @@ jobs:
           key: ${{ runner.os }}-repo-${{ github.sha }}-generated
           restore-keys: |
             ${{ runner.os }}-repo-
-      - uses: Atsumi3/actions-setup-fvm@0.0.3
+      - uses: ./.github/actions/setup-fvm
       - uses: bluefireteam/melos-action@v2
       - run: melos analyze --fatal-infos
 
@@ -49,7 +49,7 @@ jobs:
           key: ${{ runner.os }}-repo-${{ github.sha }}-generated
           restore-keys: |
             ${{ runner.os }}-repo-
-      - uses: Atsumi3/actions-setup-fvm@0.0.3
+      - uses: ./.github/actions/setup-fvm
       - uses: bluefireteam/melos-action@v2
       - run: melos format:exclude
 
@@ -63,7 +63,7 @@ jobs:
         with:
           path: .
           key: ${{ runner.os }}-repo-${{ github.sha }}-generated
-      - uses: Atsumi3/actions-setup-fvm@0.0.3
+      - uses: ./.github/actions/setup-fvm
       - uses: bluefireteam/melos-action@v2
       - run: melos gen-l10n
       - run: melos sync-desktop-titles
@@ -94,7 +94,7 @@ jobs:
           key: ${{ runner.os }}-repo-${{ github.sha }}-generated
           restore-keys: |
             ${{ runner.os }}-repo-
-      - uses: Atsumi3/actions-setup-fvm@0.0.3
+      - uses: ./.github/actions/setup-fvm
       - uses: bluefireteam/melos-action@v2
       - run: sudo apt update && sudo apt install -y lcov
       - run: melos coverage

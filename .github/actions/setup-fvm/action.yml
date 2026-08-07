@@ -1,0 +1,27 @@
+name: Setup FVM
+description: >
+  Installs the Flutter SDK pinned in .fvmrc, plus FVM itself.
+
+  Equivalent to Atsumi3/actions-setup-fvm, except that FVM is installed from
+  its GitHub release with the repository's own scripts/install-fvm.sh, the same
+  way the snap build does it. That action installs FVM from the
+  leoafarias/fvm Homebrew tap, which Homebrew now ignores because third-party
+  taps require explicit trust, so every job using it fails at setup.
+
+runs:
+  using: composite
+  steps:
+    - uses: kuhnroyal/flutter-fvm-config-action@v2
+      id: fvm-config-action
+
+    - uses: subosito/flutter-action@v2
+      with:
+        cache: true
+        flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
+        channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+
+    - name: Install FVM
+      shell: bash
+      run: |
+        bash "$GITHUB_WORKSPACE/scripts/install-fvm.sh"
+        fvm install
