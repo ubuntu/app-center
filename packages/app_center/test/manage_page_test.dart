@@ -264,11 +264,7 @@ void main() {
 
     await tester.tap(find.text(tester.l10n.managePageUpdateAllLabel));
     verify(
-      snapd.refresh(
-        refreshableSnaps.first.name,
-        channel: anyNamed('channel'),
-        classic: anyNamed('classic'),
-      ),
+      snapd.refreshMany([refreshableSnaps.first.name]),
     ).called(1);
   });
 
@@ -739,15 +735,11 @@ void main() {
 
     // Verify snap refresh was called
     verify(
-      snapd.refresh(
-        refreshableSnaps.first.name,
-        channel: anyNamed('channel'),
-        classic: anyNamed('classic'),
-      ),
+      snapd.refreshMany([refreshableSnaps.first.name]),
     ).called(1);
 
     // Verify deb update was called
-    verify(mockPackageKit.update(any)).called(1);
+    verify(mockPackageKit.updateAll(any)).called(1);
   });
 }
 

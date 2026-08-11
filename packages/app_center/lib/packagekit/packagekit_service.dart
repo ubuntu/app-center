@@ -437,10 +437,13 @@ class PackageKitService {
   }
 
   /// Updates all of the given packages in a single transaction.
-  Future<void> updateAll(Iterable<PackageKitPackageId> packageIds) =>
+  /// Updates all of [packageIds] in a single transaction and returns its id, so
+  /// that callers can wait on it and cancel it. Use [waitTransaction] to wait
+  /// for it to finish.
+  Future<int> updateAll(Iterable<PackageKitPackageId> packageIds) =>
       _createTransaction(
         action: (transaction) => transaction.updatePackages(packageIds),
-      ).then(waitTransaction);
+      );
 
   /// Returns all installed packages on the system.
   Future<List<PackageKitPackageInfo>> getInstalledPackages() async {
