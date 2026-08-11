@@ -9,10 +9,7 @@ environment:
 
 dependencies:
   app_center_ratings_client: ^1.0.0
-  appstream:
-    git:
-      url: https://github.com/canonical/appstream.dart
-      ref: 12c359e5ca0a40f954025f9a42f59799b292fcee
+  appstream: ^0.2.11
   args: ^2.5.0
   cached_network_image: ^3.4.1
   clock: ^1.1.1
