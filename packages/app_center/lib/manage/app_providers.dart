@@ -95,7 +95,6 @@ class InstalledApps extends _$InstalledApps {
 
     void refreshFunction(_, __) => _applyFilters();
     ref.listen(localSnapFilterProvider, refreshFunction);
-    ref.listen(localDebFilterProvider, refreshFunction);
     ref.listen(showLocalSystemAppsProvider, refreshFunction);
     ref.listen(appSortOrderProvider, refreshFunction);
     ref.listen(packageTypeFilterProvider, refreshFunction);
