@@ -21,74 +21,13 @@ class DriversService {
 
   final DBusClient _dbus;
 
-  /// Whether the `com.ubuntu.Drivers` service could be reached.
-  bool get isAvailable => _isAvailable;
-  bool _isAvailable = false;
-
-  /// Explicitly activates the drivers service in case it is not running.
-  Future<void> activateService() async {
-    if (_isAvailable) return;
-
-    final object = DBusRemoteObject(
-      _dbus,
-      name: 'org.freedesktop.DBus',
-      path: DBusObjectPath('/org/freedesktop/DBus'),
-    );
-    try {
-      await object.callMethod(
-        'org.freedesktop.DBus',
-        'StartServiceByName',
-        [DBusString(_serviceName), const DBusUint32(0)],
-      );
-      _isAvailable = true;
-    } on DBusServiceUnknownException catch (_) {
-      log.info(
-        'Could not connect to $_serviceName - marking service as unavailable',
-      );
-    } on DBusMethodResponseException catch (e) {
-      log.info(
-        'Could not start $_serviceName ($e) - marking service as unavailable',
-      );
-    }
-  }
-
   /// Returns the detected devices and their driver packages.
   ///
-  /// Returns an empty list if the service is unavailable (see [isAvailable]).
-  ///
-  /// The `com.ubuntu.Drivers` service exits after a period of inactivity, so
-  /// [isAvailable] being `true` does not guarantee the service is still
-  /// running. If a call finds the service gone (`ServiceUnknown`),
-  /// [isAvailable] is reset to `false` and reactivation is retried once
-  /// before falling back to an empty list.
+  /// Returns an empty list if the service is unreachable.
   ///
   /// Throws [DriversServiceException] if the service reports an error while
   /// building the driver list.
   Future<List<DriverDevice>> getDrivers() async {
-    if (!_isAvailable) {
-      await activateService();
-    }
-    if (!_isAvailable) {
-      return const [];
-    }
-
-    try {
-      return await _callDrivers();
-    } on DBusServiceUnknownException catch (_) {
-      log.info(
-        '$_serviceName is no longer reachable (likely an idle timeout) - '
-        'attempting to reactivate',
-      );
-      _isAvailable = false;
-      await activateService();
-      if (!_isAvailable) {
-        return const [];
-      }
-      return _callDrivers();
-    }
-  }
-
-  Future<List<DriverDevice>> _callDrivers() async {
     final object = DBusRemoteObject(
       _dbus,
       name: _serviceName,
@@ -103,8 +42,9 @@ class DriversService {
         const [],
         replySignature: DBusSignature('aa{sv}'),
       );
-    } on DBusServiceUnknownException {
-      rethrow;
+    } on DBusServiceUnknownException catch (_) {
+      log.info('Could not reach $_serviceName - returning an empty list');
+      return const [];
     } on DBusMethodResponseException catch (e) {
       throw DriversServiceException(e.toString());
     }

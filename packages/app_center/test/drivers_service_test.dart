@@ -7,22 +7,8 @@ import 'package:mockito/mockito.dart';
 
 import 'drivers_service_test.mocks.dart';
 
-const _dBusName = 'org.freedesktop.DBus';
-const _dBusInterface = 'org.freedesktop.DBus';
-const _dBusObjectPath = '/org/freedesktop/DBus';
 const _driversDBusName = 'com.ubuntu.Drivers';
 const _driversDBusObjectPath = '/com/ubuntu/Drivers';
-
-/// The `StartServiceByName` call `DriversService.activateService` makes.
-Future<DBusMethodSuccessResponse> _startServiceByNameCall(
-  MockDBusClient dbus,
-) => dbus.callMethod(
-  path: DBusObjectPath(_dBusObjectPath),
-  destination: _dBusName,
-  name: 'StartServiceByName',
-  interface: _dBusInterface,
-  values: const [DBusString(_driversDBusName), DBusUint32(0)],
-);
 
 /// The `drivers` call `DriversService.getDrivers` makes.
 Future<DBusMethodSuccessResponse> _driversCall(MockDBusClient dbus) =>
@@ -35,45 +21,27 @@ Future<DBusMethodSuccessResponse> _driversCall(MockDBusClient dbus) =>
     );
 
 void main() {
-  group('activate service', () {
-    test('service available', () async {
-      final dbus = _createMockDbusClient();
-      final drivers = DriversService(dbus: dbus);
-      expect(drivers.isAvailable, isFalse);
-      await drivers.activateService();
-      verify(_startServiceByNameCall(dbus)).called(1);
-      expect(drivers.isAvailable, isTrue);
-
-      await drivers.activateService();
-      verifyNever(_startServiceByNameCall(dbus));
-    });
-
-    test('service unavailable', () async {
-      final dbus = MockDBusClient();
-      when(_startServiceByNameCall(dbus)).thenThrow(
+  group('getDrivers', () {
+    test('returns an empty list if the service is unreachable', () async {
+      final dbus = createMockDbusClient();
+      when(_driversCall(dbus)).thenThrow(
         DBusServiceUnknownException(
           DBusMethodErrorResponse('org.freedesktop.DBus.Error.ServiceUnknown'),
         ),
       );
-      final drivers = DriversService(dbus: dbus);
-      expect(drivers.isAvailable, isFalse);
-      await drivers.activateService();
-      expect(drivers.isAvailable, isFalse);
 
+      final drivers = DriversService(dbus: dbus);
       final result = await drivers.getDrivers();
       expect(result, isEmpty);
     });
-  });
 
-  group('getDrivers', () {
     test('parses devices and driver packages', () async {
-      final dbus = _createMockDbusClient();
+      final dbus = createMockDbusClient();
       when(_driversCall(dbus)).thenAnswer(
         (_) async => DBusMethodSuccessResponse([_nvidiaDeviceArray]),
       );
 
       final drivers = DriversService(dbus: dbus);
-      await drivers.activateService();
       final devices = await drivers.getDrivers();
 
       expect(devices, hasLength(1));
@@ -113,7 +81,7 @@ void main() {
     });
 
     test('missing keys fall back to safe defaults', () async {
-      final dbus = _createMockDbusClient();
+      final dbus = createMockDbusClient();
       final emptyDevice = DBusDict.stringVariant({
         'sys_path': const DBusString('/sys/devices/pci0000:00/0000:02:00.0'),
       });
@@ -124,7 +92,6 @@ void main() {
       );
 
       final drivers = DriversService(dbus: dbus);
-      await drivers.activateService();
       final devices = await drivers.getDrivers();
 
       expect(devices, hasLength(1));
@@ -136,7 +103,7 @@ void main() {
     });
 
     test('empty result', () async {
-      final dbus = _createMockDbusClient();
+      final dbus = createMockDbusClient();
       when(_driversCall(dbus)).thenAnswer(
         (_) async => DBusMethodSuccessResponse([
           DBusArray(DBusSignature('a{sv}')),
@@ -144,13 +111,12 @@ void main() {
       );
 
       final drivers = DriversService(dbus: dbus);
-      await drivers.activateService();
       final devices = await drivers.getDrivers();
       expect(devices, isEmpty);
     });
 
     test('cache failure throws DriversServiceException', () async {
-      final dbus = _createMockDbusClient();
+      final dbus = createMockDbusClient();
       when(_driversCall(dbus)).thenThrow(
         DBusMethodResponseException(
           DBusMethodErrorResponse('com.ubuntu.Drivers.Error.CacheFailure'),
@@ -158,74 +124,8 @@ void main() {
       );
 
       final drivers = DriversService(dbus: dbus);
-      await drivers.activateService();
       expect(drivers.getDrivers(), throwsA(isA<DriversServiceException>()));
     });
-
-    test(
-      'reactivates and retries if drivers() reports service unknown after '
-      'the service idled out',
-      () async {
-        final dbus = _createMockDbusClient();
-        var callCount = 0;
-        when(_driversCall(dbus)).thenAnswer((_) async {
-          callCount++;
-          if (callCount == 1) {
-            throw DBusServiceUnknownException(
-              DBusMethodErrorResponse(
-                'org.freedesktop.DBus.Error.ServiceUnknown',
-              ),
-            );
-          }
-          return DBusMethodSuccessResponse([_nvidiaDeviceArray]);
-        });
-
-        final drivers = DriversService(dbus: dbus);
-        await drivers.activateService();
-        expect(drivers.isAvailable, isTrue);
-
-        final devices = await drivers.getDrivers();
-
-        // isAvailable is reset and re-established after a successful retry.
-        expect(drivers.isAvailable, isTrue);
-        expect(devices, hasLength(1));
-        verify(_startServiceByNameCall(dbus)).called(2);
-      },
-    );
-
-    test(
-      'returns an empty list if the service cannot be reactivated after '
-      'idling out',
-      () async {
-        final dbus = MockDBusClient();
-        var callCount = 0;
-        when(_startServiceByNameCall(dbus)).thenAnswer((_) async {
-          callCount++;
-          if (callCount == 1) return DBusMethodSuccessResponse();
-          throw DBusServiceUnknownException(
-            DBusMethodErrorResponse(
-              'org.freedesktop.DBus.Error.ServiceUnknown',
-            ),
-          );
-        });
-        when(_driversCall(dbus)).thenThrow(
-          DBusServiceUnknownException(
-            DBusMethodErrorResponse(
-              'org.freedesktop.DBus.Error.ServiceUnknown',
-            ),
-          ),
-        );
-
-        final drivers = DriversService(dbus: dbus);
-        await drivers.activateService();
-        expect(drivers.isAvailable, isTrue);
-
-        final devices = await drivers.getDrivers();
-
-        expect(devices, isEmpty);
-        expect(drivers.isAvailable, isFalse);
-      },
-    );
   });
 }
 
@@ -311,10 +211,4 @@ final _nvidiaDeviceArray = DBusArray(DBusSignature('a{sv}'), [
 ]);
 
 @GenerateMocks([DBusClient])
-MockDBusClient _createMockDbusClient() {
-  final dbus = MockDBusClient();
-  when(
-    _startServiceByNameCall(dbus),
-  ).thenAnswer((_) async => DBusMethodSuccessResponse());
-  return dbus;
-}
+MockDBusClient createMockDbusClient() => MockDBusClient();
