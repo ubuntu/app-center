@@ -135,11 +135,14 @@ class ManagePage extends ConsumerWidget {
           SliverList.list(
             children: [
               const SizedBox(height: kSectionSpacing),
-              Text(
-                l10n.managePageInstallingLabel(1),
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500),
+              Semantics(
+                header: true,
+                child: Text(
+                  l10n.managePageInstallingLabel(currentlyInstalling.length),
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
               const SizedBox(height: kMarginLarge),
             ],
@@ -162,11 +165,14 @@ class ManagePage extends ConsumerWidget {
         SliverList.list(
           children: [
             const SizedBox(height: kSectionSpacing),
-            Text(
-              l10n.managePageInstalledAndUpdatedLabel,
-              style: Theme.of(
-                context,
-              ).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500),
+            Semantics(
+              header: true,
+              child: Text(
+                l10n.managePageInstalledAndUpdatedLabel,
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500),
+              ),
             ),
             const SizedBox(height: kSpacing),
             _FilterRow(),
@@ -423,97 +429,110 @@ class _FilterRow extends ConsumerWidget {
     final compact =
         ResponsiveLayout.of(context).type == ResponsiveLayoutType.small;
 
-    final searchField = _DebouncedSearchField(
-      hintText: l10n.managePageSearchFieldSearchHint,
+    final searchField = Semantics(
+      container: true,
+      explicitChildNodes: true,
+      child: _DebouncedSearchField(
+        hintText: l10n.managePageSearchFieldSearchHint,
+      ),
     );
 
-    final packageTypeFilter = Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(l10n.managePagePackageTypeLabel),
-        const SizedBox(width: kSpacingSmall),
-        Consumer(
-          builder: (context, ref, child) {
-            final packageType = ref.watch(packageTypeFilterProvider);
-            return IntrinsicWidth(
-              child: Stack(
-                children: [
-                  // Invisible texts to establish fixed width
-                  for (final type in PackageTypeFilter.values)
-                    Visibility(
-                      visible: false,
-                      maintainSize: true,
-                      maintainAnimation: true,
-                      maintainState: true,
-                      child: MenuButtonBuilder<PackageTypeFilter>(
-                        values: const [],
-                        itemBuilder: (context, type, child) =>
-                            const SizedBox.shrink(),
-                        onSelected: (_) {},
-                        expanded: false,
-                        child: Text(type.localize(l10n)),
+    final packageTypeFilter = Semantics(
+      container: true,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(l10n.managePagePackageTypeLabel),
+          const SizedBox(width: kSpacingSmall),
+          Consumer(
+            builder: (context, ref, child) {
+              final packageType = ref.watch(packageTypeFilterProvider);
+              return IntrinsicWidth(
+                child: Stack(
+                  children: [
+                    // Invisible texts to establish fixed width
+                    for (final type in PackageTypeFilter.values)
+                      Visibility(
+                        visible: false,
+                        maintainSize: true,
+                        maintainAnimation: true,
+                        maintainState: true,
+                        child: MenuButtonBuilder<PackageTypeFilter>(
+                          values: const [],
+                          itemBuilder: (context, type, child) =>
+                              const SizedBox.shrink(),
+                          onSelected: (_) {},
+                          expanded: false,
+                          child: Text(type.localize(l10n)),
+                        ),
                       ),
+                    // Actual visible dropdown
+                    MenuButtonBuilder<PackageTypeFilter>(
+                      values: PackageTypeFilter.values,
+                      itemBuilder: (context, type, child) =>
+                          Text(type.localize(l10n)),
+                      onSelected: (value) =>
+                          ref.read(packageTypeFilterProvider.notifier).state =
+                              value,
+                      expanded: false,
+                      child: Text(packageType.localize(l10n)),
                     ),
-                  // Actual visible dropdown
-                  MenuButtonBuilder<PackageTypeFilter>(
-                    values: PackageTypeFilter.values,
-                    itemBuilder: (context, type, child) =>
-                        Text(type.localize(l10n)),
-                    onSelected: (value) =>
-                        ref.read(packageTypeFilterProvider.notifier).state =
-                            value,
-                    expanded: false,
-                    child: Text(packageType.localize(l10n)),
-                  ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+
+    final showSystemApps = Semantics(
+      container: true,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(l10n.managePageShowSystemSnapsLabel),
+          const SizedBox(width: kSpacingSmall),
+          YaruSwitch(
+            value: ref.watch(showLocalSystemAppsProvider),
+            onChanged: (value) {
+              ref.read(showLocalSystemAppsProvider.notifier).state = value;
+            },
+          ),
+        ],
+      ),
+    );
+
+    final sortBy = Semantics(
+      container: true,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(l10n.searchPageSortByLabel),
+          const SizedBox(width: kSpacingSmall),
+          Consumer(
+            builder: (context, ref, child) {
+              final sortOrder = ref.watch(appSortOrderProvider);
+              return MenuButtonBuilder<AppSortOrder>(
+                values: const [
+                  AppSortOrder.alphabeticalAsc,
+                  AppSortOrder.alphabeticalDesc,
+                  AppSortOrder.installedDateAsc,
+                  AppSortOrder.installedDateDesc,
+                  AppSortOrder.installedSizeAsc,
+                  AppSortOrder.installedSizeDesc,
                 ],
-              ),
-            );
-          },
-        ),
-      ],
-    );
-
-    final showSystemApps = Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(l10n.managePageShowSystemSnapsLabel),
-        const SizedBox(width: kSpacingSmall),
-        YaruSwitch(
-          value: ref.watch(showLocalSystemAppsProvider),
-          onChanged: (value) {
-            ref.read(showLocalSystemAppsProvider.notifier).state = value;
-          },
-        ),
-      ],
-    );
-
-    final sortBy = Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(l10n.searchPageSortByLabel),
-        const SizedBox(width: kSpacingSmall),
-        Consumer(
-          builder: (context, ref, child) {
-            final sortOrder = ref.watch(appSortOrderProvider);
-            return MenuButtonBuilder<AppSortOrder>(
-              values: const [
-                AppSortOrder.alphabeticalAsc,
-                AppSortOrder.alphabeticalDesc,
-                AppSortOrder.installedDateAsc,
-                AppSortOrder.installedDateDesc,
-                AppSortOrder.installedSizeAsc,
-                AppSortOrder.installedSizeDesc,
-              ],
-              itemBuilder: (context, sortOrder, child) =>
-                  Text(sortOrder.localize(l10n)),
-              onSelected: (value) =>
-                  ref.read(appSortOrderProvider.notifier).state = value,
-              expanded: false,
-              child: Text(sortOrder.localize(l10n)),
-            );
-          },
-        ),
-      ],
+                itemBuilder: (context, sortOrder, child) =>
+                    Text(sortOrder.localize(l10n)),
+                onSelected: (value) =>
+                    ref.read(appSortOrderProvider.notifier).state = value,
+                expanded: false,
+                child: Text(sortOrder.localize(l10n)),
+              );
+            },
+          ),
+        ],
+      ),
     );
 
     if (compact) {
