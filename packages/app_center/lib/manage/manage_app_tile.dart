@@ -107,20 +107,24 @@ class ManageAppTile extends ConsumerWidget {
       ),
       child: YaruListTile(
         key: ValueKey(app.id),
+        hasFocusBorder: false,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         leading: MergeSemantics(
-          child: Semantics(
-            label: tileSemanticLabel,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(20),
-              onTap: () => _navigateToApp(context),
-              child: ExcludeSemantics(
-                child: switch (app) {
-                  ManageDebData(debInfo: final debInfo)
-                      when debInfo.component != null =>
-                    DebAppIcon(component: debInfo.component!, size: 40),
-                  _ => AppIcon(iconUrl: app.iconUrl, size: 40),
-                },
+          child: YaruFocusBorder.primary(
+            borderRadius: BorderRadius.circular(20),
+            child: Semantics(
+              label: tileSemanticLabel,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(20),
+                onTap: () => _navigateToApp(context),
+                child: ExcludeSemantics(
+                  child: switch (app) {
+                    ManageDebData(debInfo: final debInfo)
+                        when debInfo.component != null =>
+                      DebAppIcon(component: debInfo.component!, size: 40),
+                    _ => AppIcon(iconUrl: app.iconUrl, size: 40),
+                  },
+                ),
               ),
             ),
           ),

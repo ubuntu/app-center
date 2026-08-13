@@ -260,10 +260,24 @@ class _AccessibleActionButton extends StatelessWidget {
     return MergeSemantics(
       child: Semantics(
         label: semanticLabel,
-        child: OutlinedButton(
-          onPressed: onPressed,
-          child: ExcludeSemantics(
-            child: Text(label),
+        child: YaruFocusBorder.primary(
+          child: OutlinedButton(
+            onPressed: onPressed,
+            style: ButtonStyle(
+              overlayColor: WidgetStateProperty.resolveWith((states) {
+                // Suppress the Material focused background; the Yaru ring
+                // is the sole focus indicator. Keep hover and press overlays.
+                if (states.contains(WidgetState.focused) &&
+                    !states.contains(WidgetState.hovered) &&
+                    !states.contains(WidgetState.pressed)) {
+                  return Colors.transparent;
+                }
+                return null;
+              }),
+            ),
+            child: ExcludeSemantics(
+              child: Text(label),
+            ),
           ),
         ),
       ),
