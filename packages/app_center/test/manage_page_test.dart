@@ -3,6 +3,7 @@ import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/manage/local_deb_updates_model.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage.dart';
+import 'package:app_center/manage/manage_app_actions.dart';
 import 'package:app_center/manage/quit_to_update_notice.dart';
 import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/providers/current_desktops_provider.dart';
@@ -698,6 +699,40 @@ void main() {
       scrollable: scrollable,
     );
     expect(removeButton, findsOneWidget);
+  });
+
+  testWidgets('deb uninstall in progress labels cancel button', (
+    tester,
+  ) async {
+    final activeDeb = createLocalDebInfo(
+      id: 'gimp',
+      name: 'GIMP',
+      packageName: 'gimp',
+      version: '2.10',
+      activeTransactionId: 42,
+    );
+    final semantics = tester.ensureSemantics();
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          currentDesktopsProvider.overrideWithValue(['GNOME']),
+          debTransactionProgressProvider.overrideWith((ref, transactionId) {
+            return 0.25;
+          }),
+        ],
+        child: ManageAppActions(app: ManageAppData.localDeb(debInfo: activeDeb)),
+      ),
+    );
+    await tester.pump();
+
+    final cancelLabel = tester.l10n.managePageCancelActionSemanticLabel(
+      tester.l10n.snapActionRemovingLabel,
+      ManageAppData.localDeb(debInfo: activeDeb).name,
+    );
+
+    expect(find.bySemanticsLabel(cancelLabel), findsOneWidget);
+    semantics.dispose();
   });
 
   testWidgets('update all triggers both snap refresh and deb update', (
