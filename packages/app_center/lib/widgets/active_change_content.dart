@@ -25,7 +25,7 @@ class ActiveChangeStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasCustomLabel = appName != null;
+    final hasCustomLabel = appName != null && actionLabel != null;
     final row = Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -54,7 +54,7 @@ class ActiveChangeStatus extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return Semantics(
       label: l10n.managePageCancelActionSemanticLabel(
-        actionLabel ?? l10n.snapActionCancelLabel,
+        actionLabel!,
         appName!,
       ),
       child: row,
