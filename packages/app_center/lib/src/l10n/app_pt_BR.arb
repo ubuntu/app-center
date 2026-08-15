@@ -403,5 +403,7 @@
             }
         }
     },
-    "managePagePackageTypeDeb": "Deb"
+    "managePagePackageTypeDeb": "Deb",
+    "appUrlTypeUnknown": "Link",
+    "appConfinementStrict": "Em ambiente isolado"
 }
