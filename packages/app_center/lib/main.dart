@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/config.dart';
+import 'package:app_center/drivers/drivers.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/packagekit/packagekit.dart';
@@ -68,6 +69,10 @@ Future<void> main(List<String> args) async {
   registerService(PackageKitClient.new);
   registerService(
     PackageKitService.new,
+    dispose: (service) => service.dispose(),
+  );
+  registerService(
+    DriversService.new,
     dispose: (service) => service.dispose(),
   );
   registerService(
