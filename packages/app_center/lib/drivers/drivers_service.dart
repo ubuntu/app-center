@@ -10,6 +10,15 @@ class DriversServiceException implements Exception {
   String toString() => 'DriversServiceException: $message';
 }
 
+/// Thrown by [DriversService.getDrivers] when the `com.ubuntu.Drivers`
+/// D-Bus service can't be reached at all, as opposed to it reporting no
+/// devices. This typically means the installed snapd doesn't ship driver
+/// management support yet.
+class DriversServiceUnavailableException implements Exception {
+  @override
+  String toString() => 'DriversServiceUnavailableException';
+}
+
 const _serviceName = 'com.ubuntu.Drivers';
 final _objectPath = DBusObjectPath('/com/ubuntu/Drivers');
 
@@ -23,7 +32,8 @@ class DriversService {
 
   /// Returns the detected devices and their driver packages.
   ///
-  /// Returns an empty list if the service is unreachable.
+  /// Throws [DriversServiceUnavailableException] if the service can't be
+  /// reached at all (e.g. an older snapd without driver management support).
   ///
   /// Throws [DriversServiceException] if the service reports an error while
   /// building the driver list.
@@ -43,8 +53,8 @@ class DriversService {
         replySignature: DBusSignature('aa{sv}'),
       );
     } on DBusServiceUnknownException catch (_) {
-      log.info('Could not reach $_serviceName - returning an empty list');
-      return const [];
+      log.info('Could not reach $_serviceName');
+      throw DriversServiceUnavailableException();
     } on DBusMethodResponseException catch (e) {
       throw DriversServiceException(e.toString());
     }

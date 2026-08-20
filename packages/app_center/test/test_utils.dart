@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:app_center/appstream/appstream.dart';
+import 'package:app_center/drivers/drivers.dart';
 import 'package:app_center/gstreamer/gstreamer_model.dart';
 import 'package:app_center/gstreamer/gstreamer_resource.dart';
 import 'package:app_center/l10n.dart';
@@ -405,6 +406,7 @@ MockPackageKitService createMockPackageKitService({
   List<PackageKitPackageEvent>? availableUpdates,
   Map<String, PackageKitDetailsEvent>? packageDetailsMany,
   List<PackageKitPackageEvent>? installedPackages,
+  PackageKitServiceError? lastError,
 }) {
   final packageKit = MockPackageKitService();
   when(packageKit.activateService()).thenAnswer((_) async {});
@@ -453,6 +455,15 @@ MockPackageKitService createMockPackageKitService({
   when(packageKit.remove(any)).thenAnswer((_) async => transactionId);
   when(packageKit.errorStream).thenAnswer((_) => errorStream);
   when(
+    packageKit.taggedErrorStream,
+  ).thenAnswer((_) => errorStream.map((e) => (id: transactionId, error: e)));
+  when(
+    packageKit.errorsFor(any),
+  ).thenAnswer((_) => errorStream);
+  when(packageKit.requiresRestartFor(any)).thenReturn(false);
+  when(packageKit.lastErrorFor(any)).thenReturn(lastError);
+  when(packageKit.cancelTransaction(any)).thenAnswer((_) async {});
+  when(
     packageKit.waitTransaction(any),
   ).thenAnswer((_) async => waitTransaction);
   when(packageKit.getUpdates()).thenAnswer((_) async => availableUpdates ?? []);
@@ -463,6 +474,24 @@ MockPackageKitService createMockPackageKitService({
   registerMockService<PackageKitService>(packageKit);
   addTearDown(unregisterService<PackageKitService>);
   return packageKit;
+}
+
+@GenerateMocks([DriversService])
+MockDriversService registerMockDriversService({
+  List<DriverDevice>? devices,
+  bool unavailable = false,
+}) {
+  final drivers = MockDriversService();
+  if (unavailable) {
+    when(
+      drivers.getDrivers(),
+    ).thenThrow(DriversServiceUnavailableException());
+  } else {
+    when(drivers.getDrivers()).thenAnswer((_) async => devices ?? []);
+  }
+  registerMockService<DriversService>(drivers);
+  addTearDown(unregisterService<DriversService>);
+  return drivers;
 }
 
 @GenerateMocks([

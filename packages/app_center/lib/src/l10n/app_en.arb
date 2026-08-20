@@ -392,5 +392,33 @@
     "codecInstallAllButton": "Install recommended codecs",
     "addonsPageLabel": "Add-ons",
     "addonsPageAdditionalDriversTitle": "Additional drivers",
-    "addonsPageAdditionalDriversDescription": "Add better support for graphics cards and other hardware"
+    "addonsPageAdditionalDriversDescription": "Add better support for graphics cards and other hardware",
+    "driversPageDescription": "Proprietary drivers have private code that Ubuntu developers can't review or improve. Security and other updates are dependent on the driver vendor.",
+    "driversPageSectionUpdateAvailable": "Update available",
+    "driversPageSectionAvailable": "Available",
+    "driversPageSectionInstalled": "Installed",
+    "driversPageDeviceClassGraphics": "Graphics",
+    "driversPageDeviceClassNetwork": "Network",
+    "driversPageDeviceClassCamera": "Camera",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Storage",
+    "driversPageDeviceClassAudio": "Audio",
+    "driversPageDeviceClassOther": "Other",
+    "driversPageBranchProduction": "Production",
+    "driversPageBranchLts": "Long term support",
+    "driversPageBranchNewFeature": "New features",
+    "driversPageVersionLabel": "Version {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartLabel": "Restart",
+    "driversPageRestartRequiredMessage": "Restart your computer to finish applying this driver change.",
+    "driversPageErrorLabel": "Error",
+    "driversPageRetryLabel": "Retry",
+    "driversPageNoDriversFoundMessage": "Using built-in drivers. No additional drivers found.",
+    "driversPageUnsupportedMessage": "Your snapd version does not support driver management. Please update snapd."
 }
