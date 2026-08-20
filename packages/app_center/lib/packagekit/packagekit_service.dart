@@ -17,9 +17,17 @@ typedef PackageKitPackageInfo = PackageKitPackageEvent;
 typedef PackageKitServiceError = PackageKitErrorCodeEvent;
 typedef PackageKitPackageDetails = PackageKitDetailsEvent;
 
+/// A [PackageKitServiceError] tagged with the internal transaction id that
+/// produced it.
+typedef PackageKitTaggedError = ({int id, PackageKitServiceError error});
+
 class PackageKitTransactionError implements Exception {
-  PackageKitTransactionError(this.message);
+  PackageKitTransactionError(this.message, {this.exit});
   final String message;
+
+  /// The exit reason, if known. Distinguishes a user-initiated cancellation
+  /// ([PackageKitExit.cancelled]) from a genuine failure.
+  final PackageKitExit? exit;
 
   @override
   String toString() => 'PackageKitTransactionError: $message';
@@ -47,10 +55,35 @@ class PackageKitService {
   bool get isAvailable => _isAvailable;
   bool _isAvailable = false;
 
+  /// Errors from every transaction, without attribution to a specific
+  /// transaction. Prefer [errorsFor] when the caller knows its transaction id.
   Stream<PackageKitServiceError> get errorStream =>
-      _errorStreamController.stream;
-  final StreamController<PackageKitServiceError> _errorStreamController =
+      taggedErrorStream.map((tagged) => tagged.error);
+
+  /// Errors from every transaction, tagged with the internal transaction id
+  /// that produced them.
+  Stream<PackageKitTaggedError> get taggedErrorStream =>
+      _taggedErrorStreamController.stream;
+  final StreamController<PackageKitTaggedError> _taggedErrorStreamController =
       StreamController.broadcast();
+
+  /// Errors produced by the transaction identified by [id].
+  Stream<PackageKitServiceError> errorsFor(int id) => taggedErrorStream
+      .where((tagged) => tagged.id == id)
+      .map((tagged) => tagged.error);
+
+  /// The last error reported by the transaction identified by [id], if any.
+  /// Unlike [errorsFor], safe to call after the transaction has finished.
+  ///
+  /// Entries are never removed (same as [_restartRequired]) - bounded by the
+  /// number of transactions created in a session.
+  PackageKitServiceError? lastErrorFor(int id) => _lastErrors[id];
+  final Map<int, PackageKitServiceError> _lastErrors = {};
+
+  /// Whether the transaction identified by [id] required a restart to take
+  /// effect. Only meaningful after the transaction has finished.
+  bool requiresRestartFor(int id) => _restartRequired[id] ?? false;
+  final Map<int, bool> _restartRequired = {};
 
   // Keep track of active transactions.
   // TODO: Implement `GetTransactionList` in packagekit.dart instead.
@@ -117,10 +150,16 @@ class PackageKitService {
           log.warning('onDone callback threw during transaction cleanup: $e');
         }
       } else if (event is PackageKitErrorCodeEvent) {
-        _errorStreamController.add(event);
+        _lastErrors[id] = event;
+        _taggedErrorStreamController.add((id: id, error: event));
         log.error(
           'Received PackageKitErrorCodeEvent (${event.code}): ${event.details}',
         );
+      } else if (event is PackageKitRequireRestartEvent) {
+        if (event.type != PackageKitRestart.none &&
+            event.type != PackageKitRestart.unknown) {
+          _restartRequired[id] = true;
+        }
       }
     });
     try {
@@ -156,6 +195,7 @@ class PackageKitService {
             completer.completeError(
               PackageKitTransactionError(
                 'Transaction $id finished with exit code: ${event.exit}',
+                exit: event.exit,
               ),
             );
           }
@@ -461,7 +501,7 @@ class PackageKitService {
   Future<void> dispose() async {
     await _dbus.close();
     await _client.close();
-    await _errorStreamController.close();
+    await _taggedErrorStreamController.close();
     await _desktopPortalClient?.close();
   }
 }

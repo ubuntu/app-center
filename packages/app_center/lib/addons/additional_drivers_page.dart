@@ -1,3 +1,4 @@
+import 'package:app_center/drivers/drivers.dart';
 import 'package:app_center/l10n.dart';
 import 'package:flutter/material.dart';
 
@@ -9,11 +10,6 @@ class AdditionalDriversPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        AppLocalizations.of(context).addonsPageAdditionalDriversTitle,
-        style: Theme.of(context).textTheme.headlineSmall,
-      ),
-    );
+    return const DriversPage();
   }
 }

@@ -22,7 +22,7 @@ Future<DBusMethodSuccessResponse> _driversCall(MockDBusClient dbus) =>
 
 void main() {
   group('getDrivers', () {
-    test('returns an empty list if the service is unreachable', () async {
+    test('throws DriversServiceUnavailableException if unreachable', () async {
       final dbus = createMockDbusClient();
       when(_driversCall(dbus)).thenThrow(
         DBusServiceUnknownException(
@@ -31,8 +31,10 @@ void main() {
       );
 
       final drivers = DriversService(dbus: dbus);
-      final result = await drivers.getDrivers();
-      expect(result, isEmpty);
+      expect(
+        drivers.getDrivers(),
+        throwsA(isA<DriversServiceUnavailableException>()),
+      );
     });
 
     test('parses devices and driver packages', () async {
