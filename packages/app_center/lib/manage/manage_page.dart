@@ -215,11 +215,57 @@ class ManagePage extends ConsumerWidget {
   }
 }
 
-class _ActionButtons extends ConsumerWidget {
+class _ActionButtons extends ConsumerStatefulWidget {
   const _ActionButtons();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_ActionButtons> createState() => _ActionButtonsState();
+}
+
+class _ActionButtonsState extends ConsumerState<_ActionButtons> {
+  final _checkForUpdatesFocusNode = FocusNode();
+  final _updateAllFocusNode = FocusNode();
+  final _cancelFocusNode = FocusNode();
+  var _checkForUpdatesFocused = false;
+  var _updateAllFocused = false;
+  var _cancelFocused = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkForUpdatesFocusNode.addListener(_onCheckForUpdatesFocusChange);
+    _updateAllFocusNode.addListener(_onUpdateAllFocusChange);
+    _cancelFocusNode.addListener(_onCancelFocusChange);
+  }
+
+  @override
+  void dispose() {
+    _checkForUpdatesFocusNode
+      ..removeListener(_onCheckForUpdatesFocusChange)
+      ..dispose();
+    _updateAllFocusNode
+      ..removeListener(_onUpdateAllFocusChange)
+      ..dispose();
+    _cancelFocusNode
+      ..removeListener(_onCancelFocusChange)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _onCheckForUpdatesFocusChange() {
+    setState(() => _checkForUpdatesFocused = _checkForUpdatesFocusNode.hasFocus);
+  }
+
+  void _onUpdateAllFocusChange() {
+    setState(() => _updateAllFocused = _updateAllFocusNode.hasFocus);
+  }
+
+  void _onCancelFocusChange() {
+    setState(() => _cancelFocused = _cancelFocusNode.hasFocus);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final appUpdatesModel = ref.watch(appUpdatesProvider);
     final isRefreshingAll = ref
@@ -250,7 +296,9 @@ class _ActionButtons extends ConsumerWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         YaruFocusBorder.primary(
+          focused: _checkForUpdatesFocused,
           child: OutlinedButton(
+            focusNode: _checkForUpdatesFocusNode,
             onPressed:
                 isUpdatingAll ||
                     appUpdatesModel.hasError ||
@@ -294,7 +342,9 @@ class _ActionButtons extends ConsumerWidget {
           ),
         ),
         YaruFocusBorder.primary(
+          focused: _updateAllFocused,
           child: ElevatedButton(
+            focusNode: _updateAllFocusNode,
             onPressed: ref
                 .watch(appUpdatesProvider)
                 .whenOrNull(
@@ -340,7 +390,9 @@ class _ActionButtons extends ConsumerWidget {
         ),
         if (isUpdatingAll)
           YaruFocusBorder.primary(
+            focused: _cancelFocused,
             child: OutlinedButton(
+              focusNode: _cancelFocusNode,
               onPressed: () {
                 ref.read(snapUpdatesModelProvider.notifier).cancelRefreshAll();
                 ref.read(localDebUpdatesModelProvider.notifier).cancelAll();
