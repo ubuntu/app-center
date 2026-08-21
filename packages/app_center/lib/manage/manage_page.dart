@@ -249,22 +249,23 @@ class _ActionButtons extends ConsumerWidget {
       runSpacing: 10,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        PushButton.outlined(
-          onPressed:
-              isUpdatingAll ||
-                  appUpdatesModel.hasError ||
-                  isLoading ||
-                  isSilentlyCheckingUpdates
-              ? null
-              : () {
-                  ref
-                      .read(snapUpdatesModelProvider.notifier)
-                      .silentUpdatesCheck();
-                  ref
-                      .read(localDebUpdatesModelProvider.notifier)
-                      .silentUpdatesCheck();
-                },
-          child: Row(
+        YaruFocusBorder.primary(
+          child: PushButton.outlined(
+            onPressed:
+                isUpdatingAll ||
+                    appUpdatesModel.hasError ||
+                    isLoading ||
+                    isSilentlyCheckingUpdates
+                ? null
+                : () {
+                    ref
+                        .read(snapUpdatesModelProvider.notifier)
+                        .silentUpdatesCheck();
+                    ref
+                        .read(localDebUpdatesModelProvider.notifier)
+                        .silentUpdatesCheck();
+                  },
+            child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               isSilentlyCheckingUpdates
@@ -280,27 +281,29 @@ class _ActionButtons extends ConsumerWidget {
               ),
             ],
           ),
+          ),
         ),
-        PushButton.elevated(
-          onPressed: ref
-              .watch(appUpdatesProvider)
-              .whenOrNull(
-                data: (updates) =>
-                    updates.isNotEmpty && !isUpdatingAll && hasInternet
-                    ? () {
-                        ref
-                            .read(snapUpdatesModelProvider.notifier)
-                            .refreshAll();
-                        ref
-                            .read(localDebUpdatesModelProvider.notifier)
-                            .updateAll();
-                      }
-                    : null,
-              ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(YaruIcons.download),
+        YaruFocusBorder.primary(
+          child: PushButton.elevated(
+            onPressed: ref
+                .watch(appUpdatesProvider)
+                .whenOrNull(
+                  data: (updates) =>
+                      updates.isNotEmpty && !isUpdatingAll && hasInternet
+                      ? () {
+                          ref
+                              .read(snapUpdatesModelProvider.notifier)
+                              .refreshAll();
+                          ref
+                              .read(localDebUpdatesModelProvider.notifier)
+                              .updateAll();
+                        }
+                      : null,
+                ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(YaruIcons.download),
               const SizedBox(width: 8),
               Flexible(
                 child: Text(
@@ -313,17 +316,20 @@ class _ActionButtons extends ConsumerWidget {
               ),
             ],
           ),
+          ),
         ),
         if (isUpdatingAll)
-          PushButton.outlined(
-            onPressed: () {
-              ref.read(snapUpdatesModelProvider.notifier).cancelRefreshAll();
-              ref.read(localDebUpdatesModelProvider.notifier).cancelAll();
-            },
-            child: Text(
-              l10n.snapActionCancelLabel,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+          YaruFocusBorder.primary(
+            child: PushButton.outlined(
+              onPressed: () {
+                ref.read(snapUpdatesModelProvider.notifier).cancelRefreshAll();
+                ref.read(localDebUpdatesModelProvider.notifier).cancelAll();
+              },
+              child: Text(
+                l10n.snapActionCancelLabel,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
       ],
