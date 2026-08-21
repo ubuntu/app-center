@@ -250,7 +250,7 @@ class _ActionButtons extends ConsumerWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         YaruFocusBorder.primary(
-          child: PushButton.outlined(
+          child: OutlinedButton(
             onPressed:
                 isUpdatingAll ||
                     appUpdatesModel.hasError ||
@@ -265,26 +265,36 @@ class _ActionButtons extends ConsumerWidget {
                         .read(localDebUpdatesModelProvider.notifier)
                         .silentUpdatesCheck();
                   },
+            style: ButtonStyle(
+              overlayColor: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.focused) &&
+                    !states.contains(WidgetState.hovered) &&
+                    !states.contains(WidgetState.pressed)) {
+                  return Colors.transparent;
+                }
+                return null;
+              }),
+            ),
             child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              isSilentlyCheckingUpdates
-                  ? const _SmallLoadingIndicator()
-                  : const Icon(YaruIcons.sync),
-              const SizedBox(width: 8),
-              Flexible(
-                child: Text(
-                  l10n.managePageCheckForUpdates,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                isSilentlyCheckingUpdates
+                    ? const _SmallLoadingIndicator()
+                    : const Icon(YaruIcons.sync),
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Text(
+                    l10n.managePageCheckForUpdates,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
           ),
         ),
         YaruFocusBorder.primary(
-          child: PushButton.elevated(
+          child: ElevatedButton(
             onPressed: ref
                 .watch(appUpdatesProvider)
                 .whenOrNull(
@@ -300,31 +310,51 @@ class _ActionButtons extends ConsumerWidget {
                         }
                       : null,
                 ),
+            style: ButtonStyle(
+              overlayColor: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.focused) &&
+                    !states.contains(WidgetState.hovered) &&
+                    !states.contains(WidgetState.pressed)) {
+                  return Colors.transparent;
+                }
+                return null;
+              }),
+            ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Icon(YaruIcons.download),
-              const SizedBox(width: 8),
-              Flexible(
-                child: Text(
-                  isUpdatingAll
-                      ? l10n.snapActionUpdatingLabel
-                      : l10n.managePageUpdateAllLabel,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Text(
+                    isUpdatingAll
+                        ? l10n.snapActionUpdatingLabel
+                        : l10n.managePageUpdateAllLabel,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
           ),
         ),
         if (isUpdatingAll)
           YaruFocusBorder.primary(
-            child: PushButton.outlined(
+            child: OutlinedButton(
               onPressed: () {
                 ref.read(snapUpdatesModelProvider.notifier).cancelRefreshAll();
                 ref.read(localDebUpdatesModelProvider.notifier).cancelAll();
               },
+              style: ButtonStyle(
+                overlayColor: WidgetStateProperty.resolveWith((states) {
+                  if (states.contains(WidgetState.focused) &&
+                      !states.contains(WidgetState.hovered) &&
+                      !states.contains(WidgetState.pressed)) {
+                    return Colors.transparent;
+                  }
+                  return null;
+                }),
+              ),
               child: Text(
                 l10n.snapActionCancelLabel,
                 maxLines: 1,
