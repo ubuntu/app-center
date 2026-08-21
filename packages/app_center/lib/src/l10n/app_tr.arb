@@ -336,5 +336,30 @@
     "snapCategoryGameDevSlogan": "Oyun Geliştirme",
     "snapCategoryGameEmulators": "Emülatörler",
     "snapCategoryGameEmulatorsSlogan": "Emülatörler",
-    "snapCategoryGnomeGames": "GNOME Oyunları"
+    "snapCategoryGnomeGames": "GNOME Oyunları",
+    "managePagePackageTypeAll": "Hepsi",
+    "managePagePackageTypeDeb": "Deb",
+    "appUrlTypeContact": "{publisher} ile iletişime geç",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Geliştirici websitesi",
+    "appUrlTypeUnknown": "Link",
+    "appConfinementUnknown": "Bilinmiyor",
+    "appConfinementStrict": "İzole edildi",
+    "appConfinementDevelopment": "Geliştirici Modu",
+    "appConfinementUnrestrictedTooltip": "Bu uygulama, kaynaklarınıza tam erişime sahiptir",
+    "appMoreActionsSemanticLabel": "Daha fazla işlem",
+    "snapActionRevertingLabel": "Güncellemeyi geri alma",
+    "snapRevertConfirmTitle": "Önceki sürüme geri dönülsün mü?",
+    "snapRevertConfirmMessage": "Yeni bir sürüm çıktığında otomatik güncellemeler yeniden başlayacaktır.",
+    "snapRevertConfirmCancel": "İptal et",
+    "codecPageTitle": "Eksik medya kodekleri",
+    "codecPageDescription": "Bazı video ve ses formatlarını işlemek için aşağıdaki kodekleri yüklemeniz gerekmektedir:",
+    "codecInstallAllButton": "Önerilen kodekleri yükle",
+    "managePagePackageTypeLabel": "Paket tipi"
 }
