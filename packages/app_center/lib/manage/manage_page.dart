@@ -555,15 +555,17 @@ class _FilterRow extends ConsumerWidget {
                         ),
                       ),
                     // Actual visible dropdown
-                    MenuButtonBuilder<PackageTypeFilter>(
-                      values: PackageTypeFilter.values,
-                      itemBuilder: (context, type, child) =>
-                          Text(type.localize(l10n)),
-                      onSelected: (value) =>
-                          ref.read(packageTypeFilterProvider.notifier).state =
-                              value,
-                      expanded: false,
-                      child: Text(packageType.localize(l10n)),
+                    YaruFocusBorder.primary(
+                      child: MenuButtonBuilder<PackageTypeFilter>(
+                        values: PackageTypeFilter.values,
+                        itemBuilder: (context, type, child) =>
+                            Text(type.localize(l10n)),
+                        onSelected: (value) => ref
+                            .read(packageTypeFilterProvider.notifier)
+                            .state = value,
+                        expanded: false,
+                        child: Text(packageType.localize(l10n)),
+                      ),
                     ),
                   ],
                 ),
@@ -601,21 +603,23 @@ class _FilterRow extends ConsumerWidget {
           Consumer(
             builder: (context, ref, child) {
               final sortOrder = ref.watch(appSortOrderProvider);
-              return MenuButtonBuilder<AppSortOrder>(
-                values: const [
-                  AppSortOrder.alphabeticalAsc,
-                  AppSortOrder.alphabeticalDesc,
-                  AppSortOrder.installedDateAsc,
-                  AppSortOrder.installedDateDesc,
-                  AppSortOrder.installedSizeAsc,
-                  AppSortOrder.installedSizeDesc,
-                ],
-                itemBuilder: (context, sortOrder, child) =>
-                    Text(sortOrder.localize(l10n)),
-                onSelected: (value) =>
-                    ref.read(appSortOrderProvider.notifier).state = value,
-                expanded: false,
-                child: Text(sortOrder.localize(l10n)),
+              return YaruFocusBorder.primary(
+                child: MenuButtonBuilder<AppSortOrder>(
+                  values: const [
+                    AppSortOrder.alphabeticalAsc,
+                    AppSortOrder.alphabeticalDesc,
+                    AppSortOrder.installedDateAsc,
+                    AppSortOrder.installedDateDesc,
+                    AppSortOrder.installedSizeAsc,
+                    AppSortOrder.installedSizeDesc,
+                  ],
+                  itemBuilder: (context, sortOrder, child) =>
+                      Text(sortOrder.localize(l10n)),
+                  onSelected: (value) =>
+                      ref.read(appSortOrderProvider.notifier).state = value,
+                  expanded: false,
+                  child: Text(sortOrder.localize(l10n)),
+                ),
               );
             },
           ),
