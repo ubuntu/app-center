@@ -62,6 +62,23 @@ Future<List<ManageAppData>> appUpdates(Ref ref) async {
   );
 }
 
+/// Whether the deb sources could be read at all.
+///
+/// [appUpdates] and [InstalledApps] degrade to snap-only lists when the
+/// Appstream catalog or PackageKit is unavailable. That keeps the page
+/// working, but a store that quietly lists fewer updates than exist is its
+/// own hazard, so the manage page uses this to tell the user the list is
+/// incomplete.
+@riverpod
+Future<bool> debSourcesAvailable(Ref ref) async {
+  try {
+    await ref.watch(localDebsProvider.future);
+    return true;
+  } on Exception {
+    return false;
+  }
+}
+
 /// Returns all installed debs, or an empty list if they could not be
 /// determined. See [appUpdates].
 Future<List<LocalDebInfo>> _localDebsOrEmpty(Ref ref) async {

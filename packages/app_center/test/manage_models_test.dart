@@ -431,6 +431,36 @@ void main() {
     });
   });
 
+  group('debSourcesAvailable provider', () {
+    tearDown(resetAllServices);
+
+    test('is true when the debs can be listed', () async {
+      registerMockSnapdService();
+
+      final container = createContainer(
+        overrides: [
+          localDebsProvider.overrideWith((ref) async => [defaultInstalledDeb]),
+        ],
+      );
+
+      expect(await container.read(debSourcesAvailableProvider.future), isTrue);
+    });
+
+    test('is false when the debs cannot be listed', () async {
+      registerMockSnapdService();
+
+      final container = createContainer(
+        overrides: [
+          localDebsProvider.overrideWith(
+            (ref) async => throw Exception('no appstream catalog'),
+          ),
+        ],
+      );
+
+      expect(await container.read(debSourcesAvailableProvider.future), isFalse);
+    });
+  });
+
   group('installedApps provider', () {
     tearDown(resetAllServices);
 

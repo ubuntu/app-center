@@ -60,6 +60,8 @@
     "managePageNoInternet": "Can't reach server, check your internet connection or try again later.",
     "managePageDescription": "Check for available updates, update your apps, and manage the status of all your apps.",
     "managePageDebUpdatesMessage": "Debian package updates are handled by the Software Updater.",
+    "managePageDebSourcesUnavailableTitle": "Some apps may be missing",
+    "managePageDebSourcesUnavailableDescription": "Debian package information couldn't be read, so these lists only cover snaps.",
     "managePageInstalledAndUpdatedLabel": "Installed apps",
     "managePageInstallingLabel": "Installing ({n})",
     "@managePageInstallingLabel": {
