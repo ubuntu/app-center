@@ -257,6 +257,28 @@ void main() {
       expect(updates[1].name, equals('Inkscape'));
       expect(updates[1], isA<ManageDebData>());
     });
+
+    test('still reports snap updates when the deb lookup fails', () async {
+      registerMockSnapdService(
+        refreshableSnaps: [createSnap(name: 'firefox', title: 'Firefox')],
+        installedSnaps: [createSnap(name: 'firefox', title: 'Firefox')],
+      );
+
+      final container = createContainer(
+        overrides: [
+          localDebsProvider.overrideWith(
+            (ref) async => throw Exception('no appstream catalog'),
+          ),
+          localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
+        ],
+      );
+
+      final updates = await container.read(appUpdatesProvider.future);
+
+      expect(updates, hasLength(1));
+      expect(updates.single.name, equals('Firefox'));
+      expect(updates.single, isA<ManageSnapData>());
+    });
   });
 
   group('localDebUpdatesModel actions', () {
@@ -411,6 +433,28 @@ void main() {
 
   group('installedApps provider', () {
     tearDown(resetAllServices);
+
+    test('still lists snaps when the deb lookup fails', () async {
+      registerMockSnapdService(
+        installedSnaps: [createSnap(name: 'firefox', title: 'Firefox')],
+      );
+
+      final container = createContainer(
+        overrides: [
+          localDebsProvider.overrideWith(
+            (ref) async => throw Exception('no appstream catalog'),
+          ),
+          localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+        ],
+      );
+
+      final apps = await container.read(installedAppsProvider.future);
+
+      expect(apps, hasLength(1));
+      expect(apps.single.name, equals('Firefox'));
+      expect(apps.single, isA<ManageSnapData>());
+    });
 
     test('includes both snaps and debs', () async {
       registerMockSnapdService(
