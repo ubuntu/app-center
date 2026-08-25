@@ -545,6 +545,28 @@ void main() {
     );
 
     test(
+      'driversRequireRestartProvider is true when any device requires a '
+      'restart',
+      () async {
+        registerMockDriversService(devices: [_gpuDevice()]);
+        final packageKit = createMockPackageKitService(transactionId: 5);
+        when(packageKit.requiresRestartFor(5)).thenReturn(true);
+        final container = createContainer();
+
+        await container.read(driverModelProvider(_gpuSysPath).future);
+        expect(container.read(driversRequireRestartProvider), isFalse);
+
+        final notifier = container.read(
+          driverModelProvider(_gpuSysPath).notifier,
+        );
+        await notifier.install('nvidia-driver-550');
+        await container.read(driverModelProvider(_gpuSysPath).future);
+
+        expect(container.read(driversRequireRestartProvider), isTrue);
+      },
+    );
+
+    test(
       'installing an unresolved package falls back to an empty version id',
       () async {
         registerMockDriversService(
