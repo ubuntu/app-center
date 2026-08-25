@@ -4,6 +4,7 @@ import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/packagekit/packagekit.dart';
+import 'package:app_center/widgets/small_banner.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -59,14 +60,15 @@ class _DriversMessageView extends StatelessWidget {
   }
 }
 
-class _DriversView extends StatelessWidget {
+class _DriversView extends ConsumerWidget {
   const _DriversView({required this.driverList});
 
   final DriverList driverList;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final requiresRestart = ref.watch(driversRequireRestartProvider);
 
     final devicesBySection = <DriverSection, List<DriverDeviceInfo>>{
       for (final section in DriverSection.values) section: [],
@@ -93,6 +95,10 @@ class _DriversView extends StatelessWidget {
               ),
               const SizedBox(height: kPagePadding),
               Text(l10n.driversPageDescription),
+              if (requiresRestart) ...[
+                const SizedBox(height: kSectionSpacing),
+                _RestartRequiredBanner(l10n: l10n),
+              ],
               const SizedBox(height: kSectionSpacing),
               _DriverSection(
                 title: l10n.driversPageSectionUpdateAvailable,
@@ -110,6 +116,40 @@ class _DriversView extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _RestartRequiredBanner extends StatelessWidget {
+  const _RestartRequiredBanner({required this.l10n});
+
+  final AppLocalizations l10n;
+
+  @override
+  Widget build(BuildContext context) {
+    return SmallBanner(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            YaruInfoType.warning.iconData,
+            color: YaruInfoType.warning.getColor(context),
+          ),
+          const SizedBox(width: kSpacingSmall),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.driversPageRestartRequiredTitle,
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                Text(l10n.driversPageRestartRequiredMessage),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -257,13 +297,6 @@ class _DriverDeviceActions extends ConsumerWidget {
       );
     }
 
-    if (state.requiresRestart) {
-      return OutlinedButton(
-        onPressed: () => _showRestartRequiredMessage(context, l10n),
-        child: Text(l10n.driversPageRestartLabel),
-      );
-    }
-
     final installedOption = state.info.installedOption;
 
     return Row(
@@ -360,12 +393,6 @@ class _MoreActionsButton extends StatelessWidget {
 }
 
 enum _DriverMenuAction { switchBranch, uninstall }
-
-void _showRestartRequiredMessage(BuildContext context, AppLocalizations l10n) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(content: Text(l10n.driversPageRestartRequiredMessage)),
-  );
-}
 
 String _busyLabelFor(AppLocalizations l10n, DriverDeviceState state) =>
     switch (state.activeActionKind) {

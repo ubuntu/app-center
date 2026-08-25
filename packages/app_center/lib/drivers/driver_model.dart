@@ -2,6 +2,7 @@ import 'package:app_center/drivers/drivers_busy_provider.dart';
 import 'package:app_center/drivers/drivers_data.dart';
 import 'package:app_center/drivers/drivers_list_provider.dart';
 import 'package:app_center/packagekit/packagekit.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -29,6 +30,23 @@ class DriverDeviceState with _$DriverDeviceState {
   const DriverDeviceState._();
 
   bool get isBusy => activeTransactionId != null;
+}
+
+/// Whether any device currently has an outstanding restart requirement.
+/// Drives a single page-level banner instead of blocking individual
+/// device rows.
+@riverpod
+bool driversRequireRestart(Ref ref) {
+  final sysPaths = ref.watch(
+    driverListModelProvider.select((v) => v.valueOrNull?.sysPaths ?? const []),
+  );
+  return sysPaths.any(
+    (sysPath) => ref.watch(
+      driverModelProvider(
+        sysPath,
+      ).select((v) => v.valueOrNull?.requiresRestart ?? false),
+    ),
+  );
 }
 
 /// Owns install/update/uninstall/switch-branch/cancel state for a single
