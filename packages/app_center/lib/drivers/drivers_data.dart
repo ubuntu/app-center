@@ -133,9 +133,28 @@ class DriverDeviceInfo with _$DriverDeviceInfo {
   DriverBranchOption? get installedOption =>
       options.firstWhereOrNull((o) => o.isInstalled);
 
-  /// Options selectable in a "Switch branch" dialog.
-  List<DriverBranchOption> get branchOptions =>
-      options.where((o) => o.branch.isSelectable).toList();
+  /// Options selectable in a "Switch branch" dialog: one representative
+  /// per selectable [DriverBranch], since multiple packages may satisfy the
+  /// same branch (e.g. an open-source variant alongside the proprietary
+  /// one). The dialog presents branches, not packages, so we pick a single
+  /// package to act "for" the user in that case - see
+  /// [_pickBranchRepresentative].
+  List<DriverBranchOption> get branchOptions {
+    final selectable = options.where((o) => o.branch.isSelectable);
+    final byBranch = groupBy(selectable, (o) => o.branch);
+    return byBranch.values.map(_pickBranchRepresentative).toList();
+  }
+
+  /// Chooses which package represents a branch when more than one option
+  /// shares it: the installed one takes priority (so the dialog reflects
+  /// what's actually on the system), then the recommended one, otherwise
+  /// the first candidate reported for that branch.
+  static DriverBranchOption _pickBranchRepresentative(
+    List<DriverBranchOption> optionsForBranch,
+  ) =>
+      optionsForBranch.firstWhereOrNull((o) => o.isInstalled) ??
+      optionsForBranch.firstWhereOrNull((o) => o.recommended) ??
+      optionsForBranch.first;
 
   /// Whether install/switch should go through a branch-choice dialog rather
   /// than a single button.

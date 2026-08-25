@@ -108,6 +108,67 @@ DriverDevice _gpuLegacyInstalledDevice() => const DriverDevice(
   ],
 );
 
+DriverDevice _gpuSameBranchDevice() => const DriverDevice(
+  sysPath: _gpuSysPath,
+  modalias: 'pci:v000010DEd000010C3sv00003842sd00002670bc03sc03i00',
+  vendor: 'NVIDIA Corporation',
+  model: 'GK208 [GeForce GT 720]',
+  drivers: [
+    DriverPackage(
+      name: 'nvidia-driver-550',
+      source: DriverSource.distro,
+      free: false,
+      builtin: false,
+      recommended: true,
+      support: 'PB',
+    ),
+    DriverPackage(
+      name: 'nvidia-driver-550-open',
+      source: DriverSource.distro,
+      free: false,
+      builtin: false,
+      recommended: false,
+      support: 'PB',
+    ),
+  ],
+);
+
+// A device where the "production" branch is satisfied by two packages
+// (the desktop and server variants), alongside a single "lts" candidate -
+// mirroring how real nvidia-driver/-server packages can share a Support tag.
+DriverDevice _gpuMixedBranchDevice() => const DriverDevice(
+  sysPath: _gpuSysPath,
+  modalias: 'pci:v000010DEd000010C3sv00003842sd00002670bc03sc03i00',
+  vendor: 'NVIDIA Corporation',
+  model: 'GK208 [GeForce GT 720]',
+  drivers: [
+    DriverPackage(
+      name: 'nvidia-driver-535',
+      source: DriverSource.distro,
+      free: false,
+      builtin: false,
+      recommended: true,
+      support: 'PB',
+    ),
+    DriverPackage(
+      name: 'nvidia-driver-535-server',
+      source: DriverSource.distro,
+      free: false,
+      builtin: false,
+      recommended: false,
+      support: 'PB',
+    ),
+    DriverPackage(
+      name: 'nvidia-driver-470',
+      source: DriverSource.distro,
+      free: false,
+      builtin: false,
+      recommended: false,
+      support: 'LTSB',
+    ),
+  ],
+);
+
 void main() {
   tearDown(resetAllServices);
 
@@ -312,6 +373,181 @@ void main() {
   });
 
   testWidgets(
+    'installs the recommended package directly when two packages share the '
+    'only available branch, without opening the switch branch dialog',
+    (tester) async {
+      registerMockDriversService(devices: [_gpuSameBranchDevice()]);
+      final packageKit = createMockPackageKitService(
+        resolveMap: {
+          'nvidia-driver-550': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-550',
+              version: '550.0',
+            ),
+            summary: 'summary',
+          ),
+          'nvidia-driver-550-open': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-550-open',
+              version: '550.1',
+            ),
+            summary: 'summary',
+          ),
+        },
+      );
+
+      await tester.pumpScopedApp((_) => const DriversPage());
+      await tester.pumpAndSettle();
+
+      // Both candidates are on the "production" branch, so there's only one
+      // branch to choose from - the app installs the recommended package
+      // directly instead of asking the user to pick between packages.
+      await tester.tap(find.button(tester.l10n.snapActionInstallLabel));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(tester.l10n.driversPageSwitchBranchTitle),
+        findsNothing,
+      );
+      verify(
+        packageKit.install(
+          const PackageKitPackageId(
+            name: 'nvidia-driver-550',
+            version: '550.0',
+          ),
+        ),
+      ).called(1);
+      verifyNever(
+        packageKit.install(
+          const PackageKitPackageId(
+            name: 'nvidia-driver-550-open',
+            version: '550.1',
+          ),
+        ),
+      );
+    },
+  );
+
+  testWidgets(
+    'presents one tile per branch in the switch branch dialog even when a '
+    'branch has multiple candidate packages',
+    (tester) async {
+      registerMockDriversService(devices: [_gpuMixedBranchDevice()]);
+      createMockPackageKitService(
+        resolveMap: {
+          'nvidia-driver-535': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-535',
+              version: '535.0',
+            ),
+            summary: 'summary',
+          ),
+          'nvidia-driver-535-server': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-535-server',
+              version: '535.0',
+            ),
+            summary: 'summary',
+          ),
+          'nvidia-driver-470': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-470',
+              version: '470.0',
+            ),
+            summary: 'summary',
+          ),
+        },
+      );
+
+      await tester.pumpScopedApp((_) => const DriversPage());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.button(tester.l10n.snapActionInstallLabel));
+      await tester.pumpAndSettle();
+
+      // Only one "Production" tile despite two production-branch packages,
+      // and one "LTS" tile for the third package.
+      expect(
+        find.text(
+          tester.l10n.driversPageSwitchBranchRecommendedLabel(
+            tester.l10n.driversPageBranchProduction,
+          ),
+        ),
+        findsOneWidget,
+      );
+      expect(find.text(tester.l10n.driversPageBranchLts), findsOneWidget);
+      expect(find.byType(RadioListTile<DriverBranch>), findsNWidgets(2));
+    },
+  );
+
+  testWidgets(
+    'switch branch dialog represents a shared branch with the '
+    'currently-installed package rather than the recommended one',
+    (tester) async {
+      registerMockDriversService(devices: [_gpuMixedBranchDevice()]);
+      final packageKit = createMockPackageKitService(
+        resolveMap: {
+          // The non-recommended server variant is the one installed.
+          'nvidia-driver-535': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-535',
+              version: '535.0',
+            ),
+            summary: 'summary',
+          ),
+          'nvidia-driver-535-server': const PackageKitPackageInfo(
+            info: PackageKitInfo.installed,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-535-server',
+              version: '535.0',
+            ),
+            summary: 'summary',
+          ),
+          'nvidia-driver-470': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-470',
+              version: '470.0',
+            ),
+            summary: 'summary',
+          ),
+        },
+      );
+
+      await tester.pumpScopedApp((_) => const DriversPage());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byIcon(YaruIcons.view_more));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(tester.l10n.driversPageSwitchBranchLabel));
+      await tester.pumpAndSettle();
+
+      // Switching to "LTS" should install nvidia-driver-470, leaving the
+      // installed production-branch package (nvidia-driver-535-server)
+      // alone even though it isn't the recommended one.
+      await tester.tap(find.text(tester.l10n.driversPageBranchLts));
+      await tester.pumpAndSettle();
+      await tester.tap(find.button(tester.l10n.driversPageSwitchLabel));
+      await tester.pumpAndSettle();
+
+      verify(
+        packageKit.install(
+          const PackageKitPackageId(
+            name: 'nvidia-driver-470',
+            version: '470.0',
+          ),
+        ),
+      ).called(1);
+    },
+  );
+
+  testWidgets(
     'shows a switch branch menu item and switches branches for an '
     'installed multi-branch device',
     (tester) async {
@@ -379,7 +615,7 @@ void main() {
 
   testWidgets(
     'opens the switch branch dialog for a device with a non-selectable '
-    '(legacy) installed driver without crashing',
+    '(legacy or unknown) installed driver',
     (tester) async {
       registerMockDriversService(devices: [_gpuLegacyInstalledDevice()]);
       createMockPackageKitService(
