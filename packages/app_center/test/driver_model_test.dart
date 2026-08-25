@@ -227,6 +227,103 @@ void main() {
       );
       expect(info.hasBranchChoice, isFalse);
     });
+
+    test(
+      'branchOptions collapses multiple packages sharing a branch into one '
+      'representative, preferring the recommended package',
+      () {
+        final info = buildInfo(
+          options: [
+            // Not recommended, and listed first - an implementation that
+            // just picked the first candidate would wrongly choose this one.
+            const DriverBranchOption(
+              branch: DriverBranch.production,
+              packageName: 'nvidia-driver-550-open',
+              recommended: false,
+            ),
+            const DriverBranchOption(
+              branch: DriverBranch.production,
+              packageName: 'nvidia-driver-550',
+              recommended: true,
+            ),
+            const DriverBranchOption(
+              branch: DriverBranch.lts,
+              packageName: 'nvidia-driver-470',
+              recommended: false,
+            ),
+          ],
+        );
+        expect(info.branchOptions, hasLength(2));
+        expect(info.hasBranchChoice, isTrue);
+
+        final production = info.branchOptions.firstWhere(
+          (o) => o.branch == DriverBranch.production,
+        );
+        expect(production.packageName, 'nvidia-driver-550');
+      },
+    );
+
+    test(
+      'branchOptions prefers the installed package over the recommended one '
+      'for a shared branch',
+      () {
+        final info = buildInfo(
+          options: [
+            const DriverBranchOption(
+              branch: DriverBranch.production,
+              packageName: 'nvidia-driver-550',
+              recommended: true,
+            ),
+            const DriverBranchOption(
+              branch: DriverBranch.production,
+              packageName: 'nvidia-driver-550-open',
+              recommended: false,
+              isInstalled: true,
+            ),
+          ],
+        );
+        expect(info.branchOptions, hasLength(1));
+        expect(info.branchOptions.single.packageName, 'nvidia-driver-550-open');
+      },
+    );
+
+    test(
+      'branchOptions never contains two entries for the same branch, even '
+      'with several packages sharing each selectable branch',
+      () {
+        final info = buildInfo(
+          options: [
+            const DriverBranchOption(
+              branch: DriverBranch.production,
+              packageName: 'nvidia-driver-550',
+              recommended: true,
+            ),
+            const DriverBranchOption(
+              branch: DriverBranch.production,
+              packageName: 'nvidia-driver-550-open',
+              recommended: false,
+            ),
+            const DriverBranchOption(
+              branch: DriverBranch.production,
+              packageName: 'nvidia-driver-550-server',
+              recommended: false,
+            ),
+            const DriverBranchOption(
+              branch: DriverBranch.lts,
+              packageName: 'nvidia-driver-470',
+              recommended: true,
+            ),
+            const DriverBranchOption(
+              branch: DriverBranch.lts,
+              packageName: 'nvidia-driver-470-open',
+              recommended: false,
+            ),
+          ],
+        );
+        final branches = info.branchOptions.map((o) => o.branch).toList();
+        expect(branches.toSet(), hasLength(branches.length));
+      },
+    );
   });
 
   group('driverListModelProvider', () {
