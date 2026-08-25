@@ -75,6 +75,39 @@ DriverDevice _gpuMultiBranchDevice() => const DriverDevice(
   ],
 );
 
+DriverDevice _gpuLegacyInstalledDevice() => const DriverDevice(
+  sysPath: _gpuSysPath,
+  modalias: 'pci:v000010DEd000010C3sv00003842sd00002670bc03sc03i00',
+  vendor: 'NVIDIA Corporation',
+  model: 'GK208 [GeForce GT 720]',
+  drivers: [
+    DriverPackage(
+      name: 'nvidia-driver-340',
+      source: DriverSource.distro,
+      free: false,
+      builtin: false,
+      recommended: false,
+      support: 'Legacy',
+    ),
+    DriverPackage(
+      name: 'nvidia-driver-550',
+      source: DriverSource.distro,
+      free: false,
+      builtin: false,
+      recommended: true,
+      support: 'PB',
+    ),
+    DriverPackage(
+      name: 'nvidia-driver-470',
+      source: DriverSource.distro,
+      free: false,
+      builtin: false,
+      recommended: false,
+      support: 'LTSB',
+    ),
+  ],
+);
+
 void main() {
   tearDown(resetAllServices);
 
@@ -341,6 +374,66 @@ void main() {
           ),
         ),
       ).called(1);
+    },
+  );
+
+  testWidgets(
+    'opens the switch branch dialog for a device with a non-selectable '
+    '(legacy) installed driver without crashing',
+    (tester) async {
+      registerMockDriversService(devices: [_gpuLegacyInstalledDevice()]);
+      createMockPackageKitService(
+        resolveMap: {
+          'nvidia-driver-340': const PackageKitPackageInfo(
+            info: PackageKitInfo.installed,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-340',
+              version: '340.0',
+            ),
+            summary: 'summary',
+          ),
+          'nvidia-driver-550': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-550',
+              version: '550.0',
+            ),
+            summary: 'summary',
+          ),
+          'nvidia-driver-470': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-470',
+              version: '470.0',
+            ),
+            summary: 'summary',
+          ),
+        },
+      );
+
+      await tester.pumpScopedApp((_) => const DriversPage());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byIcon(YaruIcons.view_more));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(tester.l10n.driversPageSwitchBranchLabel));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(tester.l10n.driversPageSwitchBranchTitle),
+        findsOneWidget,
+      );
+      // The recommended (production) branch should be preselected, since
+      // the installed driver's branch (legacy) is not itself selectable.
+      expect(
+        find.text(
+          tester.l10n.driversPageSwitchBranchRecommendedLabel(
+            tester.l10n.driversPageBranchProduction,
+          ),
+        ),
+        findsOneWidget,
+      );
+      expect(find.text(tester.l10n.driversPageBranchLts), findsOneWidget);
     },
   );
 
