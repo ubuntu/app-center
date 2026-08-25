@@ -231,7 +231,7 @@ class _DriverDeviceActions extends ConsumerWidget {
         packageKitTransactionProgressProvider(state.activeTransactionId),
       );
       return ActiveChangeStatus(
-        actionLabel: _busyLabelFor(l10n, state.info),
+        actionLabel: _busyLabelFor(l10n, state),
         progress: progress ?? 0,
         onCancelPressed: model.cancel,
       );
@@ -277,8 +277,11 @@ class _DriverDeviceActions extends ConsumerWidget {
         else if (installedOption == null)
           OutlinedButton(
             onPressed: canOperate
-                ? () =>
-                      model.install(_recommendedOption(state.info).packageName)
+                ? () => state.info.hasBranchChoice
+                      ? showDriverBranchSwitchDialog(context, sysPath)
+                      : model.install(
+                          _recommendedOption(state.info).packageName,
+                        )
                 : null,
             child: Text(l10n.snapActionInstallLabel),
           ),
@@ -286,6 +289,9 @@ class _DriverDeviceActions extends ConsumerWidget {
           const SizedBox(width: kSpacing),
           _MoreActionsButton(
             canOperate: canOperate,
+            showSwitchBranch: state.info.hasBranchChoice,
+            onSwitchBranch: () =>
+                showDriverBranchSwitchDialog(context, sysPath),
             onUninstall: model.uninstall,
           ),
         ],
@@ -297,10 +303,14 @@ class _DriverDeviceActions extends ConsumerWidget {
 class _MoreActionsButton extends StatelessWidget {
   const _MoreActionsButton({
     required this.canOperate,
+    required this.showSwitchBranch,
+    required this.onSwitchBranch,
     required this.onUninstall,
   });
 
   final bool canOperate;
+  final bool showSwitchBranch;
+  final VoidCallback onSwitchBranch;
   final VoidCallback onUninstall;
 
   @override
@@ -312,6 +322,18 @@ class _MoreActionsButton extends StatelessWidget {
       semanticLabel: l10n.appMoreActionsSemanticLabel,
       childPadding: const EdgeInsets.symmetric(horizontal: 2),
       itemBuilder: (context) => [
+        if (showSwitchBranch)
+          PopupMenuItem(
+            value: _DriverMenuAction.switchBranch,
+            enabled: canOperate,
+            child: IntrinsicWidth(
+              child: ListTile(
+                mouseCursor: SystemMouseCursors.click,
+                enabled: canOperate,
+                title: Text(l10n.driversPageSwitchBranchLabel),
+              ),
+            ),
+          ),
         PopupMenuItem(
           value: _DriverMenuAction.uninstall,
           enabled: canOperate,
@@ -326,6 +348,8 @@ class _MoreActionsButton extends StatelessWidget {
       ],
       onSelected: (action) {
         switch (action) {
+          case _DriverMenuAction.switchBranch:
+            onSwitchBranch();
           case _DriverMenuAction.uninstall:
             onUninstall();
         }
@@ -335,7 +359,7 @@ class _MoreActionsButton extends StatelessWidget {
   }
 }
 
-enum _DriverMenuAction { uninstall }
+enum _DriverMenuAction { switchBranch, uninstall }
 
 void _showRestartRequiredMessage(BuildContext context, AppLocalizations l10n) {
   ScaffoldMessenger.of(context).showSnackBar(
@@ -343,12 +367,14 @@ void _showRestartRequiredMessage(BuildContext context, AppLocalizations l10n) {
   );
 }
 
-String _busyLabelFor(AppLocalizations l10n, DriverDeviceInfo info) {
-  final installed = info.installedOption;
-  if (installed == null) return l10n.snapActionInstallingLabel;
-  if (installed.hasUpdate) return l10n.snapActionUpdatingLabel;
-  return l10n.snapActionRemovingLabel;
-}
+String _busyLabelFor(AppLocalizations l10n, DriverDeviceState state) =>
+    switch (state.activeActionKind) {
+      DriverActionKind.install => l10n.snapActionInstallingLabel,
+      DriverActionKind.update => l10n.snapActionUpdatingLabel,
+      DriverActionKind.uninstall => l10n.snapActionRemovingLabel,
+      DriverActionKind.switchBranch => l10n.driversPageSwitchingBranchLabel,
+      null => l10n.snapActionInstallingLabel,
+    };
 
 VoidCallback? _retryAction(
   DriverModel model,
