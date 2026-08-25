@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:app_center/drivers/drivers.dart';
 import 'package:app_center/packagekit/packagekit.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -43,6 +46,31 @@ DriverDevice _wifiDevice() => const DriverDevice(
       builtin: false,
       recommended: true,
       support: 'PB',
+    ),
+  ],
+);
+
+DriverDevice _gpuMultiBranchDevice() => const DriverDevice(
+  sysPath: _gpuSysPath,
+  modalias: 'pci:v000010DEd000010C3sv00003842sd00002670bc03sc03i00',
+  vendor: 'NVIDIA Corporation',
+  model: 'GK208 [GeForce GT 720]',
+  drivers: [
+    DriverPackage(
+      name: 'nvidia-driver-550',
+      source: DriverSource.distro,
+      free: false,
+      builtin: false,
+      recommended: true,
+      support: 'PB',
+    ),
+    DriverPackage(
+      name: 'nvidia-driver-470',
+      source: DriverSource.distro,
+      free: false,
+      builtin: false,
+      recommended: false,
+      support: 'LTSB',
     ),
   ],
 );
@@ -154,6 +182,265 @@ void main() {
       ),
     ).called(1);
   });
+
+  testWidgets(
+    'opens the switch branch dialog when multiple branches are available',
+    (tester) async {
+      registerMockDriversService(devices: [_gpuMultiBranchDevice()]);
+      createMockPackageKitService(
+        resolveMap: {
+          'nvidia-driver-550': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-550',
+              version: '550.0',
+            ),
+            summary: 'summary',
+          ),
+          'nvidia-driver-470': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-470',
+              version: '470.0',
+            ),
+            summary: 'summary',
+          ),
+        },
+      );
+
+      await tester.pumpScopedApp((_) => const DriversPage());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.button(tester.l10n.snapActionInstallLabel));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(tester.l10n.driversPageSwitchBranchTitle),
+        findsOneWidget,
+      );
+      expect(find.text(tester.l10n.driversPageBranchLts), findsOneWidget);
+      expect(
+        find.text(
+          tester.l10n.driversPageSwitchBranchRecommendedLabel(
+            tester.l10n.driversPageBranchProduction,
+          ),
+        ),
+        findsOneWidget,
+      );
+    },
+  );
+
+  testWidgets('installs the selected branch from the switch branch dialog', (
+    tester,
+  ) async {
+    registerMockDriversService(devices: [_gpuMultiBranchDevice()]);
+    final packageKit = createMockPackageKitService(
+      resolveMap: {
+        'nvidia-driver-550': const PackageKitPackageInfo(
+          info: PackageKitInfo.available,
+          packageId: PackageKitPackageId(
+            name: 'nvidia-driver-550',
+            version: '550.0',
+          ),
+          summary: 'summary',
+        ),
+        'nvidia-driver-470': const PackageKitPackageInfo(
+          info: PackageKitInfo.available,
+          packageId: PackageKitPackageId(
+            name: 'nvidia-driver-470',
+            version: '470.0',
+          ),
+          summary: 'summary',
+        ),
+      },
+    );
+
+    await tester.pumpScopedApp((_) => const DriversPage());
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.button(tester.l10n.snapActionInstallLabel));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text(tester.l10n.driversPageBranchLts));
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.descendant(
+        of: find.byType(SimpleDialog),
+        matching: find.text(tester.l10n.snapActionInstallLabel),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    verify(
+      packageKit.install(
+        const PackageKitPackageId(name: 'nvidia-driver-470', version: '470.0'),
+      ),
+    ).called(1);
+  });
+
+  testWidgets(
+    'shows a switch branch menu item and switches branches for an '
+    'installed multi-branch device',
+    (tester) async {
+      registerMockDriversService(devices: [_gpuMultiBranchDevice()]);
+      final packageKit = createMockPackageKitService(
+        resolveMap: {
+          'nvidia-driver-550': const PackageKitPackageInfo(
+            info: PackageKitInfo.installed,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-550',
+              version: '550.0',
+            ),
+            summary: 'summary',
+          ),
+          'nvidia-driver-470': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-470',
+              version: '470.0',
+            ),
+            summary: 'summary',
+          ),
+        },
+      );
+
+      await tester.pumpScopedApp((_) => const DriversPage());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byIcon(YaruIcons.view_more));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(tester.l10n.driversPageSwitchBranchLabel),
+        findsOneWidget,
+      );
+      await tester.tap(find.text(tester.l10n.driversPageSwitchBranchLabel));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(tester.l10n.driversPageSwitchBranchTitle),
+        findsOneWidget,
+      );
+
+      await tester.tap(find.text(tester.l10n.driversPageBranchLts));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(tester.l10n.driversPageSwitchBranchLessStableWarningTitle),
+        findsNothing,
+      );
+
+      await tester.tap(find.button(tester.l10n.driversPageSwitchLabel));
+      await tester.pumpAndSettle();
+
+      verify(
+        packageKit.install(
+          const PackageKitPackageId(
+            name: 'nvidia-driver-470',
+            version: '470.0',
+          ),
+        ),
+      ).called(1);
+    },
+  );
+
+  testWidgets(
+    'shows a "switching branch" status while a branch switch is in progress',
+    (tester) async {
+      registerMockDriversService(devices: [_gpuMultiBranchDevice()]);
+      createMockPackageKitService(
+        resolveMap: {
+          'nvidia-driver-550': const PackageKitPackageInfo(
+            info: PackageKitInfo.installed,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-550',
+              version: '550.0',
+            ),
+            summary: 'summary',
+          ),
+          'nvidia-driver-470': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-470',
+              version: '470.0',
+            ),
+            summary: 'summary',
+          ),
+        },
+        // Never resolves, so the transaction stays in progress.
+        waitTransaction: Completer<void>().future,
+      );
+
+      await tester.pumpScopedApp((_) => const DriversPage());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byIcon(YaruIcons.view_more));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(tester.l10n.driversPageSwitchBranchLabel));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text(tester.l10n.driversPageBranchLts));
+      await tester.pumpAndSettle();
+      await tester.tap(find.button(tester.l10n.driversPageSwitchLabel));
+      await tester.pump();
+      await tester.pump();
+
+      expect(
+        find.text(tester.l10n.driversPageSwitchingBranchLabel),
+        findsOneWidget,
+      );
+      expect(find.text(tester.l10n.snapActionRemovingLabel), findsNothing);
+    },
+  );
+
+  testWidgets(
+    'warns when switching to a less stable branch than the installed one',
+    (tester) async {
+      registerMockDriversService(devices: [_gpuMultiBranchDevice()]);
+      createMockPackageKitService(
+        resolveMap: {
+          'nvidia-driver-550': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-550',
+              version: '550.0',
+            ),
+            summary: 'summary',
+          ),
+          'nvidia-driver-470': const PackageKitPackageInfo(
+            info: PackageKitInfo.installed,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-470',
+              version: '470.0',
+            ),
+            summary: 'summary',
+          ),
+        },
+      );
+
+      await tester.pumpScopedApp((_) => const DriversPage());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byIcon(YaruIcons.view_more));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(tester.l10n.driversPageSwitchBranchLabel));
+      await tester.pumpAndSettle();
+
+      await tester.tap(
+        find.text(
+          tester.l10n.driversPageSwitchBranchRecommendedLabel(
+            tester.l10n.driversPageBranchProduction,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(tester.l10n.driversPageSwitchBranchLessStableWarningTitle),
+        findsOneWidget,
+      );
+    },
+  );
 
   testWidgets('shows a message when no drivers are found', (tester) async {
     registerMockDriversService(devices: const []);
