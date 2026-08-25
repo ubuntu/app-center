@@ -43,11 +43,13 @@ class _DriverBranchSwitchDialogState
         final options = info.branchOptions;
         final installedOption = info.installedOption;
 
+        final fallbackBranch = options
+            .firstWhere((o) => o.recommended, orElse: () => options.first)
+            .branch;
         _selected ??=
-            installedOption?.branch ??
-            options
-                .firstWhere((o) => o.recommended, orElse: () => options.first)
-                .branch;
+            (installedOption != null && installedOption.branch.isSelectable)
+            ? installedOption.branch
+            : fallbackBranch;
 
         final selectedOption = options.firstWhere(
           (o) => o.branch == _selected,
