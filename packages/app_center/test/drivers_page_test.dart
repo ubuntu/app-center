@@ -442,6 +442,51 @@ void main() {
     },
   );
 
+  testWidgets(
+    'shows a restart required banner without blocking device actions',
+    (tester) async {
+      registerMockDriversService(devices: [_gpuDevice(), _wifiDevice()]);
+      final packageKit = createMockPackageKitService(
+        transactionId: 7,
+        resolveMap: {
+          'nvidia-driver-550': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-550',
+              version: '550.0',
+            ),
+            summary: 'summary',
+          ),
+          'bcmwl-kernel-source': const PackageKitPackageInfo(
+            info: PackageKitInfo.installed,
+            packageId: PackageKitPackageId(
+              name: 'bcmwl-kernel-source',
+              version: '6.30',
+            ),
+            summary: 'summary',
+          ),
+        },
+      );
+      when(packageKit.requiresRestartFor(7)).thenReturn(true);
+
+      await tester.pumpApp((_) => const ProviderScope(child: DriversPage()));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(tester.l10n.driversPageRestartRequiredTitle),
+        findsNothing,
+      );
+
+      await tester.tap(find.button(tester.l10n.snapActionInstallLabel));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(tester.l10n.driversPageRestartRequiredTitle),
+        findsOneWidget,
+      );
+    },
+  );
+
   testWidgets('shows a message when no drivers are found', (tester) async {
     registerMockDriversService(devices: const []);
     createMockPackageKitService();

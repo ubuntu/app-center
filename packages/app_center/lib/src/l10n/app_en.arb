@@ -415,8 +415,8 @@
             }
         }
     },
-    "driversPageRestartLabel": "Restart",
-    "driversPageRestartRequiredMessage": "Restart your computer to finish applying this driver change.",
+    "driversPageRestartRequiredTitle": "Restart required",
+    "driversPageRestartRequiredMessage": "Restart your computer to finish applying driver changes.",
     "driversPageErrorLabel": "Error",
     "driversPageRetryLabel": "Retry",
     "driversPageNoDriversFoundMessage": "Using built-in drivers. No additional drivers found.",
