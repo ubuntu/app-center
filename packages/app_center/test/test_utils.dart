@@ -53,6 +53,31 @@ extension WidgetTesterX on WidgetTester {
       ),
     );
   }
+
+  /// Like [pumpApp], but places the [ProviderScope] above [MaterialApp] so
+  /// that widgets pushed onto the root [Navigator] (e.g. via `showDialog`)
+  /// can still find providers. Use this when the widget under test opens a
+  /// dialog that reads/watches providers.
+  Future<void> pumpScopedApp(WidgetBuilder builder) async {
+    view.physicalSize =
+        (const Size(800, 600) + const Offset(54, 54)) * view.devicePixelRatio;
+    final ubuntuRegular = File('test/fonts/Ubuntu-Regular.ttf');
+    final content = ByteData.view(
+      Uint8List.fromList(ubuntuRegular.readAsBytesSync()).buffer,
+    );
+    final fontLoader = FontLoader('UbuntuRegular')
+      ..addFont(Future.value(content));
+    await fontLoader.load();
+    return pumpWidget(
+      ProviderScope(
+        child: MaterialApp(
+          theme: ThemeData(fontFamily: 'UbuntuRegular'),
+          localizationsDelegates: localizationsDelegates,
+          home: Scaffold(body: Builder(builder: builder)),
+        ),
+      ),
+    );
+  }
 }
 
 /// A testing utility which creates a [ProviderContainer] and automatically
@@ -461,6 +486,7 @@ MockPackageKitService createMockPackageKitService({
     packageKit.errorsFor(any),
   ).thenAnswer((_) => errorStream);
   when(packageKit.requiresRestartFor(any)).thenReturn(false);
+  when(packageKit.getTransaction(any)).thenReturn(null);
   when(packageKit.lastErrorFor(any)).thenReturn(lastError);
   when(packageKit.cancelTransaction(any)).thenAnswer((_) async {});
   when(

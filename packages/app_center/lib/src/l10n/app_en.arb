@@ -420,5 +420,22 @@
     "driversPageErrorLabel": "Error",
     "driversPageRetryLabel": "Retry",
     "driversPageNoDriversFoundMessage": "Using built-in drivers. No additional drivers found.",
-    "driversPageUnsupportedMessage": "Your snapd version does not support driver management. Please update snapd."
+    "driversPageUnsupportedMessage": "Your snapd version does not support driver management. Please update snapd.",
+    "driversPageSwitchBranchLabel": "Switch branch",
+    "driversPageSwitchBranchTitle": "Switch branch",
+    "driversPageSwitchBranchProductionDescription": "Balances features and stability",
+    "driversPageSwitchBranchLtsDescription": "Maximum stability for critical workloads",
+    "driversPageSwitchBranchNewFeatureDescription": "Preview, less stable",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (recommended)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "This branch is less stable",
+    "driversPageSwitchBranchLessStableWarningMessage": "Stay on the current branch to prevent issues with this device.",
+    "driversPageSwitchLabel": "Switch",
+    "driversPageSwitchingBranchLabel": "Switching branch"
 }

@@ -10,6 +10,10 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 part 'driver_model.freezed.dart';
 part 'driver_model.g.dart';
 
+/// The kind of PackageKit transaction currently in progress for a device,
+/// used to pick the right busy label in the UI.
+enum DriverActionKind { install, update, uninstall, switchBranch }
+
 /// Per-device mutable state not covered by [DriverDeviceInfo]: transaction,
 /// error, and restart-required status.
 @freezed
@@ -17,6 +21,7 @@ class DriverDeviceState with _$DriverDeviceState {
   const factory DriverDeviceState({
     required DriverDeviceInfo info,
     int? activeTransactionId,
+    DriverActionKind? activeActionKind,
     PackageKitServiceError? error,
     @Default(false) bool requiresRestart,
   }) = _DriverDeviceState;
@@ -48,6 +53,7 @@ class DriverModel extends _$DriverModel {
     return DriverDeviceState(
       info: info,
       activeTransactionId: previous?.activeTransactionId,
+      activeActionKind: previous?.activeActionKind,
       error: previous?.error,
       requiresRestart: previous?.requiresRestart ?? false,
     );
@@ -61,22 +67,35 @@ class DriverModel extends _$DriverModel {
     return !ref.read(driversBusyProvider);
   }
 
-  /// Installs [packageName] for this device. Also used to switch branches:
-  /// installing a different candidate relies on apt/dpkg conflict resolution
-  /// to remove the previously-installed candidate atomically.
+  /// Installs [packageName] for this device, e.g. when no branch is
+  /// currently installed yet.
+  Future<void> install(String packageName) => _driverAction(
+    DriverActionKind.install,
+    () => _packageKit.install(_packageIdFor(packageName)),
+  );
+
+  /// Switches the currently-installed candidate to a different branch's
+  /// [packageName]: installing a different candidate relies on apt/dpkg
+  /// conflict resolution to remove the previously-installed candidate
+  /// atomically.
   ///
   /// OPEN ITEM (unverified on real hardware): if the aptcc PackageKit backend
   /// refuses a single-transaction switch requiring a removal, this needs to
   /// fall back to install-then-remove as two transactions - never
   /// remove-then-install.
-  Future<void> install(String packageName) =>
-      _driverAction(() => _packageKit.install(_packageIdFor(packageName)));
+  Future<void> switchBranch(String packageName) => _driverAction(
+    DriverActionKind.switchBranch,
+    () => _packageKit.install(_packageIdFor(packageName)),
+  );
 
   /// Updates the currently-installed candidate to its available update.
   Future<void> updateDriver() {
     final installed = state.value?.info.installedOption;
     assert(installed?.packageId != null);
-    return _driverAction(() => _packageKit.update(installed!.packageId!));
+    return _driverAction(
+      DriverActionKind.update,
+      () => _packageKit.update(installed!.packageId!),
+    );
   }
 
   /// Uninstalls the currently-installed candidate.
@@ -87,7 +106,10 @@ class DriverModel extends _$DriverModel {
   Future<void> uninstall() {
     final installed = state.value?.info.installedOption;
     assert(installed?.packageId != null);
-    return _driverAction(() => _packageKit.remove(installed!.packageId!));
+    return _driverAction(
+      DriverActionKind.uninstall,
+      () => _packageKit.remove(installed!.packageId!),
+    );
   }
 
   /// Best-effort cancellation. If PackageKit refuses, the transaction
@@ -113,7 +135,10 @@ class DriverModel extends _$DriverModel {
         PackageKitPackageId(name: packageName, version: '');
   }
 
-  Future<void> _driverAction(Future<int> Function() action) async {
+  Future<void> _driverAction(
+    DriverActionKind kind,
+    Future<int> Function() action,
+  ) async {
     if (!canOperate) {
       throw StateError(
         'Cannot start a driver operation for $sysPath: another operation is '
@@ -129,6 +154,7 @@ class DriverModel extends _$DriverModel {
       state = AsyncData(
         state.value!.copyWith(
           activeTransactionId: transactionId,
+          activeActionKind: kind,
           error: null,
         ),
       );
@@ -139,17 +165,24 @@ class DriverModel extends _$DriverModel {
         state = AsyncData(
           state.value!.copyWith(
             activeTransactionId: null,
+            activeActionKind: null,
             requiresRestart: requiresRestart,
           ),
         );
         ref.invalidate(driverListModelProvider);
       } on PackageKitTransactionError catch (e) {
         if (e.exit == PackageKitExit.cancelled) {
-          state = AsyncData(state.value!.copyWith(activeTransactionId: null));
+          state = AsyncData(
+            state.value!.copyWith(
+              activeTransactionId: null,
+              activeActionKind: null,
+            ),
+          );
         } else {
           state = AsyncData(
             state.value!.copyWith(
               activeTransactionId: null,
+              activeActionKind: null,
               error: _packageKit.lastErrorFor(transactionId),
             ),
           );

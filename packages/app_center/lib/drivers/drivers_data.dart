@@ -29,6 +29,16 @@ enum DriverBranch {
     DriverBranch.newFeature => true,
     DriverBranch.legacy || DriverBranch.unknown => false,
   };
+
+  /// Relative stability, highest is most stable. Only meaningful for
+  /// [isSelectable] branches; used to warn when switching to a less stable
+  /// branch than the currently-installed one.
+  int get stabilityRank => switch (this) {
+    DriverBranch.lts => 2,
+    DriverBranch.production => 1,
+    DriverBranch.newFeature => 0,
+    DriverBranch.legacy || DriverBranch.unknown => -1,
+  };
 }
 
 /// The general category of hardware a [DriverDeviceInfo] represents, derived
