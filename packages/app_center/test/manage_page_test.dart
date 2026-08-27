@@ -128,13 +128,14 @@ void main() {
   });
   tearDown(resetAllServices);
 
-  testWidgets('warns when the deb sources are unavailable', (tester) async {
+  testWidgets('warns when the catalog failed to load', (tester) async {
+    // The realistic failure: AppstreamService swallows the catalog error, so
+    // the deb list resolves empty instead of throwing.
+    createMockAppstreamService(catalogLoadFailed: true);
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          localDebsProvider.overrideWith(
-            (ref) async => throw Exception('no appstream catalog'),
-          ),
+          localDebsProvider.overrideWith((ref) async => []),
           localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),

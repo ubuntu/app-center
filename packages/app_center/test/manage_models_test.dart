@@ -436,6 +436,7 @@ void main() {
 
     test('is true when the debs can be listed', () async {
       registerMockSnapdService();
+      createMockAppstreamService();
 
       final container = createContainer(
         overrides: [
@@ -444,6 +445,20 @@ void main() {
       );
 
       expect(await container.read(debSourcesAvailableProvider.future), isTrue);
+    });
+
+    test('is false when the catalog failed to load', () async {
+      // The catalog failure is swallowed by AppstreamService, so the deb list
+      // resolves empty rather than throwing. This is the path that actually
+      // occurs when a catalog file cannot be parsed.
+      registerMockSnapdService();
+      createMockAppstreamService(catalogLoadFailed: true);
+
+      final container = createContainer(
+        overrides: [localDebsProvider.overrideWith((ref) async => [])],
+      );
+
+      expect(await container.read(debSourcesAvailableProvider.future), isFalse);
     });
 
     test('is false when the debs cannot be listed', () async {

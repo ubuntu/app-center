@@ -1,3 +1,4 @@
+import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/manage/local_deb_updates_model.dart';
@@ -73,10 +74,14 @@ Future<List<ManageAppData>> appUpdates(Ref ref) async {
 Future<bool> debSourcesAvailable(Ref ref) async {
   try {
     await ref.watch(localDebsProvider.future);
-    return true;
   } on Exception {
     return false;
   }
+  // A catalog that failed to load leaves the service with no components, so
+  // the deb list comes back empty rather than throwing. Ask the service
+  // directly, otherwise the very failure this warning exists for is the one
+  // case it would miss.
+  return !getService<AppstreamService>().catalogLoadFailed;
 }
 
 /// Returns all installed debs, or an empty list if they could not be

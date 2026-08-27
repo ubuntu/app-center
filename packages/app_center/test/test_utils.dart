@@ -362,9 +362,11 @@ MockAppstreamService createMockAppstreamService({
   AppstreamComponent? component,
   List<AppstreamComponent>? components,
   bool initialized = true,
+  bool catalogLoadFailed = false,
 }) {
   final appstream = MockAppstreamService();
   when(appstream.initialized).thenReturn(initialized);
+  when(appstream.catalogLoadFailed).thenReturn(catalogLoadFailed);
   when(appstream.init()).thenAnswer((_) async {});
 
   final allComponents = components ?? [if (component != null) component];

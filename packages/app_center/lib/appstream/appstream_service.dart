@@ -159,6 +159,7 @@ class AppstreamService {
       .load()
       .onError<Exception>((error, _) {
         log.error('Failed to load the Appstream pool', error);
+        _catalogLoadFailed = true;
       })
       .then((_) {
         _populateCache();
@@ -167,6 +168,14 @@ class AppstreamService {
 
   bool get initialized => _initialized;
   bool _initialized = false;
+
+  /// Whether the catalog failed to load.
+  ///
+  /// A failed load leaves the pool empty, which is indistinguishable from a
+  /// system with no Appstream metadata. Callers that need to tell the user
+  /// their view is incomplete have to ask.
+  bool get catalogLoadFailed => _catalogLoadFailed;
+  bool _catalogLoadFailed = false;
 
   final HashSet<_CachedComponent> _cache = HashSet<_CachedComponent>();
 
