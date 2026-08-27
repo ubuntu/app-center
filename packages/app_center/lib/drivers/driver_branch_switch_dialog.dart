@@ -88,7 +88,7 @@ class _DriverBranchSwitchDialogState
                   ),
                   if (showLessStableWarning) ...[
                     const SizedBox(height: kSpacing),
-                    _LessStableWarning(l10n: l10n),
+                    const _LessStableWarning(),
                   ],
                   const SizedBox(height: kPagePadding),
                   Row(
@@ -171,12 +171,11 @@ class _BranchOptionTile extends StatelessWidget {
 }
 
 class _LessStableWarning extends StatelessWidget {
-  const _LessStableWarning({required this.l10n});
-
-  final AppLocalizations l10n;
+  const _LessStableWarning();
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return YaruInfoBox(
       yaruInfoType: YaruInfoType.warning,
       title: Text(l10n.driversPageSwitchBranchLessStableWarningTitle),
