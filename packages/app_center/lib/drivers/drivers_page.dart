@@ -96,7 +96,7 @@ class _DriversView extends ConsumerWidget {
               Text(l10n.driversPageDescription),
               if (requiresRestart) ...[
                 const SizedBox(height: kSectionSpacing),
-                _RestartRequiredBanner(l10n: l10n),
+                const _RestartRequiredBanner(),
               ],
               const SizedBox(height: kSectionSpacing),
               _DriverSection(
@@ -120,12 +120,11 @@ class _DriversView extends ConsumerWidget {
 }
 
 class _RestartRequiredBanner extends StatelessWidget {
-  const _RestartRequiredBanner({required this.l10n});
-
-  final AppLocalizations l10n;
+  const _RestartRequiredBanner();
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return YaruInfoBox(
       yaruInfoType: YaruInfoType.warning,
       title: Text(l10n.driversPageRestartRequiredTitle),
