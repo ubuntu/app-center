@@ -1,7 +1,6 @@
 import 'package:app_center/drivers/drivers.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
-import 'package:app_center/widgets/small_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
@@ -178,29 +177,10 @@ class _LessStableWarning extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SmallBanner(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(
-            YaruInfoType.warning.iconData,
-            color: YaruInfoType.warning.getColor(context),
-          ),
-          const SizedBox(width: kSpacingSmall),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  l10n.driversPageSwitchBranchLessStableWarningTitle,
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-                Text(l10n.driversPageSwitchBranchLessStableWarningMessage),
-              ],
-            ),
-          ),
-        ],
-      ),
+    return YaruInfoBox(
+      yaruInfoType: YaruInfoType.warning,
+      title: Text(l10n.driversPageSwitchBranchLessStableWarningTitle),
+      subtitle: Text(l10n.driversPageSwitchBranchLessStableWarningMessage),
     );
   }
 }
