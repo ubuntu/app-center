@@ -409,6 +409,7 @@ void main() {
         expect(installed.packageName, 'nvidia-driver-550');
         expect(installed.isInstalled, isTrue);
         expect(installed.hasUpdate, isTrue);
+        expect(installed.updatePackageId?.version, '550.2');
 
         final ltsOption = device.options.firstWhere(
           (o) => o.packageName == 'nvidia-driver-470',
@@ -616,6 +617,51 @@ void main() {
       final state = container.read(driverModelProvider(_gpuSysPath)).value!;
       expect(state.activeTransactionId, isNull);
     });
+
+    test(
+      'updateDriver passes the update candidate packageId, not the '
+      'installed one',
+      () async {
+        registerMockDriversService(devices: [_gpuDevice()]);
+        final packageKit = createMockPackageKitService(
+          transactionId: 12,
+          resolveMap: {
+            'nvidia-driver-550': PackageKitPackageEvent(
+              info: PackageKitInfo.installed,
+              packageId: const PackageKitPackageId(
+                name: 'nvidia-driver-550',
+                version: '550.1',
+              ),
+              summary: '',
+            ),
+          },
+          availableUpdates: [
+            PackageKitPackageEvent(
+              info: PackageKitInfo.normal,
+              packageId: const PackageKitPackageId(
+                name: 'nvidia-driver-550',
+                version: '550.2',
+              ),
+              summary: '',
+            ),
+          ],
+        );
+        when(packageKit.update(any)).thenAnswer((_) async => 12);
+        final container = createContainer();
+
+        await container.read(driverModelProvider(_gpuSysPath).future);
+        final notifier = container.read(
+          driverModelProvider(_gpuSysPath).notifier,
+        );
+        await notifier.updateDriver();
+
+        final updatedId =
+            verify(packageKit.update(captureAny)).captured.single
+                as PackageKitPackageId;
+        expect(updatedId.name, 'nvidia-driver-550');
+        expect(updatedId.version, '550.2');
+      },
+    );
 
     test(
       'a completed transaction preserves requiresRestart across the '

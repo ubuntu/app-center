@@ -109,10 +109,10 @@ class DriverModel extends _$DriverModel {
   /// Updates the currently-installed candidate to its available update.
   Future<void> updateDriver() {
     final installed = state.value?.info.installedOption;
-    assert(installed?.packageId != null);
+    assert(installed?.updatePackageId != null);
     return _driverAction(
       DriverActionKind.update,
-      () => _packageKit.update(installed!.packageId!),
+      () => _packageKit.update(installed!.updatePackageId!),
     );
   }
 
