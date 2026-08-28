@@ -47,7 +47,7 @@ class DriverListModel extends _$DriverListModel {
 
     final resolved = await packageKit.resolve(allPackageNames);
     final updates = await packageKit.getUpdates();
-    final updatedPackageNames = updates.map((u) => u.packageId.name).toSet();
+    final updatesByName = {for (final u in updates) u.packageId.name: u};
 
     final byPath = <String, DriverDeviceInfo>{};
     final sysPaths = <String>[];
@@ -55,13 +55,15 @@ class DriverListModel extends _$DriverListModel {
       final options = device.drivers.map((driver) {
         final packageInfo = resolved[driver.name];
         final isInstalled = packageInfo?.info == PackageKitInfo.installed;
+        final update = updatesByName[driver.name];
         return DriverBranchOption(
           branch: DriverBranch.fromSupport(driver.support),
           packageName: driver.name,
           recommended: driver.recommended,
           packageId: packageInfo?.packageId,
           isInstalled: isInstalled,
-          hasUpdate: isInstalled && updatedPackageNames.contains(driver.name),
+          hasUpdate: isInstalled && update != null,
+          updatePackageId: update?.packageId,
         );
       }).toList();
 
