@@ -108,6 +108,7 @@ class DriverBranchOption with _$DriverBranchOption {
     PackageKitPackageId? packageId,
     @Default(false) bool isInstalled,
     @Default(false) bool hasUpdate,
+    PackageKitPackageId? updatePackageId,
   }) = _DriverBranchOption;
 
   const DriverBranchOption._();
