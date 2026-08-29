@@ -76,7 +76,7 @@ class _AboutHeader extends ConsumerWidget {
                 focused: true,
                 label: l10n.aboutPageLabel,
                 child: Text(
-                  kAppName,
+                  l10n.appCenterLabel,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ),
