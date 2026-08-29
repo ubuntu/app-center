@@ -666,6 +666,42 @@ void main() {
     expect(updates, contains(barUpdate));
     expect(updates.length, equals(2));
   });
+
+  test('getUpdates excludes blocked updates', () async {
+    const availableUpdate = PackageKitPackageEvent(
+      info: PackageKitInfo.normal,
+      packageId: PackageKitPackageId(
+        name: 'foo',
+        version: '2.0',
+        arch: 'amd64',
+      ),
+      summary: 'foo update',
+    );
+    const blockedUpdate = PackageKitPackageEvent(
+      info: PackageKitInfo.blocked,
+      packageId: PackageKitPackageId(
+        name: 'bar',
+        version: '3.0',
+        arch: 'amd64',
+      ),
+      summary: 'bar blocked (phased) update',
+    );
+    final mockTransaction = createMockPackageKitTransaction(
+      events: [availableUpdate, blockedUpdate],
+    );
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    final updates = await packageKit.getUpdates();
+    expect(updates, contains(availableUpdate));
+    expect(updates, isNot(contains(blockedUpdate)));
+    expect(updates.length, equals(1));
+  });
 }
 
 @GenerateMocks([DBusClient, XdgDocumentsPortal])

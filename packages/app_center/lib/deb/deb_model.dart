@@ -150,18 +150,24 @@ class DebModel extends _$DebModel {
     final updates = detailsEvent?.updates.where(
       (pid) => pid != packageInfo.packageId,
     );
-    var hasUpdate = false;
+    if (updates == null || updates.isEmpty) return false;
 
-    for (final packageUpdate in updates ?? <PackageKitPackageId>[]) {
+    // getUpdateDetails doesn't flag blocked (e.g. phased) updates, so
+    // cross-check against the installable updates from GetUpdates.
+    final installableNames = (await packageKit.getUpdates())
+        .map((u) => u.packageId.name)
+        .toSet();
+
+    for (final packageUpdate in updates) {
       final packageName = packageUpdate.name;
+      if (!installableNames.contains(packageName)) continue;
       final results = await packageKit.resolve([
         packageName,
       ], installedOnly: true);
-      hasUpdate = results[packageName]?.info == PackageKitInfo.installed;
-      break;
+      return results[packageName]?.info == PackageKitInfo.installed;
     }
 
-    return hasUpdate;
+    return false;
   }
 
   Future<void> _packageKitAction(Future<int> Function() action) async {
@@ -169,7 +175,18 @@ class DebModel extends _$DebModel {
     state = AsyncValue.data(
       state.value!.copyWith(activeTransactionId: transactionId),
     );
-    await packageKit.waitTransaction(transactionId);
+    try {
+      await packageKit.waitTransaction(transactionId);
+    } on Exception catch (e) {
+      // Report via the same path as PackageKitServiceError events so the
+      // page shows the error and clears the stuck transaction state.
+      await _onError(
+        PackageKitServiceError(
+          code: PackageKitError.internalError,
+          details: e.toString(),
+        ),
+      );
+    }
     ref.invalidateSelf();
   }
 }

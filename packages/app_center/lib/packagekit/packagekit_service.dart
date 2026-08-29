@@ -388,7 +388,11 @@ class PackageKitService {
     await _createTransaction(
       action: (transaction) => transaction.getUpdates(),
       listener: (event) {
-        if (event is PackageKitPackageEvent) {
+        // Skip blocked (e.g. phased) updates — they are not installable
+        // candidates and attempting to update them fails with
+        // PackageKitError.packageNotFound.
+        if (event is PackageKitPackageEvent &&
+            event.info != PackageKitInfo.blocked) {
           updates.add(event);
         }
       },
