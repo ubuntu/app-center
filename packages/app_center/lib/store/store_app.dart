@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:app_center/about/about.dart';
 import 'package:app_center/deb/deb.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/games/games.dart';
@@ -170,6 +171,13 @@ class _StoreAppHome extends ConsumerWidget {
         ),
         breakpoint: 0, // always landscape
         onGenerateRoute: (settings) => switch (StoreRoutes.routeOf(settings)) {
+          StoreRoutes.about => MaterialPageRoute(
+            settings: settings,
+            builder: (_) => YaruDetailPage(
+              appBar: searchField,
+              body: const AboutPage(),
+            ),
+          ),
           StoreRoutes.deb => MaterialPageRoute(
             settings: settings,
             builder: (_) => YaruDetailPage(
