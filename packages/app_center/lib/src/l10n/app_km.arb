@@ -1,1 +1,301 @@
-{}
+{
+    "managePageDocumentationLinkLabel": "ស្វែងយល់ពីរបៀបគ្រប់គ្រងកញ្ចប់ Debian នៅក្នុងឯកសារ។",
+    "productivityPageLabel": "ផលិតភាព",
+    "developmentPageLabel": "ការអភិវឌ្ឍន៍",
+    "gamesPageLabel": "ហ្គេម",
+    "unknownPublisher": "អ្នកបោះពុម្ពមិនស្គាល់",
+    "gamesPageBundles": "កញ្ចប់កម្មវិធី",
+    "searchFieldDebSection": "កញ្ចប់ Debian",
+    "searchFieldSearchHint": "ស្វែងរកកម្មវិធី",
+    "searchFieldSearchForLabel": "មើលលទ្ធផលទាំងអស់សម្រាប់ \"{query}\"",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchFieldSnapSection": "កញ្ចប់ Snap",
+    "aboutPageLabel": "អំពី",
+    "aboutPageVersionLabel": "ជំនាន់{version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageContributorTitle": "រចនា និងអភិវឌ្ឍន៍ដោយ៖",
+    "aboutPageGitHubLabel": "ស្វែងរកពួកយើងនៅលើ GitHub",
+    "aboutPagePublishLabel": "ផ្សព្វផ្សាយទៅ ហាង​ Snap",
+    "aboutPageLearnMoreLabel": "ស្វែងយល់បន្ថែម",
+    "appstreamUrlTypeBugtracker": "កម្មវិធីតាមដានកំហុស",
+    "appstreamUrlTypeDonation": "បរិច្ចាគ",
+    "appstreamUrlTypeFaq": "សំណួរគេសួរញឹកញាប់",
+    "appstreamUrlTypeHelp": "ជំនួយ",
+    "snapActionInstalledLabel": "បានតម្លើង",
+    "snapActionInstallingLabel": "ការតម្លើង",
+    "snapActionOpenLabel": "បើក",
+    "snapActionRemoveLabel": "លុបការតម្លើង",
+    "packageFormatSnapLabel": "កញ្ចប់ Snap",
+    "snapActionCancelLabel": "ច្រានចោល",
+    "snapActionInstallLabel": "តម្លើង",
+    "snapActionUpdateLabel": "បច្ចុប្បន្នភាព",
+    "snapCategoryArtAndDesignButtonLabel": "ចាប់ផ្ដើមការបង្កើត",
+    "snapCategoryArtAndDesignSlogan": "ពីគំនូរព្រាងដំបូងរបស់អ្នករហូតដល់ការប៉ះចុងក្រោយ សូមស្វែងរកកម្មវិធីសម្រាប់សិល្បៈ និងការរចនា។",
+    "snapCategoryBooksAndReference": "សៀវភៅ និងឯកសារយោង",
+    "snapCategoryArtAndDesign": "សិល្ប: និង រចនា",
+    "snapCategoryFinance": "ហិរញ្ញវត្ថុ",
+    "snapCategoryDevelopmentSlogan": "Snaps ដែលត្រូវតែមានសម្រាប់អ្នកអភិវឌ្ឍន៍",
+    "snapCategoryDevicesAndIot": "ឧបករណ៍ និង IoT",
+    "snapCategoryEducation": "ការអប់រំ",
+    "snapCategoryEntertainment": "ការកំសាន្ត",
+    "snapCategoryFeatured": "លក្ខណៈពិសេស",
+    "snapCategoryFeaturedSlogan": "លក្ខណៈពិសេស Snaps",
+    "snapCategoryGames": "ហ្គេម",
+    "snapCategoryGameDev": "ការអភិវឌ្ឍន៍ហ្គេម",
+    "snapCategoryGameDevSlogan": "ការអភិវឌ្ឍន៍ហ្គេម",
+    "snapCategoryGameEmulators": "កម្មវិធីត្រាប់តាម",
+    "snapCategoryGameEmulatorsSlogan": "កម្មវិធីត្រាប់តាម",
+    "snapCategoryGamesSlogan": "អ្វីគ្រប់យ៉ាងសម្រាប់យប់ហ្គេមរបស់អ្នក",
+    "snapCategoryKdeGames": "ហ្គេម KDE",
+    "snapCategoryKdeGamesSlogan": "ឈុតហ្គេម KDE",
+    "snapCategoryGnomeGamesSlogan": "ឈុតហ្គេម GNOME",
+    "snapCategoryGnomeGames": "ហ្គេម GNOME",
+    "snapCategoryGameLaunchers": "កម្មវិធីបើកដំណើរការហ្គេម",
+    "snapCategoryGameContentCreationSlogan": "ការបង្កើតមាតិកា",
+    "snapCategoryHealthAndFitness": "សុខភាព និងកាយសម្បទា",
+    "snapCategoryMusicAndAudio": "តន្ត្រី និងសំឡេង",
+    "snapCategoryNewsAndWeather": "ព័ត៌មាន និងអាកាសធាតុ",
+    "snapCategoryPersonalisation": "ការកំណត់ផ្ទាល់ខ្លួន",
+    "snapCategoryPhotoAndVideo": "រូបថត និងវីដេអូ",
+    "snapCategoryProductivity": "ផលិតភាព",
+    "snapCategoryProductivitySlogan": "ឆ្លងកាត់រឿងមួយចេញពីបញ្ជីការងារត្រូវធ្វើរបស់អ្នក",
+    "snapCategoryScience": "វិទ្យាសាស្ត្រ",
+    "snapCategoryProductivityButtonLabel": "ស្វែងយល់ពីការប្រមូលផលិតភាព",
+    "snapCategorySecurity": "សន្តិសុខ",
+    "snapCategoryServerAndCloud": "ម៉ាស៊ីនមេ និងពពក",
+    "snapCategorySocial": "បណ្ដាញសង្គម",
+    "snapCategoryUbuntuDesktop": "Ubuntu Desktop",
+    "snapCategoryUbuntuDesktopSlogan": "លោតចាប់ផ្តើម Desktop របស់អ្នក",
+    "snapConfinementClassic": "បុរាណ",
+    "snapConfinementDevmode": "មុខងារសម្រាប់អ្នកអភិវឌ្ឍន៍",
+    "snapConfinementStrict": "តឹងរ៉ឹង",
+    "snapCategoryUtilities": "ឧបករណ៍ប្រើប្រាស់",
+    "snapSortOrderAlphabeticalAsc": "អក្ខរក្រម (A ដល់ Z)",
+    "snapSortOrderAlphabeticalDesc": "អក្ខរក្រម (Z ដល់ ​A)",
+    "snapSortOrderDownloadSizeAsc": "ទំហំ (តូចបំផុតទៅធំ)",
+    "snapSortOrderDownloadSizeDesc": "ទំហំ (ធំបំផុតទៅតូចបំផុត)",
+    "snapSortOrderInstalledSizeAsc": "ទំហំ (តូចបំផុតទៅធំបំផុត)",
+    "snapSortOrderInstalledSizeDesc": "ទំហំ (ធំបំផុតទៅតូចបំផុត)",
+    "snapSortOrderInstalledDateAsc": "ថ្មីៗ​តិច​បំផុត​ធ្វើ​បច្ចុប្បន្នភាព",
+    "snapRatingsBandVeryGood": "ល្អណាស់",
+    "snapSortOrderRelevance": "ភាពពាក់ព័ន្ធ",
+    "snapRatingsBandVeryPoor": "កម្រងណាស់",
+    "snapReportOptionCopyrightViolation": "ការបំពានសិទ្ធិអ្នកនិពន្ធ ឬពាណិជ្ជសញ្ញា",
+    "snapReportOptionStoreViolation": "ការបំពានលក្ខខណ្ឌសេវាកម្មរបស់ហាង Snap",
+    "snapReportDetailsLabel": "សូមផ្តល់ហេតុផលលម្អិតបន្ថែមទៀតចំពោះរបាយការណ៍របស់អ្នក",
+    "snapReportOptionalEmailAddressLabel": "អ៊ីមែលរបស់អ្នក (ជាជម្រើស)",
+    "snapReportCancelButtonLabel": "ច្រានចោល",
+    "snapReportPrivacyAgreementLabel": "ក្នុងការបញ្ជូនទម្រង់នេះ ខ្ញុំបញ្ជាក់ថាខ្ញុំបានអាន និងយល់ព្រម។ ",
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "ការជូនដំណឹងអំពីឯកជនភាពរបស់ Canonical ។ ",
+    "snapReportPrivacyAgreementPrivacyPolicy": "គោលការណ៍ឯកជនភាព",
+    "externalResourcesDisclaimer": "ចំណាំ៖ ទាំងនេះគឺជាឧបករណ៍ខាងក្រៅទាំងអស់។ ទាំងនេះមិនមែនជាកម្មសិទ្ធិ ឬចែកចាយដោយ Canonical ទេ។",
+    "openInBrowser": "បើកនៅក្នុងកម្មវិធីរុករក",
+    "installAll": "ដំឡើងទាំងអស់",
+    "localDebWarningTitle": "សក្តានុពលមិនមានសុវត្ថិភាព",
+    "localDebDialogConfirmation": "តើអ្នកប្រាកដថាចង់ដំឡើងវាទេ?",
+    "snapdExceptionRunningApps": "យើង​មិន​អាច​ធ្វើ​បច្ចុប្បន្នភាព {snapName} បាន​ទេ ដោយសារ​វា​កំពុង​ដំណើរការ​បច្ចុប្បន្ន។",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewCheckStatusLabel": "ពិនិត្យស្ថានភាព",
+    "errorViewNetworkErrorTitle": "ភ្ជាប់ទៅអ៊ីនធឺណិត",
+    "errorViewNetworkErrorDescription": "យើងមិនអាចផ្ទុកមាតិកានៅក្នុង App Center ដោយគ្មានការតភ្ជាប់អ៊ីនធឺណិតបានទេ។",
+    "errorViewNetworkErrorAction": "ពិនិត្យការតភ្ជាប់របស់អ្នក ហើយព្យាយាមម្តងទៀត។",
+    "errorViewServerErrorDescription": "យើងខ្ញុំសូមអភ័យទោស បច្ចុប្បន្នយើងកំពុងជួបបញ្ហាជាមួយមជ្ឈមណ្ឌលកម្មវិធី។",
+    "errorViewServerErrorAction": "ពិនិត្យមើលស្ថានភាពសម្រាប់ការអាប់ដេត ឬព្យាយាមម្តងទៀតនៅពេលក្រោយ។",
+    "errorViewUnknownErrorTitle": "មានអ្វីមួយខុសប្រក្រតី",
+    "errorViewUnknownErrorDescription": "យើង​សុំទោស ប៉ុន្តែ​យើង​មិន​ប្រាកដ​ថា​មាន​កំហុស​អ្វី​ទេ។",
+    "errorViewUnknownErrorAction": "អ្នកអាចព្យាយាមម្តងទៀតឥឡូវនេះ ពិនិត្យមើលស្ថានភាពសម្រាប់ការអាប់ដេត ឬព្យាយាមម្តងទៀតនៅពេលក្រោយ។",
+    "appCenterLabel": "កម្មវិធីកណ្ដាល",
+    "snapPageChannelLabel": "ឆាណែល",
+    "snapPageConfinementLabel": "ការឃុំឃាំង",
+    "snapPageContactPublisherLabel": "ទំនាក់ទំនង{publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageDescriptionLabel": "ព័ត័មានលម្អិត",
+    "snapPageDeveloperWebsiteLabel": "គេហទំព័រអ្នកអភិវឌ្ឍន៍",
+    "snapPageDownloadSizeLabel": "ទំហំទាញយក",
+    "snapPageSizeLabel": "ទំហំ",
+    "snapPageGalleryLabel": "កម្រងរូបភាព",
+    "snapPageLicenseLabel": "អាជ្ញាប័ណ្ណ",
+    "snapPagePublisherLabel": "អ្នកបោះពុម្ពផ្សាយ",
+    "snapPagePublishedLabel": "បានបោះពុម្ពផ្សាយ",
+    "snapPageSummaryLabel": "សង្ខេប",
+    "snapPageVersionLabel": "ជំនាន់",
+    "snapPageShareLinkCopiedMessage": "តំណត្រូវបានចម្លងទៅក្ដារតម្បៀតខ្ទាស់",
+    "explorePageLabel": "រុករក",
+    "explorePageCategoriesLabel": "ប្រភេទ",
+    "managePageOwnUpdateAvailable": "ការអាប់ដេតកម្មវិធីកណ្ដាលមានហើយ",
+    "managePageQuitToUpdate": "ចាកចេញដើម្បីធ្វើបច្ចុប្បន្នភាព",
+    "managePageOwnUpdateQuitButton": "ចាកចេញដើម្បីធ្វើបច្ចុប្បន្នភាព",
+    "managePageCheckForUpdates": "ពិនិត្យមើលបច្ចុប្បន្នភាព",
+    "managePageDebUpdatesMessage": "ការអាប់ដេតកញ្ចប់ Debian ត្រូវបានគ្រប់គ្រងដោយ Software Updater ។",
+    "managePageInstalledAndUpdatedLabel": "បានដំឡើង និងធ្វើបច្ចុប្បន្នភាព",
+    "managePageInstallingLabel": "ការដំឡើង ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageLabel": "គ្រប់គ្រង",
+    "managePageTitle": "គ្រប់គ្រង Snaps បានដំឡើងហើយ",
+    "managePageNoUpdatesAvailableDescription": "មិនមានការធ្វើបច្ចុប្បន្នភាពទេ។ កម្មវិធីរបស់អ្នកគឺទាន់សម័យទាំងអស់។",
+    "managePageUpdatesAvailable": "មានការអាប់ដេត ({n})",
+    "@managePageUpdatesAvailable": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "gamesPageFeatured": "ចំណងជើងពិសេស",
+    "searchPageFilterByLabel": "តម្រងដោយ",
+    "searchPageNoResults": "រកមិនឃើញលទ្ធផលសម្រាប់ \"{query}\"",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageSortByLabel": "តម្រៀបតាម",
+    "searchPageRelevanceLabel": "ភាពពាក់ព័ន្ធ",
+    "searchPageTitle": "លទ្ធផលសម្រាប់ \"{query}\"",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "appstreamUrlTypeContribute": "រួមចំណែក",
+    "searchPageNoResultsHint": "សាកល្បងប្រើពាក្យគន្លឹះផ្សេងគ្នា ឬច្រើនជាងនេះ",
+    "searchPageNoResultsCategory": "សូមអភ័យទោស យើងមិនអាចរកឃើញកញ្ចប់ណាមួយនៅក្នុងប្រភេទនេះទេ",
+    "managePageUpdatedWeeksAgo": "បានធ្វើបច្ចុប្បន្នភាព {n, plural, =1{{n} សប្តាហ៍} other{{n} សប្តាហ៍}}មុន",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "packageFormatDebLabel": "កញ្ចប់ Debian",
+    "snapCategoryAll": "ប្រភេទទាំងអស់",
+    "snapActionUpdatingLabel": "ការធ្វើបច្ចុប្បន្នភាព",
+    "snapCategoryDefaultButtonLabel": "ស្វែងយល់បន្ថែម",
+    "snapActionSwitchChannelLabel": "ប្ដូរឆានែល",
+    "snapCategoryGameLaunchersSlogan": "កម្មវិធីបើកដំណើរការហ្គេម",
+    "snapCategoryGameContentCreation": "ការបង្កើតមាតិកា",
+    "snapRatingsBandGood": "ល្អ",
+    "snapRatingsBandNeutral": "អព្យាក្រឹត",
+    "snapRatingsBandPoor": "កម្រ",
+    "snapRatingsBandInsufficientVotes": "ការបោះឆ្នោតមិនគ្រប់គ្រាន់",
+    "snapReportLabel": "រាយការណ៍ {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectReportReasonLabel": "ជ្រើសរើសហេតុផលសម្រាប់ការរាយការណ៍ Snap នេះ",
+    "snapReportSelectAnOptionLabel": "ជ្រើសរើសជម្រើសមួយ",
+    "snapReportEnterValidEmailError": "បញ្ចូលអាសយដ្ឋានអ៊ីមែលត្រឹមត្រូវ",
+    "snapReportDetailsHint": "មតិ...",
+    "snapReportPrivacyAgreementAndLabel": "និង ",
+    "debPageDocumentationLinkLabel": "ស្វែងយល់អំពីការគ្រប់គ្រងកញ្ចប់ Debian",
+    "externalResources": "ធនធានបន្ថែម",
+    "externalResourcesButtonLabel": "ស្វែងយល់បន្ថែម",
+    "allGamesButtonLabel": "ហ្គេមទាំងអស់",
+    "localDebLearnMore": "ស្វែងយល់បន្ថែមអំពីកញ្ចប់ភាគីទីបី",
+    "managePageCheckingForUpdates": "កំពុងពិនិត្យមើលបច្ចុប្បន្នភាព",
+    "managePageDescription": "ពិនិត្យមើលការធ្វើបច្ចុប្បន្នភាពដែលមាន ធ្វើបច្ចុប្បន្នភាពកម្មវិធីរបស់អ្នក និងគ្រប់គ្រងស្ថានភាពនៃកម្មវិធីរបស់អ្នកទាំងអស់។",
+    "snapPageLinksLabel": "តំណភ្ជាប់",
+    "managePageOwnUpdateDescription": "នៅពេលអ្នកចាកចេញពីកម្មវិធី វានឹងអាប់ដេតដោយស្វ័យប្រវត្តិ។",
+    "appstreamSearchGreylist": "កម្មវិធី​ , កម្មវិធី , កញ្ចប់ , កម្មវិធី , កម្មវិធី , ឈុត , ឧបករណ៍",
+    "managePageNoInternet": "មិនអាចទៅដល់ម៉ាស៊ីនមេ សូមពិនិត្យមើលការតភ្ជាប់អ៊ីនធឺណិតរបស់អ្នក ឬព្យាយាមម្តងទៀតនៅពេលក្រោយ។",
+    "managePageShowDetailsLabel": "បង្ហាញព័ត៍មានលម្អិត",
+    "appstreamUrlTypeTranslate": "ការបកប្រែ",
+    "snapActionRemovingLabel": "ការលុបការតម្លើង",
+    "managePageUpdatedDaysAgo": "បានធ្វើបច្ចុប្បន្នភាព {n, plural, =1{{n} ថ្ងៃ} other{{n} ថ្ងៃ}}​ កន្លងទៅ",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "appstreamUrlTypeVcsBrowser": "ប្រភព",
+    "managePageUpdatesFailedBody": "យើង​មិន​អាច​ធ្វើ​បច្ចុប្បន្នភាព​កម្មវិធី​ទាំង​នេះ​បាន​ទេ ដោយសារ​ពួកគេ​កំពុង​ដំណើរការ​បច្ចុប្បន្ន។\n\n{snapList}\nនៅពេលអ្នកចាកចេញពីកម្មវិធី ពួកវានឹងធ្វើបច្ចុប្បន្នភាពដោយស្វ័យប្រវត្តិ។",
+    "gamesPageTop": "ចំណាត់ថ្នាក់កំពូល",
+    "aboutPageCommunityTitle": "ជាផ្នែកមួយនៃសហគមន៍៖",
+    "aboutPageContributeLabel": "រួមចំណែក ឬរាយការណ៍អំពីបញ្ហា",
+    "managePageUpdateAllLabel": "ធ្វើបច្ចុប្បន្នភាពទាំងអស់",
+    "managePageShowSystemSnapsLabel": "បង្ហាញប្រព័ន្ធ snaps",
+    "searchPageNoResultsCategoryHint": "សាកល្បងប្រភេទផ្សេង ឬប្រើពាក្យគន្លឹះទូទៅបន្ថែមទៀត",
+    "managePageSearchFieldSearchHint": "ស្វែងរកកម្មវិធីរបស់អ្នកដែលបានដំឡើង",
+    "appstreamUrlTypeHomepage": "ទំព័រដើម",
+    "appstreamUrlTypeContact": "ទំនាក់ទំនង",
+    "managePageUpdatedYearsAgo": "បានធ្វើបច្ចុប្បន្នភាព {n, plural, =1{{n} ឆ្នាំ} other{{n} ឆ្នាំ}}​​ កន្លងទៅ",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "gamesPageTitle": "អ្វីដែលក្តៅៗ",
+    "snapCategoryDevelopment": "ការអភិវឌ្ឍន៍",
+    "snapReportSubmitButtonLabel": "បញ្ចូនរបាយការណ៍",
+    "snapRatingsVotes": "{n} ការបោះឆ្នោត",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "debPageErrorNoPackageInfo": "រកមិនឃើញព័ត៌មានកញ្ចប់ទេ",
+    "localDebWarningBody": "កញ្ចប់នេះត្រូវបានផ្តល់ដោយភាគីទីបី។ ការដំឡើងកញ្ចប់ពីខាងក្រៅមជ្ឈមណ្ឌលកម្មវិធីអាចបង្កើនហានិភ័យដល់ប្រព័ន្ធ និងទិន្នន័យផ្ទាល់ខ្លួនរបស់អ្នក។ ត្រូវប្រាកដថាអ្នកទុកចិត្តប្រភពមុនពេលបន្ត។",
+    "snapSortOrderInstalledDateDesc": "បានធ្វើបច្ចុប្បន្នភាពថ្មីៗបំផុត",
+    "localDebDialogMessage": "កញ្ចប់នេះត្រូវបានផ្តល់ដោយភាគីទីបី ហើយអាចគំរាមកំហែងដល់ប្រព័ន្ធ និងទិន្នន័យផ្ទាល់ខ្លួនរបស់អ្នក។",
+    "managePageUpdatedMonthsAgo": "បានធ្វើបច្ចុប្បន្នភាព {n, plural, =1{{n} ខែ} other{{n} ខែ}} កន្លងទៅ",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailed": "{n, plural, =1{ធ្វើបច្ចុប្បន្នភាពតែមួយ} other{{n} ធ្វើបច្ចុប្បន្នភាព}} បានបរាជ័យ",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    }
+}

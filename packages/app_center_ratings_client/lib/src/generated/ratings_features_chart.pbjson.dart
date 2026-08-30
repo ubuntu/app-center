@@ -69,8 +69,24 @@ final $typed_data.Uint8List categoryDescriptor = $convert.base64Decode(
 const GetChartRequest$json = {
   '1': 'GetChartRequest',
   '2': [
-    {'1': 'timeframe', '3': 1, '4': 1, '5': 14, '6': '.ratings.features.chart.Timeframe', '10': 'timeframe'},
-    {'1': 'category', '3': 2, '4': 1, '5': 14, '6': '.ratings.features.chart.Category', '9': 0, '10': 'category', '17': true},
+    {
+      '1': 'timeframe',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.ratings.features.chart.Timeframe',
+      '10': 'timeframe'
+    },
+    {
+      '1': 'category',
+      '3': 2,
+      '4': 1,
+      '5': 14,
+      '6': '.ratings.features.chart.Category',
+      '9': 0,
+      '10': 'category',
+      '17': true
+    },
   ],
   '8': [
     {'1': '_category'},
@@ -87,9 +103,32 @@ final $typed_data.Uint8List getChartRequestDescriptor = $convert.base64Decode(
 const GetChartResponse$json = {
   '1': 'GetChartResponse',
   '2': [
-    {'1': 'timeframe', '3': 1, '4': 1, '5': 14, '6': '.ratings.features.chart.Timeframe', '10': 'timeframe'},
-    {'1': 'ordered_chart_data', '3': 2, '4': 3, '5': 11, '6': '.ratings.features.chart.ChartData', '10': 'orderedChartData'},
-    {'1': 'category', '3': 3, '4': 1, '5': 14, '6': '.ratings.features.chart.Category', '9': 0, '10': 'category', '17': true},
+    {
+      '1': 'timeframe',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.ratings.features.chart.Timeframe',
+      '10': 'timeframe'
+    },
+    {
+      '1': 'ordered_chart_data',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.ratings.features.chart.ChartData',
+      '10': 'orderedChartData'
+    },
+    {
+      '1': 'category',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.ratings.features.chart.Category',
+      '9': 0,
+      '10': 'category',
+      '17': true
+    },
   ],
   '8': [
     {'1': '_category'},
@@ -109,7 +148,14 @@ const ChartData$json = {
   '1': 'ChartData',
   '2': [
     {'1': 'raw_rating', '3': 1, '4': 1, '5': 2, '10': 'rawRating'},
-    {'1': 'rating', '3': 2, '4': 1, '5': 11, '6': '.ratings.features.common.Rating', '10': 'rating'},
+    {
+      '1': 'rating',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.ratings.features.common.Rating',
+      '10': 'rating'
+    },
   ],
 };
 
@@ -117,4 +163,3 @@ const ChartData$json = {
 final $typed_data.Uint8List chartDataDescriptor = $convert.base64Decode(
     'CglDaGFydERhdGESHQoKcmF3X3JhdGluZxgBIAEoAlIJcmF3UmF0aW5nEjcKBnJhdGluZxgCIA'
     'EoCzIfLnJhdGluZ3MuZmVhdHVyZXMuY29tbW9uLlJhdGluZ1IGcmF0aW5n');
-

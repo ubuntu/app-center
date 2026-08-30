@@ -14,9 +14,9 @@ class SnapSearchParameters {
   // with 'bad query'.
   // See https://github.com/snapcore/snapd/blob/29c9752d66bf95ffa85d85309531e2f5c7971553/store/store.go#L1048-L1056
   String? get cleanedQuery => query?.replaceAll(
-        RegExp(r'[+=&|><!(){}\[\]^"~*?:\\/]'),
-        ' ',
-      );
+    RegExp(r'[+=&|><!(){}\[\]^"~*?:\\/]'),
+    ' ',
+  );
 
   @override
   bool operator ==(Object other) =>
@@ -28,52 +28,58 @@ class SnapSearchParameters {
   int get hashCode => Object.hash(query, category);
 }
 
-final snapCategoryProvider =
-    StateProvider.family.autoDispose<SnapCategoryEnum?, SnapCategoryEnum?>(
-  (ref, initialValue) => initialValue,
-);
+final snapCategoryProvider = StateProvider.family
+    .autoDispose<SnapCategoryEnum?, SnapCategoryEnum?>(
+      (ref, initialValue) => initialValue,
+    );
 
 final snapSearchProvider =
-    StreamProvider.family<List<Snap>, SnapSearchParameters>(
-        (ref, searchParameters) async* {
-  final snapd = getService<SnapdService>();
-  if (searchParameters.category == SnapCategoryEnum.ubuntuDesktop) {
-    yield* snapd.getStoreSnaps(
-      searchParameters.category!.featuredSnapNames
-              ?.where((name) => name.contains(searchParameters.query ?? ''))
-              .toList() ??
-          [],
-    );
-  } else if (searchParameters.category == SnapCategoryEnum.gameDev ||
-      searchParameters.category == SnapCategoryEnum.gameEmulators ||
-      searchParameters.category == SnapCategoryEnum.gnomeGames ||
-      searchParameters.category == SnapCategoryEnum.kdeGames ||
-      searchParameters.category == SnapCategoryEnum.gameLaunchers ||
-      searchParameters.category == SnapCategoryEnum.gameContentCreation) {
-    yield* snapd.getStoreSnaps(
-      searchParameters.category!.featuredSnapNames
-              ?.where((name) => name.contains(searchParameters.query ?? ''))
-              .toList() ??
-          [],
-    );
-  } else if (searchParameters.query == null &&
-      searchParameters.category != null) {
-    yield* snapd.getCategory(searchParameters.category!.categoryName);
-  } else {
-    yield await snapd.find(
-      query: searchParameters.cleanedQuery,
-      category: searchParameters.category?.categoryName,
-      scope: SnapFindScope.wide,
-    );
-  }
-});
+    StreamProvider.family<List<Snap>, SnapSearchParameters>((
+      ref,
+      searchParameters,
+    ) async* {
+      final snapd = getService<SnapdService>();
+      if (searchParameters.category == SnapCategoryEnum.ubuntuDesktop) {
+        yield* snapd.getStoreSnaps(
+          searchParameters.category!.featuredSnapNames
+                  ?.where((name) => name.contains(searchParameters.query ?? ''))
+                  .toList() ??
+              [],
+        );
+      } else if (searchParameters.category == SnapCategoryEnum.gameDev ||
+          searchParameters.category == SnapCategoryEnum.gameEmulators ||
+          searchParameters.category == SnapCategoryEnum.gnomeGames ||
+          searchParameters.category == SnapCategoryEnum.kdeGames ||
+          searchParameters.category == SnapCategoryEnum.gameLaunchers ||
+          searchParameters.category == SnapCategoryEnum.gameContentCreation) {
+        yield* snapd.getStoreSnaps(
+          searchParameters.category!.featuredSnapNames
+                  ?.where((name) => name.contains(searchParameters.query ?? ''))
+                  .toList() ??
+              [],
+        );
+      } else if (searchParameters.query == null &&
+          searchParameters.category != null) {
+        yield* snapd.getCategory(searchParameters.category!.categoryName);
+      } else {
+        yield await snapd.find(
+          query: searchParameters.cleanedQuery,
+          category: searchParameters.category?.categoryName,
+          scope: SnapFindScope.wide,
+        );
+      }
+    });
 
-final snapSortOrderProvider =
-    StateProvider.autoDispose<SnapSortOrder?>((_) => null);
+final snapSortOrderProvider = StateProvider.autoDispose<SnapSortOrder?>(
+  (_) => null,
+);
 
 final sortedSnapSearchProvider = FutureProvider.family
     .autoDispose<List<Snap>, SnapSearchParameters>((ref, searchParameters) {
-  return ref.watch(snapSearchProvider(searchParameters).future).then(
-        (snaps) => snaps.sortedSnaps(ref.watch(snapSortOrderProvider)).toList(),
-      );
-});
+      return ref
+          .watch(snapSearchProvider(searchParameters).future)
+          .then(
+            (snaps) =>
+                snaps.sortedSnaps(ref.watch(snapSortOrderProvider)).toList(),
+          );
+    });

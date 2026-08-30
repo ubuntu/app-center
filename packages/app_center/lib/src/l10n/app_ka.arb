@@ -1,4 +1,351 @@
 {
-  "snapPageChannelLabel": "არხი",
-  "@snapPageChannelLabel": {}
+    "snapPageChannelLabel": "არხი",
+    "productivityPageLabel": "პროდუქტიულობა",
+    "searchFieldSnapSection": "Snap-ის პაკეტები",
+    "searchPageFilterByLabel": "ფილტრის პირობა",
+    "searchPageSortByLabel": "დალაგების პირობა",
+    "searchFieldSearchHint": "აპების ძებნა",
+    "aboutPageLabel": "შესახებ",
+    "aboutPageVersionLabel": "ვერსია {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageTitle": "შედეგები მოთხოვნისთვის \"{query}\"",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "appstreamUrlTypeContact": "კონტაქტი",
+    "snapActionCancelLabel": "გაუქმება",
+    "snapActionInstallLabel": "დაყენება",
+    "snapCategoryBooksAndReference": "წიგნები და მიმართვები",
+    "snapCategoryFeaturedSlogan": "რჩეული Snap-ები",
+    "snapCategoryGameDev": "თამაშების შემუშავება",
+    "snapCategoryGameDevSlogan": "თამაშების შემუშავება",
+    "snapCategoryGameLaunchers": "თამაშის გამშვებები",
+    "snapCategoryGameLaunchersSlogan": "თამაშის გამშვებები",
+    "snapCategoryKdeGamesSlogan": "KDE-ის თამაშების ნაკრები",
+    "snapCategorySocial": "სოციალური",
+    "snapCategoryUbuntuDesktop": "Ubuntu Desktop",
+    "snapCategoryServerAndCloud": "სერვერი და ღრუბელი",
+    "snapConfinementClassic": "კლასიკური",
+    "snapConfinementDevmode": "პროგრამისტის რეჟიმი",
+    "snapConfinementStrict": "მკაცრი",
+    "snapSortOrderRelevance": "შესაბამისობა",
+    "snapSortOrderInstalledDateAsc": "ყველაზე ძველი განახლებული",
+    "snapReportDetailsHint": "კომენტარი...",
+    "snapRatingsBandGood": "კარგი",
+    "snapReportPrivacyAgreementAndLabel": "და ",
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonical-ის კონფიდენციალობის გაფრთხილება ",
+    "errorViewCheckStatusLabel": "სტატუსის შემოწმება",
+    "errorViewUnknownErrorTitle": "რაღაც არასწორია",
+    "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool;აპები;აპლიკაცია;პროგრამა;დაყენება;პაკეტი",
+    "snapPageConfinementLabel": "წვდომები",
+    "snapPageDescriptionLabel": "აღწერა",
+    "snapPageSizeLabel": "ზომა",
+    "snapPageGalleryLabel": "გალერეა",
+    "snapPageLicenseLabel": "ლიცენზია",
+    "snapPageLinksLabel": "ბმულები",
+    "snapPagePublisherLabel": "გამომცემელი",
+    "snapPagePublishedLabel": "ბოლოს განახლდა",
+    "snapPageSummaryLabel": "შეჯამება",
+    "snapPageVersionLabel": "ვერსია",
+    "explorePageLabel": "დათვალიერება",
+    "explorePageCategoriesLabel": "კატეგორიები",
+    "appCenterLabel": "აპების ცენტრი",
+    "snapPageContactPublisherLabel": "{publisher}-თან დაკავშირება",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageDeveloperWebsiteLabel": "პროგრამისტის ვებგვერდი",
+    "snapPageDownloadSizeLabel": "გადმოსაწერი ზომა",
+    "managePageQuitToUpdate": "გადით განახლებისთვის",
+    "snapPageShareLinkCopiedMessage": "ბმული დაკოპირდა ბუფერში",
+    "managePageOwnUpdateAvailable": "ხელმისაწვდომია აპების ცენტრის განახლება",
+    "snapCategoryScience": "მეცნიერება",
+    "appstreamUrlTypeContribute": "მოხალისეობა",
+    "gamesPageLabel": "თამაშები",
+    "appstreamUrlTypeFaq": "ხდკ",
+    "developmentPageLabel": "პროგრამირება",
+    "allGamesButtonLabel": "ყველა თამაში",
+    "snapActionRemoveLabel": "წაშლა",
+    "gamesPageTop": "საუკეთესო რეიტინგით",
+    "snapReportSubmitButtonLabel": "ანგარიშის გადაცემა",
+    "snapCategoryPersonalisation": "პერსონალიზაცია",
+    "snapRatingsBandPoor": "საწყალი",
+    "snapCategoryGameContentCreationSlogan": "შემცველობის შექმნა",
+    "gamesPageBundles": "აპის ნაკრებები",
+    "packageFormatSnapLabel": "Snap-ის პაკეტები",
+    "snapRatingsVotes": "{n} ხმა",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesAvailable": "ხელმისაწვდომი განახლებები ({n})",
+    "@managePageUpdatesAvailable": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapCategoryGnomeGamesSlogan": "GNOME-ის თამაშების ნაკრები",
+    "snapReportOptionalEmailAddressLabel": "თქვენი ელფოსტა (არასავალდებულო)",
+    "errorViewNetworkErrorTitle": "მიუერთდით ინტერნეტს",
+    "managePageLabel": "მართვა",
+    "managePageInstallingLabel": "მიმდინარეობს ({n})-ის დაყენება",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageShowDetailsLabel": "დეტალების ჩვენება",
+    "managePageOwnUpdateQuitButton": "გადით განახლებისთვის",
+    "managePageCheckForUpdates": "განახლებების შემოწმება",
+    "managePageCheckingForUpdates": "მიმდინარეობს განახლებების შემოწმება",
+    "managePageInstalledAndUpdatedLabel": "დაყენებული აპები",
+    "managePageTitle": "დაყენებული Snap-ების მართვა",
+    "managePageSearchFieldSearchHint": "დაყენებული აპების ძებნა",
+    "searchPageRelevanceLabel": "შესაბამისობა",
+    "appstreamUrlTypeBugtracker": "შეცდომების ტრეკინგი",
+    "appstreamUrlTypeDonation": "შეწირულობა",
+    "appstreamUrlTypeHelp": "დახმარება",
+    "appstreamUrlTypeHomepage": "საწყისი გვერდი",
+    "appstreamUrlTypeTranslate": "თარგმანები",
+    "appstreamUrlTypeVcsBrowser": "წყარო",
+    "snapActionInstalledLabel": "დაყენებულია",
+    "snapActionInstallingLabel": "მიმდინარეობს დაყენება",
+    "snapActionOpenLabel": "გახსნა",
+    "snapActionRemovingLabel": "მიმდინარეობს წაშლა",
+    "snapActionUpdateLabel": "განახლება",
+    "snapActionUpdatingLabel": "მიმდინარეობს განახლება",
+    "managePageUpdateAllLabel": "ყველას განახლება",
+    "gamesPageTitle": "თამაშები",
+    "gamesPageFeatured": "რჩეული მარკები",
+    "unknownPublisher": "უცნობი გამომცემელი",
+    "searchFieldDebSection": "Debian-ის პაკეტები",
+    "aboutPageLearnMoreLabel": "გაიგეთ მეტი",
+    "packageFormatDebLabel": "Debian-ის პაკეტები",
+    "snapActionSwitchChannelLabel": "არხის გადართვა",
+    "snapCategoryAll": "ყველა კატეგორია",
+    "snapCategoryArtAndDesignButtonLabel": "შექმნის დაწყება",
+    "managePageShowSystemSnapsLabel": "სისტემური Snap-ების ჩვენება",
+    "snapCategoryArtAndDesign": "ხელოვნება და დიზაინი",
+    "snapCategoryDevelopment": "პროგრამირება",
+    "snapCategoryEducation": "განათლება",
+    "snapCategoryEntertainment": "გართობა",
+    "snapCategoryFeatured": "რჩეულები",
+    "snapCategoryFinance": "ფინანსები",
+    "snapCategoryGames": "თამაშები",
+    "snapCategoryGameEmulators": "ემულატორები",
+    "snapCategoryGameEmulatorsSlogan": "ემულატორები",
+    "snapCategoryProductivity": "პროდუქტიულობა",
+    "snapCategorySecurity": "უსაფრთხოება",
+    "snapCategoryUtilities": "ხელსაწყოები",
+    "snapRatingsBandNeutral": "ნეიტრალური",
+    "snapReportCancelButtonLabel": "გაუქმება",
+    "snapCategoryDefaultButtonLabel": "აღმოაჩინეთ მეტი",
+    "snapCategoryGnomeGames": "GNOME-ის თამაშები",
+    "snapCategoryKdeGames": "KDE-ის თამაშები",
+    "snapCategoryGameContentCreation": "შემცველობის შექმნა",
+    "snapRatingsBandVeryGood": "ძალიან კარგი",
+    "snapRatingsBandVeryPoor": "ძალიან საწყალი",
+    "snapRatingsBandInsufficientVotes": "არასაკმარისი ხმები",
+    "snapReportLabel": "{snapName}-ის ანგარიში",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportPrivacyAgreementPrivacyPolicy": "კონფიდენციალობის პოლიტიკა",
+    "snapCategoryDevicesAndIot": "მოწყობილობები და IoT",
+    "snapCategoryHealthAndFitness": "ჯანმრთელობა და ფიტნესი",
+    "snapCategoryMusicAndAudio": "მუსიკა და ხმა",
+    "snapCategoryNewsAndWeather": "სიახლეები და ამინდი",
+    "snapCategoryPhotoAndVideo": "ფოტო და ვიდეო",
+    "snapSortOrderInstalledDateDesc": "ყველაზე ახალი განახლებული",
+    "snapReportSelectAnOptionLabel": "აირჩიეთ პარამეტრი",
+    "externalResources": "დამატებითი რესურსები",
+    "externalResourcesButtonLabel": "აღმოაჩინეთ მეტი",
+    "installAll": "ყველას დაყენება",
+    "localDebWarningTitle": "პოტენციურად სახიფათო",
+    "openInBrowser": "ბრაუზერში გახსნა",
+    "snapPageGalleryNextSemanticLabel": "შემდეგი გამოსახულება",
+    "snapPageGalleryPreviousSemanticLabel": "წინა გამოსახულება",
+    "snapPageGalleryImageSemanticLabel": "გამოსახულება {n}",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageShareSemanticLabel": "ბმულის კოპირება",
+    "snapPageReportSemanticLabel": "რეპორტი",
+    "sectionExpandSemanticLabel": "{section}-ის ჩამოშლა",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "{section}-ის აკეცვა",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageOwnUpdateDescription": "როცა გახვალთ აპლიკაციიდან, ის ავტომატურად განახლდება.",
+    "managePageNoInternet": "სერვერთან დაკავშირება შეუძლებელია. შეამოწმეთ თქვენი ინტერნეტკავშირი, ან მოგვიანებით სცადეთ.",
+    "managePageDescription": "შეამოწმეთ ხელმისაწვდომი განახლებები, განაახლეთ თქვენი აპები და მართეთ თქვენი აპების სტატუსი.",
+    "managePageDebUpdatesMessage": "Debian-ის პაკეტები პროგრამების განახლების ცენტრიდან იმართება.",
+    "managePageNoUpdatesAvailableDescription": "განახლებები ხელმისაწვდომი არაა. თქვენი ყველა აპლიკაცია განახლებულია.",
+    "managePageUpdatedDaysAgo": "განახლდა {n, plural, =1{{n} დღის} other{{n} დღის}} წინ",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedWeeksAgo": "განახლდა {n, plural, =1{{n} კვირის} other{{n} კვირის}} წინ",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "განახლდა {n, plural, =1{{n} თვის} other{{n} თვის}} წინ",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "განახლდა {n, plural, =1{{n} წლის} other{{n} წლის}} წინ",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailed": "{n, plural, =1{One განახლება} other{{n} განახლება}} ჩავარდა",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "ეს აპლიკაციები ვერ განახლდა, რადგან ისინი ამჟამად გაშვებულია.\n\n{snapList}\nროცა აპლიკაციებს დახურავთ, ისინი ავტომატურად განახლდება.",
+    "managePageDocumentationLinkLabel": "ისწავლეთ, როგორ მართოთ Debian-ის პაკეტები დოკუმენტაციაში.",
+    "searchFieldSearchForLabel": "ყველა შედეგის ძებნა სტრიქონისთვის \"{query}\"",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageNoResults": "\"{query}\"-ისთვის შედეგები აღმოჩენილი არაა",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageNoResultsHint": "სცადეთ, გამოიყენოთ განსხვავებული, ან უფრო ზოგადი საკვანძო სიტყვები",
+    "searchPageNoResultsCategory": "უკაცრავად, მაგრამ ამ კატეგორიაში პაკეტები აღმოჩენილი არაა",
+    "searchPageNoResultsCategoryHint": "სცადეთ განსხვავებული კატეგორია, ან უფრო ზოგადი საკვანძო სიტყვები",
+    "aboutPageContributorTitle": "შემუშავების მონაწილეები:",
+    "aboutPageCommunityTitle": "იყავით საზოგადოების წევრი:",
+    "aboutPageContributeLabel": "იყავით მოხალისე, ან მოგვწერეთ შეცდომის შესახებ",
+    "aboutPageGitHubLabel": "გვიპოვეთ GitHub-ზე",
+    "aboutPagePublishLabel": "გამოქვეყნება Snap-ის მაღაზიაში",
+    "appCardPublisherSemanticLabel": "გამოცემულია {publisher}-ის მიერ.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "რეიტინგი {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "snapCategoryArtAndDesignSlogan": "თქვენი პირველი ესკიზიდან ბოლო წერტილამდე. დაათვალიერეთ აპები ხელოვნებისა და დიზაინისთვის.",
+    "snapCategoryDevelopmentSlogan": "Snap-ები, რომლებიც პროგრამისტებს აუცილებლად უნდა ჰქონდეთ",
+    "snapCategoryGamesSlogan": "ყველაფერი გეიმერებისთვის",
+    "snapCategoryProductivityButtonLabel": "აღმოაჩინეთ პროდუქტიულობის ნაკრებები",
+    "snapCategoryProductivitySlogan": "გადახაზეთ ერთი რამ თქვენი სიიდან, რის გაკეთებასაც აპირებთ",
+    "snapCategoryUbuntuDesktopSlogan": "ყველაფერი მუშაობის დასაწყებად",
+    "snapSortOrderAlphabeticalAsc": "ანბანით (A-Z)",
+    "snapSortOrderAlphabeticalDesc": "ანბანით (Z-A)",
+    "snapSortOrderDownloadSizeAsc": "ზომა (ყველაზე პატარიდან უდიდესამდე)",
+    "snapSortOrderDownloadSizeDesc": "ზომა (უდიდესიდან ყველაზე პატარამდე)",
+    "snapSortOrderInstalledSizeAsc": "ზომა (უმცირესიდან უდიდესამდე)",
+    "snapSortOrderInstalledSizeDesc": "ზომა (უდიდესიდან უმცირესამდე)",
+    "snapReportSelectReportReasonLabel": "აირჩიეთ მიზეზი, რატომ აგზავნით ანგარიშს ამ Snap-ზე",
+    "snapReportOptionCopyrightViolation": "საავტორო უფლების ან სავაჭრო ნიშნის დარღვევა",
+    "snapReportOptionStoreViolation": "Snap-ის მაღაზიის გამოყენების პირობების დარღვევა",
+    "snapReportDetailsLabel": "მოგვწერეთ მეტი დეტალი, რატომ აგზავნით ანგარიშს",
+    "snapReportEnterValidEmailError": "შეიყვანეთ სწორი ელფოსტის მისამართი",
+    "snapReportPrivacyAgreementLabel": "ამ ფორმის გადაცემით მე ვადასტურებ, რომ წავიკითხე და ვეთანხმები ",
+    "debPageErrorNoPackageInfo": "პაკეტის შესახებ ინფორმაცია აღმოჩენილი არაა",
+    "debPageDocumentationLinkLabel": "გაიგეთ მეტი Debian-ის პაკეტების მართვის შესახებ",
+    "debPageShareLinkCopiedMessage": "ბმული დაკოპირდა ბუფერში",
+    "debPageShareSemanticLabel": "ბმულის კოპირება",
+    "externalResourcesDisclaimer": "შენიშვნა: ეს გარე ხელსაწყოებია. Canonical მათ არც ფლობს, არც ავრცელებს.",
+    "localDebWarningBody": "ეს პაკეტი მოწოდებულია მესამე პირების მიერ. App Center-ის გარედან პაკეტების დაყენება ზრდის რისკს თქვენი სისტემისა და პირადი მონაცემებისთვის. დარწმუნდით, რომ ენდობით წყაროს, სანამ გააგრძელებთ.",
+    "localDebLearnMore": "გაიგეთ მეტი მესამე პირის პაკეტების შესახებ",
+    "localDebDialogMessage": "ეს პაკეტი მოწოდებულია მესამე პირის მიერ და შეიძლება, საფრთხე შეუქმნას თქვენს სისტემას და პირად მონაცემებს.",
+    "localDebDialogConfirmation": "დარწმუნებული ბრძანდებით, რომ გნებავთ, დააყენოთ ის?",
+    "snapdExceptionRunningApps": "ჩვენ ვერ განვაახლეთ {snapName}, რადგან ის ამჟამად გაშვებულია.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewNetworkErrorDescription": "ინტერნეტკავშირის გარეშე App Center-ში შემცველობას ვერ ჩავტვირთავთ.",
+    "errorViewNetworkErrorAction": "შეამოწმეთ თქვენი კავშირი და თავიდან სცადეთ.",
+    "errorViewServerErrorDescription": "ვწუხვართ, მაგრამ App Center-ს ამჟამად პრობლემები აქვს.",
+    "errorViewServerErrorAction": "შეამოწმეთ განახლებების სტატუსი, ან მოგვიანებით სცადეთ.",
+    "errorViewUnknownErrorDescription": "ვწუხვართ, მაგრამ არ ვართ დარწმუნებული, რას მუშაობს არასწორად.",
+    "errorViewUnknownErrorAction": "ახლა შეგიძლიათ თავიდან სცადოთ განახლების სტატუსების შემოწმება, ამ მოგვიანებით სცადეთ.",
+    "codecPageTitle": "ნაკლული მედიის კოდეკები",
+    "codecPageDescription": "გჭირდებათ, დააყენოთ შემდეგი კოდეკები ზოგიერთი ვიდეო და აუდიოფორმატების დასამუშავებლად:",
+    "codecProprietaryDisclaimer": "ზოგიერთი რეკომენდებული კოდეკი დახურული წყაროთია.",
+    "codecInstallAllButton": "რეკომენდებული კოდეკების დაყენება"
 }

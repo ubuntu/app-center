@@ -1,44 +1,36 @@
 {
-  "snapPageDescriptionLabel": "Aprašas",
-  "@snapPageDescriptionLabel": {},
-  "snapPageContactPublisherLabel": "Susisiekti su {publisher}",
-  "@snapPageContactPublisherLabel": {
-    "placeholders": {
-      "publisher": {
-        "type": "String"
-      }
-    }
-  },
-  "snapPageSizeLabel": "Dydis",
-  "@snapPageSizeLabel": {},
-  "snapPageDownloadSizeLabel": "Atsiuntimo dydis",
-  "@snapPageDownloadSizeLabel": {},
-  "snapPageVersionLabel": "Versija",
-  "@snapPageVersionLabel": {},
-  "managePageShowDetailsLabel": "Rodyti išsamiau",
-  "@managePageShowDetailsLabel": {},
-  "managePageUpdateAllLabel": "Atnaujinti visus",
-  "@managePageUpdateAllLabel": {},
-  "snapPageLicenseLabel": "Licencija",
-  "@snapPageLicenseLabel": {},
-  "snapPageLinksLabel": "Nuorodos",
-  "@snapPageLinksLabel": {},
-  "snapPageSummaryLabel": "Santrauka",
-  "@snapPageSummaryLabel": {},
-  "snapPageShareLinkCopiedMessage": "Nuoroda nukopijuota į iškarpinę",
-  "@snapPageShareLinkCopiedMessage": {},
-  "explorePageCategoriesLabel": "Kategorijos",
-  "@explorePageCategoriesLabel": {},
-  "managePageCheckForUpdates": "Tikrinti, ar yra atnaujinimų",
-  "@managePageCheckForUpdates": {},
-  "managePageCheckingForUpdates": "Tikrinama, ar yra atnaujinimų",
-  "@managePageCheckingForUpdates": {},
-  "managePageInstallingLabel": "Įdiegiama ({n})",
-  "@managePageInstallingLabel": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  }
+    "snapPageDescriptionLabel": "Aprašas",
+    "snapPageContactPublisherLabel": "Susisiekti su {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageSizeLabel": "Dydis",
+    "snapPageDownloadSizeLabel": "Atsiuntimo dydis",
+    "snapPageVersionLabel": "Versija",
+    "managePageShowDetailsLabel": "Rodyti išsamiau",
+    "managePageUpdateAllLabel": "Atnaujinti visus",
+    "snapPageLicenseLabel": "Licencija",
+    "snapPageLinksLabel": "Nuorodos",
+    "snapPageSummaryLabel": "Santrauka",
+    "snapPageShareLinkCopiedMessage": "Nuoroda nukopijuota į iškarpinę",
+    "explorePageCategoriesLabel": "Kategorijos",
+    "managePageCheckForUpdates": "Tikrinti, ar yra atnaujinimų",
+    "managePageCheckingForUpdates": "Tikrinama, ar yra atnaujinimų",
+    "managePageInstallingLabel": "Įdiegiama ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageChannelLabel": "Kanalas",
+    "snapPageDeveloperWebsiteLabel": "Plėtotojo internetinė svetainė",
+    "appCenterLabel": "Programų centras",
+    "appstreamSearchGreylist": "programa;programėlė;aplikacija;paketas;komplektas;rinkinys;įrankis",
+    "snapPageConfinementLabel": "Izoliavimas"
 }

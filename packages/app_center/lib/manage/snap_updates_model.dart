@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
-import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:collection/collection.dart';
@@ -12,8 +11,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-part 'updates_model.g.dart';
-part 'updates_model.freezed.dart';
+part 'snap_updates_model.g.dart';
+part 'snap_updates_model.freezed.dart';
 
 @freezed
 class SnapListState with _$SnapListState {
@@ -39,11 +38,33 @@ final isSilentlyCheckingUpdatesProvider = StateProvider<bool>((_) => false);
 
 @Riverpod(keepAlive: true)
 bool hasUpdate(Ref ref, String snapName) {
-  final updatesModel = ref.watch(updatesModelProvider);
+  final updatesModel = ref.watch(snapUpdatesModelProvider);
   return updatesModel.whenOrNull(
         data: (updatesData) => updatesData.snaps.any((s) => s.name == snapName),
       ) ??
       false;
+}
+
+/// Returns the available update version for a snap, if an update exists.
+@Riverpod(keepAlive: true)
+String? updateVersion(Ref ref, String snapName) {
+  final updatesModel = ref.watch(snapUpdatesModelProvider);
+  return updatesModel.whenOrNull(
+    data: (updatesData) => updatesData.getSnap(snapName)?.version,
+  );
+}
+
+/// Returns all locally installed snaps.
+@riverpod
+Future<SnapListState> localSnaps(Ref ref) {
+  return connectionCheck(getService<SnapdService>().getSnaps, ref);
+}
+
+/// Returns the currently installed version for a snap.
+@riverpod
+Future<String?> localVersion(Ref ref, String snapName) async {
+  final snaps = await ref.watch(localSnapsProvider.future);
+  return snaps.getSnap(snapName)?.version;
 }
 
 /// Used to see which snaps that are installed but need to be restarted to be
@@ -55,7 +76,7 @@ Future<List<Snap>> refreshInhibitSnaps(Ref ref) async {
 }
 
 @Riverpod(keepAlive: true)
-class UpdatesModel extends _$UpdatesModel {
+class SnapUpdatesModel extends _$SnapUpdatesModel {
   late final _snapd = getService<SnapdService>();
 
   @override
@@ -121,7 +142,8 @@ class UpdatesModel extends _$UpdatesModel {
     final errors = <String, Exception>{};
     try {
       // TODO: Should we call each and rely on the error messages from snapd?
-      final refreshableSnapNames = state.value?.snaps
+      final refreshableSnapNames =
+          state.value?.snaps
               .where((s) => s.refreshInhibit == null)
               .map((s) => s.name)
               .toList() ??
@@ -133,12 +155,15 @@ class UpdatesModel extends _$UpdatesModel {
           refreshableSnapNames.toList();
 
       Future<void> refreshSnap(String snapName) async {
-        final refreshFuture =
-            ref.read(SnapModelProvider(snapName).notifier).refresh();
+        final refreshFuture = ref
+            .read(SnapModelProvider(snapName).notifier)
+            .refresh();
         try {
           final completedSuccessfully = await refreshFuture;
           if (completedSuccessfully) {
-            ref.read(updatesModelProvider.notifier).removeFromList(snapName);
+            ref
+                .read(snapUpdatesModelProvider.notifier)
+                .removeFromList(snapName);
           }
         } on Exception catch (e) {
           if (e is SnapdException && e.kind == 'auth-cancelled') {
@@ -161,14 +186,16 @@ class UpdatesModel extends _$UpdatesModel {
     } finally {
       ref.read(currentlyRefreshAllSnapsProvider.notifier).state = [];
       if (errors.isNotEmpty) {
-        ref.read(errorStreamControllerProvider).add(
+        ref
+            .read(errorStreamControllerProvider)
+            .add(
               errors.length == 1
                   ? errors.values.first
                   : ConsolidatedSnapdException(errors),
             );
       }
       ref.invalidateSelf();
-      ref.invalidate(filteredLocalSnapsProvider);
+      ref.invalidate(localSnapsProvider);
     }
   }
 

@@ -14,39 +14,36 @@ class AppCardGrid extends StatelessWidget {
   factory AppCardGrid.fromSnaps({
     required List<Snap> snaps,
     required ValueChanged<Snap> onTap,
-  }) =>
-      AppCardGrid(
-        appCards: snaps.map(
-          (snap) => AppCard.fromSnap(
-            snap: snap,
-            onTap: () => onTap(snap),
-          ),
-        ),
-      );
+  }) => AppCardGrid(
+    appCards: snaps.map(
+      (snap) => AppCard.fromSnap(
+        snap: snap,
+        onTap: () => onTap(snap),
+      ),
+    ),
+  );
 
   factory AppCardGrid.fromDebs({
     required List<AppstreamComponent> debs,
     required ValueChanged<AppstreamComponent> onTap,
-  }) =>
-      AppCardGrid(
-        appCards: debs.map(
-          (deb) => AppCard.fromDeb(
-            component: deb,
-            onTap: () => onTap(deb),
-          ),
-        ),
-      );
+  }) => AppCardGrid(
+    appCards: debs.map(
+      (deb) => AppCard.fromDeb(
+        component: deb,
+        onTap: () => onTap(deb),
+      ),
+    ),
+  );
 
   factory AppCardGrid.fromTools({
     required List<Tool> tools,
-  }) =>
-      AppCardGrid(
-        appCards: tools.map(
-          (tool) => AppCard.fromTool(
-            tool: tool,
-          ),
-        ),
-      );
+  }) => AppCardGrid(
+    appCards: tools.map(
+      (tool) => AppCard.fromTool(
+        tool: tool,
+      ),
+    ),
+  );
 
   final Iterable<AppCard> appCards;
 
@@ -77,16 +74,15 @@ class RankedAppCardGrid extends StatelessWidget {
   factory RankedAppCardGrid.fromRankedSnaps({
     required List<Snap> snaps,
     required ValueChanged<Snap> onTap,
-  }) =>
-      RankedAppCardGrid(
-        appCards: snaps.asMap().entries.map(
-              (entry) => RankedAppCard.fromRankedSnap(
-                snap: entry.value,
-                onTap: () => onTap(entry.value),
-                rank: entry.key + 1,
-              ),
-            ),
-      );
+  }) => RankedAppCardGrid(
+    appCards: snaps.asMap().entries.map(
+      (entry) => RankedAppCard.fromRankedSnap(
+        snap: entry.value,
+        onTap: () => onTap(entry.value),
+        rank: entry.key + 1,
+      ),
+    ),
+  );
 
   final Iterable<RankedAppCard> appCards;
 

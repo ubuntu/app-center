@@ -1,1 +1,390 @@
-{}
+{
+    "appCenterLabel": "Centro de aplicacións",
+    "snapPageSizeLabel": "Tamaño",
+    "snapPageGalleryLabel": "Galería",
+    "snapPageGalleryNextSemanticLabel": "Próxima imaxe",
+    "snapPageGalleryPreviousSemanticLabel": "Imaxe anterior",
+    "snapPageGalleryImageSemanticLabel": "Imaxe {n}",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageLicenseLabel": "Licenza",
+    "snapPageLinksLabel": "Ligazóns",
+    "snapPagePublishedLabel": "Última actualización",
+    "snapPageSummaryLabel": "Resumo",
+    "snapPageVersionLabel": "Versión",
+    "snapPageShareLinkCopiedMessage": "Ligazón copiada ao portapapeis",
+    "snapPageShareSemanticLabel": "Copiar ligazón",
+    "snapPageReportSemanticLabel": "Reportar",
+    "sectionExpandSemanticLabel": "Expandir {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "Colapsar {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "explorePageLabel": "Explorar",
+    "explorePageCategoriesLabel": "Categorías",
+    "managePageOwnUpdateAvailable": "Actualización do centro de aplicacións dispoñible",
+    "appstreamSearchGreylist": "aplicación; aplicativo; paquete; programa; programas; conxunto de programas; ferramenta",
+    "snapPageChannelLabel": "Canle",
+    "snapPageConfinementLabel": "Permisos",
+    "snapPageContactPublisherLabel": "Contactar con {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageDeveloperWebsiteLabel": "Sitio web do desenvolvedor",
+    "snapPageDownloadSizeLabel": "Tamaño da descarga",
+    "snapPagePublisherLabel": "Editor",
+    "managePageQuitToUpdate": "Pechar para actualizar",
+    "managePageOwnUpdateDescription": "Cando saias da aplicación, actualizarase automáticamente.",
+    "managePageOwnUpdateQuitButton": "Saír para actualizar",
+    "managePageCheckForUpdates": "Buscar actualizacións",
+    "managePageCheckingForUpdates": "Buscando actualizacións",
+    "managePageNoInternet": "Non se pode acceder ao servidor, comproba a conexión a internet, ou téntao de novo máis tarde.",
+    "managePageDescription": "Comproba se hai actualizacións dispoñibles, actualiza as túas aplicacións e xestiona o estado de todas as túas aplicacións.",
+    "managePageDebUpdatesMessage": "As actualizacións dos paquetes de Debian son xestionadas polo Actualizador de Software.",
+    "managePageInstalledAndUpdatedLabel": "Aplicacións instaladas",
+    "managePageInstallingLabel": "Instalando ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageLabel": "Xestionar",
+    "managePageTitle": "Xestionar snaps instalados",
+    "managePageNoUpdatesAvailableDescription": "Non hai actualizacións dispoñíbeis. As túas aplicacións están todas actualizadas.",
+    "managePageSearchFieldSearchHint": "Busca as aplicacións instaladas",
+    "managePageShowDetailsLabel": "Amosar detalles",
+    "managePageShowSystemSnapsLabel": "Amosar snaps do sistema",
+    "managePageUpdateAllLabel": "Anovar todo",
+    "searchFieldSearchForLabel": "Ver todos os resultados para \"{query}\"",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchFieldSnapSection": "Paquetes snap",
+    "searchPageFilterByLabel": "Filtrar por",
+    "searchPageNoResults": "Non se atoparon resultados para \"{query}\"",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageNoResultsHint": "Tenta utilizar palabras chave diferentes ou máis xerais",
+    "searchPageNoResultsCategory": "Sentímolo, non atopamos ningún paquete nesta categoría",
+    "searchPageNoResultsCategoryHint": "Proba unha categoría diferente ou usa palabras chave máis xerais",
+    "searchPageSortByLabel": "Ordenar por",
+    "searchPageRelevanceLabel": "Relevancia",
+    "searchPageTitle": "Resultados para \"{query}\"",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageLabel": "Sobre",
+    "aboutPageVersionLabel": "Versión {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageContributorTitle": "Deseñado e desenvolvido por:",
+    "aboutPageCommunityTitle": "Forma parte da comunidade:",
+    "aboutPageContributeLabel": "Contribúe ou informa dun becho",
+    "aboutPageGitHubLabel": "Atópanos en GitHub",
+    "aboutPagePublishLabel": "Publicar na Snap Store",
+    "aboutPageLearnMoreLabel": "Saber máis",
+    "appUrlTypeContact": "Contactar {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Sitio web do desenvolvedor",
+    "appUrlTypeUnknown": "Ligazón",
+    "packageFormatDebLabel": "Paquetes Debian",
+    "packageFormatSnapLabel": "Paquetes snap",
+    "snapActionCancelLabel": "Cancelar",
+    "snapActionInstallLabel": "Instalar",
+    "snapActionInstalledLabel": "Instalado",
+    "snapActionInstallingLabel": "Instalando",
+    "snapActionOpenLabel": "Abrir",
+    "snapActionRemoveLabel": "Desinstalar",
+    "snapActionRemovingLabel": "Desinstalando",
+    "snapActionRevertLabel": "Reverter actualización",
+    "snapActionRevertingLabel": "Revertendo actualización",
+    "snapRevertConfirmTitle": "Reverter á versión anterior?",
+    "snapRevertConfirmMessage": "As actualizacións automáticas reanudaranse cando haxa unha nova versión dispoñíbel.",
+    "snapRevertConfirmRevert": "Reverter",
+    "snapRevertConfirmCancel": "Anular",
+    "snapRevertConfirmTitleWithVersions": "Reverter de {currentVersion} (rev {currentRevision}) a {previousVersion} (rev {previousRevision})?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRevertNoPreviousRevisionMessage": "Non hai ningunha revisión local anterior dispoñíbel á que volver.",
+    "snapActionSwitchChannelLabel": "Cambiar de canal",
+    "snapActionUpdateLabel": "Actualizar",
+    "snapCategoryAll": "Todas as categorías",
+    "snapActionUpdatingLabel": "Actualizando",
+    "appCardPublisherSemanticLabel": "Publicado por {publisher}.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "Valoración {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "snapCategoryArtAndDesign": "Arte e Deseño",
+    "snapCategoryArtAndDesignButtonLabel": "Comezar a crear",
+    "snapCategoryArtAndDesignSlogan": "Desde o teu primeiro bosquexo ata o toque final, explora aplicacións para arte e deseño.",
+    "snapCategoryBooksAndReference": "Libros e referencia",
+    "managePageUpdatedDaysAgo": "Actualizado fai {n, plural, =1{{n} día} other{{n} días}}",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedWeeksAgo": "Actualizado fai {n, plural, =1{{n} semana} other{{n} semanas}}",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "Actualizado fai {n, plural, =1{{n} mes} other{{n} meses}}",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "Actualizado fai {n, plural, =1{{n} ano} other{{n} anos}}",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesAvailable": "Actualizacións dispoñíbeis {n})",
+    "@managePageUpdatesAvailable": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "Non puidemos actualizar estas aplicacións porque están en execución.\n\n{snapList}\nCando peches as aplicacións, actualizaranse automaticamente.",
+    "managePageDocumentationLinkLabel": "Aprenda a xestionar paquetes Debian na documentación.",
+    "productivityPageLabel": "Produtividade",
+    "developmentPageLabel": "Desenvolvemento",
+    "gamesPageLabel": "Xogos",
+    "gamesPageTitle": "Xogos",
+    "gamesPageTop": "Mellor valorados",
+    "gamesPageFeatured": "Títulos destacados",
+    "gamesPageBundles": "Paquetes de aplicacións",
+    "unknownPublisher": "Editor descoñecido",
+    "searchFieldDebSection": "Paquetes Debian",
+    "searchFieldSearchHint": "Buscar aplicacións",
+    "snapCategoryDefaultButtonLabel": "Descubrir máis",
+    "snapCategoryDevelopment": "Desenvolvemento",
+    "snapCategoryDevelopmentSlogan": "Snaps imprescindíbeis para desenvolvedores",
+    "snapCategoryDevicesAndIot": "Dispositivos e IoT",
+    "snapCategoryEducation": "Educación",
+    "snapCategoryEntertainment": "Entretemento",
+    "snapCategoryFeatured": "Destacados",
+    "snapCategoryFeaturedSlogan": "Snaps destacados",
+    "snapCategoryFinance": "Finanzas",
+    "snapCategoryGames": "Xogos",
+    "snapCategoryGamesSlogan": "Todo para a sua noite de xogos",
+    "snapCategoryGameDev": "Desenvolvemento de xogos",
+    "snapCategoryGameDevSlogan": "Desenvolvemento de xogos",
+    "snapCategoryGameEmulators": "Emuladores",
+    "snapCategoryGameEmulatorsSlogan": "Emuladores",
+    "snapCategoryGnomeGames": "Xogos de GNOME",
+    "snapCategoryGnomeGamesSlogan": "Compilación de xogos de GNOME",
+    "snapCategoryKdeGames": "Xogos de KDE",
+    "snapCategoryKdeGamesSlogan": "Compilación de xogos de KDE",
+    "snapCategoryGameLaunchers": "Lanzadores de xogos",
+    "snapCategoryGameLaunchersSlogan": "Lanzadores de xogos",
+    "snapCategoryGameContentCreation": "Creación de contido",
+    "snapCategoryGameContentCreationSlogan": "Creación de contido",
+    "snapCategoryHealthAndFitness": "Saúde e benestar físico",
+    "snapCategoryMusicAndAudio": "Música e audio",
+    "snapCategoryNewsAndWeather": "Noticias e Tempo",
+    "snapCategoryPersonalisation": "Personalización",
+    "snapCategoryPhotoAndVideo": "Foto e vídeo",
+    "snapCategoryProductivity": "Produtividade",
+    "snapCategoryProductivityButtonLabel": "Descubre a colección de produtividade",
+    "snapCategoryProductivitySlogan": "Tacha unha cousa da túa lista de tarefas pendentes",
+    "snapCategoryScience": "Ciencias",
+    "snapCategorySecurity": "Seguranza",
+    "snapCategoryServerAndCloud": "Servidor e nube",
+    "snapCategorySocial": "Redes sociais",
+    "snapCategoryUbuntuDesktop": "Escritorio de Ubuntu",
+    "snapCategoryUtilities": "Ferramentas",
+    "snapConfinementClassic": "Clásico",
+    "snapConfinementDevmode": "Modo de desenvolvemento",
+    "snapConfinementStrict": "Estrito",
+    "snapSortOrderAlphabeticalAsc": "Alfabético (A á Z)",
+    "snapSortOrderAlphabeticalDesc": "Alfabético (Z á A)",
+    "snapSortOrderDownloadSizeAsc": "Tamaño (de menor a maior)",
+    "snapSortOrderDownloadSizeDesc": "Tamaño (de maior a menor)",
+    "snapSortOrderInstalledSizeAsc": "Tamaño (de menor a maior)",
+    "snapSortOrderInstalledSizeDesc": "Tamaño (de maior a menor)",
+    "snapSortOrderInstalledDateAsc": "O menos recentemente actualizado",
+    "snapSortOrderInstalledDateDesc": "Actualizado recentemente",
+    "snapSortOrderRelevance": "Relevancia",
+    "snapRatingsBandVeryGood": "Moi bo",
+    "snapRatingsBandGood": "Bo",
+    "snapRatingsBandNeutral": "Neutro",
+    "snapRatingsBandPoor": "Pobre",
+    "snapRatingsBandVeryPoor": "Moi pobre",
+    "snapRatingsBandInsufficientVotes": "Votos insuficientes",
+    "snapRatingsVotes": "{n} votos",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapReportLabel": "Denunciar {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectReportReasonLabel": "Escolla unha razón para denunciar este snap",
+    "snapReportSelectAnOptionLabel": "Seleccione unha opción",
+    "snapReportOptionCopyrightViolation": "Violación dos dereitos de autor ou marca rexistrada",
+    "snapReportOptionStoreViolation": "Violación dos termos de servizo da Snap Store",
+    "snapReportDetailsLabel": "Proporcione un motivo máis detallado para a súa denuncia",
+    "snapReportOptionalEmailAddressLabel": "O seu correo electrónico (opcional)",
+    "snapReportCancelButtonLabel": "Desbotar",
+    "snapReportSubmitButtonLabel": "Enviar informe",
+    "snapReportEnterValidEmailError": "Introduza unha dirección de correo electrónico válida",
+    "snapReportDetailsHint": "Comentar...",
+    "managePageUpdatesFailed": "{n, plural, =1{Unha actualización fallou} other{{n} actualizacións fallaron}}",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapCategoryUbuntuDesktopSlogan": "Saque o máximo partido ao seu escritorio",
+    "snapReportPrivacyAgreementLabel": "Ao enviar este formulario, confirmo que lin e acepto o ",
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Aviso de privacidade de Canonical ",
+    "snapReportPrivacyAgreementAndLabel": "e ",
+    "snapReportPrivacyAgreementPrivacyPolicy": "Política de privacidade",
+    "debPageErrorNoPackageInfo": "Non se atopou información do paquete",
+    "debPageDocumentationLinkLabel": "Aprenda a xestionar paquetes Debian",
+    "debPageShareLinkCopiedMessage": "Ligazón copiada ao portapapeis",
+    "debPageShareSemanticLabel": "Copiar ligazón",
+    "externalResources": "Recursos adicionais",
+    "externalResourcesButtonLabel": "Descubrir máis",
+    "allGamesButtonLabel": "Todos os xogos",
+    "externalResourcesDisclaimer": "Nota: Todas estas son ferramentas externas. Canonical non as posúe nin as distribúe.",
+    "openInBrowser": "Abrir no navegador",
+    "installAll": "Instalar todo",
+    "localDebWarningTitle": "Potencialmente inseguro",
+    "localDebWarningBody": "Este paquete é proporcionado por un terceiro. Instalar paquetes dende fóra do Centro de aplicacións pode aumentar o risco para o teu sistema e os teus datos persoais. Asegúrate de confiar na fonte antes de continuar.",
+    "localDebLearnMore": "Aprenda máis sobre paquetes de terceiros",
+    "localDebDialogMessage": "Este paquete é proporcionado por un terceiro e pode ameazar o teu sistema e os teus datos persoais.",
+    "localDebDialogConfirmation": "Estás seguro de que queres instalalo?",
+    "snapdExceptionRunningApps": "Non puidemos actualizar {snapName} porque está executándose actualmente.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewCheckStatusLabel": "Comprobar o estado",
+    "errorViewNetworkErrorTitle": "Conectar a internet",
+    "errorViewNetworkErrorDescription": "Non podemos cargar contidos no Centro de aplicacións sen unha conexión a internet.",
+    "errorViewNetworkErrorAction": "Comproba a conexión e téntao de novo.",
+    "errorViewServerErrorDescription": "Sentímolo, estamos a ter problemas co Centro de aplicacións.",
+    "errorViewServerErrorAction": "Comproba o estado para ver se hai actualizacións ou téntao de novo máis tarde.",
+    "errorViewUnknownErrorTitle": "Algo fallou",
+    "errorViewUnknownErrorDescription": "Sentímolo, pero non estamos seguros de cal é o erro.",
+    "errorViewUnknownErrorAction": "Podes tentalo de novo agora, comprobar o estado para ver se hai actualizacións, ou tentalode novo máis tarde.",
+    "codecPageTitle": "Faltan códecs multimedia",
+    "codecPageDescription": "Necesitas instalar os seguintes códecs para xestionar certos formatos de vídeo e audio:",
+    "codecProprietaryDisclaimer": "Algúns dos códecs recomendados poderían ser propietarios.",
+    "codecInstallAllButton": "Instalar os códecs recomendados",
+    "managePagePackageTypeLabel": "Tipo de paquete",
+    "managePagePackageTypeAll": "Todo",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appConfinementUnknown": "Descoñecido",
+    "appConfinementDevelopment": "Modo de desenvolvemento",
+    "appConfinementClassic": "Sen restricións",
+    "appConfinementUnrestricted": "Sen restricións",
+    "appLicenseUnknown": "Descoñecido",
+    "appPublishedUnknown": "Descoñecido",
+    "appMoreActionsSemanticLabel": "Máis accións",
+    "appConfinementUnrestrictedTooltip": "Esta aplicación ten acceso completo aos teus recursos.",
+    "appConfinementStrict": "Confinada",
+    "appConfinementStrictTooltip": "Esta aplicación ten acceso limitado aos teus recursos. Podes controlar os seus permisos na aplicación Preferencias.",
+    "appConfinementClassicTooltip": "Esta aplicación emprega o confinamento clásico, o que che dá acceso completo aos teus recursos. Isto é habitual nas aplicacións de desenvolvemento."
+}

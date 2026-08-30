@@ -16,7 +16,7 @@ import 'package:yaru/yaru.dart';
 // TODO: break down into smaller widgets
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key, this.query, String? category})
-      : initialCategoryName = category;
+    : initialCategoryName = category;
 
   final String? query;
   final String? initialCategoryName;
@@ -30,7 +30,8 @@ class SearchPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: kPagePadding) +
+            padding:
+                const EdgeInsets.symmetric(vertical: kPagePadding) +
                 ResponsiveLayout.of(context).padding,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,9 +75,9 @@ class SearchPage extends StatelessWidget {
                             sortOrder?.localize(l10n) ??
                                 l10n.snapSortOrderRelevance,
                           ),
-                          onSelected: (value) => ref
-                              .read(snapSortOrderProvider.notifier)
-                              .state = value,
+                          onSelected: (value) =>
+                              ref.read(snapSortOrderProvider.notifier).state =
+                                  value,
                           child: Text(
                             sortOrder?.localize(l10n) ??
                                 l10n.snapSortOrderRelevance,
@@ -95,9 +96,11 @@ class SearchPage extends StatelessWidget {
                               values: PackageFormat.values,
                               itemBuilder: (context, packageFormat, child) =>
                                   Text(packageFormat.localize(l10n)),
-                              onSelected: (value) => ref
-                                  .read(packageFormatProvider.notifier)
-                                  .state = value,
+                              onSelected: (value) =>
+                                  ref
+                                          .read(packageFormatProvider.notifier)
+                                          .state =
+                                      value,
                               child: Text(
                                 ref.watch(packageFormatProvider).localize(l10n),
                               ),
@@ -112,21 +115,25 @@ class SearchPage extends StatelessWidget {
                             return switch (ref.watch(packageFormatProvider)) {
                               PackageFormat.snap =>
                                 MenuButtonBuilder<SnapCategoryEnum?>(
-                                  values: <SnapCategoryEnum?>[null] +
+                                  values:
+                                      <SnapCategoryEnum?>[null] +
                                       SnapCategoryEnum.values
                                           .whereNot((c) => c.hidden)
                                           .toList(),
                                   itemBuilder: (context, category, child) =>
                                       Text(
-                                    category?.localize(l10n) ??
-                                        l10n.snapCategoryAll,
-                                  ),
-                                  onSelected: (value) => ref
-                                      .read(
-                                        snapCategoryProvider(initialCategory)
-                                            .notifier,
-                                      )
-                                      .state = value,
+                                        category?.localize(l10n) ??
+                                            l10n.snapCategoryAll,
+                                      ),
+                                  onSelected: (value) =>
+                                      ref
+                                              .read(
+                                                snapCategoryProvider(
+                                                  initialCategory,
+                                                ).notifier,
+                                              )
+                                              .state =
+                                          value,
                                   child: Text(
                                     ref
                                             .watch(
@@ -164,9 +171,9 @@ class SearchPage extends StatelessWidget {
                     : ref.watch(packageFormatProvider);
                 return switch (packageFormat) {
                   PackageFormat.snap => _SnapSearchResults(
-                      initialCategory: initialCategory,
-                      query: query,
-                    ),
+                    initialCategory: initialCategory,
+                    query: query,
+                  ),
                   PackageFormat.deb => _DebSearchResults(query: query),
                 };
               },

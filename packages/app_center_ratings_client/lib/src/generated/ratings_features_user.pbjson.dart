@@ -22,8 +22,8 @@ const AuthenticateRequest$json = {
 };
 
 /// Descriptor for `AuthenticateRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List authenticateRequestDescriptor = $convert.base64Decode(
-    'ChNBdXRoZW50aWNhdGVSZXF1ZXN0Eg4KAmlkGAEgASgJUgJpZA==');
+final $typed_data.Uint8List authenticateRequestDescriptor = $convert
+    .base64Decode('ChNBdXRoZW50aWNhdGVSZXF1ZXN0Eg4KAmlkGAEgASgJUgJpZA==');
 
 @$core.Deprecated('Use authenticateResponseDescriptor instead')
 const AuthenticateResponse$json = {
@@ -34,14 +34,22 @@ const AuthenticateResponse$json = {
 };
 
 /// Descriptor for `AuthenticateResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List authenticateResponseDescriptor = $convert.base64Decode(
-    'ChRBdXRoZW50aWNhdGVSZXNwb25zZRIUCgV0b2tlbhgBIAEoCVIFdG9rZW4=');
+final $typed_data.Uint8List authenticateResponseDescriptor =
+    $convert.base64Decode(
+        'ChRBdXRoZW50aWNhdGVSZXNwb25zZRIUCgV0b2tlbhgBIAEoCVIFdG9rZW4=');
 
 @$core.Deprecated('Use listMyVotesResponseDescriptor instead')
 const ListMyVotesResponse$json = {
   '1': 'ListMyVotesResponse',
   '2': [
-    {'1': 'votes', '3': 1, '4': 3, '5': 11, '6': '.ratings.features.user.Vote', '10': 'votes'},
+    {
+      '1': 'votes',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.ratings.features.user.Vote',
+      '10': 'votes'
+    },
   ],
 };
 
@@ -68,7 +76,14 @@ final $typed_data.Uint8List getSnapVotesRequestDescriptor = $convert.base64Decod
 const GetSnapVotesResponse$json = {
   '1': 'GetSnapVotesResponse',
   '2': [
-    {'1': 'votes', '3': 1, '4': 3, '5': 11, '6': '.ratings.features.user.Vote', '10': 'votes'},
+    {
+      '1': 'votes',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.ratings.features.user.Vote',
+      '10': 'votes'
+    },
   ],
 };
 
@@ -84,7 +99,14 @@ const Vote$json = {
     {'1': 'snap_id', '3': 1, '4': 1, '5': 9, '10': 'snapId'},
     {'1': 'snap_revision', '3': 2, '4': 1, '5': 5, '10': 'snapRevision'},
     {'1': 'vote_up', '3': 3, '4': 1, '5': 8, '10': 'voteUp'},
-    {'1': 'timestamp', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'timestamp'},
+    {
+      '1': 'timestamp',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Timestamp',
+      '10': 'timestamp'
+    },
     {'1': 'snap_name', '3': 5, '4': 1, '5': 9, '10': 'snapName'},
   ],
 };
@@ -112,4 +134,3 @@ final $typed_data.Uint8List voteRequestDescriptor = $convert.base64Decode(
     'CgtWb3RlUmVxdWVzdBIXCgdzbmFwX2lkGAEgASgJUgZzbmFwSWQSIwoNc25hcF9yZXZpc2lvbh'
     'gCIAEoBVIMc25hcFJldmlzaW9uEhcKB3ZvdGVfdXAYAyABKAhSBnZvdGVVcBIbCglzbmFwX25h'
     'bWUYBCABKAlSCHNuYXBOYW1l');
-

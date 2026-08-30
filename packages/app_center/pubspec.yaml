@@ -4,12 +4,12 @@ version: 1.0.0
 publish_to: "none"
 
 environment:
-  sdk: ">=3.1.0 <4.0.0"
-  flutter: ">=3.38.1"
+  sdk: ">=3.12.0 <4.0.0"
+  flutter: ">=3.44.2"
 
 dependencies:
   app_center_ratings_client: ^1.0.0
-  appstream: ^0.2.9
+  appstream: ^0.2.11
   args: ^2.5.0
   cached_network_image: ^3.4.1
   clock: ^1.1.1
@@ -30,7 +30,8 @@ dependencies:
   freezed_annotation: ^2.4.4
   github: ^9.24.0
   glib: ^0.0.1
-  gtk: ^2.1.0
+  gsettings: ^0.2.8
+  gtk: ^2.2.0
   handy_window: ^0.4.0
   http: ^1.2.2
   intl: any
@@ -43,16 +44,17 @@ dependencies:
   riverpod_annotation: ^2.6.1
   shimmer: ^3.0.0
   snapcraft_launcher: ^0.1.0
-  snapd: ^0.6.4
+  snapd: ^0.7.4
   snowball_stemmer: ^0.1.0
   ubuntu_localizations: ^0.5.2+1
   ubuntu_logger: ^0.2.1
   ubuntu_service: ^0.4.0
   ubuntu_test: ^0.2.3
-  ubuntu_widgets: ^0.7.2
+  ubuntu_widgets: ^0.8.0
   url_launcher: ^6.3.0
+  xdg_desktop_portal: ^0.1.14
   xdg_directories: ^1.0.4
-  yaru: ^8.3.0
+  yaru: ^10.2.0
   yaru_test: ^0.3.2
   yaru_window: ^0.2.1+1
 
@@ -68,7 +70,7 @@ dev_dependencies:
   json_serializable: ^6.8.0
   mockito: ^5.4.4
   riverpod_generator: ^2.6.1
-  ubuntu_lints: ^0.4.1
+  ubuntu_lints: ^0.4.2
 
 flutter:
   uses-material-design: true

@@ -44,8 +44,9 @@ void main() {
               (ref, searchParameters) =>
                   mockSnapSearchProvider(searchParameters),
             ),
-            appstreamSearchProvider
-                .overrideWith((ref, query) => Stream.value([])),
+            appstreamSearchProvider.overrideWith(
+              (ref, query) => Stream.value([]),
+            ),
           ],
           child: SearchField(
             onSearch: (_) {},
@@ -58,8 +59,9 @@ void main() {
 
       final testSnapFinder = find.text('Test Snap');
       final anotherTestSnapFinder = find.text('Another Test Snap');
-      final searchForQueryFinder =
-          find.text(tester.l10n.searchFieldSearchForLabel('testsn'));
+      final searchForQueryFinder = find.text(
+        tester.l10n.searchFieldSearchForLabel('testsn'),
+      );
 
       expect(testSnapFinder, findsNothing);
       expect(anotherTestSnapFinder, findsNothing);
@@ -85,8 +87,9 @@ void main() {
               (ref, searchParameters) =>
                   mockSnapSearchProvider(searchParameters),
             ),
-            appstreamSearchProvider
-                .overrideWith((ref, query) => mockDebSearchProvider(query)),
+            appstreamSearchProvider.overrideWith(
+              (ref, query) => mockDebSearchProvider(query),
+            ),
           ],
           child: SearchField(
             onSearch: (_) {},
@@ -100,8 +103,9 @@ void main() {
       final testSnapFinder = find.text('Test Snap');
       final anotherTestSnapFinder = find.text('Another Test Snap');
       final testDebFinder = find.text('Test Sn..I mean deb');
-      final searchForQueryFinder =
-          find.text(tester.l10n.searchFieldSearchForLabel('testsn'));
+      final searchForQueryFinder = find.text(
+        tester.l10n.searchFieldSearchForLabel('testsn'),
+      );
 
       expect(testSnapFinder, findsNothing);
       expect(anotherTestSnapFinder, findsNothing);
@@ -134,8 +138,9 @@ void main() {
               (ref, searchParameters) =>
                   mockSnapSearchProvider(searchParameters),
             ),
-            appstreamSearchProvider
-                .overrideWith((ref, query) => Stream.value([])),
+            appstreamSearchProvider.overrideWith(
+              (ref, query) => Stream.value([]),
+            ),
           ],
           child: SearchField(
             onSearch: mockSearchCallback.call,
@@ -167,8 +172,9 @@ void main() {
               (ref, searchParameters) =>
                   mockSnapSearchProvider(searchParameters),
             ),
-            appstreamSearchProvider
-                .overrideWith((ref, query) => Stream.value([])),
+            appstreamSearchProvider.overrideWith(
+              (ref, query) => Stream.value([]),
+            ),
           ],
           child: SearchField(
             onSearch: mockSearchCallback.call,
@@ -183,8 +189,9 @@ void main() {
       await tester.enterText(textField, 'testsn');
       await tester.pumpAndSettle();
 
-      final searchForQueryFinder =
-          find.text(tester.l10n.searchFieldSearchForLabel('testsn'));
+      final searchForQueryFinder = find.text(
+        tester.l10n.searchFieldSearchForLabel('testsn'),
+      );
       await tester.tap(searchForQueryFinder);
       await tester.pumpAndSettle();
       verify(mockSearchCallback('testsn')).called(1);
@@ -201,8 +208,9 @@ void main() {
               (ref, searchParameters) =>
                   mockSnapSearchProvider(searchParameters),
             ),
-            appstreamSearchProvider
-                .overrideWith((ref, query) => Stream.value([])),
+            appstreamSearchProvider.overrideWith(
+              (ref, query) => Stream.value([]),
+            ),
           ],
           child: SearchField(
             onSearch: mockSearchCallback.call,

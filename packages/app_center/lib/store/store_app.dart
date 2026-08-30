@@ -23,11 +23,13 @@ import 'package:snapd/snapd.dart';
 import 'package:yaru/yaru.dart';
 
 // Making a provider to provide navigatorKeyTwo
-final materialAppNavigatorKeyProvider =
-    Provider((ref) => GlobalKey<NavigatorState>());
+final materialAppNavigatorKeyProvider = Provider(
+  (ref) => GlobalKey<NavigatorState>(),
+);
 
-final yaruPageControllerProvider =
-    Provider((ref) => YaruPageController(length: pages.length));
+final yaruPageControllerProvider = Provider(
+  (ref) => YaruPageController(length: pages.length),
+);
 
 final routeNameProvider = StateProvider<String?>((ref) => null);
 
@@ -59,12 +61,14 @@ class _StoreAppState extends ConsumerState<StoreApp> {
       },
       child: YaruTheme(
         builder: (context, yaru, child) => MaterialApp(
-          theme: yaru.theme?.customize(),
-          darkTheme: yaru.darkTheme?.customize(),
-          highContrastTheme:
-              yaruHighContrastLight.customize(highContrast: true),
-          highContrastDarkTheme:
-              yaruHighContrastDark.customize(highContrast: true),
+          theme: yaru.theme.customize(),
+          darkTheme: yaru.darkTheme.customize(),
+          highContrastTheme: yaruHighContrastLight.customize(
+            highContrast: true,
+          ),
+          highContrastDarkTheme: yaruHighContrastDark.customize(
+            highContrast: true,
+          ),
           debugShowCheckedModeBanner: false,
           localizationsDelegates: localizationsDelegates,
           navigatorKey: ref.watch(materialAppNavigatorKeyProvider),
@@ -144,28 +148,29 @@ class _StoreAppHome extends ConsumerWidget {
       ),
     );
 
-    return YaruMasterDetailPage(
-      navigatorKey: navigatorKey,
-      navigatorObservers: [StoreObserver(ref)],
-      initialRoute: ref.watch(initialRouteProvider),
-      controller: ref.watch(yaruPageControllerProvider),
-      tileBuilder: (context, index, selected, availableWidth) =>
-          pages[index].tileBuilder(context, selected),
-      pageBuilder: (context, index) =>
-          pages[index].pageBuilder(context, searchField),
-      paneLayoutDelegate: YaruResizablePaneDelegate(
-        initialPaneSize: kPaneWidth * textScalar.scale(1),
-        minPaneSize: kPaneWidth * textScalar.scale(1),
-        minPageSize: kCardSizeWide.width + (kPagePadding * 2),
-      ),
-      appBar: YaruWindowTitleBar(
-        title: Text(l10n.appCenterLabel),
-        border: BorderSide.none,
-        backgroundColor: YaruMasterDetailTheme.of(context).sideBarColor,
-      ),
-      breakpoint: 0, // always landscape
-      onGenerateRoute: (settings) => switch (StoreRoutes.routeOf(settings)) {
-        StoreRoutes.deb => MaterialPageRoute(
+    return Scaffold(
+      body: YaruMasterDetailPage(
+        navigatorKey: navigatorKey,
+        navigatorObservers: [StoreObserver(ref)],
+        initialRoute: ref.watch(initialRouteProvider),
+        controller: ref.watch(yaruPageControllerProvider),
+        tileBuilder: (context, index, selected, availableWidth) =>
+            pages[index].tileBuilder(context, selected),
+        pageBuilder: (context, index) =>
+            pages[index].pageBuilder(context, searchField),
+        paneLayoutDelegate: YaruResizablePaneDelegate(
+          initialPaneSize: kPaneWidth * textScalar.scale(1),
+          minPaneSize: kPaneWidth * textScalar.scale(1),
+          minPageSize: kCardSizeWide.width + (kPagePadding * 2),
+        ),
+        appBar: YaruWindowTitleBar(
+          title: Text(l10n.appCenterLabel),
+          border: BorderSide.none,
+          backgroundColor: YaruMasterDetailTheme.of(context).sideBarColor,
+        ),
+        breakpoint: 0, // always landscape
+        onGenerateRoute: (settings) => switch (StoreRoutes.routeOf(settings)) {
+          StoreRoutes.deb => MaterialPageRoute(
             settings: settings,
             builder: (_) => YaruDetailPage(
               appBar: searchField,
@@ -174,7 +179,7 @@ class _StoreAppHome extends ConsumerWidget {
               ),
             ),
           ),
-        StoreRoutes.localDeb => MaterialPageRoute(
+          StoreRoutes.localDeb => MaterialPageRoute(
             settings: settings,
             builder: (_) => YaruDetailPage(
               appBar: searchField,
@@ -183,7 +188,7 @@ class _StoreAppHome extends ConsumerWidget {
               ),
             ),
           ),
-        StoreRoutes.snap => MaterialPageRoute(
+          StoreRoutes.snap => MaterialPageRoute(
             settings: settings,
             builder: (_) => YaruDetailPage(
               appBar: searchField,
@@ -192,7 +197,7 @@ class _StoreAppHome extends ConsumerWidget {
               ),
             ),
           ),
-        StoreRoutes.search => MaterialPageRoute(
+          StoreRoutes.search => MaterialPageRoute(
             settings: settings,
             builder: (_) => YaruDetailPage(
               appBar: searchField,
@@ -202,21 +207,21 @@ class _StoreAppHome extends ConsumerWidget {
               ),
             ),
           ),
-        StoreRoutes.externalTools => MaterialPageRoute(
+          StoreRoutes.externalTools => MaterialPageRoute(
             settings: settings,
             builder: (_) => YaruDetailPage(
               appBar: searchField,
               body: const ExternalTools(),
             ),
           ),
-        StoreRoutes.manage => MaterialPageRoute(
+          StoreRoutes.manage => MaterialPageRoute(
             settings: settings,
             builder: (_) => YaruDetailPage(
               appBar: searchField,
               body: const ManagePage(),
             ),
           ),
-        StoreRoutes.gstreamer => MaterialPageRoute(
+          StoreRoutes.gstreamer => MaterialPageRoute(
             settings: settings,
             builder: (_) => YaruDetailPage(
               appBar: searchField,
@@ -225,8 +230,9 @@ class _StoreAppHome extends ConsumerWidget {
               ),
             ),
           ),
-        _ => null,
-      },
+          _ => null,
+        },
+      ),
     );
   }
 }

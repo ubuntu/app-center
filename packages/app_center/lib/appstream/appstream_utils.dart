@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-import 'package:app_center/l10n.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
+import 'package:gtk/gtk.dart';
 
 extension _GetOrDefault<K, V> on Map<K, V> {
   V getOrDefault(K? key, V fallback) {
@@ -75,24 +75,35 @@ extension LocalizedComponent on AppstreamComponent {
   }
 }
 
-extension AppstreamUrlTypeL10n on AppstreamUrlType {
-  String localize(AppLocalizations l10n) {
-    return switch (this) {
-      AppstreamUrlType.bugtracker => l10n.appstreamUrlTypeBugtracker,
-      AppstreamUrlType.contact => l10n.appstreamUrlTypeContact,
-      AppstreamUrlType.donation => l10n.appstreamUrlTypeDonation,
-      AppstreamUrlType.faq => l10n.appstreamUrlTypeFaq,
-      AppstreamUrlType.help => l10n.appstreamUrlTypeHelp,
-      AppstreamUrlType.homepage => l10n.appstreamUrlTypeHomepage,
-      AppstreamUrlType.translate => l10n.appstreamUrlTypeTranslate,
-      AppstreamUrlType.vcsBrowser => l10n.appstreamUrlTypeVcsBrowser,
-      AppstreamUrlType.contribute => l10n.appstreamUrlTypeContribute,
-    };
-  }
-}
-
 extension Metadata on AppstreamComponent {
-  String? get icon {
+  /// Returns true if this component is marked compulsory for any desktop in
+  /// [desktops].
+  bool isCompulsoryFor(Iterable<String> desktops) {
+    final running = desktops.map((d) => d.toLowerCase()).toSet();
+    return compulsoryForDesktops.any(
+      (d) => running.contains(d.toLowerCase()),
+    );
+  }
+
+  /// The stock icon name from the Appstream metadata (e.g. `org.gnome.Nautilus`),
+  /// or `null` if this component has no stock icon.
+  String? get iconName {
+    final stockIcon = icons.whereType<AppstreamStockIcon>().firstOrNull;
+    return stockIcon?.name;
+  }
+
+  /// Resolves the local themed icon path, falling back to [remoteIconUrl].
+  Future<String?> get iconAsync async {
+    if (iconName != null) {
+      final iconTheme = GtkIcon();
+      final localPath = iconTheme.findIcon(iconName!);
+      if (localPath != null) return localPath;
+    }
+    return remoteIconUrl;
+  }
+
+  /// The remote icon URL from Appstream metadata, or `null` if not present.
+  String? get remoteIconUrl {
     final remoteIcon = icons.whereType<AppstreamRemoteIcon>().firstOrNull;
     return remoteIcon?.url;
   }

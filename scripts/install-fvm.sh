@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Release URL
+# https://api.github.com/repos/leoafarias/fvm/releases/latest redirects to the URL below
+RELEASE_URL=https://api.github.com/repositories/172011048/releases/latest
+
 # Function to log messages with date and time
 log_message() {
     echo -e "$1"
@@ -54,7 +58,7 @@ fi
 
 # Define the URL of the FVM binary
 if [ -z "$1" ]; then
-  FVM_VERSION=$(curl -s https://api.github.com/repos/leoafarias/fvm/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+  FVM_VERSION=$(curl -s $RELEASE_URL | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
   if [ -z "$FVM_VERSION" ]; then
       error "Failed to fetch latest FVM version."
   fi
@@ -103,15 +107,23 @@ if ! mv "$FVM_DIR/fvm" "$FMV_DIR_BIN"; then
     error "Failed to move fvm to bin directory."
 fi
 
-# Create a symlink
-if ! ln -sf "$FMV_DIR_BIN/fvm" "$SYMLINK_TARGET"; then
-    error "Failed to create symlink."
+# Create a symlink. This needs write access to the parent directory, which an
+# unprivileged user does not have, so fall back to sudo and then to leaving the
+# binary in place. Callers that cannot write the symlink are expected to add
+# $FMV_DIR_BIN to their PATH themselves.
+if ln -sf "$FMV_DIR_BIN/fvm" "$SYMLINK_TARGET" 2>/dev/null; then
+    log_message "Linked $SYMLINK_TARGET."
+elif command -v sudo &> /dev/null && sudo -n ln -sf "$FMV_DIR_BIN/fvm" "$SYMLINK_TARGET" 2>/dev/null; then
+    log_message "Linked $SYMLINK_TARGET (required sudo)."
+else
+    log_message "Could not link $SYMLINK_TARGET, add $FMV_DIR_BIN to your PATH instead."
 fi
 
-# Verify installation
-if ! command -v fvm &> /dev/null; then
-    error "Installation verification failed. FVM may not be in PATH or failed to execute."
+# Verify installation, preferring the just-installed binary over any other fvm
+# that may already be on the PATH.
+if ! "$FMV_DIR_BIN/fvm" --version &> /dev/null; then
+    error "Installation verification failed. FVM failed to execute."
 fi
 
-INSTALLED_FVM_VERSION=$(fvm --version 2>&1) || error "Failed to verify installed FVM version."
+INSTALLED_FVM_VERSION=$("$FMV_DIR_BIN/fvm" --version 2>&1) || error "Failed to verify installed FVM version."
 success "FVM $INSTALLED_FVM_VERSION installed successfully."
