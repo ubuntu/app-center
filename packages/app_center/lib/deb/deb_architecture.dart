@@ -1,7 +1,7 @@
 /// Best-effort map from a system's native architecture to the package
-/// architectures it is likely able to execute. It is used only to reject the
-/// installs that are *certain* to fail (a completely foreign CPU) with a clear
-/// message instead of an indefinite spinner.
+/// architectures it is likely able to execute. It is used only to disable the
+/// installs that are *certain* to fail (a completely foreign CPU), with a
+/// clear message instead of an indefinite spinner.
 ///
 /// The 32-bit companion entries (e.g. amd64 includes i386, arm64 includes
 /// armhf) cover the common case and the only multiarch pairs Debian permits
@@ -29,7 +29,7 @@ const _executableArchitectures = <String, Set<String>>{
 /// system whose native architecture is [systemArch].
 ///
 /// Returns `true` for the architecture-independent `all`, and `true` whenever
-/// either architecture is empty or unrecognized: the check only rejects
+/// either architecture is empty or unrecognized: the check only disables
 /// installs that are *certain* to fail because the CPU cannot execute the
 /// code at all, and leaves every uncertain case to PackageKit.
 bool isDebArchitectureCompatible({

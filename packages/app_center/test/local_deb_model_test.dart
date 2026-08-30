@@ -22,6 +22,36 @@ void main() {
   });
 
   test(
+    'incompatible architecture is exposed without failing the build',
+    () async {
+      createMockPackageKitService(
+        packageDetails: PackageKitPackageDetails(
+          packageId: const PackageKitPackageId(
+            name: 'testdeb',
+            version: '1.0',
+            arch: 'arm64',
+          ),
+          summary: 'summary',
+          description: 'description',
+          license: 'license',
+          size: 42,
+          url: 'url',
+        ),
+      );
+
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+
+      final data = await container.read(
+        localDebModelProvider(path: '/path/to/package.deb').future,
+      );
+
+      expect(data.systemArch, equals('amd64'));
+      expect(data.isArchitectureCompatible, isFalse);
+    },
+  );
+
+  test(
     'error stream records the error and clears the active transaction',
     () async {
       createMockPackageKitService(

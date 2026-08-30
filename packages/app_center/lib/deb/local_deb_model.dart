@@ -1,6 +1,5 @@
 import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/deb/deb_architecture.dart';
-import 'package:app_center/deb/local_deb_exceptions.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:packagekit/packagekit.dart';
@@ -15,6 +14,7 @@ class LocalDebData extends AppMetadata with _$LocalDebData {
   factory LocalDebData({
     required String path,
     required PackageKitDetailsEvent details,
+    required String systemArch,
     PackageKitPackageInfo? packageInfo,
     int? activeTransactionId,
     PackageKitServiceError? error,
@@ -23,6 +23,13 @@ class LocalDebData extends AppMetadata with _$LocalDebData {
   LocalDebData._();
 
   bool get isInstalled => packageInfo?.info == PackageKitInfo.installed;
+
+  /// Whether this `.deb` is built for an architecture the system can execute.
+  /// When `false` the page stays fully visible, but installing is disabled.
+  bool get isArchitectureCompatible => isDebArchitectureCompatible(
+    packageArch: details.packageId.arch,
+    systemArch: systemArch,
+  );
 
   @override
   AppConfinement? get confinement => AppConfinement.fromDeb();
@@ -58,17 +65,7 @@ class LocalDebModel extends _$LocalDebModel {
     if (details == null) {
       throw Exception('Failed to get package details');
     }
-    final packageArch = details.packageId.arch;
     final systemArch = await packageKit.getNativeArchitecture();
-    if (!isDebArchitectureCompatible(
-      packageArch: packageArch,
-      systemArch: systemArch,
-    )) {
-      throw DebArchitectureMismatchException(
-        packageArch: packageArch,
-        systemArch: systemArch,
-      );
-    }
     final packageName = details.packageId.name;
     final results = await packageKit.resolve([packageName]);
     final packageInfo = results[packageName];
@@ -76,7 +73,12 @@ class LocalDebModel extends _$LocalDebModel {
     final errorListener = packageKit.errorStream.listen(_onError);
     ref.onDispose(errorListener.cancel);
 
-    return LocalDebData(path: path, details: details, packageInfo: packageInfo);
+    return LocalDebData(
+      path: path,
+      details: details,
+      systemArch: systemArch,
+      packageInfo: packageInfo,
+    );
   }
 
   Future<void> install() async {
@@ -96,8 +98,9 @@ class LocalDebModel extends _$LocalDebModel {
       // it is still set — i.e. for failures with no error code (a destroyed
       // transaction or a closed stream), so the spinner never gets stuck.
       if (state.value?.activeTransactionId != null) {
-        state =
-            AsyncValue.data(state.value!.copyWith(activeTransactionId: null));
+        state = AsyncValue.data(
+          state.value!.copyWith(activeTransactionId: null),
+        );
       }
     }
   }

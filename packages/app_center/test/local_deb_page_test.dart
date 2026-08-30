@@ -69,7 +69,7 @@ void main() {
     expect(find.button(tester.l10n.snapActionInstalledLabel), isDisabled);
   });
 
-  testWidgets('architecture mismatch shows error screen', (tester) async {
+  testWidgets('architecture mismatch disables install', (tester) async {
     final amd64Package = PackageKitPackageDetails(
       packageId: const PackageKitPackageId(
         name: 'testdeb',
@@ -95,11 +95,15 @@ void main() {
     );
     await tester.pump();
 
+    // The package details stay fully visible...
+    expect(find.text('testdeb'), findsOneWidget);
+    expect(find.text('summary'), findsOneWidget);
+    expect(find.text('description'), findsOneWidget);
+    // ...while installing is disabled, with the reason shown in the banner.
     expect(find.text(tester.l10n.localDebArchMismatchTitle), findsOneWidget);
     expect(find.textContaining('amd64'), findsOneWidget);
     expect(find.textContaining('arm64'), findsOneWidget);
-    expect(find.button(tester.l10n.localDebArchMismatchClose), findsOneWidget);
-    expect(find.button(tester.l10n.snapActionInstallLabel), findsNothing);
+    expect(find.button(tester.l10n.snapActionInstallLabel), isDisabled);
     verifyNever(packageKit.installLocal(any));
   });
 

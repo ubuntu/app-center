@@ -383,7 +383,6 @@
             }
         }
     },
-    "localDebArchMismatchClose": "Close",
     "snapdExceptionRunningApps": "We couldn't update {snapName} because it is currently running.",
     "@snapdExceptionRunningApps": {
         "placeholders": {
