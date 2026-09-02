@@ -133,8 +133,11 @@ final pages = <StorePage>[
       leading: Icon(AddonsPage.icon(selected)),
       title: Text(AddonsPage.label(context)),
     ),
-    pageBuilder: (_, title) => YaruDetailPage(
-      appBar: title,
+    pageBuilder: (context, _) => YaruDetailPage(
+      appBar: YaruWindowTitleBar(
+        title: Text(AddonsPage.label(context)),
+        border: BorderSide.none,
+      ),
       body: const AddonsPage(),
     ),
   ),
