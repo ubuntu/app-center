@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/deb/deb_page.dart';
 import 'package:app_center/packagekit/packagekit_service.dart';
@@ -5,7 +7,9 @@ import 'package:app_center/providers/current_desktops_provider.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
+import 'package:ubuntu_localizations/ubuntu_localizations.dart';
 import 'package:ubuntu_test/ubuntu_test.dart';
 
 import 'test_utils.dart';
@@ -69,6 +73,38 @@ void main() {
       findsOneWidget,
     );
   });
+
+  testWidgets('retry reloads the deb', (tester) async {
+    final packageKit = createMockPackageKitService();
+    var resolveCalls = 0;
+    when(
+      packageKit.resolve(any, installedOnly: anyNamed('installedOnly')),
+    ).thenAnswer((invocation) async {
+      if (resolveCalls++ == 0) throw TimeoutException('PackageKit timed out');
+      final names = invocation.positionalArguments.first as List<String>;
+      return {names.first: packageInfo};
+    });
+    createMockAppstreamService(component: component);
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        child: const DebPage(id: 'testdeb'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final retryLabel = UbuntuLocalizations.of(
+      tester.element(find.byType(DebPage)),
+    ).retryLabel;
+    await tester.tap(find.text(retryLabel));
+    await tester.pumpAndSettle();
+
+    verify(
+      packageKit.resolve(any, installedOnly: anyNamed('installedOnly')),
+    ).called(greaterThan(1));
+    expect(find.text(component.getLocalizedName()), findsOneWidget);
+  });
+
   testWidgets('remove button hidden for compulsory deb on current desktop', (
     tester,
   ) async {

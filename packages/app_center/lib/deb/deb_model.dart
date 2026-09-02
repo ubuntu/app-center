@@ -75,8 +75,6 @@ class DebModel extends _$DebModel {
     final appstream = getService<AppstreamService>();
     final component = appstream.getFromId(id);
 
-    await packageKit.activateService();
-
     final packageInfo = await _getPackageInfo(component);
     final hasUpdate = await _getUpdates(packageInfo!);
     final details = (await packageKit.getDetails([
@@ -124,6 +122,8 @@ class DebModel extends _$DebModel {
       state.value!.copyWith(activeTransactionId: null),
     );
   }
+
+  void retry() => ref.invalidateSelf();
 
   Future<void> _onError(PackageKitServiceError error) async {
     state = AsyncValue.data(
