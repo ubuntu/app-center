@@ -81,6 +81,165 @@ void main() {
     });
   });
 
+  group('transaction initialization', () {
+    test(
+      'recreates the client once when PackageKit has no D-Bus owner',
+      () async {
+        final firstClient = createMockPackageKitClient();
+        final secondClient = createMockPackageKitClient();
+        when(firstClient.createTransaction()).thenThrow(
+          DBusAccessDeniedException(
+            DBusMethodErrorResponse('org.freedesktop.DBus.Error.AccessDenied'),
+          ),
+        );
+        final dbus = createMockDbusClient();
+        when(
+          dbus.nameHasOwner(_packageKitDBusName),
+        ).thenAnswer((_) async => false);
+        var clientIndex = 0;
+        final packageKit = PackageKitService(
+          clientFactory: () => [firstClient, secondClient][clientIndex++],
+          dbus: dbus,
+          fs: MemoryFileSystem.test(),
+        );
+
+        await packageKit.resolve(['foo'], architecture: 'amd64');
+
+        verify(firstClient.createTransaction()).called(1);
+        verify(firstClient.close()).called(1);
+        verify(secondClient.createTransaction()).called(1);
+        verify(dbus.nameHasOwner(_packageKitDBusName)).called(1);
+      },
+    );
+
+    test('recreates the client once for concurrent requests', () async {
+      final firstClient = createMockPackageKitClient();
+      final secondClient = createMockPackageKitClient();
+      when(firstClient.createTransaction()).thenThrow(
+        DBusAccessDeniedException(
+          DBusMethodErrorResponse('org.freedesktop.DBus.Error.AccessDenied'),
+        ),
+      );
+      final dbus = createMockDbusClient();
+      when(
+        dbus.nameHasOwner(_packageKitDBusName),
+      ).thenAnswer((_) async => false);
+      var clientCount = 0;
+      final packageKit = PackageKitService(
+        clientFactory: () {
+          clientCount++;
+          return clientCount == 1 ? firstClient : secondClient;
+        },
+        dbus: dbus,
+        fs: MemoryFileSystem.test(),
+      );
+
+      await Future.wait([
+        packageKit.resolve(['foo'], architecture: 'amd64'),
+        packageKit.resolve(['bar'], architecture: 'amd64'),
+      ]);
+
+      expect(clientCount, 2);
+      verify(firstClient.close()).called(1);
+      verify(secondClient.createTransaction()).called(2);
+    });
+
+    test('preserves active transactions while replacing the client', () async {
+      final transactionDone = Completer<void>();
+      final activeTransaction = createMockPackageKitTransaction(
+        start: transactionDone.future,
+      );
+      final firstClient = createMockPackageKitClient();
+      var transactionCount = 0;
+      when(firstClient.createTransaction()).thenAnswer((_) async {
+        if (transactionCount++ == 0) return activeTransaction;
+        throw DBusAccessDeniedException(
+          DBusMethodErrorResponse('org.freedesktop.DBus.Error.AccessDenied'),
+        );
+      });
+      final secondClient = createMockPackageKitClient();
+      final dbus = createMockDbusClient();
+      when(
+        dbus.nameHasOwner(_packageKitDBusName),
+      ).thenAnswer((_) async => false);
+      var clientIndex = 0;
+      final packageKit = PackageKitService(
+        clientFactory: () => [firstClient, secondClient][clientIndex++],
+        dbus: dbus,
+        fs: MemoryFileSystem.test(),
+      );
+
+      final id = await packageKit.install(
+        const PackageKitPackageId(name: 'foo', version: '1.0'),
+      );
+      await packageKit.resolve(['bar'], architecture: 'amd64');
+
+      expect(packageKit.getTransaction(id), same(activeTransaction));
+      transactionDone.complete();
+      await packageKit.waitTransaction(id);
+    });
+
+    test(
+      'does not recover AccessDenied while PackageKit has an owner',
+      () async {
+        final client = createMockPackageKitClient();
+        when(client.createTransaction()).thenThrow(
+          DBusAccessDeniedException(
+            DBusMethodErrorResponse('org.freedesktop.DBus.Error.AccessDenied'),
+          ),
+        );
+        final dbus = createMockDbusClient();
+        when(
+          dbus.nameHasOwner(_packageKitDBusName),
+        ).thenAnswer((_) async => true);
+        final packageKit = PackageKitService(
+          client: client,
+          dbus: dbus,
+          fs: MemoryFileSystem.test(),
+        );
+
+        await expectLater(
+          packageKit.resolve(['foo'], architecture: 'amd64'),
+          throwsA(isA<DBusAccessDeniedException>()),
+        );
+
+        verifyNever(client.close());
+      },
+    );
+
+    test('retries only once when the replacement client fails', () async {
+      final firstClient = createMockPackageKitClient();
+      final secondClient = createMockPackageKitClient();
+      final error = DBusAccessDeniedException(
+        DBusMethodErrorResponse('org.freedesktop.DBus.Error.AccessDenied'),
+      );
+      when(firstClient.createTransaction()).thenThrow(error);
+      when(secondClient.createTransaction()).thenThrow(error);
+      final dbus = createMockDbusClient();
+      when(
+        dbus.nameHasOwner(_packageKitDBusName),
+      ).thenAnswer((_) async => false);
+      var clientCount = 0;
+      final packageKit = PackageKitService(
+        clientFactory: () {
+          clientCount++;
+          return clientCount == 1 ? firstClient : secondClient;
+        },
+        dbus: dbus,
+        fs: MemoryFileSystem.test(),
+      );
+
+      await expectLater(
+        packageKit.resolve(['foo'], architecture: 'amd64'),
+        throwsA(same(error)),
+      );
+
+      expect(clientCount, 2);
+      verify(firstClient.createTransaction()).called(1);
+      verify(secondClient.createTransaction()).called(1);
+    });
+  });
+
   test('install', () async {
     final completer = Completer();
     final mockTransaction = createMockPackageKitTransaction(

@@ -52,7 +52,7 @@ class DebPage extends ConsumerWidget {
       ),
       error: (error, stackTrace) => ErrorView(
         error: error,
-        onRetry: () => ref.invalidate(debModelProvider(id)),
+        onRetry: ref.read(debModelProvider(id).notifier).retry,
       ),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
     );

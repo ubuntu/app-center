@@ -13,6 +13,8 @@ import 'package:xdg_desktop_portal/xdg_desktop_portal.dart';
 
 export 'package:packagekit/packagekit.dart' show PackageKitTransaction;
 
+const _packageKitBusName = 'org.freedesktop.PackageKit';
+
 typedef PackageKitPackageInfo = PackageKitPackageEvent;
 typedef PackageKitServiceError = PackageKitErrorCodeEvent;
 typedef PackageKitPackageDetails = PackageKitDetailsEvent;
@@ -28,24 +30,31 @@ class PackageKitTransactionError implements Exception {
 class PackageKitService {
   PackageKitService({
     @visibleForTesting PackageKitClient? client,
+    @visibleForTesting PackageKitClient Function()? clientFactory,
     @visibleForTesting DBusClient? dbus,
     @visibleForTesting this._documentsPortal,
     @visibleForTesting FileSystem? fs,
     @visibleForTesting this._runtimeDir,
-  }) : _client = client ?? getService<PackageKitClient>(),
+  }) : _clientFactory = clientFactory ?? PackageKitClient.new,
+       _client =
+           client ?? clientFactory?.call() ?? getService<PackageKitClient>(),
        _dbus = dbus ?? DBusClient.system(),
        _fs = fs ?? const LocalFileSystem();
 
-  final PackageKitClient _client;
+  final PackageKitClient Function() _clientFactory;
+  PackageKitClient _client;
   final DBusClient _dbus;
   final XdgDocumentsPortal? _documentsPortal;
   final FileSystem _fs;
   final String? _runtimeDir;
   XdgDesktopPortalClient? _desktopPortalClient;
   io.Directory? _mountPoint;
+  PackageKitClient? _connectedClient;
+  PackageKitClient? _activatingClient;
+  Future<void>? _activation;
+  Future<void>? _recovery;
 
-  bool get isAvailable => _isAvailable;
-  bool _isAvailable = false;
+  bool get isAvailable => identical(_connectedClient, _client);
 
   Stream<PackageKitServiceError> get errorStream =>
       _errorStreamController.stream;
@@ -68,9 +77,24 @@ class PackageKitService {
   /// the daemon is inactive.
   /// See https://github.com/ubuntu/app-center/issues/1215
   /// and https://forum.snapcraft.io/t/apparmor-denial-in-new-snap-store-despite-connected-packagekit-control-interface/35290
-  Future<void> activateService() async {
-    if (_isAvailable) return;
+  Future<void> activateService() => _activateClient(_client);
 
+  Future<void> _activateClient(PackageKitClient client) {
+    if (identical(_connectedClient, client)) return Future.value();
+    if (identical(_activatingClient, client)) return _activation!;
+
+    final activation = _connectClient(client);
+    _activatingClient = client;
+    _activation = activation;
+    return activation.whenComplete(() {
+      if (identical(_activation, activation)) {
+        _activatingClient = null;
+        _activation = null;
+      }
+    });
+  }
+
+  Future<void> _connectClient(PackageKitClient client) async {
     final object = DBusRemoteObject(
       _dbus,
       name: 'org.freedesktop.DBus',
@@ -79,15 +103,72 @@ class PackageKitService {
     await object.callMethod(
       'org.freedesktop.DBus',
       'StartServiceByName',
-      const [DBusString('org.freedesktop.PackageKit'), DBusUint32(0)],
+      const [DBusString(_packageKitBusName), DBusUint32(0)],
     );
     try {
-      await _client.connect();
-      _isAvailable = true;
+      await client.connect();
+      if (identical(_client, client)) _connectedClient = client;
     } on DBusServiceUnknownException catch (_) {
       log.info(
         'Could not connect to PackageKit - marking service as unavailable',
       );
+    }
+  }
+
+  Future<void> _replaceClient(PackageKitClient staleClient) async {
+    if (!identical(_client, staleClient)) return;
+    final recovery = _recovery;
+    if (recovery != null) return recovery;
+
+    final replacement = _clientFactory();
+    _client = replacement;
+    _connectedClient = null;
+    log.info('Replacing stale PackageKit client');
+
+    final replacementFuture = _closeClient(staleClient);
+    _recovery = replacementFuture;
+    try {
+      await replacementFuture;
+    } finally {
+      if (identical(_recovery, replacementFuture)) _recovery = null;
+    }
+  }
+
+  Future<void> _closeClient(PackageKitClient client) async {
+    try {
+      await client.close();
+    } on Exception catch (e) {
+      log.warning('Failed to close stale PackageKit client: $e');
+    }
+  }
+
+  Future<bool> _hasPackageKitOwner() async {
+    try {
+      final hasOwner = await _dbus.nameHasOwner(_packageKitBusName);
+      log.info('PackageKit D-Bus owner is ${hasOwner ? 'present' : 'absent'}');
+      return hasOwner;
+    } on Exception catch (e) {
+      log.warning('Failed to check PackageKit D-Bus owner: $e');
+      return true;
+    }
+  }
+
+  Future<PackageKitTransaction> _createInitializedTransaction() async {
+    final client = _client;
+    await _activateClient(client);
+    try {
+      return await client.createTransaction();
+    } on DBusMethodResponseException catch (e) {
+      log.warning('Failed to create PackageKit transaction: ${e.errorName}');
+      if (await _hasPackageKitOwner()) rethrow;
+
+      log.info(
+        'Recreating PackageKit client after its D-Bus owner disappeared',
+      );
+      await _replaceClient(client);
+      final replacement = _client;
+      await _activateClient(replacement);
+      return replacement.createTransaction();
     }
   }
 
@@ -101,7 +182,7 @@ class PackageKitService {
     void Function(PackageKitEvent event)? listener,
     void Function()? onDone,
   }) async {
-    final transaction = await _client.createTransaction();
+    final transaction = await _createInitializedTransaction();
     final id = _nextId++;
     _transactions[id] = transaction;
 

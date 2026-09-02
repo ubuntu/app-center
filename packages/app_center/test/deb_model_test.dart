@@ -34,7 +34,7 @@ void main() {
       completes,
     );
 
-    verify(packageKit.activateService()).called(1);
+    verify(packageKit.resolve(['testdeb-package'])).called(1);
 
     expect(provider.read().hasValue, isTrue);
     expect(provider.read().value!.packageInfo, equals(packageInfo));
