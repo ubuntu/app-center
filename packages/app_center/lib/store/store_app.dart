@@ -23,11 +23,13 @@ import 'package:snapd/snapd.dart';
 import 'package:yaru/yaru.dart';
 
 // Making a provider to provide navigatorKeyTwo
-final materialAppNavigatorKeyProvider =
-    Provider((ref) => GlobalKey<NavigatorState>());
+final materialAppNavigatorKeyProvider = Provider(
+  (ref) => GlobalKey<NavigatorState>(),
+);
 
-final yaruPageControllerProvider =
-    Provider((ref) => YaruPageController(length: pages.length));
+final yaruPageControllerProvider = Provider(
+  (ref) => YaruPageController(length: pages.length),
+);
 
 final routeNameProvider = StateProvider<String?>((ref) => null);
 
@@ -61,10 +63,12 @@ class _StoreAppState extends ConsumerState<StoreApp> {
         builder: (context, yaru, child) => MaterialApp(
           theme: yaru.theme.customize(),
           darkTheme: yaru.darkTheme.customize(),
-          highContrastTheme:
-              yaruHighContrastLight.customize(highContrast: true),
-          highContrastDarkTheme:
-              yaruHighContrastDark.customize(highContrast: true),
+          highContrastTheme: yaruHighContrastLight.customize(
+            highContrast: true,
+          ),
+          highContrastDarkTheme: yaruHighContrastDark.customize(
+            highContrast: true,
+          ),
           debugShowCheckedModeBanner: false,
           localizationsDelegates: localizationsDelegates,
           navigatorKey: ref.watch(materialAppNavigatorKeyProvider),
@@ -167,65 +171,65 @@ class _StoreAppHome extends ConsumerWidget {
         breakpoint: 0, // always landscape
         onGenerateRoute: (settings) => switch (StoreRoutes.routeOf(settings)) {
           StoreRoutes.deb => MaterialPageRoute(
-              settings: settings,
-              builder: (_) => YaruDetailPage(
-                appBar: searchField,
-                body: DebPage(
-                  id: StoreRoutes.debOf(settings)!,
-                ),
+            settings: settings,
+            builder: (_) => YaruDetailPage(
+              appBar: searchField,
+              body: DebPage(
+                id: StoreRoutes.debOf(settings)!,
               ),
             ),
+          ),
           StoreRoutes.localDeb => MaterialPageRoute(
-              settings: settings,
-              builder: (_) => YaruDetailPage(
-                appBar: searchField,
-                body: LocalDebPage(
-                  path: StoreRoutes.localDebOf(settings)!,
-                ),
+            settings: settings,
+            builder: (_) => YaruDetailPage(
+              appBar: searchField,
+              body: LocalDebPage(
+                path: StoreRoutes.localDebOf(settings)!,
               ),
             ),
+          ),
           StoreRoutes.snap => MaterialPageRoute(
-              settings: settings,
-              builder: (_) => YaruDetailPage(
-                appBar: searchField,
-                body: SnapPage(
-                  snapName: StoreRoutes.snapOf(settings)!,
-                ),
+            settings: settings,
+            builder: (_) => YaruDetailPage(
+              appBar: searchField,
+              body: SnapPage(
+                snapName: StoreRoutes.snapOf(settings)!,
               ),
             ),
+          ),
           StoreRoutes.search => MaterialPageRoute(
-              settings: settings,
-              builder: (_) => YaruDetailPage(
-                appBar: searchField,
-                body: SearchPage(
-                  query: StoreRoutes.queryOf(settings),
-                  category: StoreRoutes.categoryOf(settings),
-                ),
+            settings: settings,
+            builder: (_) => YaruDetailPage(
+              appBar: searchField,
+              body: SearchPage(
+                query: StoreRoutes.queryOf(settings),
+                category: StoreRoutes.categoryOf(settings),
               ),
             ),
+          ),
           StoreRoutes.externalTools => MaterialPageRoute(
-              settings: settings,
-              builder: (_) => YaruDetailPage(
-                appBar: searchField,
-                body: const ExternalTools(),
-              ),
+            settings: settings,
+            builder: (_) => YaruDetailPage(
+              appBar: searchField,
+              body: const ExternalTools(),
             ),
+          ),
           StoreRoutes.manage => MaterialPageRoute(
-              settings: settings,
-              builder: (_) => YaruDetailPage(
-                appBar: searchField,
-                body: const ManagePage(),
-              ),
+            settings: settings,
+            builder: (_) => YaruDetailPage(
+              appBar: searchField,
+              body: const ManagePage(),
             ),
+          ),
           StoreRoutes.gstreamer => MaterialPageRoute(
-              settings: settings,
-              builder: (_) => YaruDetailPage(
-                appBar: searchField,
-                body: GStreamerPage(
-                  resources: StoreRoutes.gstResourcesOf(settings),
-                ),
+            settings: settings,
+            builder: (_) => YaruDetailPage(
+              appBar: searchField,
+              body: GStreamerPage(
+                resources: StoreRoutes.gstResourcesOf(settings),
               ),
             ),
+          ),
           _ => null,
         },
       ),

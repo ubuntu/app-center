@@ -35,8 +35,8 @@ class LocalDebData extends AppMetadata with _$LocalDebData {
 
   @override
   Map<AppLink, String>? get links => {
-        AppLink.homepage: details.url,
-      };
+    AppLink.homepage: details.url,
+  };
 
   @override
   DateTime? get published => null;
@@ -45,7 +45,7 @@ class LocalDebData extends AppMetadata with _$LocalDebData {
   String? get version => details.packageId.version;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class LocalDebModel extends _$LocalDebModel {
   @override
   Future<LocalDebData> build({required String path}) async {

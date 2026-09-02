@@ -13,6 +13,7 @@ import 'package:app_center/providers/current_desktops_provider.dart';
 import 'package:app_center/store/store_app.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -67,6 +68,8 @@ class _DebView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final layout = ResponsiveLayout.of(context);
     final l10n = AppLocalizations.of(context);
+    final currentDesktops = ref.watch(currentDesktopsProvider);
+    final isCompulsory = debModel.isCompulsoryFor(currentDesktops);
 
     return AppPage(
       titleBar: AppTitleBar.fromDeb(
@@ -78,14 +81,21 @@ class _DebView extends ConsumerWidget {
                   semanticLabel: l10n.debPageShareSemanticLabel,
                 ),
                 onPressed: () {
-                  final navigationKey =
-                      ref.watch(materialAppNavigatorKeyProvider);
+                  final navigationKey = ref.watch(
+                    materialAppNavigatorKeyProvider,
+                  );
 
-                  ScaffoldMessenger.of(navigationKey.currentContext!)
-                      .showSnackBar(
+                  ScaffoldMessenger.of(
+                    navigationKey.currentContext!,
+                  ).showSnackBar(
                     SnackBar(
                       content: Text(l10n.snapPageShareLinkCopiedMessage),
                     ),
+                  );
+                  SemanticsService.sendAnnouncement(
+                    View.of(navigationKey.currentContext!),
+                    l10n.snapPageShareLinkCopiedMessage,
+                    Directionality.of(navigationKey.currentContext!),
                   );
                   Clipboard.setData(
                     ClipboardData(text: debModel.component.website!),
@@ -99,7 +109,14 @@ class _DebView extends ConsumerWidget {
         spacing: kSpacing,
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
-          _DebActionButtons(debModel: debModel),
+          if (debModel.activeTransactionId != null)
+            _DebActionButtons(debModel: debModel)
+          else ...[
+            if (!debModel.isInstalled || debModel.hasUpdate)
+              _DebActionButtons(debModel: debModel),
+            if (!isCompulsory && (debModel.isInstalled || debModel.hasUpdate))
+              _DebUninstallButton(debModel: debModel),
+          ],
           _MoreActionsButton(debData: debModel),
         ],
       ),
@@ -140,14 +157,12 @@ class _DebActionButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final currentDesktops = ref.watch(currentDesktopsProvider);
-    final isCompulsory = debModel.isCompulsoryFor(currentDesktops);
 
     final primaryAction = debModel.hasUpdate
         ? DebAction.update
         : debModel.isInstalled
-            ? (isCompulsory ? null : DebAction.remove)
-            : DebAction.install;
+        ? null
+        : DebAction.install;
     final button = switch (primaryAction) {
       DebAction.install || DebAction.update => YaruSplitButton.new,
       _ => YaruSplitButton.outlined,
@@ -163,7 +178,8 @@ class _DebActionButtons extends ConsumerWidget {
     if (debModel.activeTransactionId != null) {
       return ActiveChangeStatus(
         onCancelPressed: DebAction.cancel.callback(ref, debModel),
-        progress: (ref
+        progress:
+            (ref
                     .watch(transactionProvider(debModel.activeTransactionId!))
                     .valueOrNull
                     ?.percentage ??
@@ -189,6 +205,24 @@ class _DebActionButtons extends ConsumerWidget {
   }
 }
 
+class _DebUninstallButton extends ConsumerWidget {
+  const _DebUninstallButton({required this.debModel});
+
+  final DebData debModel;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+
+    return OutlinedButton(
+      onPressed: debModel.activeTransactionId == null
+          ? DebAction.remove.callback(ref, debModel)
+          : null,
+      child: Text(DebAction.remove.label(l10n)),
+    );
+  }
+}
+
 class _MoreActionsButton extends ConsumerWidget {
   const _MoreActionsButton({required this.debData});
 
@@ -197,19 +231,13 @@ class _MoreActionsButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final currentDesktops = ref.watch(currentDesktopsProvider);
-    final isCompulsory = debData.isCompulsoryFor(currentDesktops);
 
     final primaryAction = debData.hasUpdate
         ? DebAction.update
-        : debData.isInstalled
-            ? (isCompulsory ? null : DebAction.remove)
-            : DebAction.install;
+        : DebAction.install;
 
     final secondaryActions = [
       if (debData.hasUpdate) DebAction.update,
-      if (!isCompulsory && (debData.isInstalled || debData.hasUpdate))
-        DebAction.remove,
     ]..remove(primaryAction);
 
     return secondaryActions.isNotEmpty
@@ -219,9 +247,6 @@ class _MoreActionsButton extends ConsumerWidget {
             childPadding: EdgeInsets.symmetric(horizontal: 2),
             itemBuilder: (context) => [
               ...secondaryActions.map((action) {
-                final color = action == DebAction.remove
-                    ? Theme.of(context).colorScheme.error
-                    : null;
                 return PopupMenuItem(
                   onTap: action.callback(
                     ref,
@@ -230,10 +255,7 @@ class _MoreActionsButton extends ConsumerWidget {
                   child: IntrinsicWidth(
                     child: ListTile(
                       mouseCursor: SystemMouseCursors.click,
-                      title: Text(
-                        action.label(l10n),
-                        style: TextStyle(color: color),
-                      ),
+                      title: Text(action.label(l10n)),
                     ),
                   ),
                 );
@@ -242,7 +264,7 @@ class _MoreActionsButton extends ConsumerWidget {
             onSelected: (value) => {},
             child: Icon(YaruIcons.view_more),
           )
-        : SizedBox.shrink();
+        : const SizedBox.shrink();
   }
 }
 
@@ -253,16 +275,16 @@ enum DebAction {
   remove;
 
   String label(AppLocalizations l10n) => switch (this) {
-        cancel => l10n.snapActionCancelLabel,
-        install => l10n.snapActionInstallLabel,
-        update => l10n.snapActionUpdateLabel,
-        remove => l10n.snapActionRemoveLabel,
-      };
+    cancel => l10n.snapActionCancelLabel,
+    install => l10n.snapActionInstallLabel,
+    update => l10n.snapActionUpdateLabel,
+    remove => l10n.snapActionRemoveLabel,
+  };
 
   IconData? get icon => switch (this) {
-        remove => YaruIcons.trash,
-        _ => null,
-      };
+    remove => YaruIcons.trash,
+    _ => null,
+  };
 
   VoidCallback? callback(WidgetRef ref, DebData data) {
     final provider = ref.read(debModelProvider(data.id).notifier);

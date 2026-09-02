@@ -50,8 +50,9 @@ class LocalDebInfo with _$LocalDebInfo {
   DateTime? get releaseDate {
     final installedVersion = packageInfo.packageId.version;
     // Try to find exact version match
-    final matchingRelease = component?.releases
-        .firstWhereOrNull((r) => r.version == installedVersion);
+    final matchingRelease = component?.releases.firstWhereOrNull(
+      (r) => r.version == installedVersion,
+    );
     if (matchingRelease?.date != null) {
       return matchingRelease!.date;
     }
@@ -62,9 +63,6 @@ class LocalDebInfo with _$LocalDebInfo {
         .maxOrNull;
   }
 }
-
-final localDebFilterProvider = StateProvider.autoDispose<String>((_) => '');
-final showLocalSystemDebsProvider = StateProvider<bool>((_) => false);
 
 /// Returns all installed packages from PackageKit.
 @riverpod

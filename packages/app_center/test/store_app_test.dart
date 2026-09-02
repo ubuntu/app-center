@@ -32,10 +32,14 @@ void main() {
       );
       await tester.pump();
 
-      final manageTile =
-          find.widgetWithText(YaruMasterTile, tester.l10n.managePageLabel);
-      final badge =
-          find.descendant(of: manageTile, matching: find.byType(Badge));
+      final manageTile = find.widgetWithText(
+        YaruMasterTile,
+        tester.l10n.managePageLabel,
+      );
+      final badge = find.descendant(
+        of: manageTile,
+        matching: find.byType(Badge),
+      );
       expect(badge, findsNothing);
     });
 
@@ -59,10 +63,14 @@ void main() {
       );
       await tester.pump();
 
-      final manageTile =
-          find.widgetWithText(YaruMasterTile, tester.l10n.managePageLabel);
-      final badge =
-          find.descendant(of: manageTile, matching: find.byType(Badge));
+      final manageTile = find.widgetWithText(
+        YaruMasterTile,
+        tester.l10n.managePageLabel,
+      );
+      final badge = find.descendant(
+        of: manageTile,
+        matching: find.byType(Badge),
+      );
       expect(badge, findsOneWidget);
       expect((tester.widget<Badge>(badge).label! as Text).data, equals('2'));
     });
@@ -78,8 +86,10 @@ void main() {
         final snapdService = registerMockSnapdService();
         registerService<ErrorStreamController>(ErrorStreamController.new);
 
-        final exception =
-            SnapdException(kind: 'error kind', message: 'error message');
+        final exception = SnapdException(
+          kind: 'error kind',
+          message: 'error message',
+        );
         when(snapdService.getSnap(any)).thenThrow(exception);
 
         final container = createContainer();

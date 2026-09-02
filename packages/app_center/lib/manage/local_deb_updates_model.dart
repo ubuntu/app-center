@@ -21,8 +21,10 @@ final isSilentlyCheckingDebUpdatesProvider = StateProvider<bool>((_) => false);
 
 /// Provides the progress (0.0 to 1.0) of an active PackageKit transaction.
 /// Returns null if no transaction is active or the transaction cannot be found.
-final debTransactionProgressProvider =
-    StateProvider.family<double?, int?>((ref, transactionId) {
+final debTransactionProgressProvider = StateProvider.family<double?, int?>((
+  ref,
+  transactionId,
+) {
   if (transactionId == null) return null;
 
   final packageKit = getService<PackageKitService>();
@@ -75,8 +77,9 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
     try {
       final updatesMap = await _packageKit.getUpdates();
       final installed = await ref.read(installedPackagesProvider.future);
-      final componentsByPkg =
-          await ref.read(componentsByPackageProvider.future);
+      final componentsByPkg = await ref.read(
+        componentsByPackageProvider.future,
+      );
 
       // Build map of package name -> update package ID
       final newUpdatesMap = {
@@ -92,8 +95,9 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
           )
           .toList();
 
-      final packageIds =
-          guiPackagesWithUpdates.map((p) => p.packageId).toList();
+      final packageIds = guiPackagesWithUpdates
+          .map((p) => p.packageId)
+          .toList();
       final details = packageIds.isNotEmpty
           ? await _packageKit.getDetails(packageIds)
           : <String, PackageKitPackageDetails>{};
@@ -160,8 +164,10 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
   /// per-deb and reports them to the error stream after all updates complete.
   Future<void> updateAll() async {
     if (!state.hasValue) return;
-    final debIds =
-        state.value!.where((d) => d.hasUpdate).map((d) => d.id).toList();
+    final debIds = state.value!
+        .where((d) => d.hasUpdate)
+        .map((d) => d.id)
+        .toList();
     if (debIds.isEmpty) return;
 
     final errors = <String, Exception>{};
