@@ -74,6 +74,35 @@ void main() {
       expect(badge, findsOneWidget);
       expect((tester.widget<Badge>(badge).label! as Text).data, equals('2'));
     });
+
+    testWidgets('back button has Go back semantic label', (tester) async {
+      registerMockService<GtkApplicationNotifier>(
+        createMockGtkApplicationNotifier(),
+      );
+      registerMockService<RatingsService>(registerMockRatingsService());
+      registerMockSnapdService();
+      await tester.pumpApp(
+        (_) => ProviderScope(
+          overrides: [
+            routeNameProvider.overrideWith((ref) => '/snap/testsnap'),
+          ],
+          child: const StoreApp(),
+        ),
+      );
+      await tester.pump();
+
+      final backButton = find.byType(YaruBackButton);
+      expect(backButton, findsOneWidget);
+      final semantics = find.ancestor(
+        of: backButton,
+        matching: find.byWidgetPredicate(
+          (widget) =>
+              widget is Semantics &&
+              widget.properties.label == tester.l10n.backButtonSemanticLabel,
+        ),
+      );
+      expect(semantics, findsOneWidget);
+    });
   });
 
   group('error handling', () {
