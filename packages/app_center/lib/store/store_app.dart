@@ -234,7 +234,11 @@ class _StoreAppHome extends ConsumerWidget {
           StoreRoutes.additionalDrivers => MaterialPageRoute(
             settings: settings,
             builder: (_) => YaruDetailPage(
-              appBar: searchField,
+              appBar: YaruWindowTitleBar(
+                border: BorderSide.none,
+                leading: _MaybeBackButton(navigatorKey),
+                title: Text(AdditionalDriversPage.label(context)),
+              ),
               body: const AdditionalDriversPage(),
             ),
           ),
