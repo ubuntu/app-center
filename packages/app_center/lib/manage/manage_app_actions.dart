@@ -52,10 +52,9 @@ class ManageAppActions extends ConsumerWidget {
     );
   }
 
-  /// Builds snap action buttons using the per-snap [SnapModel]. Shows a loading
-  /// indicator while the snap model loads, an active change status when a snapd
-  /// operation is in progress, or the appropriate action buttons (update, open,
-  /// remove) otherwise.
+  /// Builds snap action buttons. Uses data from [snap] directly for display
+  /// decisions to avoid creating per-snap [SnapModel] instances on each tile.
+  /// Only creates a [SnapModel] when an action is actually performed.
   Widget _buildSnapActions(
     BuildContext context,
     WidgetRef ref,
@@ -63,37 +62,23 @@ class ManageAppActions extends ConsumerWidget {
     Snap snap,
     String? updateVersion,
   ) {
-    final snapModel = ref.watch(snapModelProvider(snap.name));
-    if (!snapModel.hasValue) {
-      return const Center(
-        child: SizedBox.square(
-          dimension: kLoaderMediumHeight,
-          child: YaruCircularProgressIndicator(),
-        ),
-      );
-    }
-    final snapData = snapModel.value!;
-    final shouldQuitToUpdate = snapData.localSnap?.refreshInhibit != null;
-    final snapViewModel = ref.watch(snapModelProvider(snap.name).notifier);
-    final snapLauncher = snapData.localSnap == null
-        ? null
-        : ref.watch(launchProvider(snapData.localSnap!));
-    final canOpen = snapLauncher?.isLaunchable ?? false;
-    final hasActiveChange = snapData.activeChangeId != null;
+    final currentlyInstalling = ref.watch(currentlyInstallingModelProvider);
+    final activeChangeData = currentlyInstalling[snap.name];
+    final hasActiveChange = activeChangeData?.activeChangeId != null;
+
     if (hasActiveChange) {
+      final activeChange = ref.watch(activeChangeProvider(activeChangeData!.activeChangeId));
       return ActiveChangeStatus(
-        actionLabel: ref
-            .watch(activeChangeProvider(snapData.activeChangeId))
-            ?.localize(l10n),
-        progress:
-            ref
-                .watch(activeChangeProvider(snapData.activeChangeId))
-                ?.progress ??
-            0,
+        actionLabel: activeChange?.localize(l10n),
+        progress: activeChange?.progress ?? 0,
         onCancelPressed: () =>
             ref.read(snapModelProvider(snap.name).notifier).cancel(),
       );
     }
+
+    final shouldQuitToUpdate = snap.refreshInhibit != null;
+    final canOpen = snap.apps.isNotEmpty;
+    final hasUpdate = updateVersion != null;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -104,34 +89,24 @@ class ManageAppActions extends ConsumerWidget {
         ],
         if (showOnlyUpdate)
           OutlinedButton(
-            onPressed: SnapAction.update.callback(
-              snapData,
-              snapViewModel,
-              snapLauncher,
-              context,
-            ),
+            onPressed: () =>
+                ref.read(snapModelProvider(snap.name).notifier).refresh(),
             child: Text(SnapAction.update.label(l10n)),
           ),
-        if (!showOnlyUpdate && snapData.isInstalled) ...[
+        if (!showOnlyUpdate) ...[
           if (canOpen) ...[
             OutlinedButton(
-              onPressed: SnapAction.open.callback(
-                snapData,
-                snapViewModel,
-                snapLauncher,
-                context,
-              ),
+              onPressed: () {
+                final launcher = ref.read(launchProvider(snap));
+                if (launcher.isLaunchable) launcher.open();
+              },
               child: Text(SnapAction.open.label(l10n)),
             ),
             const SizedBox(width: kSpacing),
           ],
           OutlinedButton(
-            onPressed: SnapAction.remove.callback(
-              snapData,
-              snapViewModel,
-              snapLauncher,
-              context,
-            ),
+            onPressed: () =>
+                ref.read(snapModelProvider(snap.name).notifier).remove(),
             child: Text(SnapAction.remove.label(l10n)),
           ),
         ],
