@@ -44,4 +44,33 @@ void main() {
       findsOneWidget,
     );
   });
+
+  group('accessibility', () {
+    testWidgets('AppCard with onTap has button semantics', (tester) async {
+      await tester.pumpApp(
+        (_) => AppCard.fromSnap(
+          snap: snap,
+          onTap: () {},
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final semanticsFinder = find.byWidgetPredicate(
+        (widget) => widget is Semantics && widget.properties.button == true,
+      );
+      expect(semanticsFinder, findsOneWidget);
+    });
+
+    testWidgets('AppCard excludes icon from semantics', (tester) async {
+      await tester.pumpApp(
+        (_) => AppCard.fromSnap(
+          snap: snap,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final excludeSemanticsFinder = find.byType(ExcludeSemantics);
+      expect(excludeSemanticsFinder, findsWidgets);
+    });
+  });
 }
