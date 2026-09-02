@@ -35,17 +35,15 @@ class DebPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final debModel = ref.watch(debModelProvider(id));
 
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => debModel.whenOrNull(
-        data: (data) {
-          if (data.error == null) return;
-          // Consume the error before showing it, so that the rebuilds caused
-          // by the next action don't surface the same dialog again.
-          ref.read(debModelProvider(id).notifier).clearError();
-          showError(context, data.error!);
-        },
-      ),
-    );
+    // `ref.listen` fires on state changes rather than on every build, so an
+    // error is surfaced once when it arrives instead of again on every rebuild
+    // that a later action causes. Comparing against the previous value keeps a
+    // state change that leaves the error untouched from showing it twice.
+    ref.listen(debModelProvider(id), (previous, next) {
+      final error = next.valueOrNull?.error;
+      if (error == null || error == previous?.valueOrNull?.error) return;
+      showError(context, error);
+    });
 
     return debModel.when(
       data: (data) => ResponsiveLayoutBuilder(

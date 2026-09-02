@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/deb/deb_page.dart';
@@ -71,15 +73,14 @@ void main() {
     );
   });
 
-  testWidgets('error is consumed once shown', (tester) async {
+  testWidgets('error dialog is not repeated on a later state change', (
+    tester,
+  ) async {
+    final errors = StreamController<PackageKitServiceError>.broadcast();
+    addTearDown(errors.close);
     createMockPackageKitService(
       packageInfo: packageInfo,
-      errorStream: Stream.value(
-        const PackageKitServiceError(
-          code: PackageKitError.internalError,
-          details: 'internal error',
-        ),
-      ),
+      errorStream: errors.stream,
     );
     createMockAppstreamService(component: component);
 
@@ -90,16 +91,26 @@ void main() {
     );
     await tester.pumpAndSettle();
 
+    errors.add(
+      const PackageKitServiceError(
+        code: PackageKitError.internalError,
+        details: 'internal error',
+      ),
+    );
+    await tester.pumpAndSettle();
     expect(find.text('internal error'), findsOneWidget);
 
-    // The error must not stay in the state, otherwise the next rebuild — for
-    // instance the one triggered by starting another install — shows the same
-    // dialog again.
+    // Starting another action changes the state while the error is still in
+    // it. That must not put a second dialog on top of the first.
     final container = ProviderScope.containerOf(
       tester.element(find.byType(DebPage)),
     );
-    expect(container.read(debModelProvider('testdeb')).value!.error, isNull);
+    await container.read(debModelProvider('testdeb').notifier).installDeb();
+    await tester.pumpAndSettle();
+
+    expect(find.text('internal error'), findsOneWidget);
   });
+
   testWidgets('remove button hidden for compulsory deb on current desktop', (
     tester,
   ) async {

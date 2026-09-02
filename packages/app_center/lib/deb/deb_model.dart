@@ -134,18 +134,6 @@ class DebModel extends _$DebModel {
     );
   }
 
-  /// Clears the last error after it has been surfaced to the user.
-  ///
-  /// An error is a one-shot event, but it lives in the state so the UI can
-  /// pick it up. Without clearing it the error stays there for the lifetime of
-  /// this notifier — which is `keepAlive` — and every subsequent rebuild shows
-  /// the same dialog again.
-  void clearError() {
-    final data = state.valueOrNull;
-    if (data?.error == null) return;
-    state = AsyncValue.data(data!.copyWith(error: null));
-  }
-
   Future<PackageKitPackageEvent?> _getPackageInfo(
     AppstreamComponent component,
   ) async {
