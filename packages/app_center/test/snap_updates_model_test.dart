@@ -48,6 +48,21 @@ void main() {
       final model = await container.read(snapUpdatesModelProvider.future);
       expect(model.single.name, equals('firefox'));
     });
+
+    test('filters out held snaps', () async {
+      final heldSnap = createSnap(
+        name: 'held-snap',
+        hold: DateTime.now().add(const Duration(days: 30)),
+      );
+      final activeSnap = createSnap(name: 'active-snap');
+      registerMockSnapdService(
+        refreshableSnaps: [heldSnap, activeSnap],
+      );
+      final container = createContainer();
+      final model = await container.read(snapUpdatesModelProvider.future);
+      expect(model.length, equals(1));
+      expect(model.single.name, equals('active-snap'));
+    });
   });
 
   test('update all', () async {
