@@ -33,6 +33,7 @@
     "snapPageShareLinkCopiedMessage": "Link copied to clipboard",
     "snapPageShareSemanticLabel": "Copy link",
     "snapPageReportSemanticLabel": "Report",
+    "backButtonSemanticLabel": "Go back",
     "sectionExpandSemanticLabel": "Expand {section}",
     "@sectionExpandSemanticLabel": {
         "placeholders": {
