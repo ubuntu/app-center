@@ -105,6 +105,7 @@ class DriverBranchOption with _$DriverBranchOption {
     required DriverBranch branch,
     required String packageName,
     required bool recommended,
+    @Default(false) bool openPreferred,
     PackageKitPackageId? packageId,
     @Default(false) bool isInstalled,
     @Default(false) bool hasUpdate,
@@ -114,6 +115,12 @@ class DriverBranchOption with _$DriverBranchOption {
   const DriverBranchOption._();
 
   String? get version => packageId?.version;
+
+  /// Whether [packageName] agrees with [openPreferred]: true if it's an
+  /// "-open" package and open is preferred, or it's not an "-open" package
+  /// and open isn't preferred.
+  bool get matchesOpenPreference =>
+      packageName.endsWith('-open') == openPreferred;
 }
 
 /// A hardware device detected by `com.ubuntu.Drivers`, enriched with
@@ -138,24 +145,24 @@ class DriverDeviceInfo with _$DriverDeviceInfo {
   /// per selectable [DriverBranch], since multiple packages may satisfy the
   /// same branch (e.g. an open-source variant alongside the proprietary
   /// one). The dialog presents branches, not packages, so we pick a single
-  /// package to act "for" the user in that case - see
-  /// [_pickBranchRepresentative].
+  /// package to act "for" the user in that case - see [pickPreferred].
   List<DriverBranchOption> get branchOptions {
     final selectable = options.where((o) => o.branch.isSelectable);
     final byBranch = groupBy(selectable, (o) => o.branch);
-    return byBranch.values.map(_pickBranchRepresentative).toList();
+    return byBranch.values.map(pickPreferred).toList();
   }
 
-  /// Chooses which package represents a branch when more than one option
-  /// shares it: the installed one takes priority (so the dialog reflects
-  /// what's actually on the system), then the recommended one, otherwise
-  /// the first candidate reported for that branch.
-  static DriverBranchOption _pickBranchRepresentative(
-    List<DriverBranchOption> optionsForBranch,
-  ) =>
-      optionsForBranch.firstWhereOrNull((o) => o.isInstalled) ??
-      optionsForBranch.firstWhereOrNull((o) => o.recommended) ??
-      optionsForBranch.first;
+  /// Picks the most preferred option out of [options]: the installed one
+  /// takes priority (so the dialog reflects what's actually on the
+  /// system), then the recommended one, then whichever package matches
+  /// Ubuntu's open/closed preference for this driver (see
+  /// [DriverBranchOption.matchesOpenPreference]), otherwise the first
+  /// candidate reported by the `com.ubuntu.Drivers` service.
+  static DriverBranchOption pickPreferred(List<DriverBranchOption> options) =>
+      options.firstWhereOrNull((o) => o.isInstalled) ??
+      options.firstWhereOrNull((o) => o.recommended) ??
+      options.firstWhereOrNull((o) => o.matchesOpenPreference) ??
+      options.first;
 
   /// Whether install/switch should go through a branch-choice dialog rather
   /// than a single button.

@@ -397,7 +397,7 @@ VoidCallback? _retryAction(
 }
 
 DriverBranchOption _recommendedOption(DriverDeviceInfo info) =>
-    info.options.firstWhereOrNull((o) => o.recommended) ?? info.options.first;
+    DriverDeviceInfo.pickPreferred(info.options);
 
 String _subtitleFor(BuildContext context, DriverDeviceInfo info) {
   final l10n = AppLocalizations.of(context);
