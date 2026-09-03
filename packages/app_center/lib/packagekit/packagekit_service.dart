@@ -274,8 +274,23 @@ class PackageKitService {
     action: (transaction) => transaction.removePackages([packageId]),
   );
 
+  /// Creates a transaction that removes all of the given packages by
+  /// `packageId` and returns the transaction ID.
+  Future<int> removeAll(Iterable<PackageKitPackageId> packageIds) async =>
+      _createTransaction(
+        action: (transaction) => transaction.removePackages(packageIds),
+      );
+
   Future<int> update(PackageKitPackageId packageId) async => _createTransaction(
     action: (transaction) => transaction.updatePackages([packageId]),
+  );
+
+  /// Creates a transaction that updates all of the given packages by
+  /// `packageId` and returns the transaction ID.
+  Future<int> updateAllPackages(
+    Iterable<PackageKitPackageId> packageIds,
+  ) async => _createTransaction(
+    action: (transaction) => transaction.updatePackages(packageIds),
   );
 
   static Future<String> _getNativeArchitecture() async {

@@ -27,6 +27,8 @@ DriverDevice _gpuDevice({List<DriverPackage>? drivers}) => DriverDevice(
           builtin: false,
           recommended: true,
           support: 'PB',
+          packages: ['nvidia-driver-550'],
+          openPreferred: false,
         ),
         DriverPackage(
           name: 'nvidia-driver-470',
@@ -35,6 +37,8 @@ DriverDevice _gpuDevice({List<DriverPackage>? drivers}) => DriverDevice(
           builtin: false,
           recommended: false,
           support: 'LTSB',
+          packages: ['nvidia-driver-470'],
+          openPreferred: false,
         ),
         DriverPackage(
           name: 'xserver-xorg-video-nouveau',
@@ -43,6 +47,8 @@ DriverDevice _gpuDevice({List<DriverPackage>? drivers}) => DriverDevice(
           builtin: true,
           recommended: false,
           support: '',
+          openPreferred: false,
+          packages: [],
         ),
       ],
 );
@@ -134,6 +140,7 @@ void main() {
           const DriverBranchOption(
             branch: DriverBranch.production,
             packageName: 'nvidia-driver-550',
+            packages: ['nvidia-driver-550'],
             recommended: true,
           ),
         ],
@@ -150,6 +157,7 @@ void main() {
             const DriverBranchOption(
               branch: DriverBranch.production,
               packageName: 'nvidia-driver-550',
+              packages: ['nvidia-driver-550'],
               recommended: true,
               isInstalled: true,
             ),
@@ -168,6 +176,7 @@ void main() {
             const DriverBranchOption(
               branch: DriverBranch.lts,
               packageName: 'nvidia-driver-470',
+              packages: ['nvidia-driver-470'],
               recommended: false,
               isInstalled: true,
               hasUpdate: true,
@@ -175,6 +184,7 @@ void main() {
             const DriverBranchOption(
               branch: DriverBranch.newFeature,
               packageName: 'nvidia-driver-550',
+              packages: ['nvidia-driver-550'],
               recommended: false,
             ),
           ],
@@ -191,21 +201,25 @@ void main() {
             const DriverBranchOption(
               branch: DriverBranch.production,
               packageName: 'nvidia-driver-550',
+              packages: ['nvidia-driver-550'],
               recommended: true,
             ),
             const DriverBranchOption(
               branch: DriverBranch.lts,
               packageName: 'nvidia-driver-470',
+              packages: ['nvidia-driver-470'],
               recommended: false,
             ),
             const DriverBranchOption(
               branch: DriverBranch.legacy,
               packageName: 'nvidia-driver-390',
+              packages: ['nvidia-driver-390'],
               recommended: false,
             ),
             const DriverBranchOption(
               branch: DriverBranch.unknown,
               packageName: 'xserver-xorg-video-nouveau',
+              packages: ['xserver-xorg-video-nouveau'],
               recommended: false,
             ),
           ],
@@ -221,6 +235,7 @@ void main() {
           const DriverBranchOption(
             branch: DriverBranch.production,
             packageName: 'nvidia-driver-550',
+            packages: ['nvidia-driver-550'],
             recommended: true,
           ),
         ],
@@ -239,16 +254,19 @@ void main() {
             const DriverBranchOption(
               branch: DriverBranch.production,
               packageName: 'nvidia-driver-550-open',
+              packages: ['nvidia-driver-550-open'],
               recommended: false,
             ),
             const DriverBranchOption(
               branch: DriverBranch.production,
               packageName: 'nvidia-driver-550',
+              packages: ['nvidia-driver-550'],
               recommended: true,
             ),
             const DriverBranchOption(
               branch: DriverBranch.lts,
               packageName: 'nvidia-driver-470',
+              packages: ['nvidia-driver-470'],
               recommended: false,
             ),
           ],
@@ -272,11 +290,13 @@ void main() {
             const DriverBranchOption(
               branch: DriverBranch.production,
               packageName: 'nvidia-driver-550',
+              packages: ['nvidia-driver-550'],
               recommended: true,
             ),
             const DriverBranchOption(
               branch: DriverBranch.production,
               packageName: 'nvidia-driver-550-open',
+              packages: ['nvidia-driver-550-open'],
               recommended: false,
               isInstalled: true,
             ),
@@ -296,26 +316,31 @@ void main() {
             const DriverBranchOption(
               branch: DriverBranch.production,
               packageName: 'nvidia-driver-550',
+              packages: ['nvidia-driver-550'],
               recommended: true,
             ),
             const DriverBranchOption(
               branch: DriverBranch.production,
               packageName: 'nvidia-driver-550-open',
+              packages: ['nvidia-driver-550-open'],
               recommended: false,
             ),
             const DriverBranchOption(
               branch: DriverBranch.production,
               packageName: 'nvidia-driver-550-server',
+              packages: ['nvidia-driver-550-server'],
               recommended: false,
             ),
             const DriverBranchOption(
               branch: DriverBranch.lts,
               packageName: 'nvidia-driver-470',
+              packages: ['nvidia-driver-470'],
               recommended: true,
             ),
             const DriverBranchOption(
               branch: DriverBranch.lts,
               packageName: 'nvidia-driver-470-open',
+              packages: ['nvidia-driver-470-open'],
               recommended: false,
             ),
           ],
@@ -333,12 +358,14 @@ void main() {
             const DriverBranchOption(
               branch: DriverBranch.production,
               packageName: 'nvidia-driver-580',
+              packages: ['nvidia-driver-580'],
               recommended: false,
               openPreferred: true,
             ),
             const DriverBranchOption(
               branch: DriverBranch.production,
               packageName: 'nvidia-driver-580-open',
+              packages: ['nvidia-driver-580-open'],
               recommended: false,
               openPreferred: true,
             ),
@@ -359,11 +386,13 @@ void main() {
             const DriverBranchOption(
               branch: DriverBranch.production,
               packageName: 'nvidia-driver-580',
+              packages: ['nvidia-driver-580'],
               recommended: false,
             ),
             const DriverBranchOption(
               branch: DriverBranch.production,
               packageName: 'nvidia-driver-580-open',
+              packages: ['nvidia-driver-580-open'],
               recommended: false,
             ),
           ],
@@ -380,6 +409,7 @@ void main() {
           const DriverBranchOption(
             branch: DriverBranch.production,
             packageName: 'nvidia-driver-580-open',
+            packages: ['nvidia-driver-580-open'],
             recommended: false,
             openPreferred: true,
           ).matchesOpenPreference,
@@ -389,6 +419,7 @@ void main() {
           const DriverBranchOption(
             branch: DriverBranch.production,
             packageName: 'nvidia-driver-580',
+            packages: ['nvidia-driver-580'],
             recommended: false,
             openPreferred: true,
           ).matchesOpenPreference,
@@ -398,6 +429,7 @@ void main() {
           const DriverBranchOption(
             branch: DriverBranch.production,
             packageName: 'nvidia-driver-580',
+            packages: ['nvidia-driver-580'],
             recommended: false,
           ).matchesOpenPreference,
           isTrue,
@@ -406,6 +438,7 @@ void main() {
           const DriverBranchOption(
             branch: DriverBranch.production,
             packageName: 'nvidia-driver-580-open',
+            packages: ['nvidia-driver-580-open'],
             recommended: false,
           ).matchesOpenPreference,
           isFalse,
@@ -421,12 +454,14 @@ void main() {
             const DriverBranchOption(
               branch: DriverBranch.production,
               packageName: 'nvidia-driver-580',
+              packages: ['nvidia-driver-580'],
               recommended: true,
               openPreferred: true,
             ),
             const DriverBranchOption(
               branch: DriverBranch.production,
               packageName: 'nvidia-driver-580-open',
+              packages: ['nvidia-driver-580-open'],
               recommended: false,
               openPreferred: true,
               isInstalled: true,
@@ -448,12 +483,14 @@ void main() {
             const DriverBranchOption(
               branch: DriverBranch.production,
               packageName: 'nvidia-driver-580-open',
+              packages: ['nvidia-driver-580-open'],
               recommended: true,
               openPreferred: true,
             ),
             const DriverBranchOption(
               branch: DriverBranch.production,
               packageName: 'nvidia-driver-580',
+              packages: ['nvidia-driver-580'],
               recommended: false,
               openPreferred: true,
               isInstalled: true,
@@ -474,6 +511,7 @@ void main() {
             const DriverBranchOption(
               branch: DriverBranch.production,
               packageName: 'nvidia-driver-580-open',
+              packages: ['nvidia-driver-580-open'],
               recommended: false,
               openPreferred: true,
             ),
@@ -482,6 +520,7 @@ void main() {
             const DriverBranchOption(
               branch: DriverBranch.production,
               packageName: 'nvidia-driver-580',
+              packages: ['nvidia-driver-580'],
               recommended: true,
               openPreferred: true,
             ),
@@ -498,11 +537,13 @@ void main() {
         const first = DriverBranchOption(
           branch: DriverBranch.production,
           packageName: 'nvidia-driver-580-a',
+          packages: ['nvidia-driver-580-a'],
           recommended: true,
         );
         const second = DriverBranchOption(
           branch: DriverBranch.production,
           packageName: 'nvidia-driver-580-b',
+          packages: ['nvidia-driver-580-b'],
           recommended: true,
         );
         final picked = DriverDeviceInfo.pickPreferred([second, first]);
@@ -538,6 +579,8 @@ void main() {
                 builtin: true,
                 recommended: false,
                 support: '',
+                openPreferred: false,
+                packages: [],
               ),
             ],
           ),
@@ -594,7 +637,7 @@ void main() {
         expect(installed.packageName, 'nvidia-driver-550');
         expect(installed.isInstalled, isTrue);
         expect(installed.hasUpdate, isTrue);
-        expect(installed.updatePackageId?.version, '550.2');
+        expect(installed.updatePackageIds.single.version, '550.2');
 
         final ltsOption = device.options.firstWhere(
           (o) => o.packageName == 'nvidia-driver-470',
@@ -602,6 +645,95 @@ void main() {
         expect(ltsOption.isInstalled, isFalse);
         // Not installed, so a system-wide update for it doesn't count.
         expect(ltsOption.hasUpdate, isFalse);
+      },
+    );
+
+    test(
+      'a candidate is only marked installed when every package in its set '
+      'is installed',
+      () async {
+        registerMockDriversService(
+          devices: [
+            _gpuDevice(
+              drivers: const [
+                DriverPackage(
+                  name: 'nvidia-driver-550',
+                  source: DriverSource.distro,
+                  free: false,
+                  builtin: false,
+                  recommended: true,
+                  support: 'PB',
+                  packages: [
+                    'nvidia-driver-550',
+                    'linux-modules-nvidia-550-generic',
+                  ],
+                  openPreferred: false,
+                ),
+              ],
+            ),
+          ],
+        );
+        createMockPackageKitService(
+          resolveMap: {
+            'nvidia-driver-550': PackageKitPackageEvent(
+              info: PackageKitInfo.installed,
+              packageId: const PackageKitPackageId(
+                name: 'nvidia-driver-550',
+                version: '550.1',
+              ),
+              summary: '',
+            ),
+            // Not installed - the metapackage alone shouldn't count as
+            // fully installed.
+            'linux-modules-nvidia-550-generic': PackageKitPackageEvent(
+              info: PackageKitInfo.available,
+              packageId: const PackageKitPackageId(
+                name: 'linux-modules-nvidia-550-generic',
+                version: '550.1',
+              ),
+              summary: '',
+            ),
+          },
+        );
+        final container = createContainer();
+
+        final list = await container.read(driverListModelProvider.future);
+        final option = list.byPath[_gpuSysPath]!.options.single;
+        expect(option.isInstalled, isFalse);
+        expect(option.packageIds, hasLength(2));
+      },
+    );
+
+    test(
+      'a device whose candidates all have an empty install set is '
+      'unsupported',
+      () async {
+        registerMockDriversService(
+          devices: [
+            _gpuDevice(
+              drivers: const [
+                DriverPackage(
+                  name: 'bcmwl-kernel-source',
+                  source: DriverSource.distro,
+                  free: false,
+                  builtin: false,
+                  recommended: true,
+                  support: 'PB',
+                  openPreferred: false,
+                  packages: [],
+                ),
+              ],
+            ),
+          ],
+        );
+        createMockPackageKitService();
+        final container = createContainer();
+
+        final list = await container.read(driverListModelProvider.future);
+        final device = list.byPath[_gpuSysPath]!;
+        expect(device.isUnsupported, isTrue);
+        expect(device.section, DriverSection.unsupported);
+        expect(device.hasBranchChoice, isFalse);
       },
     );
 
@@ -785,7 +917,7 @@ void main() {
           ),
         },
       );
-      when(packageKit.remove(any)).thenAnswer((_) async => 11);
+      when(packageKit.removeAll(any)).thenAnswer((_) async => 11);
       final container = createContainer();
 
       await container.read(driverModelProvider(_gpuSysPath).future);
@@ -794,14 +926,250 @@ void main() {
       );
       await notifier.uninstall();
 
-      final removedId =
-          verify(packageKit.remove(captureAny)).captured.single
-              as PackageKitPackageId;
-      expect(removedId.name, 'nvidia-driver-550');
+      final removedIds =
+          verify(packageKit.removeAll(captureAny)).captured.single
+              as Iterable<PackageKitPackageId>;
+      expect(removedIds.single.name, 'nvidia-driver-550');
 
       final state = container.read(driverModelProvider(_gpuSysPath)).value!;
       expect(state.activeTransactionId, isNull);
     });
+
+    test(
+      'install installs every package in the candidate\'s install set',
+      () async {
+        registerMockDriversService(
+          devices: [
+            _gpuDevice(
+              drivers: const [
+                DriverPackage(
+                  name: 'nvidia-driver-550',
+                  source: DriverSource.distro,
+                  free: false,
+                  builtin: false,
+                  recommended: true,
+                  support: 'PB',
+                  packages: [
+                    'nvidia-driver-550',
+                    'linux-modules-nvidia-550-generic',
+                    'nvidia-driver-lrm-550',
+                  ],
+                  openPreferred: false,
+                ),
+              ],
+            ),
+          ],
+        );
+        final packageKit = createMockPackageKitService(
+          transactionId: 20,
+          resolveMap: {
+            'nvidia-driver-550': PackageKitPackageEvent(
+              info: PackageKitInfo.available,
+              packageId: const PackageKitPackageId(
+                name: 'nvidia-driver-550',
+                version: '550.1',
+              ),
+              summary: '',
+            ),
+            'linux-modules-nvidia-550-generic': PackageKitPackageEvent(
+              info: PackageKitInfo.available,
+              packageId: const PackageKitPackageId(
+                name: 'linux-modules-nvidia-550-generic',
+                version: '550.1',
+              ),
+              summary: '',
+            ),
+            'nvidia-driver-lrm-550': PackageKitPackageEvent(
+              info: PackageKitInfo.available,
+              packageId: const PackageKitPackageId(
+                name: 'nvidia-driver-lrm-550',
+                version: '550.1',
+              ),
+              summary: '',
+            ),
+          },
+        );
+        final container = createContainer();
+
+        await container.read(driverModelProvider(_gpuSysPath).future);
+        final notifier = container.read(
+          driverModelProvider(_gpuSysPath).notifier,
+        );
+        await notifier.install('nvidia-driver-550');
+
+        final installedIds =
+            verify(packageKit.installAll(captureAny)).captured.single
+                as Iterable<PackageKitPackageId>;
+        expect(
+          installedIds.map((id) => id.name).toSet(),
+          {
+            'nvidia-driver-550',
+            'linux-modules-nvidia-550-generic',
+            'nvidia-driver-lrm-550',
+          },
+        );
+      },
+    );
+
+    test(
+      'uninstall removes every package in the installed install set',
+      () async {
+        registerMockDriversService(
+          devices: [
+            _gpuDevice(
+              drivers: const [
+                DriverPackage(
+                  name: 'nvidia-driver-550',
+                  source: DriverSource.distro,
+                  free: false,
+                  builtin: false,
+                  recommended: true,
+                  support: 'PB',
+                  packages: [
+                    'nvidia-driver-550',
+                    'linux-modules-nvidia-550-generic',
+                  ],
+                  openPreferred: false,
+                ),
+              ],
+            ),
+          ],
+        );
+        final packageKit = createMockPackageKitService(
+          transactionId: 22,
+          resolveMap: {
+            'nvidia-driver-550': PackageKitPackageEvent(
+              info: PackageKitInfo.installed,
+              packageId: const PackageKitPackageId(
+                name: 'nvidia-driver-550',
+                version: '550.1',
+              ),
+              summary: '',
+            ),
+            'linux-modules-nvidia-550-generic': PackageKitPackageEvent(
+              info: PackageKitInfo.installed,
+              packageId: const PackageKitPackageId(
+                name: 'linux-modules-nvidia-550-generic',
+                version: '550.1',
+              ),
+              summary: '',
+            ),
+          },
+        );
+        final container = createContainer();
+
+        await container.read(driverModelProvider(_gpuSysPath).future);
+        final notifier = container.read(
+          driverModelProvider(_gpuSysPath).notifier,
+        );
+        await notifier.uninstall();
+
+        final removedIds =
+            verify(packageKit.removeAll(captureAny)).captured.single
+                as Iterable<PackageKitPackageId>;
+        expect(
+          removedIds.map((id) => id.name).toSet(),
+          {'nvidia-driver-550', 'linux-modules-nvidia-550-generic'},
+        );
+      },
+    );
+
+    test(
+      'switchBranch installs every package of the target candidate',
+      () async {
+        registerMockDriversService(
+          devices: [
+            _gpuDevice(
+              drivers: const [
+                DriverPackage(
+                  name: 'nvidia-driver-550',
+                  source: DriverSource.distro,
+                  free: false,
+                  builtin: false,
+                  recommended: true,
+                  support: 'PB',
+                  packages: [
+                    'nvidia-driver-550',
+                    'linux-modules-nvidia-550-generic',
+                  ],
+                  openPreferred: false,
+                ),
+                DriverPackage(
+                  name: 'nvidia-driver-470',
+                  source: DriverSource.distro,
+                  free: false,
+                  builtin: false,
+                  recommended: false,
+                  support: 'LTSB',
+                  packages: [
+                    'nvidia-driver-470',
+                    'linux-modules-nvidia-470-generic',
+                  ],
+                  openPreferred: false,
+                ),
+              ],
+            ),
+          ],
+        );
+        final packageKit = createMockPackageKitService(
+          transactionId: 23,
+          resolveMap: {
+            'nvidia-driver-550': PackageKitPackageEvent(
+              info: PackageKitInfo.installed,
+              packageId: const PackageKitPackageId(
+                name: 'nvidia-driver-550',
+                version: '550.1',
+              ),
+              summary: '',
+            ),
+            'linux-modules-nvidia-550-generic': PackageKitPackageEvent(
+              info: PackageKitInfo.installed,
+              packageId: const PackageKitPackageId(
+                name: 'linux-modules-nvidia-550-generic',
+                version: '550.1',
+              ),
+              summary: '',
+            ),
+            'nvidia-driver-470': PackageKitPackageEvent(
+              info: PackageKitInfo.available,
+              packageId: const PackageKitPackageId(
+                name: 'nvidia-driver-470',
+                version: '470.1',
+              ),
+              summary: '',
+            ),
+            'linux-modules-nvidia-470-generic': PackageKitPackageEvent(
+              info: PackageKitInfo.available,
+              packageId: const PackageKitPackageId(
+                name: 'linux-modules-nvidia-470-generic',
+                version: '470.1',
+              ),
+              summary: '',
+            ),
+          },
+        );
+        final container = createContainer();
+
+        await container.read(driverModelProvider(_gpuSysPath).future);
+        final notifier = container.read(
+          driverModelProvider(_gpuSysPath).notifier,
+        );
+        await notifier.switchBranch('nvidia-driver-470');
+
+        final installedIds =
+            verify(packageKit.installAll(captureAny)).captured.single
+                as Iterable<PackageKitPackageId>;
+        expect(
+          installedIds.map((id) => id.name).toSet(),
+          {'nvidia-driver-470', 'linux-modules-nvidia-470-generic'},
+        );
+        // No explicit removal of the previous candidate's packages -
+        // conflict resolution during the install transaction is relied
+        // on instead.
+        verifyNever(packageKit.removeAll(any));
+        verifyNever(packageKit.remove(any));
+      },
+    );
 
     test(
       'updateDriver passes the update candidate packageId, not the '
@@ -831,7 +1199,7 @@ void main() {
             ),
           ],
         );
-        when(packageKit.update(any)).thenAnswer((_) async => 12);
+        when(packageKit.updateAllPackages(any)).thenAnswer((_) async => 12);
         final container = createContainer();
 
         await container.read(driverModelProvider(_gpuSysPath).future);
@@ -840,11 +1208,135 @@ void main() {
         );
         await notifier.updateDriver();
 
-        final updatedId =
-            verify(packageKit.update(captureAny)).captured.single
-                as PackageKitPackageId;
-        expect(updatedId.name, 'nvidia-driver-550');
-        expect(updatedId.version, '550.2');
+        final updatedIds =
+            verify(packageKit.updateAllPackages(captureAny)).captured.single
+                as Iterable<PackageKitPackageId>;
+        expect(updatedIds.single.name, 'nvidia-driver-550');
+        expect(updatedIds.single.version, '550.2');
+      },
+    );
+
+    test(
+      'updateDriver updates every package in the set that has an update',
+      () async {
+        registerMockDriversService(
+          devices: [
+            _gpuDevice(
+              drivers: const [
+                DriverPackage(
+                  name: 'nvidia-driver-550',
+                  source: DriverSource.distro,
+                  free: false,
+                  builtin: false,
+                  recommended: true,
+                  support: 'PB',
+                  packages: [
+                    'nvidia-driver-550',
+                    'linux-modules-nvidia-550-generic',
+                  ],
+                  openPreferred: false,
+                ),
+              ],
+            ),
+          ],
+        );
+        final packageKit = createMockPackageKitService(
+          transactionId: 24,
+          resolveMap: {
+            'nvidia-driver-550': PackageKitPackageEvent(
+              info: PackageKitInfo.installed,
+              packageId: const PackageKitPackageId(
+                name: 'nvidia-driver-550',
+                version: '550.1',
+              ),
+              summary: '',
+            ),
+            'linux-modules-nvidia-550-generic': PackageKitPackageEvent(
+              info: PackageKitInfo.installed,
+              packageId: const PackageKitPackageId(
+                name: 'linux-modules-nvidia-550-generic',
+                version: '550.1',
+              ),
+              summary: '',
+            ),
+          },
+          availableUpdates: [
+            PackageKitPackageEvent(
+              info: PackageKitInfo.normal,
+              packageId: const PackageKitPackageId(
+                name: 'nvidia-driver-550',
+                version: '550.2',
+              ),
+              summary: '',
+            ),
+            PackageKitPackageEvent(
+              info: PackageKitInfo.normal,
+              packageId: const PackageKitPackageId(
+                name: 'linux-modules-nvidia-550-generic',
+                version: '550.2',
+              ),
+              summary: '',
+            ),
+          ],
+        );
+        final container = createContainer();
+
+        await container.read(driverModelProvider(_gpuSysPath).future);
+        final notifier = container.read(
+          driverModelProvider(_gpuSysPath).notifier,
+        );
+        await notifier.updateDriver();
+
+        final updatedIds =
+            verify(packageKit.updateAllPackages(captureAny)).captured.single
+                as Iterable<PackageKitPackageId>;
+        expect(
+          updatedIds.map((id) => id.name).toSet(),
+          {'nvidia-driver-550', 'linux-modules-nvidia-550-generic'},
+        );
+      },
+    );
+
+    test(
+      'updateDriver throws instead of starting a transaction when there is '
+      'no update to install',
+      () async {
+        registerMockDriversService(devices: [_gpuDevice()]);
+        createMockPackageKitService(
+          resolveMap: {
+            'nvidia-driver-550': PackageKitPackageEvent(
+              info: PackageKitInfo.installed,
+              packageId: const PackageKitPackageId(
+                name: 'nvidia-driver-550',
+                version: '550.1',
+              ),
+              summary: '',
+            ),
+          },
+        );
+        final container = createContainer();
+
+        await container.read(driverModelProvider(_gpuSysPath).future);
+        final notifier = container.read(
+          driverModelProvider(_gpuSysPath).notifier,
+        );
+        expect(notifier.updateDriver, throwsA(isA<StateError>()));
+      },
+    );
+
+    test(
+      'uninstall throws instead of starting a transaction when nothing is '
+      'installed',
+      () async {
+        registerMockDriversService(devices: [_gpuDevice()]);
+        createMockPackageKitService();
+        final container = createContainer();
+
+        await container.read(driverModelProvider(_gpuSysPath).future);
+        final notifier = container.read(
+          driverModelProvider(_gpuSysPath).notifier,
+        );
+        expect(notifier.uninstall, throwsA(isA<StateError>()));
       },
     );
 
@@ -908,6 +1400,8 @@ void main() {
                   builtin: false,
                   recommended: true,
                   support: 'PB',
+                  packages: ['nvidia-driver-550'],
+                  openPreferred: false,
                 ),
               ],
             ),
@@ -928,10 +1422,10 @@ void main() {
         await notifier.install('nvidia-driver-550');
 
         final captured =
-            verify(packageKit.install(captureAny)).captured.single
-                as PackageKitPackageId;
-        expect(captured.name, 'nvidia-driver-550');
-        expect(captured.version, isEmpty);
+            verify(packageKit.installAll(captureAny)).captured.single
+                as Iterable<PackageKitPackageId>;
+        expect(captured.single.name, 'nvidia-driver-550');
+        expect(captured.single.version, isEmpty);
       },
     );
 

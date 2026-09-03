@@ -41,7 +41,9 @@ class DriverListModel extends _$DriverListModel {
     }
 
     final allPackageNames = filtered
-        .expand((device) => device.drivers.map((d) => d.name))
+        .expand(
+          (device) => device.drivers.expand((d) => [d.name, ...d.packages]),
+        )
         .toSet()
         .toList();
 
@@ -54,17 +56,35 @@ class DriverListModel extends _$DriverListModel {
     for (final device in filtered) {
       final options = device.drivers.map((driver) {
         final packageInfo = resolved[driver.name];
-        final isInstalled = packageInfo?.info == PackageKitInfo.installed;
-        final update = updatesByName[driver.name];
+        final packageIds = driver.packages
+            .map(
+              (name) =>
+                  resolved[name]?.packageId ??
+                  PackageKitPackageId(name: name, version: ''),
+            )
+            .toList();
+        final isInstalled =
+            driver.packages.isNotEmpty &&
+            driver.packages.every(
+              (name) => resolved[name]?.info == PackageKitInfo.installed,
+            );
+        final hasUpdate =
+            isInstalled && driver.packages.any(updatesByName.containsKey);
+        final updatePackageIds = driver.packages
+            .where(updatesByName.containsKey)
+            .map((name) => updatesByName[name]!.packageId)
+            .toList();
         return DriverBranchOption(
           branch: DriverBranch.fromSupport(driver.support),
           packageName: driver.name,
           recommended: driver.recommended,
           openPreferred: driver.openPreferred,
           packageId: packageInfo?.packageId,
+          packages: driver.packages,
+          packageIds: packageIds,
           isInstalled: isInstalled,
-          hasUpdate: isInstalled && update != null,
-          updatePackageId: update?.packageId,
+          hasUpdate: hasUpdate,
+          updatePackageIds: updatePackageIds,
         );
       }).toList();
 
