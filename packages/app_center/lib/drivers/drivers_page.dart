@@ -152,9 +152,7 @@ class _DriverSection extends StatelessWidget {
         children: [
           Text(
             title,
-            style: Theme.of(
-              context,
-            ).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500),
+            style: Theme.of(context).textTheme.titleSmall,
           ),
           const SizedBox(height: kMarginLarge),
           YaruBorderContainer(
