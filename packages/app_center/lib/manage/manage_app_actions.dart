@@ -92,47 +92,59 @@ class ManageAppActions extends ConsumerWidget {
             0,
         onCancelPressed: () =>
             ref.read(snapModelProvider(snap.name).notifier).cancel(),
+        appName: app.name,
       );
     }
+
+    final updateCallback = SnapAction.update.callback(
+      snapData,
+      snapViewModel,
+      snapLauncher,
+      context,
+    );
+    final openCallback = SnapAction.open.callback(
+      snapData,
+      snapViewModel,
+      snapLauncher,
+      context,
+    );
+    final removeCallback = SnapAction.remove.callback(
+      snapData,
+      snapViewModel,
+      snapLauncher,
+      context,
+    );
 
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         if (shouldQuitToUpdate) ...[
-          const QuitToUpdateNotice(),
+          const ExcludeSemantics(child: QuitToUpdateNotice()),
           const SizedBox(width: kSpacing),
         ],
         if (showOnlyUpdate)
-          OutlinedButton(
-            onPressed: SnapAction.update.callback(
-              snapData,
-              snapViewModel,
-              snapLauncher,
-              context,
-            ),
-            child: Text(SnapAction.update.label(l10n)),
+          _AccessibleActionButton(
+            label: SnapAction.update.label(l10n),
+            semanticLabel: shouldQuitToUpdate
+                ? l10n.managePageUpdateAppRestartRequiredSemanticLabel(
+                    app.name,
+                  )
+                : l10n.managePageUpdateAppSemanticLabel(app.name),
+            onPressed: updateCallback,
           ),
         if (!showOnlyUpdate && snapData.isInstalled) ...[
           if (canOpen) ...[
-            OutlinedButton(
-              onPressed: SnapAction.open.callback(
-                snapData,
-                snapViewModel,
-                snapLauncher,
-                context,
-              ),
-              child: Text(SnapAction.open.label(l10n)),
+            _AccessibleActionButton(
+              label: SnapAction.open.label(l10n),
+              semanticLabel: l10n.managePageOpenAppSemanticLabel(app.name),
+              onPressed: openCallback,
             ),
             const SizedBox(width: kSpacing),
           ],
-          OutlinedButton(
-            onPressed: SnapAction.remove.callback(
-              snapData,
-              snapViewModel,
-              snapLauncher,
-              context,
-            ),
-            child: Text(SnapAction.remove.label(l10n)),
+          _AccessibleActionButton(
+            label: SnapAction.remove.label(l10n),
+            semanticLabel: l10n.managePageRemoveAppSemanticLabel(app.name),
+            onPressed: removeCallback,
           ),
         ],
       ],
@@ -157,35 +169,50 @@ class ManageAppActions extends ConsumerWidget {
       final progress = ref.watch(
         debTransactionProgressProvider(debInfo.activeTransactionId),
       );
+      final statusLabel = showOnlyUpdate
+          ? l10n.snapActionUpdatingLabel
+          : l10n.snapActionRemovingLabel;
+      void cancelCallback() {
+        if (showOnlyUpdate) {
+          ref
+              .read(localDebUpdatesModelProvider.notifier)
+              .cancelTransaction(debInfo.id);
+        } else {
+          ref
+              .read(installedAppsProvider.notifier)
+              .cancelDebTransaction(debInfo.id);
+        }
+      }
+
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox.square(
-            dimension: kLoaderHeight,
-            child: YaruCircularProgressIndicator(
-              value: progress,
-              strokeWidth: 2,
+          ExcludeSemantics(
+            child: SizedBox.square(
+              dimension: kLoaderHeight,
+              child: YaruCircularProgressIndicator(
+                value: progress,
+                strokeWidth: 2,
+              ),
             ),
           ),
           const SizedBox(width: kSpacingSmall),
-          Text(
-            showOnlyUpdate
-                ? l10n.snapActionUpdatingLabel
-                : l10n.snapActionRemovingLabel,
-            style: Theme.of(context).textTheme.bodyMedium,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+          ExcludeSemantics(
+            child: Text(
+              statusLabel,
+              style: Theme.of(context).textTheme.bodyMedium,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
           const SizedBox(width: kSpacing),
-          OutlinedButton(
-            onPressed: () => showOnlyUpdate
-                ? ref
-                      .read(localDebUpdatesModelProvider.notifier)
-                      .cancelTransaction(debInfo.id)
-                : ref
-                      .read(installedAppsProvider.notifier)
-                      .cancelDebTransaction(debInfo.id),
-            child: Text(l10n.snapActionCancelLabel),
+          _AccessibleActionButton(
+            label: l10n.snapActionCancelLabel,
+            semanticLabel: l10n.managePageCancelActionSemanticLabel(
+              statusLabel,
+              app.name,
+            ),
+            onPressed: cancelCallback,
           ),
         ],
       );
@@ -195,19 +222,65 @@ class ManageAppActions extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (showOnlyUpdate)
-          OutlinedButton(
+          _AccessibleActionButton(
+            label: l10n.snapActionUpdateLabel,
+            semanticLabel: l10n.managePageUpdateAppSemanticLabel(app.name),
             onPressed: () => ref
                 .read(localDebUpdatesModelProvider.notifier)
                 .updateDeb(debInfo.id),
-            child: Text(l10n.snapActionUpdateLabel),
           ),
         if (!showOnlyUpdate && !isCompulsory)
-          OutlinedButton(
+          _AccessibleActionButton(
+            label: l10n.snapActionRemoveLabel,
+            semanticLabel: l10n.managePageRemoveAppSemanticLabel(app.name),
             onPressed: () =>
                 ref.read(installedAppsProvider.notifier).removeDeb(debInfo.id),
-            child: Text(l10n.snapActionRemoveLabel),
           ),
       ],
+    );
+  }
+}
+
+/// An [OutlinedButton] whose accessible name is overridden by
+/// [semanticLabel] (e.g. to include the app name it acts on), while
+/// preserving the button's tap action for assistive technologies.
+class _AccessibleActionButton extends StatelessWidget {
+  const _AccessibleActionButton({
+    required this.label,
+    required this.semanticLabel,
+    required this.onPressed,
+  });
+
+  final String label;
+  final String semanticLabel;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return MergeSemantics(
+      child: Semantics(
+        label: semanticLabel,
+        child: YaruFocusBorder.primary(
+          child: OutlinedButton(
+            onPressed: onPressed,
+            style: ButtonStyle(
+              overlayColor: WidgetStateProperty.resolveWith((states) {
+                // Suppress the Material focused background; the Yaru ring
+                // is the sole focus indicator. Keep hover and press overlays.
+                if (states.contains(WidgetState.focused) &&
+                    !states.contains(WidgetState.hovered) &&
+                    !states.contains(WidgetState.pressed)) {
+                  return Colors.transparent;
+                }
+                return null;
+              }),
+            ),
+            child: ExcludeSemantics(
+              child: Text(label),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

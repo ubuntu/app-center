@@ -3,6 +3,8 @@ import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/manage/local_deb_updates_model.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage.dart';
+import 'package:app_center/manage/manage_app_actions.dart';
+import 'package:app_center/manage/manage_l10n.dart';
 import 'package:app_center/manage/quit_to_update_notice.dart';
 import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/providers/current_desktops_provider.dart';
@@ -177,6 +179,101 @@ void main() {
       findsOneWidget,
     );
   });
+
+  testWidgets('installed app tile exposes one composite details label', (
+    tester,
+  ) async {
+    final snap = createSnap(
+      name: 'firefox',
+      title: 'Firefox',
+      version: '1.0',
+      channel: 'latest/stable',
+      installDate: DateTime.now().subtract(const Duration(days: 35)),
+    );
+    registerMockSnapdService(installedSnaps: [snap], refreshableSnaps: []);
+    final semantics = tester.ensureSemantics();
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          ...debProviderOverrides,
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+        ],
+        child: const ManagePage(),
+      ),
+    );
+    await tester.pump();
+    await tester.pump();
+
+    final updatedLabel = DateTime.now()
+        .difference(snap.installDate!)
+        .managePageUpdateSinceDateTimeAgo(tester.l10n);
+    final sourceLabel = tester.l10n.managePageChannelVersionSemanticLabel(
+      snap.channel,
+      snap.version,
+    );
+    final tileLabel = [
+      'Firefox',
+      sourceLabel,
+      updatedLabel,
+      tester.l10n.managePageShowDetailsLabel,
+    ].join(', ');
+
+    expect(find.bySemanticsLabel(tileLabel), findsOneWidget);
+    expect(find.bySemanticsLabel(sourceLabel), findsNothing);
+    expect(find.bySemanticsLabel(updatedLabel), findsNothing);
+    expect(find.text('Firefox'), findsOneWidget);
+    expect(find.text('latest/stable'), findsOneWidget);
+    expect(find.text('1.0'), findsOneWidget);
+    expect(find.text(updatedLabel), findsOneWidget);
+
+    semantics.dispose();
+  });
+
+  testWidgets(
+    'installed app tile gives action buttons their own focus border',
+    (
+      tester,
+    ) async {
+      final snap = createSnap(
+        name: 'firefox',
+        title: 'Firefox',
+        version: '1.0',
+        channel: 'latest/stable',
+      );
+      registerMockSnapdService(installedSnaps: [snap], refreshableSnaps: []);
+
+      await tester.pumpApp(
+        (_) => ProviderScope(
+          overrides: [
+            ...debProviderOverrides,
+            launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+            showLocalSystemAppsProvider.overrideWith((ref) => true),
+          ],
+          child: const ManagePage(),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+
+      final tile = find.snapTile('Firefox');
+      final removeButton = find.descendant(
+        of: tile,
+        matching: find.buttonWithText(tester.l10n.snapActionRemoveLabel),
+      );
+
+      // The tile itself (YaruListTile) exists and is rendered
+      expect(tile, findsOneWidget);
+      
+      // The remove button can be found and has a focus border for keyboard accessibility
+      expect(removeButton, findsOneWidget);
+      expect(
+        find.ancestor(of: removeButton, matching: find.byType(YaruFocusBorder)),
+        findsOneWidget,
+      );
+    },
+  );
 
   testWidgets('launch desktop snap', (tester) async {
     await resetAllServices();
@@ -698,6 +795,42 @@ void main() {
       scrollable: scrollable,
     );
     expect(removeButton, findsOneWidget);
+  });
+
+  testWidgets('deb uninstall in progress labels cancel button', (
+    tester,
+  ) async {
+    final activeDeb = createLocalDebInfo(
+      id: 'gimp',
+      name: 'GIMP',
+      packageName: 'gimp',
+      version: '2.10',
+      activeTransactionId: 42,
+    );
+    final semantics = tester.ensureSemantics();
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          currentDesktopsProvider.overrideWithValue(['GNOME']),
+          debTransactionProgressProvider.overrideWith((ref, transactionId) {
+            return 0.25;
+          }),
+        ],
+        child: ManageAppActions(
+          app: ManageAppData.localDeb(debInfo: activeDeb),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    final cancelLabel = tester.l10n.managePageCancelActionSemanticLabel(
+      tester.l10n.snapActionRemovingLabel,
+      ManageAppData.localDeb(debInfo: activeDeb).name,
+    );
+
+    expect(find.bySemanticsLabel(cancelLabel), findsOneWidget);
+    semantics.dispose();
   });
 
   testWidgets('update all triggers both snap refresh and deb update', (

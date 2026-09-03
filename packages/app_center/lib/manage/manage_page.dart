@@ -134,11 +134,14 @@ class ManagePage extends ConsumerWidget {
           SliverList.list(
             children: [
               const SizedBox(height: kSectionSpacing),
-              Text(
-                l10n.managePageInstallingLabel(1),
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500),
+              Semantics(
+                header: true,
+                child: Text(
+                  l10n.managePageInstallingLabel(currentlyInstalling.length),
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
               const SizedBox(height: kMarginLarge),
             ],
@@ -161,11 +164,14 @@ class ManagePage extends ConsumerWidget {
         SliverList.list(
           children: [
             const SizedBox(height: kSectionSpacing),
-            Text(
-              l10n.managePageInstalledAndUpdatedLabel,
-              style: Theme.of(
-                context,
-              ).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500),
+            Semantics(
+              header: true,
+              child: Text(
+                l10n.managePageInstalledAndUpdatedLabel,
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500),
+              ),
             ),
             const SizedBox(height: kSpacing),
             _FilterRow(),
@@ -208,11 +214,57 @@ class ManagePage extends ConsumerWidget {
   }
 }
 
-class _ActionButtons extends ConsumerWidget {
+class _ActionButtons extends ConsumerStatefulWidget {
   const _ActionButtons();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_ActionButtons> createState() => _ActionButtonsState();
+}
+
+class _ActionButtonsState extends ConsumerState<_ActionButtons> {
+  final _checkForUpdatesFocusNode = FocusNode();
+  final _updateAllFocusNode = FocusNode();
+  final _cancelFocusNode = FocusNode();
+  var _checkForUpdatesFocused = false;
+  var _updateAllFocused = false;
+  var _cancelFocused = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkForUpdatesFocusNode.addListener(_onCheckForUpdatesFocusChange);
+    _updateAllFocusNode.addListener(_onUpdateAllFocusChange);
+    _cancelFocusNode.addListener(_onCancelFocusChange);
+  }
+
+  @override
+  void dispose() {
+    _checkForUpdatesFocusNode
+      ..removeListener(_onCheckForUpdatesFocusChange)
+      ..dispose();
+    _updateAllFocusNode
+      ..removeListener(_onUpdateAllFocusChange)
+      ..dispose();
+    _cancelFocusNode
+      ..removeListener(_onCancelFocusChange)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _onCheckForUpdatesFocusChange() {
+    setState(() => _checkForUpdatesFocused = _checkForUpdatesFocusNode.hasFocus);
+  }
+
+  void _onUpdateAllFocusChange() {
+    setState(() => _updateAllFocused = _updateAllFocusNode.hasFocus);
+  }
+
+  void _onCancelFocusChange() {
+    setState(() => _cancelFocused = _cancelFocusNode.hasFocus);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final appUpdatesModel = ref.watch(appUpdatesProvider);
     final isRefreshingAll = ref
@@ -242,81 +294,123 @@ class _ActionButtons extends ConsumerWidget {
       runSpacing: 10,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        PushButton.outlined(
-          onPressed:
-              isUpdatingAll ||
-                  appUpdatesModel.hasError ||
-                  isLoading ||
-                  isSilentlyCheckingUpdates
-              ? null
-              : () {
-                  ref
-                      .read(snapUpdatesModelProvider.notifier)
-                      .silentUpdatesCheck();
-                  ref
-                      .read(localDebUpdatesModelProvider.notifier)
-                      .silentUpdatesCheck();
-                },
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              isSilentlyCheckingUpdates
-                  ? const _SmallLoadingIndicator()
-                  : const Icon(YaruIcons.sync),
-              const SizedBox(width: 8),
-              Flexible(
-                child: Text(
-                  l10n.managePageCheckForUpdates,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+        YaruFocusBorder.primary(
+          focused: _checkForUpdatesFocused,
+          child: OutlinedButton(
+            focusNode: _checkForUpdatesFocusNode,
+            onPressed:
+                isUpdatingAll ||
+                    appUpdatesModel.hasError ||
+                    isLoading ||
+                    isSilentlyCheckingUpdates
+                ? null
+                : () {
+                    ref
+                        .read(snapUpdatesModelProvider.notifier)
+                        .silentUpdatesCheck();
+                    ref
+                        .read(localDebUpdatesModelProvider.notifier)
+                        .silentUpdatesCheck();
+                  },
+            style: ButtonStyle(
+              overlayColor: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.focused) &&
+                    !states.contains(WidgetState.hovered) &&
+                    !states.contains(WidgetState.pressed)) {
+                  return Colors.transparent;
+                }
+                return null;
+              }),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                isSilentlyCheckingUpdates
+                    ? const _SmallLoadingIndicator()
+                    : const Icon(YaruIcons.sync),
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Text(
+                    l10n.managePageCheckForUpdates,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-        PushButton.elevated(
-          onPressed: ref
-              .watch(appUpdatesProvider)
-              .whenOrNull(
-                data: (updates) =>
-                    updates.isNotEmpty && !isUpdatingAll && hasInternet
-                    ? () {
-                        ref
-                            .read(snapUpdatesModelProvider.notifier)
-                            .refreshAll();
-                        ref
-                            .read(localDebUpdatesModelProvider.notifier)
-                            .updateAll();
-                      }
-                    : null,
-              ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(YaruIcons.download),
-              const SizedBox(width: 8),
-              Flexible(
-                child: Text(
-                  isUpdatingAll
-                      ? l10n.snapActionUpdatingLabel
-                      : l10n.managePageUpdateAllLabel,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+        YaruFocusBorder.primary(
+          focused: _updateAllFocused,
+          child: ElevatedButton(
+            focusNode: _updateAllFocusNode,
+            onPressed: ref
+                .watch(appUpdatesProvider)
+                .whenOrNull(
+                  data: (updates) =>
+                      updates.isNotEmpty && !isUpdatingAll && hasInternet
+                      ? () {
+                          ref
+                              .read(snapUpdatesModelProvider.notifier)
+                              .refreshAll();
+                          ref
+                              .read(localDebUpdatesModelProvider.notifier)
+                              .updateAll();
+                        }
+                      : null,
                 ),
-              ),
-            ],
+            style: ButtonStyle(
+              overlayColor: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.focused) &&
+                    !states.contains(WidgetState.hovered) &&
+                    !states.contains(WidgetState.pressed)) {
+                  return Colors.transparent;
+                }
+                return null;
+              }),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(YaruIcons.download),
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Text(
+                    isUpdatingAll
+                        ? l10n.snapActionUpdatingLabel
+                        : l10n.managePageUpdateAllLabel,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         if (isUpdatingAll)
-          PushButton.outlined(
-            onPressed: () {
-              ref.read(snapUpdatesModelProvider.notifier).cancelRefreshAll();
-              ref.read(localDebUpdatesModelProvider.notifier).cancelAll();
-            },
-            child: Text(
-              l10n.snapActionCancelLabel,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+          YaruFocusBorder.primary(
+            focused: _cancelFocused,
+            child: OutlinedButton(
+              focusNode: _cancelFocusNode,
+              onPressed: () {
+                ref.read(snapUpdatesModelProvider.notifier).cancelRefreshAll();
+                ref.read(localDebUpdatesModelProvider.notifier).cancelAll();
+              },
+              style: ButtonStyle(
+                overlayColor: WidgetStateProperty.resolveWith((states) {
+                  if (states.contains(WidgetState.focused) &&
+                      !states.contains(WidgetState.hovered) &&
+                      !states.contains(WidgetState.pressed)) {
+                    return Colors.transparent;
+                  }
+                  return null;
+                }),
+              ),
+              child: Text(
+                l10n.snapActionCancelLabel,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
       ],
@@ -422,97 +516,114 @@ class _FilterRow extends ConsumerWidget {
     final compact =
         ResponsiveLayout.of(context).type == ResponsiveLayoutType.small;
 
-    final searchField = _DebouncedSearchField(
-      hintText: l10n.managePageSearchFieldSearchHint,
+    final searchField = Semantics(
+      container: true,
+      explicitChildNodes: true,
+      child: _DebouncedSearchField(
+        hintText: l10n.managePageSearchFieldSearchHint,
+      ),
     );
 
-    final packageTypeFilter = Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(l10n.managePagePackageTypeLabel),
-        const SizedBox(width: kSpacingSmall),
-        Consumer(
-          builder: (context, ref, child) {
-            final packageType = ref.watch(packageTypeFilterProvider);
-            return IntrinsicWidth(
-              child: Stack(
-                children: [
-                  // Invisible texts to establish fixed width
-                  for (final type in PackageTypeFilter.values)
-                    Visibility(
-                      visible: false,
-                      maintainSize: true,
-                      maintainAnimation: true,
-                      maintainState: true,
+    final packageTypeFilter = Semantics(
+      container: true,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(l10n.managePagePackageTypeLabel),
+          const SizedBox(width: kSpacingSmall),
+          Consumer(
+            builder: (context, ref, child) {
+              final packageType = ref.watch(packageTypeFilterProvider);
+              return IntrinsicWidth(
+                child: Stack(
+                  children: [
+                    // Invisible texts to establish fixed width
+                    for (final type in PackageTypeFilter.values)
+                      Visibility(
+                        visible: false,
+                        maintainSize: true,
+                        maintainAnimation: true,
+                        maintainState: true,
+                        child: MenuButtonBuilder<PackageTypeFilter>(
+                          values: const [],
+                          itemBuilder: (context, type, child) =>
+                              const SizedBox.shrink(),
+                          onSelected: (_) {},
+                          expanded: false,
+                          child: Text(type.localize(l10n)),
+                        ),
+                      ),
+                    // Actual visible dropdown
+                    YaruFocusBorder.primary(
                       child: MenuButtonBuilder<PackageTypeFilter>(
-                        values: const [],
+                        values: PackageTypeFilter.values,
                         itemBuilder: (context, type, child) =>
-                            const SizedBox.shrink(),
-                        onSelected: (_) {},
+                            Text(type.localize(l10n)),
+                        onSelected: (value) => ref
+                            .read(packageTypeFilterProvider.notifier)
+                            .state = value,
                         expanded: false,
-                        child: Text(type.localize(l10n)),
+                        child: Text(packageType.localize(l10n)),
                       ),
                     ),
-                  // Actual visible dropdown
-                  MenuButtonBuilder<PackageTypeFilter>(
-                    values: PackageTypeFilter.values,
-                    itemBuilder: (context, type, child) =>
-                        Text(type.localize(l10n)),
-                    onSelected: (value) =>
-                        ref.read(packageTypeFilterProvider.notifier).state =
-                            value,
-                    expanded: false,
-                    child: Text(packageType.localize(l10n)),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-      ],
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+      ),
     );
 
-    final showSystemApps = Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(l10n.managePageShowSystemSnapsLabel),
-        const SizedBox(width: kSpacingSmall),
-        YaruSwitch(
-          value: ref.watch(showLocalSystemAppsProvider),
-          onChanged: (value) {
-            ref.read(showLocalSystemAppsProvider.notifier).state = value;
-          },
-        ),
-      ],
+    final showSystemApps = Semantics(
+      container: true,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(l10n.managePageShowSystemSnapsLabel),
+          const SizedBox(width: kSpacingSmall),
+          YaruSwitch(
+            value: ref.watch(showLocalSystemAppsProvider),
+            onChanged: (value) {
+              ref.read(showLocalSystemAppsProvider.notifier).state = value;
+            },
+          ),
+        ],
+      ),
     );
 
-    final sortBy = Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(l10n.searchPageSortByLabel),
-        const SizedBox(width: kSpacingSmall),
-        Consumer(
-          builder: (context, ref, child) {
-            final sortOrder = ref.watch(appSortOrderProvider);
-            return MenuButtonBuilder<AppSortOrder>(
-              values: const [
-                AppSortOrder.alphabeticalAsc,
-                AppSortOrder.alphabeticalDesc,
-                AppSortOrder.installedDateAsc,
-                AppSortOrder.installedDateDesc,
-                AppSortOrder.installedSizeAsc,
-                AppSortOrder.installedSizeDesc,
-              ],
-              itemBuilder: (context, sortOrder, child) =>
-                  Text(sortOrder.localize(l10n)),
-              onSelected: (value) =>
-                  ref.read(appSortOrderProvider.notifier).state = value,
-              expanded: false,
-              child: Text(sortOrder.localize(l10n)),
-            );
-          },
-        ),
-      ],
+    final sortBy = Semantics(
+      container: true,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(l10n.searchPageSortByLabel),
+          const SizedBox(width: kSpacingSmall),
+          Consumer(
+            builder: (context, ref, child) {
+              final sortOrder = ref.watch(appSortOrderProvider);
+              return YaruFocusBorder.primary(
+                child: MenuButtonBuilder<AppSortOrder>(
+                  values: const [
+                    AppSortOrder.alphabeticalAsc,
+                    AppSortOrder.alphabeticalDesc,
+                    AppSortOrder.installedDateAsc,
+                    AppSortOrder.installedDateDesc,
+                    AppSortOrder.installedSizeAsc,
+                    AppSortOrder.installedSizeDesc,
+                  ],
+                  itemBuilder: (context, sortOrder, child) =>
+                      Text(sortOrder.localize(l10n)),
+                  onSelected: (value) =>
+                      ref.read(appSortOrderProvider.notifier).state = value,
+                  expanded: false,
+                  child: Text(sortOrder.localize(l10n)),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
     );
 
     if (compact) {
