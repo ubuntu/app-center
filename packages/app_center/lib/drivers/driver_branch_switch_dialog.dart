@@ -160,12 +160,17 @@ class _BranchOptionTile extends StatelessWidget {
       descriptionParts.add(l10n.driversPageVersionLabel(option.version!));
     }
 
+    final textTheme = Theme.of(context).textTheme;
+
     return RadioListTile<DriverBranch>(
       value: option.branch,
       contentPadding: EdgeInsets.zero,
       dense: true,
-      title: Text(label),
-      subtitle: Text(descriptionParts.join(' \u00b7 ')),
+      title: Text(label, style: textTheme.labelLarge),
+      subtitle: Text(
+        descriptionParts.join(' \u00b7 '),
+        style: textTheme.labelMedium,
+      ),
     );
   }
 }
