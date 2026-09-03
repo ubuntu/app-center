@@ -25,6 +25,7 @@ class DriverPackage with _$DriverPackage {
     required bool builtin,
     required bool recommended,
     required String support,
+    @Default(false) bool openPreferred,
   }) = _DriverPackage;
 }
 

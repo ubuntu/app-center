@@ -60,6 +60,7 @@ class DriverListModel extends _$DriverListModel {
           branch: DriverBranch.fromSupport(driver.support),
           packageName: driver.name,
           recommended: driver.recommended,
+          openPreferred: driver.openPreferred,
           packageId: packageInfo?.packageId,
           isInstalled: isInstalled,
           hasUpdate: isInstalled && update != null,
