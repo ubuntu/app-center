@@ -85,48 +85,43 @@ class DriverModel extends _$DriverModel {
     return !ref.read(driversBusyProvider);
   }
 
-  /// Installs [packageName] for this device, e.g. when no branch is
-  /// currently installed yet.
+  /// Installs [packageName]'s full package set for this device, e.g. when
+  /// no branch is currently installed yet.
   Future<void> install(String packageName) => _driverAction(
     DriverActionKind.install,
-    () => _packageKit.install(_packageIdFor(packageName)),
+    () => _packageKit.installAll(_optionFor(packageName).packageIds),
   );
 
   /// Switches the currently-installed candidate to a different branch's
-  /// [packageName]: installing a different candidate relies on apt/dpkg
-  /// conflict resolution to remove the previously-installed candidate
-  /// atomically.
-  ///
-  /// OPEN ITEM (unverified on real hardware): if the aptcc PackageKit backend
-  /// refuses a single-transaction switch requiring a removal, this needs to
-  /// fall back to install-then-remove as two transactions - never
-  /// remove-then-install.
+  /// [packageName]: installs the new candidate's full package set.
+  /// Leftover packages from the old candidate aren't explicitly removed -
+  /// relies on apt/dpkg conflict resolution during install.
   Future<void> switchBranch(String packageName) => _driverAction(
     DriverActionKind.switchBranch,
-    () => _packageKit.install(_packageIdFor(packageName)),
+    () => _packageKit.installAll(_optionFor(packageName).packageIds),
   );
 
   /// Updates the currently-installed candidate to its available update.
   Future<void> updateDriver() {
     final installed = state.value?.info.installedOption;
-    assert(installed?.updatePackageId != null);
+    if (installed == null || installed.updatePackageIds.isEmpty) {
+      throw StateError('No update available to install for device $sysPath');
+    }
     return _driverAction(
       DriverActionKind.update,
-      () => _packageKit.update(installed!.updatePackageId!),
+      () => _packageKit.updateAllPackages(installed.updatePackageIds),
     );
   }
 
-  /// Uninstalls the currently-installed candidate.
-  ///
-  /// TODO: only removes the metapackage, not dependencies (e.g.
-  /// nvidia-kernel-common-*, DKMS modules). Same open question as
-  /// PackageKitService.remove.
+  /// Uninstalls the currently-installed candidate's full package set.
   Future<void> uninstall() {
     final installed = state.value?.info.installedOption;
-    assert(installed?.packageId != null);
+    if (installed == null || installed.packageIds.isEmpty) {
+      throw StateError('No installed candidate to remove for device $sysPath');
+    }
     return _driverAction(
       DriverActionKind.uninstall,
-      () => _packageKit.remove(installed!.packageId!),
+      () => _packageKit.removeAll(installed.packageIds),
     );
   }
 
@@ -142,15 +137,19 @@ class DriverModel extends _$DriverModel {
     }
   }
 
-  PackageKitPackageId _packageIdFor(String packageName) {
+  DriverBranchOption _optionFor(String packageName) {
     final option = state.value!.info.options.firstWhere(
       (o) => o.packageName == packageName,
       orElse: () => throw StateError(
         'Unknown driver package $packageName for device $sysPath',
       ),
     );
-    return option.packageId ??
-        PackageKitPackageId(name: packageName, version: '');
+    if (option.packageIds.isEmpty) {
+      throw StateError(
+        'Driver package $packageName has no install set for device $sysPath',
+      );
+    }
+    return option;
   }
 
   Future<void> _driverAction(

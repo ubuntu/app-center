@@ -111,6 +111,10 @@ class _DriversView extends ConsumerWidget {
                 title: l10n.driversPageSectionInstalled,
                 devices: devicesBySection[DriverSection.installed]!,
               ),
+              _DriverSection(
+                title: l10n.driversPageSectionUnsupported,
+                devices: devicesBySection[DriverSection.unsupported]!,
+              ),
             ],
           ),
         ),
@@ -254,6 +258,21 @@ class _DriverDeviceActions extends ConsumerWidget {
       );
     }
 
+    if (state.info.isUnsupported) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            YaruIcons.warning,
+            color: Theme.of(context).colorScheme.error,
+            size: 16,
+          ),
+          const SizedBox(width: kSpacingSmall),
+          Flexible(child: Text(l10n.driversPageNoPackagesMessage)),
+        ],
+      );
+    }
+
     if (state.error != null) {
       return Row(
         mainAxisSize: MainAxisSize.min,
@@ -388,6 +407,7 @@ VoidCallback? _retryAction(
   if (!canOperate) return null;
   final installed = info.installedOption;
   if (installed == null) {
+    if (info.isUnsupported) return null;
     return () => model.install(_recommendedOption(info).packageName);
   }
   if (installed.hasUpdate) return model.updateDriver;
@@ -395,7 +415,9 @@ VoidCallback? _retryAction(
 }
 
 DriverBranchOption _recommendedOption(DriverDeviceInfo info) =>
-    DriverDeviceInfo.pickPreferred(info.options);
+    DriverDeviceInfo.pickPreferred(
+      info.options.where((o) => o.hasPackages).toList(),
+    );
 
 String _subtitleFor(BuildContext context, DriverDeviceInfo info) {
   final l10n = AppLocalizations.of(context);

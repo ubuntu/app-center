@@ -70,10 +70,10 @@ class DriversService {
     final driversArray = fields['drivers'] as DBusArray?;
 
     return DriverDevice(
-      sysPath: _asString(fields['sys_path']),
-      modalias: _asString(fields['modalias']),
-      vendor: _asString(fields['vendor']),
-      model: _asString(fields['model']),
+      sysPath: fields['sys_path']!.asString(),
+      modalias: fields['modalias']!.asString(),
+      vendor: fields['vendor']!.asString(),
+      model: fields['model']!.asString(),
       drivers:
           driversArray?.children
               .map(
@@ -88,19 +88,16 @@ class DriversService {
     final fields = driver.mapStringVariant();
 
     return DriverPackage(
-      name: _asString(fields['name']),
-      source: DriverSource.fromString(_asString(fields['source'])),
-      free: _asBool(fields['free']),
-      builtin: _asBool(fields['builtin']),
-      recommended: _asBool(fields['recommended']),
-      support: _asString(fields['support']),
-      openPreferred: _asBool(fields['open_preferred']),
+      name: fields['name']!.asString(),
+      source: DriverSource.fromString(fields['source']!.asString()),
+      free: fields['free']!.asBoolean(),
+      builtin: fields['builtin']!.asBoolean(),
+      recommended: fields['recommended']!.asBoolean(),
+      support: fields['support']!.asString(),
+      openPreferred: fields['open_preferred']!.asBoolean(),
+      packages: fields['packages']!.asStringArray().toList(),
     );
   }
-
-  String _asString(DBusValue? value) => value is DBusString ? value.value : '';
-
-  bool _asBool(DBusValue? value) => value is DBusBoolean ? value.value : false;
 
   /// Closes the underlying D-Bus connection.
   Future<void> dispose() => _dbus.close();

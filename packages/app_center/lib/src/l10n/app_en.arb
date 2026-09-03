@@ -397,6 +397,8 @@
     "driversPageSectionUpdateAvailable": "Update available",
     "driversPageSectionAvailable": "Available",
     "driversPageSectionInstalled": "Installed",
+    "driversPageSectionUnsupported": "No drivers available",
+    "driversPageNoPackagesMessage": "No packages provide drivers for this device",
     "driversPageDeviceClassGraphics": "Graphics",
     "driversPageDeviceClassNetwork": "Network",
     "driversPageDeviceClassCamera": "Camera",
