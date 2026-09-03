@@ -94,6 +94,7 @@ class DriversService {
       builtin: _asBool(fields['builtin']),
       recommended: _asBool(fields['recommended']),
       support: _asString(fields['support']),
+      openPreferred: _asBool(fields['open_preferred']),
     );
   }
 

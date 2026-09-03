@@ -324,6 +324,191 @@ void main() {
         expect(branches.toSet(), hasLength(branches.length));
       },
     );
+
+    test(
+      'branchOptions prefers the open variant when open is preferred',
+      () {
+        final info = buildInfo(
+          options: [
+            const DriverBranchOption(
+              branch: DriverBranch.production,
+              packageName: 'nvidia-driver-580',
+              recommended: false,
+              openPreferred: true,
+            ),
+            const DriverBranchOption(
+              branch: DriverBranch.production,
+              packageName: 'nvidia-driver-580-open',
+              recommended: false,
+              openPreferred: true,
+            ),
+          ],
+        );
+        expect(
+          info.branchOptions.single.packageName,
+          'nvidia-driver-580-open',
+        );
+      },
+    );
+
+    test(
+      'branchOptions prefers the closed variant when open is not preferred',
+      () {
+        final info = buildInfo(
+          options: [
+            const DriverBranchOption(
+              branch: DriverBranch.production,
+              packageName: 'nvidia-driver-580',
+              recommended: false,
+            ),
+            const DriverBranchOption(
+              branch: DriverBranch.production,
+              packageName: 'nvidia-driver-580-open',
+              recommended: false,
+            ),
+          ],
+        );
+        expect(info.branchOptions.single.packageName, 'nvidia-driver-580');
+      },
+    );
+
+    test(
+      'matchesOpenPreference is true if the package name ends in "-open" '
+      'matches openPreferred',
+      () {
+        expect(
+          const DriverBranchOption(
+            branch: DriverBranch.production,
+            packageName: 'nvidia-driver-580-open',
+            recommended: false,
+            openPreferred: true,
+          ).matchesOpenPreference,
+          isTrue,
+        );
+        expect(
+          const DriverBranchOption(
+            branch: DriverBranch.production,
+            packageName: 'nvidia-driver-580',
+            recommended: false,
+            openPreferred: true,
+          ).matchesOpenPreference,
+          isFalse,
+        );
+        expect(
+          const DriverBranchOption(
+            branch: DriverBranch.production,
+            packageName: 'nvidia-driver-580',
+            recommended: false,
+          ).matchesOpenPreference,
+          isTrue,
+        );
+        expect(
+          const DriverBranchOption(
+            branch: DriverBranch.production,
+            packageName: 'nvidia-driver-580-open',
+            recommended: false,
+          ).matchesOpenPreference,
+          isFalse,
+        );
+      },
+    );
+
+    test(
+      'branchOptions prefers installed over recommended over open',
+      () {
+        final info = buildInfo(
+          options: [
+            const DriverBranchOption(
+              branch: DriverBranch.production,
+              packageName: 'nvidia-driver-580',
+              recommended: true,
+              openPreferred: true,
+            ),
+            const DriverBranchOption(
+              branch: DriverBranch.production,
+              packageName: 'nvidia-driver-580-open',
+              recommended: false,
+              openPreferred: true,
+              isInstalled: true,
+            ),
+          ],
+        );
+        expect(
+          info.branchOptions.single.packageName,
+          'nvidia-driver-580-open',
+        );
+      },
+    );
+
+    test(
+      'branchOptions prefers an installed package',
+      () {
+        final info = buildInfo(
+          options: [
+            const DriverBranchOption(
+              branch: DriverBranch.production,
+              packageName: 'nvidia-driver-580-open',
+              recommended: true,
+              openPreferred: true,
+            ),
+            const DriverBranchOption(
+              branch: DriverBranch.production,
+              packageName: 'nvidia-driver-580',
+              recommended: false,
+              openPreferred: true,
+              isInstalled: true,
+            ),
+          ],
+        );
+        expect(info.branchOptions.single.packageName, 'nvidia-driver-580');
+      },
+    );
+
+    test(
+      'branchOptions prefers a recommended package',
+      () {
+        final info = buildInfo(
+          options: [
+            // Matches open preference, not recommended - open preference
+            // alone would pick this one.
+            const DriverBranchOption(
+              branch: DriverBranch.production,
+              packageName: 'nvidia-driver-580-open',
+              recommended: false,
+              openPreferred: true,
+            ),
+            // Doesn't match open preference, but recommended - recommended
+            // must still win.
+            const DriverBranchOption(
+              branch: DriverBranch.production,
+              packageName: 'nvidia-driver-580',
+              recommended: true,
+              openPreferred: true,
+            ),
+          ],
+        );
+        expect(info.branchOptions.single.packageName, 'nvidia-driver-580');
+      },
+    );
+
+    test(
+      'pickPreferred falls back to original order when two options are '
+      'both recommended and both match (or both mismatch) open preference',
+      () {
+        const first = DriverBranchOption(
+          branch: DriverBranch.production,
+          packageName: 'nvidia-driver-580-a',
+          recommended: true,
+        );
+        const second = DriverBranchOption(
+          branch: DriverBranch.production,
+          packageName: 'nvidia-driver-580-b',
+          recommended: true,
+        );
+        final picked = DriverDeviceInfo.pickPreferred([second, first]);
+        expect(picked.packageName, second.packageName);
+      },
+    );
   });
 
   group('driverListModelProvider', () {

@@ -66,11 +66,13 @@ void main() {
       expect(recommended.builtin, isFalse);
       expect(recommended.recommended, isTrue);
       expect(recommended.support, equals('PB'));
+      expect(recommended.openPreferred, isFalse);
 
       DriverPackage byName(String name) =>
           device.drivers.firstWhere((d) => d.name == name);
 
       expect(byName('nvidia-driver-550').support, equals('NFB'));
+      expect(byName('nvidia-driver-550').openPreferred, isTrue);
       expect(byName('nvidia-driver-470').support, equals('LTSB'));
       expect(byName('nvidia-driver-390').support, equals('Legacy'));
 
@@ -138,6 +140,7 @@ DBusDict _driverPackage({
   required bool builtin,
   required bool recommended,
   required String support,
+  bool openPreferred = false,
 }) {
   return DBusDict.stringVariant({
     'name': DBusString(name),
@@ -146,6 +149,7 @@ DBusDict _driverPackage({
     'builtin': DBusBoolean(builtin),
     'recommended': DBusBoolean(recommended),
     'support': DBusString(support),
+    'open_preferred': DBusBoolean(openPreferred),
   });
 }
 
@@ -176,6 +180,7 @@ final _nvidiaDeviceArray = DBusArray(DBusSignature('a{sv}'), [
           builtin: false,
           recommended: false,
           support: 'NFB',
+          openPreferred: true,
         ),
       ),
       DBusVariant(

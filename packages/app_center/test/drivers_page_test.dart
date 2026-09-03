@@ -133,6 +133,35 @@ DriverDevice _gpuSameBranchDevice() => const DriverDevice(
   ],
 );
 
+// A device with two same-branch candidates where neither is flagged
+// recommended, but the driver's open kernel module variant is preferred.
+DriverDevice _gpuOpenPreferredDevice() => const DriverDevice(
+  sysPath: _gpuSysPath,
+  modalias: 'pci:v000010DEd000010C3sv00003842sd00002670bc03sc03i00',
+  vendor: 'NVIDIA Corporation',
+  model: 'GK208 [GeForce GT 720]',
+  drivers: [
+    DriverPackage(
+      name: 'nvidia-driver-580',
+      source: DriverSource.distro,
+      free: false,
+      builtin: false,
+      recommended: false,
+      support: 'PB',
+      openPreferred: true,
+    ),
+    DriverPackage(
+      name: 'nvidia-driver-580-open',
+      source: DriverSource.distro,
+      free: false,
+      builtin: false,
+      recommended: false,
+      support: 'PB',
+      openPreferred: true,
+    ),
+  ],
+);
+
 // A device where the "production" branch is satisfied by two packages
 // (the desktop and server variants), alongside a single "lts" candidate -
 // mirroring how real nvidia-driver/-server packages can share a Support tag.
@@ -424,6 +453,60 @@ void main() {
           const PackageKitPackageId(
             name: 'nvidia-driver-550-open',
             version: '550.1',
+          ),
+        ),
+      );
+    },
+  );
+
+  testWidgets(
+    'installs the open-preferred package directly',
+    (tester) async {
+      registerMockDriversService(devices: [_gpuOpenPreferredDevice()]);
+      final packageKit = createMockPackageKitService(
+        resolveMap: {
+          'nvidia-driver-580': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-580',
+              version: '580.0',
+            ),
+            summary: 'summary',
+          ),
+          'nvidia-driver-580-open': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-580-open',
+              version: '580.1',
+            ),
+            summary: 'summary',
+          ),
+        },
+      );
+
+      await tester.pumpScopedApp((_) => const DriversPage());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.button(tester.l10n.snapActionInstallLabel));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(tester.l10n.driversPageSwitchBranchTitle),
+        findsNothing,
+      );
+      verify(
+        packageKit.install(
+          const PackageKitPackageId(
+            name: 'nvidia-driver-580-open',
+            version: '580.1',
+          ),
+        ),
+      ).called(1);
+      verifyNever(
+        packageKit.install(
+          const PackageKitPackageId(
+            name: 'nvidia-driver-580',
+            version: '580.0',
           ),
         ),
       );
