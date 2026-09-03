@@ -64,6 +64,7 @@ class ManagePage extends ConsumerWidget {
                 ),
               ),
               _SelfUpdateInfoBox(),
+              const _DebSourcesUnavailableInfoBox(),
               Builder(
                 builder: (context) {
                   final compact =
@@ -204,6 +205,34 @@ class ManagePage extends ConsumerWidget {
           padding: EdgeInsets.only(bottom: kPagePadding),
         ),
       ],
+    );
+  }
+}
+
+/// Warns that the deb sources could not be read, so the lists on this page
+/// only cover snaps. Without this the page would silently show fewer updates
+/// than are actually available.
+class _DebSourcesUnavailableInfoBox extends ConsumerWidget {
+  const _DebSourcesUnavailableInfoBox();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final debSourcesAvailable = ref.watch(
+      debSourcesAvailableProvider.select((value) => value.valueOrNull ?? true),
+    );
+
+    if (debSourcesAvailable) {
+      return const SizedBox.shrink();
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: kMarginLarge),
+      child: YaruInfoBox(
+        yaruInfoType: YaruInfoType.warning,
+        title: Text(l10n.managePageDebSourcesUnavailableTitle),
+        subtitle: Text(l10n.managePageDebSourcesUnavailableDescription),
+      ),
     );
   }
 }

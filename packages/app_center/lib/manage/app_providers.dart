@@ -1,3 +1,4 @@
+import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/manage/local_deb_updates_model.dart';
@@ -42,7 +43,11 @@ final appSortOrderProvider = StateProvider<AppSortOrder>(
 @riverpod
 Future<List<ManageAppData>> appUpdates(Ref ref) async {
   final snapUpdates = await ref.watch(snapUpdatesModelProvider.future);
-  final debUpdates = await ref.watch(localDebUpdatesModelProvider.future);
+  // Snaps and debs are independent sources of updates, so a failure to
+  // enumerate one must not hide the other. Without this, an unreadable
+  // Appstream catalog or an unavailable PackageKit turns the whole updates
+  // list into an error page even when snapd has updates to offer.
+  final debUpdates = await _debUpdatesOrEmpty(ref);
 
   final snapApps = snapUpdates.snaps.map(
     (snap) => ManageAppData.snap(
@@ -56,6 +61,49 @@ Future<List<ManageAppData>> appUpdates(Ref ref) async {
   return [...snapApps, ...debApps]..sort(
     (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()),
   );
+}
+
+/// Whether the deb sources could be read at all.
+///
+/// [appUpdates] and [InstalledApps] degrade to snap-only lists when the
+/// Appstream catalog or PackageKit is unavailable. That keeps the page
+/// working, but a store that quietly lists fewer updates than exist is its
+/// own hazard, so the manage page uses this to tell the user the list is
+/// incomplete.
+@riverpod
+Future<bool> debSourcesAvailable(Ref ref) async {
+  try {
+    await ref.watch(localDebsProvider.future);
+  } on Exception {
+    return false;
+  }
+  // A catalog that failed to load leaves the service with no components, so
+  // the deb list comes back empty rather than throwing. Ask the service
+  // directly, otherwise the very failure this warning exists for is the one
+  // case it would miss.
+  return !getService<AppstreamService>().catalogLoadFailed;
+}
+
+/// Returns all installed debs, or an empty list if they could not be
+/// determined. See [appUpdates].
+Future<List<LocalDebInfo>> _localDebsOrEmpty(Ref ref) async {
+  try {
+    return await ref.watch(localDebsProvider.future);
+  } on Exception catch (e) {
+    log.error('Failed to list installed debs', e);
+    return [];
+  }
+}
+
+/// Returns the debs with pending updates, or an empty list if they could not
+/// be determined. See [appUpdates].
+Future<List<LocalDebInfo>> _debUpdatesOrEmpty(Ref ref) async {
+  try {
+    return await ref.watch(localDebUpdatesModelProvider.future);
+  } on Exception catch (e) {
+    log.error('Failed to determine deb updates', e);
+    return [];
+  }
 }
 
 /// Manages the list of installed apps (snaps and debs) that do not have
@@ -73,7 +121,7 @@ class InstalledApps extends _$InstalledApps {
   @override
   Future<List<ManageAppData>> build() async {
     final snapListState = await ref.watch(localSnapsProvider.future);
-    final debs = await ref.watch(localDebsProvider.future);
+    final debs = await _localDebsOrEmpty(ref);
     final refreshableSnaps = (await ref.read(
       snapUpdatesModelProvider.future,
     )).snaps.map((s) => s.name);
