@@ -127,7 +127,8 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
 
   /// Updates a single deb package by starting a PackageKit transaction,
   /// waiting for it to complete, then moving the deb from the updates list
-  /// to the installed apps list.
+  /// to the installed apps list. Failures are reported to the error stream
+  /// and clear the transaction state so the UI doesn't get stuck.
   Future<void> updateDeb(String debId) async {
     if (!state.hasValue) return;
     final deb = state.value!.firstWhere((d) => d.id == debId);
@@ -145,6 +146,9 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
         activeTransactionId: null,
       );
       ref.read(installedAppsProvider.notifier).addDebToList(updatedDeb);
+    } on Exception catch (e) {
+      log.warning('Update transaction failed: $transactionId for $debId: $e');
+      ref.read(errorStreamControllerProvider).add(e);
     } finally {
       // Always clear the transaction state, even if cancelled or failed
       _updateTransactionId(debId, null);

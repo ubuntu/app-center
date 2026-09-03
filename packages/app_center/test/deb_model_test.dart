@@ -95,6 +95,73 @@ void main() {
     ).called(1);
   });
 
+  test('hasUpdate when an installable update exists', () async {
+    const updateId = PackageKitPackageId(name: 'testdeb', version: '2.0');
+    createMockPackageKitService(
+      packageInfo: packageInfo,
+      packageUpdates: PackageKitUpdateDetailEvent(
+        packageId: packageInfo.packageId,
+        updates: [updateId],
+      ),
+      availableUpdates: [
+        const PackageKitPackageInfo(
+          info: PackageKitInfo.normal,
+          packageId: updateId,
+          summary: 'update',
+        ),
+      ],
+      resolveMap: {
+        'testdeb-package': packageInfo,
+        'testdeb': const PackageKitPackageInfo(
+          info: PackageKitInfo.installed,
+          packageId: PackageKitPackageId(name: 'testdeb', version: '1.0'),
+          summary: 'summary',
+        ),
+      },
+    );
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    container.listen(debModelProvider('testdeb'), (_, __) {});
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
+    );
+
+    expect(
+      container.read(debModelProvider('testdeb')).value!.hasUpdate,
+      isTrue,
+    );
+  });
+
+  test('no hasUpdate when the update is blocked (phased)', () async {
+    // Blocked updates are filtered out of PackageKitService.getUpdates, so
+    // an update listed only in getUpdateDetails must not mark the deb as
+    // updatable.
+    const updateId = PackageKitPackageId(name: 'testdeb', version: '2.0');
+    createMockPackageKitService(
+      packageInfo: packageInfo,
+      packageUpdates: PackageKitUpdateDetailEvent(
+        packageId: packageInfo.packageId,
+        updates: [updateId],
+      ),
+      availableUpdates: [],
+    );
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    container.listen(debModelProvider('testdeb'), (_, __) {});
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
+    );
+
+    expect(
+      container.read(debModelProvider('testdeb')).value!.hasUpdate,
+      isFalse,
+    );
+  });
+
   test('remove', () async {
     final packageKit = createMockPackageKitService(
       packageInfo: packageInfo,
