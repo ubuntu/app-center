@@ -95,7 +95,7 @@ enum DriverDeviceClass {
 }
 
 /// Which section of the drivers page a [DriverDeviceInfo] belongs to.
-enum DriverSection { updateAvailable, installed, available }
+enum DriverSection { updateAvailable, installed, available, unsupported }
 
 /// A single installable branch for a [DriverDeviceInfo]: a driver candidate
 /// reported by `com.ubuntu.Drivers` combined with its PackageKit state.
@@ -107,14 +107,20 @@ class DriverBranchOption with _$DriverBranchOption {
     required bool recommended,
     @Default(false) bool openPreferred,
     PackageKitPackageId? packageId,
+    @Default(<String>[]) List<String> packages,
+    @Default(<PackageKitPackageId>[]) List<PackageKitPackageId> packageIds,
     @Default(false) bool isInstalled,
     @Default(false) bool hasUpdate,
-    PackageKitPackageId? updatePackageId,
+    @Default(<PackageKitPackageId>[])
+    List<PackageKitPackageId> updatePackageIds,
   }) = _DriverBranchOption;
 
   const DriverBranchOption._();
 
   String? get version => packageId?.version;
+
+  /// Whether the driver service reported an install set for this option.
+  bool get hasPackages => packages.isNotEmpty;
 
   /// Whether [packageName] agrees with [openPreferred]: true if it's an
   /// "-open" package and open is preferred, or it's not an "-open" package
@@ -141,23 +147,24 @@ class DriverDeviceInfo with _$DriverDeviceInfo {
   DriverBranchOption? get installedOption =>
       options.firstWhereOrNull((o) => o.isInstalled);
 
+  /// Whether no candidate for this device has an install set.
+  bool get isUnsupported => options.every((o) => !o.hasPackages);
+
   /// Options selectable in a "Switch branch" dialog: one representative
   /// per selectable [DriverBranch], since multiple packages may satisfy the
-  /// same branch (e.g. an open-source variant alongside the proprietary
-  /// one). The dialog presents branches, not packages, so we pick a single
-  /// package to act "for" the user in that case - see [pickPreferred].
+  /// same branch.
+  ///
+  /// Excludes candidates with no install set.
   List<DriverBranchOption> get branchOptions {
-    final selectable = options.where((o) => o.branch.isSelectable);
+    final selectable = options.where(
+      (o) => o.branch.isSelectable && o.hasPackages,
+    );
     final byBranch = groupBy(selectable, (o) => o.branch);
     return byBranch.values.map(pickPreferred).toList();
   }
 
-  /// Picks the most preferred option out of [options]: the installed one
-  /// takes priority (so the dialog reflects what's actually on the
-  /// system), then the recommended one, then whichever package matches
-  /// Ubuntu's open/closed preference for this driver (see
-  /// [DriverBranchOption.matchesOpenPreference]), otherwise the first
-  /// candidate reported by the `com.ubuntu.Drivers` service.
+  /// Picks the most preferred option out of [options]. Installed, then
+  /// recommended, then if the option matches open preference.
   static DriverBranchOption pickPreferred(List<DriverBranchOption> options) =>
       options.firstWhereOrNull((o) => o.isInstalled) ??
       options.firstWhereOrNull((o) => o.recommended) ??
@@ -169,6 +176,9 @@ class DriverDeviceInfo with _$DriverDeviceInfo {
   bool get hasBranchChoice => branchOptions.length > 1;
 
   DriverSection get section {
+    if (isUnsupported) {
+      return DriverSection.unsupported;
+    }
     if (options.any((o) => o.isInstalled && o.hasUpdate)) {
       return DriverSection.updateAvailable;
     }

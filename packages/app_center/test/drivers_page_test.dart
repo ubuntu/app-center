@@ -29,6 +29,8 @@ DriverDevice _gpuDevice() => const DriverDevice(
       builtin: false,
       recommended: true,
       support: 'PB',
+      packages: ['nvidia-driver-550'],
+      openPreferred: false,
     ),
   ],
 );
@@ -46,6 +48,29 @@ DriverDevice _wifiDevice() => const DriverDevice(
       builtin: false,
       recommended: true,
       support: 'PB',
+      packages: ['bcmwl-kernel-source'],
+      openPreferred: false,
+    ),
+  ],
+);
+
+// A device whose only candidate has no install set - no package provides
+// drivers for it.
+DriverDevice _unsupportedDevice() => const DriverDevice(
+  sysPath: _wifiSysPath,
+  modalias: 'pci:v00008086d000024FDsv00008086sd00000080bc02sc80i00',
+  vendor: 'Intel Corporation',
+  model: 'Wireless 7265',
+  drivers: [
+    DriverPackage(
+      name: 'bcmwl-kernel-source',
+      source: DriverSource.distro,
+      free: false,
+      builtin: false,
+      recommended: true,
+      support: 'PB',
+      openPreferred: false,
+      packages: [],
     ),
   ],
 );
@@ -63,6 +88,8 @@ DriverDevice _gpuMultiBranchDevice() => const DriverDevice(
       builtin: false,
       recommended: true,
       support: 'PB',
+      packages: ['nvidia-driver-550'],
+      openPreferred: false,
     ),
     DriverPackage(
       name: 'nvidia-driver-470',
@@ -71,6 +98,40 @@ DriverDevice _gpuMultiBranchDevice() => const DriverDevice(
       builtin: false,
       recommended: false,
       support: 'LTSB',
+      packages: ['nvidia-driver-470'],
+      openPreferred: false,
+    ),
+  ],
+);
+
+// A multi-branch device where the production candidate has no install set
+// (no package provides drivers for it) alongside an installable LTS
+// candidate - the branch dialog must only offer the installable branch.
+DriverDevice _gpuPartiallyUnsupportedDevice() => const DriverDevice(
+  sysPath: _gpuSysPath,
+  modalias: 'pci:v000010DEd000010C3sv00003842sd00002670bc03sc03i00',
+  vendor: 'NVIDIA Corporation',
+  model: 'GK208 [GeForce GT 720]',
+  drivers: [
+    DriverPackage(
+      name: 'nvidia-driver-550',
+      source: DriverSource.distro,
+      free: false,
+      builtin: false,
+      recommended: true,
+      support: 'PB',
+      openPreferred: false,
+      packages: [],
+    ),
+    DriverPackage(
+      name: 'nvidia-driver-470',
+      source: DriverSource.distro,
+      free: false,
+      builtin: false,
+      recommended: false,
+      support: 'LTSB',
+      packages: ['nvidia-driver-470'],
+      openPreferred: false,
     ),
   ],
 );
@@ -88,6 +149,8 @@ DriverDevice _gpuLegacyInstalledDevice() => const DriverDevice(
       builtin: false,
       recommended: false,
       support: 'Legacy',
+      packages: ['nvidia-driver-340'],
+      openPreferred: false,
     ),
     DriverPackage(
       name: 'nvidia-driver-550',
@@ -96,6 +159,8 @@ DriverDevice _gpuLegacyInstalledDevice() => const DriverDevice(
       builtin: false,
       recommended: true,
       support: 'PB',
+      packages: ['nvidia-driver-550'],
+      openPreferred: false,
     ),
     DriverPackage(
       name: 'nvidia-driver-470',
@@ -104,6 +169,8 @@ DriverDevice _gpuLegacyInstalledDevice() => const DriverDevice(
       builtin: false,
       recommended: false,
       support: 'LTSB',
+      packages: ['nvidia-driver-470'],
+      openPreferred: false,
     ),
   ],
 );
@@ -121,6 +188,8 @@ DriverDevice _gpuSameBranchDevice() => const DriverDevice(
       builtin: false,
       recommended: true,
       support: 'PB',
+      packages: ['nvidia-driver-550'],
+      openPreferred: false,
     ),
     DriverPackage(
       name: 'nvidia-driver-550-open',
@@ -129,6 +198,8 @@ DriverDevice _gpuSameBranchDevice() => const DriverDevice(
       builtin: false,
       recommended: false,
       support: 'PB',
+      packages: ['nvidia-driver-550-open'],
+      openPreferred: false,
     ),
   ],
 );
@@ -149,6 +220,7 @@ DriverDevice _gpuOpenPreferredDevice() => const DriverDevice(
       recommended: false,
       support: 'PB',
       openPreferred: true,
+      packages: ['nvidia-driver-580'],
     ),
     DriverPackage(
       name: 'nvidia-driver-580-open',
@@ -158,6 +230,7 @@ DriverDevice _gpuOpenPreferredDevice() => const DriverDevice(
       recommended: false,
       support: 'PB',
       openPreferred: true,
+      packages: ['nvidia-driver-580-open'],
     ),
   ],
 );
@@ -178,6 +251,8 @@ DriverDevice _gpuMixedBranchDevice() => const DriverDevice(
       builtin: false,
       recommended: true,
       support: 'PB',
+      packages: ['nvidia-driver-535'],
+      openPreferred: false,
     ),
     DriverPackage(
       name: 'nvidia-driver-535-server',
@@ -186,6 +261,8 @@ DriverDevice _gpuMixedBranchDevice() => const DriverDevice(
       builtin: false,
       recommended: false,
       support: 'PB',
+      packages: ['nvidia-driver-535-server'],
+      openPreferred: false,
     ),
     DriverPackage(
       name: 'nvidia-driver-470',
@@ -194,6 +271,8 @@ DriverDevice _gpuMixedBranchDevice() => const DriverDevice(
       builtin: false,
       recommended: false,
       support: 'LTSB',
+      packages: ['nvidia-driver-470'],
+      openPreferred: false,
     ),
   ],
 );
@@ -297,12 +376,12 @@ void main() {
     await tester.pumpAndSettle();
 
     verify(
-      packageKit.remove(
+      packageKit.removeAll([
         const PackageKitPackageId(
           name: 'bcmwl-kernel-source',
           version: '6.30',
         ),
-      ),
+      ]),
     ).called(1);
   });
 
@@ -395,9 +474,9 @@ void main() {
     await tester.pumpAndSettle();
 
     verify(
-      packageKit.install(
+      packageKit.installAll([
         const PackageKitPackageId(name: 'nvidia-driver-470', version: '470.0'),
-      ),
+      ]),
     ).called(1);
   });
 
@@ -441,20 +520,20 @@ void main() {
         findsNothing,
       );
       verify(
-        packageKit.install(
+        packageKit.installAll([
           const PackageKitPackageId(
             name: 'nvidia-driver-550',
             version: '550.0',
           ),
-        ),
+        ]),
       ).called(1);
       verifyNever(
-        packageKit.install(
+        packageKit.installAll([
           const PackageKitPackageId(
             name: 'nvidia-driver-550-open',
             version: '550.1',
           ),
-        ),
+        ]),
       );
     },
   );
@@ -495,20 +574,20 @@ void main() {
         findsNothing,
       );
       verify(
-        packageKit.install(
+        packageKit.installAll([
           const PackageKitPackageId(
             name: 'nvidia-driver-580-open',
             version: '580.1',
           ),
-        ),
+        ]),
       ).called(1);
       verifyNever(
-        packageKit.install(
+        packageKit.installAll([
           const PackageKitPackageId(
             name: 'nvidia-driver-580',
             version: '580.0',
           ),
-        ),
+        ]),
       );
     },
   );
@@ -620,12 +699,12 @@ void main() {
       await tester.pumpAndSettle();
 
       verify(
-        packageKit.install(
+        packageKit.installAll([
           const PackageKitPackageId(
             name: 'nvidia-driver-470',
             version: '470.0',
           ),
-        ),
+        ]),
       ).called(1);
     },
   );
@@ -686,12 +765,12 @@ void main() {
       await tester.pumpAndSettle();
 
       verify(
-        packageKit.install(
+        packageKit.installAll([
           const PackageKitPackageId(
             name: 'nvidia-driver-470',
             version: '470.0',
           ),
-        ),
+        ]),
       ).called(1);
     },
   );
@@ -912,6 +991,87 @@ void main() {
     );
     expect(find.text(tester.l10n.driversPageSectionAvailable), findsNothing);
   });
+
+  testWidgets(
+    'shows a warning instead of an install button when no package '
+    'provides drivers for a device',
+    (tester) async {
+      registerMockDriversService(devices: [_unsupportedDevice()]);
+      createMockPackageKitService(
+        resolveMap: {
+          'bcmwl-kernel-source': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'bcmwl-kernel-source',
+              version: '6.30',
+            ),
+            summary: 'summary',
+          ),
+        },
+      );
+
+      await tester.pumpApp((_) => const ProviderScope(child: DriversPage()));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(tester.l10n.driversPageSectionUnsupported),
+        findsOneWidget,
+      );
+      expect(
+        find.text(tester.l10n.driversPageNoPackagesMessage),
+        findsOneWidget,
+      );
+      expect(find.button(tester.l10n.snapActionInstallLabel), findsNothing);
+    },
+  );
+
+  testWidgets(
+    'a package-less branch is excluded from the install decision',
+    (tester) async {
+      registerMockDriversService(devices: [_gpuPartiallyUnsupportedDevice()]);
+      final packageKit = createMockPackageKitService(
+        resolveMap: {
+          'nvidia-driver-470': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-470',
+              version: '470.0',
+            ),
+            summary: 'summary',
+          ),
+        },
+      );
+
+      await tester.pumpApp((_) => const ProviderScope(child: DriversPage()));
+      await tester.pumpAndSettle();
+
+      // Not unsupported: one of its two candidates does have an install
+      // set, so it's still listed as available with an install button.
+      expect(
+        find.text(tester.l10n.driversPageSectionUnsupported),
+        findsNothing,
+      );
+      expect(find.button(tester.l10n.snapActionInstallLabel), findsOneWidget);
+
+      await tester.tap(find.button(tester.l10n.snapActionInstallLabel));
+      await tester.pumpAndSettle();
+
+      // Only one branch is actually installable, so the app installs it
+      // directly rather than asking the user to pick a branch.
+      expect(
+        find.text(tester.l10n.driversPageSwitchBranchTitle),
+        findsNothing,
+      );
+      verify(
+        packageKit.installAll([
+          const PackageKitPackageId(
+            name: 'nvidia-driver-470',
+            version: '470.0',
+          ),
+        ]),
+      ).called(1);
+    },
+  );
 
   testWidgets('shows an unsupported message if the service is unavailable', (
     tester,
