@@ -84,30 +84,41 @@ class LocalDebModel extends _$LocalDebModel {
   Future<void> install() async {
     assert(state.hasValue, 'install() called during loading or error state');
     final packageKit = getService<PackageKitService>();
-    final activeTransactionId = await packageKit.installLocal(path);
-    state = AsyncValue.data(
-      state.value!.copyWith(activeTransactionId: activeTransactionId),
-    );
+    final errorBefore = state.value!.error;
     try {
+      final activeTransactionId = await packageKit.installLocal(path);
+      state = AsyncValue.data(
+        state.value!.copyWith(activeTransactionId: activeTransactionId),
+      );
       await packageKit.waitTransaction(activeTransactionId);
       ref.invalidateSelf();
-    } on Exception {
-      // The transaction failed. If it emitted a PackageKit error code, _onError
-      // has already recorded it and cleared activeTransactionId; a second update
-      // here would re-trigger the error dialog, so only clear the spinner when
-      // it is still set — i.e. for failures with no error code (a destroyed
-      // transaction or a closed stream), so the spinner never gets stuck.
-      if (state.value?.activeTransactionId != null) {
-        state = AsyncValue.data(
-          state.value!.copyWith(activeTransactionId: null),
-        );
-      }
+    } on Exception catch (e) {
+      // Failures that emit a PackageKit error code have already been recorded
+      // by _onError; any other failure (creating the transaction, a destroyed
+      // transaction, a closed stream) would otherwise be silent, so record a
+      // generic error for it. Either way the spinner is cleared.
+      final data = state.valueOrNull;
+      if (data == null) return;
+      final recorded = identical(data.error, errorBefore) ? null : data.error;
+      state = AsyncValue.data(
+        data.copyWith(
+          error:
+              recorded ??
+              PackageKitServiceError(
+                code: PackageKitError.unknown,
+                details: e.toString(),
+              ),
+          activeTransactionId: null,
+        ),
+      );
     }
   }
 
-  Future<void> _onError(PackageKitServiceError error) async {
+  void _onError(PackageKitServiceError error) {
+    final data = state.valueOrNull;
+    if (data == null) return;
     state = AsyncValue.data(
-      state.value!.copyWith(
+      data.copyWith(
         error: error,
         activeTransactionId: null,
       ),

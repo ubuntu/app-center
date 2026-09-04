@@ -32,14 +32,15 @@ class LocalDebPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final model = ref.watch(localDebModelProvider(path: path));
 
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => model.whenOrNull(
-        data: (data) {
-          if (data.error == null) return;
-          showError(context, data.error!);
-        },
-      ),
-    );
+    ref.listen(localDebModelProvider(path: path), (previous, next) {
+      final error = next.valueOrNull?.error;
+      // Errors are compared by identity: every PackageKit failure produces a
+      // new event instance, while state updates that merely carry the old
+      // error along (e.g. clearing the spinner) keep the same one.
+      if (error != null && !identical(error, previous?.valueOrNull?.error)) {
+        showError(context, error);
+      }
+    });
 
     return model.when(
       data: (debData) => _LocalDebPage(debData: debData),
