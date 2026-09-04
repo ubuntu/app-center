@@ -9,6 +9,7 @@ class HyperlinkText extends StatelessWidget {
     required this.text,
     this.link,
     this.onTap,
+    this.fontSize = 10,
     super.key,
   }) : assert(
          (link != null) ^ (onTap != null),
@@ -23,6 +24,9 @@ class HyperlinkText extends StatelessWidget {
 
   /// See [InkWell.onTap].
   final VoidCallback? onTap;
+
+  /// Dynamic Font Size
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +51,7 @@ class HyperlinkText extends StatelessWidget {
             style: textStyle.style.copyWith(
               color: hyperlinkColor,
               decoration: TextDecoration.underline,
+              fontSize: fontSize
             ),
           ),
         ),

@@ -34,7 +34,7 @@ class AboutPage extends StatelessWidget {
             child: Align(
               alignment: AlignmentDirectional.topStart,
               child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 500),
+                constraints: const BoxConstraints(maxWidth: 700),
                 child: const _ContributorView(repo: kGitHubRepo),
               ),
             ),
@@ -118,8 +118,8 @@ class _ContributorView extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l10n.aboutPageContributorTitle),
-        const SizedBox(height: 8),
+        Text(l10n.aboutPageContributorTitle,style: TextStyle(fontSize: responsiveFont(context, 08)),),
+        const SizedBox(height: 15),
         state.when(
           data: _ContributorWrap.new,
           error: (error, stackTrace) => Text(error.toString()),
@@ -156,10 +156,10 @@ class _ContributorWrap extends StatelessWidget {
                   ? () => launchUrlString(contributor?.htmlUrl ?? '')
                   : null,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(30),
                 child: AppIcon(
                   iconUrl: contributor?.avatarUrl,
-                  size: 32,
+                  size: 50,
                 ),
               ),
             ),
@@ -178,8 +178,8 @@ class _CommunityView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l10n.aboutPageCommunityTitle),
-        const SizedBox(height: 8),
+        Text(l10n.aboutPageCommunityTitle,style: TextStyle(fontSize: responsiveFont(context,08)),),
+        const SizedBox(height: 10),
         Row(
           children: [
             Expanded(
@@ -215,8 +215,17 @@ class _CommunityTile extends StatelessWidget {
       title: Text(
         title,
         overflow: TextOverflow.ellipsis,
+        style: TextStyle(fontSize: responsiveFont(context, 07)),
       ),
-      subtitle: HyperlinkText(text: subtitle, link: href),
+      subtitle: HyperlinkText(text: subtitle, link: href,fontSize: responsiveFont(context, 05),),
     );
   }
+}
+
+/// Responsive functions are based on a design width of 375, which is a common width for mobile designs.
+double responsiveFont(
+    BuildContext context,
+    double size,
+    ) {
+  return MediaQuery.of(context).size.width * (size / 375);
 }
