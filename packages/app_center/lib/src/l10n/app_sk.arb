@@ -20,14 +20,14 @@
     "searchFieldDebSection": "Debian balíky",
     "snapActionOpenLabel": "Otvoriť",
     "snapCategoryDevelopment": "Vývoj",
-    "snapCategoryHealthAndFitness": "Zdravie a fitnes",
+    "snapCategoryHealthAndFitness": "Zdravie a kondícia",
     "appstreamUrlTypeContact": "Kontakt",
     "snapCategorySecurity": "Bezpečnosť",
     "snapCategoryFinance": "Financie",
     "snapCategoryServerAndCloud": "Server a cloud",
     "aboutPageLabel": "O aplikácii",
-    "snapPageSummaryLabel": "Zhrnutie",
-    "appstreamSearchGreylist": "apka;aplikácia;balík;program;softvér;sada;súprava;nástroj",
+    "snapPageSummaryLabel": "Súhrn",
+    "appstreamSearchGreylist": "aplikácia;program;balík;softvér;súprava;nástroj",
     "snapCategoryScience": "Veda",
     "snapCategoryEntertainment": "Zábava",
     "snapActionInstallLabel": "Inštalovať",
@@ -39,9 +39,9 @@
     "packageFormatSnapLabel": "Snap balíky",
     "snapCategoryGames": "Hry",
     "snapActionInstallingLabel": "Inštaluje sa",
-    "searchFieldSearchHint": "Vyhľadajte aplikácie",
+    "searchFieldSearchHint": "Hľadať aplikácie",
     "snapCategoryFeatured": "Odporúčané",
-    "managePageSearchFieldSearchHint": "Hľadať v zozname",
+    "managePageSearchFieldSearchHint": "Hľadať nainštalované aplikácie",
     "snapActionCancelLabel": "Zrušiť",
     "snapPagePublisherLabel": "Vydavateľ",
     "snapPageDescriptionLabel": "Popis",
@@ -61,13 +61,13 @@
     "explorePageCategoriesLabel": "Kategórie",
     "snapCategoryDefaultButtonLabel": "Objavte viac",
     "managePageShowDetailsLabel": "Zobraziť podrobnosti",
-    "snapPageDownloadSizeLabel": "Veľkosť preberania",
+    "snapPageDownloadSizeLabel": "Veľkosť sťahovania",
     "snapCategoryProductivityButtonLabel": "Objavte zbierku produktivity",
     "snapPagePublishedLabel": "Vydané",
     "aboutPageLearnMoreLabel": "Zistiť viac",
     "snapRatingsBandNeutral": "Priemerné",
     "appstreamUrlTypeTranslate": "Preklady",
-    "searchPageNoResultsHint": "Skúste použiť iné alebo všeobecnejšie výrazy",
+    "searchPageNoResultsHint": "Skúste použiť iné alebo všeobecnejšie kľúčové slová",
     "snapRatingsBandGood": "Dobré",
     "snapCategoryFeaturedSlogan": "Odporúčané aplikácie",
     "snapSortOrderInstalledDateAsc": "Najstaršie",
@@ -77,12 +77,12 @@
     "snapActionRemoveLabel": "Odinštalovať",
     "appstreamUrlTypeHelp": "Pomoc",
     "snapCategoryPersonalisation": "Prispôsobenie",
-    "aboutPagePublishLabel": "Uverejniť na Snap Store",
+    "aboutPagePublishLabel": "Zverejniť na Snap Store",
     "aboutPageContributorTitle": "Navrhnuté a vyvinuté:",
     "managePageInstalledAndUpdatedLabel": "Nainštalované aplikácie",
     "appstreamUrlTypeHomepage": "Domovská stránka",
     "managePageCheckingForUpdates": "Kontrolujú sa aktualizácie",
-    "managePageUpdatedDaysAgo": "Upravené pred {n, plural, =1{{n} dňom} other{{n} dňami}}",
+    "managePageUpdatedDaysAgo": "Upravené pred {n, plural, =1{{n} dňom} few{{n} dňami} other{{n} dňami}}",
     "@managePageUpdatedDaysAgo": {
         "placeholders": {
             "n": {
@@ -92,10 +92,10 @@
     },
     "snapRatingsBandInsufficientVotes": "Nedostatok hlasov",
     "snapRatingsBandVeryPoor": "Zlé",
-    "managePageDescription": "Skontrolujte dostupné aktualizácie, aktualizujte svoje aplikácie a sledujte ich stav.",
-    "snapActionRemovingLabel": "Odinštaluje sa",
+    "managePageDescription": "Skontrolujte dostupné aktualizácie, aktualizujte svoje aplikácie a spravujte stav všetkých vašich aplikácií.",
+    "snapActionRemovingLabel": "Odinštalováva sa",
     "snapSortOrderInstalledSizeDesc": "Najväčšie",
-    "snapPageDeveloperWebsiteLabel": "Stránka projektu",
+    "snapPageDeveloperWebsiteLabel": "Webová stránka vývojára",
     "snapConfinementClassic": "Klasická",
     "snapRatingsBandPoor": "Slabé",
     "snapCategoryDevelopmentSlogan": "Užitočné nástroje pre vývojárov",
@@ -107,7 +107,7 @@
             }
         }
     },
-    "snapCategoryGamesSlogan": "Všetko, čo potrebujete na herný večer",
+    "snapCategoryGamesSlogan": "Všetko pre vašu hernú noc",
     "snapActionSwitchChannelLabel": "Prepnúť kanál",
     "appstreamUrlTypeFaq": "Často kladené otázky",
     "snapConfinementStrict": "Prísna",
@@ -115,7 +115,7 @@
     "snapCategoryUbuntuDesktop": "Používateľské prostredie Ubuntu",
     "managePageUpdatesAvailable": "Dostupné aktualizácie ({n})",
     "aboutPageCommunityTitle": "Staňte sa súčasťou komunity:",
-    "searchPageNoResultsCategoryHint": "Skúste inú kategóriu alebo použite všeobecnejšie výrazy",
+    "searchPageNoResultsCategoryHint": "Skúste inú kategóriu alebo použite všeobecnejšie kľúčové slová",
     "snapSortOrderAlphabeticalDesc": "Z–A",
     "searchPageNoResultsCategory": "Ľutujeme, v tejto kategórii sa nenašli žiadne balíky",
     "snapRatingsVotes": "Hlasov ({n})",
@@ -159,7 +159,7 @@
     "snapActionUpdatingLabel": "Aktualizuje sa",
     "searchPageRelevanceLabel": "Relevancia",
     "snapSortOrderAlphabeticalAsc": "A–Z",
-    "managePageNoUpdatesAvailableDescription": "Nie sú k dispozícii žiadne aktualizácie. Všetky vaše aplikácie sú aktuálne.",
+    "managePageNoUpdatesAvailableDescription": "Žiadne aktualizácie nie sú k dispozícii. Všetky vaše aplikácie sú aktuálne.",
     "snapSortOrderRelevance": "Relevancia",
     "snapSortOrderDownloadSizeDesc": "Najväčšie",
     "appstreamUrlTypeBugtracker": "Sledovanie chýb",
@@ -174,24 +174,24 @@
     "snapCategoryGameEmulatorsSlogan": "Emulátory",
     "snapCategoryGnomeGames": "Hry GNOME",
     "snapCategoryKdeGames": "Hry KDE",
-    "snapCategoryKdeGamesSlogan": "Kolekcia hier KDE",
-    "snapCategoryGameLaunchers": "Spúšťanie hier",
-    "snapCategoryGameLaunchersSlogan": "Spúšťanie hier",
+    "snapCategoryKdeGamesSlogan": "Súprava hier KDE",
+    "snapCategoryGameLaunchers": "Spúšťače hier",
+    "snapCategoryGameLaunchersSlogan": "Spúšťače hier",
     "snapCategoryGameContentCreation": "Vytváranie obsahu",
     "snapReportSelectAnOptionLabel": "Vyberte možnosť",
-    "snapReportDetailsLabel": "Prosím, uveďte podrobnejší dôvod svojho hlásenia",
+    "snapReportDetailsLabel": "Uveďte prosím podrobnejší dôvod svojho hlásenia",
     "snapReportOptionalEmailAddressLabel": "Váš e-mail (voliteľné)",
     "snapReportCancelButtonLabel": "Zrušiť",
     "snapReportSubmitButtonLabel": "Odoslať hlásenie",
     "snapReportEnterValidEmailError": "Zadajte platnú e-mailovú adresu",
-    "snapReportDetailsHint": "Objasnenie...",
+    "snapReportDetailsHint": "Komentár...",
     "snapReportPrivacyAgreementLabel": "Odoslaním tohto formulára potvrdzujem, že som si prečítal(a) a súhlasím s ",
     "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Ochranou údajov Canonical ",
     "snapReportPrivacyAgreementAndLabel": "a ",
     "snapReportPrivacyAgreementPrivacyPolicy": "Zásadami ochrany",
     "debPageErrorNoPackageInfo": "Nenašli sa žiadne informácie o balíku",
     "externalResources": "Dodatočné zdroje",
-    "externalResourcesButtonLabel": "Nájdite viac",
+    "externalResourcesButtonLabel": "Objavte viac",
     "allGamesButtonLabel": "Všetky hry",
     "openInBrowser": "Otvoriť v prehliadači",
     "installAll": "Inštalovať všetko",
@@ -199,7 +199,7 @@
     "gamesPageFeatured": "Odporúčané tituly",
     "snapCategoryGameContentCreationSlogan": "Vytváranie obsahu",
     "gamesPageBundles": "Balíky aplikácií",
-    "snapReportLabel": "Nahlásiť: {snapName}",
+    "snapReportLabel": "Nahlásiť {snapName}",
     "@snapReportLabel": {
         "placeholders": {
             "snapName": {
@@ -211,9 +211,9 @@
     "snapCategoryGameDev": "Vývoj hier",
     "snapReportOptionCopyrightViolation": "Porušenie autorských práv alebo ochrannej známky",
     "snapReportOptionStoreViolation": "Porušenie zmluvných podmienok obchodu Snap Store",
-    "snapCategoryGnomeGamesSlogan": "Kolekcia hier GNOME",
-    "externalResourcesDisclaimer": "Poznámka: Všetky tieto nástroje sú externé. Nie sú vo vlastníctve ani spravované spoločnosťou Canonical.",
-    "managePageUpdatedMonthsAgo": "Upravené pred {n, plural, =1{{n} mesiacom} other{{n} mesiacmi}}",
+    "snapCategoryGnomeGamesSlogan": "Súprava hier GNOME",
+    "externalResourcesDisclaimer": "Poznámka: Toto sú všetky externé nástroje. Nie sú vlastnené ani distribuované spoločnosťou Canonical.",
+    "managePageUpdatedMonthsAgo": "Upravené pred {n, plural, =1{{n} mesiacom} few{{n} mesiacmi} other{{n} mesiacmi}}",
     "@managePageUpdatedMonthsAgo": {
         "placeholders": {
             "n": {
@@ -221,7 +221,7 @@
             }
         }
     },
-    "managePageUpdatedYearsAgo": "Upravené pred {n, plural, =1{{n} rokom} other{{n} rokmi}}",
+    "managePageUpdatedYearsAgo": "Upravené pred {n, plural, =1{{n} rokom} few{{n} rokmi} other{{n} rokmi}}",
     "@managePageUpdatedYearsAgo": {
         "placeholders": {
             "n": {
@@ -229,7 +229,7 @@
             }
         }
     },
-    "managePageUpdatedWeeksAgo": "Upravené pred {n, plural, =1{{n} týždňom} other{{n} týždňami}}",
+    "managePageUpdatedWeeksAgo": "Upravené pred {n, plural, =1{{n} týždňom} few{{n} týždňami} other{{n} týždňami}}",
     "@managePageUpdatedWeeksAgo": {
         "placeholders": {
             "n": {
@@ -239,23 +239,23 @@
     },
     "appstreamUrlTypeContribute": "Prispieť",
     "appstreamUrlTypeVcsBrowser": "Zdroj",
-    "localDebWarningBody": "Tento balík poskytuje tretia strana. Inštalácia softvéru z vonkajších zdrojov, mimo Centra aplikácií, môže zvýšiť riziko ohrozenia vášho systému a osobných údajov. Pred pokračovaním sa presvedčte, že zdroj, z ktorého balík pochádza, je dôveryhodný.",
-    "localDebDialogMessage": "Tento balík pochádza od tretej strany a môže predstavovať hrozbu pre váš systém aj pre vaše osobné údaje.",
-    "localDebDialogConfirmation": "Naozaj ho chcete nainštalovať?",
+    "localDebWarningBody": "Tento balík je poskytnutý treťou stranou. Inštalácia balíkov mimo Centra aplikácií môže zvýšiť riziko pre váš systém a osobné údaje. Pred pokračovaním sa uistite, že dôverujete zdroju.",
+    "localDebDialogMessage": "Tento balík je poskytnutý treťou stranou a môže ohroziť váš systém a osobné údaje.",
+    "localDebDialogConfirmation": "Ste si istí, že ho chcete nainštalovať?",
     "snapPageSizeLabel": "Veľkosť",
     "localDebWarningTitle": "Potenciálne nebezpečné",
-    "localDebLearnMore": "Získajte viac informácií o balíkoch tretích strán",
-    "managePageDebUpdatesMessage": "Aktualizácie balíkov Debianu spravuje nástroj Aktualizácia softvéru.",
+    "localDebLearnMore": "Zistite viac o balíkoch tretích strán",
+    "managePageDebUpdatesMessage": "Aktualizácie balíkov Debian sa spracúvajú pomocou Správcu aktualizácií softvéru.",
     "snapActionInstalledLabel": "Nainštalované",
-    "errorViewNetworkErrorDescription": "Bez internetového pripojenia nie je možné načítať obsah v Centre aplikácií.",
+    "errorViewNetworkErrorDescription": "Bez internetového pripojenia sa nedá načítať obsah v Centre aplikácií.",
     "errorViewServerErrorDescription": "Ľutujeme, momentálne máme problémy s Centrom aplikácií.",
     "errorViewUnknownErrorTitle": "Niečo sa pokazilo",
     "errorViewUnknownErrorDescription": "Ľutujeme, ale nevieme, čo spôsobilo chybu.",
-    "errorViewUnknownErrorAction": "Môžete to skúsiť znova, skontrolovať stav aktualizácií alebo to skúste neskôr.",
+    "errorViewUnknownErrorAction": "Môžete to skúsiť znova teraz, skontrolovať stav pre aktualizácie alebo skúsiť to znova neskôr.",
     "errorViewCheckStatusLabel": "Skontrolovať stav",
-    "errorViewNetworkErrorAction": "Skontrolujte pripojenie a skúste to znova.",
+    "errorViewNetworkErrorAction": "Skontrolujte svoje pripojenie a skúste to znova.",
     "errorViewNetworkErrorTitle": "Pripojte sa k internetu",
-    "snapdExceptionRunningApps": "Nepodarilo sa aktualizovať {snapName}, pretože je momentálne spustený.",
+    "snapdExceptionRunningApps": "Nepodarilo sa aktualizovať {snapName}, pretože je aktuálne spustený.",
     "@snapdExceptionRunningApps": {
         "placeholders": {
             "snapName": {
@@ -263,10 +263,10 @@
             }
         }
     },
-    "errorViewServerErrorAction": "Skontrolujte stav služby alebo to skúste znova neskôr.",
-    "managePageNoInternet": "Nepodarilo sa pripojiť k serveru, skontrolujte internetové pripojenie alebo to skúste znova neskôr.",
-    "managePageOwnUpdateAvailable": "K dispozícii je aktualizácia centra aplikácií",
-    "managePageOwnUpdateDescription": "Keď aplikáciu ukončíte, aktualizuje sa automaticky.",
+    "errorViewServerErrorAction": "Skontrolujte stav pre aktualizácie alebo skúste to znova neskôr.",
+    "managePageNoInternet": "Nedá sa pripojiť k serveru. Skontrolujte svoje internetové pripojenie alebo skúste to znova neskôr.",
+    "managePageOwnUpdateAvailable": "Je dostupná aktualizácia Centra aplikácií",
+    "managePageOwnUpdateDescription": "Po ukončení aplikácie sa automaticky aktualizuje.",
     "managePageOwnUpdateQuitButton": "Ukončiť a aktualizovať",
     "managePageOwnUpdateDescriptionSoon": "Centrum aplikácií sa automaticky aktualizuje o {time}.",
     "@managePageOwnUpdateDescriptionSoon": {
@@ -277,7 +277,7 @@
         }
     },
     "managePageQuitToUpdate": "Ukončite kvôli aktualizácii",
-    "managePageUpdatesFailed": "Zlyhanie {n, plural, =1{jednej aktualizácie} other{({n}) aktualizácií}}",
+    "managePageUpdatesFailed": "Zlyhanie {n, plural, =1{jednej aktualizácie} few{{n} aktualizácií} other{{n} aktualizácií}}",
     "@managePageUpdatesFailed": {
         "placeholders": {
             "n": {
@@ -285,8 +285,8 @@
             }
         }
     },
-    "managePageUpdatesFailedBody": "Tieto aplikácie sa nepodarilo aktualizovať, pretože sú momentálne spustené.\n\n{snapList}\nPo ich ukončení sa aktualizujú automaticky.",
-    "managePageTitle": "Spravujte nainštalované snapy",
+    "managePageUpdatesFailedBody": "Tieto aplikácie sa nepodarilo aktualizovať, pretože sú momentálne spustené.\n\n{snapList}\nPo ich ukončení sa automaticky aktualizujú.",
+    "managePageTitle": "Spravovať nainštalované balíky Snap",
     "snapCategoryArtAndDesignSlogan": "Začnite tvoriť – od náčrtu po výsledok",
     "snapCategoryArtAndDesignButtonLabel": "Objavte aplikácie pre tvorbu",
     "managePageInstallingLabel": "Inštaluje sa ({n})",
@@ -297,8 +297,8 @@
             }
         }
     },
-    "debPageDocumentationLinkLabel": "Zistite viac o spravovaní balíkov Debianu",
-    "managePageDocumentationLinkLabel": "Zistite, ako spravovať balíky Debianu v dokumentácii.",
+    "debPageDocumentationLinkLabel": "Zistiť viac o správe balíkov Debian",
+    "managePageDocumentationLinkLabel": "Zistite, ako spravovať balíky Debian v dokumentácii.",
     "snapPageGalleryPreviousSemanticLabel": "Predchádzajúci obrázok",
     "snapPageGalleryImageSemanticLabel": "Obrázok {n}",
     "@snapPageGalleryImageSemanticLabel": {
@@ -329,7 +329,7 @@
             }
         }
     },
-    "appCardPublisherSemanticLabel": "Vydané vydavateľom {publisher}.",
+    "appCardPublisherSemanticLabel": "Vydal {publisher}.",
     "@appCardPublisherSemanticLabel": {
         "placeholders": {
             "publisher": {
@@ -337,7 +337,7 @@
             }
         }
     },
-    "appCardRatingSemanticLabel": "Ohodnotenie {rating}.",
+    "appCardRatingSemanticLabel": "Hodnotenie {rating}.",
     "@appCardRatingSemanticLabel": {
         "placeholders": {
             "rating": {
@@ -345,17 +345,17 @@
             }
         }
     },
-    "codecPageDescription": "Na prehrávanie niektorých video a audio formátov je potrebné nainštalovať tieto kodeky:",
-    "codecPageTitle": "Chýbajúce multimediálne kodeky",
-    "codecProprietaryDisclaimer": "Niektoré odporúčané kodeky môžu vyžadovať samostatnú licenciu.",
+    "codecPageDescription": "Pre spracovanie určitých formátov videa a zvuku musíte nainštalovať nasledujúce kodeky:",
+    "codecPageTitle": "Chýbajúce kodeky médií",
+    "codecProprietaryDisclaimer": "Niektoré odporúčané kodeky môžu byť proprietárne.",
     "codecInstallAllButton": "Nainštalovať odporúčané kodeky",
     "snapActionRevertLabel": "Vrátiť verziu",
     "snapActionRevertingLabel": "Prebieha návrat",
     "snapRevertConfirmTitle": "Vrátiť staršiu verziu?",
-    "snapRevertConfirmMessage": "Automatické aktualizácie sa obnovia po vydaní novej verzie.",
+    "snapRevertConfirmMessage": "Automatické aktualizácie sa obnovia, keď bude k dispozícii nová verzia.",
     "snapRevertConfirmRevert": "Vrátiť",
     "snapRevertConfirmCancel": "Zrušiť",
-    "snapRevertConfirmTitleWithVersions": "Vrátiť z {currentVersion} (rev {currentRevision}) na {previousVersion} (rev {previousRevision})?",
+    "snapRevertConfirmTitleWithVersions": "Vrátiť z {currentVersion} (revízia {currentRevision}) na {previousVersion} (revízia {previousRevision})?",
     "@snapRevertConfirmTitleWithVersions": {
         "placeholders": {
             "currentVersion": {
@@ -372,7 +372,7 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "Žiadna staršia verzia nie je k dispozícii na vrátenie.",
+    "snapRevertNoPreviousRevisionMessage": "Nie je k dispozícii žiadna predchádzajúca lokálna revízia, na ktorú by sa dalo vrátiť.",
     "appUrlTypeContact": "Kontaktovať {publisher}",
     "@appUrlTypeContact": {
         "placeholders": {
@@ -381,11 +381,11 @@
             }
         }
     },
-    "appUrlTypeHomepage": "Stránka projektu",
+    "appUrlTypeHomepage": "Webová stránka vývojára",
     "appUrlTypeUnknown": "Odkaz",
     "appConfinementUnknown": "Neznáme",
     "appConfinementStrict": "Izolované",
-    "appConfinementDevelopment": "Vývojársky režim",
+    "appConfinementDevelopment": "Režim vývoja",
     "appConfinementClassic": "Neobmedzené",
     "appConfinementUnrestricted": "Neobmedzené",
     "appLicenseUnknown": "Neznáma",
@@ -394,8 +394,16 @@
     "managePagePackageTypeDeb": "Deb",
     "managePagePackageTypeLabel": "Balíky",
     "managePagePackageTypeAll": "Všetky",
-    "appMoreActionsSemanticLabel": "Viac akcií",
-    "appConfinementStrictTooltip": "Aplikácia má limitovaný prístup k systémovým zdrojom a beží v izolácii. Povolenia môžete meniť v aplikácii Nastavenia.",
-    "appConfinementClassicTooltip": "Aplikácia má plný prístup k systémovým zdrojom, čo je typické pre vývojárske nástroje a umožňuje fungovať mimo izolácie.",
-    "appConfinementUnrestrictedTooltip": "Aplikácia má plný prístup k systémovým zdrojom."
+    "appMoreActionsSemanticLabel": "Ďalšie akcie",
+    "appConfinementStrictTooltip": "Táto aplikácia má obmedzený prístup k vašim zdrojom. Jej oprávnenia môžete riadiť v aplikácii Nastavenia.",
+    "appConfinementClassicTooltip": "Táto aplikácia používa klasické obmedzenie, čo znamená plný prístup k vašim zdrojom. Toto je bežné pri vývojárskych aplikáciách.",
+    "appConfinementUnrestrictedTooltip": "Táto aplikácia má plný prístup k vašim zdrojom.",
+    "snapActionSwitchChannelTitle": "Prepnúť kanál pre {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }

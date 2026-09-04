@@ -404,5 +404,13 @@
     "appConfinementClassicTooltip": "Questa applicazione utilizza il confinamento classico, che fornisce l'accesso completo alle risorse. Questa pratica è comune nelle applicazioni in sviluppo.",
     "appConfinementDevelopment": "Modalità sviluppatore",
     "appConfinementStrict": "Isolata",
-    "snapRevertNoPreviousRevisionMessage": "Non è disponibile una precedente revisione locale a cui effettuare il ripristino."
+    "snapRevertNoPreviousRevisionMessage": "Non è disponibile una precedente revisione locale a cui effettuare il ripristino.",
+    "snapActionSwitchChannelTitle": "Cambia canale di {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }

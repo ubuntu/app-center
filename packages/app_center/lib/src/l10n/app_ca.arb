@@ -9,7 +9,7 @@
     },
     "unknownPublisher": "Editor desconegut",
     "searchFieldDebSection": "Paquets de Debian",
-    "searchFieldSearchHint": "Busca les aplicacions",
+    "searchFieldSearchHint": "Cerca aplicacions",
     "searchFieldSnapSection": "Paquets snap",
     "searchPageFilterByLabel": "Filtra per",
     "searchPageNoResults": "No s'ha trobat cap resultat per a «{query}»",
@@ -92,7 +92,7 @@
     "errorViewUnknownErrorDescription": "Ho sentim, no estem segurs de quin ha estat l'error.",
     "errorViewUnknownErrorTitle": "Alguna cosa ha fallat",
     "appstreamSearchGreylist": "aplicació;aplicacions;app;paquet;paquets;programa;programes;programari;eina;eines",
-    "snapPageConfinementLabel": "Confinament",
+    "snapPageConfinementLabel": "Permisos",
     "snapPageContactPublisherLabel": "Contactar amb {publisher}",
     "@snapPageContactPublisherLabel": {
         "placeholders": {
@@ -102,12 +102,12 @@
         }
     },
     "snapPageDeveloperWebsiteLabel": "Lloc web del desenvolupador",
-    "snapPageDownloadSizeLabel": "Mida de la descàrrega",
+    "snapPageDownloadSizeLabel": "Mida de la baixada",
     "snapPageSizeLabel": "Mida",
     "snapPageGalleryLabel": "Galeria",
     "snapPageLicenseLabel": "Llicència",
     "snapPageLinksLabel": "Enllaços",
-    "snapPagePublishedLabel": "Publicat",
+    "snapPagePublishedLabel": "Darrera actualització",
     "snapPageSummaryLabel": "Resum",
     "snapPageVersionLabel": "Versió",
     "snapPageShareLinkCopiedMessage": "S'ha copiat l'enllaç al portapapers",
@@ -127,12 +127,12 @@
     "appstreamUrlTypeHomepage": "Pàgina principal",
     "snapPageChannelLabel": "Canal",
     "snapPagePublisherLabel": "Editor",
-    "searchPageNoResultsCategory": "Ho sentim, no s'ha trobat cap paquet en aquesta categoria",
+    "searchPageNoResultsCategory": "No s'ha pogut trobar cap paquet en aquesta categoria",
     "searchPageSortByLabel": "Ordena per",
     "searchPageRelevanceLabel": "Rellevància",
     "aboutPageLabel": "Quant a",
     "aboutPagePublishLabel": "Publica a la Snap Store",
-    "aboutPageLearnMoreLabel": "Llegiu més",
+    "aboutPageLearnMoreLabel": "Més informació",
     "appstreamUrlTypeDonation": "Doneu",
     "searchPageNoResultsHint": "Proveu d'utilitzar unes paraules clau diferents o més generals",
     "snapPageDescriptionLabel": "Descripció",
@@ -180,12 +180,12 @@
     "errorViewCheckStatusLabel": "Comprova l'estat",
     "errorViewUnknownErrorAction": "Podeu tornar-lo a intentar ara, comproveu l'estat de les actualitzacions o torneu-ho a intentar més tard.",
     "managePageOwnUpdateQuitButton": "Surt per actualitzar",
-    "managePageCheckForUpdates": "Busca actualitzacions",
-    "managePageCheckingForUpdates": "S'estan buscant actualitzacions",
+    "managePageCheckForUpdates": "Comprova si hi ha actualitzacions",
+    "managePageCheckingForUpdates": "S'està comprovant si hi ha actualitzacions",
     "managePageNoInternet": "No es pot accedir al servidor, comproveu la connexió a Internet o intenteu més tard.",
     "managePageDescription": "Comproveu si hi ha actualitzacions disponibles, actualitzeu les aplicacions i gestioneu l'estat de totes.",
     "managePageDebUpdatesMessage": "Les actualitzacions dels paquets de Debian es gestionen amb l'actualitzador de programari.",
-    "managePageInstalledAndUpdatedLabel": "Instal·lat i actualitzat",
+    "managePageInstalledAndUpdatedLabel": "Aplicacions instal·lades",
     "managePageInstallingLabel": "S'està instal·lant ({n})",
     "@managePageInstallingLabel": {
         "placeholders": {
@@ -196,7 +196,7 @@
     },
     "managePageTitle": "Administra els snaps instal·lats",
     "managePageNoUpdatesAvailableDescription": "No hi ha actualitzacions disponibles. Totes les aplicacions estan actualitzades.",
-    "managePageSearchFieldSearchHint": "Busca les aplicacions instal·lades",
+    "managePageSearchFieldSearchHint": "Cerca les aplicacions instal·lades",
     "managePageShowDetailsLabel": "Mostra els detalls",
     "managePageShowSystemSnapsLabel": "Mostra els snaps del sistema",
     "managePageUpdateAllLabel": "Actualitza-ho tot",
@@ -256,7 +256,7 @@
     "gamesPageTitle": "Jocs",
     "gamesPageTop": "Millor valorats",
     "gamesPageFeatured": "Títols destacats",
-    "gamesPageBundles": "Paquets d'aplicacions",
+    "gamesPageBundles": "Col·leccions d'aplicacions",
     "searchPageTitle": "Resultats de «{query}»",
     "@searchPageTitle": {
         "placeholders": {
@@ -346,6 +346,63 @@
     "debPageShareSemanticLabel": "Copia l'enllaç",
     "codecPageTitle": "Falten còdecs multimèdia",
     "codecPageDescription": "Necessiteu instal·lar els següents còdecs per a gestionar certs formats d'àudio i video:",
-    "codecProprietaryDisclaimer": "Alguns dels còdecs recomanats podrien ser propietaris.",
-    "codecInstallAllButton": "Instal·la els còdecs recomanats"
+    "codecProprietaryDisclaimer": "Alguns dels còdecs recomanats podrien ser privatius.",
+    "codecInstallAllButton": "Instal·la els còdecs recomanats",
+    "managePagePackageTypeLabel": "Tipus de paquet",
+    "managePagePackageTypeAll": "Tot",
+    "managePagePackageTypeDeb": "Deb",
+    "appUrlTypeHomepage": "Lloc web del desenvolupador",
+    "appUrlTypeUnknown": "Enllaç",
+    "appConfinementUnknown": "Desconegut",
+    "snapRevertConfirmCancel": "Cancel·la",
+    "snapRevertConfirmRevert": "Reverteix",
+    "appConfinementClassic": "Sense restriccions",
+    "appConfinementUnrestricted": "Sense restriccions",
+    "appLicenseUnknown": "Desconeguda",
+    "appMoreActionsSemanticLabel": "Més accions",
+    "managePagePackageTypeSnap": "Snap",
+    "appUrlTypeContact": "Contacta amb {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appConfinementStrict": "En entorn aïllat",
+    "appConfinementDevelopment": "Mode de desenvolupament",
+    "appConfinementStrictTooltip": "Aquesta aplicació té un accés limitat als vostres recursos. Podeu controlar els seus permisos a l'aplicació Paràmetres.",
+    "appConfinementClassicTooltip": "Aquesta aplicació usa confinament clàssic, amb accés total als vostres recursos. Això és habitual a aplicacions de desenvolupament.",
+    "appConfinementUnrestrictedTooltip": "Aquesta aplicació té accés total als vostres recursos.",
+    "appPublishedUnknown": "Desconegut",
+    "snapActionRevertLabel": "Desfés l'actualització",
+    "snapActionRevertingLabel": "S'està desfent l'actualització",
+    "snapRevertConfirmTitle": "Voleu revertir a la versió anterior?",
+    "snapRevertConfirmMessage": "Les actualitzacions automàtiques es reprendran quan hi hagi disponible una nova versió.",
+    "snapRevertConfirmTitleWithVersions": "Voleu revertir de {currentVersion} (rev {currentRevision}) a {previousVersion} (rev {previousRevision})?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRevertNoPreviousRevisionMessage": "Cap revisió local anterior disponible per revertir a ella.",
+    "snapActionSwitchChannelTitle": "Canvia el canal per a {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }

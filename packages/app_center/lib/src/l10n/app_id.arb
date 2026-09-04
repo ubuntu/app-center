@@ -116,13 +116,13 @@
     "explorePageCategoriesLabel": "Kategori",
     "managePageCheckForUpdates": "Cek pembaruan",
     "snapPagePublisherLabel": "Penerbit",
-    "snapPagePublishedLabel": "Diterbitkan",
+    "snapPagePublishedLabel": "Terakhir diperbarui",
     "snapPageSummaryLabel": "Ringkasan",
     "managePageCheckingForUpdates": "Mengecek pembaruan",
     "managePageDescription": "Cek pembaruan tersedia, perbarui aplikasi Anda, dan kelola status semua aplikasi Anda.",
-    "managePageInstalledAndUpdatedLabel": "Terinstal dan diperbarui",
+    "managePageInstalledAndUpdatedLabel": "Aplikasi terpasang",
     "managePageLabel": "Kelola",
-    "managePageSearchFieldSearchHint": "Telusuri aplikasi terinstal",
+    "managePageSearchFieldSearchHint": "Cari aplikasi terpasang",
     "managePageShowSystemSnapsLabel": "Tampilkan aplikasi sistem",
     "managePageUpdatesAvailable": "Pembaruan tersedia ({n})",
     "gamesPageTop": "Peringkat Teratas",
@@ -348,5 +348,54 @@
     "codecPageTitle": "Kurang codec media",
     "codecPageDescription": "Anda perlu memasang codec berikut untuk menangani format video dan audio tertentu:",
     "codecProprietaryDisclaimer": "Beberapa codec yang disarankan mungkin proprietary.",
-    "codecInstallAllButton": "Pasang codec yang disarankan"
+    "codecInstallAllButton": "Pasang codec yang disarankan",
+    "managePagePackageTypeLabel": "Jenis paket",
+    "managePagePackageTypeAll": "Semua",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appUrlTypeContact": "Hubungi {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Situs web pengembang",
+    "appUrlTypeUnknown": "Tautan",
+    "appConfinementUnknown": "Tidak diketahui",
+    "appConfinementStrict": "Tersandbox",
+    "appConfinementDevelopment": "Mode pengembang",
+    "appConfinementClassic": "Tidak dibatasi",
+    "appConfinementUnrestricted": "Tidak dibatasi",
+    "appConfinementStrictTooltip": "Aplikasi ini memiliki akses terbatas ke sumber daya Anda. Anda dapat mengontrol izinnya di aplikasi Pengaturan.",
+    "appConfinementClassicTooltip": "Aplikasi ini menggunakan penyekatan klasik, yang memberikan akses penuh ke sumber daya Anda. Ini umum pada aplikasi pengembangan.",
+    "appConfinementUnrestrictedTooltip": "Aplikasi ini memiliki akses penuh ke sumber daya Anda.",
+    "appLicenseUnknown": "Tidak diketahui",
+    "appPublishedUnknown": "Tidak diketahui",
+    "appMoreActionsSemanticLabel": "Tindakan lainnya",
+    "snapActionRevertLabel": "Kembalikan pembaruan",
+    "snapActionRevertingLabel": "Mengembalikan pembaruan",
+    "snapRevertConfirmTitle": "Kembalikan ke versi sebelumnya?",
+    "snapRevertConfirmMessage": "Pembaruan otomatis akan dilanjutkan saat versi baru tersedia.",
+    "snapRevertConfirmRevert": "Kembalikan",
+    "snapRevertConfirmCancel": "Batal",
+    "snapRevertConfirmTitleWithVersions": "Kembalikan dari {currentVersion} (rev {currentRevision}) ke {previousVersion} (rev {previousRevision})?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRevertNoPreviousRevisionMessage": "Tidak ada revisi lokal sebelumnya yang tersedia untuk dikembalikan."
 }

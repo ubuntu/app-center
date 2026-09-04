@@ -397,5 +397,13 @@
     "appMoreActionsSemanticLabel": "Więcej czynności",
     "appConfinementStrictTooltip": "Ta aplikacja ma ograniczony dostęp do zasobów. Możesz kontrolować jej uprawnienia w aplikacji Ustawienia.",
     "appConfinementClassicTooltip": "Ta aplikacja wykorzystuje klasyczne ograniczenie, dając pełny dostęp do zasobów. Jest to powszechne w aplikacjach programistycznych.",
-    "appConfinementUnrestrictedTooltip": "Ta aplikacja ma pełny dostęp do zasobów."
+    "appConfinementUnrestrictedTooltip": "Ta aplikacja ma pełny dostęp do zasobów.",
+    "snapActionSwitchChannelTitle": "Zmień kanał dla {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }

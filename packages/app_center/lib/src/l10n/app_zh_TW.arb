@@ -189,7 +189,7 @@
             }
         }
     },
-    "snapPageDeveloperWebsiteLabel": "開發者的網站",
+    "snapPageDeveloperWebsiteLabel": "開發者網站",
     "snapPageDownloadSizeLabel": "下載大小",
     "snapPagePublishedLabel": "最後更新時間",
     "snapPageShareLinkCopiedMessage": "連結已複製到剪貼簿",
@@ -288,7 +288,7 @@
     },
     "managePageUpdatesFailedBody": "我們無法更新這些應用程式，因為它們目前正在執行中。\n\n{snapList}\n當您退出這些應用程式後，它們就會自動更新。",
     "managePageOwnUpdateAvailable": "《應用中心》有可用更新",
-    "managePageTitle": "管理已安裝的 Snap",
+    "managePageTitle": "管理已安裝的 Snap 軟體包",
     "managePageUpdatesFailed": "{n, plural, =1{一項更新} other{{n}項更新}}失敗",
     "@managePageUpdatesFailed": {
         "placeholders": {
@@ -397,5 +397,13 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "目前沒有可還原的先前本機修訂版。"
+    "snapRevertNoPreviousRevisionMessage": "目前沒有可還原的先前本機修訂版。",
+    "snapActionSwitchChannelTitle": "切換 {appName} 的頻道",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }

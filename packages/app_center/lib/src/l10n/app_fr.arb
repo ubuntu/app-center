@@ -250,7 +250,7 @@
     "appstreamUrlTypeContribute": "Contribuer",
     "appstreamUrlTypeVcsBrowser": "Source",
     "managePageDebUpdatesMessage": "Les mises à jour des paquets Debian sont gérées par le Gestionnaire de mises à jour.",
-    "snapActionInstalledLabel": "Installé(e)(s)",
+    "snapActionInstalledLabel": "Installé",
     "localDebLearnMore": "En savoir plus sur les paquets tiers",
     "localDebDialogMessage": "Ce paquet est fourni par un tiers et pourrait menacer votre système et vos données personnelles.",
     "snapPageSizeLabel": "Taille",
@@ -349,7 +349,7 @@
     "codecPageDescription": "Vous devez installer les codecs suivants afin de gérer certains formats vidéo et audio :",
     "codecProprietaryDisclaimer": "Certains des codecs recommandés pourraient être propriétaires.",
     "codecInstallAllButton": "Installer codecs recommandés",
-    "snapRevertNoPreviousRevisionMessage": "Aucune révision précédente à laquelle revenir n'est disponible localement.",
+    "snapRevertNoPreviousRevisionMessage": "Aucune révision locale précédente vers laquelle revenir n'est disponible.",
     "snapRevertConfirmTitleWithVersions": "Repasser de {currentVersion} (rev {currentRevision}) à {previousVersion} (rev {previousRevision}) ?",
     "@snapRevertConfirmTitleWithVersions": {
         "placeholders": {
@@ -392,10 +392,18 @@
     "appConfinementDevelopment": "Mode Dev",
     "appConfinementClassic": "Sans restriction",
     "appConfinementUnrestricted": "Sans restriction",
-    "appLicenseUnknown": "Inconnu(e)",
-    "appPublishedUnknown": "Inconnu(e)",
-    "appMoreActionsSemanticLabel": "Autres actions",
+    "appLicenseUnknown": "Inconnue",
+    "appPublishedUnknown": "Inconnu",
+    "appMoreActionsSemanticLabel": "Plus d'actions",
     "appConfinementStrictTooltip": "Cette application a un accès limité à vos ressources. Vous pouvez contrôler ses autorisations dans les Paramètres.",
-    "appConfinementClassicTooltip": "Cette application utilise l'isolement classique, donnant un accès complet à vos ressources. Ceci est habituel pour des applications de développement.",
-    "appConfinementUnrestrictedTooltip": "Cette application a un accès complet à vos ressources."
+    "appConfinementClassicTooltip": "Cette application utilise le confinement classique, donnant un accès complet à vos ressources. Ceci est habituel pour des applications de développement.",
+    "appConfinementUnrestrictedTooltip": "Cette application a un accès complet à vos ressources.",
+    "snapActionSwitchChannelTitle": "Changer de canal pour {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }

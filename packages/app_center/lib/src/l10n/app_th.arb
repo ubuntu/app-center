@@ -1,1 +1,394 @@
-{}
+{
+    "appCenterLabel": "ศูนย์แอป",
+    "snapPageChannelLabel": "ช่อง",
+    "snapPageConfinementLabel": "สิทธิ์",
+    "snapPageContactPublisherLabel": "ติดต่อ {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageDeveloperWebsiteLabel": "เว็บไซต์ของผู้พัฒนา",
+    "snapPageDownloadSizeLabel": "ขนาดการดาวน์โหลด",
+    "snapPageSizeLabel": "ขนาด",
+    "snapPageGalleryNextSemanticLabel": "ภาพต่อไป",
+    "snapPageGalleryPreviousSemanticLabel": "ภาพก่อนหน้า",
+    "snapPageGalleryImageSemanticLabel": "ภาพ {n}",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageLicenseLabel": "ใบอนุญาต",
+    "snapPageLinksLabel": "ลิงก์",
+    "snapPagePublisherLabel": "ผู้แผยแพร่",
+    "snapPagePublishedLabel": "อัปเดตครั้งล่าสุด",
+    "snapPageSummaryLabel": "สรุป",
+    "snapPageVersionLabel": "เวอร์ชัน",
+    "snapPageShareLinkCopiedMessage": "คัดลอกลิงก์ไปยังคลิปบอร์ดแล้ว",
+    "snapPageShareSemanticLabel": "คัดลอกลิงก์",
+    "snapPageReportSemanticLabel": "รายงาน",
+    "sectionExpandSemanticLabel": "ขยาย {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "ยุบ {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "explorePageLabel": "สำรวจ",
+    "explorePageCategoriesLabel": "หมวดหมู่",
+    "managePageOwnUpdateAvailable": "มีอัปเดต App Center ที่พร้อมใช้งาน",
+    "managePageQuitToUpdate": "ออกเพื่ออัปเดต",
+    "managePageOwnUpdateDescription": "เมื่อคุณออกจากแอปมันจะอัปเดตโดยอัตโนมัติ",
+    "managePageOwnUpdateQuitButton": "ออกเพื่ออัปเดต",
+    "managePageCheckForUpdates": "ตรวจสอบการอัปเดต",
+    "managePageCheckingForUpdates": "กำลังตรวจสอบการอัปเดต",
+    "managePageNoInternet": "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ โปรดตรวจสอบอินเทอร์เน็ตหรือลองอีกครั้งในภายหลัง",
+    "managePageDescription": "ตรวจสอบการอัปเดตที่พร้อมใช้งาน อัปเดตแอปของคุณ และจัดการสถานะแอปทั้งหมดของคุณ",
+    "managePageDebUpdatesMessage": "การอัปเดตแพ็กเกจ Debian จะดำเนินการด้วย Software Updater",
+    "managePageInstalledAndUpdatedLabel": "แอปที่ติดตั้ง",
+    "managePageInstallingLabel": "กำลังติดตั้ง ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageLabel": "จัดการ",
+    "managePageTitle": "จัดการ snaps ที่ติดตั้ง",
+    "managePageNoUpdatesAvailableDescription": "ไม่มีอัปเดตที่พร้อมใช้งาน ทุกแอปของคุณเป็นรุ่นล่าสุด",
+    "managePageSearchFieldSearchHint": "ค้นหาแอปที่ติดตั้ง",
+    "managePageShowDetailsLabel": "แสดงรายละเอียด",
+    "managePageShowSystemSnapsLabel": "แสดงแอประบบ",
+    "managePagePackageTypeLabel": "ประเภทของแพ็กเกจ",
+    "managePagePackageTypeAll": "ทั้งหมด",
+    "managePagePackageTypeSnap": "สแนป",
+    "managePageUpdateAllLabel": "อัปเดตทั้งหมด",
+    "managePageUpdatedDaysAgo": "อัปเดตล่าสุดเมื่อ {n, plural, =1{{n} วัน} other{{n} วัน}} ที่แล้ว",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedWeeksAgo": "อัปเดตเมื่อ {n, plural, =1{{n} สัปดาห์} other{{n} สัปดาห์}} ที่แล้ว",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "อัปเดตเมื่อ {n, plural, =1{{n} เดือน} other{{n} เดือน}} ที่แล้ว",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "อัปเดตเมื่อ {n, plural, =1{{n} ปี} other{{n} ปี}} ที่แล้ว",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesAvailable": "มีอัปเดตพร้อมใช้งาน ({n}) รายการ",
+    "@managePageUpdatesAvailable": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailed": "การอัปเดต {n, plural, =1{อัปเดตหนึ่งรายการ} other{{n} รายการ}} ล้มเหลว",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "เราไม่สามารถอัปเดตแอปพลิเคชันเหล่านี้ได้ เนื่องจากแอปพลิเคชันเหล่านั้นกำลังทำงานอยู่\n\n{snapList}\nเมื่อคุณปิดแอปเหล่านี้ แอปจะอัปเดตโดยอัตโนมัติ",
+    "managePageDocumentationLinkLabel": "เรียนรู้วิธีการจัดการแพ็กเกจ Debian ได้จากเอกสารประกอบ",
+    "productivityPageLabel": "ผลผลิต",
+    "developmentPageLabel": "การพัฒนา",
+    "gamesPageLabel": "เกม",
+    "gamesPageTitle": "เกม",
+    "gamesPageTop": "อันดับสูงสุด",
+    "gamesPageFeatured": "รายการเด่น",
+    "gamesPageBundles": "ชุดแอป",
+    "unknownPublisher": "ผู้เผยแพร่ที่ไม่รู้จัก",
+    "searchFieldDebSection": "แพ็กเกจ Debian",
+    "searchFieldSearchHint": "ค้นหาแอป",
+    "searchFieldSearchForLabel": "ผลการค้นหาของ \"{query}\"",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchFieldSnapSection": "แพ็กเกจ Snap",
+    "searchPageFilterByLabel": "กรองตาม",
+    "searchPageNoResults": "ไม่พบการค้นหาของ \"{query}\"",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageNoResultsHint": "ลองใช้คำหลักที่แตกต่างออกไปหรือคำหลักที่กว้างกว่าเดิม",
+    "searchPageNoResultsCategory": "ขออภัย เราไม่พบแพ็กเกจใดๆ ในหมวดหมู่นี้",
+    "searchPageNoResultsCategoryHint": "ลองใช้หมวดหมู่ที่แตกต่างออกไป หรือใช้คำหลักที่กว้างกว่า",
+    "searchPageSortByLabel": "เรียงตาม",
+    "searchPageRelevanceLabel": "ความเกี่ยวข้อง",
+    "searchPageTitle": "ผลลัพธ์สำหรับ \"{query}\"",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageLabel": "เกี่ยวกับ",
+    "aboutPageVersionLabel": "เวอร์ชัน {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageContributorTitle": "ออกแบบและพัฒนาโดย:",
+    "aboutPageCommunityTitle": "ร่วมเป็นส่วนหนึ่งของชุมชน:",
+    "aboutPageContributeLabel": "ร่วมให้ข้อมูลหรือรายงานข้อผิดพลาด",
+    "aboutPageGitHubLabel": "ติดตามเราได้ที่ GitHub",
+    "aboutPagePublishLabel": "เผยแพร่ไปยัง Snap Store",
+    "aboutPageLearnMoreLabel": "เรียนรู้เพิ่มเติม",
+    "appUrlTypeContact": "ติดต่อ {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "เว็บไซต์ผู้พัฒนา",
+    "appUrlTypeUnknown": "ลิงก์",
+    "appConfinementUnknown": "ไม่รู้จัก",
+    "appConfinementStrict": "แซนด์บ็อกซ์",
+    "appConfinementDevelopment": "โหมดผู้พัฒนา",
+    "appConfinementClassic": "ไม่จำกัด",
+    "appConfinementUnrestricted": "ไม่จำกัด",
+    "appConfinementStrictTooltip": "แอปนี้มีสิทธิ์เข้าถึงทรัพยากรของคุณอย่างจำกัด คุณสามารถควบคุมสิทธิ์การเข้าถึงได้ในแอปการตั้งค่า",
+    "appConfinementClassicTooltip": "แอปนี้ใช้ระบบการจำกัดสิทธิ์แบบคลาสสิก ซึ่งให้สิทธิ์การเข้าถึงทรัพยากรของคุณอย่างเต็มที่ นี่เป็นเรื่องปกติในแอปสำหรับการพัฒนาซอฟต์แวร์",
+    "appConfinementUnrestrictedTooltip": "แอปนี้มีสิทธิ์เข้าถึงทรัพยากรของคุณอย่างเต็มที่",
+    "appLicenseUnknown": "ไม่รู้จัก",
+    "appPublishedUnknown": "ไม่รู้จัก",
+    "appMoreActionsSemanticLabel": "การดำเนินการเพิ่มเติม",
+    "packageFormatDebLabel": "แพ็กเกจ Debian",
+    "packageFormatSnapLabel": "แพ็กเกจ Snap",
+    "snapActionCancelLabel": "ยกเลิก",
+    "snapActionInstallLabel": "ติดตั้ง",
+    "snapActionInstalledLabel": "ติดตั้งแล้ว",
+    "snapActionInstallingLabel": "กำลังติดตั้ง",
+    "snapActionOpenLabel": "เปิด",
+    "snapActionRemoveLabel": "ถอนการติดตั้ง",
+    "snapActionRemovingLabel": "กำลังถอนการติดตั้ง",
+    "snapActionRevertLabel": "ย้อนกลับการอัปเดต",
+    "snapActionRevertingLabel": "กำลังย้อนกลับการอัปเดต",
+    "snapRevertConfirmTitle": "ย้อนกลับไปเวอร์ชันที่แล้วหรือไม่?",
+    "snapRevertConfirmMessage": "ระบบจะกลับมาอัปเดตอัตโนมัติเมื่อมีเวอร์ชันใหม่พร้อมใช้งาน",
+    "snapRevertConfirmRevert": "ย้อนกลับ",
+    "snapRevertConfirmCancel": "ยกเลิก",
+    "snapRevertConfirmTitleWithVersions": "ย้อนกลับจาก {currentVersion} (rev {currentRevision}) ไปยัง {previousVersion} (rev {previousRevision}) หรือไม่?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRevertNoPreviousRevisionMessage": "ไม่มีเวอร์ชันแก้ไขในเครื่องก่อนหน้าให้ย้อนกลับไปใช้ได้",
+    "snapActionSwitchChannelLabel": "เปลี่ยนช่อง",
+    "snapActionSwitchChannelTitle": "เปลี่ยนช่องสำหรับ {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapActionUpdateLabel": "อัปเดต",
+    "snapCategoryAll": "หมวดหมู่ทั้งหมด",
+    "snapActionUpdatingLabel": "กำลังอัปเดต",
+    "appCardPublisherSemanticLabel": "แผยแพร่โดย {publisher}",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "การให้คะแนน {rating}",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "snapCategoryArtAndDesign": "ศิลปะและการออกแบบ",
+    "snapCategoryArtAndDesignButtonLabel": "เริ่มสร้าง",
+    "snapCategoryArtAndDesignSlogan": "ตั้งแต่ภาพร่างแรกจนถึงขั้นตอนสุดท้าย ลองสำรวจแอปพลิเคชันสำหรับงานศิลปะและการออกแบบดูสิ",
+    "snapCategoryBooksAndReference": "หนังสือและเอกสารอ้างอิง",
+    "snapCategoryDefaultButtonLabel": "ค้นพบเพิ่มเติม",
+    "snapCategoryDevelopment": "การพัฒนา",
+    "snapCategoryDevelopmentSlogan": "แอป Snap ที่นักพัฒนาต้องมี",
+    "snapCategoryDevicesAndIot": "อุปกรณ์และ IoT",
+    "snapCategoryEducation": "การศึกษา",
+    "snapCategoryEntertainment": "ความบันเทิง",
+    "snapCategoryFeatured": "แนะนำ",
+    "snapCategoryFeaturedSlogan": "Snaps ที่แนะนำ",
+    "snapCategoryFinance": "การเงิน",
+    "snapCategoryGames": "เกม",
+    "snapCategoryGamesSlogan": "ทุกอย่างสำหรับค่ำคืนแห่งเกมของคุณ",
+    "snapCategoryGameDev": "การพัฒนาเกม",
+    "snapCategoryGameDevSlogan": "การพัฒนาเกม",
+    "snapCategoryGameEmulators": "โปรแกรมจำลอง",
+    "snapCategoryGameEmulatorsSlogan": "โปรแกรมจำลอง",
+    "snapCategoryPersonalisation": "การปรับแต่งเฉพาะบุคคล",
+    "snapCategoryNewsAndWeather": "ข่าวและสภาพอากาศ",
+    "snapCategoryPhotoAndVideo": "รูปและวิดีโอ",
+    "snapCategoryProductivity": "ผลผลิต",
+    "snapCategoryProductivityButtonLabel": "ค้นพบชุดผลิตภัณฑ์เพิ่มประสิทธิภาพการทำงาน",
+    "snapCategoryProductivitySlogan": "ขีดฆ่าหนึ่งอย่างออกจากรายการสิ่งที่ต้องทำของคุณ",
+    "snapCategoryScience": "วิทยาศาสตร์",
+    "snapCategorySecurity": "ความปลอดภัย",
+    "snapCategoryServerAndCloud": "เซิร์ฟเวอร์และคลาวด์",
+    "snapCategorySocial": "สังคม",
+    "snapCategoryUbuntuDesktop": "Ubuntu เดสก์ท็อป",
+    "snapCategoryUbuntuDesktopSlogan": "เริ่มต้นใช้งานเดสก์ท็อปของคุณ",
+    "snapCategoryUtilities": "ยูทิลิตี้",
+    "snapSortOrderAlphabeticalAsc": "เรียงอักษร (A ถึง Z)",
+    "snapSortOrderAlphabeticalDesc": "เรียงอักษร (Z ถึง A)",
+    "snapSortOrderDownloadSizeAsc": "ขนาด (เล็กไปใหญ่)",
+    "snapSortOrderDownloadSizeDesc": "ขนาด (ใหญ่ไปเล็ก)",
+    "snapSortOrderInstalledSizeAsc": "ขนาด (เล็กไปใหญ่)",
+    "snapSortOrderInstalledSizeDesc": "ขนาด (ใหญ่ไปเล็ก)",
+    "snapSortOrderInstalledDateAsc": "อัปเดตล่าสุด",
+    "snapSortOrderInstalledDateDesc": "อัปเดตล่าสุด",
+    "snapSortOrderRelevance": "ความเกี่ยวข้อง",
+    "snapRatingsBandVeryGood": "ดีมาก",
+    "snapRatingsBandGood": "ดี",
+    "snapRatingsBandNeutral": "กลาง ๆ",
+    "snapRatingsBandPoor": "ต่ำ",
+    "snapRatingsBandVeryPoor": "ต่ำมาก",
+    "snapRatingsBandInsufficientVotes": "คะแนนโหวตไม่เพียงพอ",
+    "snapRatingsVotes": "{n} โหวด",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapReportLabel": "รายงาน {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectReportReasonLabel": "เลือกเหตุผลที่คุณจะรายงาน snap นี้",
+    "snapReportSelectAnOptionLabel": "เลือกตัวเลือก",
+    "snapReportOptionCopyrightViolation": "การละเมิดลิขสิทธิ์หรือเครื่องหมายการค้า",
+    "snapReportOptionStoreViolation": "การละเมิดข้อกำหนดในการให้บริการของ Snap Store",
+    "snapReportDetailsLabel": "โปรดระบุเหตุผลโดยละเอียดเพิ่มเติมในรายงานของคุณ",
+    "snapReportOptionalEmailAddressLabel": "อีเมลของคุณ (ไม่บังคับ)",
+    "snapReportCancelButtonLabel": "ยกเลิก",
+    "snapReportSubmitButtonLabel": "ส่งรายงาน",
+    "snapReportEnterValidEmailError": "ใส่อีเมลที่ถูกต้อง",
+    "snapReportDetailsHint": "ความคิดเห็น...",
+    "snapReportPrivacyAgreementLabel": "ในการส่งแบบฟอร์มนี้ ฉันขอยืนยันว่าฉันได้อ่านและยอมรับข้อกำหนดและเงื่อนไข ",
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "นโยบายความเป็นส่วนตัวของ Canonical ",
+    "snapReportPrivacyAgreementAndLabel": "และ ",
+    "snapReportPrivacyAgreementPrivacyPolicy": "นโยบายความเป็นส่วนตัว",
+    "debPageErrorNoPackageInfo": "ไม่พบข้อมูลของแพ็กเกจ",
+    "debPageDocumentationLinkLabel": "เรียนรู้เกี่ยวกับการจัดการแพ็กเกจ Debian",
+    "debPageShareLinkCopiedMessage": "คัดลอกลิงก์ไปยังคลิปบอร์ดแล้ว",
+    "debPageShareSemanticLabel": "คัดลอกลิงก์",
+    "externalResources": "แหล่งข้อมูลเพิ่มเติม",
+    "externalResourcesButtonLabel": "สำรวจเพิ่มเติม",
+    "allGamesButtonLabel": "เกมทั้งหมด",
+    "externalResourcesDisclaimer": "หมายเหตุ: เครื่องมือเหล่านี้เป็นเครื่องมือภายนอกทั้งหมด ไม่ได้เป็นกรรมสิทธิ์หรือจัดจำหน่ายโดย Canonical",
+    "openInBrowser": "เปิดในเบราว์เซอร์",
+    "installAll": "ติดตั้งทั้งหมด",
+    "localDebWarningTitle": "อาจไม่ปลอดภัย",
+    "localDebWarningBody": "แพ็กเกจนี้จัดทำโดยบุคคลที่สาม การติดตั้งแพ็กเกจจากภายนอก App Center อาจเพิ่มความเสี่ยงต่อระบบและข้อมูลส่วนบุคคลของคุณ โปรดตรวจสอบให้แน่ใจว่าคุณเชื่อถือแหล่งที่มา ก่อนดำเนินการต่อ",
+    "localDebLearnMore": "เรียนรู้เพิ่มเติมเกี่ยวกับแพ็กเกจของบุคคลที่สาม",
+    "localDebDialogMessage": "โปรแกรมนี้จัดทำโดยบุคคลที่สามและอาจเป็นภัยคุกคามต่อระบบและข้อมูลส่วนบุคคลของคุณ",
+    "localDebDialogConfirmation": "คุณแน่ใจหรือที่คุณจะติดตั้งมัน?",
+    "snapdExceptionRunningApps": "เราไม่สามารถอัปเดต {snapName} ได้ เพราะว่ามันกำลังทำงานอยู่",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewCheckStatusLabel": "ตรวจสอบสถานะ",
+    "errorViewNetworkErrorTitle": "เชื่อมต่อกับอินเทอร์เน็ต",
+    "errorViewNetworkErrorDescription": "เราไม่สามารถโหลดเนื้อหาใน App Center ได้หากไม่มีการเชื่อมต่ออินเทอร์เน็ต",
+    "errorViewNetworkErrorAction": "ตรวจสอบการเชื่อมต่อและลองอีกครั้ง",
+    "errorViewServerErrorDescription": "ขออภัย ขณะนี้ App Center กำลังประสบปัญหาอยู่",
+    "errorViewServerErrorAction": "ตรวจสอบสถานะการอัปเดตหรือลองอีกครั้งในภายหลัง",
+    "errorViewUnknownErrorTitle": "มีบางอย่างไม่ถูกต้อง",
+    "errorViewUnknownErrorDescription": "เราขออภัย แต่เราไม่แน่ใจว่าข้อผิดพลาดคืออะไร",
+    "errorViewUnknownErrorAction": "คุณสามารถลองใหม่อีกครั้งได้แล้ว ตรวจสอบสถานะเพื่อดูการอัปเดต หรือลองใหม่อีกครั้งในภายหลัง",
+    "codecPageTitle": "ตัวแปลงสัญญาณสื่อหายไป",
+    "codecPageDescription": "คุณจำเป็นต้องติดตั้งตัวแปลงสัญญาณต่อไปนี้เพื่อรองรับรูปแบบวิดีโอและเสียงบางประเภท:",
+    "codecProprietaryDisclaimer": "ตัวแปลงสัญญาณบางตัวที่แนะนำอาจเป็นแบบกรรมสิทธิ์เฉพาะของผู้ผลิต",
+    "codecInstallAllButton": "ติดตั้งตัวแปลงสัญญาณที่แนะนำ",
+    "snapCategoryGnomeGames": "เกม GNOME",
+    "snapCategoryGnomeGamesSlogan": "เกม GNOME Suite",
+    "snapCategoryKdeGames": "เกม KDE",
+    "snapCategoryKdeGamesSlogan": "เกม KDE Suite",
+    "snapCategoryGameLaunchers": "ตัวเปิดเกม",
+    "snapCategoryGameLaunchersSlogan": "ตัวเปิดเกม",
+    "snapCategoryGameContentCreation": "การสร้างเนื้อหา",
+    "snapCategoryGameContentCreationSlogan": "การสร้างเนื้อหา",
+    "snapCategoryHealthAndFitness": "สุขภาพและฟิตเนส",
+    "snapCategoryMusicAndAudio": "เพลงและเสียง",
+    "appstreamSearchGreylist": "แอป;แอปพลิเคชัน;แพ็กเกจ;โปรแกรม;โปรแกรม;ชุดแอป;เครื่องมือ",
+    "managePagePackageTypeDeb": "เดบ"
+}
