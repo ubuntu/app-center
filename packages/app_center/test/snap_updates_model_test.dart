@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/snapd/snap_model.dart';
@@ -63,8 +65,35 @@ void main() {
     await container.read(snapUpdatesModelProvider.future);
     await container.read(snapUpdatesModelProvider.notifier).refreshAll();
     verify(
-      service.refresh('testsnap3', channel: anyNamed('channel')),
+      service.refreshMany(['testsnap3']),
     ).called(1);
+  });
+
+  test('cancel update all aborts the change it started', () async {
+    final testSnap = refreshableSnaps.first;
+    final service = registerMockSnapdService(
+      localSnap: testSnap,
+      storeSnap: testSnap,
+      refreshableSnaps: refreshableSnaps,
+      installedSnaps: refreshableSnaps,
+    );
+    // Hold the change open so that there is something to cancel.
+    final change = Completer<void>();
+    when(service.waitChange(any)).thenAnswer((_) => change.future);
+
+    final container = createContainer();
+    await container.read(snapUpdatesModelProvider.future);
+    final refreshing = container
+        .read(snapUpdatesModelProvider.notifier)
+        .refreshAll();
+    await pumpEventQueue();
+
+    await container.read(snapUpdatesModelProvider.notifier).cancelRefreshAll();
+
+    verify(service.abortChange('id')).called(1);
+
+    change.complete();
+    await refreshing;
   });
 
   group('localVersion', () {
