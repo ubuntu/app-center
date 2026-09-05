@@ -114,6 +114,30 @@ class _StoreAppHome extends ConsumerWidget {
     );
   }
 
+  /// Creates a route to the snap detail page.
+  ///
+  /// Extracts the snap name and optional channel from [settings] via
+  /// [StoreRoutes], and persists the channel into provider state so the
+  /// snap page's channel selector is pre-populated before the page builds.
+  Route<void> _createSnapRoute({
+    required RouteSettings settings,
+    required Widget searchField,
+    required WidgetRef ref,
+  }) {
+    final snapName = StoreRoutes.snapOf(settings)!;
+    final channel = StoreRoutes.channelOf(settings);
+    if (channel != null) {
+      ref.read(snapInitialChannelProvider(snapName).notifier).state = channel;
+    }
+    return MaterialPageRoute(
+      settings: settings,
+      builder: (_) => YaruDetailPage(
+        appBar: searchField,
+        body: SnapPage(snapName: snapName),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
@@ -189,12 +213,10 @@ class _StoreAppHome extends ConsumerWidget {
               body: LocalDebPage(path: StoreRoutes.localDebOf(settings)!),
             ),
           ),
-          StoreRoutes.snap => MaterialPageRoute(
+          StoreRoutes.snap => _createSnapRoute(
             settings: settings,
-            builder: (_) => YaruDetailPage(
-              appBar: searchField,
-              body: SnapPage(snapName: StoreRoutes.snapOf(settings)!),
-            ),
+            searchField: searchField,
+            ref: ref,
           ),
           StoreRoutes.search => MaterialPageRoute(
             settings: settings,
