@@ -389,5 +389,55 @@
     "codecPageTitle": "Missing media codecs",
     "codecPageDescription": "You need to install the following codecs for handling certain video and audio formats:",
     "codecProprietaryDisclaimer": "Some of the recommended codecs could be proprietary.",
-    "codecInstallAllButton": "Install recommended codecs"
+    "codecInstallAllButton": "Install recommended codecs",
+    "addonsPageLabel": "Add-ons",
+    "addonsPageAdditionalDriversTitle": "Additional drivers",
+    "addonsPageAdditionalDriversDescription": "Add better support for graphics cards and other hardware",
+    "driversPageDescription": "Proprietary drivers have private code that Ubuntu developers can't review or improve. Security and other updates are dependent on the driver vendor.",
+    "driversPageSectionUpdateAvailable": "Update available",
+    "driversPageSectionAvailable": "Available",
+    "driversPageSectionInstalled": "Installed",
+    "driversPageSectionUnsupported": "No drivers available",
+    "driversPageNoPackagesMessage": "No packages provide drivers for this device",
+    "driversPageDeviceClassGraphics": "Graphics",
+    "driversPageDeviceClassNetwork": "Network",
+    "driversPageDeviceClassCamera": "Camera",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Storage",
+    "driversPageDeviceClassAudio": "Audio",
+    "driversPageDeviceClassOther": "Other",
+    "driversPageBranchProduction": "Production",
+    "driversPageBranchLts": "Long term support",
+    "driversPageBranchNewFeature": "New features",
+    "driversPageVersionLabel": "Version {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Restart required",
+    "driversPageRestartRequiredMessage": "Restart your computer to finish applying driver changes.",
+    "driversPageErrorLabel": "Error",
+    "driversPageRetryLabel": "Retry",
+    "driversPageNoDriversFoundMessage": "Using built-in drivers. No additional drivers found.",
+    "driversPageUnsupportedMessage": "Your snapd version does not support driver management. Please update snapd.",
+    "driversPageSwitchBranchLabel": "Switch branch",
+    "driversPageSwitchBranchTitle": "Switch branch",
+    "driversPageSwitchBranchProductionDescription": "Balances features and stability",
+    "driversPageSwitchBranchLtsDescription": "Maximum stability for critical workloads",
+    "driversPageSwitchBranchNewFeatureDescription": "Preview, less stable",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (recommended)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "This branch is less stable",
+    "driversPageSwitchBranchLessStableWarningMessage": "Stay on the current branch to prevent issues with this device.",
+    "driversPageSwitchLabel": "Switch",
+    "driversPageSwitchingBranchLabel": "Switching branch"
 }

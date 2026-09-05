@@ -10,6 +10,15 @@ class DriversServiceException implements Exception {
   String toString() => 'DriversServiceException: $message';
 }
 
+/// Thrown by [DriversService.getDrivers] when the `com.ubuntu.Drivers`
+/// D-Bus service can't be reached at all, as opposed to it reporting no
+/// devices. This typically means the installed snapd doesn't ship driver
+/// management support yet.
+class DriversServiceUnavailableException implements Exception {
+  @override
+  String toString() => 'DriversServiceUnavailableException';
+}
+
 const _serviceName = 'com.ubuntu.Drivers';
 final _objectPath = DBusObjectPath('/com/ubuntu/Drivers');
 
@@ -23,7 +32,8 @@ class DriversService {
 
   /// Returns the detected devices and their driver packages.
   ///
-  /// Returns an empty list if the service is unreachable.
+  /// Throws [DriversServiceUnavailableException] if the service can't be
+  /// reached at all (e.g. an older snapd without driver management support).
   ///
   /// Throws [DriversServiceException] if the service reports an error while
   /// building the driver list.
@@ -43,8 +53,8 @@ class DriversService {
         replySignature: DBusSignature('aa{sv}'),
       );
     } on DBusServiceUnknownException catch (_) {
-      log.info('Could not reach $_serviceName - returning an empty list');
-      return const [];
+      log.info('Could not reach $_serviceName');
+      throw DriversServiceUnavailableException();
     } on DBusMethodResponseException catch (e) {
       throw DriversServiceException(e.toString());
     }
@@ -60,10 +70,10 @@ class DriversService {
     final driversArray = fields['drivers'] as DBusArray?;
 
     return DriverDevice(
-      sysPath: _asString(fields['sys_path']),
-      modalias: _asString(fields['modalias']),
-      vendor: _asString(fields['vendor']),
-      model: _asString(fields['model']),
+      sysPath: fields['sys_path']!.asString(),
+      modalias: fields['modalias']!.asString(),
+      vendor: fields['vendor']!.asString(),
+      model: fields['model']!.asString(),
       drivers:
           driversArray?.children
               .map(
@@ -78,18 +88,16 @@ class DriversService {
     final fields = driver.mapStringVariant();
 
     return DriverPackage(
-      name: _asString(fields['name']),
-      source: DriverSource.fromString(_asString(fields['source'])),
-      free: _asBool(fields['free']),
-      builtin: _asBool(fields['builtin']),
-      recommended: _asBool(fields['recommended']),
-      support: _asString(fields['support']),
+      name: fields['name']!.asString(),
+      source: DriverSource.fromString(fields['source']!.asString()),
+      free: fields['free']!.asBoolean(),
+      builtin: fields['builtin']!.asBoolean(),
+      recommended: fields['recommended']!.asBoolean(),
+      support: fields['support']!.asString(),
+      openPreferred: fields['open_preferred']!.asBoolean(),
+      packages: fields['packages']!.asStringArray().toList(),
     );
   }
-
-  String _asString(DBusValue? value) => value is DBusString ? value.value : '';
-
-  bool _asBool(DBusValue? value) => value is DBusBoolean ? value.value : false;
 
   /// Closes the underlying D-Bus connection.
   Future<void> dispose() => _dbus.close();

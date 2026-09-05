@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:app_center/appstream/appstream.dart';
+import 'package:app_center/drivers/drivers.dart';
 import 'package:app_center/gstreamer/gstreamer_model.dart';
 import 'package:app_center/gstreamer/gstreamer_resource.dart';
 import 'package:app_center/l10n.dart';
@@ -49,6 +50,31 @@ extension WidgetTesterX on WidgetTester {
         theme: ThemeData(fontFamily: 'UbuntuRegular'),
         localizationsDelegates: localizationsDelegates,
         home: Scaffold(body: Builder(builder: builder)),
+      ),
+    );
+  }
+
+  /// Like [pumpApp], but places the [ProviderScope] above [MaterialApp] so
+  /// that widgets pushed onto the root [Navigator] (e.g. via `showDialog`)
+  /// can still find providers. Use this when the widget under test opens a
+  /// dialog that reads/watches providers.
+  Future<void> pumpScopedApp(WidgetBuilder builder) async {
+    view.physicalSize =
+        (const Size(800, 600) + const Offset(54, 54)) * view.devicePixelRatio;
+    final ubuntuRegular = File('test/fonts/Ubuntu-Regular.ttf');
+    final content = ByteData.view(
+      Uint8List.fromList(ubuntuRegular.readAsBytesSync()).buffer,
+    );
+    final fontLoader = FontLoader('UbuntuRegular')
+      ..addFont(Future.value(content));
+    await fontLoader.load();
+    return pumpWidget(
+      ProviderScope(
+        child: MaterialApp(
+          theme: ThemeData(fontFamily: 'UbuntuRegular'),
+          localizationsDelegates: localizationsDelegates,
+          home: Scaffold(body: Builder(builder: builder)),
+        ),
       ),
     );
   }
@@ -405,6 +431,7 @@ MockPackageKitService createMockPackageKitService({
   List<PackageKitPackageEvent>? availableUpdates,
   Map<String, PackageKitDetailsEvent>? packageDetailsMany,
   List<PackageKitPackageEvent>? installedPackages,
+  PackageKitServiceError? lastError,
 }) {
   final packageKit = MockPackageKitService();
   when(packageKit.activateService()).thenAnswer((_) async {});
@@ -449,9 +476,23 @@ MockPackageKitService createMockPackageKitService({
     packageKit.getUpdateDetails(any),
   ).thenAnswer((_) async => packageUpdates);
   when(packageKit.update(any)).thenAnswer((_) async => transactionId);
+  when(
+    packageKit.updateAllPackages(any),
+  ).thenAnswer((_) async => transactionId);
   when(packageKit.whatProvides(any)).thenAnswer((_) async => packageEvents!);
   when(packageKit.remove(any)).thenAnswer((_) async => transactionId);
+  when(packageKit.removeAll(any)).thenAnswer((_) async => transactionId);
   when(packageKit.errorStream).thenAnswer((_) => errorStream);
+  when(
+    packageKit.taggedErrorStream,
+  ).thenAnswer((_) => errorStream.map((e) => (id: transactionId, error: e)));
+  when(
+    packageKit.errorsFor(any),
+  ).thenAnswer((_) => errorStream);
+  when(packageKit.requiresRestartFor(any)).thenReturn(false);
+  when(packageKit.getTransaction(any)).thenReturn(null);
+  when(packageKit.lastErrorFor(any)).thenReturn(lastError);
+  when(packageKit.cancelTransaction(any)).thenAnswer((_) async {});
   when(
     packageKit.waitTransaction(any),
   ).thenAnswer((_) async => waitTransaction);
@@ -463,6 +504,24 @@ MockPackageKitService createMockPackageKitService({
   registerMockService<PackageKitService>(packageKit);
   addTearDown(unregisterService<PackageKitService>);
   return packageKit;
+}
+
+@GenerateMocks([DriversService])
+MockDriversService registerMockDriversService({
+  List<DriverDevice>? devices,
+  bool unavailable = false,
+}) {
+  final drivers = MockDriversService();
+  if (unavailable) {
+    when(
+      drivers.getDrivers(),
+    ).thenThrow(DriversServiceUnavailableException());
+  } else {
+    when(drivers.getDrivers()).thenAnswer((_) async => devices ?? []);
+  }
+  registerMockService<DriversService>(drivers);
+  addTearDown(unregisterService<DriversService>);
+  return drivers;
 }
 
 @GenerateMocks([

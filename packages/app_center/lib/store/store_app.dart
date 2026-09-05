@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:app_center/addons/addons.dart';
 import 'package:app_center/deb/deb.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/games/games.dart';
@@ -228,6 +229,17 @@ class _StoreAppHome extends ConsumerWidget {
               body: GStreamerPage(
                 resources: StoreRoutes.gstResourcesOf(settings),
               ),
+            ),
+          ),
+          StoreRoutes.additionalDrivers => MaterialPageRoute(
+            settings: settings,
+            builder: (_) => YaruDetailPage(
+              appBar: YaruWindowTitleBar(
+                border: BorderSide.none,
+                leading: _MaybeBackButton(navigatorKey),
+                title: Text(AdditionalDriversPage.label(context)),
+              ),
+              body: const AdditionalDriversPage(),
             ),
           ),
           _ => null,

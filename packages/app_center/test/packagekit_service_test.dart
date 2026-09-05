@@ -399,6 +399,42 @@ void main() {
     expect(info, isNull);
   });
 
+  test(
+    'lastErrorFor is scoped to the transaction that produced the error',
+    () async {
+      const errorA = PackageKitErrorCodeEvent(
+        code: PackageKitError.noNetwork,
+        details: 'network unreachable',
+      );
+      final transactionA = createMockPackageKitTransaction(events: [errorA]);
+      final transactionB = createMockPackageKitTransaction();
+      final client = createMockPackageKitClient();
+      final transactions = [transactionA, transactionB];
+      var callCount = 0;
+      when(
+        client.createTransaction(),
+      ).thenAnswer((_) async => transactions[callCount++]);
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: client,
+        fs: MemoryFileSystem.test(),
+      );
+      await packageKit.activateService();
+
+      final idA = await packageKit.install(
+        const PackageKitPackageId(name: 'foo', version: '1.0'),
+      );
+      await packageKit.waitTransaction(idA);
+      final idB = await packageKit.install(
+        const PackageKitPackageId(name: 'bar', version: '2.0'),
+      );
+      await packageKit.waitTransaction(idB);
+
+      expect(packageKit.lastErrorFor(idA), equals(errorA));
+      expect(packageKit.lastErrorFor(idB), isNull);
+    },
+  );
+
   test('getDetails for multiple packages', () async {
     final fooDetails = PackageKitDetailsEvent(
       packageId: const PackageKitPackageId(

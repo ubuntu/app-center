@@ -22,7 +22,7 @@ Future<DBusMethodSuccessResponse> _driversCall(MockDBusClient dbus) =>
 
 void main() {
   group('getDrivers', () {
-    test('returns an empty list if the service is unreachable', () async {
+    test('throws DriversServiceUnavailableException if unreachable', () async {
       final dbus = createMockDbusClient();
       when(_driversCall(dbus)).thenThrow(
         DBusServiceUnknownException(
@@ -31,8 +31,10 @@ void main() {
       );
 
       final drivers = DriversService(dbus: dbus);
-      final result = await drivers.getDrivers();
-      expect(result, isEmpty);
+      expect(
+        drivers.getDrivers(),
+        throwsA(isA<DriversServiceUnavailableException>()),
+      );
     });
 
     test('parses devices and driver packages', () async {
@@ -64,11 +66,18 @@ void main() {
       expect(recommended.builtin, isFalse);
       expect(recommended.recommended, isTrue);
       expect(recommended.support, equals('PB'));
+      expect(recommended.openPreferred, isFalse);
+      expect(
+        recommended.packages,
+        equals(['nvidia-driver-450', 'linux-modules-nvidia-450-generic']),
+      );
 
       DriverPackage byName(String name) =>
           device.drivers.firstWhere((d) => d.name == name);
 
       expect(byName('nvidia-driver-550').support, equals('NFB'));
+      expect(byName('nvidia-driver-550').openPreferred, isTrue);
+      expect(byName('nvidia-driver-550').packages, isEmpty);
       expect(byName('nvidia-driver-470').support, equals('LTSB'));
       expect(byName('nvidia-driver-390').support, equals('Legacy'));
 
@@ -80,26 +89,41 @@ void main() {
       expect(nouveau.support, isEmpty);
     });
 
-    test('missing keys fall back to safe defaults', () async {
+    test('a device missing required fields throws', () async {
       final dbus = createMockDbusClient();
-      final emptyDevice = DBusDict.stringVariant({
+      final incompleteDevice = DBusDict.stringVariant({
         'sys_path': const DBusString('/sys/devices/pci0000:00/0000:02:00.0'),
       });
       when(_driversCall(dbus)).thenAnswer(
         (_) async => DBusMethodSuccessResponse([
-          DBusArray(DBusSignature('a{sv}'), [emptyDevice]),
+          DBusArray(DBusSignature('a{sv}'), [incompleteDevice]),
         ]),
       );
 
       final drivers = DriversService(dbus: dbus);
-      final devices = await drivers.getDrivers();
+      expect(drivers.getDrivers(), throwsA(anything));
+    });
 
-      expect(devices, hasLength(1));
-      final device = devices.single;
-      expect(device.modalias, isEmpty);
-      expect(device.vendor, isEmpty);
-      expect(device.model, isEmpty);
-      expect(device.drivers, isEmpty);
+    test('a driver package missing required fields throws', () async {
+      final dbus = createMockDbusClient();
+      final device = DBusDict.stringVariant({
+        'sys_path': const DBusString('/sys/devices/pci0000:00/0000:02:00.0'),
+        'drivers': DBusArray(DBusSignature('v'), [
+          DBusVariant(
+            DBusDict.stringVariant({
+              'name': const DBusString('some-driver'),
+            }),
+          ),
+        ]),
+      });
+      when(_driversCall(dbus)).thenAnswer(
+        (_) async => DBusMethodSuccessResponse([
+          DBusArray(DBusSignature('a{sv}'), [device]),
+        ]),
+      );
+
+      final drivers = DriversService(dbus: dbus);
+      expect(drivers.getDrivers(), throwsA(anything));
     });
 
     test('empty result', () async {
@@ -136,6 +160,8 @@ DBusDict _driverPackage({
   required bool builtin,
   required bool recommended,
   required String support,
+  bool openPreferred = false,
+  List<String> packages = const [],
 }) {
   return DBusDict.stringVariant({
     'name': DBusString(name),
@@ -144,6 +170,8 @@ DBusDict _driverPackage({
     'builtin': DBusBoolean(builtin),
     'recommended': DBusBoolean(recommended),
     'support': DBusString(support),
+    'open_preferred': DBusBoolean(openPreferred),
+    'packages': DBusArray.string(packages),
   });
 }
 
@@ -164,6 +192,7 @@ final _nvidiaDeviceArray = DBusArray(DBusSignature('a{sv}'), [
           builtin: false,
           recommended: true,
           support: 'PB',
+          packages: ['nvidia-driver-450', 'linux-modules-nvidia-450-generic'],
         ),
       ),
       DBusVariant(
@@ -174,6 +203,7 @@ final _nvidiaDeviceArray = DBusArray(DBusSignature('a{sv}'), [
           builtin: false,
           recommended: false,
           support: 'NFB',
+          openPreferred: true,
         ),
       ),
       DBusVariant(

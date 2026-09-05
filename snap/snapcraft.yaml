@@ -75,6 +75,7 @@ apps:
       - network
       - snapd-control
       - packagekit-control
+      - ubuntu-drivers-observe
 
 # This entry, along with the corresponding .desktop file, is required
 # to allow Snapd Desktop Integration to open the Snap Center in the
