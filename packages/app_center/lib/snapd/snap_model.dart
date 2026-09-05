@@ -8,6 +8,7 @@ import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/snapd/snapd_cache.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -16,6 +17,9 @@ part 'snap_model.g.dart';
 
 /// Share of the overall progress taken by the download phase.
 const _downloadWeight = 0.7;
+
+final snapInitialChannelProvider =
+    StateProvider.family<String?, String>((ref, snapName) => null);
 
 @Riverpod(keepAlive: true)
 class SnapModel extends _$SnapModel {
@@ -63,6 +67,7 @@ class SnapModel extends _$SnapModel {
 
     // Determine if a previous local revision exists to enable revert
     final hasPrev = await hasPrevious;
+    final initialChannel = ref.watch(snapInitialChannelProvider(snapName));
 
     return SnapData(
       name: snapName,
@@ -72,6 +77,7 @@ class SnapModel extends _$SnapModel {
       selectedChannel: SnapData.defaultSelectedChannel(
         localSnap,
         storeSnap,
+        preferredChannel: initialChannel,
       ),
       hasUpdate: hasUpdate,
       hasPreviousLocalRevision: hasPrev,
