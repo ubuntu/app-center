@@ -5,6 +5,8 @@ import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store_app.dart';
+import 'package:app_center/store/store_providers.dart';
+import 'package:app_center/store/store_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -160,6 +162,54 @@ void main() {
           );
         });
       }
+    });
+
+    testWidgets('routes to snap with channel', (tester) async {
+      final storeSnap = createSnap(
+        name: 'testsnap',
+        channels: {
+          'latest/stable': SnapChannel(
+            confinement: SnapConfinement.strict,
+            size: 1337,
+            releasedAt: DateTime(1970),
+            version: '1.0.0',
+          ),
+          'latest/edge': SnapChannel(
+            confinement: SnapConfinement.strict,
+            size: 1337,
+            releasedAt: DateTime(1970),
+            version: '2.0.0',
+          ),
+        },
+      );
+      registerMockSnapdService(
+        storeSnap: storeSnap,
+      );
+      registerMockService<GtkApplicationNotifier>(
+        createMockGtkApplicationNotifier(),
+      );
+      registerMockService<RatingsService>(registerMockRatingsService());
+
+      final container = createContainer(
+        overrides: [
+          initialRouteProvider.overrideWithValue(
+            StoreRoutes.namedSnap(name: 'testsnap', channel: 'latest/edge'),
+          ),
+        ],
+      );
+
+      await tester.pumpApp(
+        (_) => UncontrolledProviderScope(
+          container: container,
+          child: const StoreApp(),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final snapData = await container.read(
+        snapModelProvider('testsnap').future,
+      );
+      expect(snapData.selectedChannel, equals('latest/edge'));
     });
   });
 }

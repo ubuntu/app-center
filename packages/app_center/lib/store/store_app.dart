@@ -188,15 +188,32 @@ class _StoreAppHome extends ConsumerWidget {
               ),
             ),
           ),
-          StoreRoutes.snap => MaterialPageRoute(
-            settings: settings,
-            builder: (_) => YaruDetailPage(
-              appBar: searchField,
-              body: SnapPage(
-                snapName: StoreRoutes.snapOf(settings)!,
+          StoreRoutes.snap => () {
+            final snapName = StoreRoutes.snapOf(settings)!;
+            final channel = StoreRoutes.channelOf(settings);
+            if (channel != null) {
+              ref
+                  .read(snapModelProvider(snapName).future)
+                  .then((snapData) {
+                    if (snapData.availableChannels?.containsKey(channel) ??
+                        false) {
+                      ref
+                          .read(snapModelProvider(snapName).notifier)
+                          .selectChannel(channel);
+                    }
+                  })
+                  .catchError((_) {});
+            }
+            return MaterialPageRoute(
+              settings: settings,
+              builder: (_) => YaruDetailPage(
+                appBar: searchField,
+                body: SnapPage(
+                  snapName: snapName,
+                ),
               ),
-            ),
-          ),
+            );
+          }(),
           StoreRoutes.search => MaterialPageRoute(
             settings: settings,
             builder: (_) => YaruDetailPage(
