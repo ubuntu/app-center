@@ -16,8 +16,16 @@ class RatingsModel extends _$RatingsModel {
 
   @override
   Future<RatingsData> build(String snapName) async {
-    final snap = (await ref.watch(snapModelProvider(snapName).future)).snap;
-    final snapId = snap.id;
+    final snapData = await ref.watch(snapModelProvider(snapName).future);
+    final snapId = snapData.snap.id;
+
+    // Ratings are recorded per revision, and the rating buttons are only shown
+    // for an installed snap, so the revision being rated is the installed one.
+    // `SnapData.snap` prefers the store snap, which carries the newest revision
+    // in the channel and differs from the installed one whenever an update is
+    // pending, so reading the revision from it attributes the vote to a
+    // revision the user has not run.
+    final snapRevision = snapData.localSnap?.revision ?? snapData.snap.revision;
 
     final cacheFile = _getCacheFile(snapId);
 
@@ -40,9 +48,9 @@ class RatingsModel extends _$RatingsModel {
 
     final ratingsData = RatingsData(
       snapId: snapId,
-      snapRevision: snap.revision,
+      snapRevision: snapRevision,
       rating: rating,
-      voteStatus: _getUserVote(snap.revision, votes),
+      voteStatus: _getUserVote(snapRevision, votes),
       snapName: snapName,
     );
 
