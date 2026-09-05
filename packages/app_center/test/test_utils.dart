@@ -405,6 +405,7 @@ MockPackageKitService createMockPackageKitService({
   List<PackageKitPackageEvent>? availableUpdates,
   Map<String, PackageKitDetailsEvent>? packageDetailsMany,
   List<PackageKitPackageEvent>? installedPackages,
+  String nativeArchitecture = 'amd64',
 }) {
   final packageKit = MockPackageKitService();
   when(packageKit.activateService()).thenAnswer((_) async {});
@@ -442,6 +443,8 @@ MockPackageKitService createMockPackageKitService({
     };
   });
   when(packageKit.getDetailsLocal(any)).thenAnswer((_) async => packageDetails);
+  when(packageKit.getNativeArchitecture())
+      .thenAnswer((_) async => nativeArchitecture);
   when(packageKit.install(any)).thenAnswer((_) async => transactionId);
   when(packageKit.installAll(any)).thenAnswer((_) async => transactionId);
   when(packageKit.installLocal(any)).thenAnswer((_) async => transactionId);

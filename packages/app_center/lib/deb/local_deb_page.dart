@@ -6,6 +6,7 @@ import 'package:app_center/error/error.dart';
 import 'package:app_center/extensions/string_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
+import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -20,9 +21,27 @@ class LocalDebPage extends ConsumerWidget {
 
   final String path;
 
+  Future<void> showError(BuildContext context, PackageKitServiceError e) =>
+      showErrorDialog(
+        context: context,
+        title: 'PackageKit error: ${e.code}',
+        message: e.details,
+      );
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final model = ref.watch(localDebModelProvider(path: path));
+
+    ref.listen(localDebModelProvider(path: path), (previous, next) {
+      final error = next.valueOrNull?.error;
+      // Errors are compared by identity: every PackageKit failure produces a
+      // new event instance, while state updates that merely carry the old
+      // error along (e.g. clearing the spinner) keep the same one.
+      if (error != null && !identical(error, previous?.valueOrNull?.error)) {
+        showError(context, error);
+      }
+    });
+
     return model.when(
       data: (debData) => _LocalDebPage(debData: debData),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
@@ -46,18 +65,33 @@ class _LocalDebPage extends StatelessWidget {
     return AppPage(
       titleBar: AppTitleBar.fromLocalDeb(
         debData,
-        banner: YaruInfoBox(
-          title: Text(l10n.localDebWarningTitle),
-          yaruInfoType: YaruInfoType.warning,
-          child: Html(
-            data:
-                '${l10n.localDebWarningBody} <a href="$localDebInfoUrl">${l10n.localDebLearnMore}</a>',
-            style: {
-              'body': Style(margin: Margins.zero, padding: HtmlPaddings.zero),
-            },
-            onLinkTap: (url, attributes, element) => launchUrlString(url!),
-          ),
-        ),
+        banner: debData.isArchitectureCompatible
+            ? YaruInfoBox(
+                title: Text(l10n.localDebWarningTitle),
+                yaruInfoType: YaruInfoType.warning,
+                child: Html(
+                  data:
+                      '${l10n.localDebWarningBody} <a href="$localDebInfoUrl">${l10n.localDebLearnMore}</a>',
+                  style: {
+                    'body': Style(
+                      margin: Margins.zero,
+                      padding: HtmlPaddings.zero,
+                    ),
+                  },
+                  onLinkTap: (url, attributes, element) =>
+                      launchUrlString(url!),
+                ),
+              )
+            : YaruInfoBox(
+                title: Text(l10n.localDebArchMismatchTitle),
+                yaruInfoType: YaruInfoType.danger,
+                child: Text(
+                  l10n.localDebArchMismatchBody(
+                    debData.details.packageId.arch,
+                    debData.systemArch,
+                  ),
+                ),
+              ),
       ),
       actionBar: Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,
@@ -136,7 +170,10 @@ class _LocalDebActionButtons extends ConsumerWidget {
     final primaryActionButton = SizedBox(
       width: kPrimaryButtonMaxWidth,
       child: PushButton.elevated(
-        onPressed: debData.activeTransactionId != null || debData.isInstalled
+        onPressed:
+            debData.activeTransactionId != null ||
+                debData.isInstalled ||
+                !debData.isArchitectureCompatible
             ? null
             : confirmInstallCallback,
         child: debData.activeTransactionId != null
