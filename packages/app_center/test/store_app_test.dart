@@ -74,6 +74,34 @@ void main() {
       expect(badge, findsOneWidget);
       expect((tester.widget<Badge>(badge).label! as Text).data, equals('2'));
     });
+
+    testWidgets('sidebar navigation tiles have button semantics', (
+      tester,
+    ) async {
+      registerMockService<GtkApplicationNotifier>(
+        createMockGtkApplicationNotifier(),
+      );
+      registerMockService<RatingsService>(registerMockRatingsService());
+      registerMockSnapdService();
+      await tester.pumpApp(
+        (_) => const ProviderScope(
+          child: StoreApp(),
+        ),
+      );
+      await tester.pump();
+
+      final manageTile = find.widgetWithText(
+        YaruMasterTile,
+        tester.l10n.managePageLabel,
+      );
+      final semantics = find.ancestor(
+        of: manageTile,
+        matching: find.byWidgetPredicate(
+          (widget) => widget is Semantics && widget.properties.button == true,
+        ),
+      );
+      expect(semantics, findsOneWidget);
+    });
   });
 
   group('error handling', () {
