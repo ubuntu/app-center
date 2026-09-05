@@ -39,10 +39,11 @@ final snapSearchProvider =
       searchParameters,
     ) async* {
       final snapd = getService<SnapdService>();
+      final queryLower = (searchParameters.query ?? '').toLowerCase();
       if (searchParameters.category == SnapCategoryEnum.ubuntuDesktop) {
         yield* snapd.getStoreSnaps(
           searchParameters.category!.featuredSnapNames
-                  ?.where((name) => name.contains(searchParameters.query ?? ''))
+                  ?.where((name) => name.toLowerCase().contains(queryLower))
                   .toList() ??
               [],
         );
@@ -54,7 +55,7 @@ final snapSearchProvider =
           searchParameters.category == SnapCategoryEnum.gameContentCreation) {
         yield* snapd.getStoreSnaps(
           searchParameters.category!.featuredSnapNames
-                  ?.where((name) => name.contains(searchParameters.query ?? ''))
+                  ?.where((name) => name.toLowerCase().contains(queryLower))
                   .toList() ??
               [],
         );
