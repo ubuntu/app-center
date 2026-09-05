@@ -85,6 +85,19 @@ void main() {
       expect(snapData.name, equals(snapName));
     });
 
+    test('store with preferred initial channel', () async {
+      final container = createContainer();
+      registerMockSnapdService(storeSnap: storeSnap);
+      container.read(snapInitialChannelProvider(snapName).notifier).state =
+          'latest/edge';
+      final snapData = await container.read(snapModelProvider(snapName).future);
+
+      expect(snapData.storeSnap, equals(storeSnap));
+      expect(snapData.localSnap, isNull);
+      expect(snapData.selectedChannel, equals('latest/edge'));
+      expect(snapData.name, equals(snapName));
+    });
+
     test('local only', () async {
       final container = createContainer();
       registerMockSnapdService(localSnap: localSnap);

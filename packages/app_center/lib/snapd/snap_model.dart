@@ -13,6 +13,9 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 part 'snap_model.g.dart';
 
+final snapInitialChannelProvider =
+    StateProvider.family<String?, String>((ref, snapName) => null);
+
 @Riverpod(keepAlive: true)
 class SnapModel extends _$SnapModel {
   late final _snapd = getService<SnapdService>();
@@ -58,6 +61,7 @@ class SnapModel extends _$SnapModel {
 
     // Determine if a previous local revision exists to enable revert
     final hasPrev = await _snapd.hasPreviousRevision(snapName);
+    final initialChannel = ref.watch(snapInitialChannelProvider(snapName));
 
     return SnapData(
       name: snapName,
@@ -67,6 +71,7 @@ class SnapModel extends _$SnapModel {
       selectedChannel: SnapData.defaultSelectedChannel(
         localSnap,
         storeSnap,
+        preferredChannel: initialChannel,
       ),
       hasUpdate: hasUpdate,
       hasPreviousLocalRevision: hasPrev,

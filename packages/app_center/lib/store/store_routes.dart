@@ -32,6 +32,9 @@ abstract class StoreRoutes {
   static String? snapOf(RouteSettings route) =>
       Uri.parse(route.name ?? '').queryParameters['snap'];
 
+  static String? channelOf(RouteSettings route) =>
+      Uri.parse(route.name ?? '').queryParameters['channel'];
+
   static String? queryOf(RouteSettings route) =>
       Uri.parse(route.name ?? '').queryParameters['query'];
 
@@ -54,8 +57,11 @@ abstract class StoreRoutes {
     return namedRoute(StoreRoutes.localDeb, {'local-deb': path});
   }
 
-  static String namedSnap({required String name}) {
-    return namedRoute(StoreRoutes.snap, {'snap': name});
+  static String namedSnap({required String name, String? channel}) {
+    return namedRoute(StoreRoutes.snap, {
+      'snap': name,
+      if (channel != null) 'channel': channel,
+    });
   }
 
   static String namedSearch({String? query, String? category}) {
