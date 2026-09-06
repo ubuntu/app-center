@@ -394,10 +394,10 @@
     "appLicenseUnknown": "يوچۇن",
     "appPublishedUnknown": "يوچۇن",
     "appMoreActionsSemanticLabel": "تېخىمۇ كۆپ مەشغۇلات",
-    "appConfinementStrictTooltip": "بۇ ئەپنىڭ مەنبەنى زىيارەت قىلىش ئىجازىتى چەكلىك. ئۇنىڭ ئىجازىتىنى تەڭشەك ئەپتە باشقۇرالايسىز.",
-    "appConfinementClassicTooltip": "بۇ پىروگرامما ئەنئەنىۋى ئايرىش مېخانىزمىنى ئىشلىتىپ، مەنبەلىرىڭىزنى تولۇق زىيارەت قىلالايدۇ. بۇ ئىجادىيەت خاراكتېرىدىكى پىروگراممىلاردا كۆپ ئۇچرايدۇ.",
-    "appConfinementUnrestrictedTooltip": "بۇ پىروگرامما مەنبەلىرىڭىزنى تولۇق زىيارەت ئىجازىتىگە ئىگە.",
-    "snapActionSwitchChannelTitle": "{appName} نىڭ قانىلىغا ئالماشتۇر",
+    "appConfinementStrictTooltip": "بۇ ئەپنىڭ مەنبەلىرىڭىزنى زىيارەت قىلىش ئىجازىتى چەكلىك. ئۇنىڭ ئىجازەتلىرىنى تەڭشەك ئەپىدە باشقۇرالايسىز.",
+    "appConfinementClassicTooltip": "بۇ پىروگرامما ئەنئەنىۋى ئايرىش مېخانىزمىنى ئىشلىتىپ، مەنبەلىرىڭىزنى تولۇق زىيارەت قىلالايدۇ. بۇ ئېچىش پىروگراممىلىرىدا كۆپ ئۇچرايدۇ.",
+    "appConfinementUnrestrictedTooltip": "بۇ پىروگرامما مەنبەلىرىڭىزنى تولۇق زىيارەت قىلىش ئىجازىتىگە ئىگە.",
+    "snapActionSwitchChannelTitle": "{appName} نىڭ قانىلىنى ئالماشتۇر",
     "@snapActionSwitchChannelTitle": {
         "placeholders": {
             "appName": {
