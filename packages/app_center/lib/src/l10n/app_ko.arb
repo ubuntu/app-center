@@ -378,7 +378,7 @@
     "appConfinementStrict": "샌드박스됨",
     "appConfinementDevelopment": "개발 모드",
     "appConfinementUnrestricted": "제한 없음",
-    "appConfinementStrictTooltip": "이 앱은 시스템 자원에 대한 접근이 제한됩니다. 설정 앱에서 앱의 권한을 제어할 수 있습니다.",
+    "appConfinementStrictTooltip": "이 앱은 사용자의 리소스에 대한 접근이 제한됩니다. 설정 앱에서 권한을 제어할 수 있습니다.",
     "appConfinementClassicTooltip": "이 앱은 클래식 격리(classic confinement)를 사용하여 시스템 자원에 완전히 접근할 수 있습니다. 이는 주로 개발용 앱에서 흔히 볼 수 있습니다.",
     "appLicenseUnknown": "알 수 없음",
     "appPublishedUnknown": "알 수 없음",
