@@ -347,14 +347,14 @@
             }
         }
     },
-    "appUrlTypeHomepage": "Geliştirici websitesi",
+    "appUrlTypeHomepage": "Geliştirici web sitesi",
     "appUrlTypeUnknown": "Link",
     "appConfinementUnknown": "Bilinmiyor",
-    "appConfinementStrict": "İzole edildi",
+    "appConfinementStrict": "Korumalı alanda",
     "appConfinementDevelopment": "Geliştirici Modu",
-    "appConfinementUnrestrictedTooltip": "Bu uygulama, kaynaklarınıza tam erişime sahiptir",
+    "appConfinementUnrestrictedTooltip": "Bu uygulama, kaynaklarınıza tam erişime sahiptir.",
     "appMoreActionsSemanticLabel": "Daha fazla işlem",
-    "snapActionRevertingLabel": "Güncellemeyi geri alma",
+    "snapActionRevertingLabel": "Güncelleme geri alınıyor",
     "snapRevertConfirmTitle": "Önceki sürüme geri dönülsün mü?",
     "snapRevertConfirmMessage": "Yeni bir sürüm çıktığında otomatik güncellemeler yeniden başlayacaktır.",
     "snapRevertConfirmCancel": "İptal et",
