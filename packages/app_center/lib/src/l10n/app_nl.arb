@@ -372,7 +372,7 @@
     "snapActionRevertLabel": "Update ongedaan maken",
     "snapActionRevertingLabel": "Update terugdraaien",
     "snapRevertConfirmTitle": "Terugdraaien naar vorige versie?",
-    "snapRevertConfirmMessage": "Automatische updates gaan verder zodra er een nieuwe versie beschikbaar is.",
+    "snapRevertConfirmMessage": "Automatische updates worden hervat zodra er een nieuwe versie beschikbaar is.",
     "snapRevertConfirmRevert": "Terugdraaien",
     "snapRevertConfirmCancel": "Annuleren",
     "snapRevertConfirmTitleWithVersions": "Terugdraaien van {currentVersion} (rev {currentRevision}) naar {previousVersion} (rev {previousRevision})?",
