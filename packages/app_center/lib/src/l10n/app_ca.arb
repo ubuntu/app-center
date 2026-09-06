@@ -372,7 +372,7 @@
     "appConfinementStrict": "En entorn aïllat",
     "appConfinementDevelopment": "Mode de desenvolupament",
     "appConfinementStrictTooltip": "Aquesta aplicació té un accés limitat als vostres recursos. Podeu controlar els seus permisos a l'aplicació Paràmetres.",
-    "appConfinementClassicTooltip": "Aquesta aplicació usa confinament clàssic, amb accés total als vostres recursos. Això és habitual a aplicacions de desenvolupament.",
+    "appConfinementClassicTooltip": "Aquesta aplicació utilitza el confinament clàssic, que dona accés total als vostres recursos. Això és habitual en aplicacions de desenvolupament.",
     "appConfinementUnrestrictedTooltip": "Aquesta aplicació té accés total als vostres recursos.",
     "appPublishedUnknown": "Desconegut",
     "snapActionRevertLabel": "Desfés l'actualització",
@@ -396,7 +396,7 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "Cap revisió local anterior disponible per revertir a ella.",
+    "snapRevertNoPreviousRevisionMessage": "No hi ha cap revisió local anterior disponible a la qual revertir.",
     "snapActionSwitchChannelTitle": "Canvia el canal per a {appName}",
     "@snapActionSwitchChannelTitle": {
         "placeholders": {
