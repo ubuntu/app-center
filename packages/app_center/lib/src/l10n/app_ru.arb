@@ -398,7 +398,7 @@
     "appConfinementStrictTooltip": "Это приложение имеет ограниченный доступ к ресурсам. Управлять его разрешениями можно в приложении «Настройки».",
     "appConfinementClassicTooltip": "Это приложение использует классическую изоляцию и имеет полный доступ к ресурсам. Такой режим часто используется в приложениях для разработки.",
     "appConfinementUnrestrictedTooltip": "Это приложение имеет полный доступ к ресурсам.",
-    "snapActionSwitchChannelTitle": "Перекл. канал {appName}",
+    "snapActionSwitchChannelTitle": "Сменить канал для {appName}",
     "@snapActionSwitchChannelTitle": {
         "placeholders": {
             "appName": {
