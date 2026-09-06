@@ -395,9 +395,9 @@
     "appLicenseUnknown": "Ismeretlen",
     "appPublishedUnknown": "Ismeretlen",
     "appMoreActionsSemanticLabel": "További műveletek",
-    "appConfinementStrictTooltip": "Ez az alkalmazás korlátozott hozzáféréssel rendelkezik az erőforrásaihoz. A jogosultságait a Beállítások alkalmazásban szabályozhatja.",
+    "appConfinementStrictTooltip": "Ez az alkalmazás korlátozott hozzáféréssel rendelkezik az Ön erőforrásaihoz. A jogosultságait a Beállítások alkalmazásban szabályozhatja.",
     "appConfinementClassicTooltip": "Ez az alkalmazás klasszikus elszigeteltséget használ, teljes hozzáférést adva az erőforrásaihoz. Ez a fejlesztői alkalmazásoknál gyakori.",
-    "appConfinementUnrestrictedTooltip": "Ez az alkalmazás teljes hozzáféréssel rendelkezik az erőforrásaihoz.",
+    "appConfinementUnrestrictedTooltip": "Ez az alkalmazás teljes hozzáféréssel rendelkezik az erőforrásaidhoz.",
     "snapActionSwitchChannelTitle": "Csatorna váltása: {appName}",
     "@snapActionSwitchChannelTitle": {
         "placeholders": {
