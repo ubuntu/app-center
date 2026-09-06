@@ -359,23 +359,23 @@
     "appUrlTypeHomepage": "Website van de ontwikkelaar",
     "appUrlTypeUnknown": "Koppeling",
     "appConfinementUnknown": "Onbekend",
-    "appConfinementStrict": "In de zandbak",
+    "appConfinementStrict": "In een sandbox",
     "appConfinementDevelopment": "Ontwikkelingsmodus",
     "appConfinementClassic": "Onbeperkt",
     "appConfinementUnrestricted": "Onbeperkt",
-    "appConfinementStrictTooltip": "Deze app heeft beperkte toegang. Toestemmingen kunnen beheerd worden in de app \"Instellingen\".",
-    "appConfinementClassicTooltip": "Deze app gebruikt klassieke begrenzingen, waardoor deze alle toestemmingen heeft. Dit is gebruikelijk bij ontwikkelingsapplicaties.",
-    "appConfinementUnrestrictedTooltip": "Deze app heeft volledige toegang.",
+    "appConfinementStrictTooltip": "Deze app heeft beperkte toegang tot je bronnen. Je kunt de machtigingen beheren in de app Instellingen.",
+    "appConfinementClassicTooltip": "Deze app gebruikt klassieke afscherming, wat volledige toegang geeft tot uw bronnen. Dit is gebruikelijk bij ontwikkelingsapps.",
+    "appConfinementUnrestrictedTooltip": "Deze app heeft volledige toegang tot uw bronnen.",
     "appLicenseUnknown": "Onbekend",
     "appPublishedUnknown": "Onbekend",
     "appMoreActionsSemanticLabel": "Meer acties",
     "snapActionRevertLabel": "Update ongedaan maken",
-    "snapActionRevertingLabel": "Update ongedaan aan het maken",
+    "snapActionRevertingLabel": "Update terugdraaien",
     "snapRevertConfirmTitle": "Terugdraaien naar vorige versie?",
     "snapRevertConfirmMessage": "Automatische updates gaan verder zodra er een nieuwe versie beschikbaar is.",
     "snapRevertConfirmRevert": "Terugdraaien",
     "snapRevertConfirmCancel": "Annuleren",
-    "snapRevertConfirmTitleWithVersions": "Draai terug van {currentVersion} (rev {currentRevision}) naar {previousVersion} (rev {previousRevision})?",
+    "snapRevertConfirmTitleWithVersions": "Terugdraaien van {currentVersion} (rev {currentRevision}) naar {previousVersion} (rev {previousRevision})?",
     "@snapRevertConfirmTitleWithVersions": {
         "placeholders": {
             "currentVersion": {
@@ -392,7 +392,7 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "Geen oude lokale revisie om naar terug te draaien.",
+    "snapRevertNoPreviousRevisionMessage": "Er is geen eerdere lokale revisie beschikbaar om naar terug te draaien.",
     "snapActionSwitchChannelTitle": "Kanaal van {appName} wisselen",
     "@snapActionSwitchChannelTitle": {
         "placeholders": {
@@ -402,7 +402,7 @@
         }
     },
     "codecPageTitle": "Ontbrekende mediacodecs",
-    "codecPageDescription": "Volgende codecs moeten geïnstalleerd worden om bepaalde video- en audioformats te kunnen gebruiken:",
-    "codecProprietaryDisclaimer": "Sommmige van de aanbevolen codecs hebben mogelijks geen vrije broncode.",
+    "codecPageDescription": "U moet de volgende codecs installeren om bepaalde video- en audioformaten te kunnen verwerken:",
+    "codecProprietaryDisclaimer": "Sommige van de aanbevolen codecs zijn mogelijk proprietair.",
     "codecInstallAllButton": "Aanbevolen codecs installeren"
 }
