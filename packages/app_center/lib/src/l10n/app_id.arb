@@ -364,7 +364,7 @@
     "appUrlTypeHomepage": "Situs web pengembang",
     "appUrlTypeUnknown": "Tautan",
     "appConfinementUnknown": "Tidak diketahui",
-    "appConfinementStrict": "Tersandbox",
+    "appConfinementStrict": "Di dalam sandbox",
     "appConfinementDevelopment": "Mode pengembang",
     "appConfinementClassic": "Tidak dibatasi",
     "appConfinementUnrestricted": "Tidak dibatasi",
