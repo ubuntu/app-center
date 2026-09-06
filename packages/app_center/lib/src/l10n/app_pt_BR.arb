@@ -350,9 +350,9 @@
     "codecProprietaryDisclaimer": "Alguns dos codecs recomendados podem ser proprietários.",
     "codecInstallAllButton": "Instale os codecs recomendados",
     "managePagePackageTypeLabel": "Tipo do pacote",
-    "managePagePackageTypeAll": "Tudo",
+    "managePagePackageTypeAll": "Todos",
     "managePagePackageTypeSnap": "Snap",
-    "appUrlTypeContact": "Contato {publisher}",
+    "appUrlTypeContact": "Contatar {publisher}",
     "@appUrlTypeContact": {
         "placeholders": {
             "publisher": {
@@ -361,21 +361,21 @@
         }
     },
     "appUrlTypeHomepage": "Site do desenvolvedor",
-    "appConfinementUnknown": "desconhecido",
+    "appConfinementUnknown": "Desconhecido",
     "appConfinementDevelopment": "Modo desenvolvedor",
     "appConfinementClassic": "Irrestrito",
     "appConfinementUnrestricted": "Irrestrito",
-    "appConfinementStrictTooltip": "Esse ap tem acesso limitado aos seus recursos. Você pode controlar suas permissões no aplicativo Ajustes.",
+    "appConfinementStrictTooltip": "Este aplicativo tem acesso limitado aos seus recursos. Você pode controlar suas permissões no aplicativo Configurações.",
     "appConfinementClassicTooltip": "Esse aplicativo usa confinamento clássico, concedendo acesso total aos seus recursos. Isso é comum em aplicativos de desenvolvimento.",
     "appConfinementUnrestrictedTooltip": "Esse aplicativo tem acesso total aos seus recursos.",
-    "appLicenseUnknown": "Desconhecido",
+    "appLicenseUnknown": "Desconhecida",
     "appPublishedUnknown": "Desconhecido",
     "appMoreActionsSemanticLabel": "Mais ações",
     "snapActionRevertLabel": "Reverter atualização",
     "snapActionRevertingLabel": "Revertendo a atualização",
     "snapRevertConfirmTitle": "Reverter para a versão anterior?",
-    "snapRevertConfirmMessage": "Atualizações automáticas continuarão após a nova versão estar disponível.",
-    "snapRevertConfirmRevert": "Reverta",
+    "snapRevertConfirmMessage": "As atualizações automáticas serão retomadas quando uma nova versão estiver disponível.",
+    "snapRevertConfirmRevert": "Reverter",
     "snapRevertConfirmCancel": "Cancelar",
     "snapRevertConfirmTitleWithVersions": "Reverter de {currentVersion} (rev {currentRevision}) para {previousVersion} (rev {previousRevision})?",
     "@snapRevertConfirmTitleWithVersions": {
@@ -394,8 +394,8 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "Não há revisão local anterior disponível para a qual reverter.",
-    "snapActionSwitchChannelTitle": "Troque o canal para {appName}",
+    "snapRevertNoPreviousRevisionMessage": "Não há revisão local anterior disponível para reverter.",
+    "snapActionSwitchChannelTitle": "Trocar canal de {appName}",
     "@snapActionSwitchChannelTitle": {
         "placeholders": {
             "appName": {
