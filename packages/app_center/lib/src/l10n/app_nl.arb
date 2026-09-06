@@ -60,7 +60,7 @@
     "snapPageLicenseLabel": "Licentie",
     "snapPageLinksLabel": "Links",
     "snapPagePublisherLabel": "Uitgever",
-    "snapPagePublishedLabel": "Uitgegeven",
+    "snapPagePublishedLabel": "Laatst geüpdatet",
     "snapPageSummaryLabel": "Samenvatting",
     "snapPageVersionLabel": "Versie",
     "snapPageShareLinkCopiedMessage": "Link gekopieerd naar klembord",
@@ -105,7 +105,7 @@
     "snapActionInstalledLabel": "Geïnstalleerd",
     "managePageDescription": "Controleren of er updates beschikbaar zijn, apps bijwerken en de status van alle apps beheren.",
     "managePageDebUpdatesMessage": "Updates van het Debian-pakket worden afgehandeld door de Software Updater.",
-    "managePageInstalledAndUpdatedLabel": "Geïnstalleerd en bijgewerkt",
+    "managePageInstalledAndUpdatedLabel": "Geïnstalleerde apps",
     "managePageInstallingLabel": "Installeren ({n})",
     "@managePageInstallingLabel": {
         "placeholders": {
@@ -259,7 +259,7 @@
     "errorViewUnknownErrorTitle": "Er is iets misgegaan",
     "errorViewUnknownErrorDescription": "Het spijt ons, maar we weten niet zeker wat de fout is.",
     "errorViewUnknownErrorAction": "Je kunt het nu opnieuw proberen, de status controleren op updates of het later opnieuw proberen.",
-    "snapPageConfinementLabel": "Beperking",
+    "snapPageConfinementLabel": "Toestemmingen",
     "snapCategoryDevicesAndIot": "Apparaten en IoT",
     "installAll": "Alles installeren",
     "localDebWarningTitle": "Mogelijk onveilig",
@@ -343,5 +343,66 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "managePagePackageTypeLabel": "Pakketsoort",
+    "managePagePackageTypeAll": "Alles",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appUrlTypeContact": "Contacteer {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Website van de ontwikkelaar",
+    "appUrlTypeUnknown": "Koppeling",
+    "appConfinementUnknown": "Onbekend",
+    "appConfinementStrict": "In een sandbox",
+    "appConfinementDevelopment": "Ontwikkelingsmodus",
+    "appConfinementClassic": "Onbeperkt",
+    "appConfinementUnrestricted": "Onbeperkt",
+    "appConfinementStrictTooltip": "Deze app heeft beperkte toegang tot je bronnen. Je kunt de machtigingen beheren in de app Instellingen.",
+    "appConfinementClassicTooltip": "Deze app gebruikt klassieke afscherming, wat volledige toegang geeft tot uw bronnen. Dit is gebruikelijk bij ontwikkelingsapps.",
+    "appConfinementUnrestrictedTooltip": "Deze app heeft volledige toegang tot uw bronnen.",
+    "appLicenseUnknown": "Onbekend",
+    "appPublishedUnknown": "Onbekend",
+    "appMoreActionsSemanticLabel": "Meer acties",
+    "snapActionRevertLabel": "Update ongedaan maken",
+    "snapActionRevertingLabel": "Update terugdraaien",
+    "snapRevertConfirmTitle": "Terugdraaien naar vorige versie?",
+    "snapRevertConfirmMessage": "Automatische updates worden hervat zodra er een nieuwe versie beschikbaar is.",
+    "snapRevertConfirmRevert": "Terugdraaien",
+    "snapRevertConfirmCancel": "Annuleren",
+    "snapRevertConfirmTitleWithVersions": "Terugdraaien van {currentVersion} (rev {currentRevision}) naar {previousVersion} (rev {previousRevision})?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRevertNoPreviousRevisionMessage": "Er is geen eerdere lokale revisie beschikbaar om naar terug te draaien.",
+    "snapActionSwitchChannelTitle": "Kanaal van {appName} wisselen",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "codecPageTitle": "Ontbrekende mediacodecs",
+    "codecPageDescription": "U moet de volgende codecs installeren om bepaalde video- en audioformaten te kunnen verwerken:",
+    "codecProprietaryDisclaimer": "Sommige van de aanbevolen codecs zijn mogelijk proprietair.",
+    "codecInstallAllButton": "Aanbevolen codecs installeren"
 }
