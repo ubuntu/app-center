@@ -345,7 +345,7 @@
         }
     },
     "managePagePackageTypeLabel": "Pakketsoort",
-    "managePagePackageTypeAll": "Alle",
+    "managePagePackageTypeAll": "Alles",
     "managePagePackageTypeSnap": "Snap",
     "managePagePackageTypeDeb": "Deb",
     "appUrlTypeContact": "Contacteer {publisher}",
