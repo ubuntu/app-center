@@ -375,7 +375,7 @@
     "managePagePackageTypeLabel": "პაკეტის ტიპი",
     "appMoreActionsSemanticLabel": "მეტი ქმედება",
     "snapRevertConfirmTitle": "დაბრუნდეს წინა ვერსიაზე?",
-    "appConfinementUnrestrictedTooltip": "ამ აპს სრული წვდომა აქვს თქვენი კომპიუტერის რესურსებთან.",
+    "appConfinementUnrestrictedTooltip": "ამ აპს სრული წვდომა აქვს თქვენს რესურსებთან.",
     "snapRevertConfirmTitleWithVersions": "დავაბრუნო {currentVersion} (rev {currentRevision})-დან {previousVersion} (rev {previousRevision})-ზე?",
     "@snapRevertConfirmTitleWithVersions": {
         "placeholders": {
@@ -393,8 +393,8 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "დასაბრუნებლად წინა ლოკალური რევიზია ხელმისაწვდომი არაა.",
+    "snapRevertNoPreviousRevisionMessage": "დასაბრუნებლად წინა ლოკალური რევიზია ხელმისაწვდომი არ არის.",
     "snapRevertConfirmMessage": "ავტომატური განახლებები გაგრძელდება, როცა ხელმისაწვდომი იქნება ახალი ვერსია.",
-    "appConfinementStrictTooltip": "ამ აპს თქვენი კომპიუტერის რესურსებთან შეზღუდული წვდომა აქვს. მიწი წვდომების მართვა მორგების აპიდან შეგიძლიათ.",
+    "appConfinementStrictTooltip": "ამ აპს თქვენს რესურსებთან შეზღუდული წვდომა აქვს. მისი ნებართვების მართვა პარამეტრების აპიდან შეგიძლიათ.",
     "appConfinementClassicTooltip": "ეს აპი კლასიკურ შეზღუდვას იყენებს, რაც მას თქვენი კომპიუტერის რესურსებთან სრულ წვდომას აძლევს. ეს, ჩვეულებრივ, პროგრამირების ხელსაწყოებთან ხდება."
 }
