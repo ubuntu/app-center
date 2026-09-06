@@ -350,7 +350,7 @@
     "codecInstallAllButton": "ຕິດຕັ້ງ Codecs ທີ່ແນະນຳ",
     "managePagePackageTypeLabel": "ປະເພດແພັກເກດ",
     "managePagePackageTypeAll": "ທັງໝົດ",
-    "managePagePackageTypeSnap": "ສະແນບ",
+    "managePagePackageTypeSnap": "Snap",
     "managePagePackageTypeDeb": "Deb",
     "appUrlTypeContact": "ຕິດຕໍ່ {publisher}",
     "@appUrlTypeContact": {
