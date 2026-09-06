@@ -345,7 +345,7 @@
     },
     "debPageShareLinkCopiedMessage": "链接已复制到粘贴板",
     "debPageShareSemanticLabel": "复制链接",
-    "managePagePackageTypeLabel": "软件包类型",
+    "managePagePackageTypeLabel": "包类型",
     "managePagePackageTypeAll": "全部",
     "managePagePackageTypeSnap": "Snap",
     "managePagePackageTypeDeb": "Deb",
