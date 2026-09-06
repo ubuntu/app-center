@@ -188,7 +188,7 @@
     },
     "snapCategoryArtAndDesign": "Arte e Deseño",
     "snapCategoryArtAndDesignButtonLabel": "Comezar a crear",
-    "snapCategoryArtAndDesignSlogan": "Desde o teu primeiro borrador ata o toque final, explora aplicacións para arte e deseño.",
+    "snapCategoryArtAndDesignSlogan": "Desde o teu primeiro bosquexo ata o toque final, explora aplicacións para arte e deseño.",
     "snapCategoryBooksAndReference": "Libros e referencia",
     "managePageUpdatedDaysAgo": "Actualizado hai {n, plural, =1{{n} día} other{{n} días}}",
     "@managePageUpdatedDaysAgo": {
@@ -282,7 +282,7 @@
     "snapConfinementClassic": "Clásico",
     "snapConfinementDevmode": "Modo de desenvolvemento",
     "snapConfinementStrict": "Estrito",
-    "snapSortOrderAlphabeticalAsc": "Alfabeticamente (A á Z)",
+    "snapSortOrderAlphabeticalAsc": "Alfabético (A á Z)",
     "snapSortOrderAlphabeticalDesc": "Alfabeticamente (Z á A)",
     "snapSortOrderDownloadSizeAsc": "Tamaño (de menor a maior)",
     "snapSortOrderDownloadSizeDesc": "Tamaño (de maior a menor)",
