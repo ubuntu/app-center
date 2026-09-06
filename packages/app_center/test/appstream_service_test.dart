@@ -135,4 +135,37 @@ void main() {
     results = await service.search('package tool');
     expect(results, isEmpty);
   });
+
+  test('getComponentsByPackage', () async {
+    const duplicateComponent = AppstreamComponent(
+      id: 'duplicate.desktop',
+      type: AppstreamComponentType.desktopApplication,
+      package: '0ad',
+      name: {'C': 'Duplicate'},
+      summary: {},
+    );
+
+    const emptyPackageComponent = AppstreamComponent(
+      id: 'empty.desktop',
+      type: AppstreamComponentType.desktopApplication,
+      package: '',
+      name: {'C': 'Empty Package'},
+      summary: {},
+    );
+
+    components.addAll([
+      component1,
+      component2,
+      duplicateComponent,
+      emptyPackageComponent,
+    ]);
+    await service.init();
+
+    final result = service.getComponentsByPackage();
+
+    expect(result.length, 2);
+    expect(result['0ad'], component1);
+    expect(result['qbrew'], component2);
+    expect(result.containsKey(''), isFalse);
+  });
 }

@@ -26,8 +26,11 @@ void main() {
   final mockAppClient = MockAppClient();
   final mockUserClient = MockUserClient();
   final mockChartClient = MockChartClient();
-  final ratingsClient =
-      RatingsClient.withClients(mockAppClient, mockUserClient, mockChartClient);
+  final ratingsClient = RatingsClient.withClients(
+    mockAppClient,
+    mockUserClient,
+    mockChartClient,
+  );
 
   test('get chart', () async {
     const snapId = 'foobar';

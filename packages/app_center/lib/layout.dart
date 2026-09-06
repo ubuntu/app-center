@@ -34,16 +34,20 @@ class ResponsiveLayout extends InheritedWidget {
     required super.child,
     super.key,
   }) {
-    final (cardColumnCount, cardSize, snapInfoColumnCount, type) =
-        switch (constraints.maxWidth + kPaneWidth + 1) {
+    final (
+      cardColumnCount,
+      cardSize,
+      snapInfoColumnCount,
+      type,
+    ) = switch (constraints.maxWidth + kPaneWidth + 1) {
       // 1px for YaruNavigationRail's separator
       < kBreakPointSmall => (1, kCardSizeWide, 3, ResponsiveLayoutType.small),
       < kBreakPointLarge => (
-          2,
-          kCardSizeNormal,
-          4,
-          ResponsiveLayoutType.medium
-        ),
+        2,
+        kCardSizeNormal,
+        4,
+        ResponsiveLayoutType.medium,
+      ),
       _ => (3, kCardSizeNormal, 6, ResponsiveLayoutType.large),
     };
     this.cardColumnCount = cardColumnCount;
@@ -65,8 +69,8 @@ class ResponsiveLayout extends InheritedWidget {
       2 * kCardMargin; // left+right margin of outermost cards
 
   EdgeInsets get padding => EdgeInsets.symmetric(
-        horizontal: (constraints.maxWidth - totalWidth) / 2.0,
-      );
+    horizontal: (constraints.maxWidth - totalWidth) / 2.0,
+  );
 
   static ResponsiveLayout? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<ResponsiveLayout>();
@@ -85,12 +89,12 @@ class ResponsiveLayout extends InheritedWidget {
 
 class ResponsiveLayoutBuilder extends LayoutBuilder {
   ResponsiveLayoutBuilder({required WidgetBuilder builder, super.key})
-      : super(
-          builder: (context, constraints) => ResponsiveLayout(
-            constraints: constraints,
-            child: Builder(builder: builder),
-          ),
-        );
+    : super(
+        builder: (context, constraints) => ResponsiveLayout(
+          constraints: constraints,
+          child: Builder(builder: builder),
+        ),
+      );
 }
 
 class ResponsiveLayoutScrollView extends StatelessWidget {

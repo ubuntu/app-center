@@ -19,6 +19,5 @@ const Empty$json = {
 };
 
 /// Descriptor for `Empty`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List emptyDescriptor = $convert.base64Decode(
-    'CgVFbXB0eQ==');
-
+final $typed_data.Uint8List emptyDescriptor =
+    $convert.base64Decode('CgVFbXB0eQ==');

@@ -7,9 +7,11 @@ import 'package:http/http.dart' as http;
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 
 class SnapReport extends StatefulWidget {
-  const SnapReport({required this.name, super.key});
+  const SnapReport({required this.name, required this.snapName, super.key});
 
   final String name;
+
+  final String snapName;
 
   @override
   State<SnapReport> createState() => _SnapReportState();
@@ -45,20 +47,22 @@ class _SnapReportState extends State<SnapReport> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: kCardMargin),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: kCardMargin,
+                      ),
                       child: Text(l10n.snapReportSelectReportReasonLabel),
                     ),
                     MenuButtonBuilder(
-                      entries: <String>[
-                        l10n.snapReportOptionCopyrightViolation,
-                        l10n.snapReportOptionStoreViolation,
-                      ].map<MenuButtonEntry<String>>((value) {
-                        return MenuButtonEntry<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
+                      entries:
+                          <String>[
+                            l10n.snapReportOptionCopyrightViolation,
+                            l10n.snapReportOptionStoreViolation,
+                          ].map<MenuButtonEntry<String>>((value) {
+                            return MenuButtonEntry<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
                       itemBuilder: (context, value, child) => Text(value),
                       selected: selectedReason,
                       onSelected: (value) {
@@ -85,8 +89,9 @@ class _SnapReportState extends State<SnapReport> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: kCardMargin),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: kCardMargin,
+                      ),
                       child: Text(l10n.snapReportDetailsLabel),
                     ),
                     SizedBox(
@@ -96,8 +101,12 @@ class _SnapReportState extends State<SnapReport> {
                           style: Theme.of(context).textTheme.bodyMedium,
                           textAlignVertical: TextAlignVertical.top,
                           decoration: InputDecoration(
-                            contentPadding:
-                                const EdgeInsets.fromLTRB(12, 8, 12, 8),
+                            contentPadding: const EdgeInsets.fromLTRB(
+                              12,
+                              8,
+                              12,
+                              8,
+                            ),
                             floatingLabelBehavior: FloatingLabelBehavior.never,
                             isDense: true,
                             hintText: l10n.snapReportDetailsHint,
@@ -119,8 +128,9 @@ class _SnapReportState extends State<SnapReport> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: kCardMargin),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: kCardMargin,
+                      ),
                       child: Text(
                         l10n.snapReportOptionalEmailAddressLabel,
                       ),
@@ -186,7 +196,7 @@ class _SnapReportState extends State<SnapReport> {
                         'Content-Type': 'application/x-www-form-urlencoded',
                       };
                       final requestBody = <String, String>{
-                        'entry.1703677219': widget.name.toLowerCase(),
+                        'entry.1703677219': widget.snapName,
                         'entry.1193754313': selectedReason!,
                         'entry.1170971435': _detailsController.text,
                         'entry.1424146082': _emailController.text,

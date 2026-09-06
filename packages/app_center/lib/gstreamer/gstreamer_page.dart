@@ -1,6 +1,5 @@
 import 'package:app_center/constants.dart';
 import 'package:app_center/deb/deb_providers.dart';
-import 'package:app_center/extensions/iterable_extensions.dart';
 import 'package:app_center/gstreamer/gstreamer.dart';
 import 'package:app_center/gstreamer/gstreamer_model.dart';
 import 'package:app_center/l10n.dart';
@@ -21,7 +20,8 @@ class GStreamerPage extends ConsumerWidget {
 
     return ResponsiveLayoutBuilder(
       builder: (context) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: kPagePadding) +
+        padding:
+            const EdgeInsets.symmetric(vertical: kPagePadding) +
             ResponsiveLayout.of(context).padding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,8 +74,9 @@ class _GstreamerActions extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final gstreamer =
-        ref.watch(gstreamerModelProvider(GstResourceCollection(resources)));
+    final gstreamer = ref.watch(
+      gstreamerModelProvider(GstResourceCollection(resources)),
+    );
 
     return gstreamer.when(
       data: (data) => _GStreamerActionButton(resources: resources, data: data),
@@ -121,11 +122,12 @@ class _GStreamerActionButton extends ConsumerWidget {
       return YaruSplitButton(
         onPressed: data.canInstall
             ? () => ref
-                .read(
-                  gstreamerModelProvider(GstResourceCollection(resources))
-                      .notifier,
-                )
-                .installAll()
+                  .read(
+                    gstreamerModelProvider(
+                      GstResourceCollection(resources),
+                    ).notifier,
+                  )
+                  .installAll()
             : null,
         child: Text(l10n.codecInstallAllButton),
       );
@@ -138,11 +140,12 @@ class _GStreamerActionButton extends ConsumerWidget {
           YaruSplitButton.outlined(
             onPressed: data.canCancel
                 ? () => ref
-                    .read(
-                      gstreamerModelProvider(GstResourceCollection(resources))
-                          .notifier,
-                    )
-                    .cancel()
+                      .read(
+                        gstreamerModelProvider(
+                          GstResourceCollection(resources),
+                        ).notifier,
+                      )
+                      .cancel()
                 : null,
             child: Text(l10n.snapActionCancelLabel),
           ),
@@ -170,8 +173,9 @@ class _TransactionSpinner extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final transaction =
-        ref.watch(transactionProvider(activeTransactionId)).valueOrNull;
+    final transaction = ref
+        .watch(transactionProvider(activeTransactionId))
+        .valueOrNull;
 
     return Row(
       children: [

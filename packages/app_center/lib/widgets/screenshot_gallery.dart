@@ -76,17 +76,21 @@ class MediaTile extends StatelessWidget {
         color: Colors.transparent,
         child: Semantics(
           button: true,
-          child: InkWell(
+          child: YaruFocusBorder.primary(
             borderRadius: borderRadius.outer(padding),
-            excludeFromSemantics: true,
-            onTap: onTap,
-            child: Padding(
-              padding: padding,
-              child: ClipRRect(
-                borderRadius: borderRadius,
-                child: SafeNetworkImage(
-                  url: url,
-                  semanticLabel: semanticLabel,
+            child: InkWell(
+              borderRadius: borderRadius.outer(padding),
+              focusColor: Colors.transparent,
+              excludeFromSemantics: true,
+              onTap: onTap,
+              child: Padding(
+                padding: padding,
+                child: ClipRRect(
+                  borderRadius: borderRadius,
+                  child: SafeNetworkImage(
+                    url: url,
+                    semanticLabel: semanticLabel,
+                  ),
                 ),
               ),
             ),
@@ -165,8 +169,9 @@ class _CarouselDialogState extends State<_CarouselDialog> {
                   SafeNetworkImage(
                     url: widget.urls[i],
                     fit: BoxFit.fitWidth,
-                    semanticLabel:
-                        l10n.snapPageGalleryImageSemanticLabel(i + 1),
+                    semanticLabel: l10n.snapPageGalleryImageSemanticLabel(
+                      i + 1,
+                    ),
                   ),
               ],
             ),
@@ -195,7 +200,8 @@ class SafeNetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fallBack = fallBackIcon ??
+    final fallBack =
+        fallBackIcon ??
         Icon(
           YaruIcons.image,
           size: 60,

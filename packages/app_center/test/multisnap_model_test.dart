@@ -38,8 +38,10 @@ void main() {
       storeSnap: storeSnap,
       storeSnapsCount: SnapCategoryEnum.gameDev.featuredSnapNames!.length,
     );
-    final model =
-        MultiSnapModel(snapd: service, category: SnapCategoryEnum.gameDev);
+    final model = MultiSnapModel(
+      snapd: service,
+      category: SnapCategoryEnum.gameDev,
+    );
     await model.init();
 
     await model.installAll();

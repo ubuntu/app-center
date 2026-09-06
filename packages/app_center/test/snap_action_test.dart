@@ -23,21 +23,23 @@ void main() {
       expect(SnapAction.revert.icon, equals(YaruIcons.undo));
     });
 
-    test('revert callback is available when a previous local revision exists',
-        () async {
-      final container = createContainer();
-      registerMockSnapdService(localSnap: createSnap(name: 'test'));
-      final model = container.read(snapModelProvider('test').notifier);
-      final snapData = SnapData(
-        name: 'test',
-        localSnap: createSnap(name: 'test'),
-        storeSnap: null,
-        hasPreviousLocalRevision: true, // defaults are fine
-      );
+    test(
+      'revert callback is available when a previous local revision exists',
+      () async {
+        final container = createContainer();
+        registerMockSnapdService(localSnap: createSnap(name: 'test'));
+        final model = container.read(snapModelProvider('test').notifier);
+        final snapData = SnapData(
+          name: 'test',
+          localSnap: createSnap(name: 'test'),
+          storeSnap: null,
+          hasPreviousLocalRevision: true, // defaults are fine
+        );
 
-      final callback = SnapAction.revert.callback(snapData, model);
-      expect(callback, isNotNull);
-    });
+        final callback = SnapAction.revert.callback(snapData, model);
+        expect(callback, isNotNull);
+      },
+    );
 
     test('revert callback is null for uninstalled snaps', () async {
       final container = createContainer();

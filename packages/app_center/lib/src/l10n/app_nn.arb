@@ -1,410 +1,250 @@
 {
-  "appstreamUrlTypeContribute": "Bidra",
-  "@appstreamUrlTypeContribute": {},
-  "snapCategoryArtAndDesign": "Kunst og Design",
-  "@snapCategoryArtAndDesign": {},
-  "snapCategoryFeatured": "Utvalde",
-  "@snapCategoryFeatured": {},
-  "snapCategoryGamesSlogan": "Alt til spelekvelden",
-  "@snapCategoryGamesSlogan": {},
-  "snapCategoryBooksAndReference": "Bøker og Referanseverktøy",
-  "@snapCategoryBooksAndReference": {},
-  "snapCategoryGameEmulatorsSlogan": "Emulatorar",
-  "@snapCategoryGameEmulatorsSlogan": {},
-  "snapCategoryGnomeGames": "GNOME-spel",
-  "@snapCategoryGnomeGames": {},
-  "snapCategoryGnomeGamesSlogan": "GNOME Spel-pakke",
-  "@snapCategoryGnomeGamesSlogan": {},
-  "snapCategoryKdeGames": "KDE-spel",
-  "@snapCategoryKdeGames": {},
-  "snapCategoryProductivityButtonLabel": "Oppdag produktivitetssamlinga",
-  "@snapCategoryProductivityButtonLabel": {},
-  "snapCategoryScience": "Vitskap",
-  "@snapCategoryScience": {},
-  "snapCategoryUbuntuDesktopSlogan": "Få i gong skrivebordet ditt",
-  "@snapCategoryUbuntuDesktopSlogan": {},
-  "snapSortOrderDownloadSizeAsc": "Storleik (Minst til størst)",
-  "@snapSortOrderDownloadSizeAsc": {},
-  "snapCategoryUbuntuDesktop": "Ubuntu Desktop",
-  "@snapCategoryUbuntuDesktop": {},
-  "snapCategoryUtilities": "Verktøy",
-  "@snapCategoryUtilities": {},
-  "snapSortOrderInstalledSizeDesc": "Storleik (Størst til minst)",
-  "@snapSortOrderInstalledSizeDesc": {},
-  "snapSortOrderInstalledDateAsc": "Minst nyleg oppdatert",
-  "@snapSortOrderInstalledDateAsc": {},
-  "snapRatingsBandGood": "Bra",
-  "@snapRatingsBandGood": {},
-  "snapSortOrderRelevance": "Relevans",
-  "@snapSortOrderRelevance": {},
-  "snapRatingsBandVeryGood": "Veldig bra",
-  "@snapRatingsBandVeryGood": {},
-  "snapRatingsVotes": "{n} stemmer",
-  "@snapRatingsVotes": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapReportOptionCopyrightViolation": "Brot på opphavsrett eller varemerke",
-  "@snapReportOptionCopyrightViolation": {},
-  "snapReportOptionStoreViolation": "Snap Store vilkårsovertrakking",
-  "@snapReportOptionStoreViolation": {},
-  "installAll": "Installer alle",
-  "@installAll": {},
-  "snapActionInstalledLabel": "Installert",
-  "@snapActionInstalledLabel": {},
-  "snapActionInstallingLabel": "Installerar",
-  "@snapActionInstallingLabel": {},
-  "snapActionRemoveLabel": "Avinstaller",
-  "@snapActionRemoveLabel": {},
-  "snapActionUpdatingLabel": "Oppdaterar",
-  "@snapActionUpdatingLabel": {},
-  "snapCategoryGameDev": "Spelutvikling",
-  "@snapCategoryGameDev": {},
-  "snapCategoryGameDevSlogan": "Spelutvikling",
-  "@snapCategoryGameDevSlogan": {},
-  "snapCategoryMusicAndAudio": "Musikk og Lyd",
-  "@snapCategoryMusicAndAudio": {},
-  "snapCategoryNewsAndWeather": "Nyhende og Vêr",
-  "@snapCategoryNewsAndWeather": {},
-  "snapCategorySecurity": "Sikkerheit",
-  "@snapCategorySecurity": {},
-  "snapCategoryServerAndCloud": "Server og Sky",
-  "@snapCategoryServerAndCloud": {},
-  "snapCategorySocial": "Sosialt",
-  "@snapCategorySocial": {},
-  "snapSortOrderDownloadSizeDesc": "Storleik (Størst til minst)",
-  "@snapSortOrderDownloadSizeDesc": {},
-  "snapRatingsBandNeutral": "Nøytral",
-  "@snapRatingsBandNeutral": {},
-  "snapRatingsBandPoor": "Dårleg",
-  "@snapRatingsBandPoor": {},
-  "snapRatingsBandVeryPoor": "Veldig dårleg",
-  "@snapRatingsBandVeryPoor": {},
-  "snapReportSelectReportReasonLabel": "Vel ein grunn for å rapportere denne snappen",
-  "@snapReportSelectReportReasonLabel": {},
-  "snapReportPrivacyAgreementAndLabel": "og ",
-  "@snapReportPrivacyAgreementAndLabel": {},
-  "externalResourcesDisclaimer": "Merk: Dette er eksterne verktøy. Desse er korkje eig eller tilbytt av Canonical.",
-  "@externalResourcesDisclaimer": {},
-  "snapReportSelectAnOptionLabel": "Vel",
-  "@snapReportSelectAnOptionLabel": {},
-  "snapReportDetailsLabel": "Gjer vel å oppgje meir detaljar i rapporten",
-  "@snapReportDetailsLabel": {},
-  "snapReportPrivacyAgreementLabel": "Ved å sende inn dette skjemaet, stadfester eg å ha lese og samtykka til ",
-  "@snapReportPrivacyAgreementLabel": {},
-  "localDebWarningTitle": "Kan vere usikre",
-  "@localDebWarningTitle": {},
-  "localDebWarningBody": "Denne pakken blir levert av ein tredjepart. Å installere pakkar frå utanfor App Center kan auke risikoen for systemet ditt og personlege data. Forsikre deg om at du stolar på kjelda før du held fram.",
-  "@localDebWarningBody": {},
-  "managePageDebUpdatesMessage": "Debianpakkeoppdateringar er handtert av Programvareoppdatering-appen.",
-  "@managePageDebUpdatesMessage": {},
-  "appCenterLabel": "App Center",
-  "@appCenterLabel": {},
-  "snapPageChannelLabel": "Kanal",
-  "@snapPageChannelLabel": {},
-  "snapPageConfinementLabel": "Avgrensa",
-  "@snapPageConfinementLabel": {},
-  "snapPageContactPublisherLabel": "Kontakt {publisher}",
-  "@snapPageContactPublisherLabel": {
-    "placeholders": {
-      "publisher": {
-        "type": "String"
-      }
-    }
-  },
-  "snapPageDescriptionLabel": "Skildring",
-  "@snapPageDescriptionLabel": {},
-  "snapPageDeveloperWebsiteLabel": "Utviklarnettstad",
-  "@snapPageDeveloperWebsiteLabel": {},
-  "snapPageDownloadSizeLabel": "Nedlastingsstorleik",
-  "@snapPageDownloadSizeLabel": {},
-  "snapPageGalleryLabel": "Galleri",
-  "@snapPageGalleryLabel": {},
-  "snapPageLinksLabel": "Lenkjer",
-  "@snapPageLinksLabel": {},
-  "snapPagePublisherLabel": "Utgjevar",
-  "@snapPagePublisherLabel": {},
-  "snapPagePublishedLabel": "Utgjeve",
-  "@snapPagePublishedLabel": {},
-  "snapPageLicenseLabel": "Lisens",
-  "@snapPageLicenseLabel": {},
-  "snapPageVersionLabel": "Versjon",
-  "@snapPageVersionLabel": {},
-  "snapPageShareLinkCopiedMessage": "Lenkje kopiert til utklyppstavle",
-  "@snapPageShareLinkCopiedMessage": {},
-  "explorePageCategoriesLabel": "Kategoriar",
-  "@explorePageCategoriesLabel": {},
-  "managePageCheckingForUpdates": "Ser etter oppdateringar",
-  "@managePageCheckingForUpdates": {},
-  "managePageInstalledAndUpdatedLabel": "Installert og oppdatert",
-  "@managePageInstalledAndUpdatedLabel": {},
-  "managePageSearchFieldSearchHint": "Søk i dine installerte appar",
-  "@managePageSearchFieldSearchHint": {},
-  "managePageShowDetailsLabel": "Vis detaljar",
-  "@managePageShowDetailsLabel": {},
-  "managePageNoUpdatesAvailableDescription": "Ingen oppdateringar tilgjengeleg. Applikasjonane dine er oppdaterte.",
-  "@managePageNoUpdatesAvailableDescription": {},
-  "managePageUpdatesAvailable": "Oppdateringar tilgjengeleg ({n})",
-  "@managePageUpdatesAvailable": {},
-  "gamesPageTitle": "Populært",
-  "@gamesPageTitle": {},
-  "developmentPageLabel": "Utvikling",
-  "@developmentPageLabel": {},
-  "gamesPageTop": "Populære spel",
-  "@gamesPageTop": {},
-  "searchPageNoResultsHint": "Prøv å nytt andre eller meir generelle søkjeord",
-  "@searchPageNoResultsHint": {},
-  "searchPageRelevanceLabel": "Relevans",
-  "@searchPageRelevanceLabel": {},
-  "searchPageTitle": "Resultat for \"{query}\"",
-  "@searchPageTitle": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutPageLabel": "Om",
-  "@aboutPageLabel": {},
-  "aboutPagePublishLabel": "Legg til i Snap Store",
-  "@aboutPagePublishLabel": {},
-  "aboutPageCommunityTitle": "Ver ein del av fellesskapet:",
-  "@aboutPageCommunityTitle": {},
-  "aboutPageLearnMoreLabel": "Lær meir",
-  "@aboutPageLearnMoreLabel": {},
-  "appstreamUrlTypeHelp": "Hjelp",
-  "@appstreamUrlTypeHelp": {},
-  "appstreamUrlTypeContact": "Kontakt",
-  "@appstreamUrlTypeContact": {},
-  "appstreamUrlTypeDonation": "Doner",
-  "@appstreamUrlTypeDonation": {},
-  "appstreamUrlTypeHomepage": "Heimeside",
-  "@appstreamUrlTypeHomepage": {},
-  "appstreamUrlTypeBugtracker": "Feilsporar",
-  "@appstreamUrlTypeBugtracker": {},
-  "appstreamUrlTypeFaq": "FAQ",
-  "@appstreamUrlTypeFaq": {},
-  "appstreamUrlTypeTranslate": "Omsetjingar",
-  "@appstreamUrlTypeTranslate": {},
-  "packageFormatDebLabel": "Debianpakkar",
-  "@packageFormatDebLabel": {},
-  "snapActionCancelLabel": "Avbryt",
-  "@snapActionCancelLabel": {},
-  "snapActionInstallLabel": "Installer",
-  "@snapActionInstallLabel": {},
-  "snapActionRemovingLabel": "Avinstallerar",
-  "@snapActionRemovingLabel": {},
-  "snapActionSwitchChannelLabel": "Byt kanal",
-  "@snapActionSwitchChannelLabel": {},
-  "snapCategoryAll": "Alle kategoriar",
-  "@snapCategoryAll": {},
-  "snapActionUpdateLabel": "Oppdater",
-  "@snapActionUpdateLabel": {},
-  "snapCategoryDevelopmentSlogan": "Må-ha-Snaps for utviklarar",
-  "@snapCategoryDevelopmentSlogan": {},
-  "snapCategoryDevicesAndIot": "Einingar og IoT",
-  "@snapCategoryDevicesAndIot": {},
-  "snapCategoryEntertainment": "Underhalding",
-  "@snapCategoryEntertainment": {},
-  "snapCategoryDefaultButtonLabel": "Oppdag meir",
-  "@snapCategoryDefaultButtonLabel": {},
-  "snapCategoryDevelopment": "Utvikling",
-  "@snapCategoryDevelopment": {},
-  "snapCategoryEducation": "Utdanning",
-  "@snapCategoryEducation": {},
-  "snapCategoryFinance": "Finans",
-  "@snapCategoryFinance": {},
-  "snapCategoryGames": "Spel",
-  "@snapCategoryGames": {},
-  "snapCategoryFeaturedSlogan": "Utvalde Snaps",
-  "@snapCategoryFeaturedSlogan": {},
-  "snapCategoryGameLaunchersSlogan": "Spelstartarar",
-  "@snapCategoryGameLaunchersSlogan": {},
-  "snapCategoryGameLaunchers": "Spelstartarar",
-  "@snapCategoryGameLaunchers": {},
-  "snapCategoryPersonalisation": "Personalisering",
-  "@snapCategoryPersonalisation": {},
-  "snapCategoryProductivity": "Produktivitet",
-  "@snapCategoryProductivity": {},
-  "snapCategoryProductivitySlogan": "Huk av ting på to-do-lista di",
-  "@snapCategoryProductivitySlogan": {},
-  "snapCategoryPhotoAndVideo": "Foto og Video",
-  "@snapCategoryPhotoAndVideo": {},
-  "snapConfinementDevmode": "Utviklarmodus",
-  "@snapConfinementDevmode": {},
-  "snapConfinementStrict": "Streng",
-  "@snapConfinementStrict": {},
-  "snapSortOrderAlphabeticalAsc": "Alfabetisk (A til Å)",
-  "@snapSortOrderAlphabeticalAsc": {},
-  "snapSortOrderAlphabeticalDesc": "Alfabetisk (Å til A)",
-  "@snapSortOrderAlphabeticalDesc": {},
-  "snapConfinementClassic": "Klassisk",
-  "@snapConfinementClassic": {},
-  "snapSortOrderInstalledDateDesc": "Sist oppdatert",
-  "@snapSortOrderInstalledDateDesc": {},
-  "snapReportLabel": "Rapporter {snapName}",
-  "@snapReportLabel": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "snapReportOptionalEmailAddressLabel": "E-posten din (valfritt)",
-  "@snapReportOptionalEmailAddressLabel": {},
-  "snapReportCancelButtonLabel": "Avbryt",
-  "@snapReportCancelButtonLabel": {},
-  "snapReportSubmitButtonLabel": "Send inn rapport",
-  "@snapReportSubmitButtonLabel": {},
-  "snapReportEnterValidEmailError": "Legg inn ei gyldig epost-adresse",
-  "@snapReportEnterValidEmailError": {},
-  "snapReportDetailsHint": "Kommenter...",
-  "@snapReportDetailsHint": {},
-  "debPageErrorNoPackageInfo": "Ingen pakkeinformasjon funne",
-  "@debPageErrorNoPackageInfo": {},
-  "externalResources": "Andre ressursar",
-  "@externalResources": {},
-  "externalResourcesButtonLabel": "Oppdag meir",
-  "@externalResourcesButtonLabel": {},
-  "allGamesButtonLabel": "Alle spel",
-  "@allGamesButtonLabel": {},
-  "openInBrowser": "Opne i nettlesar",
-  "@openInBrowser": {},
-  "snapReportPrivacyAgreementPrivacyPolicy": "Personvernserklæring",
-  "@snapReportPrivacyAgreementPrivacyPolicy": {},
-  "managePageUpdatedDaysAgo": "Oppdatert for {n, plural, =1{{n} dag} other{{n} dagar}} sidan",
-  "@managePageUpdatedDaysAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapPageSizeLabel": "Storleik",
-  "@snapPageSizeLabel": {},
-  "managePageShowSystemSnapsLabel": "Vis systemsnappar",
-  "@managePageShowSystemSnapsLabel": {},
-  "managePageUpdateAllLabel": "Oppdater alle",
-  "@managePageUpdateAllLabel": {},
-  "managePageUpdatedMonthsAgo": "Oppdatert for {n, plural, =1{{n} månad} other{{n} månadar}} sidan",
-  "@managePageUpdatedMonthsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "searchPageNoResultsCategory": "Orsak, vi kunne ikkje finne nokon pakkar i denne kategorien",
-  "@searchPageNoResultsCategory": {},
-  "packageFormatSnapLabel": "Snap-pakkar",
-  "@packageFormatSnapLabel": {},
-  "managePageUpdatedWeeksAgo": "Oppdatert for {n, plural, =1{{n} veke} other{{n} veker}} sidan",
-  "@managePageUpdatedWeeksAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapCategoryKdeGamesSlogan": "KDE Spelpakke",
-  "@snapCategoryKdeGamesSlogan": {},
-  "snapSortOrderInstalledSizeAsc": "Storleik (Minst til størst)",
-  "@snapSortOrderInstalledSizeAsc": {},
-  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonical si personvernserklæring ",
-  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
-  "localDebLearnMore": "Lær meir om tredjeparts-pakkar",
-  "@localDebLearnMore": {},
-  "localDebDialogMessage": "Denne pakken er tilbytt av ein tredjepart og kan true systemet ditt, og dine personlege data.",
-  "@localDebDialogMessage": {},
-  "localDebDialogConfirmation": "Er du sikker på at du vil installere den?",
-  "@localDebDialogConfirmation": {},
-  "aboutPageVersionLabel": "Versjon {version}",
-  "@aboutPageVersionLabel": {
-    "placeholders": {
-      "version": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutPageContributorTitle": "Designa og utvikla av:",
-  "@aboutPageContributorTitle": {},
-  "snapActionOpenLabel": "Opne",
-  "@snapActionOpenLabel": {},
-  "appstreamSearchGreylist": "app;applikasjon;pakke;program;program;programpakke;verktøy",
-  "@appstreamSearchGreylist": {},
-  "snapPageSummaryLabel": "Samanfatning",
-  "@snapPageSummaryLabel": {},
-  "explorePageLabel": "Utforsk",
-  "@explorePageLabel": {},
-  "managePageCheckForUpdates": "Sjå etter oppdateringar",
-  "@managePageCheckForUpdates": {},
-  "managePageDescription": "Sjå etter tilgjengelege oppdateringar, oppdater appane dine, og sjekk statusen til alle appane dine.",
-  "@managePageDescription": {},
-  "managePageLabel": "Administrer installerte Snaps",
-  "@managePageLabel": {},
-  "managePageUpdatedYearsAgo": "Oppdatert for {n, plural, =1{{n} år} other{{n} år}} sidan",
-  "@managePageUpdatedYearsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "gamesPageFeatured": "Utvalde titlar",
-  "@gamesPageFeatured": {},
-  "snapCategoryGameEmulators": "Emulatorar",
-  "@snapCategoryGameEmulators": {},
-  "productivityPageLabel": "Produktivitet",
-  "@productivityPageLabel": {},
-  "snapCategoryGameContentCreation": "Innhaldsskaping",
-  "@snapCategoryGameContentCreation": {},
-  "gamesPageLabel": "Spel",
-  "@gamesPageLabel": {},
-  "snapCategoryGameContentCreationSlogan": "Innhaldsskaping",
-  "@snapCategoryGameContentCreationSlogan": {},
-  "snapCategoryHealthAndFitness": "Helse og Trening",
-  "@snapCategoryHealthAndFitness": {},
-  "gamesPageBundles": "App-pakkar",
-  "@gamesPageBundles": {},
-  "unknownPublisher": "Ukjend utgjevar",
-  "@unknownPublisher": {},
-  "searchFieldSearchHint": "Søk etter appar",
-  "@searchFieldSearchHint": {},
-  "searchFieldSearchForLabel": "Vis alle resultat for \"{query}\"",
-  "@searchFieldSearchForLabel": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "searchFieldSnapSection": "Snap-pakkar",
-  "@searchFieldSnapSection": {},
-  "searchPageSortByLabel": "Sorter etter",
-  "@searchPageSortByLabel": {},
-  "searchFieldDebSection": "Debianpakkar",
-  "@searchFieldDebSection": {},
-  "searchPageFilterByLabel": "Filtrer etter",
-  "@searchPageFilterByLabel": {},
-  "searchPageNoResultsCategoryHint": "Prøv ein annan kategori eller nytt meir generelle søkjeord",
-  "@searchPageNoResultsCategoryHint": {},
-  "searchPageNoResults": "Ingen resultat funne for \"{query}\"",
-  "@searchPageNoResults": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutPageGitHubLabel": "Finn oss på GitHub",
-  "@aboutPageGitHubLabel": {},
-  "aboutPageContributeLabel": "Bidra eller rapporter feil",
-  "@aboutPageContributeLabel": {},
-  "appstreamUrlTypeVcsBrowser": "Kjelde",
-  "@appstreamUrlTypeVcsBrowser": {},
-  "snapRatingsBandInsufficientVotes": "Ikkje nok stemmer",
-  "@snapRatingsBandInsufficientVotes": {}
+    "appstreamUrlTypeContribute": "Bidra",
+    "snapCategoryArtAndDesign": "Kunst og Design",
+    "snapCategoryFeatured": "Utvalde",
+    "snapCategoryGamesSlogan": "Alt til spelekvelden",
+    "snapCategoryBooksAndReference": "Bøker og Referanseverktøy",
+    "snapCategoryGameEmulatorsSlogan": "Emulatorar",
+    "snapCategoryGnomeGames": "GNOME-spel",
+    "snapCategoryGnomeGamesSlogan": "GNOME Spel-pakke",
+    "snapCategoryKdeGames": "KDE-spel",
+    "snapCategoryProductivityButtonLabel": "Oppdag produktivitetssamlinga",
+    "snapCategoryScience": "Vitskap",
+    "snapCategoryUbuntuDesktopSlogan": "Få i gong skrivebordet ditt",
+    "snapSortOrderDownloadSizeAsc": "Storleik (Minst til størst)",
+    "snapCategoryUbuntuDesktop": "Ubuntu Desktop",
+    "snapCategoryUtilities": "Verktøy",
+    "snapSortOrderInstalledSizeDesc": "Storleik (Størst til minst)",
+    "snapSortOrderInstalledDateAsc": "Minst nyleg oppdatert",
+    "snapRatingsBandGood": "Bra",
+    "snapSortOrderRelevance": "Relevans",
+    "snapRatingsBandVeryGood": "Veldig bra",
+    "snapRatingsVotes": "{n} stemmer",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapReportOptionCopyrightViolation": "Brot på opphavsrett eller varemerke",
+    "snapReportOptionStoreViolation": "Snap Store vilkårsovertrakking",
+    "installAll": "Installer alle",
+    "snapActionInstalledLabel": "Installert",
+    "snapActionInstallingLabel": "Installerar",
+    "snapActionRemoveLabel": "Avinstaller",
+    "snapActionUpdatingLabel": "Oppdaterar",
+    "snapCategoryGameDev": "Spelutvikling",
+    "snapCategoryGameDevSlogan": "Spelutvikling",
+    "snapCategoryMusicAndAudio": "Musikk og Lyd",
+    "snapCategoryNewsAndWeather": "Nyhende og Vêr",
+    "snapCategorySecurity": "Sikkerheit",
+    "snapCategoryServerAndCloud": "Server og Sky",
+    "snapCategorySocial": "Sosialt",
+    "snapSortOrderDownloadSizeDesc": "Storleik (Størst til minst)",
+    "snapRatingsBandNeutral": "Nøytral",
+    "snapRatingsBandPoor": "Dårleg",
+    "snapRatingsBandVeryPoor": "Veldig dårleg",
+    "snapReportSelectReportReasonLabel": "Vel ein grunn for å rapportere denne snappen",
+    "snapReportPrivacyAgreementAndLabel": "og ",
+    "externalResourcesDisclaimer": "Merk: Dette er eksterne verktøy. Desse er korkje eig eller tilbytt av Canonical.",
+    "snapReportSelectAnOptionLabel": "Vel",
+    "snapReportDetailsLabel": "Gjer vel å oppgje meir detaljar i rapporten",
+    "snapReportPrivacyAgreementLabel": "Ved å sende inn dette skjemaet, stadfester eg å ha lese og samtykka til ",
+    "localDebWarningTitle": "Kan vere usikre",
+    "localDebWarningBody": "Denne pakken blir levert av ein tredjepart. Å installere pakkar frå utanfor App Center kan auke risikoen for systemet ditt og personlege data. Forsikre deg om at du stolar på kjelda før du held fram.",
+    "managePageDebUpdatesMessage": "Debianpakkeoppdateringar er handtert av Programvareoppdatering-appen.",
+    "appCenterLabel": "App Center",
+    "snapPageChannelLabel": "Kanal",
+    "snapPageConfinementLabel": "Avgrensa",
+    "snapPageContactPublisherLabel": "Kontakt {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageDescriptionLabel": "Skildring",
+    "snapPageDeveloperWebsiteLabel": "Utviklarnettstad",
+    "snapPageDownloadSizeLabel": "Nedlastingsstorleik",
+    "snapPageGalleryLabel": "Galleri",
+    "snapPageLinksLabel": "Lenkjer",
+    "snapPagePublisherLabel": "Utgjevar",
+    "snapPagePublishedLabel": "Utgjeve",
+    "snapPageLicenseLabel": "Lisens",
+    "snapPageVersionLabel": "Versjon",
+    "snapPageShareLinkCopiedMessage": "Lenkje kopiert til utklyppstavle",
+    "explorePageCategoriesLabel": "Kategoriar",
+    "managePageCheckingForUpdates": "Ser etter oppdateringar",
+    "managePageInstalledAndUpdatedLabel": "Installert og oppdatert",
+    "managePageSearchFieldSearchHint": "Søk i dine installerte appar",
+    "managePageShowDetailsLabel": "Vis detaljar",
+    "managePageNoUpdatesAvailableDescription": "Ingen oppdateringar tilgjengeleg. Applikasjonane dine er oppdaterte.",
+    "managePageUpdatesAvailable": "Oppdateringar tilgjengeleg ({n})",
+    "gamesPageTitle": "Populært",
+    "developmentPageLabel": "Utvikling",
+    "gamesPageTop": "Populære spel",
+    "searchPageNoResultsHint": "Prøv å nytt andre eller meir generelle søkjeord",
+    "searchPageRelevanceLabel": "Relevans",
+    "searchPageTitle": "Resultat for \"{query}\"",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageLabel": "Om",
+    "aboutPagePublishLabel": "Legg til i Snap Store",
+    "aboutPageCommunityTitle": "Ver ein del av fellesskapet:",
+    "aboutPageLearnMoreLabel": "Lær meir",
+    "appstreamUrlTypeHelp": "Hjelp",
+    "appstreamUrlTypeContact": "Kontakt",
+    "appstreamUrlTypeDonation": "Doner",
+    "appstreamUrlTypeHomepage": "Heimeside",
+    "appstreamUrlTypeBugtracker": "Feilsporar",
+    "appstreamUrlTypeFaq": "FAQ",
+    "appstreamUrlTypeTranslate": "Omsetjingar",
+    "packageFormatDebLabel": "Debianpakkar",
+    "snapActionCancelLabel": "Avbryt",
+    "snapActionInstallLabel": "Installer",
+    "snapActionRemovingLabel": "Avinstallerar",
+    "snapActionSwitchChannelLabel": "Byt kanal",
+    "snapCategoryAll": "Alle kategoriar",
+    "snapActionUpdateLabel": "Oppdater",
+    "snapCategoryDevelopmentSlogan": "Må-ha-Snaps for utviklarar",
+    "snapCategoryDevicesAndIot": "Einingar og IoT",
+    "snapCategoryEntertainment": "Underhalding",
+    "snapCategoryDefaultButtonLabel": "Oppdag meir",
+    "snapCategoryDevelopment": "Utvikling",
+    "snapCategoryEducation": "Utdanning",
+    "snapCategoryFinance": "Finans",
+    "snapCategoryGames": "Spel",
+    "snapCategoryFeaturedSlogan": "Utvalde Snaps",
+    "snapCategoryGameLaunchersSlogan": "Spelstartarar",
+    "snapCategoryGameLaunchers": "Spelstartarar",
+    "snapCategoryPersonalisation": "Personalisering",
+    "snapCategoryProductivity": "Produktivitet",
+    "snapCategoryProductivitySlogan": "Huk av ting på to-do-lista di",
+    "snapCategoryPhotoAndVideo": "Foto og Video",
+    "snapConfinementDevmode": "Utviklarmodus",
+    "snapConfinementStrict": "Streng",
+    "snapSortOrderAlphabeticalAsc": "Alfabetisk (A til Å)",
+    "snapSortOrderAlphabeticalDesc": "Alfabetisk (Å til A)",
+    "snapConfinementClassic": "Klassisk",
+    "snapSortOrderInstalledDateDesc": "Sist oppdatert",
+    "snapReportLabel": "Rapporter {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportOptionalEmailAddressLabel": "E-posten din (valfritt)",
+    "snapReportCancelButtonLabel": "Avbryt",
+    "snapReportSubmitButtonLabel": "Send inn rapport",
+    "snapReportEnterValidEmailError": "Legg inn ei gyldig epost-adresse",
+    "snapReportDetailsHint": "Kommenter...",
+    "debPageErrorNoPackageInfo": "Ingen pakkeinformasjon funne",
+    "externalResources": "Andre ressursar",
+    "externalResourcesButtonLabel": "Oppdag meir",
+    "allGamesButtonLabel": "Alle spel",
+    "openInBrowser": "Opne i nettlesar",
+    "snapReportPrivacyAgreementPrivacyPolicy": "Personvernserklæring",
+    "managePageUpdatedDaysAgo": "Oppdatert for {n, plural, =1{{n} dag} other{{n} dagar}} sidan",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageSizeLabel": "Storleik",
+    "managePageShowSystemSnapsLabel": "Vis systemsnappar",
+    "managePageUpdateAllLabel": "Oppdater alle",
+    "managePageUpdatedMonthsAgo": "Oppdatert for {n, plural, =1{{n} månad} other{{n} månadar}} sidan",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "searchPageNoResultsCategory": "Orsak, vi kunne ikkje finne nokon pakkar i denne kategorien",
+    "packageFormatSnapLabel": "Snap-pakkar",
+    "managePageUpdatedWeeksAgo": "Oppdatert for {n, plural, =1{{n} veke} other{{n} veker}} sidan",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapCategoryKdeGamesSlogan": "KDE Spelpakke",
+    "snapSortOrderInstalledSizeAsc": "Storleik (Minst til størst)",
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonical si personvernserklæring ",
+    "localDebLearnMore": "Lær meir om tredjeparts-pakkar",
+    "localDebDialogMessage": "Denne pakken er tilbytt av ein tredjepart og kan true systemet ditt, og dine personlege data.",
+    "localDebDialogConfirmation": "Er du sikker på at du vil installere den?",
+    "aboutPageVersionLabel": "Versjon {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageContributorTitle": "Designa og utvikla av:",
+    "snapActionOpenLabel": "Opne",
+    "appstreamSearchGreylist": "app;applikasjon;pakke;program;program;programpakke;verktøy",
+    "snapPageSummaryLabel": "Samanfatning",
+    "explorePageLabel": "Utforsk",
+    "managePageCheckForUpdates": "Sjå etter oppdateringar",
+    "managePageDescription": "Sjå etter tilgjengelege oppdateringar, oppdater appane dine, og sjekk statusen til alle appane dine.",
+    "managePageLabel": "Administrer installerte Snaps",
+    "managePageUpdatedYearsAgo": "Oppdatert for {n, plural, =1{{n} år} other{{n} år}} sidan",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "gamesPageFeatured": "Utvalde titlar",
+    "snapCategoryGameEmulators": "Emulatorar",
+    "productivityPageLabel": "Produktivitet",
+    "snapCategoryGameContentCreation": "Innhaldsskaping",
+    "gamesPageLabel": "Spel",
+    "snapCategoryGameContentCreationSlogan": "Innhaldsskaping",
+    "snapCategoryHealthAndFitness": "Helse og Trening",
+    "gamesPageBundles": "App-pakkar",
+    "unknownPublisher": "Ukjend utgjevar",
+    "searchFieldSearchHint": "Søk etter appar",
+    "searchFieldSearchForLabel": "Vis alle resultat for \"{query}\"",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchFieldSnapSection": "Snap-pakkar",
+    "searchPageSortByLabel": "Sorter etter",
+    "searchFieldDebSection": "Debianpakkar",
+    "searchPageFilterByLabel": "Filtrer etter",
+    "searchPageNoResultsCategoryHint": "Prøv ein annan kategori eller nytt meir generelle søkjeord",
+    "searchPageNoResults": "Ingen resultat funne for \"{query}\"",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageGitHubLabel": "Finn oss på GitHub",
+    "aboutPageContributeLabel": "Bidra eller rapporter feil",
+    "appstreamUrlTypeVcsBrowser": "Kjelde",
+    "snapRatingsBandInsufficientVotes": "Ikkje nok stemmer"
 }

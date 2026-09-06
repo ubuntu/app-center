@@ -1,478 +1,300 @@
 {
-  "snapPageLinksLabel": "Link",
-  "@snapPageLinksLabel": {},
-  "snapPageVersionLabel": "Version",
-  "@snapPageVersionLabel": {},
-  "packageFormatDebLabel": "Debian-pakker",
-  "@packageFormatDebLabel": {},
-  "snapCategoryBooksAndReference": "Bøger og reference",
-  "@snapCategoryBooksAndReference": {},
-  "snapCategoryProductivity": "Produktivitet",
-  "@snapCategoryProductivity": {},
-  "snapCategoryUtilities": "Værktøjer",
-  "@snapCategoryUtilities": {},
-  "snapCategorySocial": "Socialt",
-  "@snapCategorySocial": {},
-  "productivityPageLabel": "Produktivitet",
-  "@productivityPageLabel": {},
-  "snapCategoryNewsAndWeather": "Nyheder og vejr",
-  "@snapCategoryNewsAndWeather": {},
-  "gamesPageLabel": "Spil",
-  "@gamesPageLabel": {},
-  "snapCategoryArtAndDesign": "Kunst og design",
-  "@snapCategoryArtAndDesign": {},
-  "developmentPageLabel": "Udvikling",
-  "@developmentPageLabel": {},
-  "managePageLabel": "Håndtér",
-  "@managePageLabel": {},
-  "snapPageChannelLabel": "Kanal",
-  "@snapPageChannelLabel": {},
-  "snapCategoryEducation": "Uddannelse",
-  "@snapCategoryEducation": {},
-  "snapActionUpdateLabel": "Opdatér",
-  "@snapActionUpdateLabel": {},
-  "searchPageSortByLabel": "Sortér efter",
-  "@searchPageSortByLabel": {},
-  "snapPageGalleryLabel": "Galleri",
-  "@snapPageGalleryLabel": {},
-  "searchFieldDebSection": "Debian-pakker",
-  "@searchFieldDebSection": {},
-  "snapActionOpenLabel": "Åbn",
-  "@snapActionOpenLabel": {},
-  "snapCategoryDevelopment": "Udvikling",
-  "@snapCategoryDevelopment": {},
-  "snapCategoryHealthAndFitness": "Helse og fitness",
-  "@snapCategoryHealthAndFitness": {},
-  "appstreamUrlTypeContact": "Kontakt",
-  "@appstreamUrlTypeContact": {},
-  "snapCategorySecurity": "Sikkerhed",
-  "@snapCategorySecurity": {},
-  "snapCategoryFinance": "Finans",
-  "@snapCategoryFinance": {},
-  "snapCategoryServerAndCloud": "Server og sky",
-  "@snapCategoryServerAndCloud": {},
-  "aboutPageLabel": "Om",
-  "@aboutPageLabel": {},
-  "snapPageSummaryLabel": "Opsummering",
-  "@snapPageSummaryLabel": {},
-  "appstreamSearchGreylist": "app;applikation;pakke;program;værktøj;tilbehør;plugin",
-  "@appstreamSearchGreylist": {},
-  "snapCategoryScience": "Videnskab",
-  "@snapCategoryScience": {},
-  "snapCategoryEntertainment": "Underholdning",
-  "@snapCategoryEntertainment": {},
-  "snapActionInstallLabel": "Installér",
-  "@snapActionInstallLabel": {},
-  "snapPageLicenseLabel": "Licens",
-  "@snapPageLicenseLabel": {},
-  "snapCategoryPhotoAndVideo": "Foto og video",
-  "@snapCategoryPhotoAndVideo": {},
-  "snapPageConfinementLabel": "Isolering",
-  "@snapPageConfinementLabel": {},
-  "snapCategoryMusicAndAudio": "Musik og lyd",
-  "@snapCategoryMusicAndAudio": {},
-  "aboutPageGitHubLabel": "Find os på GitHub",
-  "@aboutPageGitHubLabel": {},
-  "packageFormatSnapLabel": "Snap-pakker",
-  "@packageFormatSnapLabel": {},
-  "snapCategoryGames": "Spil",
-  "@snapCategoryGames": {},
-  "snapActionInstallingLabel": "Installerer",
-  "@snapActionInstallingLabel": {},
-  "searchFieldSearchHint": "Søg efter programmer",
-  "@searchFieldSearchHint": {},
-  "snapCategoryFeatured": "Udvalgte",
-  "@snapCategoryFeatured": {},
-  "managePageSearchFieldSearchHint": "Søg i dine installerede programmer",
-  "@managePageSearchFieldSearchHint": {},
-  "snapActionCancelLabel": "Annullér",
-  "@snapActionCancelLabel": {},
-  "snapPagePublisherLabel": "Udgiver",
-  "@snapPagePublisherLabel": {},
-  "snapPageDescriptionLabel": "Beskrivelse",
-  "@snapPageDescriptionLabel": {},
-  "explorePageLabel": "Udforsk",
-  "@explorePageLabel": {},
-  "searchFieldSnapSection": "Snap-pakker",
-  "@searchFieldSnapSection": {},
-  "managePageCheckForUpdates": "Søg efter opdateringer",
-  "@managePageCheckForUpdates": {},
-  "appCenterLabel": "Appcenter",
-  "@appCenterLabel": {},
-  "snapPageContactPublisherLabel": "Kontakt {publisher}",
-  "@snapPageContactPublisherLabel": {
-    "placeholders": {
-      "publisher": {
-        "type": "String"
-      }
+    "snapPageLinksLabel": "Link",
+    "snapPageVersionLabel": "Version",
+    "packageFormatDebLabel": "Debian-pakker",
+    "snapCategoryBooksAndReference": "Bøger og reference",
+    "snapCategoryProductivity": "Produktivitet",
+    "snapCategoryUtilities": "Værktøjer",
+    "snapCategorySocial": "Socialt",
+    "productivityPageLabel": "Produktivitet",
+    "snapCategoryNewsAndWeather": "Nyheder og vejr",
+    "gamesPageLabel": "Spil",
+    "snapCategoryArtAndDesign": "Kunst og design",
+    "developmentPageLabel": "Udvikling",
+    "managePageLabel": "Håndtér",
+    "snapPageChannelLabel": "Kanal",
+    "snapCategoryEducation": "Uddannelse",
+    "snapActionUpdateLabel": "Opdatér",
+    "searchPageSortByLabel": "Sortér efter",
+    "snapPageGalleryLabel": "Galleri",
+    "searchFieldDebSection": "Debian-pakker",
+    "snapActionOpenLabel": "Åbn",
+    "snapCategoryDevelopment": "Udvikling",
+    "snapCategoryHealthAndFitness": "Helse og fitness",
+    "appstreamUrlTypeContact": "Kontakt",
+    "snapCategorySecurity": "Sikkerhed",
+    "snapCategoryFinance": "Finans",
+    "snapCategoryServerAndCloud": "Server og sky",
+    "aboutPageLabel": "Om",
+    "snapPageSummaryLabel": "Opsummering",
+    "appstreamSearchGreylist": "app;applikation;pakke;program;værktøj;tilbehør;plugin",
+    "snapCategoryScience": "Videnskab",
+    "snapCategoryEntertainment": "Underholdning",
+    "snapActionInstallLabel": "Installér",
+    "snapPageLicenseLabel": "Licens",
+    "snapCategoryPhotoAndVideo": "Foto og video",
+    "snapPageConfinementLabel": "Isolering",
+    "snapCategoryMusicAndAudio": "Musik og lyd",
+    "aboutPageGitHubLabel": "Find os på GitHub",
+    "packageFormatSnapLabel": "Snap-pakker",
+    "snapCategoryGames": "Spil",
+    "snapActionInstallingLabel": "Installerer",
+    "searchFieldSearchHint": "Søg efter programmer",
+    "snapCategoryFeatured": "Udvalgte",
+    "managePageSearchFieldSearchHint": "Søg i dine installerede programmer",
+    "snapActionCancelLabel": "Annullér",
+    "snapPagePublisherLabel": "Udgiver",
+    "snapPageDescriptionLabel": "Beskrivelse",
+    "explorePageLabel": "Udforsk",
+    "searchFieldSnapSection": "Snap-pakker",
+    "managePageCheckForUpdates": "Søg efter opdateringer",
+    "appCenterLabel": "Appcenter",
+    "snapPageContactPublisherLabel": "Kontakt {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageDeveloperWebsiteLabel": "Udviklerwebsted",
+    "snapPageDownloadSizeLabel": "Downloadstørrelse",
+    "snapPagePublishedLabel": "Udgivet",
+    "snapPageShareLinkCopiedMessage": "Link kopieret til udklipsholder",
+    "explorePageCategoriesLabel": "Kategorier",
+    "managePageCheckingForUpdates": "Kontrollerer, om der er opdateringer",
+    "managePageDescription": "Led efter opdateringer, opdatér dine programmer, og håndtér status for alle dine programmer.",
+    "managePageInstalledAndUpdatedLabel": "Installeret og opdateret",
+    "managePageNoUpdatesAvailableDescription": "Der er ingen tilgængelige opdateringer. Alle dine programmer er opdateret.",
+    "managePageShowDetailsLabel": "Vis detaljer",
+    "managePageShowSystemSnapsLabel": "Vis systemsnapper",
+    "managePageUpdateAllLabel": "Opdatér alle",
+    "managePageUpdatedDaysAgo": "Opdateret for {n, plural, =1{{n} dag} other{{n} dage}} siden",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesAvailable": "Opdateringer er tilgængelige ({n})",
+    "gamesPageTitle": "Populære",
+    "gamesPageTop": "Populære spil",
+    "gamesPageFeatured": "Fremhævede titler",
+    "gamesPageBundles": "Programpakker",
+    "unknownPublisher": "Ukendt udgiver",
+    "searchFieldSearchForLabel": "Vis alle resultater for “{query}”",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageFilterByLabel": "Filtrér efter",
+    "searchPageNoResults": "Ingen resultater for “{query}”",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageNoResultsCategory": "Beklager, vi kunne ikke finde nogen pakker i denne kategori",
+    "searchPageNoResultsCategoryHint": "Prøv en anden kategori eller brug mere generelle nøgleord",
+    "searchPageRelevanceLabel": "Relevans",
+    "searchPageTitle": "Resultater for “{query}”",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageContributorTitle": "Designet og udviklet af:",
+    "aboutPageVersionLabel": "Version {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageCommunityTitle": "Deltag i fællesskabet:",
+    "aboutPageContributeLabel": "Bidrag eller rapportér fejl",
+    "aboutPagePublishLabel": "Udgiv i Snapbutikken",
+    "aboutPageLearnMoreLabel": "Mere info",
+    "appstreamUrlTypeBugtracker": "Fejlrapportering",
+    "appstreamUrlTypeDonation": "Donér",
+    "appstreamUrlTypeFaq": "OSS",
+    "appstreamUrlTypeHelp": "Hjælp",
+    "appstreamUrlTypeHomepage": "Hjemmeside",
+    "appstreamUrlTypeTranslate": "Oversættelser",
+    "snapActionRemoveLabel": "Afinstallér",
+    "snapActionRemovingLabel": "Afinstallerer",
+    "snapActionSwitchChannelLabel": "Skift kanal",
+    "snapCategoryAll": "Alle kategorier",
+    "snapActionUpdatingLabel": "Opdaterer",
+    "snapCategoryDefaultButtonLabel": "Gå på opdagelse",
+    "snapCategoryDevelopmentSlogan": "Essentielle snapper til udviklere",
+    "snapCategoryDevicesAndIot": "Enheder og IoT",
+    "snapCategoryFeaturedSlogan": "Udvalgte snapper",
+    "snapCategoryGamesSlogan": "Alt til din spilaften",
+    "snapCategoryGameDev": "Spiludvikling",
+    "snapCategoryGameDevSlogan": "Spiludvikling",
+    "snapCategoryGameEmulators": "Emulatorer",
+    "snapCategoryGameEmulatorsSlogan": "Emulatorer",
+    "snapCategoryGnomeGames": "GNOME-spil",
+    "snapCategoryGnomeGamesSlogan": "GNOME-spilsamling",
+    "snapCategoryKdeGames": "KDE-spil",
+    "snapCategoryKdeGamesSlogan": "KDE-spilsamling",
+    "snapCategoryGameLaunchers": "Spilstartere",
+    "snapCategoryGameLaunchersSlogan": "Spilstartere",
+    "snapCategoryGameContentCreation": "Kreativitet",
+    "snapCategoryGameContentCreationSlogan": "Kreativitet",
+    "snapCategoryPersonalisation": "Brugertilpasning",
+    "snapCategoryProductivityButtonLabel": "På opdagelse i produktivitetssamlingen",
+    "snapCategoryProductivitySlogan": "Sæt hak ved en ting på din to-do-liste",
+    "snapCategoryUbuntuDesktop": "Ubuntu-skrivebord",
+    "snapConfinementClassic": "Klassisk",
+    "snapCategoryUbuntuDesktopSlogan": "Aktivér dit skrivebord",
+    "snapConfinementDevmode": "Udviklertilstand",
+    "snapSortOrderAlphabeticalAsc": "Alfabetisk (A til Å)",
+    "snapSortOrderAlphabeticalDesc": "Alfabetisk (Å til A)",
+    "snapSortOrderDownloadSizeAsc": "Størrelse (mindste til største)",
+    "snapSortOrderDownloadSizeDesc": "Størrelse (største til mindste)",
+    "snapSortOrderInstalledSizeAsc": "Størrelse (mindste til største)",
+    "snapSortOrderInstalledDateDesc": "Senest opdateret",
+    "snapSortOrderInstalledDateAsc": "Opdateret for længst tid siden",
+    "snapConfinementStrict": "Begrænset",
+    "snapSortOrderRelevance": "Relevans",
+    "snapRatingsBandVeryGood": "Meget god",
+    "snapRatingsBandGood": "God",
+    "snapRatingsBandNeutral": "Neutral",
+    "snapRatingsBandPoor": "Dårlig",
+    "snapRatingsBandVeryPoor": "Meget dårlig",
+    "snapRatingsBandInsufficientVotes": "Ikke nok stemmer",
+    "snapReportLabel": "Rapportér {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectReportReasonLabel": "Vælg en årsag til, at du rapporterer denne snap",
+    "snapReportSelectAnOptionLabel": "Vælg en mulighed",
+    "snapReportOptionCopyrightViolation": "Brud på ophavsret eller varemærke",
+    "snapReportOptionStoreViolation": "Brud på Snapbutikkens brugsbetingelser",
+    "snapReportDetailsLabel": "Angiv venligst en mere uddybende begrundelse for din rapport",
+    "snapReportOptionalEmailAddressLabel": "Din e-mail (valgfri)",
+    "snapReportEnterValidEmailError": "Indtast en gyldig e-mailadresse",
+    "snapReportDetailsHint": "Kommentar …",
+    "snapReportPrivacyAgreementLabel": "I forbindelse med indsendelse af denne formular bekræfter jeg, at jeg har læst og accepterer ",
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonicals privatlivsnotits ",
+    "snapReportPrivacyAgreementPrivacyPolicy": "Privatlivspolitik",
+    "debPageErrorNoPackageInfo": "Ingen pakkeinformation fundet",
+    "externalResources": "Yderligere ressourcer",
+    "allGamesButtonLabel": "Alle spil",
+    "externalResourcesDisclaimer": "Bemærk: Alle disse er eksterne værktøjer. De ejes eller distribueres ikke af Canonical.",
+    "externalResourcesButtonLabel": "Gå på opdagelse",
+    "openInBrowser": "Åbn i browser",
+    "installAll": "Installér alle",
+    "searchPageNoResultsHint": "Prøv at bruge andre eller mere generelle nøgleord",
+    "snapSortOrderInstalledSizeDesc": "Størrelse (største til mindste)",
+    "snapReportCancelButtonLabel": "Annullér",
+    "snapReportSubmitButtonLabel": "Indsend rapport",
+    "snapReportPrivacyAgreementAndLabel": "og ",
+    "snapRatingsVotes": "{n} stemmer",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedWeeksAgo": "Opdateret for {n, plural, =1{{n} uge} other{{n} uger}} siden",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "Opdateret for {n, plural, =1{{n} måned} other{{n} måneder}} siden",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "Opdateret for {n, plural, =1{{n} år} other{{n} år}} siden",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "appstreamUrlTypeVcsBrowser": "Kilde",
+    "managePageDebUpdatesMessage": "Debian-pakkeopdateringer håndteres af Softwareopdateringen.",
+    "snapActionInstalledLabel": "Installeret",
+    "snapPageSizeLabel": "Størrelse",
+    "localDebWarningBody": "Denne pakke leveres af en tredjepart. Installeres pakker, som ikke kommer fra Appcenteret, kan det forøge risikoen for dit system og dine personlige data. Vær sikker på, at du stoler på kilden, før du fortsætter.",
+    "localDebWarningTitle": "Potentielt usikker",
+    "localDebLearnMore": "Lær mere om tredjepartspakker",
+    "localDebDialogConfirmation": "Er du sikker på, at du vil installere den?",
+    "managePageOwnUpdateDescriptionSoon": "Appcenteret vil automatisk opdatere om {time}.",
+    "@managePageOwnUpdateDescriptionSoon": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageOwnUpdateAvailable": "Opdatering til Appcenter tilgængelig",
+    "managePageOwnUpdateQuitButton": "Afslut og gå til opdatering",
+    "managePageOwnUpdateDescription": "Når du forlader programmet, vil det automatisk blive opdateret.",
+    "managePageUpdatesFailedBody": "Vi kunne ikke opdatere disse programmer, fordi de kører.\n\n{snapList}\nNår du afslutter programmerne, vil de automatisk blive opdateret.",
+    "errorViewNetworkErrorAction": "Tjek din forbindelse og prøv igen.",
+    "managePageTitle": "Håndtér installerede snapper",
+    "managePageUpdatesFailed": "{n, plural, =1{En opdatering} other{{n} opdateringer}} mislykkedes",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "appstreamUrlTypeContribute": "Bidrag",
+    "localDebDialogMessage": "Denne pakke leveres af en tredjepart, hvilket kan udgøre en sikkerhedsrisiko for dit system og dine personlige data.",
+    "errorViewUnknownErrorAction": "Du kan prøve igen nu. Tjek status på opdateringer, eller prøv igen senere.",
+    "snapdExceptionRunningApps": "Vi kunne ikke opdatere {snapName}, fordi den kører.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewNetworkErrorTitle": "Forbind til internettet",
+    "errorViewNetworkErrorDescription": "Vi kan ikke indlæse indholdet i Appcenteret uden en internetforbindelse.",
+    "errorViewCheckStatusLabel": "Undersøg status",
+    "errorViewUnknownErrorTitle": "Noget gik galt",
+    "errorViewServerErrorDescription": "Vi oplever desværre problemer med Appcenteret for tiden.",
+    "errorViewServerErrorAction": "Tjek status på opdateringer eller prøv igen senere.",
+    "errorViewUnknownErrorDescription": "Vi er ikke sikre på, hvad fejlen er.",
+    "snapCategoryArtAndDesignButtonLabel": "Begynd at skabe",
+    "snapCategoryArtAndDesignSlogan": "Udforsk programmer til kunst og design fra din første skitse til den sidste finish.",
+    "managePageQuitToUpdate": "Afslut og gå til opdatering",
+    "managePageNoInternet": "Kan ikke forbinde til server. Tjek din internetforbindelse eller prøv igen senere.",
+    "managePageInstallingLabel": "Installerer ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
     }
-  },
-  "snapPageDeveloperWebsiteLabel": "Udviklerwebsted",
-  "@snapPageDeveloperWebsiteLabel": {},
-  "snapPageDownloadSizeLabel": "Downloadstørrelse",
-  "@snapPageDownloadSizeLabel": {},
-  "snapPagePublishedLabel": "Udgivet",
-  "@snapPagePublishedLabel": {},
-  "snapPageShareLinkCopiedMessage": "Link kopieret til udklipsholder",
-  "@snapPageShareLinkCopiedMessage": {},
-  "explorePageCategoriesLabel": "Kategorier",
-  "@explorePageCategoriesLabel": {},
-  "managePageCheckingForUpdates": "Kontrollerer, om der er opdateringer",
-  "@managePageCheckingForUpdates": {},
-  "managePageDescription": "Led efter opdateringer, opdatér dine programmer, og håndtér status for alle dine programmer.",
-  "@managePageDescription": {},
-  "managePageInstalledAndUpdatedLabel": "Installeret og opdateret",
-  "@managePageInstalledAndUpdatedLabel": {},
-  "managePageNoUpdatesAvailableDescription": "Der er ingen tilgængelige opdateringer. Alle dine programmer er opdateret.",
-  "@managePageNoUpdatesAvailableDescription": {},
-  "managePageShowDetailsLabel": "Vis detaljer",
-  "@managePageShowDetailsLabel": {},
-  "managePageShowSystemSnapsLabel": "Vis systemsnapper",
-  "@managePageShowSystemSnapsLabel": {},
-  "managePageUpdateAllLabel": "Opdatér alle",
-  "@managePageUpdateAllLabel": {},
-  "managePageUpdatedDaysAgo": "Opdateret for {n, plural, =1{{n} dag} other{{n} dage}} siden",
-  "@managePageUpdatedDaysAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatesAvailable": "Opdateringer er tilgængelige ({n})",
-  "@managePageUpdatesAvailable": {},
-  "gamesPageTitle": "Populære",
-  "@gamesPageTitle": {},
-  "gamesPageTop": "Populære spil",
-  "@gamesPageTop": {},
-  "gamesPageFeatured": "Fremhævede titler",
-  "@gamesPageFeatured": {},
-  "gamesPageBundles": "Programpakker",
-  "@gamesPageBundles": {},
-  "unknownPublisher": "Ukendt udgiver",
-  "@unknownPublisher": {},
-  "searchFieldSearchForLabel": "Vis alle resultater for “{query}”",
-  "@searchFieldSearchForLabel": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "searchPageFilterByLabel": "Filtrér efter",
-  "@searchPageFilterByLabel": {},
-  "searchPageNoResults": "Ingen resultater for “{query}”",
-  "@searchPageNoResults": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "searchPageNoResultsCategory": "Beklager, vi kunne ikke finde nogen pakker i denne kategori",
-  "@searchPageNoResultsCategory": {},
-  "searchPageNoResultsCategoryHint": "Prøv en anden kategori eller brug mere generelle nøgleord",
-  "@searchPageNoResultsCategoryHint": {},
-  "searchPageRelevanceLabel": "Relevans",
-  "@searchPageRelevanceLabel": {},
-  "searchPageTitle": "Resultater for “{query}”",
-  "@searchPageTitle": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutPageContributorTitle": "Designet og udviklet af:",
-  "@aboutPageContributorTitle": {},
-  "aboutPageVersionLabel": "Version {version}",
-  "@aboutPageVersionLabel": {
-    "placeholders": {
-      "version": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutPageCommunityTitle": "Deltag i fællesskabet:",
-  "@aboutPageCommunityTitle": {},
-  "aboutPageContributeLabel": "Bidrag eller rapportér fejl",
-  "@aboutPageContributeLabel": {},
-  "aboutPagePublishLabel": "Udgiv i Snapbutikken",
-  "@aboutPagePublishLabel": {},
-  "aboutPageLearnMoreLabel": "Mere info",
-  "@aboutPageLearnMoreLabel": {},
-  "appstreamUrlTypeBugtracker": "Fejlrapportering",
-  "@appstreamUrlTypeBugtracker": {},
-  "appstreamUrlTypeDonation": "Donér",
-  "@appstreamUrlTypeDonation": {},
-  "appstreamUrlTypeFaq": "OSS",
-  "@appstreamUrlTypeFaq": {},
-  "appstreamUrlTypeHelp": "Hjælp",
-  "@appstreamUrlTypeHelp": {},
-  "appstreamUrlTypeHomepage": "Hjemmeside",
-  "@appstreamUrlTypeHomepage": {},
-  "appstreamUrlTypeTranslate": "Oversættelser",
-  "@appstreamUrlTypeTranslate": {},
-  "snapActionRemoveLabel": "Afinstallér",
-  "@snapActionRemoveLabel": {},
-  "snapActionRemovingLabel": "Afinstallerer",
-  "@snapActionRemovingLabel": {},
-  "snapActionSwitchChannelLabel": "Skift kanal",
-  "@snapActionSwitchChannelLabel": {},
-  "snapCategoryAll": "Alle kategorier",
-  "@snapCategoryAll": {},
-  "snapActionUpdatingLabel": "Opdaterer",
-  "@snapActionUpdatingLabel": {},
-  "snapCategoryDefaultButtonLabel": "Gå på opdagelse",
-  "@snapCategoryDefaultButtonLabel": {},
-  "snapCategoryDevelopmentSlogan": "Essentielle snapper til udviklere",
-  "@snapCategoryDevelopmentSlogan": {},
-  "snapCategoryDevicesAndIot": "Enheder og IoT",
-  "@snapCategoryDevicesAndIot": {},
-  "snapCategoryFeaturedSlogan": "Udvalgte snapper",
-  "@snapCategoryFeaturedSlogan": {},
-  "snapCategoryGamesSlogan": "Alt til din spilaften",
-  "@snapCategoryGamesSlogan": {},
-  "snapCategoryGameDev": "Spiludvikling",
-  "@snapCategoryGameDev": {},
-  "snapCategoryGameDevSlogan": "Spiludvikling",
-  "@snapCategoryGameDevSlogan": {},
-  "snapCategoryGameEmulators": "Emulatorer",
-  "@snapCategoryGameEmulators": {},
-  "snapCategoryGameEmulatorsSlogan": "Emulatorer",
-  "@snapCategoryGameEmulatorsSlogan": {},
-  "snapCategoryGnomeGames": "GNOME-spil",
-  "@snapCategoryGnomeGames": {},
-  "snapCategoryGnomeGamesSlogan": "GNOME-spilsamling",
-  "@snapCategoryGnomeGamesSlogan": {},
-  "snapCategoryKdeGames": "KDE-spil",
-  "@snapCategoryKdeGames": {},
-  "snapCategoryKdeGamesSlogan": "KDE-spilsamling",
-  "@snapCategoryKdeGamesSlogan": {},
-  "snapCategoryGameLaunchers": "Spilstartere",
-  "@snapCategoryGameLaunchers": {},
-  "snapCategoryGameLaunchersSlogan": "Spilstartere",
-  "@snapCategoryGameLaunchersSlogan": {},
-  "snapCategoryGameContentCreation": "Kreativitet",
-  "@snapCategoryGameContentCreation": {},
-  "snapCategoryGameContentCreationSlogan": "Kreativitet",
-  "@snapCategoryGameContentCreationSlogan": {},
-  "snapCategoryPersonalisation": "Brugertilpasning",
-  "@snapCategoryPersonalisation": {},
-  "snapCategoryProductivityButtonLabel": "På opdagelse i produktivitetssamlingen",
-  "@snapCategoryProductivityButtonLabel": {},
-  "snapCategoryProductivitySlogan": "Sæt hak ved en ting på din to-do-liste",
-  "@snapCategoryProductivitySlogan": {},
-  "snapCategoryUbuntuDesktop": "Ubuntu-skrivebord",
-  "@snapCategoryUbuntuDesktop": {},
-  "snapConfinementClassic": "Klassisk",
-  "@snapConfinementClassic": {},
-  "snapCategoryUbuntuDesktopSlogan": "Aktivér dit skrivebord",
-  "@snapCategoryUbuntuDesktopSlogan": {},
-  "snapConfinementDevmode": "Udviklertilstand",
-  "@snapConfinementDevmode": {},
-  "snapSortOrderAlphabeticalAsc": "Alfabetisk (A til Å)",
-  "@snapSortOrderAlphabeticalAsc": {},
-  "snapSortOrderAlphabeticalDesc": "Alfabetisk (Å til A)",
-  "@snapSortOrderAlphabeticalDesc": {},
-  "snapSortOrderDownloadSizeAsc": "Størrelse (mindste til største)",
-  "@snapSortOrderDownloadSizeAsc": {},
-  "snapSortOrderDownloadSizeDesc": "Størrelse (største til mindste)",
-  "@snapSortOrderDownloadSizeDesc": {},
-  "snapSortOrderInstalledSizeAsc": "Størrelse (mindste til største)",
-  "@snapSortOrderInstalledSizeAsc": {},
-  "snapSortOrderInstalledDateDesc": "Senest opdateret",
-  "@snapSortOrderInstalledDateDesc": {},
-  "snapSortOrderInstalledDateAsc": "Opdateret for længst tid siden",
-  "@snapSortOrderInstalledDateAsc": {},
-  "snapConfinementStrict": "Begrænset",
-  "@snapConfinementStrict": {},
-  "snapSortOrderRelevance": "Relevans",
-  "@snapSortOrderRelevance": {},
-  "snapRatingsBandVeryGood": "Meget god",
-  "@snapRatingsBandVeryGood": {},
-  "snapRatingsBandGood": "God",
-  "@snapRatingsBandGood": {},
-  "snapRatingsBandNeutral": "Neutral",
-  "@snapRatingsBandNeutral": {},
-  "snapRatingsBandPoor": "Dårlig",
-  "@snapRatingsBandPoor": {},
-  "snapRatingsBandVeryPoor": "Meget dårlig",
-  "@snapRatingsBandVeryPoor": {},
-  "snapRatingsBandInsufficientVotes": "Ikke nok stemmer",
-  "@snapRatingsBandInsufficientVotes": {},
-  "snapReportLabel": "Rapportér {snapName}",
-  "@snapReportLabel": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "snapReportSelectReportReasonLabel": "Vælg en årsag til, at du rapporterer denne snap",
-  "@snapReportSelectReportReasonLabel": {},
-  "snapReportSelectAnOptionLabel": "Vælg en mulighed",
-  "@snapReportSelectAnOptionLabel": {},
-  "snapReportOptionCopyrightViolation": "Brud på ophavsret eller varemærke",
-  "@snapReportOptionCopyrightViolation": {},
-  "snapReportOptionStoreViolation": "Brud på Snapbutikkens brugsbetingelser",
-  "@snapReportOptionStoreViolation": {},
-  "snapReportDetailsLabel": "Angiv venligst en mere uddybende begrundelse for din rapport",
-  "@snapReportDetailsLabel": {},
-  "snapReportOptionalEmailAddressLabel": "Din e-mail (valgfri)",
-  "@snapReportOptionalEmailAddressLabel": {},
-  "snapReportEnterValidEmailError": "Indtast en gyldig e-mailadresse",
-  "@snapReportEnterValidEmailError": {},
-  "snapReportDetailsHint": "Kommentar …",
-  "@snapReportDetailsHint": {},
-  "snapReportPrivacyAgreementLabel": "I forbindelse med indsendelse af denne formular bekræfter jeg, at jeg har læst og accepterer ",
-  "@snapReportPrivacyAgreementLabel": {},
-  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonicals privatlivsnotits ",
-  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
-  "snapReportPrivacyAgreementPrivacyPolicy": "Privatlivspolitik",
-  "@snapReportPrivacyAgreementPrivacyPolicy": {},
-  "debPageErrorNoPackageInfo": "Ingen pakkeinformation fundet",
-  "@debPageErrorNoPackageInfo": {},
-  "externalResources": "Yderligere ressourcer",
-  "@externalResources": {},
-  "allGamesButtonLabel": "Alle spil",
-  "@allGamesButtonLabel": {},
-  "externalResourcesDisclaimer": "Bemærk: Alle disse er eksterne værktøjer. De ejes eller distribueres ikke af Canonical.",
-  "@externalResourcesDisclaimer": {},
-  "externalResourcesButtonLabel": "Gå på opdagelse",
-  "@externalResourcesButtonLabel": {},
-  "openInBrowser": "Åbn i browser",
-  "@openInBrowser": {},
-  "installAll": "Installér alle",
-  "@installAll": {},
-  "searchPageNoResultsHint": "Prøv at bruge andre eller mere generelle nøgleord",
-  "@searchPageNoResultsHint": {},
-  "snapSortOrderInstalledSizeDesc": "Størrelse (største til mindste)",
-  "@snapSortOrderInstalledSizeDesc": {},
-  "snapReportCancelButtonLabel": "Annullér",
-  "@snapReportCancelButtonLabel": {},
-  "snapReportSubmitButtonLabel": "Indsend rapport",
-  "@snapReportSubmitButtonLabel": {},
-  "snapReportPrivacyAgreementAndLabel": "og ",
-  "@snapReportPrivacyAgreementAndLabel": {},
-  "snapRatingsVotes": "{n} stemmer",
-  "@snapRatingsVotes": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedWeeksAgo": "Opdateret for {n, plural, =1{{n} uge} other{{n} uger}} siden",
-  "@managePageUpdatedWeeksAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedMonthsAgo": "Opdateret for {n, plural, =1{{n} måned} other{{n} måneder}} siden",
-  "@managePageUpdatedMonthsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedYearsAgo": "Opdateret for {n, plural, =1{{n} år} other{{n} år}} siden",
-  "@managePageUpdatedYearsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "appstreamUrlTypeVcsBrowser": "Kilde",
-  "@appstreamUrlTypeVcsBrowser": {},
-  "managePageDebUpdatesMessage": "Debian-pakkeopdateringer håndteres af Softwareopdateringen.",
-  "@managePageDebUpdatesMessage": {},
-  "snapActionInstalledLabel": "Installeret",
-  "@snapActionInstalledLabel": {},
-  "snapPageSizeLabel": "Størrelse",
-  "@snapPageSizeLabel": {},
-  "localDebWarningBody": "Denne pakke leveres af en tredjepart. Installeres pakker, som ikke kommer fra Appcenteret, kan det forøge risikoen for dit system og dine personlige data. Vær sikker på, at du stoler på kilden, før du fortsætter.",
-  "@localDebWarningBody": {},
-  "localDebWarningTitle": "Potentielt usikker",
-  "@localDebWarningTitle": {},
-  "localDebLearnMore": "Lær mere om tredjepartspakker",
-  "@localDebLearnMore": {},
-  "localDebDialogConfirmation": "Er du sikker på, at du vil installere den?",
-  "@localDebDialogConfirmation": {},
-  "managePageOwnUpdateDescriptionSoon": "Appcenteret vil automatisk opdatere om {time}.",
-  "@managePageOwnUpdateDescriptionSoon": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "managePageOwnUpdateAvailable": "Opdatering til Appcenter tilgængelig",
-  "@managePageOwnUpdateAvailable": {},
-  "managePageOwnUpdateQuitButton": "Afslut og gå til opdatering",
-  "@managePageOwnUpdateQuitButton": {},
-  "managePageOwnUpdateDescription": "Når du forlader programmet, vil det automatisk blive opdateret.",
-  "@managePageOwnUpdateDescription": {},
-  "managePageUpdatesFailedBody": "Vi kunne ikke opdatere disse programmer, fordi de kører.\n\n{snapList}\nNår du afslutter programmerne, vil de automatisk blive opdateret.",
-  "@managePageUpdatesFailedBody": {},
-  "errorViewNetworkErrorAction": "Tjek din forbindelse og prøv igen.",
-  "@errorViewNetworkErrorAction": {},
-  "managePageTitle": "Håndtér installerede snapper",
-  "@managePageTitle": {},
-  "managePageUpdatesFailed": "{n, plural, =1{En opdatering} other{{n} opdateringer}} mislykkedes",
-  "@managePageUpdatesFailed": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "appstreamUrlTypeContribute": "Bidrag",
-  "@appstreamUrlTypeContribute": {},
-  "localDebDialogMessage": "Denne pakke leveres af en tredjepart, hvilket kan udgøre en sikkerhedsrisiko for dit system og dine personlige data.",
-  "@localDebDialogMessage": {},
-  "errorViewUnknownErrorAction": "Du kan prøve igen nu. Tjek status på opdateringer, eller prøv igen senere.",
-  "@errorViewUnknownErrorAction": {},
-  "snapdExceptionRunningApps": "Vi kunne ikke opdatere {snapName}, fordi den kører.",
-  "@snapdExceptionRunningApps": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "errorViewNetworkErrorTitle": "Forbind til internettet",
-  "@errorViewNetworkErrorTitle": {},
-  "errorViewNetworkErrorDescription": "Vi kan ikke indlæse indholdet i Appcenteret uden en internetforbindelse.",
-  "@errorViewNetworkErrorDescription": {},
-  "errorViewCheckStatusLabel": "Undersøg status",
-  "@errorViewCheckStatusLabel": {},
-  "errorViewUnknownErrorTitle": "Noget gik galt",
-  "@errorViewUnknownErrorTitle": {},
-  "errorViewServerErrorDescription": "Vi oplever desværre problemer med Appcenteret for tiden.",
-  "@errorViewServerErrorDescription": {},
-  "errorViewServerErrorAction": "Tjek status på opdateringer eller prøv igen senere.",
-  "@errorViewServerErrorAction": {},
-  "errorViewUnknownErrorDescription": "Vi er ikke sikre på, hvad fejlen er.",
-  "@errorViewUnknownErrorDescription": {},
-  "snapCategoryArtAndDesignButtonLabel": "Begynd at skabe",
-  "@snapCategoryArtAndDesignButtonLabel": {},
-  "snapCategoryArtAndDesignSlogan": "Udforsk programmer til kunst og design fra din første skitse til den sidste finish.",
-  "@snapCategoryArtAndDesignSlogan": {},
-  "managePageQuitToUpdate": "Afslut og gå til opdatering",
-  "@managePageQuitToUpdate": {},
-  "managePageNoInternet": "Kan ikke forbinde til server. Tjek din internetforbindelse eller prøv igen senere.",
-  "@managePageNoInternet": {},
-  "managePageInstallingLabel": "Installerer ({n})",
-  "@managePageInstallingLabel": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  }
 }

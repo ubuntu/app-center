@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:app_center/manage/local_snap_providers.dart';
-import 'package:app_center/manage/updates_model.dart';
+import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/snapd/currently_installing_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/snapd/snapd_cache.dart';
@@ -41,9 +41,9 @@ class SnapModel extends _$SnapModel {
         .watch(storeSnapProvider(snapName).future)
         .onError((_, __) => null, test: (_) => localSnap != null);
 
-    final activeChangeId = (await _snapd.getChanges(name: snapName))
-        .firstWhereOrNull((change) => !change.ready)
-        ?.id;
+    final activeChangeId = (await _snapd.getChanges(
+      name: snapName,
+    )).firstWhereOrNull((change) => !change.ready)?.id;
     if (activeChangeId != null) {
       unawaited(_listenUntilDone(activeChangeId, ref));
     }
@@ -90,7 +90,8 @@ class SnapModel extends _$SnapModel {
     final changeId = await _snapd.install(
       snapName,
       channel: selectedChannel,
-      classic: storeSnap!.channels[selectedChannel]!.confinement ==
+      classic:
+          storeSnap!.channels[selectedChannel]!.confinement ==
           SnapConfinement.classic,
     );
     ref.read(currentlyInstallingModelProvider.notifier).add(snapName, model!);
@@ -132,13 +133,16 @@ class SnapModel extends _$SnapModel {
     final changeId = await _snapd.refresh(
       snapData.name,
       channel: selectedChannel,
-      classic: storeSnap!.channels[selectedChannel]!.confinement ==
+      classic:
+          storeSnap!.channels[selectedChannel]!.confinement ==
           SnapConfinement.classic,
     );
     _updateChangeId(changeId);
     return _listenUntilDone(changeId, ref).then((completedSuccessfully) {
       if (removeFromList && completedSuccessfully) {
-        ref.read(updatesModelProvider.notifier).removeFromList(snapData.name);
+        ref
+            .read(snapUpdatesModelProvider.notifier)
+            .removeFromList(snapData.name);
         ref
             .read(filteredLocalSnapsProvider.notifier)
             .addToList(snapData.localSnap!);
@@ -153,7 +157,7 @@ class SnapModel extends _$SnapModel {
     final changeId = await _snapd.remove(snapName);
     _updateChangeId(changeId);
     await _listenUntilDone(changeId, ref);
-    ref.read(updatesModelProvider.notifier).removeFromList(snapName);
+    ref.read(snapUpdatesModelProvider.notifier).removeFromList(snapName);
     ref.read(filteredLocalSnapsProvider.notifier).removeFromList(snapName);
   }
 
@@ -242,31 +246,35 @@ class SnapModel extends _$SnapModel {
 }
 
 /// Provides the progress of the snapd operations for the given change IDs.
-final progressProvider =
-    StreamProvider.family.autoDispose<double, List<String>>((ref, ids) {
-  final snapd = getService<SnapdService>();
+final progressProvider = StreamProvider.family
+    .autoDispose<double, List<String>>((ref, ids) {
+      final snapd = getService<SnapdService>();
 
-  final streamController = StreamController<double>.broadcast();
-  final subProgresses = <String, double>{for (final id in ids) id: 0.0};
-  final subscriptions = <String, StreamSubscription<SnapdChange>>{
-    for (final id in ids)
-      id: snapd.watchChange(id).listen((change) {
-        subProgresses[id] = change.progress;
-        streamController.add(subProgresses.values.sum / subProgresses.length);
-      }),
-  };
-  ref.onDispose(() {
-    for (final subscription in subscriptions.values) {
-      subscription.cancel();
-    }
-    streamController.close();
-  });
-  return streamController.stream;
-});
+      final streamController = StreamController<double>.broadcast();
+      final subProgresses = <String, double>{for (final id in ids) id: 0.0};
+      final subscriptions = <String, StreamSubscription<SnapdChange>>{
+        for (final id in ids)
+          id: snapd.watchChange(id).listen((change) {
+            subProgresses[id] = change.progress;
+            streamController.add(
+              subProgresses.values.sum / subProgresses.length,
+            );
+          }),
+      };
+      ref.onDispose(() {
+        for (final subscription in subscriptions.values) {
+          subscription.cancel();
+        }
+        streamController.close();
+      });
+      return streamController.stream;
+    });
 
 /// Provides the active change, if any, for a given changeId.
-final activeChangeProvider =
-    StateProvider.family<SnapdChange?, String?>((ref, id) {
+final activeChangeProvider = StateProvider.family<SnapdChange?, String?>((
+  ref,
+  id,
+) {
   if (id == null) return null;
   late final StreamSubscription<SnapdChange> subscription;
   subscription = getService<SnapdService>().watchChange(id).listen((event) {

@@ -81,11 +81,6 @@ class _AboutHeader extends ConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
-            ref.watch(versionProvider).maybeWhen(
-                  data: (v) => Text(l10n.aboutPageVersionLabel(v)),
-                  orElse: () => const SizedBox.shrink(),
-                ),
           ],
         ),
       ],
@@ -130,8 +125,9 @@ class _ContributorView extends ConsumerWidget {
           error: (error, stackTrace) => Text(error.toString()),
           loading: () => Shimmer.fromColors(
             baseColor: light ? kShimmerBaseLight : kShimmerBaseDark,
-            highlightColor:
-                light ? kShimmerHighLightLight : kShimmerHighLightDark,
+            highlightColor: light
+                ? kShimmerHighLightLight
+                : kShimmerHighLightDark,
             child: _ContributorWrap(List<Contributor?>.filled(36, null)),
           ),
         ),
@@ -213,15 +209,14 @@ class _CommunityTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return YaruTile(
+    return YaruListTile(
+      contentPadding: EdgeInsets.zero,
       // TODO: icon
-      style: YaruTileStyle.banner,
       title: Text(
         title,
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: HyperlinkText(text: subtitle, link: href),
-      padding: EdgeInsets.zero,
     );
   }
 }

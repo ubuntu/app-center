@@ -21,18 +21,21 @@ export 'ratings_features_app.pb.dart';
 
 @$pb.GrpcServiceName('ratings.features.app.App')
 class AppClient extends $grpc.Client {
-  static final _$getRating = $grpc.ClientMethod<$0.GetRatingRequest, $0.GetRatingResponse>(
-      '/ratings.features.app.App/GetRating',
-      ($0.GetRatingRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetRatingResponse.fromBuffer(value));
+  static final _$getRating =
+      $grpc.ClientMethod<$0.GetRatingRequest, $0.GetRatingResponse>(
+          '/ratings.features.app.App/GetRating',
+          ($0.GetRatingRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $0.GetRatingResponse.fromBuffer(value));
 
   AppClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
-      : super(channel, options: options,
-        interceptors: interceptors);
+      : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseFuture<$0.GetRatingResponse> getRating($0.GetRatingRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$0.GetRatingResponse> getRating(
+      $0.GetRatingRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getRating, request, options: options);
   }
 }
@@ -51,9 +54,11 @@ abstract class AppServiceBase extends $grpc.Service {
         ($0.GetRatingResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$0.GetRatingResponse> getRating_Pre($grpc.ServiceCall call, $async.Future<$0.GetRatingRequest> request) async {
+  $async.Future<$0.GetRatingResponse> getRating_Pre($grpc.ServiceCall call,
+      $async.Future<$0.GetRatingRequest> request) async {
     return getRating(call, await request);
   }
 
-  $async.Future<$0.GetRatingResponse> getRating($grpc.ServiceCall call, $0.GetRatingRequest request);
+  $async.Future<$0.GetRatingResponse> getRating(
+      $grpc.ServiceCall call, $0.GetRatingRequest request);
 }

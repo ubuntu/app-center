@@ -22,57 +22,59 @@ class AppCard extends StatelessWidget {
     this.compact = false,
     this.iconUrl,
     this.footer,
+    this.iconWidget,
   });
 
   AppCard.fromSnap({
     required Snap snap,
     VoidCallback? onTap,
   }) : this(
-          key: ValueKey(snap.id),
-          title: AppTitle.fromSnap(snap),
-          summary: snap.summary,
-          iconUrl: snap.iconUrl,
-          footer: _RatingsInfo(snap: snap),
-          onTap: onTap,
-        );
+         key: ValueKey(snap.id),
+         title: AppTitle.fromSnap(snap),
+         summary: snap.summary,
+         iconUrl: snap.iconUrl,
+         footer: _RatingsInfo(snap: snap),
+         onTap: onTap,
+       );
 
   AppCard.fromDeb({
     required AppstreamComponent component,
     VoidCallback? onTap,
   }) : this(
-          key: ValueKey(component.id),
-          title: AppTitle.fromDeb(component),
-          summary: component.getLocalizedSummary(),
-          iconUrl: component.icon,
-          onTap: onTap,
-        );
+         key: ValueKey(component.id),
+         title: AppTitle.fromDeb(component),
+         summary: component.getLocalizedSummary(),
+         iconWidget: DebAppIcon(component: component),
+         onTap: onTap,
+       );
 
   AppCard.fromTool({
     required Tool tool,
     Key? key,
   }) : this(
-          key: key,
-          title: AppTitle.fromTool(tool),
-          summary: tool.summary,
-          iconUrl: tool.iconUrl,
-          footer: OutlinedButton(
-            onPressed: () async {
-              await launchUrl(Uri.parse(tool.url));
-            },
-            child: Builder(
-              builder: (context) {
-                final l10n = AppLocalizations.of(context);
-                return Text(l10n.openInBrowser);
-              },
-            ),
-          ),
-        );
+         key: key,
+         title: AppTitle.fromTool(tool),
+         summary: tool.summary,
+         iconUrl: tool.iconUrl,
+         footer: OutlinedButton(
+           onPressed: () async {
+             await launchUrl(Uri.parse(tool.url));
+           },
+           child: Builder(
+             builder: (context) {
+               final l10n = AppLocalizations.of(context);
+               return Text(l10n.openInBrowser);
+             },
+           ),
+         ),
+       );
 
   final AppTitle title;
   final String summary;
   final VoidCallback? onTap;
   final bool compact;
   final String? iconUrl;
+  final Widget? iconWidget;
   final Widget? footer;
 
   @override
@@ -97,7 +99,7 @@ class AppCard extends StatelessWidget {
             direction: compact ? Axis.vertical : Axis.horizontal,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppIcon(iconUrl: iconUrl),
+              iconWidget ?? AppIcon(iconUrl: iconUrl),
               const SizedBox(width: kCardSpacing, height: kCardSpacing),
               Expanded(
                 child: _AppCardBody(
@@ -131,14 +133,14 @@ class RankedAppCard extends StatelessWidget {
     required int rank,
     VoidCallback? onTap,
   }) : this(
-          key: ValueKey(snap.id),
-          title: AppTitle.fromSnap(snap),
-          summary: snap.summary,
-          iconUrl: snap.iconUrl,
-          footer: _RatingsInfo(snap: snap),
-          onTap: onTap,
-          rank: rank,
-        );
+         key: ValueKey(snap.id),
+         title: AppTitle.fromSnap(snap),
+         summary: snap.summary,
+         iconUrl: snap.iconUrl,
+         footer: _RatingsInfo(snap: snap),
+         onTap: onTap,
+         rank: rank,
+       );
 
   final AppTitle title;
   final String summary;
@@ -327,9 +329,9 @@ class _RatingsInfo extends ConsumerWidget {
               child: Text(
                 ratingLabel,
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: rating?.ratingsBand.getColor(context),
-                      fontSize: 12,
-                    ),
+                  color: rating?.ratingsBand.getColor(context),
+                  fontSize: 12,
+                ),
               ),
             ),
             const SizedBox(width: 2),

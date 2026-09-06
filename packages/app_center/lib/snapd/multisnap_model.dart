@@ -8,13 +8,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-final multiSnapModelProvider =
-    ChangeNotifierProvider.family.autoDispose<MultiSnapModel, SnapCategoryEnum>(
-  (ref, category) => MultiSnapModel(
-    snapd: getService<SnapdService>(),
-    category: category,
-  )..init(),
-);
+final multiSnapModelProvider = ChangeNotifierProvider.family
+    .autoDispose<MultiSnapModel, SnapCategoryEnum>(
+      (ref, category) => MultiSnapModel(
+        snapd: getService<SnapdService>(),
+        category: category,
+      )..init(),
+    );
 
 class MultiSnapModel extends ChangeNotifier {
   MultiSnapModel({
@@ -37,12 +37,13 @@ class MultiSnapModel extends ChangeNotifier {
   Future<void> init() async {
     assert(category.featuredSnapNames!.isNotEmpty);
     final storeSnapCompleter = Completer();
-    _storeSnapSubscription =
-        snapd.getStoreSnaps(category.featuredSnapNames!).listen((snaps) {
-      categorySnaps.addAll(snaps);
-      if (!storeSnapCompleter.isCompleted) storeSnapCompleter.complete();
-      notifyListeners();
-    });
+    _storeSnapSubscription = snapd
+        .getStoreSnaps(category.featuredSnapNames!)
+        .listen((snaps) {
+          categorySnaps.addAll(snaps);
+          if (!storeSnapCompleter.isCompleted) storeSnapCompleter.complete();
+          notifyListeners();
+        });
 
     _state = await AsyncValue.guard(() async {
       if (categorySnaps.length != category.featuredSnapNames!.length) {
@@ -94,18 +95,22 @@ class MultiSnapModel extends ChangeNotifier {
         .toList();
     final changeIds = List<String>.empty(growable: true);
     if (classicSnaps.isNotEmpty) {
-      final changeId =
-          await snapd.install(classicSnaps.first.name, classic: true);
+      final changeId = await snapd.install(
+        classicSnaps.first.name,
+        classic: true,
+      );
       final change = await snapd.getChange(changeId);
       changeIds.add(changeId);
       if (['Do', 'Doing', 'Done'].contains(change.status)) {
         for (var i = 1; i < classicSnaps.length; i++) {
-          changeIds
-              .add(await snapd.install(classicSnaps[i].name, classic: true));
+          changeIds.add(
+            await snapd.install(classicSnaps[i].name, classic: true),
+          );
         }
         changeIds.add(
-          await snapd
-              .installMany(strictSnaps.map((snap) => snap.name).toList()),
+          await snapd.installMany(
+            strictSnaps.map((snap) => snap.name).toList(),
+          ),
         );
       }
     } else {

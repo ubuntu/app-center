@@ -26,7 +26,8 @@ class _FeaturedCarouselState extends ConsumerState<FeaturedCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    snaps = ref
+    snaps =
+        ref
             .watch(
               snapSearchProvider(
                 const SnapSearchParameters(category: SnapCategoryEnum.games),
@@ -81,8 +82,9 @@ class _CarouselCard extends StatelessWidget {
       padding: EdgeInsets.zero,
       onTap: () => onTap(snap),
       child: ClipRRect(
-        borderRadius:
-            const BorderRadius.all(Radius.circular(kYaruContainerRadius)),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(kYaruContainerRadius),
+        ),
         child: Stack(
           alignment: Alignment.center,
           fit: StackFit.expand,
@@ -109,17 +111,15 @@ class _CarouselCard extends StatelessWidget {
                 children: [
                   Text(
                     snap.titleOrName,
-                    style: Theme.of(context)
-                        .textTheme
-                        .displayMedium!
-                        .copyWith(color: _kForegroundColorPrimary),
+                    style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                      color: _kForegroundColorPrimary,
+                    ),
                   ),
                   Text(
                     snap.summary,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(color: _kForegroundColorSecondary),
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: _kForegroundColorSecondary,
+                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),

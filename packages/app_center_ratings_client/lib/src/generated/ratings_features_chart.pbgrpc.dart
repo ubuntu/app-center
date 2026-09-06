@@ -21,18 +21,20 @@ export 'ratings_features_chart.pb.dart';
 
 @$pb.GrpcServiceName('ratings.features.chart.Chart')
 class ChartClient extends $grpc.Client {
-  static final _$getChart = $grpc.ClientMethod<$1.GetChartRequest, $1.GetChartResponse>(
-      '/ratings.features.chart.Chart/GetChart',
-      ($1.GetChartRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $1.GetChartResponse.fromBuffer(value));
+  static final _$getChart =
+      $grpc.ClientMethod<$1.GetChartRequest, $1.GetChartResponse>(
+          '/ratings.features.chart.Chart/GetChart',
+          ($1.GetChartRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $1.GetChartResponse.fromBuffer(value));
 
   ChartClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
-      : super(channel, options: options,
-        interceptors: interceptors);
+      : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseFuture<$1.GetChartResponse> getChart($1.GetChartRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$1.GetChartResponse> getChart($1.GetChartRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getChart, request, options: options);
   }
 }
@@ -51,9 +53,11 @@ abstract class ChartServiceBase extends $grpc.Service {
         ($1.GetChartResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$1.GetChartResponse> getChart_Pre($grpc.ServiceCall call, $async.Future<$1.GetChartRequest> request) async {
+  $async.Future<$1.GetChartResponse> getChart_Pre(
+      $grpc.ServiceCall call, $async.Future<$1.GetChartRequest> request) async {
     return getChart(call, await request);
   }
 
-  $async.Future<$1.GetChartResponse> getChart($grpc.ServiceCall call, $1.GetChartRequest request);
+  $async.Future<$1.GetChartResponse> getChart(
+      $grpc.ServiceCall call, $1.GetChartRequest request);
 }

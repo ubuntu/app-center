@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 
 class ConfigService {
   ConfigService({@visibleForTesting Map<String, String>? env})
-      : _env = env ?? Platform.environment;
+    : _env = env ?? Platform.environment;
   final Map<String, String> _env;
 
   String _ratingsServiceUrl = 'localhost';

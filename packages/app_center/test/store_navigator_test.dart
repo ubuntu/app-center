@@ -62,14 +62,13 @@ void main() {
     await tester.pump();
     expect(
       generatedRoutes,
-      expectedRoutes
-        ..add(
-          StoreRoutes.namedSearchSnap(
-            name: 'foo',
-            query: 'bar',
-            category: 'baz',
-          ),
+      expectedRoutes..add(
+        StoreRoutes.namedSearchSnap(
+          name: 'foo',
+          query: 'bar',
+          category: 'baz',
         ),
+      ),
     );
 
     unawaited(StoreNavigator.pushDeb(context, id: 'qux'));

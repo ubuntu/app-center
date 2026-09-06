@@ -57,8 +57,10 @@ void main() {
     test('local + store', () async {
       final container = createContainer();
       registerMockSnapdService(localSnap: localSnap, storeSnap: storeSnap);
-      final subscription =
-          container.listen(snapModelProvider(snapName), (_, __) {});
+      final subscription = container.listen(
+        snapModelProvider(snapName),
+        (_, __) {},
+      );
       await container.read(snapModelProvider(snapName).future);
       final snapData = subscription.read().valueOrNull;
 
@@ -86,8 +88,10 @@ void main() {
     test('local only', () async {
       final container = createContainer();
       registerMockSnapdService(localSnap: localSnap);
-      final subscription =
-          container.listen(snapModelProvider(snapName), (_, __) {});
+      final subscription = container.listen(
+        snapModelProvider(snapName),
+        (_, __) {},
+      );
       await container.read(snapModelProvider(snapName).future);
       final snapData = subscription.read().valueOrNull;
 
@@ -103,8 +107,10 @@ void main() {
         localSnap: localSnap,
         changes: [SnapdChange(spawnTime: DateTime(1970), id: 'active change')],
       );
-      final subscription =
-          container.listen(snapModelProvider(snapName), (_, __) {});
+      final subscription = container.listen(
+        snapModelProvider(snapName),
+        (_, __) {},
+      );
       await container.read(snapModelProvider(snapName).future);
       final snapData = subscription.read().valueOrNull;
       expect(snapData?.activeChangeId, equals('active change'));
@@ -122,8 +128,10 @@ void main() {
     test('default channel', () async {
       final container = createContainer();
       final service = registerMockSnapdService(storeSnap: storeSnap);
-      final subscription =
-          container.listen(snapModelProvider('testsnap').future, (_, __) {});
+      final subscription = container.listen(
+        snapModelProvider('testsnap').future,
+        (_, __) {},
+      );
       await subscription.read();
       await container.read(snapModelProvider('testsnap').notifier).install();
 
