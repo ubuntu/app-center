@@ -291,7 +291,7 @@
     "snapConfinementDevmode": "Modo de Desenvolvimento",
     "snapSortOrderInstalledDateDesc": "Atualizado mais recente",
     "debPageErrorNoPackageInfo": "Nenhuma informação de pacote encontrada",
-    "errorViewServerErrorDescription": "Desculpe, de momento, estamos com problemas no \"Centro de Aplicações\".",
+    "errorViewServerErrorDescription": "Pedimos desculpa, de momento estamos com problemas no Centro de Aplicações.",
     "snapCategoryArtAndDesignButtonLabel": "Comece a criar",
     "errorViewNetworkErrorDescription": "Não podemos carregar o conteúdo no \"Centro de Aplicações\" sem uma ligação à Internet.",
     "snapReportOptionStoreViolation": "Violação dos termos do serviço da Loja Snap",
