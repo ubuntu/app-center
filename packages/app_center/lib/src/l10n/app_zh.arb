@@ -364,9 +364,9 @@
     "appConfinementDevelopment": "开发者模式",
     "appConfinementClassic": "无限制",
     "appConfinementUnrestricted": "无限制",
-    "appConfinementStrictTooltip": "此应用对资源访问有限。您可以在设置应用中管理权限。",
+    "appConfinementStrictTooltip": "此应用对您的资源访问受限。您可以在“设置”应用中控制其权限。",
     "appConfinementClassicTooltip": "此应用采用经典隔离机制，可以完全访问您的资源。这在开发类应用中常见。",
-    "appConfinementUnrestrictedTooltip": "此应用拥有所有资源的访问权。",
+    "appConfinementUnrestrictedTooltip": "此应用对您的资源拥有完全访问权限。",
     "appLicenseUnknown": "未知",
     "appPublishedUnknown": "未知",
     "appMoreActionsSemanticLabel": "更多操作",
@@ -393,7 +393,7 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "目前没有任何可还原的当地修订版。",
+    "snapRevertNoPreviousRevisionMessage": "没有可供还原的先前本地修订版本。",
     "snapActionSwitchChannelTitle": "切换 {appName} 的频道",
     "@snapActionSwitchChannelTitle": {
         "placeholders": {
@@ -404,6 +404,6 @@
     },
     "codecPageTitle": "缺少媒体编解码器",
     "codecPageDescription": "您需要安装以下编解码器以处理特定的视频和音频格式：",
-    "codecProprietaryDisclaimer": "有推荐的编解码器可能是所有权格式。",
+    "codecProprietaryDisclaimer": "部分推荐的编解码器可能是专有的。",
     "codecInstallAllButton": "安装推荐的编解码器"
 }
