@@ -298,7 +298,7 @@
         }
     },
     "debPageDocumentationLinkLabel": "Zistiť viac o správe balíkov Debian",
-    "managePageDocumentationLinkLabel": "Zistite, ako spravovať balíky Debian v dokumentácii.",
+    "managePageDocumentationLinkLabel": "Zistite, ako spravovať balíky Debianu v dokumentácii.",
     "snapPageGalleryPreviousSemanticLabel": "Predchádzajúci obrázok",
     "snapPageGalleryImageSemanticLabel": "Obrázok {n}",
     "@snapPageGalleryImageSemanticLabel": {
