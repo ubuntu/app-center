@@ -93,7 +93,7 @@
     "snapRatingsBandInsufficientVotes": "Nedostatok hlasov",
     "snapRatingsBandVeryPoor": "Zlé",
     "managePageDescription": "Skontrolujte dostupné aktualizácie, aktualizujte svoje aplikácie a spravujte stav všetkých vašich aplikácií.",
-    "snapActionRemovingLabel": "Odinštalováva sa",
+    "snapActionRemovingLabel": "Prebieha odinštalovanie",
     "snapSortOrderInstalledSizeDesc": "Najväčšie",
     "snapPageDeveloperWebsiteLabel": "Webová stránka vývojára",
     "snapConfinementClassic": "Klasická",
@@ -107,7 +107,7 @@
             }
         }
     },
-    "snapCategoryGamesSlogan": "Všetko pre vašu hernú noc",
+    "snapCategoryGamesSlogan": "Všetko pre váš herný večer",
     "snapActionSwitchChannelLabel": "Prepnúť kanál",
     "appstreamUrlTypeFaq": "Často kladené otázky",
     "snapConfinementStrict": "Prísna",
@@ -212,7 +212,7 @@
     "snapReportOptionCopyrightViolation": "Porušenie autorských práv alebo ochrannej známky",
     "snapReportOptionStoreViolation": "Porušenie zmluvných podmienok obchodu Snap Store",
     "snapCategoryGnomeGamesSlogan": "Súprava hier GNOME",
-    "externalResourcesDisclaimer": "Poznámka: Toto sú všetky externé nástroje. Nie sú vlastnené ani distribuované spoločnosťou Canonical.",
+    "externalResourcesDisclaimer": "Poznámka: Všetky tieto nástroje sú externé. Spoločnosť Canonical ich nevlastní ani nedistribuuje.",
     "managePageUpdatedMonthsAgo": "Upravené pred {n, plural, =1{{n} mesiacom} few{{n} mesiacmi} other{{n} mesiacmi}}",
     "@managePageUpdatedMonthsAgo": {
         "placeholders": {
@@ -241,17 +241,17 @@
     "appstreamUrlTypeVcsBrowser": "Zdroj",
     "localDebWarningBody": "Tento balík je poskytnutý treťou stranou. Inštalácia balíkov mimo Centra aplikácií môže zvýšiť riziko pre váš systém a osobné údaje. Pred pokračovaním sa uistite, že dôverujete zdroju.",
     "localDebDialogMessage": "Tento balík je poskytnutý treťou stranou a môže ohroziť váš systém a osobné údaje.",
-    "localDebDialogConfirmation": "Ste si istí, že ho chcete nainštalovať?",
+    "localDebDialogConfirmation": "Naozaj ho chcete nainštalovať?",
     "snapPageSizeLabel": "Veľkosť",
     "localDebWarningTitle": "Potenciálne nebezpečné",
     "localDebLearnMore": "Zistite viac o balíkoch tretích strán",
-    "managePageDebUpdatesMessage": "Aktualizácie balíkov Debian sa spracúvajú pomocou Správcu aktualizácií softvéru.",
+    "managePageDebUpdatesMessage": "Aktualizácie balíkov Debianu spravuje nástroj Aktualizácia softvéru.",
     "snapActionInstalledLabel": "Nainštalované",
     "errorViewNetworkErrorDescription": "Bez internetového pripojenia sa nedá načítať obsah v Centre aplikácií.",
     "errorViewServerErrorDescription": "Ľutujeme, momentálne máme problémy s Centrom aplikácií.",
     "errorViewUnknownErrorTitle": "Niečo sa pokazilo",
     "errorViewUnknownErrorDescription": "Ľutujeme, ale nevieme, čo spôsobilo chybu.",
-    "errorViewUnknownErrorAction": "Môžete to skúsiť znova teraz, skontrolovať stav pre aktualizácie alebo skúsiť to znova neskôr.",
+    "errorViewUnknownErrorAction": "Môžete to skúsiť teraz znova, skontrolovať stav aktualizácií alebo to skúsiť znova neskôr.",
     "errorViewCheckStatusLabel": "Skontrolovať stav",
     "errorViewNetworkErrorAction": "Skontrolujte svoje pripojenie a skúste to znova.",
     "errorViewNetworkErrorTitle": "Pripojte sa k internetu",
@@ -263,7 +263,7 @@
             }
         }
     },
-    "errorViewServerErrorAction": "Skontrolujte stav pre aktualizácie alebo skúste to znova neskôr.",
+    "errorViewServerErrorAction": "Skontrolujte stav, či nie sú k dispozícii aktualizácie, alebo to skúste znova neskôr.",
     "managePageNoInternet": "Nedá sa pripojiť k serveru. Skontrolujte svoje internetové pripojenie alebo skúste to znova neskôr.",
     "managePageOwnUpdateAvailable": "Je dostupná aktualizácia Centra aplikácií",
     "managePageOwnUpdateDescription": "Po ukončení aplikácie sa automaticky aktualizuje.",
@@ -345,8 +345,8 @@
             }
         }
     },
-    "codecPageDescription": "Pre spracovanie určitých formátov videa a zvuku musíte nainštalovať nasledujúce kodeky:",
-    "codecPageTitle": "Chýbajúce kodeky médií",
+    "codecPageDescription": "Na spracovanie určitých formátov videa a zvuku musíte nainštalovať nasledujúce kodeky:",
+    "codecPageTitle": "Chýbajúce multimediálne kodeky",
     "codecProprietaryDisclaimer": "Niektoré odporúčané kodeky môžu byť proprietárne.",
     "codecInstallAllButton": "Nainštalovať odporúčané kodeky",
     "snapActionRevertLabel": "Vrátiť verziu",
@@ -395,8 +395,8 @@
     "managePagePackageTypeLabel": "Balíky",
     "managePagePackageTypeAll": "Všetky",
     "appMoreActionsSemanticLabel": "Ďalšie akcie",
-    "appConfinementStrictTooltip": "Táto aplikácia má obmedzený prístup k vašim zdrojom. Jej oprávnenia môžete riadiť v aplikácii Nastavenia.",
-    "appConfinementClassicTooltip": "Táto aplikácia používa klasické obmedzenie, čo znamená plný prístup k vašim zdrojom. Toto je bežné pri vývojárskych aplikáciách.",
+    "appConfinementStrictTooltip": "Táto aplikácia má obmedzený prístup k vašim zdrojom. Jej oprávnenia môžete spravovať v aplikácii Nastavenia.",
+    "appConfinementClassicTooltip": "Táto aplikácia používa klasickú izoláciu, čo jej poskytuje plný prístup k vašim zdrojom. Je to bežné pri vývojárskych aplikáciách.",
     "appConfinementUnrestrictedTooltip": "Táto aplikácia má plný prístup k vašim zdrojom.",
     "snapActionSwitchChannelTitle": "Prepnúť kanál pre {appName}",
     "@snapActionSwitchChannelTitle": {
