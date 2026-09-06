@@ -27,7 +27,7 @@
     "snapCategoryServerAndCloud": "Servidor y nube",
     "aboutPageLabel": "Acerca de",
     "snapPageSummaryLabel": "Resumen",
-    "appstreamSearchGreylist": "aplicación;aplicaciones;app;paquete;paquetes;programa;programas;programática;software;herramienta;herramientas",
+    "appstreamSearchGreylist": "aplicación;aplicaciones;app;paquete;paquetes;programa;programas;software;suite;herramienta;herramientas",
     "snapCategoryScience": "Ciencia",
     "snapCategoryEntertainment": "Entretenimiento",
     "snapActionInstallLabel": "Instalar",
