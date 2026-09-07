@@ -128,6 +128,50 @@ void main() {
   });
   tearDown(resetAllServices);
 
+  testWidgets('warns when the catalog failed to load', (tester) async {
+    // The realistic failure: AppstreamService swallows the catalog error, so
+    // the deb list resolves empty instead of throwing.
+    createMockAppstreamService(catalogLoadFailed: true);
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          localDebsProvider.overrideWith((ref) async => []),
+          localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+        ],
+        child: const ManagePage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text(tester.l10n.managePageDebSourcesUnavailableTitle),
+      findsOneWidget,
+    );
+    // The snap updates must still be listed alongside the warning.
+    expect(find.snapTile('Snap with an update'), findsOneWidget);
+  });
+
+  testWidgets('no warning when the deb sources are available', (tester) async {
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          ...debProviderOverrides,
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+        ],
+        child: const ManagePage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text(tester.l10n.managePageDebSourcesUnavailableTitle),
+      findsNothing,
+    );
+  });
+
   testWidgets('list installed snaps', (tester) async {
     await tester.pumpApp(
       (_) => ProviderScope(

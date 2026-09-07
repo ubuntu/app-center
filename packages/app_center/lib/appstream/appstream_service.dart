@@ -146,13 +146,36 @@ class AppstreamService {
     };
   }
   final AppstreamPool _pool;
-  late final Future<void> _loader = _pool.load().then((_) {
-    _populateCache();
-    _initialized = true;
-  });
+
+  /// Loads the pool, tolerating a failure to read the system catalogs.
+  ///
+  /// [AppstreamPool.load] aborts as soon as a single catalog file fails to
+  /// parse, e.g. because it contains metadata newer than the `appstream`
+  /// package understands. Letting that propagate would take down every
+  /// consumer of this service - including the deb providers that the manage
+  /// page's update list waits on - so the failure is logged and the service
+  /// carries on with whatever the pool managed to collect.
+  late final Future<void> _loader = _pool
+      .load()
+      .onError<Exception>((error, _) {
+        log.error('Failed to load the Appstream pool', error);
+        _catalogLoadFailed = true;
+      })
+      .then((_) {
+        _populateCache();
+        _initialized = true;
+      });
 
   bool get initialized => _initialized;
   bool _initialized = false;
+
+  /// Whether the catalog failed to load.
+  ///
+  /// A failed load leaves the pool empty, which is indistinguishable from a
+  /// system with no Appstream metadata. Callers that need to tell the user
+  /// their view is incomplete have to ask.
+  bool get catalogLoadFailed => _catalogLoadFailed;
+  bool _catalogLoadFailed = false;
 
   final HashSet<_CachedComponent> _cache = HashSet<_CachedComponent>();
 
