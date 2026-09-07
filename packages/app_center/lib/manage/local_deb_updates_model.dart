@@ -146,6 +146,9 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
         activeTransactionId: null,
       );
       ref.read(installedAppsProvider.notifier).addDebToList(updatedDeb);
+    } on PackageKitTransactionCancelled {
+      // User cancelled (e.g. dismissed the polkit dialog) — not an error.
+      log.info('Update transaction cancelled: $transactionId for $debId');
     } on Exception catch (e) {
       log.warning('Update transaction failed: $transactionId for $debId: $e');
       ref.read(errorStreamControllerProvider).add(e);

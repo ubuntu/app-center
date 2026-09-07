@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_center/error/error_l10n.dart';
+import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/snapd/snapd.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gtk/gtk.dart';
 import 'package:mockito/mockito.dart';
+import 'package:packagekit/packagekit.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
@@ -129,6 +131,24 @@ void main() {
         (
           name: 'auth-cancelled error',
           error: SnapdException(message: 'cancelled', kind: 'auth-cancelled'),
+          expectDialog: false,
+        ),
+        (
+          name: 'PackageKit transaction error',
+          error: PackageKitTransactionError('Transaction 1 was destroyed'),
+          expectDialog: true,
+        ),
+        (
+          name: 'PackageKit service error',
+          error: const PackageKitServiceError(
+            code: PackageKitError.packageNotFound,
+            details: 'not available as an update candidate',
+          ),
+          expectDialog: true,
+        ),
+        (
+          name: 'PackageKit transaction cancelled',
+          error: PackageKitTransactionCancelled('Transaction 1 was cancelled'),
           expectDialog: false,
         ),
       ]) {

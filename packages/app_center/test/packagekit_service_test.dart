@@ -407,6 +407,31 @@ void main() {
     expect(packageKit.getTransaction(id), isNull);
   });
 
+  test(
+    'waitTransaction throws PackageKitTransactionCancelled when cancelled',
+    () async {
+      final mockTransaction = createMockPackageKitTransaction(
+        exit: PackageKitExit.cancelled,
+      );
+      final mockClient = createMockPackageKitClient(
+        transaction: mockTransaction,
+      );
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: mockClient,
+        fs: MemoryFileSystem.test(),
+      );
+      await packageKit.activateService();
+      final id = await packageKit.install(
+        const PackageKitPackageId(name: 'foo', version: '1.0'),
+      );
+      await expectLater(
+        packageKit.waitTransaction(id),
+        throwsA(isA<PackageKitTransactionCancelled>()),
+      );
+    },
+  );
+
   test('error stream', () async {
     const mockError = PackageKitErrorCodeEvent(
       code: PackageKitError.noNetwork,

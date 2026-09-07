@@ -218,5 +218,36 @@ void main() {
     );
   });
 
+  test('cancelled transaction is not reported as an error', () async {
+    final packageKit = createMockPackageKitService(
+      packageInfo: packageInfo,
+      transactionId: 42,
+    );
+    when(packageKit.waitTransaction(any)).thenAnswer(
+      (_) async =>
+          throw PackageKitTransactionCancelled('Transaction 42 was cancelled'),
+    );
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    final states = <DebData>[];
+    container.listen(debModelProvider('testdeb'), (_, next) {
+      if (next.hasValue) states.add(next.value!);
+    });
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
+    );
+
+    await container.read(debModelProvider('testdeb').notifier).installDeb();
+
+    // The transaction ran, but no error state was ever emitted.
+    expect(
+      states.any((s) => s.activeTransactionId == 42),
+      isTrue,
+    );
+    expect(states.any((s) => s.error != null), isFalse);
+  });
+
   // TODO: test `activeTransactionId` and `cancel()`
 }

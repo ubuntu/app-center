@@ -7,6 +7,7 @@ import 'package:app_center/gstreamer/gstreamer.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/manage_page.dart';
+import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/search/search.dart';
 import 'package:app_center/snapd/snapd.dart';
@@ -100,7 +101,7 @@ class _StoreAppHome extends ConsumerWidget {
 
   NavigatorState get navigator => navigatorKey.currentState!;
 
-  Future<void> _showError(BuildContext context, SnapdException e) {
+  Future<void> _showError(BuildContext context, Object e) {
     final errorMessage = ErrorMessage.fromObject(e);
     final title = errorMessage.title(AppLocalizations.of(context));
     final body = errorMessage.body(AppLocalizations.of(context));
@@ -121,13 +122,20 @@ class _StoreAppHome extends ConsumerWidget {
     final textScalar = MediaQuery.textScalerOf(context);
 
     ref.listen(errorStreamProvider, (_, error) {
-      if (error.hasValue && error.value is SnapdException) {
-        final snapdError = error.value as SnapdException;
+      if (!error.hasValue) return;
+      final value = error.value!;
+      if (value is SnapdException) {
         // Don't show an error if the user cancelled the auth dialog.
-        if (snapdError.kind == 'auth-cancelled') {
+        if (value.kind == 'auth-cancelled') {
           return;
         }
-        _showError(context, snapdError);
+        _showError(context, value);
+      } else if (value is PackageKitTransactionCancelled) {
+        // User cancelled (e.g. dismissed the polkit dialog) — not an error.
+        return;
+      } else if (value is PackageKitTransactionError ||
+          value is PackageKitServiceError) {
+        _showError(context, value);
       }
     });
 

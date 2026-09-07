@@ -27,6 +27,12 @@ class PackageKitTransactionError implements Exception {
   String toString() => 'PackageKitTransactionError: $message';
 }
 
+/// Thrown when a transaction is cancelled by the user (e.g. by dismissing
+/// the polkit dialog). Callers should treat this as a no-op, not an error.
+class PackageKitTransactionCancelled extends PackageKitTransactionError {
+  PackageKitTransactionCancelled(super.message);
+}
+
 class PackageKitService {
   PackageKitService({
     @visibleForTesting PackageKitClient? client,
@@ -163,6 +169,10 @@ class PackageKitService {
         if (event is PackageKitFinishedEvent) {
           if (event.exit == PackageKitExit.success) {
             completer.complete();
+          } else if (event.exit == PackageKitExit.cancelled) {
+            completer.completeError(
+              PackageKitTransactionCancelled('Transaction $id was cancelled'),
+            );
           } else {
             completer.completeError(
               PackageKitTransactionError(

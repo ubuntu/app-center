@@ -5,6 +5,7 @@ import 'package:app_center/manage/local_deb_updates_model.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage_app_data.dart';
 import 'package:app_center/manage/snap_updates_model.dart';
+import 'package:app_center/packagekit/packagekit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
@@ -327,6 +328,37 @@ void main() {
 
       // Verify error was reported
       verify(errorStream.add(any)).called(1);
+    });
+
+    test('updateDeb does not report cancellation to error stream', () async {
+      registerMockSnapdService(installedSnaps: []);
+
+      final mockPackageKit = createMockPackageKitService();
+      when(mockPackageKit.waitTransaction(any)).thenAnswer(
+        (_) async => throw PackageKitTransactionCancelled(
+          'Transaction 0 was cancelled',
+        ),
+      );
+
+      // ignore: close_sinks
+      final errorStream = registerMockErrorStreamControllerService();
+
+      final container = createContainer(
+        overrides: [
+          localDebsProvider.overrideWith((ref) async => [defaultDebWithUpdate]),
+        ],
+      );
+
+      await container.read(localDebUpdatesModelProvider.future);
+
+      await container
+          .read(localDebUpdatesModelProvider.notifier)
+          .updateDeb(defaultDebWithUpdate.id);
+
+      // Cancellation is not an error, but the transaction state is cleared.
+      verifyNever(errorStream.add(any));
+      final updates = container.read(localDebUpdatesModelProvider).value!;
+      expect(updates.first.activeTransactionId, isNull);
     });
 
     test('silentUpdatesCheck updates state when updates change', () async {
