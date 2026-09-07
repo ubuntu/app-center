@@ -50,6 +50,8 @@ parts:
       fvm flutter build linux --release -v
       mkdir -p $CRAFT_PART_INSTALL/bin/
       cp -r build/linux/*/release/bundle/* $CRAFT_PART_INSTALL/bin/
+    stage-packages:
+      - fonts-noto-cjk
 
   packagekit-session-installer:
     source: ./packagekit-session-installer
