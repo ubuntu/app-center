@@ -13,6 +13,8 @@ import 'package:xdg_desktop_portal/xdg_desktop_portal.dart';
 
 export 'package:packagekit/packagekit.dart' show PackageKitTransaction;
 
+const _packageKitBusName = 'org.freedesktop.PackageKit';
+
 typedef PackageKitPackageInfo = PackageKitPackageEvent;
 typedef PackageKitServiceError = PackageKitErrorCodeEvent;
 typedef PackageKitPackageDetails = PackageKitDetailsEvent;
@@ -34,7 +36,13 @@ class PackageKitService {
     @visibleForTesting this._runtimeDir,
   }) : _client = client ?? getService<PackageKitClient>(),
        _dbus = dbus ?? DBusClient.system(),
-       _fs = fs ?? const LocalFileSystem();
+       _fs = fs ?? const LocalFileSystem() {
+    _nameOwnerSubscription = _dbus.nameOwnerChanged.listen((event) {
+      if (event.name == _packageKitBusName && event.newOwner == null) {
+        _isAvailable = false;
+      }
+    });
+  }
 
   final PackageKitClient _client;
   final DBusClient _dbus;
@@ -43,6 +51,8 @@ class PackageKitService {
   final String? _runtimeDir;
   XdgDesktopPortalClient? _desktopPortalClient;
   io.Directory? _mountPoint;
+  late final StreamSubscription<DBusNameOwnerChangedEvent>
+  _nameOwnerSubscription;
 
   bool get isAvailable => _isAvailable;
   bool _isAvailable = false;
@@ -79,7 +89,7 @@ class PackageKitService {
     await object.callMethod(
       'org.freedesktop.DBus',
       'StartServiceByName',
-      const [DBusString('org.freedesktop.PackageKit'), DBusUint32(0)],
+      const [DBusString(_packageKitBusName), DBusUint32(0)],
     );
     try {
       await _client.connect();
@@ -101,6 +111,7 @@ class PackageKitService {
     void Function(PackageKitEvent event)? listener,
     void Function()? onDone,
   }) async {
+    await activateService();
     final transaction = await _client.createTransaction();
     final id = _nextId++;
     _transactions[id] = transaction;
@@ -459,6 +470,7 @@ class PackageKitService {
   }
 
   Future<void> dispose() async {
+    await _nameOwnerSubscription.cancel();
     await _dbus.close();
     await _client.close();
     await _errorStreamController.close();

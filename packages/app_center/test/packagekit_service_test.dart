@@ -79,6 +79,42 @@ void main() {
       ).called(1);
       expect(packageKit.isAvailable, isFalse);
     });
+
+    test('service reactivated after losing its D-Bus owner', () async {
+      final ownerChanges = StreamController<DBusNameOwnerChangedEvent>();
+      final dbus = createMockDbusClient();
+      when(dbus.nameOwnerChanged).thenAnswer((_) => ownerChanges.stream);
+      final packageKit = PackageKitService(
+        dbus: dbus,
+        client: createMockPackageKitClient(),
+        fs: MemoryFileSystem.test(),
+      );
+
+      await packageKit.install(
+        const PackageKitPackageId(name: 'foo', version: '1.0'),
+      );
+      ownerChanges.add(
+        const DBusNameOwnerChangedEvent(
+          _packageKitDBusName,
+          oldOwner: ':1.0',
+        ),
+      );
+      await pumpEventQueue();
+      expect(packageKit.isAvailable, isFalse);
+
+      await packageKit.activateService();
+
+      verify(
+        dbus.callMethod(
+          path: DBusObjectPath(_dBusObjectPath),
+          destination: _dBusName,
+          name: 'StartServiceByName',
+          interface: _dBusInterface,
+          values: const [DBusString(_packageKitDBusName), DBusUint32(0)],
+        ),
+      ).called(2);
+      await ownerChanges.close();
+    });
   });
 
   test('install', () async {
@@ -671,6 +707,7 @@ void main() {
 @GenerateMocks([DBusClient, XdgDocumentsPortal])
 MockDBusClient createMockDbusClient() {
   final dbus = MockDBusClient();
+  when(dbus.nameOwnerChanged).thenAnswer((_) => const Stream.empty());
   when(
     dbus.callMethod(
       path: DBusObjectPath(_dBusObjectPath),
