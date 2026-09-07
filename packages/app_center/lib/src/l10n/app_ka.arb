@@ -83,7 +83,7 @@
     "gamesPageTop": "საუკეთესო რეიტინგით",
     "snapReportSubmitButtonLabel": "ანგარიშის გადაცემა",
     "snapCategoryPersonalisation": "პერსონალიზაცია",
-    "snapRatingsBandPoor": "საწყალი",
+    "snapRatingsBandPoor": "უხარისხო",
     "snapCategoryGameContentCreationSlogan": "შემცველობის შექმნა",
     "gamesPageBundles": "აპის ნაკრებები",
     "packageFormatSnapLabel": "Snap-ის პაკეტები",
@@ -165,7 +165,7 @@
     "snapCategoryKdeGames": "KDE-ის თამაშები",
     "snapCategoryGameContentCreation": "შემცველობის შექმნა",
     "snapRatingsBandVeryGood": "ძალიან კარგი",
-    "snapRatingsBandVeryPoor": "ძალიან საწყალი",
+    "snapRatingsBandVeryPoor": "ძალიან უხარისხო",
     "snapRatingsBandInsufficientVotes": "არასაკმარისი ხმები",
     "snapReportLabel": "{snapName}-ის ანგარიში",
     "@snapReportLabel": {
@@ -396,5 +396,13 @@
     "snapRevertNoPreviousRevisionMessage": "დასაბრუნებლად წინა ლოკალური რევიზია ხელმისაწვდომი არ არის.",
     "snapRevertConfirmMessage": "ავტომატური განახლებები გაგრძელდება, როცა ხელმისაწვდომი იქნება ახალი ვერსია.",
     "appConfinementStrictTooltip": "ამ აპს თქვენს რესურსებთან შეზღუდული წვდომა აქვს. მისი ნებართვების მართვა პარამეტრების აპიდან შეგიძლიათ.",
-    "appConfinementClassicTooltip": "ეს აპი კლასიკურ იზოლაციას იყენებს, რაც მას თქვენს რესურსებთან სრულ წვდომას ანიჭებს. ეს ჩვეულებრივია დეველოპერული აპებისთვის."
+    "appConfinementClassicTooltip": "ეს აპი კლასიკურ იზოლაციას იყენებს, რაც მას თქვენს რესურსებთან სრულ წვდომას ანიჭებს. ეს ჩვეულებრივია დეველოპერული აპებისთვის.",
+    "snapActionSwitchChannelTitle": "არხის გადართვა {appName}-ისთვის",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }
