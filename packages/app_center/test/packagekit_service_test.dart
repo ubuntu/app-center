@@ -432,6 +432,40 @@ void main() {
     },
   );
 
+  test(
+    'waitTransaction throws PackageKitTransactionError on non-cancelled exit',
+    () async {
+      final mockTransaction = createMockPackageKitTransaction(
+        exit: PackageKitExit.failed,
+      );
+      final mockClient = createMockPackageKitClient(
+        transaction: mockTransaction,
+      );
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: mockClient,
+        fs: MemoryFileSystem.test(),
+      );
+      await packageKit.activateService();
+      final id = await packageKit.install(
+        const PackageKitPackageId(name: 'foo', version: '1.0'),
+      );
+      await expectLater(
+        packageKit.waitTransaction(id),
+        throwsA(
+          isA<PackageKitTransactionError>()
+              .having((e) => e.message, 'message', contains('failed'))
+              // A failure must not look like a user cancellation.
+              .having(
+                (e) => e is PackageKitTransactionCancelled,
+                'isCancelled',
+                isFalse,
+              ),
+        ),
+      );
+    },
+  );
+
   test('error stream', () async {
     const mockError = PackageKitErrorCodeEvent(
       code: PackageKitError.noNetwork,

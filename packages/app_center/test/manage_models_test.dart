@@ -361,6 +361,96 @@ void main() {
       expect(updates.first.activeTransactionId, isNull);
     });
 
+    test(
+      'updateDeb reports failure to error stream and clears transaction',
+      () async {
+        registerMockSnapdService(installedSnaps: []);
+
+        final mockPackageKit = createMockPackageKitService();
+        when(mockPackageKit.waitTransaction(any)).thenAnswer(
+          (_) async => throw PackageKitTransactionError(
+            'Transaction 0 exited with exit failed',
+          ),
+        );
+
+        // ignore: close_sinks
+        final errorStream = registerMockErrorStreamControllerService();
+
+        final container = createContainer(
+          overrides: [
+            localDebsProvider.overrideWith(
+              (ref) async => [defaultDebWithUpdate],
+            ),
+          ],
+        );
+
+        await container.read(localDebUpdatesModelProvider.future);
+
+        await container
+            .read(localDebUpdatesModelProvider.notifier)
+            .updateDeb(defaultDebWithUpdate.id);
+
+        verify(errorStream.add(any)).called(1);
+        final updates = container.read(localDebUpdatesModelProvider).value!;
+        // The deb was not updated, so it stays in the list with its
+        // transaction state cleared.
+        expect(updates.first.activeTransactionId, isNull);
+        expect(updates.first.updatePackageId, isNotNull);
+      },
+    );
+
+    test('updateAll continues after a cancelled transaction', () async {
+      registerMockSnapdService(installedSnaps: []);
+
+      final debUpdate2 = createLocalDebInfo(
+        id: 'blender',
+        name: 'Blender',
+        packageName: 'blender',
+        version: '3.0',
+        updatePackageId: const PackageKitPackageId(
+          name: 'blender',
+          version: '3.1',
+        ),
+      );
+
+      final mockPackageKit = createMockPackageKitService();
+      // First deb's transaction is cancelled (e.g. polkit dialog dismissed);
+      // the second succeeds.
+      var waitCalls = 0;
+      when(mockPackageKit.waitTransaction(any)).thenAnswer((_) async {
+        if (waitCalls++ == 0) {
+          throw PackageKitTransactionCancelled('Transaction 0 was cancelled');
+        }
+      });
+
+      // ignore: close_sinks
+      final errorStream = registerMockErrorStreamControllerService();
+
+      final container = createContainer(
+        overrides: [
+          localDebsProvider.overrideWith(
+            (ref) async => [defaultDebWithUpdate, debUpdate2],
+          ),
+        ],
+      );
+
+      await container.read(installedAppsProvider.future);
+      await container.read(localDebUpdatesModelProvider.future);
+
+      await container.read(localDebUpdatesModelProvider.notifier).updateAll();
+
+      // Both updates were attempted; the cancelled one is not an error.
+      verify(mockPackageKit.update(any)).called(2);
+      verifyNever(errorStream.add(any));
+
+      // Only the cancelled deb remains in the updates list, transaction
+      // state cleared.
+      final updates = container.read(localDebUpdatesModelProvider).value!;
+      expect(updates, hasLength(1));
+      expect(updates.single.id, equals(defaultDebWithUpdate.id));
+      expect(updates.single.activeTransactionId, isNull);
+    });
+
     test('silentUpdatesCheck updates state when updates change', () async {
       registerMockSnapdService(installedSnaps: []);
 

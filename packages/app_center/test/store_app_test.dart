@@ -151,6 +151,13 @@ void main() {
           error: PackageKitTransactionCancelled('Transaction 1 was cancelled'),
           expectDialog: false,
         ),
+        (
+          // The stream is typed Object; unknown values must be ignored
+          // rather than crash the listener.
+          name: 'unknown error object',
+          error: 'not an exception',
+          expectDialog: false,
+        ),
       ]) {
         testWidgets(testCase.name, (tester) async {
           registerMockSnapdService();
