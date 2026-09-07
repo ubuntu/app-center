@@ -93,10 +93,7 @@ class _StoreAppState extends ConsumerState<StoreApp> {
 }
 
 class _StoreAppHome extends ConsumerWidget {
-  const _StoreAppHome({
-    required this.navigatorKey,
-    required this.searchFocus,
-  });
+  const _StoreAppHome({required this.navigatorKey, required this.searchFocus});
 
   final GlobalKey<NavigatorState> navigatorKey;
   final FocusNode searchFocus;
@@ -174,27 +171,21 @@ class _StoreAppHome extends ConsumerWidget {
             settings: settings,
             builder: (_) => YaruDetailPage(
               appBar: searchField,
-              body: DebPage(
-                id: StoreRoutes.debOf(settings)!,
-              ),
+              body: DebPage(id: StoreRoutes.debOf(settings)!),
             ),
           ),
           StoreRoutes.localDeb => MaterialPageRoute(
             settings: settings,
             builder: (_) => YaruDetailPage(
               appBar: searchField,
-              body: LocalDebPage(
-                path: StoreRoutes.localDebOf(settings)!,
-              ),
+              body: LocalDebPage(path: StoreRoutes.localDebOf(settings)!),
             ),
           ),
           StoreRoutes.snap => MaterialPageRoute(
             settings: settings,
             builder: (_) => YaruDetailPage(
               appBar: searchField,
-              body: SnapPage(
-                snapName: StoreRoutes.snapOf(settings)!,
-              ),
+              body: SnapPage(snapName: StoreRoutes.snapOf(settings)!),
             ),
           ),
           StoreRoutes.search => MaterialPageRoute(
@@ -216,10 +207,8 @@ class _StoreAppHome extends ConsumerWidget {
           ),
           StoreRoutes.manage => MaterialPageRoute(
             settings: settings,
-            builder: (_) => YaruDetailPage(
-              appBar: searchField,
-              body: const ManagePage(),
-            ),
+            builder: (_) =>
+                YaruDetailPage(appBar: searchField, body: const ManagePage()),
           ),
           StoreRoutes.gstreamer => MaterialPageRoute(
             settings: settings,
@@ -257,16 +246,44 @@ class _MaybeBackButton extends ConsumerWidget {
 
 extension StoreAppThemeX on ThemeData {
   ThemeData customize({bool highContrast = false}) {
+    const cjkFallback = [
+      'Noto Sans CJK SC',
+      'Noto Sans CJK TC',
+      'Noto Sans CJK HK',
+    ];
+
     final base = copyWith(
+      textTheme: textTheme.apply(fontFamilyFallback: cjkFallback),
+      primaryTextTheme: primaryTextTheme.apply(fontFamilyFallback: cjkFallback),
+
+      appBarTheme: appBarTheme.copyWith(
+        titleTextStyle: appBarTheme.titleTextStyle?.apply(
+          fontFamilyFallback: cjkFallback,
+        ),
+      ),
+
+      navigationRailTheme: navigationRailTheme.copyWith(
+        selectedLabelTextStyle: navigationRailTheme.selectedLabelTextStyle
+            ?.apply(fontFamilyFallback: cjkFallback),
+        unselectedLabelTextStyle: navigationRailTheme.unselectedLabelTextStyle
+            ?.apply(fontFamilyFallback: cjkFallback),
+      ),
+
+      listTileTheme: listTileTheme.copyWith(
+        titleTextStyle: listTileTheme.titleTextStyle?.apply(
+          fontFamilyFallback: cjkFallback,
+        ),
+        subtitleTextStyle: listTileTheme.subtitleTextStyle?.apply(
+          fontFamilyFallback: cjkFallback,
+        ),
+      ),
       inputDecorationTheme: inputDecorationTheme.copyWith(
         fillColor: colorScheme.surface,
         hoverColor: colorScheme.surface,
       ),
     );
 
-    final highContrastTheme = base.copyWith(
-      hintColor: colorScheme.onSurface,
-    );
+    final highContrastTheme = base.copyWith(hintColor: colorScheme.onSurface);
 
     return highContrast ? highContrastTheme : base;
   }
