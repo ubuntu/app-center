@@ -104,9 +104,11 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
 
   Future<SnapListState> fetchRefreshableSnaps() {
     return connectionCheck(
-      () => _snapd
-          .find(filter: SnapFindFilter.refresh)
-          .then((snaps) => snaps.where((s) => s.name != kSnapName)),
+      () => _snapd.find(filter: SnapFindFilter.refresh).then(
+            (snaps) => snaps.where(
+              (s) => s.name != kSnapName && (s.hold == null || s.hold!.isBefore(DateTime.now())),
+            ),
+          ),
       ref,
     );
   }
