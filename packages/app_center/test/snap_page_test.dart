@@ -30,6 +30,7 @@ final localSnap = createSnap(
   name: 'testsnap',
   title: 'Testsnap',
   publisher: const SnapPublisher(id: '', displayName: 'testPublisher'),
+  contact: 'mailto:developer@example.com',
   version: '2.0.0',
   revision: 42,
   website: 'https://example.com',
@@ -46,6 +47,7 @@ final storeSnap = createSnap(
   name: 'testsnap',
   title: 'Testsnap',
   publisher: const SnapPublisher(id: '', displayName: 'testPublisher'),
+  contact: 'mailto:developer@example.com',
   version: '1.0.0',
   revision: 42,
   website: 'https://example.com',
@@ -290,6 +292,49 @@ void main() {
     );
     expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
     verify(service.install(any, channel: anyNamed('channel'))).called(1);
+  });
+
+  testWidgets('report dialog shows warning banner and developer links', (
+    tester,
+  ) async {
+    registerMockSnapdService(
+      localSnap: localSnap,
+      storeSnap: storeSnap,
+    );
+    final snapLauncher = createMockSnapLauncher(isLaunchable: true);
+
+    final container = createContainer(
+      overrides: [
+        launchProvider.overrideWith((ref, arg) => snapLauncher),
+      ],
+    );
+
+    await tester.pumpApp(
+      (_) => UncontrolledProviderScope(
+        container: container,
+        child: const SnapPage(snapName: 'testsnap'),
+      ),
+    );
+    await container.read(snapModelProvider('testsnap').future);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byIcon(YaruIcons.flag));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text(tester.l10n.snapReportStoreTeamWarningTitle),
+      findsOneWidget,
+    );
+    expect(
+      find.text(tester.l10n.snapReportContactInformationLabel),
+      findsOneWidget,
+    );
+    expect(
+      find.text(tester.l10n.snapReportIssueReportingLinksLabel),
+      findsOneWidget,
+    );
+    expect(find.text('mailto:developer@example.com'), findsOneWidget);
+    expect(find.text('https://example.com'), findsOneWidget);
   });
 
   testWidgets('local-only', (tester) async {

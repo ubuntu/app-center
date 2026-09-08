@@ -5,13 +5,22 @@ import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
+import 'package:yaru/yaru.dart';
 
 class SnapReport extends StatefulWidget {
-  const SnapReport({required this.name, required this.snapName, super.key});
+  const SnapReport({
+    required this.name,
+    required this.snapName,
+    this.contact,
+    this.website,
+    super.key,
+  });
 
   final String name;
 
   final String snapName;
+  final String? contact;
+  final String? website;
 
   @override
   State<SnapReport> createState() => _SnapReportState();
@@ -19,8 +28,22 @@ class SnapReport extends StatefulWidget {
 
 class _SnapReportState extends State<SnapReport> {
   String? selectedReason;
+  bool _isSubmitting = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _detailsController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _detailsController.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _detailsController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +65,34 @@ class _SnapReportState extends State<SnapReport> {
                 padding: EdgeInsets.symmetric(vertical: 10.0),
                 child: Divider(),
               ),
+              YaruInfoBox(
+                title: Text(l10n.snapReportStoreTeamWarningTitle),
+                yaruInfoType: YaruInfoType.warning,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (widget.contact != null) ...[
+                      Text(l10n.snapReportContactInformationLabel),
+                      const SizedBox(height: kCardMargin),
+                      HyperlinkText(
+                        text: widget.contact!,
+                        link: widget.contact,
+                      ),
+                    ],
+                    if (widget.contact != null && widget.website != null)
+                      const SizedBox(height: kCardMargin),
+                    if (widget.website != null) ...[
+                      Text(l10n.snapReportIssueReportingLinksLabel),
+                      const SizedBox(height: kCardMargin),
+                      HyperlinkText(
+                        text: widget.website!,
+                        link: widget.website,
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              const SizedBox(height: kPagePadding),
               MergeSemantics(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,41 +234,44 @@ class _SnapReportState extends State<SnapReport> {
                   ),
                   const SizedBox(width: kPagePadding),
                   ElevatedButton(
-                    onPressed: () async {
-                      if (selectedReason == null ||
-                          _detailsController.text.isEmpty) {
-                        return;
-                      }
+                    onPressed:
+                        _isSubmitting ||
+                            selectedReason == null ||
+                            _detailsController.text.isEmpty
+                        ? null
+                        : () async {
+                            setState(() => _isSubmitting = true);
 
-                      const url =
-                          'https://docs.google.com/forms/d/e/1FAIpQLSelELZwXzvnDkx52GL7cpnQyWdc_Te6APDs843gIKRBHbh6jA/formResponse';
+                            const url =
+                                'https://docs.google.com/forms/d/e/1FAIpQLSelELZwXzvnDkx52GL7cpnQyWdc_Te6APDs843gIKRBHbh6jA/formResponse';
 
-                      final headers = {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                      };
-                      final requestBody = <String, String>{
-                        'entry.1703677219': widget.snapName,
-                        'entry.1193754313': selectedReason!,
-                        'entry.1170971435': _detailsController.text,
-                        'entry.1424146082': _emailController.text,
-                      };
+                            final headers = {
+                              'Content-Type':
+                                  'application/x-www-form-urlencoded',
+                            };
+                            final requestBody = <String, String>{
+                              'entry.1703677219': widget.snapName,
+                              'entry.1193754313': selectedReason!,
+                              'entry.1170971435': _detailsController.text,
+                              'entry.1424146082': _emailController.text,
+                            };
 
-                      final response = await http.post(
-                        Uri.parse(url),
-                        headers: headers,
-                        body: requestBody,
-                      );
-                      if (response.statusCode != 200) {
-                        log.error(
-                          'Snap reporting for snap "${widget.name}" failed with HTTP Code ${response.statusCode}',
-                        );
-                      }
-                      if (mounted) {
-                        // TODO: fix async gap
-                        // ignore: use_build_context_synchronously
-                        Navigator.of(context).pop();
-                      }
-                    },
+                            final response = await http.post(
+                              Uri.parse(url),
+                              headers: headers,
+                              body: requestBody,
+                            );
+                            if (response.statusCode != 200) {
+                              log.error(
+                                'Snap reporting for snap "${widget.name}" failed with HTTP Code ${response.statusCode}',
+                              );
+                            }
+                            if (mounted) {
+                              // TODO: fix async gap
+                              // ignore: use_build_context_synchronously
+                              Navigator.of(context).pop();
+                            }
+                          },
                     child: Text(l10n.snapReportSubmitButtonLabel),
                   ),
                 ],
