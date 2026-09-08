@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 
 abstract class StoreRoutes {
   static const explore = '/explore';
+  static const about = '/about';
   static const deb = '/deb';
   static const localDeb = '/local-deb';
   static const snap = '/snap';

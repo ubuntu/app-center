@@ -1,4 +1,3 @@
-import 'package:app_center/about/about.dart';
 import 'package:app_center/explore/explore.dart';
 import 'package:app_center/games/games.dart';
 import 'package:app_center/l10n.dart';
@@ -6,6 +5,7 @@ import 'package:app_center/manage/local_deb_updates_model.dart';
 import 'package:app_center/manage/manage.dart';
 import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/search/search.dart';
+import 'package:app_center/settings/settings.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -129,12 +129,12 @@ final pages = <StorePage>[
   ),
   (
     tileBuilder: (context, selected) => _NavigationTile(
-      leading: Icon(AboutPage.icon(selected)),
-      title: Text(AboutPage.label(context)),
+      leading: Icon(SettingsPage.icon(selected)),
+      title: Text(SettingsPage.label(context)),
     ),
     pageBuilder: (_, title) => YaruDetailPage(
       appBar: title,
-      body: const AboutPage(),
+      body: const SettingsPage(),
     ),
   ),
 ];
