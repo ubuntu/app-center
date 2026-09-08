@@ -22,20 +22,46 @@ Future<DBusMethodSuccessResponse> _driversCall(MockDBusClient dbus) =>
 
 void main() {
   group('getDrivers', () {
-    test('throws DriversServiceUnavailableException if unreachable', () async {
-      final dbus = createMockDbusClient();
-      when(_driversCall(dbus)).thenThrow(
-        DBusServiceUnknownException(
-          DBusMethodErrorResponse('org.freedesktop.DBus.Error.ServiceUnknown'),
-        ),
-      );
+    test(
+      'throws DriversServiceException if the D-Bus service is unreachable',
+      () async {
+        final dbus = createMockDbusClient();
+        when(_driversCall(dbus)).thenThrow(
+          DBusServiceUnknownException(
+            DBusMethodErrorResponse(
+              'org.freedesktop.DBus.Error.ServiceUnknown',
+            ),
+          ),
+        );
 
-      final drivers = DriversService(dbus: dbus);
-      expect(
-        drivers.getDrivers(),
-        throwsA(isA<DriversServiceUnavailableException>()),
-      );
-    });
+        final drivers = DriversService(dbus: dbus);
+        expect(drivers.getDrivers(), throwsA(isA<DriversServiceException>()));
+      },
+    );
+
+    test(
+      'throws DriversServiceUnavailableException if access denied '
+      '(e.g. interface not connected)',
+      () async {
+        final dbus = createMockDbusClient();
+        when(_driversCall(dbus)).thenThrow(
+          DBusAccessDeniedException(
+            DBusMethodErrorResponse('org.freedesktop.DBus.Error.AccessDenied', [
+              const DBusString(
+                'An AppArmor policy prevents this sender from sending '
+                'this message to this recipient',
+              ),
+            ]),
+          ),
+        );
+
+        final drivers = DriversService(dbus: dbus);
+        expect(
+          drivers.getDrivers(),
+          throwsA(isA<DriversServiceUnavailableException>()),
+        );
+      },
+    );
 
     test('parses devices and driver packages', () async {
       final dbus = createMockDbusClient();
