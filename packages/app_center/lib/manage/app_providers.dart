@@ -43,13 +43,18 @@ final appSortOrderProvider = StateProvider<AppSortOrder>(
 Future<List<ManageAppData>> appUpdates(Ref ref) async {
   final snapUpdates = await ref.watch(snapUpdatesModelProvider.future);
   final debUpdates = await ref.watch(localDebUpdatesModelProvider.future);
+  // snapUpdates contains refresh *candidates* from the store, whose `version`
+  // field is the update's version, not the currently installed one. Pair each
+  // candidate with its locally installed snap to get the real current version.
+  final localSnaps = await ref.watch(localSnapsProvider.future);
 
-  final snapApps = snapUpdates.snaps.map(
-    (snap) => ManageAppData.snap(
-      snap: snap,
-      updateVersion: snap.version,
-    ),
-  );
+  final snapApps = snapUpdates.snaps.map((candidate) {
+    final localSnap = localSnaps.getSnap(candidate.name);
+    return ManageAppData.snap(
+      snap: localSnap ?? candidate,
+      updateVersion: candidate.version,
+    );
+  });
 
   final debApps = debUpdates.map((deb) => ManageAppData.localDeb(debInfo: deb));
 

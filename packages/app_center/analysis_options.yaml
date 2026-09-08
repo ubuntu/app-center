@@ -1,1 +1,10 @@
+analyzer:
+  exclude:
+    - build/**
+    - linux/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
 include: package:ubuntu_lints/analysis_options.yaml
