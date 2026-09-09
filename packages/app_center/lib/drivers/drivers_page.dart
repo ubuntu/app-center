@@ -84,15 +84,6 @@ class _DriversView extends ConsumerWidget {
           padding: const EdgeInsets.all(kPagePadding),
           sliver: SliverList.list(
             children: [
-              Semantics(
-                header: true,
-                focused: true,
-                child: Text(
-                  l10n.addonsPageAdditionalDriversTitle,
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-              ),
-              const SizedBox(height: kPagePadding),
               Text(l10n.driversPageDescription),
               if (requiresRestart) ...[
                 const SizedBox(height: kSectionSpacing),
