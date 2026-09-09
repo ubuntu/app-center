@@ -46,6 +46,7 @@ enum DriverBranch {
 enum DriverDeviceClass {
   graphics,
   network,
+  networkWireless,
   camera,
   usb,
   storage,
@@ -77,15 +78,18 @@ enum DriverDeviceClass {
   }
 
   /// PCI base class codes (`bc` field of a `pci:` modalias).
+  /// See https://admin.pci-ids.ucw.cz/read/PD for the full list.
   static const _pciBaseClasses = {
     0x01: DriverDeviceClass.storage,
     0x02: DriverDeviceClass.network,
     0x03: DriverDeviceClass.graphics,
     0x04: DriverDeviceClass.audio,
     0x0c: DriverDeviceClass.usb,
+    0x0d: DriverDeviceClass.networkWireless,
   };
 
-  /// USB interface class codes (`ic` field of a `usb:` modalias).
+  /// USB interface class codes (`ic` field of a `usb:` modalias). See
+  /// https://www.usb.org/defined-class-codes for the full list.
   static const _usbInterfaceClasses = {
     0x01: DriverDeviceClass.audio,
     0x03: DriverDeviceClass.other,
