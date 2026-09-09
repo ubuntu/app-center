@@ -440,5 +440,9 @@
     "driversPageSwitchBranchLessStableWarningTitle": "This branch is less stable",
     "driversPageSwitchBranchLessStableWarningMessage": "Stay on the current branch to prevent issues with this device.",
     "driversPageSwitchLabel": "Switch",
-    "driversPageSwitchingBranchLabel": "Switching branch"
+    "driversPageSwitchingBranchLabel": "Switching branch",
+    "driversPageUninstallTitle": "Uninstall driver",
+    "driversPageUninstallWarningTitle": "Uninstalling drivers can cause issues",
+    "driversPageUninstallWarningMessage": "You might not be able to easily reinstall the drivers, particularly if related to graphics or network.",
+    "driversPageUninstallAcknowledgeLabel": "I understand the risk"
 }
