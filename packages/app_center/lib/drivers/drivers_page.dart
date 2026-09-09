@@ -199,7 +199,10 @@ class _DriverDeviceTile extends ConsumerWidget {
         ),
         leading: Icon(_iconFor(data.info.deviceClass), size: 32),
         title: Text(
-          data.info.model.isNotEmpty ? data.info.model : data.info.vendor,
+          [
+            _vendorLabel(data.info.vendor),
+            data.info.model,
+          ].where((s) => s.isNotEmpty).join(' '),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
@@ -418,6 +421,16 @@ DriverBranchOption _recommendedOption(DriverDeviceInfo info) =>
     DriverDeviceInfo.pickPreferred(
       info.options.where((o) => o.hasPackages).toList(),
     );
+
+const _vendorNameOverrides = {
+  'NVIDIA Corporation': 'NVIDIA',
+  'Advanced Micro Devices, Inc. [AMD/ATI]': 'AMD',
+  'Intel Corporation': 'Intel',
+  'Broadcom Inc. and subsidiaries': 'Broadcom',
+  'Realtek Semiconductor Co., Ltd.': 'Realtek',
+};
+
+String _vendorLabel(String vendor) => _vendorNameOverrides[vendor] ?? vendor;
 
 String _subtitleFor(BuildContext context, DriverDeviceInfo info) {
   final l10n = AppLocalizations.of(context);
