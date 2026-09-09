@@ -9,6 +9,7 @@ abstract class StoreRoutes {
   static const manage = '/manage';
   static const search = '/search';
   static const externalTools = '/externalTools';
+  static const additionalDrivers = '/additionalDrivers';
   static const gstreamer = '/gstreamer';
 
   static bool isSnap(RouteSettings route) => routeOf(route) == snap;

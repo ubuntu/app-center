@@ -23,7 +23,7 @@ class ChannelSwitchDialog extends ConsumerWidget {
 
     return ResponsiveLayoutBuilder(
       builder: (context) => SimpleDialog(
-        contentPadding: const EdgeInsets.all(20),
+        contentPadding: kDialogContentPadding,
         titlePadding: EdgeInsets.zero,
         title: YaruDialogTitleBar(
           title: snap.whenOrNull(
