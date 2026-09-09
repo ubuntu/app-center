@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru/yaru.dart';
 
+const kDriversSectionSpacing = 32.0;
+
 /// Lists detected hardware devices and lets the user install, update, or
 /// uninstall their driver packages.
 class DriversPage extends ConsumerWidget {
@@ -112,10 +114,10 @@ class _DriversView extends ConsumerWidget {
             children: [
               Text(l10n.driversPageDescription),
               if (requiresRestart) ...[
-                const SizedBox(height: kSectionSpacing),
+                const SizedBox(height: kDriversSectionSpacing),
                 const _RestartRequiredBanner(),
               ],
-              const SizedBox(height: kSectionSpacing),
+              const SizedBox(height: kDriversSectionSpacing),
               _DriverSection(
                 title: l10n.driversPageSectionUpdateAvailable,
                 devices: devicesBySection[DriverSection.updateAvailable]!,
@@ -167,7 +169,7 @@ class _DriverSection extends StatelessWidget {
     final outline = Theme.of(context).colorScheme.outline;
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: kSectionSpacing),
+      padding: const EdgeInsets.only(bottom: kDriversSectionSpacing),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -175,7 +177,7 @@ class _DriverSection extends StatelessWidget {
             title,
             style: Theme.of(context).textTheme.titleSmall,
           ),
-          const SizedBox(height: kMarginLarge),
+          const SizedBox(height: kSpacingSmall),
           YaruBorderContainer(
             clipBehavior: Clip.hardEdge,
             child: Column(
