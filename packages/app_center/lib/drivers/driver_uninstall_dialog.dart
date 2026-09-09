@@ -34,7 +34,7 @@ class _DriverUninstallDialogState extends ConsumerState<DriverUninstallDialog> {
     final l10n = AppLocalizations.of(context);
 
     return SimpleDialog(
-      contentPadding: const EdgeInsets.all(20),
+      contentPadding: kDialogContentPadding,
       titlePadding: EdgeInsets.zero,
       title: YaruDialogTitleBar(
         title: Text(l10n.driversPageUninstallTitle),
