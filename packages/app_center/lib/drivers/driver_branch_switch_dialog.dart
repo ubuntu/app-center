@@ -66,7 +66,10 @@ class _DriverBranchSwitchDialogState
           ),
           children: [
             ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: kMaxDialogWidth),
+              constraints: const BoxConstraints(
+                minWidth: kMaxDialogWidth,
+                maxWidth: kMaxDialogWidth,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
