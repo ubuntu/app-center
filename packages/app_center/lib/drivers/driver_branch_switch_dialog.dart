@@ -59,7 +59,7 @@ class _DriverBranchSwitchDialogState
                 installedOption.branch.stabilityRank;
 
         return SimpleDialog(
-          contentPadding: const EdgeInsets.all(20),
+          contentPadding: kDialogContentPadding,
           titlePadding: EdgeInsets.zero,
           title: YaruDialogTitleBar(
             title: Text(l10n.driversPageSwitchBranchTitle),
