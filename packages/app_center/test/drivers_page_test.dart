@@ -300,7 +300,10 @@ void main() {
     await tester.pumpApp((_) => const ProviderScope(child: DriversPage()));
     await tester.pumpAndSettle();
 
-    expect(find.text('GK208 [GeForce GT 720]'), findsOneWidget);
+    expect(
+      find.text('NVIDIA GK208 [GeForce GT 720]'),
+      findsOneWidget,
+    );
     expect(
       find.text(tester.l10n.driversPageSectionAvailable),
       findsOneWidget,
