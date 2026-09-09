@@ -23,7 +23,8 @@ Future<DBusMethodSuccessResponse> _driversCall(MockDBusClient dbus) =>
 void main() {
   group('getDrivers', () {
     test(
-      'throws DriversServiceException if the D-Bus service is unreachable',
+      'throws DriversServiceUnavailableException if the D-Bus service name '
+      'is unknown (e.g. snapd is unavailable)',
       () async {
         final dbus = createMockDbusClient();
         when(_driversCall(dbus)).thenThrow(
@@ -35,7 +36,10 @@ void main() {
         );
 
         final drivers = DriversService(dbus: dbus);
-        expect(drivers.getDrivers(), throwsA(isA<DriversServiceException>()));
+        expect(
+          drivers.getDrivers(),
+          throwsA(isA<DriversServiceUnavailableException>()),
+        );
       },
     );
 

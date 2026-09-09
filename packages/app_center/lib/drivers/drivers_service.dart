@@ -51,6 +51,8 @@ class DriversService {
       );
     } on DBusAccessDeniedException catch (_) {
       throw DriversServiceUnavailableException();
+    } on DBusServiceUnknownException catch (_) {
+      throw DriversServiceUnavailableException();
     } on DBusMethodResponseException catch (e) {
       throw DriversServiceException(e.toString());
     }
