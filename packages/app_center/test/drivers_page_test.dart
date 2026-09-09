@@ -1086,8 +1086,13 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
+      find.text(tester.l10n.driversPageUnavailableTitle),
+      findsOneWidget,
+    );
+    expect(
       find.text(tester.l10n.driversPageUnsupportedMessage),
       findsOneWidget,
     );
+    expect(find.byType(YaruInfoBox), findsOneWidget);
   });
 }

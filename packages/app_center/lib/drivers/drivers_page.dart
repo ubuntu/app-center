@@ -25,7 +25,7 @@ class DriversPage extends ConsumerWidget {
           ? _DriversMessageView(message: l10n.driversPageNoDriversFoundMessage)
           : _DriversView(driverList: data),
       error: (error, stackTrace) => error is DriversServiceUnavailableException
-          ? _DriversMessageView(message: l10n.driversPageUnsupportedMessage)
+          ? const _DriversUnavailableView()
           : ErrorView(
               error: error,
               onRetry: () =>
@@ -55,6 +55,32 @@ class _DriversMessageView extends StatelessWidget {
           ).textTheme.bodyLarge?.copyWith(color: Theme.of(context).hintColor),
         ),
       ),
+    );
+  }
+}
+
+/// A warning shown when the driver management service is unavailable.
+class _DriversUnavailableView extends StatelessWidget {
+  const _DriversUnavailableView();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return ResponsiveLayoutScrollView(
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.all(kPagePadding),
+          sliver: SliverList.list(
+            children: [
+              YaruInfoBox(
+                yaruInfoType: YaruInfoType.warning,
+                title: Text(l10n.driversPageUnavailableTitle),
+                subtitle: Text(l10n.driversPageUnsupportedMessage),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
