@@ -446,7 +446,8 @@ String _deviceClassLabel(
   DriverDeviceClass deviceClass,
 ) => switch (deviceClass) {
   DriverDeviceClass.graphics => l10n.driversPageDeviceClassGraphics,
-  DriverDeviceClass.network => l10n.driversPageDeviceClassNetwork,
+  DriverDeviceClass.network ||
+  DriverDeviceClass.networkWireless => l10n.driversPageDeviceClassNetwork,
   DriverDeviceClass.camera => l10n.driversPageDeviceClassCamera,
   DriverDeviceClass.usb => l10n.driversPageDeviceClassUsb,
   DriverDeviceClass.storage => l10n.driversPageDeviceClassStorage,
@@ -463,8 +464,9 @@ String? _branchLabel(AppLocalizations l10n, DriverBranch branch) =>
     };
 
 IconData _iconFor(DriverDeviceClass deviceClass) => switch (deviceClass) {
-  DriverDeviceClass.graphics => YaruIcons.chip,
+  DriverDeviceClass.graphics => YaruIcons.screen,
   DriverDeviceClass.network => YaruIcons.network_wired,
+  DriverDeviceClass.networkWireless => YaruIcons.network_wireless,
   DriverDeviceClass.camera => YaruIcons.camera_web,
   DriverDeviceClass.usb => YaruIcons.usb_stick,
   DriverDeviceClass.storage => YaruIcons.drive_harddisk_usb,
