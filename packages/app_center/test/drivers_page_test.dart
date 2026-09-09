@@ -8,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_test/yaru_test.dart';
 
@@ -348,7 +349,9 @@ void main() {
     expect(find.button(tester.l10n.snapActionUpdateLabel), findsOneWidget);
   });
 
-  testWidgets('uninstalls instantly from the menu action', (tester) async {
+  testWidgets('opens a confirmation dialog before uninstalling', (
+    tester,
+  ) async {
     registerMockDriversService(devices: [_wifiDevice()]);
     final packageKit = createMockPackageKitService(
       resolveMap: {
@@ -363,7 +366,7 @@ void main() {
       },
     );
 
-    await tester.pumpApp((_) => const ProviderScope(child: DriversPage()));
+    await tester.pumpScopedApp((_) => const DriversPage());
     await tester.pumpAndSettle();
 
     expect(
@@ -376,6 +379,25 @@ void main() {
 
     expect(find.text(tester.l10n.snapActionRemoveLabel), findsOneWidget);
     await tester.tap(find.text(tester.l10n.snapActionRemoveLabel));
+    await tester.pumpAndSettle();
+
+    expect(find.text(tester.l10n.driversPageUninstallTitle), findsOneWidget);
+    final confirmButtonFinder = find.ancestor(
+      of: find.text(tester.l10n.snapActionRemoveLabel),
+      matching: find.bySubtype<PushButton>(),
+    );
+    expect(tester.widget<PushButton>(confirmButtonFinder).onPressed, isNull);
+
+    verifyNever(packageKit.removeAll(any));
+
+    await tester.tap(
+      find.text(tester.l10n.driversPageUninstallAcknowledgeLabel),
+    );
+    await tester.pumpAndSettle();
+
+    expect(tester.widget<PushButton>(confirmButtonFinder).onPressed, isNotNull);
+
+    await tester.tap(confirmButtonFinder);
     await tester.pumpAndSettle();
 
     verify(

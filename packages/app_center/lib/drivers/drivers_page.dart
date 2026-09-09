@@ -343,7 +343,7 @@ class _DriverDeviceActions extends ConsumerWidget {
             showSwitchBranch: state.info.hasBranchChoice,
             onSwitchBranch: () =>
                 showDriverBranchSwitchDialog(context, sysPath),
-            onUninstall: model.uninstall,
+            onUninstall: () => showDriverUninstallDialog(context, sysPath),
           ),
         ],
       ],

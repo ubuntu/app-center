@@ -1,5 +1,6 @@
 export 'driver_branch_switch_dialog.dart';
 export 'driver_model.dart';
+export 'driver_uninstall_dialog.dart';
 export 'drivers_busy_provider.dart';
 export 'drivers_data.dart';
 export 'drivers_list_provider.dart';
