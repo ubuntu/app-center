@@ -16,6 +16,11 @@ part 'local_deb_updates_model.g.dart';
 /// Empty when no bulk update is in progress.
 final currentlyUpdatingAllDebsProvider = StateProvider<List<String>>((_) => []);
 
+/// Id of the single PackageKit transaction that [LocalDebUpdatesModel.updateAll]
+/// runs, so that [LocalDebUpdatesModel.cancelAll] has something to cancel.
+/// Null when no bulk update is in progress.
+final updateAllDebsTransactionProvider = StateProvider<int?>((_) => null);
+
 /// Tracks whether a silent deb updates check is in progress.
 final isSilentlyCheckingDebUpdatesProvider = StateProvider<bool>((_) => false);
 
@@ -160,52 +165,49 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
     _updateTransactionId(debId, null);
   }
 
-  /// Updates all debs with pending updates sequentially. Collects any errors
-  /// per-deb and reports them to the error stream after all updates complete.
+  /// Updates all debs with pending updates in a single PackageKit transaction,
+  /// so that the user is only asked to authenticate once.
   Future<void> updateAll() async {
     if (!state.hasValue) return;
-    final debIds = state.value!
-        .where((d) => d.hasUpdate)
-        .map((d) => d.id)
-        .toList();
-    if (debIds.isEmpty) return;
+    final debsToUpdate = state.value!.where((d) => d.hasUpdate).toList();
+    if (debsToUpdate.isEmpty) return;
 
-    final errors = <String, Exception>{};
+    final debIds = debsToUpdate.map((d) => d.id).toList();
+    final packageIds = debsToUpdate.map((d) => d.updatePackageId!).toList();
+
     ref.read(currentlyUpdatingAllDebsProvider.notifier).state = debIds;
 
-    for (final debId in debIds) {
-      try {
-        await updateDeb(debId);
-      } on Exception catch (e) {
-        errors[debId] = e;
+    try {
+      final transactionId = await _packageKit.updateAll(packageIds);
+      log.info('Update all transaction started: $transactionId');
+      ref.read(updateAllDebsTransactionProvider.notifier).state = transactionId;
+      await _packageKit.waitTransaction(transactionId);
+      // Drop them from the list right away; the reload below confirms it, but
+      // it re-queries PackageKit and takes a moment to come back.
+      for (final debId in debIds) {
+        removeFromList(debId);
       }
+    } on Exception catch (e) {
+      ref.read(errorStreamControllerProvider).add(e);
+    } finally {
+      ref.read(updateAllDebsTransactionProvider.notifier).state = null;
+      ref.read(currentlyUpdatingAllDebsProvider.notifier).state = [];
+      ref.invalidateSelf();
+      ref.invalidate(localDebsProvider);
     }
-
-    ref.read(currentlyUpdatingAllDebsProvider.notifier).state = [];
-    if (errors.isNotEmpty) {
-      for (final error in errors.values) {
-        ref.read(errorStreamControllerProvider).add(error);
-      }
-    }
-    ref.invalidateSelf();
-    ref.invalidate(localDebsProvider);
   }
 
-  /// Cancels all in-progress transactions for the current bulk update.
-  /// Logs warnings for any cancellations that fail.
+  /// Cancels the transaction started by [updateAll].
   Future<void> cancelAll() async {
-    final debIds = ref.read(currentlyUpdatingAllDebsProvider);
-    if (debIds.isEmpty) return;
+    final transactionId = ref.read(updateAllDebsTransactionProvider);
+    if (transactionId == null) return;
 
-    for (final debId in debIds) {
-      try {
-        await cancelTransaction(debId);
-      } on Exception catch (e) {
-        log.warning('Failed to cancel transaction for $debId: $e');
-      }
+    ref.read(updateAllDebsTransactionProvider.notifier).state = null;
+    try {
+      await _packageKit.cancelTransaction(transactionId);
+    } on Exception catch (e) {
+      log.warning('Failed to cancel update-all transaction: $e');
     }
-
-    ref.read(currentlyUpdatingAllDebsProvider.notifier).state = [];
   }
 
   /// Updates the active transaction ID for a deb in the current state,

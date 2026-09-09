@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_center/appstream/appstream_utils.dart';
 import 'package:app_center/manage/app_providers.dart';
 import 'package:app_center/manage/local_deb_providers.dart';
@@ -298,18 +300,48 @@ void main() {
       await container.read(localDebUpdatesModelProvider.notifier).updateAll();
 
       // Verify updates were called
-      verify(mockPackageKit.update(any)).called(2);
+      verify(mockPackageKit.updateAll(any)).called(1);
 
       // Verify list is now empty (both removed after update)
       updates = container.read(localDebUpdatesModelProvider).value!;
       expect(updates, isEmpty);
     });
 
+    test('cancelAll cancels the transaction updateAll started', () async {
+      registerMockSnapdService(installedSnaps: []);
+
+      // Hold the transaction open so that there is something to cancel.
+      final transaction = Completer<void>();
+      final mockPackageKit = createMockPackageKitService(
+        transactionId: 42,
+        waitTransaction: transaction.future,
+      );
+
+      final container = createContainer(
+        overrides: [
+          localDebsProvider.overrideWith((ref) async => [defaultDebWithUpdate]),
+        ],
+      );
+      await container.read(localDebUpdatesModelProvider.future);
+
+      final updating = container
+          .read(localDebUpdatesModelProvider.notifier)
+          .updateAll();
+      await pumpEventQueue();
+
+      await container.read(localDebUpdatesModelProvider.notifier).cancelAll();
+
+      verify(mockPackageKit.cancelTransaction(42)).called(1);
+
+      transaction.complete();
+      await updating;
+    });
+
     test('updateAll reports errors to error stream', () async {
       registerMockSnapdService(installedSnaps: []);
 
       final mockPackageKit = createMockPackageKitService();
-      when(mockPackageKit.update(any)).thenThrow(Exception('Update failed'));
+      when(mockPackageKit.updateAll(any)).thenThrow(Exception('Update failed'));
 
       // ignore: close_sinks
       final errorStream = registerMockErrorStreamControllerService();

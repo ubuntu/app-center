@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:app_center/constants.dart';
-import 'package:app_center/error/error.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:collection/collection.dart';
@@ -34,6 +33,12 @@ class SnapListState with _$SnapListState {
 }
 
 final currentlyRefreshAllSnapsProvider = StateProvider<List<String>>((_) => []);
+
+/// Id of the single snapd change that [SnapUpdatesModel.refreshAll] starts, so
+/// that [SnapUpdatesModel.cancelRefreshAll] has something to abort. Null when
+/// no bulk refresh is in progress.
+final refreshAllSnapsChangeIdProvider = StateProvider<String?>((_) => null);
+
 final isSilentlyCheckingUpdatesProvider = StateProvider<bool>((_) => false);
 
 @Riverpod(keepAlive: true)
@@ -139,9 +144,7 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
     if (!state.hasValue) {
       return;
     }
-    final errors = <String, Exception>{};
     try {
-      // TODO: Should we call each and rely on the error messages from snapd?
       final refreshableSnapNames =
           state.value?.snaps
               .where((s) => s.refreshInhibit == null)
@@ -154,64 +157,31 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
       ref.read(currentlyRefreshAllSnapsProvider.notifier).state =
           refreshableSnapNames.toList();
 
-      Future<void> refreshSnap(String snapName) async {
-        final refreshFuture = ref
-            .read(SnapModelProvider(snapName).notifier)
-            .refresh();
-        try {
-          final completedSuccessfully = await refreshFuture;
-          if (completedSuccessfully) {
-            ref
-                .read(snapUpdatesModelProvider.notifier)
-                .removeFromList(snapName);
-          }
-        } on Exception catch (e) {
-          if (e is SnapdException && e.kind == 'auth-cancelled') {
-            rethrow;
-          }
-          errors[snapName] = e;
-        }
-      }
-
-      // Refresh the first snap first so that we only ask for the password once.
-      final firstSnap = refreshableSnapNames.removeAt(0);
-      await refreshSnap(firstSnap);
-
-      final refreshFutures = refreshableSnapNames.map(refreshSnap);
-      await Future.wait(refreshFutures);
+      final changeId = await _snapd.refreshMany(refreshableSnapNames);
+      ref.read(refreshAllSnapsChangeIdProvider.notifier).state = changeId;
+      await _snapd.waitChange(changeId);
     } on SnapdException catch (e) {
       if (e.kind != 'auth-cancelled') {
         ref.read(errorStreamControllerProvider).add(e);
       }
     } finally {
+      ref.read(refreshAllSnapsChangeIdProvider.notifier).state = null;
       ref.read(currentlyRefreshAllSnapsProvider.notifier).state = [];
-      if (errors.isNotEmpty) {
-        ref
-            .read(errorStreamControllerProvider)
-            .add(
-              errors.length == 1
-                  ? errors.values.first
-                  : ConsolidatedSnapdException(errors),
-            );
-      }
       ref.invalidateSelf();
       ref.invalidate(localSnapsProvider);
     }
   }
 
+  /// Aborts the change started by [refreshAll].
   Future<void> cancelRefreshAll() async {
-    final snapNames = ref.read(currentlyRefreshAllSnapsProvider);
-    if (snapNames.isEmpty) return;
+    final changeId = ref.read(refreshAllSnapsChangeIdProvider);
+    if (changeId == null) return;
 
+    ref.read(refreshAllSnapsChangeIdProvider.notifier).state = null;
     try {
-      final cancelFutures = snapNames.map(
-        (snapName) => ref.read(SnapModelProvider(snapName).notifier).cancel(),
-      );
-      await Future.wait(cancelFutures);
+      await _snapd.abortChange(changeId);
     } on SnapdException catch (e) {
       ref.read(errorStreamControllerProvider).add(e);
-    } finally {
-      ref.read(currentlyRefreshAllSnapsProvider.notifier).state = [];
     }
   }
 }
