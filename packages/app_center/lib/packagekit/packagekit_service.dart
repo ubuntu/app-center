@@ -33,6 +33,15 @@ class PackageKitTransactionCancelled extends PackageKitTransactionError {
   PackageKitTransactionCancelled(super.message);
 }
 
+// PackageKit reports a dismissed polkit dialog as ErrorCode(notAuthorized)
+// followed by Finished(exit=failed) — there is no cancelled exit code for it
+// (pk-transaction.c: pk_transaction_authorize_actions_cb). Both
+// user-driven codes must be treated as cancellations everywhere, so callers
+// never surface a dialog for an action the user declined.
+bool _isUserCancellation(PackageKitError code) =>
+    code == PackageKitError.notAuthorized ||
+    code == PackageKitError.transactionCancelled;
+
 class PackageKitService {
   PackageKitService({
     @visibleForTesting PackageKitClient? client,
@@ -134,10 +143,16 @@ class PackageKitService {
           log.warning('onDone callback threw during transaction cleanup: $e');
         }
       } else if (event is PackageKitErrorCodeEvent) {
-        _errorStreamController.add(event);
-        log.error(
-          'Received PackageKitErrorCodeEvent (${event.code}): ${event.details}',
-        );
+        if (_isUserCancellation(event.code)) {
+          log.info(
+            'Transaction cancelled by user (${event.code}): ${event.details}',
+          );
+        } else {
+          _errorStreamController.add(event);
+          log.error(
+            'Received PackageKitErrorCodeEvent (${event.code}): ${event.details}',
+          );
+        }
       }
     });
     try {
@@ -156,20 +171,25 @@ class PackageKitService {
   }
 
   /// Waits until the transaction specified by the internal `id` has finished.
-  /// Throws a [PackageKitTransactionError] if the transaction fails or is
-  /// destroyed before finishing.
+  /// Throws a [PackageKitTransactionCancelled] if the transaction was
+  /// cancelled by the user — explicitly, or by dismissing the polkit dialog,
+  /// which the daemon reports as a failed exit with a `notAuthorized` error
+  /// code. Throws a [PackageKitTransactionError] for any other failure or if
+  /// the transaction is destroyed before finishing.
   Future<void> waitTransaction(int id) async {
     if (!_transactions.keys.contains(id)) {
       throw PackageKitTransactionError('Transaction $id not found');
     }
 
+    var cancelledByUser = false;
     final completer = Completer();
     final subscription = _transactions[id]!.events.listen(
       (event) {
         if (event is PackageKitFinishedEvent) {
           if (event.exit == PackageKitExit.success) {
             completer.complete();
-          } else if (event.exit == PackageKitExit.cancelled) {
+          } else if (event.exit == PackageKitExit.cancelled ||
+              cancelledByUser) {
             completer.completeError(
               PackageKitTransactionCancelled('Transaction $id was cancelled'),
             );
@@ -179,6 +199,10 @@ class PackageKitService {
                 'Transaction $id finished with exit code: ${event.exit}',
               ),
             );
+          }
+        } else if (event is PackageKitErrorCodeEvent) {
+          if (_isUserCancellation(event.code)) {
+            cancelledByUser = true;
           }
         } else if (event is PackageKitDestroyEvent) {
           completer.completeError(

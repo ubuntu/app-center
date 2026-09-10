@@ -433,6 +433,84 @@ void main() {
   );
 
   test(
+    'waitTransaction throws PackageKitTransactionCancelled when polkit dialog is dismissed',
+    () async {
+      // The daemon fails the transaction (exit=failed) after a `notAuthorized`
+      // error code — PackageKit has no cancelled exit code for this case.
+      final startCompleter = Completer();
+      final mockTransaction = createMockPackageKitTransaction(
+        events: [
+          const PackageKitErrorCodeEvent(
+            code: PackageKitError.notAuthorized,
+            details: 'Failed to obtain authentication.',
+          ),
+        ],
+        exit: PackageKitExit.failed,
+        start: startCompleter.future,
+      );
+      final mockClient = createMockPackageKitClient(
+        transaction: mockTransaction,
+      );
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: mockClient,
+        fs: MemoryFileSystem.test(),
+      );
+      await packageKit.activateService();
+      final id = await packageKit.install(
+        const PackageKitPackageId(name: 'foo', version: '1.0'),
+      );
+      final future = packageKit.waitTransaction(id);
+      startCompleter.complete();
+      await expectLater(
+        future,
+        throwsA(isA<PackageKitTransactionCancelled>()),
+      );
+    },
+  );
+
+  test('error stream ignores user cancellations', () async {
+    final startCompleter = Completer();
+    final mockTransaction = createMockPackageKitTransaction(
+      events: [
+        const PackageKitErrorCodeEvent(
+          code: PackageKitError.notAuthorized,
+          details: 'Failed to obtain authentication.',
+        ),
+        const PackageKitErrorCodeEvent(
+          code: PackageKitError.noNetwork,
+          details: 'error details',
+        ),
+      ],
+      exit: PackageKitExit.failed,
+      start: startCompleter.future,
+    );
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    final errors = <PackageKitServiceError>[];
+    packageKit.errorStream.listen(errors.add);
+    final id = await packageKit.install(
+      const PackageKitPackageId(name: 'foo', version: '1.0'),
+    );
+    final future = packageKit.waitTransaction(id);
+    startCompleter.complete();
+    await expectLater(
+      future,
+      throwsA(isA<PackageKitTransactionCancelled>()),
+    );
+    expect(
+      errors.map((e) => e.code),
+      equals([PackageKitError.noNetwork]),
+    );
+  });
+
+  test(
     'waitTransaction throws PackageKitTransactionError on non-cancelled exit',
     () async {
       final mockTransaction = createMockPackageKitTransaction(
