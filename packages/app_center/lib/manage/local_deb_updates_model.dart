@@ -147,8 +147,11 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
       );
       ref.read(installedAppsProvider.notifier).addDebToList(updatedDeb);
     } on PackageKitTransactionCancelled {
-      // User cancelled (e.g. dismissed the polkit dialog) — not an error.
+      // User cancelled (e.g. dismissed the polkit dialog) — not an error, but
+      // propagate it so callers like [updateAll] can stop the batch instead of
+      // triggering another authentication prompt for the next deb.
       log.info('Update transaction cancelled: $transactionId for $debId');
+      rethrow;
     } on Exception catch (e) {
       log.warning('Update transaction failed: $transactionId for $debId: $e');
       ref.read(errorStreamControllerProvider).add(e);
@@ -169,6 +172,7 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
 
   /// Updates all debs with pending updates sequentially. Collects any errors
   /// per-deb and reports them to the error stream after all updates complete.
+  /// A user-initiated cancellation stops the whole batch.
   Future<void> updateAll() async {
     if (!state.hasValue) return;
     final debIds = state.value!
@@ -183,6 +187,11 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
     for (final debId in debIds) {
       try {
         await updateDeb(debId);
+      } on PackageKitTransactionCancelled {
+        // The user cancelled the batch (Cancel All or a dismissed polkit
+        // dialog) — don't start further transactions, each would prompt for
+        // authentication again.
+        break;
       } on Exception catch (e) {
         errors[debId] = e;
       }
