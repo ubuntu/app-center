@@ -249,7 +249,10 @@ class PackageKitService {
     action: (transaction) => transaction.updatePackages([packageId]),
   );
 
-  static Future<String> _getNativeArchitecture() async {
+  /// The system's native architecture. Reads `SNAP_ARCH` when running inside
+  /// the snap, where executing `dpkg` is not permitted, and falls back to
+  /// `dpkg --print-architecture` for unconfined builds.
+  Future<String> getNativeArchitecture() async {
     final snapArch = io.Platform.environment['SNAP_ARCH'];
     if (snapArch != null) {
       return snapArch;
@@ -354,7 +357,7 @@ class PackageKitService {
     if (names.isEmpty) return {};
 
     final possibleArchs = [
-      architecture ?? await _getNativeArchitecture(),
+      architecture ?? await getNativeArchitecture(),
       'all',
     ];
     final results = {
