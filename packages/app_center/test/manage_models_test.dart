@@ -402,6 +402,57 @@ void main() {
       },
     );
 
+    test('updateAll continues after a failing deb', () async {
+      registerMockSnapdService(installedSnaps: []);
+
+      final debUpdate2 = createLocalDebInfo(
+        id: 'blender',
+        name: 'Blender',
+        packageName: 'blender',
+        version: '3.0',
+        updatePackageId: const PackageKitPackageId(
+          name: 'blender',
+          version: '3.1',
+        ),
+      );
+
+      final mockPackageKit = createMockPackageKitService();
+      // First deb's transaction fails; the second succeeds.
+      var waitCalls = 0;
+      when(mockPackageKit.waitTransaction(any)).thenAnswer((_) async {
+        if (waitCalls++ == 0) {
+          throw PackageKitTransactionError('Transaction 0 exited with failed');
+        }
+      });
+
+      // ignore: close_sinks
+      final errorStream = registerMockErrorStreamControllerService();
+
+      final container = createContainer(
+        overrides: [
+          localDebsProvider.overrideWith(
+            (ref) async => [defaultDebWithUpdate, debUpdate2],
+          ),
+        ],
+      );
+
+      await container.read(installedAppsProvider.future);
+      await container.read(localDebUpdatesModelProvider.future);
+
+      await container.read(localDebUpdatesModelProvider.notifier).updateAll();
+
+      // A genuine failure must not stop the batch: both were attempted.
+      verify(mockPackageKit.update(any)).called(2);
+      verify(errorStream.add(any)).called(1);
+
+      // The failed deb stays in the updates list (retryable), the
+      // successful one is removed.
+      final updates = container.read(localDebUpdatesModelProvider).value!;
+      expect(updates, hasLength(1));
+      expect(updates.single.id, equals(defaultDebWithUpdate.id));
+      expect(updates.single.activeTransactionId, isNull);
+    });
+
     test('updateAll stops the batch after a user cancellation', () async {
       registerMockSnapdService(installedSnaps: []);
 
