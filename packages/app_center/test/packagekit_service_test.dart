@@ -435,8 +435,8 @@ void main() {
   test(
     'waitTransaction throws PackageKitTransactionCancelled when polkit dialog is dismissed',
     () async {
-      // The daemon fails the transaction (exit=failed) after a `notAuthorized`
-      // error code — PackageKit has no cancelled exit code for this case.
+      /* The daemon fails the transaction (exit=failed) after a notAuthorized
+         error code — PackageKit has no cancelled exit code for this case. */
       final startCompleter = Completer();
       final mockTransaction = createMockPackageKitTransaction(
         events: [

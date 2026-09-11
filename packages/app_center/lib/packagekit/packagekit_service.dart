@@ -33,11 +33,11 @@ class PackageKitTransactionCancelled extends PackageKitTransactionError {
   PackageKitTransactionCancelled(super.message);
 }
 
-// PackageKit reports a dismissed polkit dialog as ErrorCode(notAuthorized)
-// followed by Finished(exit=failed) — there is no cancelled exit code for it
-// (pk-transaction.c: pk_transaction_authorize_actions_cb). Both
-// user-driven codes must be treated as cancellations everywhere, so callers
-// never surface a dialog for an action the user declined.
+/* PackageKit reports a dismissed polkit dialog as ErrorCode(notAuthorized)
+   followed by Finished(exit=failed) — there is no cancelled exit code for it
+   (pk-transaction.c: pk_transaction_authorize_actions_cb). Both user-driven
+   codes must be treated as cancellations everywhere, so callers never
+   surface a dialog for an action the user declined. */
 bool _isUserCancellation(PackageKitError code) =>
     code == PackageKitError.notAuthorized ||
     code == PackageKitError.transactionCancelled;
@@ -433,9 +433,9 @@ class PackageKitService {
     await _createTransaction(
       action: (transaction) => transaction.getUpdates(),
       listener: (event) {
-        // Skip blocked (e.g. phased) updates — they are not installable
-        // candidates and attempting to update them fails with
-        // PackageKitError.packageNotFound.
+        /* Skip blocked (e.g. phased) updates — they are not installable
+           candidates and attempting to update them fails with
+           PackageKitError.packageNotFound. */
         if (event is PackageKitPackageEvent &&
             event.info != PackageKitInfo.blocked) {
           updates.add(event);

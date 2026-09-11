@@ -358,7 +358,6 @@ void main() {
         throwsA(isA<PackageKitTransactionCancelled>()),
       );
 
-      // Cancellation is not an error, but the transaction state is cleared.
       verifyNever(errorStream.add(any));
       final updates = container.read(localDebUpdatesModelProvider).value!;
       expect(updates.first.activeTransactionId, isNull);
@@ -395,8 +394,6 @@ void main() {
 
         verify(errorStream.add(any)).called(1);
         final updates = container.read(localDebUpdatesModelProvider).value!;
-        // The deb was not updated, so it stays in the list with its
-        // transaction state cleared.
         expect(updates.first.activeTransactionId, isNull);
         expect(updates.first.updatePackageId, isNotNull);
       },
@@ -417,7 +414,6 @@ void main() {
       );
 
       final mockPackageKit = createMockPackageKitService();
-      // First deb's transaction fails; the second succeeds.
       var waitCalls = 0;
       when(mockPackageKit.waitTransaction(any)).thenAnswer((_) async {
         if (waitCalls++ == 0) {
@@ -445,8 +441,6 @@ void main() {
       verify(mockPackageKit.update(any)).called(2);
       verify(errorStream.add(any)).called(1);
 
-      // The failed deb stays in the updates list (retryable), the
-      // successful one is removed.
       final updates = container.read(localDebUpdatesModelProvider).value!;
       expect(updates, hasLength(1));
       expect(updates.single.id, equals(defaultDebWithUpdate.id));
@@ -468,8 +462,6 @@ void main() {
       );
 
       final mockPackageKit = createMockPackageKitService();
-      // The first deb's transaction is cancelled (e.g. the user clicked
-      // Cancel All or dismissed the polkit dialog).
       when(mockPackageKit.waitTransaction(any)).thenAnswer(
         (_) async => throw PackageKitTransactionCancelled(
           'Transaction 0 was cancelled',
@@ -492,13 +484,11 @@ void main() {
 
       await container.read(localDebUpdatesModelProvider.notifier).updateAll();
 
-      // Only the first update was attempted — cancelling must not start the
-      // second transaction (which would prompt for authentication again).
+      /* Only the first update was attempted — cancelling must not start
+         the next transaction, which would prompt for auth again. */
       verify(mockPackageKit.update(any)).called(1);
       verifyNever(errorStream.add(any));
 
-      // The cancelled deb remains in the updates list with its transaction
-      // state cleared; the second deb is untouched.
       final updates = container.read(localDebUpdatesModelProvider).value!;
       expect(updates, hasLength(2));
       expect(

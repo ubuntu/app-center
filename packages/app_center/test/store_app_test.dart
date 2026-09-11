@@ -152,8 +152,8 @@ void main() {
           expectDialog: false,
         ),
         (
-          // The stream is typed Object; unknown values must be ignored
-          // rather than crash the listener.
+          /* The stream is typed Object; unknown values must be ignored
+             rather than crash the listener. */
           name: 'unknown error object',
           error: 'not an exception',
           expectDialog: false,

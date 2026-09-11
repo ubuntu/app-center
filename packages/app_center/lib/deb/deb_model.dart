@@ -152,8 +152,8 @@ class DebModel extends _$DebModel {
     );
     if (updates == null || updates.isEmpty) return false;
 
-    // getUpdateDetails doesn't flag blocked (e.g. phased) updates, so
-    // cross-check against the installable updates from GetUpdates.
+    /* getUpdateDetails doesn't flag blocked (e.g. phased) updates, so
+       cross-check against the installable updates from GetUpdates. */
     final installableNames = (await packageKit.getUpdates())
         .map((u) => u.packageId.name)
         .toSet();
@@ -180,8 +180,8 @@ class DebModel extends _$DebModel {
     } on PackageKitTransactionCancelled {
       // User cancelled (e.g. dismissed the polkit dialog) — not an error.
     } on Exception catch (e) {
-      // Report via the same path as PackageKitServiceError events so the
-      // page shows the error and clears the stuck transaction state.
+      /* Report via the same path as PackageKitServiceError events so the
+         page shows the error and clears the stuck transaction state. */
       await _onError(
         PackageKitServiceError(
           code: PackageKitError.internalError,

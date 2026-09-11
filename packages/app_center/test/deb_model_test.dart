@@ -137,9 +137,9 @@ void main() {
   });
 
   test('no hasUpdate when the update is blocked (phased)', () async {
-    // Blocked updates are filtered out of PackageKitService.getUpdates, so
-    // an update listed only in getUpdateDetails must not mark the deb as
-    // updatable.
+    /* Blocked updates are filtered out of PackageKitService.getUpdates, so
+       an update listed only in getUpdateDetails must not mark the deb as
+       updatable. */
     const updateId = PackageKitPackageId(name: 'testdeb', version: '2.0');
     createMockPackageKitService(
       packageInfo: packageInfo,
@@ -243,7 +243,6 @@ void main() {
 
     await container.read(debModelProvider('testdeb').notifier).installDeb();
 
-    // The transaction ran, but no error state was ever emitted.
     expect(
       states.any((s) => s.activeTransactionId == 42),
       isTrue,
@@ -258,9 +257,9 @@ void main() {
         packageInfo: packageInfo,
         transactionId: 42,
       );
-      // PackageKit answers Cancel by finishing the transaction with
-      // PackageKitExit.cancelled, which waitTransaction surfaces as
-      // PackageKitTransactionCancelled.
+      /* PackageKit answers Cancel by finishing the transaction with
+         PackageKitExit.cancelled, which waitTransaction surfaces as
+         PackageKitTransactionCancelled. */
       final waitCompleter = Completer<void>();
       when(
         packageKit.waitTransaction(any),
@@ -327,8 +326,6 @@ void main() {
 
     await container.read(debModelProvider('testdeb').notifier).installDeb();
 
-    // The error is reported, and the transaction state is cleared without
-    // wiping the error from the state.
     expect(
       states.any(
         (s) => s.error != null && s.activeTransactionId == null,
@@ -358,7 +355,6 @@ void main() {
 
     await container.read(debModelProvider('testdeb').notifier).installDeb();
 
-    // The transaction ran and was cleared; no error state was ever emitted.
     expect(states.any((s) => s.activeTransactionId == 42), isTrue);
     expect(states.any((s) => s.error != null), isFalse);
   });

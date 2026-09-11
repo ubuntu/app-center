@@ -16,4 +16,6 @@ ErrorStreamController errorStreamController(Ref ref) {
   return getService<ErrorStreamController>();
 }
 
+/* Object, not Exception: PackageKitServiceError is a plain event class and
+   must flow through the same stream as exceptions. */
 typedef ErrorStreamController = StreamController<Object>;
