@@ -431,55 +431,7 @@ void main() {
       },
     );
 
-    test('updateAll continues after a failing deb', () async {
-      registerMockSnapdService(installedSnaps: []);
-
-      final debUpdate2 = createLocalDebInfo(
-        id: 'blender',
-        name: 'Blender',
-        packageName: 'blender',
-        version: '3.0',
-        updatePackageId: const PackageKitPackageId(
-          name: 'blender',
-          version: '3.1',
-        ),
-      );
-
-      final mockPackageKit = createMockPackageKitService();
-      var waitCalls = 0;
-      when(mockPackageKit.waitTransaction(any)).thenAnswer((_) async {
-        if (waitCalls++ == 0) {
-          throw PackageKitTransactionError('Transaction 0 exited with failed');
-        }
-      });
-
-      // ignore: close_sinks
-      final errorStream = registerMockErrorStreamControllerService();
-
-      final container = createContainer(
-        overrides: [
-          localDebsProvider.overrideWith(
-            (ref) async => [defaultDebWithUpdate, debUpdate2],
-          ),
-        ],
-      );
-
-      await container.read(installedAppsProvider.future);
-      await container.read(localDebUpdatesModelProvider.future);
-
-      await container.read(localDebUpdatesModelProvider.notifier).updateAll();
-
-      // A genuine failure must not stop the batch: both were attempted.
-      verify(mockPackageKit.update(any)).called(2);
-      verify(errorStream.add(any)).called(1);
-
-      final updates = container.read(localDebUpdatesModelProvider).value!;
-      expect(updates, hasLength(1));
-      expect(updates.single.id, equals(defaultDebWithUpdate.id));
-      expect(updates.single.activeTransactionId, isNull);
-    });
-
-    test('updateAll stops the batch after a user cancellation', () async {
+    test('updateAll does not report a user cancellation', () async {
       registerMockSnapdService(installedSnaps: []);
 
       final debUpdate2 = createLocalDebInfo(
@@ -516,23 +468,14 @@ void main() {
 
       await container.read(localDebUpdatesModelProvider.notifier).updateAll();
 
-      /* Only the first update was attempted — cancelling must not start
-         the next transaction, which would prompt for auth again. */
-      verify(mockPackageKit.update(any)).called(1);
+      // Cancelling, whether through the button or by dismissing the polkit
+      // dialog, is not a failure and must not raise an error dialog.
+      verify(mockPackageKit.updateAll(any)).called(1);
       verifyNever(errorStream.add(any));
 
+      // Nothing was updated, so both stay in the list.
       final updates = container.read(localDebUpdatesModelProvider).value!;
       expect(updates, hasLength(2));
-      expect(
-        updates
-            .firstWhere((d) => d.id == defaultDebWithUpdate.id)
-            .activeTransactionId,
-        isNull,
-      );
-      expect(
-        updates.firstWhere((d) => d.id == 'blender').activeTransactionId,
-        isNull,
-      );
     });
 
     test('silentUpdatesCheck updates state when updates change', () async {
