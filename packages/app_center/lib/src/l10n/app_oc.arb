@@ -397,5 +397,13 @@
     "appMoreActionsSemanticLabel": "Mai d’accions",
     "appConfinementStrictTooltip": "Aquesta aplicacion a un accès limitat a vòstras ressorsas. Podètz contrarotlar sas permissions dins l'aplicacion Paramètres.",
     "appConfinementClassicTooltip": "Aquesta aplicacion utiliza l’isolament classic, çò que dòna un accès complèt a vòstras ressorsas. Es frequent per las aplicacions de desvolopament.",
-    "appConfinementUnrestrictedTooltip": "Aquesta aplicacion a un accès complèt a vòstras ressorsas."
+    "appConfinementUnrestrictedTooltip": "Aquesta aplicacion a un accès complèt a vòstras ressorsas.",
+    "snapActionSwitchChannelTitle": "Cambiar de canal per {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }

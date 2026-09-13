@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:app_center/appstream/appstream.dart';
+import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/deb/deb_page.dart';
 import 'package:app_center/packagekit/packagekit_service.dart';
 import 'package:app_center/providers/current_desktops_provider.dart';
@@ -69,6 +72,45 @@ void main() {
       findsOneWidget,
     );
   });
+
+  testWidgets('error dialog is not repeated on a later state change', (
+    tester,
+  ) async {
+    final errors = StreamController<PackageKitServiceError>.broadcast();
+    addTearDown(errors.close);
+    createMockPackageKitService(
+      packageInfo: packageInfo,
+      errorStream: errors.stream,
+    );
+    createMockAppstreamService(component: component);
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        child: const DebPage(id: 'testdeb'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    errors.add(
+      const PackageKitServiceError(
+        code: PackageKitError.internalError,
+        details: 'internal error',
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('internal error'), findsOneWidget);
+
+    // Starting another action changes the state while the error is still in
+    // it. That must not put a second dialog on top of the first.
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(DebPage)),
+    );
+    await container.read(debModelProvider('testdeb').notifier).installDeb();
+    await tester.pumpAndSettle();
+
+    expect(find.text('internal error'), findsOneWidget);
+  });
+
   testWidgets('remove button hidden for compulsory deb on current desktop', (
     tester,
   ) async {

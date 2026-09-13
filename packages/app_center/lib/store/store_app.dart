@@ -7,6 +7,7 @@ import 'package:app_center/gstreamer/gstreamer.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/manage_page.dart';
+import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/search/search.dart';
 import 'package:app_center/snapd/snapd.dart';
@@ -93,17 +94,14 @@ class _StoreAppState extends ConsumerState<StoreApp> {
 }
 
 class _StoreAppHome extends ConsumerWidget {
-  const _StoreAppHome({
-    required this.navigatorKey,
-    required this.searchFocus,
-  });
+  const _StoreAppHome({required this.navigatorKey, required this.searchFocus});
 
   final GlobalKey<NavigatorState> navigatorKey;
   final FocusNode searchFocus;
 
   NavigatorState get navigator => navigatorKey.currentState!;
 
-  Future<void> _showError(BuildContext context, SnapdException e) {
+  Future<void> _showError(BuildContext context, Object e) {
     final errorMessage = ErrorMessage.fromObject(e);
     final title = errorMessage.title(AppLocalizations.of(context));
     final body = errorMessage.body(AppLocalizations.of(context));
@@ -124,13 +122,20 @@ class _StoreAppHome extends ConsumerWidget {
     final textScalar = MediaQuery.textScalerOf(context);
 
     ref.listen(errorStreamProvider, (_, error) {
-      if (error.hasValue && error.value is SnapdException) {
-        final snapdError = error.value as SnapdException;
+      if (!error.hasValue) return;
+      final value = error.value!;
+      if (value is SnapdException) {
         // Don't show an error if the user cancelled the auth dialog.
-        if (snapdError.kind == 'auth-cancelled') {
+        if (value.kind == 'auth-cancelled') {
           return;
         }
-        _showError(context, snapdError);
+        _showError(context, value);
+      } else if (value is PackageKitTransactionCancelled) {
+        // User cancelled (e.g. dismissed the polkit dialog) — not an error.
+        return;
+      } else if (value is PackageKitTransactionError ||
+          value is PackageKitServiceError) {
+        _showError(context, value);
       }
     });
 
@@ -174,27 +179,21 @@ class _StoreAppHome extends ConsumerWidget {
             settings: settings,
             builder: (_) => YaruDetailPage(
               appBar: searchField,
-              body: DebPage(
-                id: StoreRoutes.debOf(settings)!,
-              ),
+              body: DebPage(id: StoreRoutes.debOf(settings)!),
             ),
           ),
           StoreRoutes.localDeb => MaterialPageRoute(
             settings: settings,
             builder: (_) => YaruDetailPage(
               appBar: searchField,
-              body: LocalDebPage(
-                path: StoreRoutes.localDebOf(settings)!,
-              ),
+              body: LocalDebPage(path: StoreRoutes.localDebOf(settings)!),
             ),
           ),
           StoreRoutes.snap => MaterialPageRoute(
             settings: settings,
             builder: (_) => YaruDetailPage(
               appBar: searchField,
-              body: SnapPage(
-                snapName: StoreRoutes.snapOf(settings)!,
-              ),
+              body: SnapPage(snapName: StoreRoutes.snapOf(settings)!),
             ),
           ),
           StoreRoutes.search => MaterialPageRoute(
@@ -216,10 +215,8 @@ class _StoreAppHome extends ConsumerWidget {
           ),
           StoreRoutes.manage => MaterialPageRoute(
             settings: settings,
-            builder: (_) => YaruDetailPage(
-              appBar: searchField,
-              body: const ManagePage(),
-            ),
+            builder: (_) =>
+                YaruDetailPage(appBar: searchField, body: const ManagePage()),
           ),
           StoreRoutes.gstreamer => MaterialPageRoute(
             settings: settings,
@@ -257,16 +254,44 @@ class _MaybeBackButton extends ConsumerWidget {
 
 extension StoreAppThemeX on ThemeData {
   ThemeData customize({bool highContrast = false}) {
+    const cjkFallback = [
+      'Noto Sans CJK SC',
+      'Noto Sans CJK TC',
+      'Noto Sans CJK HK',
+    ];
+
     final base = copyWith(
+      textTheme: textTheme.apply(fontFamilyFallback: cjkFallback),
+      primaryTextTheme: primaryTextTheme.apply(fontFamilyFallback: cjkFallback),
+
+      appBarTheme: appBarTheme.copyWith(
+        titleTextStyle: appBarTheme.titleTextStyle?.apply(
+          fontFamilyFallback: cjkFallback,
+        ),
+      ),
+
+      navigationRailTheme: navigationRailTheme.copyWith(
+        selectedLabelTextStyle: navigationRailTheme.selectedLabelTextStyle
+            ?.apply(fontFamilyFallback: cjkFallback),
+        unselectedLabelTextStyle: navigationRailTheme.unselectedLabelTextStyle
+            ?.apply(fontFamilyFallback: cjkFallback),
+      ),
+
+      listTileTheme: listTileTheme.copyWith(
+        titleTextStyle: listTileTheme.titleTextStyle?.apply(
+          fontFamilyFallback: cjkFallback,
+        ),
+        subtitleTextStyle: listTileTheme.subtitleTextStyle?.apply(
+          fontFamilyFallback: cjkFallback,
+        ),
+      ),
       inputDecorationTheme: inputDecorationTheme.copyWith(
         fillColor: colorScheme.surface,
         hoverColor: colorScheme.surface,
       ),
     );
 
-    final highContrastTheme = base.copyWith(
-      hintColor: colorScheme.onSurface,
-    );
+    final highContrastTheme = base.copyWith(hintColor: colorScheme.onSurface);
 
     return highContrast ? highContrastTheme : base;
   }

@@ -132,7 +132,8 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
 
   /// Updates a single deb package by starting a PackageKit transaction,
   /// waiting for it to complete, then moving the deb from the updates list
-  /// to the installed apps list.
+  /// to the installed apps list. Failures are reported to the error stream
+  /// and clear the transaction state so the UI doesn't get stuck.
   Future<void> updateDeb(String debId) async {
     if (!state.hasValue) return;
     final deb = state.value!.firstWhere((d) => d.id == debId);
@@ -150,6 +151,15 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
         activeTransactionId: null,
       );
       ref.read(installedAppsProvider.notifier).addDebToList(updatedDeb);
+    } on PackageKitTransactionCancelled {
+      /* User cancelled (e.g. dismissed the polkit dialog) — not an error,
+         but propagate it so callers like [updateAll] can stop the batch
+         instead of triggering another authentication prompt. */
+      log.info('Update transaction cancelled: $transactionId for $debId');
+      rethrow;
+    } on Exception catch (e) {
+      log.warning('Update transaction failed: $transactionId for $debId: $e');
+      ref.read(errorStreamControllerProvider).add(e);
     } finally {
       // Always clear the transaction state, even if cancelled or failed
       _updateTransactionId(debId, null);
@@ -187,6 +197,9 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
       for (final debId in debIds) {
         removeFromList(debId);
       }
+    } on PackageKitTransactionCancelled {
+      // Cancelled by the user, through the Cancel button or by dismissing the
+      // polkit dialog. Nothing to report.
     } on Exception catch (e) {
       ref.read(errorStreamControllerProvider).add(e);
     } finally {

@@ -297,5 +297,7 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "snapPageGalleryNextSemanticLabel": "រូបភាពបន្ទាប់",
+    "snapPageReportSemanticLabel": "រាយការណ៍"
 }

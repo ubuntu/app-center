@@ -79,6 +79,42 @@ void main() {
       ).called(1);
       expect(packageKit.isAvailable, isFalse);
     });
+
+    test('service reactivated after losing its D-Bus owner', () async {
+      final ownerChanges = StreamController<DBusNameOwnerChangedEvent>();
+      final dbus = createMockDbusClient();
+      when(dbus.nameOwnerChanged).thenAnswer((_) => ownerChanges.stream);
+      final packageKit = PackageKitService(
+        dbus: dbus,
+        client: createMockPackageKitClient(),
+        fs: MemoryFileSystem.test(),
+      );
+
+      await packageKit.install(
+        const PackageKitPackageId(name: 'foo', version: '1.0'),
+      );
+      ownerChanges.add(
+        const DBusNameOwnerChangedEvent(
+          _packageKitDBusName,
+          oldOwner: ':1.0',
+        ),
+      );
+      await pumpEventQueue();
+      expect(packageKit.isAvailable, isFalse);
+
+      await packageKit.activateService();
+
+      verify(
+        dbus.callMethod(
+          path: DBusObjectPath(_dBusObjectPath),
+          destination: _dBusName,
+          name: 'StartServiceByName',
+          interface: _dBusInterface,
+          values: const [DBusString(_packageKitDBusName), DBusUint32(0)],
+        ),
+      ).called(2);
+      await ownerChanges.close();
+    });
   });
 
   test('install', () async {
@@ -370,6 +406,143 @@ void main() {
     await packageKit.waitTransaction(id);
     expect(packageKit.getTransaction(id), isNull);
   });
+
+  test(
+    'waitTransaction throws PackageKitTransactionCancelled when cancelled',
+    () async {
+      final mockTransaction = createMockPackageKitTransaction(
+        exit: PackageKitExit.cancelled,
+      );
+      final mockClient = createMockPackageKitClient(
+        transaction: mockTransaction,
+      );
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: mockClient,
+        fs: MemoryFileSystem.test(),
+      );
+      await packageKit.activateService();
+      final id = await packageKit.install(
+        const PackageKitPackageId(name: 'foo', version: '1.0'),
+      );
+      await expectLater(
+        packageKit.waitTransaction(id),
+        throwsA(isA<PackageKitTransactionCancelled>()),
+      );
+    },
+  );
+
+  test(
+    'waitTransaction throws PackageKitTransactionCancelled when polkit dialog is dismissed',
+    () async {
+      /* The daemon fails the transaction (exit=failed) after a notAuthorized
+         error code — PackageKit has no cancelled exit code for this case. */
+      final startCompleter = Completer();
+      final mockTransaction = createMockPackageKitTransaction(
+        events: [
+          const PackageKitErrorCodeEvent(
+            code: PackageKitError.notAuthorized,
+            details: 'Failed to obtain authentication.',
+          ),
+        ],
+        exit: PackageKitExit.failed,
+        start: startCompleter.future,
+      );
+      final mockClient = createMockPackageKitClient(
+        transaction: mockTransaction,
+      );
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: mockClient,
+        fs: MemoryFileSystem.test(),
+      );
+      await packageKit.activateService();
+      final id = await packageKit.install(
+        const PackageKitPackageId(name: 'foo', version: '1.0'),
+      );
+      final future = packageKit.waitTransaction(id);
+      startCompleter.complete();
+      await expectLater(
+        future,
+        throwsA(isA<PackageKitTransactionCancelled>()),
+      );
+    },
+  );
+
+  test('error stream ignores user cancellations', () async {
+    final startCompleter = Completer();
+    final mockTransaction = createMockPackageKitTransaction(
+      events: [
+        const PackageKitErrorCodeEvent(
+          code: PackageKitError.notAuthorized,
+          details: 'Failed to obtain authentication.',
+        ),
+        const PackageKitErrorCodeEvent(
+          code: PackageKitError.noNetwork,
+          details: 'error details',
+        ),
+      ],
+      exit: PackageKitExit.failed,
+      start: startCompleter.future,
+    );
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    final errors = <PackageKitServiceError>[];
+    packageKit.errorStream.listen(errors.add);
+    final id = await packageKit.install(
+      const PackageKitPackageId(name: 'foo', version: '1.0'),
+    );
+    final future = packageKit.waitTransaction(id);
+    startCompleter.complete();
+    await expectLater(
+      future,
+      throwsA(isA<PackageKitTransactionCancelled>()),
+    );
+    expect(
+      errors.map((e) => e.code),
+      equals([PackageKitError.noNetwork]),
+    );
+  });
+
+  test(
+    'waitTransaction throws PackageKitTransactionError on non-cancelled exit',
+    () async {
+      final mockTransaction = createMockPackageKitTransaction(
+        exit: PackageKitExit.failed,
+      );
+      final mockClient = createMockPackageKitClient(
+        transaction: mockTransaction,
+      );
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: mockClient,
+        fs: MemoryFileSystem.test(),
+      );
+      await packageKit.activateService();
+      final id = await packageKit.install(
+        const PackageKitPackageId(name: 'foo', version: '1.0'),
+      );
+      await expectLater(
+        packageKit.waitTransaction(id),
+        throwsA(
+          isA<PackageKitTransactionError>()
+              .having((e) => e.message, 'message', contains('failed'))
+              // A failure must not look like a user cancellation.
+              .having(
+                (e) => e is PackageKitTransactionCancelled,
+                'isCancelled',
+                isFalse,
+              ),
+        ),
+      );
+    },
+  );
 
   test('error stream', () async {
     const mockError = PackageKitErrorCodeEvent(
@@ -666,11 +839,48 @@ void main() {
     expect(updates, contains(barUpdate));
     expect(updates.length, equals(2));
   });
+
+  test('getUpdates excludes blocked updates', () async {
+    const availableUpdate = PackageKitPackageEvent(
+      info: PackageKitInfo.normal,
+      packageId: PackageKitPackageId(
+        name: 'foo',
+        version: '2.0',
+        arch: 'amd64',
+      ),
+      summary: 'foo update',
+    );
+    const blockedUpdate = PackageKitPackageEvent(
+      info: PackageKitInfo.blocked,
+      packageId: PackageKitPackageId(
+        name: 'bar',
+        version: '3.0',
+        arch: 'amd64',
+      ),
+      summary: 'bar blocked (phased) update',
+    );
+    final mockTransaction = createMockPackageKitTransaction(
+      events: [availableUpdate, blockedUpdate],
+    );
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    final updates = await packageKit.getUpdates();
+    expect(updates, contains(availableUpdate));
+    expect(updates, isNot(contains(blockedUpdate)));
+    expect(updates.length, equals(1));
+  });
 }
 
 @GenerateMocks([DBusClient, XdgDocumentsPortal])
 MockDBusClient createMockDbusClient() {
   final dbus = MockDBusClient();
+  when(dbus.nameOwnerChanged).thenAnswer((_) => const Stream.empty());
   when(
     dbus.callMethod(
       path: DBusObjectPath(_dBusObjectPath),

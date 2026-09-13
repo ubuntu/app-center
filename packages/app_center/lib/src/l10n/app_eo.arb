@@ -397,5 +397,13 @@
     "appMoreActionsSemanticLabel": "Pliaj agoj",
     "appConfinementStrictTooltip": "Jen programo kun limigitaj atingorajtoj al via komputilo. Vi povas ŝanĝi ĝiajn rajtojn per la programo Agordoj.",
     "appConfinementUnrestrictedTooltip": "Jen programo rajtanta senlime atingi vian komputilon.",
-    "appConfinementClassicTooltip": "Jen programo klasike izolita kaj rajtanta senlime atingi vian komputilon. Tio oftas por programoj pri programado."
+    "appConfinementClassicTooltip": "Jen programo klasike izolita kaj rajtanta senlime atingi vian komputilon. Tio oftas por programoj pri programado.",
+    "snapActionSwitchChannelTitle": "Ŝanĝi kanalon por {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }

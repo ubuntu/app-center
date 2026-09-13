@@ -13,6 +13,8 @@ import 'package:xdg_desktop_portal/xdg_desktop_portal.dart';
 
 export 'package:packagekit/packagekit.dart' show PackageKitTransaction;
 
+const _packageKitBusName = 'org.freedesktop.PackageKit';
+
 typedef PackageKitPackageInfo = PackageKitPackageEvent;
 typedef PackageKitServiceError = PackageKitErrorCodeEvent;
 typedef PackageKitPackageDetails = PackageKitDetailsEvent;
@@ -25,6 +27,21 @@ class PackageKitTransactionError implements Exception {
   String toString() => 'PackageKitTransactionError: $message';
 }
 
+/// Thrown when a transaction is cancelled by the user (e.g. by dismissing
+/// the polkit dialog). Callers should treat this as a no-op, not an error.
+class PackageKitTransactionCancelled extends PackageKitTransactionError {
+  PackageKitTransactionCancelled(super.message);
+}
+
+/* PackageKit reports a dismissed polkit dialog as ErrorCode(notAuthorized)
+   followed by Finished(exit=failed) — there is no cancelled exit code for it
+   (pk-transaction.c: pk_transaction_authorize_actions_cb). Both user-driven
+   codes must be treated as cancellations everywhere, so callers never
+   surface a dialog for an action the user declined. */
+bool _isUserCancellation(PackageKitError code) =>
+    code == PackageKitError.notAuthorized ||
+    code == PackageKitError.transactionCancelled;
+
 class PackageKitService {
   PackageKitService({
     @visibleForTesting PackageKitClient? client,
@@ -34,7 +51,13 @@ class PackageKitService {
     @visibleForTesting this._runtimeDir,
   }) : _client = client ?? getService<PackageKitClient>(),
        _dbus = dbus ?? DBusClient.system(),
-       _fs = fs ?? const LocalFileSystem();
+       _fs = fs ?? const LocalFileSystem() {
+    _nameOwnerSubscription = _dbus.nameOwnerChanged.listen((event) {
+      if (event.name == _packageKitBusName && event.newOwner == null) {
+        _isAvailable = false;
+      }
+    });
+  }
 
   final PackageKitClient _client;
   final DBusClient _dbus;
@@ -43,6 +66,8 @@ class PackageKitService {
   final String? _runtimeDir;
   XdgDesktopPortalClient? _desktopPortalClient;
   io.Directory? _mountPoint;
+  late final StreamSubscription<DBusNameOwnerChangedEvent>
+  _nameOwnerSubscription;
 
   bool get isAvailable => _isAvailable;
   bool _isAvailable = false;
@@ -79,7 +104,7 @@ class PackageKitService {
     await object.callMethod(
       'org.freedesktop.DBus',
       'StartServiceByName',
-      const [DBusString('org.freedesktop.PackageKit'), DBusUint32(0)],
+      const [DBusString(_packageKitBusName), DBusUint32(0)],
     );
     try {
       await _client.connect();
@@ -101,6 +126,7 @@ class PackageKitService {
     void Function(PackageKitEvent event)? listener,
     void Function()? onDone,
   }) async {
+    await activateService();
     final transaction = await _client.createTransaction();
     final id = _nextId++;
     _transactions[id] = transaction;
@@ -117,10 +143,16 @@ class PackageKitService {
           log.warning('onDone callback threw during transaction cleanup: $e');
         }
       } else if (event is PackageKitErrorCodeEvent) {
-        _errorStreamController.add(event);
-        log.error(
-          'Received PackageKitErrorCodeEvent (${event.code}): ${event.details}',
-        );
+        if (_isUserCancellation(event.code)) {
+          log.info(
+            'Transaction cancelled by user (${event.code}): ${event.details}',
+          );
+        } else {
+          _errorStreamController.add(event);
+          log.error(
+            'Received PackageKitErrorCodeEvent (${event.code}): ${event.details}',
+          );
+        }
       }
     });
     try {
@@ -139,25 +171,38 @@ class PackageKitService {
   }
 
   /// Waits until the transaction specified by the internal `id` has finished.
-  /// Throws a [PackageKitTransactionError] if the transaction fails or is
-  /// destroyed before finishing.
+  /// Throws a [PackageKitTransactionCancelled] if the transaction was
+  /// cancelled by the user — explicitly, or by dismissing the polkit dialog,
+  /// which the daemon reports as a failed exit with a `notAuthorized` error
+  /// code. Throws a [PackageKitTransactionError] for any other failure or if
+  /// the transaction is destroyed before finishing.
   Future<void> waitTransaction(int id) async {
     if (!_transactions.keys.contains(id)) {
       throw PackageKitTransactionError('Transaction $id not found');
     }
 
+    var cancelledByUser = false;
     final completer = Completer();
     final subscription = _transactions[id]!.events.listen(
       (event) {
         if (event is PackageKitFinishedEvent) {
           if (event.exit == PackageKitExit.success) {
             completer.complete();
+          } else if (event.exit == PackageKitExit.cancelled ||
+              cancelledByUser) {
+            completer.completeError(
+              PackageKitTransactionCancelled('Transaction $id was cancelled'),
+            );
           } else {
             completer.completeError(
               PackageKitTransactionError(
                 'Transaction $id finished with exit code: ${event.exit}',
               ),
             );
+          }
+        } else if (event is PackageKitErrorCodeEvent) {
+          if (_isUserCancellation(event.code)) {
+            cancelledByUser = true;
           }
         } else if (event is PackageKitDestroyEvent) {
           completer.completeError(
@@ -388,7 +433,11 @@ class PackageKitService {
     await _createTransaction(
       action: (transaction) => transaction.getUpdates(),
       listener: (event) {
-        if (event is PackageKitPackageEvent) {
+        /* Skip blocked (e.g. phased) updates — they are not installable
+           candidates and attempting to update them fails with
+           PackageKitError.packageNotFound. */
+        if (event is PackageKitPackageEvent &&
+            event.info != PackageKitInfo.blocked) {
           updates.add(event);
         }
       },
@@ -462,6 +511,7 @@ class PackageKitService {
   }
 
   Future<void> dispose() async {
+    await _nameOwnerSubscription.cancel();
     await _dbus.close();
     await _client.close();
     await _errorStreamController.close();
