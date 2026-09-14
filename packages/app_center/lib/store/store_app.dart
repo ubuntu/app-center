@@ -41,11 +41,35 @@ class StoreApp extends ConsumerStatefulWidget {
   ConsumerState<StoreApp> createState() => _StoreAppState();
 }
 
-class _StoreAppState extends ConsumerState<StoreApp> {
+class _StoreAppState extends ConsumerState<StoreApp>
+    with WidgetsBindingObserver {
   final _navigatorKey = GlobalKey<NavigatorState>();
   final searchFocus = FocusNode();
+  late Locale _locale;
 
   NavigatorState get _navigator => _navigatorKey.currentState!;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _locale = _resolveFontLocale(
+      WidgetsBinding.instance.platformDispatcher.locales,
+    );
+  }
+
+  @override
+  void didChangeLocales(List<Locale>? locales) {
+    final locale = _resolveFontLocale(locales);
+    if (locale != _locale) setState(() => _locale = locale);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    searchFocus.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,13 +86,15 @@ class _StoreAppState extends ConsumerState<StoreApp> {
       },
       child: YaruTheme(
         builder: (context, yaru, child) => MaterialApp(
-          theme: yaru.theme.customize(),
-          darkTheme: yaru.darkTheme.customize(),
+          theme: yaru.theme.customize(locale: _locale),
+          darkTheme: yaru.darkTheme.customize(locale: _locale),
           highContrastTheme: yaruHighContrastLight.customize(
             highContrast: true,
+            locale: _locale,
           ),
           highContrastDarkTheme: yaruHighContrastDark.customize(
             highContrast: true,
+            locale: _locale,
           ),
           debugShowCheckedModeBanner: false,
           localizationsDelegates: localizationsDelegates,
@@ -91,6 +117,19 @@ class _StoreAppState extends ConsumerState<StoreApp> {
       ),
     );
   }
+}
+
+Locale _resolveFontLocale(List<Locale>? preferredLocales) {
+  final resolvedLocale = basicLocaleListResolution(
+    preferredLocales,
+    supportedLocales,
+  );
+  return preferredLocales
+          ?.where(
+            (locale) => locale.languageCode == resolvedLocale.languageCode,
+          )
+          .firstOrNull ??
+      resolvedLocale;
 }
 
 class _StoreAppHome extends ConsumerWidget {
@@ -253,39 +292,75 @@ class _MaybeBackButton extends ConsumerWidget {
 }
 
 extension StoreAppThemeX on ThemeData {
-  ThemeData customize({bool highContrast = false}) {
-    const cjkFallback = [
-      'Noto Sans CJK SC',
-      'Noto Sans CJK TC',
-      'Noto Sans CJK HK',
-    ];
+  ThemeData customize({required Locale locale, bool highContrast = false}) {
+    final cjkFallback = _cjkFallbackFor(locale);
+    TextStyle? withFallback(TextStyle? style) =>
+        style?.apply(fontFamilyFallback: cjkFallback);
+    InputDecorationThemeData withInputFallback(
+      InputDecorationThemeData theme,
+    ) => theme.copyWith(
+      labelStyle: withFallback(theme.labelStyle),
+      floatingLabelStyle: withFallback(theme.floatingLabelStyle),
+      helperStyle: withFallback(theme.helperStyle),
+      hintStyle: withFallback(theme.hintStyle),
+      errorStyle: withFallback(theme.errorStyle),
+      prefixStyle: withFallback(theme.prefixStyle),
+      suffixStyle: withFallback(theme.suffixStyle),
+      counterStyle: withFallback(theme.counterStyle),
+    );
+    WidgetStateProperty<TextStyle?>? withStateFallback(
+      WidgetStateProperty<TextStyle?>? style,
+    ) => style == null
+        ? null
+        : WidgetStateProperty.resolveWith(
+            (states) => withFallback(style.resolve(states)),
+          );
 
     final base = copyWith(
       textTheme: textTheme.apply(fontFamilyFallback: cjkFallback),
       primaryTextTheme: primaryTextTheme.apply(fontFamilyFallback: cjkFallback),
 
       appBarTheme: appBarTheme.copyWith(
-        titleTextStyle: appBarTheme.titleTextStyle?.apply(
-          fontFamilyFallback: cjkFallback,
-        ),
+        toolbarTextStyle: withFallback(appBarTheme.toolbarTextStyle),
+        titleTextStyle: withFallback(appBarTheme.titleTextStyle),
       ),
 
       navigationRailTheme: navigationRailTheme.copyWith(
-        selectedLabelTextStyle: navigationRailTheme.selectedLabelTextStyle
-            ?.apply(fontFamilyFallback: cjkFallback),
-        unselectedLabelTextStyle: navigationRailTheme.unselectedLabelTextStyle
-            ?.apply(fontFamilyFallback: cjkFallback),
+        selectedLabelTextStyle: withFallback(
+          navigationRailTheme.selectedLabelTextStyle,
+        ),
+        unselectedLabelTextStyle: withFallback(
+          navigationRailTheme.unselectedLabelTextStyle,
+        ),
       ),
 
       listTileTheme: listTileTheme.copyWith(
-        titleTextStyle: listTileTheme.titleTextStyle?.apply(
-          fontFamilyFallback: cjkFallback,
-        ),
-        subtitleTextStyle: listTileTheme.subtitleTextStyle?.apply(
-          fontFamilyFallback: cjkFallback,
+        titleTextStyle: withFallback(listTileTheme.titleTextStyle),
+        subtitleTextStyle: withFallback(listTileTheme.subtitleTextStyle),
+        leadingAndTrailingTextStyle: withFallback(
+          listTileTheme.leadingAndTrailingTextStyle,
         ),
       ),
-      inputDecorationTheme: inputDecorationTheme.copyWith(
+
+      chipTheme: chipTheme.copyWith(
+        labelStyle: withFallback(chipTheme.labelStyle),
+        secondaryLabelStyle: withFallback(chipTheme.secondaryLabelStyle),
+      ),
+      menuButtonTheme: MenuButtonThemeData(
+        style: menuButtonTheme.style?.copyWith(
+          textStyle: withStateFallback(menuButtonTheme.style?.textStyle),
+        ),
+      ),
+      snackBarTheme: snackBarTheme.copyWith(
+        contentTextStyle: withFallback(snackBarTheme.contentTextStyle),
+      ),
+      dropdownMenuTheme: dropdownMenuTheme.copyWith(
+        textStyle: withFallback(dropdownMenuTheme.textStyle),
+        inputDecorationTheme: dropdownMenuTheme.inputDecorationTheme == null
+            ? null
+            : withInputFallback(dropdownMenuTheme.inputDecorationTheme!),
+      ),
+      inputDecorationTheme: withInputFallback(inputDecorationTheme).copyWith(
         fillColor: colorScheme.surface,
         hoverColor: colorScheme.surface,
       ),
@@ -295,4 +370,50 @@ extension StoreAppThemeX on ThemeData {
 
     return highContrast ? highContrastTheme : base;
   }
+}
+
+List<String> _cjkFallbackFor(Locale locale) {
+  const simplifiedChinese = 'Noto Sans CJK SC';
+  const traditionalChinese = 'Noto Sans CJK TC';
+  const hongKongChinese = 'Noto Sans CJK HK';
+  const japanese = 'Noto Sans CJK JP';
+  const korean = 'Noto Sans CJK KR';
+
+  return switch ((locale.languageCode, locale.scriptCode, locale.countryCode)) {
+    ('ja', _, _) => const [
+      japanese,
+      simplifiedChinese,
+      traditionalChinese,
+      hongKongChinese,
+      korean,
+    ],
+    ('ko', _, _) => const [
+      korean,
+      simplifiedChinese,
+      traditionalChinese,
+      hongKongChinese,
+      japanese,
+    ],
+    ('zh', _, 'HK') => const [
+      hongKongChinese,
+      traditionalChinese,
+      simplifiedChinese,
+      japanese,
+      korean,
+    ],
+    ('zh', 'Hant', _) || ('zh', _, 'TW') => const [
+      traditionalChinese,
+      hongKongChinese,
+      simplifiedChinese,
+      japanese,
+      korean,
+    ],
+    _ => const [
+      simplifiedChinese,
+      traditionalChinese,
+      hongKongChinese,
+      japanese,
+      korean,
+    ],
+  };
 }
