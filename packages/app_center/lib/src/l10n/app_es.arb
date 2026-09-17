@@ -27,7 +27,7 @@
     "snapCategoryServerAndCloud": "Servidor y nube",
     "aboutPageLabel": "Acerca de",
     "snapPageSummaryLabel": "Resumen",
-    "appstreamSearchGreylist": "aplicación;aplicaciones;app;paquete;paquetes;programa;programas;software;suite;herramienta;herramientas",
+    "appstreamSearchGreylist": "aplicación;aplicaciones;app;paquete;paquetes;programa;programas;programática;software;suite;herramienta;herramientas",
     "snapCategoryScience": "Ciencia",
     "snapCategoryEntertainment": "Entretenimiento",
     "snapActionInstallLabel": "Instalar",
@@ -64,7 +64,7 @@
     "snapPageDownloadSizeLabel": "Tamaño de la descarga",
     "snapCategoryProductivityButtonLabel": "Descubra la colección de productividad",
     "snapPagePublishedLabel": "Última actualización",
-    "aboutPageLearnMoreLabel": "Leer más",
+    "aboutPageLearnMoreLabel": "Conocer más",
     "snapRatingsBandNeutral": "Neutral",
     "appstreamUrlTypeTranslate": "Traducciones",
     "searchPageNoResultsHint": "Pruebe a utilizar palabras clave diferentes o más generales",
@@ -257,7 +257,7 @@
     },
     "errorViewCheckStatusLabel": "Comprobar el estado",
     "errorViewNetworkErrorTitle": "Conectar a internet",
-    "errorViewNetworkErrorAction": "Compruebe tu conexión y vuelve a intentarlo.",
+    "errorViewNetworkErrorAction": "Compruebe su conexión y vuelva a intentarlo.",
     "errorViewServerErrorDescription": "Lo sentimos, estamos experimentando problemas con el App Center.",
     "errorViewServerErrorAction": "Comprueba si hay actualizaciones o inténtalo más tarde.",
     "errorViewUnknownErrorTitle": "Algo salió mal",
@@ -288,7 +288,7 @@
     "managePageUpdatesFailedBody": "No pudimos actualizar estas aplicaciones porque se están ejecutando actualmente.\n\n{snapList}\nCuando cierre las aplicaciones, se actualizarán automáticamente.",
     "managePageTitle": "Gestionar snaps instalados",
     "snapCategoryArtAndDesignButtonLabel": "Empezar a crear",
-    "snapCategoryArtAndDesignSlogan": "Desde tu primer boceto hasta el toque final, explora aplicaciones para arte y diseño.",
+    "snapCategoryArtAndDesignSlogan": "Desde su primer boceto hasta el toque final, descubra aplicaciones para el arte y el diseño.",
     "managePageInstallingLabel": "Instalando ({n})",
     "@managePageInstallingLabel": {
         "placeholders": {
@@ -372,7 +372,7 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "No está disponible ninguna anterior revisión local para revertir.",
+    "snapRevertNoPreviousRevisionMessage": "No hay ninguna revisión local anterior a la que se pueda volver.",
     "managePagePackageTypeLabel": "Tipo de paquete",
     "managePagePackageTypeAll": "Todo",
     "managePagePackageTypeSnap": "Snap",
