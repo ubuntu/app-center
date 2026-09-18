@@ -145,9 +145,15 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
       return;
     }
     try {
+      // The snaps in state come from `find(filter: refresh)`, which is store
+      // data and never carries `refresh-inhibit`. Which snaps cannot refresh
+      // right now is local state, so it has to be asked of snapd separately.
+      final inhibited = (await ref.read(
+        refreshInhibitSnapsProvider.future,
+      )).map((s) => s.name).toSet();
       final refreshableSnapNames =
           state.value?.snaps
-              .where((s) => s.refreshInhibit == null)
+              .where((s) => !inhibited.contains(s.name))
               .map((s) => s.name)
               .toList() ??
           [];
