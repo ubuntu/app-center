@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:ubuntu_test/ubuntu_test.dart';
+import 'package:yaru/yaru.dart';
 
 import 'test_utils.dart';
 
@@ -165,5 +166,23 @@ void main() {
     await tester.pump();
 
     expect(find.text(tester.l10n.snapActionRemoveLabel), findsOneWidget);
+  });
+
+  testWidgets('does not offer a share button', (tester) async {
+    // There is no link that opens a deb in App Center, and the project's
+    // website is already offered in the metadata under a label that says so.
+    // A share button that copied it read as sharing the app, so it is not
+    // shown for debs rather than shown doing something else. See #1929.
+    createMockPackageKitService(packageInfo: packageInfo);
+    createMockAppstreamService(component: component);
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        child: const DebPage(id: 'testdeb'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byIcon(YaruIcons.share), findsNothing);
   });
 }

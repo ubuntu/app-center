@@ -10,11 +10,8 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/current_desktops_provider.dart';
-import 'package:app_center/store/store_app.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru/yaru.dart';
@@ -68,43 +65,11 @@ class _DebView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final layout = ResponsiveLayout.of(context);
-    final l10n = AppLocalizations.of(context);
     final currentDesktops = ref.watch(currentDesktopsProvider);
     final isCompulsory = debModel.isCompulsoryFor(currentDesktops);
 
     return AppPage(
-      titleBar: AppTitleBar.fromDeb(
-        debModel,
-        actions: debModel.component.website != null
-            ? YaruIconButton(
-                icon: Icon(
-                  YaruIcons.share,
-                  semanticLabel: l10n.debPageShareSemanticLabel,
-                ),
-                onPressed: () {
-                  final navigationKey = ref.watch(
-                    materialAppNavigatorKeyProvider,
-                  );
-
-                  ScaffoldMessenger.of(
-                    navigationKey.currentContext!,
-                  ).showSnackBar(
-                    SnackBar(
-                      content: Text(l10n.snapPageShareLinkCopiedMessage),
-                    ),
-                  );
-                  SemanticsService.sendAnnouncement(
-                    View.of(navigationKey.currentContext!),
-                    l10n.snapPageShareLinkCopiedMessage,
-                    Directionality.of(navigationKey.currentContext!),
-                  );
-                  Clipboard.setData(
-                    ClipboardData(text: debModel.component.website!),
-                  );
-                },
-              )
-            : null,
-      ),
+      titleBar: AppTitleBar.fromDeb(debModel),
       actionBar: Wrap(
         runSpacing: kSpacing,
         spacing: kSpacing,
