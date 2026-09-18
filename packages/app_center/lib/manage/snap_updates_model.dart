@@ -145,25 +145,19 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
       return;
     }
     try {
-      // The snaps in state come from `find(filter: refresh)`, which is store
-      // data and never carries `refresh-inhibit`. Which snaps cannot refresh
-      // right now is local state, so it has to be asked of snapd separately.
-      final inhibited = (await ref.read(
-        refreshInhibitSnapsProvider.future,
-      )).map((s) => s.name).toSet();
       final refreshableSnapNames =
-          state.value?.snaps
-              .where((s) => !inhibited.contains(s.name))
-              .map((s) => s.name)
-              .toList() ??
-          [];
+          state.value?.snaps.map((s) => s.name).toList() ?? [];
       if (refreshableSnapNames.isEmpty) {
         return;
       }
       ref.read(currentlyRefreshAllSnapsProvider.notifier).state =
-          refreshableSnapNames.toList();
+          refreshableSnapNames;
 
-      final changeId = await _snapd.refreshMany(refreshableSnapNames);
+      // An empty list asks snapd to refresh everything it can. Which snaps
+      // are inhibited because their app is running, or held, is local state
+      // that snapd tracks and skips on its own. The list in state comes from
+      // the store and cannot see any of it, so snapd is the one to decide.
+      final changeId = await _snapd.refreshMany([]);
       ref.read(refreshAllSnapsChangeIdProvider.notifier).state = changeId;
       await _snapd.waitChange(changeId);
     } on SnapdException catch (e) {

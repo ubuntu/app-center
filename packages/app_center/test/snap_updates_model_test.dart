@@ -64,33 +64,7 @@ void main() {
     await container.read(snapModelProvider('testsnap3').future);
     await container.read(snapUpdatesModelProvider.future);
     await container.read(snapUpdatesModelProvider.notifier).refreshAll();
-    verify(
-      service.refreshMany(['testsnap3']),
-    ).called(1);
-  });
-
-  test('update all skips snaps that snapd reports as inhibited', () async {
-    // What has an update comes from the store, which knows nothing about
-    // whether the app is running. What cannot be refreshed right now is local
-    // state, so the two lists come from different calls.
-    final running = createSnap(
-      name: 'running',
-      refreshInhibit: RefreshInhibit(proceedTime: DateTime(2100)),
-    );
-    final idle = createSnap(name: 'idle');
-    final service = registerMockSnapdService(
-      refreshableSnaps: [
-        createSnap(name: 'running'),
-        createSnap(name: 'idle'),
-      ],
-      installedSnaps: [running, idle],
-    );
-
-    final container = createContainer();
-    await container.read(snapUpdatesModelProvider.future);
-    await container.read(snapUpdatesModelProvider.notifier).refreshAll();
-
-    verify(service.refreshMany(['idle'])).called(1);
+    verify(service.refreshMany([])).called(1);
   });
 
   test('cancel update all aborts the change it started', () async {
