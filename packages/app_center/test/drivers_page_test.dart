@@ -411,10 +411,11 @@ void main() {
   });
 
   testWidgets(
-    'opens the switch branch dialog when multiple branches are available',
+    'installs the recommended branch directly when clicking install for a '
+    'multi-branch device, without opening the switch branch dialog',
     (tester) async {
       registerMockDriversService(devices: [_gpuMultiBranchDevice()]);
-      createMockPackageKitService(
+      final packageKit = createMockPackageKitService(
         resolveMap: {
           'nvidia-driver-550': const PackageKitPackageInfo(
             info: PackageKitInfo.available,
@@ -443,67 +444,111 @@ void main() {
 
       expect(
         find.text(tester.l10n.driversPageSwitchBranchTitle),
-        findsOneWidget,
+        findsNothing,
       );
-      expect(find.text(tester.l10n.driversPageBranchLts), findsOneWidget);
-      expect(
-        find.text(
-          tester.l10n.driversPageSwitchBranchRecommendedLabel(
-            tester.l10n.driversPageBranchProduction,
-          ),
-        ),
-        findsOneWidget,
-      );
-    },
-  );
-
-  testWidgets('installs the selected branch from the switch branch dialog', (
-    tester,
-  ) async {
-    registerMockDriversService(devices: [_gpuMultiBranchDevice()]);
-    final packageKit = createMockPackageKitService(
-      resolveMap: {
-        'nvidia-driver-550': const PackageKitPackageInfo(
-          info: PackageKitInfo.available,
-          packageId: PackageKitPackageId(
+      verify(
+        packageKit.installAll([
+          const PackageKitPackageId(
             name: 'nvidia-driver-550',
             version: '550.0',
           ),
-          summary: 'summary',
+        ]),
+      ).called(1);
+    },
+  );
+
+  testWidgets(
+    'shows a switch branch menu item for an uninstalled multi-branch device, '
+    'and installs the selected branch from the switch branch dialog',
+    (tester) async {
+      registerMockDriversService(devices: [_gpuMultiBranchDevice()]);
+      final packageKit = createMockPackageKitService(
+        resolveMap: {
+          'nvidia-driver-550': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-550',
+              version: '550.0',
+            ),
+            summary: 'summary',
+          ),
+          'nvidia-driver-470': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-470',
+              version: '470.0',
+            ),
+            summary: 'summary',
+          ),
+        },
+      );
+
+      await tester.pumpScopedApp((_) => const DriversPage());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byIcon(YaruIcons.view_more));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(tester.l10n.driversPageSwitchBranchLabel),
+        findsOneWidget,
+      );
+      // Nothing is installed yet, so there's nothing to remove.
+      expect(find.text(tester.l10n.snapActionRemoveLabel), findsNothing);
+
+      await tester.tap(find.text(tester.l10n.driversPageSwitchBranchLabel));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(tester.l10n.driversPageSwitchBranchTitle),
+        findsOneWidget,
+      );
+
+      await tester.tap(find.text(tester.l10n.driversPageBranchLts));
+      await tester.pumpAndSettle();
+      await tester.tap(
+        find.descendant(
+          of: find.byType(SimpleDialog),
+          matching: find.text(tester.l10n.snapActionInstallLabel),
         ),
-        'nvidia-driver-470': const PackageKitPackageInfo(
-          info: PackageKitInfo.available,
-          packageId: PackageKitPackageId(
+      );
+      await tester.pumpAndSettle();
+
+      verify(
+        packageKit.installAll([
+          const PackageKitPackageId(
             name: 'nvidia-driver-470',
             version: '470.0',
           ),
-          summary: 'summary',
-        ),
-      },
-    );
+        ]),
+      ).called(1);
+    },
+  );
 
-    await tester.pumpScopedApp((_) => const DriversPage());
-    await tester.pumpAndSettle();
+  testWidgets(
+    'does not show a more-actions menu for an uninstalled single-branch '
+    'device',
+    (tester) async {
+      registerMockDriversService(devices: [_gpuDevice()]);
+      createMockPackageKitService(
+        resolveMap: {
+          'nvidia-driver-550': const PackageKitPackageInfo(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'nvidia-driver-550',
+              version: '550.0',
+            ),
+            summary: 'summary',
+          ),
+        },
+      );
 
-    await tester.tap(find.button(tester.l10n.snapActionInstallLabel));
-    await tester.pumpAndSettle();
+      await tester.pumpScopedApp((_) => const DriversPage());
+      await tester.pumpAndSettle();
 
-    await tester.tap(find.text(tester.l10n.driversPageBranchLts));
-    await tester.pumpAndSettle();
-    await tester.tap(
-      find.descendant(
-        of: find.byType(SimpleDialog),
-        matching: find.text(tester.l10n.snapActionInstallLabel),
-      ),
-    );
-    await tester.pumpAndSettle();
-
-    verify(
-      packageKit.installAll([
-        const PackageKitPackageId(name: 'nvidia-driver-470', version: '470.0'),
-      ]),
-    ).called(1);
-  });
+      expect(find.byIcon(YaruIcons.view_more), findsNothing);
+    },
+  );
 
   testWidgets(
     'installs the recommended package directly when two packages share the '
@@ -654,7 +699,9 @@ void main() {
       await tester.pumpScopedApp((_) => const DriversPage());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.button(tester.l10n.snapActionInstallLabel));
+      await tester.tap(find.byIcon(YaruIcons.view_more));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(tester.l10n.driversPageSwitchBranchLabel));
       await tester.pumpAndSettle();
 
       // Only one "Production" tile despite two production-branch packages,

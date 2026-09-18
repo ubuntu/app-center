@@ -328,19 +328,18 @@ class _DriverDeviceActions extends ConsumerWidget {
         else if (installedOption == null)
           OutlinedButton(
             onPressed: canOperate
-                ? () => state.info.hasBranchChoice
-                      ? showDriverBranchSwitchDialog(context, sysPath)
-                      : model.install(
-                          _recommendedOption(state.info).packageName,
-                        )
+                ? () => model.install(
+                    _recommendedOption(state.info).packageName,
+                  )
                 : null,
             child: Text(l10n.snapActionInstallLabel),
           ),
-        if (installedOption != null) ...[
+        if (installedOption != null || state.info.hasBranchChoice) ...[
           const SizedBox(width: kSpacing),
           _MoreActionsButton(
             canOperate: canOperate,
             showSwitchBranch: state.info.hasBranchChoice,
+            showUninstall: installedOption != null,
             onSwitchBranch: () =>
                 showDriverBranchSwitchDialog(context, sysPath),
             onUninstall: () => showDriverUninstallDialog(context, sysPath),
@@ -355,12 +354,14 @@ class _MoreActionsButton extends StatelessWidget {
   const _MoreActionsButton({
     required this.canOperate,
     required this.showSwitchBranch,
+    required this.showUninstall,
     required this.onSwitchBranch,
     required this.onUninstall,
   });
 
   final bool canOperate;
   final bool showSwitchBranch;
+  final bool showUninstall;
   final VoidCallback onSwitchBranch;
   final VoidCallback onUninstall;
 
@@ -385,17 +386,18 @@ class _MoreActionsButton extends StatelessWidget {
               ),
             ),
           ),
-        PopupMenuItem(
-          value: _DriverMenuAction.uninstall,
-          enabled: canOperate,
-          child: IntrinsicWidth(
-            child: ListTile(
-              mouseCursor: SystemMouseCursors.click,
-              enabled: canOperate,
-              title: Text(l10n.snapActionRemoveLabel),
+        if (showUninstall)
+          PopupMenuItem(
+            value: _DriverMenuAction.uninstall,
+            enabled: canOperate,
+            child: IntrinsicWidth(
+              child: ListTile(
+                mouseCursor: SystemMouseCursors.click,
+                enabled: canOperate,
+                title: Text(l10n.snapActionRemoveLabel),
+              ),
             ),
           ),
-        ),
       ],
       onSelected: (action) {
         switch (action) {
