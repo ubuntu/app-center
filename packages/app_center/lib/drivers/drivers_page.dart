@@ -461,7 +461,7 @@ String _subtitleFor(BuildContext context, DriverDeviceInfo info) {
       info.options.firstOrNull;
 
   final parts = [_deviceClassLabel(l10n, info.deviceClass)];
-  final branchLabel = relevant != null
+  final branchLabel = relevant != null && !relevant.recommended
       ? _branchLabel(l10n, relevant.branch)
       : null;
   if (branchLabel != null) parts.add(branchLabel);
