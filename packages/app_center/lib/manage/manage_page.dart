@@ -5,6 +5,7 @@ import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/app_providers.dart';
+import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/manage/local_deb_updates_model.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage_app_data.dart';
@@ -242,6 +243,17 @@ class _ActionButtons extends ConsumerWidget {
       runSpacing: 10,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
+        YaruIconButton(
+          icon: const Icon(YaruIcons.refresh),
+          tooltip: l10n.managePageRefreshLabel,
+          onPressed: isUpdatingAll || isLoading
+              ? null
+              : () {
+                  ref.invalidate(localSnapsProvider);
+                  ref.invalidate(snapUpdatesModelProvider);
+                  ref.invalidate(localDebsProvider);
+                },
+        ),
         PushButton.outlined(
           onPressed:
               isUpdatingAll ||

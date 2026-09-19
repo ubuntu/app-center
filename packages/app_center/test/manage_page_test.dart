@@ -749,6 +749,42 @@ void main() {
     // Verify deb update was called
     verify(mockPackageKit.update(any)).called(1);
   });
+
+  testWidgets('refresh button reloads installed apps and updates', (
+    tester,
+  ) async {
+    final packageKit = createMockPackageKitService();
+    createMockAppstreamService();
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+        ],
+        child: const ManagePage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.snapTile('Test Snap'), findsOneWidget);
+    expect(find.snapTile('Snap with an update'), findsOneWidget);
+    clearInteractions(snapd);
+    clearInteractions(packageKit);
+
+    final refreshButton = find.byTooltip(tester.l10n.managePageRefreshLabel);
+    expect(refreshButton, findsOneWidget);
+    await tester.tap(refreshButton);
+    await tester.pumpAndSettle();
+
+    // Both the installed lists and the update lists are fetched again.
+    verify(snapd.getSnaps()).called(1);
+    verify(snapd.find(filter: SnapFindFilter.refresh)).called(1);
+    verify(packageKit.getInstalledPackages()).called(1);
+    verify(packageKit.getUpdates()).called(1);
+    expect(find.snapTile('Test Snap'), findsOneWidget);
+    expect(find.snapTile('Snap with an update'), findsOneWidget);
+  });
 }
 
 extension on CommonFinders {
