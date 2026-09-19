@@ -1,0 +1,129 @@
+import 'package:app_center/mapping/identifier_normalization.dart';
+import 'package:app_center/mapping/package_format.dart';
+import 'package:app_center/mapping/package_source_descriptor.dart';
+import 'package:app_center/mapping/unified_app_identity.dart';
+import 'package:collection/collection.dart';
+
+/// Matching confidence, ordered from strongest to weakest.
+enum PackageMatchTier {
+  commonId,
+  desktopId,
+  alias,
+  packageName,
+}
+
+class PackageMappingResolver {
+  const PackageMappingResolver();
+
+  /// Resolves [source] against the available descriptors.
+  ///
+  /// Candidates are ordered by match confidence, then by stable descriptor
+  /// order so resolution does not depend on backend iteration order.
+  UnifiedAppIdentity? resolve(
+    PackageSourceDescriptor source,
+    Iterable<PackageSourceDescriptor> candidates,
+  ) {
+    final matches =
+        candidates
+            .where((candidate) => candidate.format != source.format)
+            .map(
+              (candidate) => (
+                candidate: candidate,
+                tier: matchTier(source, candidate),
+              ),
+            )
+            .where((match) => match.tier != null)
+            .toList()
+          ..sort((a, b) {
+            final tier = a.tier!.index.compareTo(b.tier!.index);
+            if (tier != 0) return tier;
+            return _descriptorKey(a.candidate).compareTo(
+              _descriptorKey(b.candidate),
+            );
+          });
+
+    final match = matches.firstOrNull;
+    if (match == null) return null;
+
+    final sources = [source, match.candidate]..sort(_compareDescriptors);
+    final appStreamId = [source.commonId, match.candidate.commonId]
+        .map(normalizeCommonId)
+        .firstWhere((id) => id.isNotEmpty, orElse: () => '');
+    final unifiedId = appStreamId.isNotEmpty
+        ? appStreamId
+        : sources.map(_descriptorKey).join('|');
+
+    return UnifiedAppIdentity(
+      unifiedId: unifiedId,
+      appStreamId: appStreamId.isNotEmpty ? appStreamId : unifiedId,
+      sources: sources,
+    );
+  }
+
+  PackageMatchTier? matchTier(
+    PackageSourceDescriptor first,
+    PackageSourceDescriptor second,
+  ) {
+    if (first.format == second.format) return null;
+
+    if (_commonIds(first).intersection(_commonIds(second)).isNotEmpty) {
+      return PackageMatchTier.commonId;
+    }
+
+    final desktopIds = _desktopIds(first, second);
+    if (desktopIds.$1.isNotEmpty && desktopIds.$1 == desktopIds.$2) {
+      return PackageMatchTier.desktopId;
+    }
+
+    if (_aliasIds(first).intersection(_aliasIds(second)).isNotEmpty) {
+      return PackageMatchTier.alias;
+    }
+
+    if (first.isDesktopApplication &&
+        second.isDesktopApplication &&
+        normalizeCommonId(first.packageName ?? first.packageId) ==
+            normalizeCommonId(second.packageName ?? second.packageId)) {
+      return PackageMatchTier.packageName;
+    }
+
+    return null;
+  }
+
+  Set<String> _commonIds(PackageSourceDescriptor source) => {
+    normalizeCommonId(source.commonId),
+  }..remove('');
+
+  Set<String> _aliasIds(PackageSourceDescriptor source) => {
+    normalizeDesktopId(source.commonId),
+    ...source.aliases.map(normalizeDesktopId),
+  }..remove('');
+
+  (String, String) _desktopIds(
+    PackageSourceDescriptor first,
+    PackageSourceDescriptor second,
+  ) {
+    final snap = switch ((first.format, second.format)) {
+      (PackageFormat.snap, _) => first,
+      (_, PackageFormat.snap) => second,
+      _ => null,
+    };
+    return (
+      normalizeDesktopId(
+        first.desktopId,
+        snapName: identical(snap, first) ? first.packageId : null,
+      ),
+      normalizeDesktopId(
+        second.desktopId,
+        snapName: identical(snap, second) ? second.packageId : null,
+      ),
+    );
+  }
+
+  int _compareDescriptors(
+    PackageSourceDescriptor first,
+    PackageSourceDescriptor second,
+  ) => _descriptorKey(first).compareTo(_descriptorKey(second));
+
+  String _descriptorKey(PackageSourceDescriptor source) =>
+      '${source.format.name}:${normalizeCommonId(source.packageId)}';
+}
