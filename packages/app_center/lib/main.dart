@@ -65,7 +65,8 @@ Future<void> main(List<String> args) async {
   // Explicitly ignore the future to continue while appstream is reading the
   // metadata from the disk.
   unawaited(appstream.init());
-  registerServiceInstance(appstream);
+  unawaited(appstream.watch().drain<void>());
+  registerService(() => appstream, dispose: (service) => service.dispose());
 
   registerService(PackageKitClient.new);
   registerService(
@@ -73,6 +74,7 @@ Future<void> main(List<String> args) async {
     dispose: (service) => service.dispose(),
   );
   registerService(PackageMappingService.new);
+  registerService(PackageRuntimeStateService.new);
   registerService(
     DriversService.new,
     dispose: (service) => service.dispose(),

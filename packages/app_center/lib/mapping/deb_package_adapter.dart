@@ -55,9 +55,45 @@ class DebPackageAdapter implements PackageFormatAdapter {
   @override
   Stream<PackageRuntimeState> watchRuntimeState(String packageId) async* {
     yield await _runtimeState(packageId);
-    yield* Stream.periodic(
-      pollInterval,
-    ).asyncMap((_) => _runtimeState(packageId));
+    yield* Stream.multi((controller) {
+      var refreshInFlight = false;
+      var refreshQueued = false;
+      var cancelled = false;
+
+      Future<void> refresh() async {
+        if (cancelled) return;
+        if (refreshInFlight) {
+          refreshQueued = true;
+          return;
+        }
+
+        refreshInFlight = true;
+        do {
+          refreshQueued = false;
+          try {
+            controller.add(await _runtimeState(packageId));
+          } on Object catch (error, stackTrace) {
+            controller.addError(error, stackTrace);
+          }
+        } while (refreshQueued && !cancelled);
+        refreshInFlight = false;
+      }
+
+      final mutationSubscription = _packageKitService.mutationStream.listen(
+        (packageNames) {
+          if (packageNames.isEmpty || packageNames.contains(packageId)) {
+            unawaited(refresh());
+          }
+        },
+      );
+      final timer = Timer.periodic(pollInterval, (_) => unawaited(refresh()));
+
+      controller.onCancel = () async {
+        cancelled = true;
+        timer.cancel();
+        await mutationSubscription.cancel();
+      };
+    });
   }
 
   PackageSourceDescriptor? _descriptorForComponent(

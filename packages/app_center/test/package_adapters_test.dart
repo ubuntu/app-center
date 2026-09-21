@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_center/appstream/appstream_service.dart';
 import 'package:app_center/mapping/mapping.dart';
 import 'package:app_center/packagekit/packagekit_service.dart';
@@ -82,6 +84,59 @@ void main() {
       ),
     ).called(1);
   });
+
+  test(
+    'Deb adapter refreshes only for matching PackageKit mutations',
+    () async {
+      final packageKit = MockPackageKitService();
+      final mutations = StreamController<Set<String>>.broadcast();
+      addTearDown(mutations.close);
+      provideDummy<Stream<Set<String>>>(mutations.stream);
+      when(packageKit.mutationStream).thenAnswer((_) => mutations.stream);
+      when(packageKit.activateService()).thenAnswer((_) async {});
+      when(
+        packageKit.resolve(any),
+      ).thenAnswer((_) async => {'vlc': null});
+      when(packageKit.getUpdates()).thenAnswer((_) async => []);
+
+      final adapter = DebPackageAdapter(
+        appstream: AppstreamService(pool: MockAppstreamPool()),
+        packageKit: packageKit,
+        pollInterval: const Duration(hours: 1),
+      );
+      final subscription = adapter.watchRuntimeState('vlc').listen((_) {});
+      addTearDown(subscription.cancel);
+
+      await Future<void>.delayed(Duration.zero);
+      verify(
+        packageKit.resolve(
+          ['vlc'],
+          installedOnly: anyNamed('installedOnly'),
+          architecture: anyNamed('architecture'),
+        ),
+      ).called(1);
+
+      mutations.add({'firefox'});
+      await Future<void>.delayed(Duration.zero);
+      verifyNever(
+        packageKit.resolve(
+          ['vlc'],
+          installedOnly: anyNamed('installedOnly'),
+          architecture: anyNamed('architecture'),
+        ),
+      );
+
+      mutations.add({'vlc'});
+      await Future<void>.delayed(Duration.zero);
+      verify(
+        packageKit.resolve(
+          ['vlc'],
+          installedOnly: anyNamed('installedOnly'),
+          architecture: anyNamed('architecture'),
+        ),
+      ).called(1);
+    },
+  );
 }
 
 Snap createSnap({

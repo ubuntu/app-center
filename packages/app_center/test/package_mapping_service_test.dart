@@ -1,5 +1,4 @@
 import 'package:app_center/mapping/mapping.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'test_utils.dart';
@@ -190,6 +189,141 @@ void main() {
       throwsA(isA<StateError>()),
     );
   });
+
+  test(
+    'runtime state service merges package sources for a unified identity',
+    () async {
+      const sourceDeb = PackageSourceDescriptor(
+        format: PackageFormat.deb,
+        packageId: 'firefox',
+        commonId: 'org.mozilla.firefox',
+        desktopId: 'firefox.desktop',
+        packageName: 'firefox',
+        isDesktopApplication: true,
+      );
+      const sourceSnap = PackageSourceDescriptor(
+        format: PackageFormat.snap,
+        packageId: 'firefox',
+        commonId: 'org.mozilla.firefox',
+        desktopId: 'firefox_firefox.desktop',
+        packageName: 'firefox',
+        isDesktopApplication: true,
+      );
+      const debState = PackageRuntimeState(
+        isInstalled: true,
+        installedVersion: '120.0',
+      );
+      const snapState = PackageRuntimeState(
+        isInstalled: true,
+        installedVersion: '120.0',
+        channelOrOrigin: 'latest/stable',
+      );
+
+      final identity = UnifiedAppIdentity(
+        unifiedId: 'org.mozilla.firefox',
+        appStreamId: 'org.mozilla.firefox',
+        sources: [sourceDeb, sourceSnap],
+      );
+
+      final service = PackageRuntimeStateService(
+        adapters: [
+          _StreamingRuntimeAdapter(PackageFormat.deb, [debState]),
+          _StreamingRuntimeAdapter(PackageFormat.snap, [snapState]),
+        ],
+      );
+
+      final states = await service
+          .watchIdentity(identity)
+          .where((snapshot) => snapshot.length == 2)
+          .first;
+
+      expect(states[PackageFormat.deb], debState);
+      expect(states[PackageFormat.snap], snapState);
+    },
+  );
+
+  test('runtime state service cancels adapter subscriptions', () async {
+    const source = PackageSourceDescriptor(
+      format: PackageFormat.deb,
+      packageId: 'firefox',
+    );
+    final adapter = _CancelableRuntimeAdapter();
+    final service = PackageRuntimeStateService(adapters: [adapter]);
+    final identity = UnifiedAppIdentity(
+      unifiedId: 'firefox',
+      appStreamId: 'firefox',
+      sources: [source],
+    );
+
+    final subscription = service.watchIdentity(identity).listen((_) {});
+    await Future<void>.delayed(Duration.zero);
+    await subscription.cancel();
+
+    expect(adapter.cancelled, isTrue);
+  });
+}
+
+class _StreamingRuntimeAdapter implements PackageFormatAdapter {
+  _StreamingRuntimeAdapter(this.format, this.states);
+
+  @override
+  final PackageFormat format;
+
+  final List<PackageRuntimeState> states;
+
+  @override
+  Future<void> initialize() async {}
+
+  @override
+  Future<PackageSourceDescriptor?> findByCommonId(String commonId) async =>
+      null;
+
+  @override
+  Future<PackageSourceDescriptor?> findByDesktopId(String desktopId) async =>
+      null;
+
+  @override
+  Future<PackageSourceDescriptor?> findByPackageName(
+    String packageName,
+  ) async => null;
+
+  @override
+  Stream<PackageRuntimeState> watchRuntimeState(String packageId) async* {
+    yield* Stream.fromIterable(states);
+  }
+}
+
+class _CancelableRuntimeAdapter implements PackageFormatAdapter {
+  @override
+  PackageFormat get format => PackageFormat.deb;
+
+  bool cancelled = false;
+
+  @override
+  Future<void> initialize() async {}
+
+  @override
+  Future<PackageSourceDescriptor?> findByCommonId(String commonId) async =>
+      null;
+
+  @override
+  Future<PackageSourceDescriptor?> findByDesktopId(String desktopId) async =>
+      null;
+
+  @override
+  Future<PackageSourceDescriptor?> findByPackageName(
+    String packageName,
+  ) async => null;
+
+  @override
+  Stream<PackageRuntimeState> watchRuntimeState(String packageId) {
+    return Stream.multi((controller) {
+      controller.add(const PackageRuntimeState(isInstalled: false));
+      controller.onCancel = () {
+        cancelled = true;
+      };
+    });
+  }
 }
 
 class _ThrowingPackageMappingService extends PackageMappingService {
