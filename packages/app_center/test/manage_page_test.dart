@@ -265,7 +265,7 @@ void main() {
 
       // The tile itself (YaruListTile) exists and is rendered
       expect(tile, findsOneWidget);
-      
+
       // The remove button can be found and has a focus border for keyboard accessibility
       expect(removeButton, findsOneWidget);
       expect(

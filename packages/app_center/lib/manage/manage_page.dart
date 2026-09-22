@@ -215,57 +215,11 @@ class ManagePage extends ConsumerWidget {
   }
 }
 
-class _ActionButtons extends ConsumerStatefulWidget {
+class _ActionButtons extends ConsumerWidget {
   const _ActionButtons();
 
   @override
-  ConsumerState<_ActionButtons> createState() => _ActionButtonsState();
-}
-
-class _ActionButtonsState extends ConsumerState<_ActionButtons> {
-  final _checkForUpdatesFocusNode = FocusNode();
-  final _updateAllFocusNode = FocusNode();
-  final _cancelFocusNode = FocusNode();
-  var _checkForUpdatesFocused = false;
-  var _updateAllFocused = false;
-  var _cancelFocused = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _checkForUpdatesFocusNode.addListener(_onCheckForUpdatesFocusChange);
-    _updateAllFocusNode.addListener(_onUpdateAllFocusChange);
-    _cancelFocusNode.addListener(_onCancelFocusChange);
-  }
-
-  @override
-  void dispose() {
-    _checkForUpdatesFocusNode
-      ..removeListener(_onCheckForUpdatesFocusChange)
-      ..dispose();
-    _updateAllFocusNode
-      ..removeListener(_onUpdateAllFocusChange)
-      ..dispose();
-    _cancelFocusNode
-      ..removeListener(_onCancelFocusChange)
-      ..dispose();
-    super.dispose();
-  }
-
-  void _onCheckForUpdatesFocusChange() {
-    setState(() => _checkForUpdatesFocused = _checkForUpdatesFocusNode.hasFocus);
-  }
-
-  void _onUpdateAllFocusChange() {
-    setState(() => _updateAllFocused = _updateAllFocusNode.hasFocus);
-  }
-
-  void _onCancelFocusChange() {
-    setState(() => _cancelFocused = _cancelFocusNode.hasFocus);
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final appUpdatesModel = ref.watch(appUpdatesProvider);
     final isRefreshingAll = ref
@@ -296,9 +250,7 @@ class _ActionButtonsState extends ConsumerState<_ActionButtons> {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         YaruFocusBorder.primary(
-          focused: _checkForUpdatesFocused,
           child: OutlinedButton(
-            focusNode: _checkForUpdatesFocusNode,
             onPressed:
                 isUpdatingAll ||
                     appUpdatesModel.hasError ||
@@ -313,16 +265,7 @@ class _ActionButtonsState extends ConsumerState<_ActionButtons> {
                         .read(localDebUpdatesModelProvider.notifier)
                         .silentUpdatesCheck();
                   },
-            style: ButtonStyle(
-              overlayColor: WidgetStateProperty.resolveWith((states) {
-                if (states.contains(WidgetState.focused) &&
-                    !states.contains(WidgetState.hovered) &&
-                    !states.contains(WidgetState.pressed)) {
-                  return Colors.transparent;
-                }
-                return null;
-              }),
-            ),
+            style: kSuppressFocusOverlay,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -342,9 +285,7 @@ class _ActionButtonsState extends ConsumerState<_ActionButtons> {
           ),
         ),
         YaruFocusBorder.primary(
-          focused: _updateAllFocused,
           child: ElevatedButton(
-            focusNode: _updateAllFocusNode,
             onPressed: ref
                 .watch(appUpdatesProvider)
                 .whenOrNull(
@@ -360,16 +301,7 @@ class _ActionButtonsState extends ConsumerState<_ActionButtons> {
                         }
                       : null,
                 ),
-            style: ButtonStyle(
-              overlayColor: WidgetStateProperty.resolveWith((states) {
-                if (states.contains(WidgetState.focused) &&
-                    !states.contains(WidgetState.hovered) &&
-                    !states.contains(WidgetState.pressed)) {
-                  return Colors.transparent;
-                }
-                return null;
-              }),
-            ),
+            style: kSuppressFocusOverlay,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -390,23 +322,12 @@ class _ActionButtonsState extends ConsumerState<_ActionButtons> {
         ),
         if (isUpdatingAll)
           YaruFocusBorder.primary(
-            focused: _cancelFocused,
             child: OutlinedButton(
-              focusNode: _cancelFocusNode,
               onPressed: () {
                 ref.read(snapUpdatesModelProvider.notifier).cancelRefreshAll();
                 ref.read(localDebUpdatesModelProvider.notifier).cancelAll();
               },
-              style: ButtonStyle(
-                overlayColor: WidgetStateProperty.resolveWith((states) {
-                  if (states.contains(WidgetState.focused) &&
-                      !states.contains(WidgetState.hovered) &&
-                      !states.contains(WidgetState.pressed)) {
-                    return Colors.transparent;
-                  }
-                  return null;
-                }),
-              ),
+              style: kSuppressFocusOverlay,
               child: Text(
                 l10n.snapActionCancelLabel,
                 maxLines: 1,
@@ -560,9 +481,9 @@ class _FilterRow extends ConsumerWidget {
                         values: PackageTypeFilter.values,
                         itemBuilder: (context, type, child) =>
                             Text(type.localize(l10n)),
-                        onSelected: (value) => ref
-                            .read(packageTypeFilterProvider.notifier)
-                            .state = value,
+                        onSelected: (value) =>
+                            ref.read(packageTypeFilterProvider.notifier).state =
+                                value,
                         expanded: false,
                         child: Text(packageType.localize(l10n)),
                       ),

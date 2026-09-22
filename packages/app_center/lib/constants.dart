@@ -25,6 +25,20 @@ const kSearchFieldIconConstraints = BoxConstraints(
 const kSearchFieldContentPadding = EdgeInsets.all(12);
 const kSearchFieldPrefixIcon = Icon(YaruIcons.search, size: 16);
 
+/// Suppresses the Material focused background overlay so that a
+/// `YaruFocusBorder` wrapped around the button is the sole focus
+/// indicator. Hover and press overlays are left untouched.
+final kSuppressFocusOverlay = ButtonStyle(
+  overlayColor: WidgetStateProperty.resolveWith((states) {
+    if (states.contains(WidgetState.focused) &&
+        !states.contains(WidgetState.hovered) &&
+        !states.contains(WidgetState.pressed)) {
+      return Colors.transparent;
+    }
+    return null;
+  }),
+);
+
 // URLs
 const localDebInfoUrl =
     'https://ubuntu.com/server/docs/third-party-repository-usage';
