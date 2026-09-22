@@ -67,6 +67,24 @@ void main() {
     expect(service.initialized, isTrue);
   });
 
+  test('initialize service when the pool fails to load', () async {
+    // A single unparseable catalog file makes `AppstreamPool.load()` throw.
+    // The service must survive it, so that the providers waiting on it - such
+    // as the manage page's update list - are not taken down with it.
+    when(pool.load()).thenAnswer(
+      (_) async => throw const AppstreamCollectionLoadException(
+        '/var/lib/swcatalog/yaml/some-catalog.yml.gz',
+        "Unknown release type 'snapshot'",
+      ),
+    );
+
+    await expectLater(service.init(), completes);
+    expect(service.initialized, isTrue);
+    expect(service.cacheSize, 0);
+    expect(await service.search('0ad'), isEmpty);
+    expect(service.getComponentsByPackage(), isEmpty);
+  });
+
   test('load and cache components', () async {
     components.add(component1);
     await service.init();
