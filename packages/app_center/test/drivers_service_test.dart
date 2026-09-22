@@ -21,6 +21,60 @@ Future<DBusMethodSuccessResponse> _driversCall(MockDBusClient dbus) =>
     );
 
 void main() {
+  group('isAvailable', () {
+    test('returns true if the service responds to a ping', () async {
+      final dbus = createMockDbusClient();
+      when(dbus.ping(_driversDBusName)).thenAnswer((_) async {});
+
+      final drivers = DriversService(dbus: dbus);
+      expect(await drivers.isAvailable(), isTrue);
+    });
+
+    test(
+      'returns false if the D-Bus service name is unknown '
+      '(e.g. ubuntu-drivers-common is not installed)',
+      () async {
+        final dbus = createMockDbusClient();
+        when(dbus.ping(_driversDBusName)).thenThrow(
+          DBusServiceUnknownException(
+            DBusMethodErrorResponse(
+              'org.freedesktop.DBus.Error.ServiceUnknown',
+            ),
+          ),
+        );
+
+        final drivers = DriversService(dbus: dbus);
+        expect(await drivers.isAvailable(), isFalse);
+      },
+    );
+
+    test('returns false on other D-Bus method errors', () async {
+      final dbus = createMockDbusClient();
+      when(dbus.ping(_driversDBusName)).thenThrow(
+        DBusMethodResponseException(
+          DBusMethodErrorResponse('org.freedesktop.DBus.Error.Failed'),
+        ),
+      );
+
+      final drivers = DriversService(dbus: dbus);
+      expect(await drivers.isAvailable(), isFalse);
+    });
+
+    test(
+      'returns false on lower-level transport failures '
+      '(e.g. the D-Bus daemon itself is unreachable)',
+      () async {
+        final dbus = createMockDbusClient();
+        when(
+          dbus.ping(_driversDBusName),
+        ).thenThrow(Exception('socket closed'));
+
+        final drivers = DriversService(dbus: dbus);
+        expect(await drivers.isAvailable(), isFalse);
+      },
+    );
+  });
+
   group('getDrivers', () {
     test(
       'throws DriversServiceUnavailableException if the D-Bus service name '

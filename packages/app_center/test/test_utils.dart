@@ -510,6 +510,7 @@ MockPackageKitService createMockPackageKitService({
 MockDriversService registerMockDriversService({
   List<DriverDevice>? devices,
   bool unavailable = false,
+  bool available = true,
 }) {
   final drivers = MockDriversService();
   if (unavailable) {
@@ -519,6 +520,7 @@ MockDriversService registerMockDriversService({
   } else {
     when(drivers.getDrivers()).thenAnswer((_) async => devices ?? []);
   }
+  when(drivers.isAvailable()).thenAnswer((_) async => available);
   registerMockService<DriversService>(drivers);
   addTearDown(unregisterService<DriversService>);
   return drivers;

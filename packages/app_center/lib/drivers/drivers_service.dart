@@ -1,4 +1,5 @@
 import 'package:app_center/drivers/drivers_model.dart';
+import 'package:app_center/drivers/logger.dart';
 import 'package:dbus/dbus.dart';
 
 class DriversServiceException implements Exception {
@@ -95,6 +96,17 @@ class DriversService {
       openPreferred: fields['open_preferred']!.asBoolean(),
       packages: fields['packages']!.asStringArray().toList(),
     );
+  }
+
+  /// Returns whether the `com.ubuntu.Drivers` D-Bus service is reachable
+  Future<bool> isAvailable() async {
+    try {
+      await _dbus.ping(_serviceName);
+      return true;
+    } on Exception catch (e) {
+      log.warning('Drivers service unavailable: $e');
+      return false;
+    }
   }
 
   /// Closes the underlying D-Bus connection.
