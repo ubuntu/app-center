@@ -165,7 +165,7 @@
     "snapCategoryKdeGames": "KDE-ის თამაშები",
     "snapCategoryGameContentCreation": "შემცველობის შექმნა",
     "snapRatingsBandVeryGood": "ძალიან კარგი",
-    "snapRatingsBandVeryPoor": "ძალიან უხარისხო",
+    "snapRatingsBandVeryPoor": "ძალიან ცუდი",
     "snapRatingsBandInsufficientVotes": "არასაკმარისი ხმები",
     "snapReportLabel": "{snapName}-ის ანგარიში",
     "@snapReportLabel": {
