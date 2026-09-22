@@ -108,7 +108,7 @@
         }
     },
     "snapCategoryGamesSlogan": "Всё для геймеров",
-    "snapActionSwitchChannelLabel": "Переключить канал",
+    "snapActionSwitchChannelLabel": "Сменить канал",
     "appstreamUrlTypeFaq": "ЧаВо",
     "snapConfinementStrict": "Строгий",
     "aboutPageContributeLabel": "Поучаствовать или сообщить о проблеме",
@@ -288,7 +288,7 @@
     "managePageUpdatesFailedBody": "Мы не смогли обновить эти приложения, так как они в данный момент запущены.\n\n{snapList}\nКогда Вы закроете их, обновление произойдёт автоматически.",
     "managePageTitle": "Управление установленными Snap",
     "snapCategoryArtAndDesignButtonLabel": "Начать творить",
-    "snapCategoryArtAndDesignSlogan": "От первого наброска до финального штриха — исследуйте приложения для искусства и дизайна.",
+    "snapCategoryArtAndDesignSlogan": "От эскиза до шедевра — приложения для искусства и дизайна.",
     "managePageInstallingLabel": "Идёт установка ({n})",
     "@managePageInstallingLabel": {
         "placeholders": {
@@ -398,7 +398,7 @@
     "appConfinementStrictTooltip": "Это приложение имеет ограниченный доступ к ресурсам. Управлять его разрешениями можно в приложении «Настройки».",
     "appConfinementClassicTooltip": "Это приложение использует классическую изоляцию и имеет полный доступ к ресурсам. Такой режим часто используется в приложениях для разработки.",
     "appConfinementUnrestrictedTooltip": "Это приложение имеет полный доступ к ресурсам.",
-    "snapActionSwitchChannelTitle": "Сменить канал для {appName}",
+    "snapActionSwitchChannelTitle": "Сменить канал {appName}",
     "@snapActionSwitchChannelTitle": {
         "placeholders": {
             "appName": {
