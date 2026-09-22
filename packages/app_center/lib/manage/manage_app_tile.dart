@@ -50,6 +50,17 @@ class ManageAppTile extends ConsumerWidget {
     // Hide size for debs in the updates section
     final shouldShowSize =
         app.installedSize != null && !(showOnlyUpdate && app is ManageDebData);
+    final sizeText = shouldShowSize
+        ? context.formatByteSize(app.installedSize!, precision: 0)
+        : null;
+    final tileSemanticLabel = [
+      app.name,
+      sourceSemanticLabel(l10n, app),
+      if (dateTimeSinceUpdate != null)
+        dateTimeSinceUpdate.managePageUpdateSinceDateTimeAgo(l10n),
+      if (sizeText != null) l10n.managePageInstalledSizeSemanticLabel(sizeText),
+      l10n.managePageShowDetailsLabel,
+    ].join(', ');
     final actionButtons = Align(
       alignment: Alignment.centerRight,
       child: IntrinsicWidth(
@@ -97,14 +108,22 @@ class ManageAppTile extends ConsumerWidget {
       child: YaruListTile(
         key: ValueKey(app.id),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        leading: Clickable(
-          onTap: () => _navigateToApp(context),
-          child: switch (app) {
-            ManageDebData(debInfo: final debInfo)
-                when debInfo.component != null =>
-              DebAppIcon(component: debInfo.component!, size: 40),
-            _ => AppIcon(iconUrl: app.iconUrl, size: 40),
-          },
+        leading: MergeSemantics(
+          child: Semantics(
+            label: tileSemanticLabel,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(20),
+              onTap: () => _navigateToApp(context),
+              child: ExcludeSemantics(
+                child: switch (app) {
+                  ManageDebData(debInfo: final debInfo)
+                      when debInfo.component != null =>
+                    DebAppIcon(component: debInfo.component!, size: 40),
+                  _ => AppIcon(iconUrl: app.iconUrl, size: 40),
+                },
+              ),
+            ),
+          ),
         ),
         title: Row(
           children: [
@@ -112,13 +131,15 @@ class ManageAppTile extends ConsumerWidget {
               flex: 2,
               child: Align(
                 alignment: AlignmentDirectional.centerStart,
-                child: Clickable(
-                  onTap: () => _navigateToApp(context),
-                  child: Text(
-                    app.name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.start,
+                child: ExcludeSemantics(
+                  child: Clickable(
+                    onTap: () => _navigateToApp(context),
+                    child: Text(
+                      app.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.start,
+                    ),
                   ),
                 ),
               ),
@@ -128,26 +149,27 @@ class ManageAppTile extends ConsumerWidget {
               Expanded(
                 flex: 2,
                 child: dateTimeSinceUpdate != null
-                    ? Text(
-                        dateTimeSinceUpdate.managePageUpdateSinceDateTimeAgo(
-                          l10n,
+                    ? ExcludeSemantics(
+                        child: Text(
+                          dateTimeSinceUpdate.managePageUpdateSinceDateTimeAgo(
+                            l10n,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.start,
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.start,
                       )
                     : const SizedBox(),
               ),
               Expanded(
-                child: shouldShowSize
-                    ? Text(
-                        context.formatByteSize(
-                          app.installedSize!,
-                          precision: 0,
+                child: sizeText != null
+                    ? ExcludeSemantics(
+                        child: Text(
+                          sizeText,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.end,
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.end,
                       )
                     : const SizedBox(),
               ),
@@ -168,24 +190,25 @@ class ManageAppTile extends ConsumerWidget {
                   Expanded(
                     flex: 2,
                     child: dateTimeSinceUpdate != null
-                        ? Text(
-                            dateTimeSinceUpdate
-                                .managePageUpdateSinceDateTimeAgo(l10n),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                        ? ExcludeSemantics(
+                            child: Text(
+                              dateTimeSinceUpdate
+                                  .managePageUpdateSinceDateTimeAgo(l10n),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           )
                         : const SizedBox(),
                   ),
                   Expanded(
-                    child: shouldShowSize
-                        ? Text(
-                            context.formatByteSize(
-                              app.installedSize!,
-                              precision: 0,
+                    child: sizeText != null
+                        ? ExcludeSemantics(
+                            child: Text(
+                              sizeText,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.end,
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.end,
                           )
                         : const SizedBox(),
                   ),
@@ -236,6 +259,10 @@ ManageTilePosition determineTilePosition({
 
 /// Displays the package source info: channel + version for snaps, or just
 /// version for debs. Shows "current → update" when an update is available.
+///
+/// This info is purely decorative; its accessible description is already
+/// carried by the tile's composite label (see [sourceSemanticLabel]), so its
+/// own semantics are excluded to avoid duplicate announcements.
 class _SourceDisplay extends StatelessWidget {
   const _SourceDisplay({required this.app});
 
@@ -243,10 +270,12 @@ class _SourceDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return app.map(
-      snap: (snapData) =>
-          _buildSnapSource(snapData.snap, snapData.updateVersion),
-      localDeb: (debData) => _buildDebSource(debData.debInfo),
+    return ExcludeSemantics(
+      child: app.map(
+        snap: (snapData) =>
+            _buildSnapSource(snapData.snap, snapData.updateVersion),
+        localDeb: (debData) => _buildDebSource(debData.debInfo),
+      ),
     );
   }
 
@@ -275,4 +304,34 @@ class _SourceDisplay extends StatelessWidget {
 
     return Text(versionText);
   }
+}
+
+/// Returns the accessible label describing an app's source: channel +
+/// version for snaps, or just version for debs. Includes the update version
+/// when one is available. Used to build [ManageAppTile]'s composite label.
+String sourceSemanticLabel(AppLocalizations l10n, ManageAppData app) {
+  return app.map(
+    snap: (snapData) {
+      final snap = snapData.snap;
+      final updateVersion = snapData.updateVersion;
+      return updateVersion != null
+          ? l10n.managePageChannelVersionUpdateSemanticLabel(
+              snap.channel,
+              snap.version,
+              updateVersion,
+            )
+          : l10n.managePageChannelVersionSemanticLabel(
+              snap.channel,
+              snap.version,
+            );
+    },
+    localDeb: (debData) {
+      final debInfo = debData.debInfo;
+      final version = debInfo.packageInfo.packageId.version;
+      final updateVersion = debInfo.updateVersion;
+      return updateVersion != null
+          ? l10n.managePageVersionUpdateSemanticLabel(version, updateVersion)
+          : l10n.managePageVersionSemanticLabel(version);
+    },
+  );
 }
