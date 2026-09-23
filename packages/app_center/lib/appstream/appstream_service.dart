@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:collection';
-import 'dart:io';
 
 import 'package:app_center/appstream/appstream_utils.dart';
 import 'package:app_center/appstream/logger.dart';
@@ -139,44 +138,26 @@ class _ScoredComponent {
 
 class AppstreamService {
   // TODO: cache AppstreamPool
-  AppstreamService({
-    @visibleForTesting AppstreamPool? pool,
-    @visibleForTesting List<String>? watchPaths,
-    this.watchDebounce = const Duration(milliseconds: 100),
-  }) : _pool = pool ?? AppstreamPool(),
-       _watchPaths = List<String>.from(watchPaths ?? _defaultWatchPaths),
-       _l10n = _loadL10n() {
+  AppstreamService({@visibleForTesting AppstreamPool? pool})
+    : _pool = pool ?? AppstreamPool(),
+      _l10n = _loadL10n() {
     PlatformDispatcher.instance.onLocaleChanged = () async {
       await _loader;
       _populateCache();
     };
   }
 
-  static const List<String> _defaultWatchPaths = [
-    '/var/cache/app-info',
-    '/var/lib/app-info',
-    '/usr/share/metainfo',
-    '/var/lib/flatpak/appstream',
-  ];
-
   final AppstreamPool _pool;
-  final List<String> _watchPaths;
-  final Duration watchDebounce;
   late final Future<void> _loader = _pool.load().then((_) {
     _populateCache();
     _initialized = true;
   });
-  Future<void>? _reloadFuture;
   bool _initialized = false;
   final HashSet<_CachedComponent> _cache = HashSet<_CachedComponent>();
   final _componentsById = <String, AppstreamComponent>{};
   final _componentsByDesktopId = <String, AppstreamComponent>{};
   final _componentsByAlias = <String, AppstreamComponent>{};
   final _componentsByPackage = <String, AppstreamComponent>{};
-  final List<StreamSubscription<FileSystemEvent>> _watchSubscriptions = [];
-  StreamController<void>? _watchController;
-  Timer? _watchDebounceTimer;
-  bool _watching = false;
 
   bool get initialized => _initialized;
 
@@ -189,83 +170,6 @@ class AppstreamService {
   Future<void> init() async => _loader;
 
   Future<void> reload() async {
-    await init();
-    final currentReload = _reloadFuture;
-    if (currentReload != null) return currentReload;
-
-    final reload = _reload();
-    _reloadFuture = reload;
-    try {
-      await reload;
-    } finally {
-      if (identical(_reloadFuture, reload)) _reloadFuture = null;
-    }
-  }
-
-  Stream<void> watch() {
-    if (_watching) return const Stream.empty();
-    _watching = true;
-
-    final directories = _watchPaths
-        .where((path) => Directory(path).existsSync())
-        .map((path) => Directory(path).watch(recursive: true))
-        .toList();
-
-    if (directories.isEmpty) {
-      _watching = false;
-      return const Stream.empty();
-    }
-
-    final controller = StreamController<void>.broadcast();
-    _watchController = controller;
-    final subscriptions = <StreamSubscription<FileSystemEvent>>[];
-    for (final stream in directories) {
-      subscriptions.add(
-        stream.where((event) => !event.path.endsWith('.tmp')).listen((_) {
-          _watchDebounceTimer?.cancel();
-          _watchDebounceTimer = Timer(watchDebounce, () async {
-            try {
-              await reload();
-              if (!controller.isClosed) controller.add(null);
-            } on Object catch (_) {
-              // Ignore reload failures from transient filesystem events while the
-              // metadata is being replaced.
-            }
-          });
-        }),
-      );
-    }
-
-    _watchSubscriptions.addAll(subscriptions);
-
-    controller.onCancel = () async {
-      for (final subscription in _watchSubscriptions) {
-        await subscription.cancel();
-      }
-      _watchDebounceTimer?.cancel();
-      _watchDebounceTimer = null;
-      _watchSubscriptions.clear();
-      _watchController = null;
-      _watching = false;
-      await controller.close();
-    };
-
-    return controller.stream;
-  }
-
-  Future<void> dispose() async {
-    _watchDebounceTimer?.cancel();
-    _watchDebounceTimer = null;
-    for (final subscription in _watchSubscriptions) {
-      await subscription.cancel();
-    }
-    _watchSubscriptions.clear();
-    await _watchController?.close();
-    _watchController = null;
-    _watching = false;
-  }
-
-  Future<void> _reload() async {
     await _pool.load();
     _populateCache();
   }

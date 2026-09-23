@@ -234,28 +234,4 @@ void main() {
     expect(await service.findByPackageName('QBrew'), component2);
     verify(pool.load()).called(2);
   });
-
-  test('debounces rapid metadata filesystem events', () async {
-    final directory = await Directory.systemTemp.createTemp('appstream-test-');
-    addTearDown(() => directory.delete(recursive: true));
-
-    service = AppstreamService(
-      pool: pool,
-      watchPaths: [directory.path],
-      watchDebounce: const Duration(milliseconds: 50),
-    );
-    final subscription = service.watch().listen((_) {});
-    addTearDown(subscription.cancel);
-
-    await service.init();
-    final metadata = File('${directory.path}/metadata.xml');
-    await Future.wait([
-      metadata.writeAsString('first'),
-      metadata.writeAsString('second'),
-    ]);
-    await Future<void>.delayed(const Duration(milliseconds: 250));
-
-    verify(pool.load()).called(2);
-    await service.dispose();
-  });
 }
