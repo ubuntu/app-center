@@ -127,7 +127,7 @@
     "appstreamUrlTypeHomepage": "Pàgina principal",
     "snapPageChannelLabel": "Canal",
     "snapPagePublisherLabel": "Editor",
-    "searchPageNoResultsCategory": "Ho sentim, no s'ha pogut trobar cap paquet en aquesta categoria",
+    "searchPageNoResultsCategory": "No s'ha pogut trobar cap paquet en aquesta categoria",
     "searchPageSortByLabel": "Ordena per",
     "searchPageRelevanceLabel": "Rellevància",
     "aboutPageLabel": "Quant a",
