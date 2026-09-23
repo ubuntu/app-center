@@ -8,71 +8,25 @@ on:
   workflow_dispatch:
 
 jobs:
-  setup:
-    runs-on: ubuntu-22.04
+  analyze:
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-fvm
-      - uses: bluefireteam/melos-action@v2
-        with:
-          melos-version: 6.3.3
+      - uses: canonical/desktop-engineering/gh-actions/flutter/setup@e1069c189573b3525a60f54c5107ea3264f80805
       - run: melos generate
       - run: melos gen-l10n
-      - uses: actions/cache@v3
-        with:
-          path: .
-          key: ${{ runner.os }}-repo-${{ github.sha }}-generated
-
-  analyze:
-    runs-on: ubuntu-22.04
-    needs: setup
-    steps:
-      - uses: actions/checkout@v3
-      - name: Restore repository cache
-        uses: actions/cache@v3
-        with:
-          path: .
-          key: ${{ runner.os }}-repo-${{ github.sha }}-generated
-          restore-keys: |
-            ${{ runner.os }}-repo-
-      - uses: ./.github/actions/setup-fvm
-      - uses: bluefireteam/melos-action@v2
-        with:
-          melos-version: 6.3.3
       - run: melos analyze --fatal-infos
 
   format:
-    runs-on: ubuntu-22.04
-    needs: setup
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v3
-      - name: Restore repository cache
-        uses: actions/cache@v3
-        with:
-          path: .
-          key: ${{ runner.os }}-repo-${{ github.sha }}-generated
-          restore-keys: |
-            ${{ runner.os }}-repo-
-      - uses: ./.github/actions/setup-fvm
-      - uses: bluefireteam/melos-action@v2
-        with:
-          melos-version: 6.3.3
+      - uses: canonical/desktop-engineering/gh-actions/flutter/setup@e1069c189573b3525a60f54c5107ea3264f80805
       - run: melos format:exclude
 
   l10n:
-    runs-on: ubuntu-22.04
-    needs: setup
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v3
-      - name: Restore repository cache
-        uses: actions/cache@v3
-        with:
-          path: .
-          key: ${{ runner.os }}-repo-${{ github.sha }}-generated
-      - uses: ./.github/actions/setup-fvm
-      - uses: bluefireteam/melos-action@v2
-        with:
-          melos-version: 6.3.3
+      - uses: canonical/desktop-engineering/gh-actions/flutter/setup@e1069c189573b3525a60f54c5107ea3264f80805
+      - run: melos generate
       - run: melos gen-l10n
       - run: melos sync-desktop-titles
       - name: Check for outdated l10n
@@ -80,35 +34,25 @@ jobs:
         run: ./scripts/check-outdated-files.sh
       - name: Create PR
         if: github.event_name == 'push'
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v7
         with:
           add-paths: |
             '**/l10n/*.dart'
-            packaegs/app_center/assets/app-center.desktop
+            packages/app_center/assets/app-center.desktop
           title: 'chore: regenerate l10n'
           commit-message: 'chore: regenerate l10n'
           branch: create-pull-request/l10n
           delete-branch: true
 
   test:
-    runs-on: ubuntu-22.04
-    needs: setup
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v3
-      - name: Restore repository cache
-        uses: actions/cache@v3
-        with:
-          path: .
-          key: ${{ runner.os }}-repo-${{ github.sha }}-generated
-          restore-keys: |
-            ${{ runner.os }}-repo-
-      - uses: ./.github/actions/setup-fvm
-      - uses: bluefireteam/melos-action@v2
-        with:
-          melos-version: 6.3.3
+      - uses: canonical/desktop-engineering/gh-actions/flutter/setup@e1069c189573b3525a60f54c5107ea3264f80805
       - run: sudo apt update && sudo apt install -y lcov
+      - run: melos generate
+      - run: melos gen-l10n
       - run: melos coverage
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v5
         with:
           token: ${{secrets.CODECOV_TOKEN}}
 
