@@ -135,6 +135,7 @@ void main() {
     verify(
       mockTransaction.installPackages(
         [const PackageKitPackageId(name: 'foo', version: '1.0')],
+        transactionFlags: {PackageKitTransactionFlag.onlyTrusted},
       ),
     ).called(1);
     final transaction = packageKit.getTransaction(id);
@@ -162,7 +163,12 @@ void main() {
       const PackageKitPackageId(name: 'bar', version: '2.0'),
     ];
     final id = await packageKit.installAll(packages);
-    verify(mockTransaction.installPackages(packages)).called(1);
+    verify(
+      mockTransaction.installPackages(
+        packages,
+        transactionFlags: {PackageKitTransactionFlag.onlyTrusted},
+      ),
+    ).called(1);
     final transaction = packageKit.getTransaction(id);
     expect(transaction, isNotNull);
     completer.complete();
@@ -396,6 +402,7 @@ void main() {
     verify(
       mockTransaction.installPackages(
         [const PackageKitPackageId(name: 'foo', version: '1.0')],
+        transactionFlags: {PackageKitTransactionFlag.onlyTrusted},
       ),
     ).called(1);
     final transaction = packageKit.getTransaction(id);
@@ -625,7 +632,12 @@ void main() {
       const PackageKitPackageId(name: 'bar', version: '2.0'),
     ];
     await packageKit.updateAll(packages);
-    verify(mockTransaction.updatePackages(packages)).called(1);
+    verify(
+      mockTransaction.updatePackages(
+        packages,
+        transactionFlags: {PackageKitTransactionFlag.onlyTrusted},
+      ),
+    ).called(1);
   });
 
   test('getInstalledPackages', () async {
