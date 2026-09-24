@@ -46,18 +46,23 @@ class PackageMappingResolver {
     if (match == null) return null;
 
     final sources = [source, match.candidate]..sort(_compareDescriptors);
+    final sharedId = _commonIds(
+      source,
+    ).intersection(_commonIds(match.candidate)).sorted().firstOrNull;
+    final unifiedId = sharedId ?? sources.map(_descriptorKey).join('|');
+    // Legacy `.desktop` common IDs are not canonical AppStream IDs.
     final appStreamId =
-        _commonIds(
-          source,
-        ).intersection(_commonIds(match.candidate)).sorted().firstOrNull ??
-        '';
-    final unifiedId = appStreamId.isNotEmpty
-        ? appStreamId
-        : sources.map(_descriptorKey).join('|');
+        sharedId ??
+        sources
+            .expand(_commonIds)
+            .where((id) => !id.endsWith('.desktop'))
+            .sorted()
+            .firstOrNull ??
+        unifiedId;
 
     return UnifiedAppIdentity(
       unifiedId: unifiedId,
-      appStreamId: appStreamId.isNotEmpty ? appStreamId : unifiedId,
+      appStreamId: appStreamId,
       sources: sources,
     );
   }
@@ -81,15 +86,19 @@ class PackageMappingResolver {
       return PackageMatchTier.alias;
     }
 
+    final firstName = _packageName(first);
     if (first.isDesktopApplication &&
         second.isDesktopApplication &&
-        normalizeCommonId(first.packageName ?? first.packageId) ==
-            normalizeCommonId(second.packageName ?? second.packageId)) {
+        firstName.isNotEmpty &&
+        firstName == _packageName(second)) {
       return PackageMatchTier.packageName;
     }
 
     return null;
   }
+
+  String _packageName(PackageSourceDescriptor source) =>
+      normalizeCommonId(source.packageName ?? source.packageId);
 
   Set<String> _commonIds(PackageSourceDescriptor source) => {
     ...source.commonIds.map(normalizeCommonId),
@@ -101,9 +110,18 @@ class PackageMappingResolver {
   ) {
     final snap = first.format == PackageFormat.snap ? first : second;
     final deb = first.format == PackageFormat.deb ? first : second;
-    return _commonIds(
+    if (snap.format != PackageFormat.snap || deb.format != PackageFormat.deb) {
+      return false;
+    }
+    if (_commonIds(
       snap,
-    ).map(normalizeDesktopId).toSet().intersection(_aliases(deb)).isNotEmpty;
+    ).map(normalizeDesktopId).toSet().intersection(_aliases(deb)).isNotEmpty) {
+      return true;
+    }
+    // The snap name is compared literally, e.g. against `<provides><binary>`.
+    final snapName = normalizeCommonId(snap.packageId);
+    return snapName.isNotEmpty &&
+        deb.aliases.map(normalizeCommonId).contains(snapName);
   }
 
   Set<String> _aliases(PackageSourceDescriptor source) => {

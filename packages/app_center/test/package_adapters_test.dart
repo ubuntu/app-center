@@ -176,6 +176,41 @@ void main() {
       ).called(1);
     },
   );
+
+  test('Snap adapter returns null for missing snaps', () async {
+    final snapd = MockSnapdService();
+    when(
+      snapd.find(name: anyNamed('name'), scope: anyNamed('scope')),
+    ).thenThrow(
+      SnapdException(message: 'snap not found', kind: 'snap-not-found'),
+    );
+
+    expect(
+      await SnapPackageAdapter(snapd: snapd).findByPackageName('missing'),
+      isNull,
+    );
+  });
+
+  test('Deb adapter finds desktop file paths', () async {
+    final pool = MockAppstreamPool();
+    const component = AppstreamComponent(
+      id: 'org.videolan.vlc',
+      type: AppstreamComponentType.desktopApplication,
+      package: 'vlc',
+      name: {'C': 'VLC'},
+      summary: {},
+      launchables: [AppstreamLaunchableDesktopId('vlc.desktop')],
+    );
+    when(pool.components).thenReturn([component]);
+    when(pool.load()).thenAnswer((_) async {});
+
+    final descriptor = await DebPackageAdapter(
+      appstream: AppstreamService(pool: pool),
+      packageKit: MockPackageKitService(),
+    ).findByDesktopId('/usr/share/applications/vlc.desktop');
+
+    expect(descriptor?.packageId, 'vlc');
+  });
 }
 
 Snap createSnap({

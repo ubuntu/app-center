@@ -26,7 +26,11 @@ class _FakeAdapter implements PackageFormatAdapter {
   @override
   Future<PackageSourceDescriptor?> findByDesktopId(String desktopId) async {
     for (final descriptor in descriptors) {
-      if (descriptor.desktopId == desktopId) return descriptor;
+      final id = normalizeDesktopId(
+        descriptor.desktopId,
+        snapName: format == PackageFormat.snap ? descriptor.packageId : null,
+      );
+      if (id == normalizeDesktopId(desktopId)) return descriptor;
     }
     return null;
   }
@@ -192,6 +196,100 @@ void main() {
     );
 
     expect(await service.resolve(source), isNull);
+  });
+
+  test('falls back to package name', () async {
+    const source = PackageSourceDescriptor(
+      format: PackageFormat.deb,
+      packageId: 'baobab',
+      commonIds: ['org.gnome.baobab'],
+      desktopId: 'org.gnome.baobab.desktop',
+      packageName: 'baobab',
+      isDesktopApplication: true,
+    );
+    const snap = PackageSourceDescriptor(
+      format: PackageFormat.snap,
+      packageId: 'baobab',
+      desktopId: 'baobab_baobab.desktop',
+      packageName: 'baobab',
+      isDesktopApplication: true,
+    );
+
+    final identity = await PackageMappingService(
+      adapters: [
+        _FakeAdapter(PackageFormat.deb, [source]),
+        _FakeAdapter(PackageFormat.snap, [snap]),
+      ],
+    ).resolve(source);
+
+    expect(identity!.sources, [source, snap]);
+    expect(identity.unifiedId, 'deb:baobab|snap:baobab');
+  });
+
+  test('skips package name for non-desktop apps', () async {
+    const source = PackageSourceDescriptor(
+      format: PackageFormat.deb,
+      packageId: 'curl',
+      packageName: 'curl',
+    );
+    const snap = PackageSourceDescriptor(
+      format: PackageFormat.snap,
+      packageId: 'curl',
+      packageName: 'curl',
+    );
+
+    final identity = await PackageMappingService(
+      adapters: [
+        _FakeAdapter(PackageFormat.deb, [source]),
+        _FakeAdapter(PackageFormat.snap, [snap]),
+      ],
+    ).resolve(source);
+
+    expect(identity, isNull);
+  });
+
+  test('looks up aliases by snap name', () async {
+    const source = PackageSourceDescriptor(
+      format: PackageFormat.snap,
+      packageId: 'gimp',
+    );
+    const deb = PackageSourceDescriptor(
+      format: PackageFormat.deb,
+      packageId: 'gimp-2',
+      packageName: 'gimp-2',
+      aliases: ['gimp'],
+    );
+
+    final identity = await PackageMappingService(
+      adapters: [
+        _FakeAdapter(PackageFormat.snap, [source]),
+        _FakeAdapter(PackageFormat.deb, [deb]),
+      ],
+    ).resolve(source);
+
+    expect(identity!.sources, [deb, source]);
+  });
+
+  test('looks up snap desktop file paths', () async {
+    const source = PackageSourceDescriptor(
+      format: PackageFormat.snap,
+      packageId: 'vlc',
+      desktopId: '/var/lib/snapd/desktop/applications/vlc_vlc.desktop',
+    );
+    const deb = PackageSourceDescriptor(
+      format: PackageFormat.deb,
+      packageId: 'vlc',
+      desktopId: 'vlc.desktop',
+    );
+
+    final identity = await PackageMappingService(
+      adapters: [
+        _FakeAdapter(PackageFormat.snap, [source]),
+        _FakeAdapter(PackageFormat.deb, [deb]),
+      ],
+    ).resolve(source);
+
+    expect(identity!.sources, [deb, source]);
   });
 
   test(

@@ -1,4 +1,5 @@
 import 'package:app_center/mapping/deb_package_adapter.dart';
+import 'package:app_center/mapping/identifier_normalization.dart';
 import 'package:app_center/mapping/package_format.dart';
 import 'package:app_center/mapping/package_format_adapter.dart';
 import 'package:app_center/mapping/package_mapping_resolver.dart';
@@ -44,14 +45,18 @@ class PackageMappingService {
       )).whereType<PackageSourceDescriptor>().toList();
       if (candidates.isNotEmpty) return candidates;
     }
-    if (source.desktopId != null) {
-      final candidate = await adapter.findByDesktopId(source.desktopId!);
+    final desktopId = normalizeDesktopId(
+      source.desktopId,
+      snapName: source.format == PackageFormat.snap ? source.packageId : null,
+    );
+    if (desktopId.isNotEmpty) {
+      final candidate = await adapter.findByDesktopId(desktopId);
       if (candidate != null) return [candidate];
     }
     if (source.format == PackageFormat.snap &&
         adapter.format == PackageFormat.deb) {
       final candidates = (await Future.wait(
-        source.commonIds.map(adapter.findByAlias),
+        [...source.commonIds, source.packageId].map(adapter.findByAlias),
       )).whereType<PackageSourceDescriptor>().toList();
       if (candidates.isNotEmpty) return candidates;
     }

@@ -23,9 +23,11 @@ class SnapPackageAdapter implements PackageFormatAdapter {
 
   @override
   Future<PackageSourceDescriptor?> findByCommonId(String commonId) async {
-    final snaps = await _snapdService.find(
-      commonId: commonId,
-      scope: SnapFindScope.wide,
+    final snaps = await _find(
+      () => _snapdService.find(
+        commonId: commonId,
+        scope: SnapFindScope.wide,
+      ),
     );
     return _firstDescriptor(snaps, (snap) {
       return snap.commonIds.any(
@@ -36,9 +38,11 @@ class SnapPackageAdapter implements PackageFormatAdapter {
 
   @override
   Future<PackageSourceDescriptor?> findByDesktopId(String desktopId) async {
-    final snaps = await _snapdService.find(
-      query: desktopId,
-      scope: SnapFindScope.wide,
+    final snaps = await _find(
+      () => _snapdService.find(
+        query: desktopId,
+        scope: SnapFindScope.wide,
+      ),
     );
     return _firstDescriptor(snaps, (snap) {
       return snap.apps.any(
@@ -54,14 +58,25 @@ class SnapPackageAdapter implements PackageFormatAdapter {
 
   @override
   Future<PackageSourceDescriptor?> findByPackageName(String packageName) async {
-    final snaps = await _snapdService.find(
-      name: packageName,
-      scope: SnapFindScope.wide,
+    final snaps = await _find(
+      () => _snapdService.find(
+        name: packageName,
+        scope: SnapFindScope.wide,
+      ),
     );
     return _firstDescriptor(
       snaps,
       (snap) => normalizeCommonId(snap.name) == normalizeCommonId(packageName),
     );
+  }
+
+  Future<List<Snap>> _find(Future<List<Snap>> Function() find) async {
+    try {
+      return await find();
+    } on SnapdException catch (error) {
+      if (error.kind == 'snap-not-found') return [];
+      rethrow;
+    }
   }
 
   PackageSourceDescriptor? _firstDescriptor(

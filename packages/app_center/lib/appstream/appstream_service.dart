@@ -4,6 +4,7 @@ import 'dart:collection';
 import 'package:app_center/appstream/appstream_utils.dart';
 import 'package:app_center/appstream/logger.dart';
 import 'package:app_center/l10n.dart';
+import 'package:app_center/mapping/identifier_normalization.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -186,7 +187,11 @@ class AppstreamService {
       _index(_componentsById, component.id, component);
       for (final launchable
           in component.launchables.whereType<AppstreamLaunchableDesktopId>()) {
-        _index(_componentsByDesktopId, launchable.desktopId, component);
+        _index(
+          _componentsByDesktopId,
+          normalizeDesktopId(launchable.desktopId),
+          component,
+        );
       }
       for (final provide
           in component.provides.whereType<AppstreamProvidesId>()) {
@@ -242,7 +247,7 @@ class AppstreamService {
 
   Future<AppstreamComponent?> findByDesktopId(String desktopId) async {
     await init();
-    return _componentsByDesktopId[desktopId.trim().toLowerCase()];
+    return _componentsByDesktopId[normalizeDesktopId(desktopId)];
   }
 
   Future<AppstreamComponent?> findByAlias(String alias) async {
