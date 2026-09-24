@@ -19,10 +19,10 @@ final unifiedIdentityProvider = FutureProvider.autoDispose
       return service.resolve(source);
     });
 
-final runtimeStateProvider = StreamProvider.autoDispose
+final runtimeStateProvider = FutureProvider.autoDispose
     .family<Map<PackageFormat, PackageRuntimeState>, UnifiedAppIdentity>(
       (ref, identity) {
         final service = ref.watch(packageRuntimeStateServiceProvider);
-        return service.watchIdentity(identity);
+        return service.getIdentityState(identity);
       },
     );

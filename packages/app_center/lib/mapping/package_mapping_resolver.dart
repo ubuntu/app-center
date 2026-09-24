@@ -46,9 +46,11 @@ class PackageMappingResolver {
     if (match == null) return null;
 
     final sources = [source, match.candidate]..sort(_compareDescriptors);
-    final appStreamId = [source.commonId, match.candidate.commonId]
-        .map(normalizeCommonId)
-        .firstWhere((id) => id.isNotEmpty, orElse: () => '');
+    final appStreamId =
+        _commonIds(
+          source,
+        ).intersection(_commonIds(match.candidate)).sorted().firstOrNull ??
+        '';
     final unifiedId = appStreamId.isNotEmpty
         ? appStreamId
         : sources.map(_descriptorKey).join('|');
@@ -75,7 +77,7 @@ class PackageMappingResolver {
       return PackageMatchTier.desktopId;
     }
 
-    if (_aliasIds(first).intersection(_aliasIds(second)).isNotEmpty) {
+    if (_matchesAlias(first, second)) {
       return PackageMatchTier.alias;
     }
 
@@ -90,11 +92,21 @@ class PackageMappingResolver {
   }
 
   Set<String> _commonIds(PackageSourceDescriptor source) => {
-    normalizeCommonId(source.commonId),
+    ...source.commonIds.map(normalizeCommonId),
   }..remove('');
 
-  Set<String> _aliasIds(PackageSourceDescriptor source) => {
-    normalizeDesktopId(source.commonId),
+  bool _matchesAlias(
+    PackageSourceDescriptor first,
+    PackageSourceDescriptor second,
+  ) {
+    final snap = first.format == PackageFormat.snap ? first : second;
+    final deb = first.format == PackageFormat.deb ? first : second;
+    return _commonIds(
+      snap,
+    ).map(normalizeDesktopId).toSet().intersection(_aliases(deb)).isNotEmpty;
+  }
+
+  Set<String> _aliases(PackageSourceDescriptor source) => {
     ...source.aliases.map(normalizeDesktopId),
   }..remove('');
 

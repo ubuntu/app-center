@@ -77,10 +77,6 @@ class PackageKitService {
   final StreamController<PackageKitServiceError> _errorStreamController =
       StreamController.broadcast();
 
-  Stream<Set<String>> get mutationStream => _mutationStreamController.stream;
-  final StreamController<Set<String>> _mutationStreamController =
-      StreamController.broadcast();
-
   // Keep track of active transactions.
   // TODO: Implement `GetTransactionList` in packagekit.dart instead.
   int _nextId = 0;
@@ -129,7 +125,6 @@ class PackageKitService {
     Future<void> Function(PackageKitTransaction transaction)? action,
     void Function(PackageKitEvent event)? listener,
     void Function()? onDone,
-    Set<String>? mutationPackageNames,
   }) async {
     await activateService();
     final transaction = await _client.createTransaction();
@@ -140,11 +135,6 @@ class PackageKitService {
     subscription = transaction.events.listen((event) {
       listener?.call(event);
       if (event is PackageKitFinishedEvent || event is PackageKitDestroyEvent) {
-        if (mutationPackageNames != null &&
-            event is PackageKitFinishedEvent &&
-            event.exit == PackageKitExit.success) {
-          _mutationStreamController.add(mutationPackageNames);
-        }
         _transactions.remove(id);
         subscription.cancel();
         try {
@@ -243,7 +233,6 @@ class PackageKitService {
   Future<int> install(PackageKitPackageId packageId) async =>
       _createTransaction(
         action: (transaction) => transaction.installPackages([packageId]),
-        mutationPackageNames: {packageId.name},
       );
 
   /// Creates a transaction that installs all of the given packages by
@@ -251,7 +240,6 @@ class PackageKitService {
   Future<int> installAll(Iterable<PackageKitPackageId> packageId) async =>
       _createTransaction(
         action: (transaction) => transaction.installPackages(packageId),
-        mutationPackageNames: packageId.map((id) => id.name).toSet(),
       );
 
   /// Creates a transaction that installs the local package given by `path` and
@@ -263,7 +251,6 @@ class PackageKitService {
       return await _createTransaction(
         action: (transaction) => transaction.installFiles([resolvedPath]),
         onDone: tempCopy != null ? () => _deleteTempCopy(tempCopy) : null,
-        mutationPackageNames: {},
       );
     } on Exception catch (_) {
       if (tempCopy != null) await _deleteTempCopy(tempCopy);
@@ -290,12 +277,10 @@ class PackageKitService {
   // TODO: Decide how to handle dependencies. Autoremove? Ask the user?
   Future<int> remove(PackageKitPackageId packageId) async => _createTransaction(
     action: (transaction) => transaction.removePackages([packageId]),
-    mutationPackageNames: {packageId.name},
   );
 
   Future<int> update(PackageKitPackageId packageId) async => _createTransaction(
     action: (transaction) => transaction.updatePackages([packageId]),
-    mutationPackageNames: {packageId.name},
   );
 
   static Future<String> _getNativeArchitecture() async {
@@ -504,7 +489,6 @@ class PackageKitService {
   Future<void> updateAll(Iterable<PackageKitPackageId> packageIds) =>
       _createTransaction(
         action: (transaction) => transaction.updatePackages(packageIds),
-        mutationPackageNames: packageIds.map((id) => id.name).toSet(),
       ).then(waitTransaction);
 
   /// Returns all installed packages on the system.
@@ -528,7 +512,6 @@ class PackageKitService {
     await _dbus.close();
     await _client.close();
     await _errorStreamController.close();
-    await _mutationStreamController.close();
     await _desktopPortalClient?.close();
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:app_center/mapping/deb_package_adapter.dart';
 import 'package:app_center/mapping/package_format.dart';
 import 'package:app_center/mapping/package_format_adapter.dart';
@@ -30,35 +28,46 @@ class PackageMappingService {
     for (final adapter in _adapters) {
       if (adapter.format == source.format) continue;
 
-      final lookupKey =
-          source.commonId ??
-          source.desktopId ??
-          source.packageName ??
-          source.packageId;
-      final candidate = await _lookupCandidate(adapter, source, lookupKey);
-      if (candidate != null) {
-        candidates.add(candidate);
-      }
+      candidates.addAll(await _lookupCandidates(adapter, source));
     }
 
     return _resolver.resolve(source, candidates);
   }
 
-  Future<PackageSourceDescriptor?> _lookupCandidate(
+  Future<List<PackageSourceDescriptor>> _lookupCandidates(
     PackageFormatAdapter adapter,
     PackageSourceDescriptor source,
-    String lookupKey,
   ) async {
-    if (source.commonId != null) {
-      return adapter.findByCommonId(source.commonId!);
+    if (source.commonIds.isNotEmpty) {
+      final candidates = (await Future.wait(
+        source.commonIds.map(adapter.findByCommonId),
+      )).whereType<PackageSourceDescriptor>().toList();
+      if (candidates.isNotEmpty) return candidates;
     }
     if (source.desktopId != null) {
-      return adapter.findByDesktopId(source.desktopId!);
+      final candidate = await adapter.findByDesktopId(source.desktopId!);
+      if (candidate != null) return [candidate];
+    }
+    if (source.format == PackageFormat.snap &&
+        adapter.format == PackageFormat.deb) {
+      final candidates = (await Future.wait(
+        source.commonIds.map(adapter.findByAlias),
+      )).whereType<PackageSourceDescriptor>().toList();
+      if (candidates.isNotEmpty) return candidates;
+    }
+    if (source.format == PackageFormat.deb &&
+        adapter.format == PackageFormat.snap) {
+      final candidates = (await Future.wait(
+        source.aliases.map(adapter.findByCommonId),
+      )).whereType<PackageSourceDescriptor>().toList();
+      if (candidates.isNotEmpty) return candidates;
     }
     if (source.packageName != null && source.packageName!.isNotEmpty) {
-      return adapter.findByPackageName(source.packageName!);
+      final candidate = await adapter.findByPackageName(source.packageName!);
+      return candidate == null ? [] : [candidate];
     }
-    return adapter.findByPackageName(lookupKey);
+    final candidate = await adapter.findByPackageName(source.packageId);
+    return candidate == null ? [] : [candidate];
   }
 }
 
@@ -73,47 +82,16 @@ class PackageRuntimeStateService {
 
   final List<PackageFormatAdapter> _adapters;
 
-  Stream<Map<PackageFormat, PackageRuntimeState>> watchIdentity(
+  Future<Map<PackageFormat, PackageRuntimeState>> getIdentityState(
     UnifiedAppIdentity identity,
-  ) {
-    if (identity.sources.isEmpty) {
-      return const Stream.empty();
+  ) async {
+    final states = <PackageFormat, PackageRuntimeState>{};
+    for (final source in identity.sources) {
+      states[source.format] = await _adapterFor(
+        source.format,
+      ).getRuntimeState(source.packageId);
     }
-
-    return Stream.multi((controller) {
-      final states = <PackageFormat, PackageRuntimeState>{};
-      final subscriptions = <StreamSubscription<PackageRuntimeState>>[];
-
-      void emit() {
-        if (!controller.isClosed) {
-          controller.add(Map.unmodifiable({...states}));
-        }
-      }
-
-      for (final source in identity.sources) {
-        final adapter = _adapterFor(source.format);
-        final subscription = adapter
-            .watchRuntimeState(source.packageId)
-            .listen(
-              (state) {
-                states[source.format] = state;
-                emit();
-              },
-              onError: (Object error, StackTrace stackTrace) {
-                if (!controller.isClosed) {
-                  controller.addError(error, stackTrace);
-                }
-              },
-            );
-        subscriptions.add(subscription);
-      }
-
-      controller.onCancel = () async {
-        for (final subscription in subscriptions) {
-          await subscription.cancel();
-        }
-      };
-    });
+    return Map.unmodifiable(states);
   }
 
   PackageFormatAdapter _adapterFor(PackageFormat format) {

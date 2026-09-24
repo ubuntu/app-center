@@ -21,7 +21,7 @@ void main() {
     const deb = PackageSourceDescriptor(
       format: PackageFormat.deb,
       packageId: 'vlc',
-      commonId: 'org.videolan.vlc',
+      commonIds: ['org.videolan.vlc'],
       desktopId: 'vlc.desktop',
       packageName: 'vlc',
       isDesktopApplication: true,
@@ -29,10 +29,25 @@ void main() {
     const snap = PackageSourceDescriptor(
       format: PackageFormat.snap,
       packageId: 'vlc',
-      commonId: 'ORG.VIDEOLAN.VLC',
+      commonIds: ['org.example.vlc', 'ORG.VIDEOLAN.VLC'],
       desktopId: 'vlc_vlc.desktop',
       packageName: 'vlc',
       isDesktopApplication: true,
+    );
+
+    expect(resolver.matchTier(deb, snap), PackageMatchTier.commonId);
+  });
+
+  test('matches any normalized common ID', () {
+    const deb = PackageSourceDescriptor(
+      format: PackageFormat.deb,
+      packageId: 'vlc',
+      commonIds: ['org.videolan.vlc'],
+    );
+    const snap = PackageSourceDescriptor(
+      format: PackageFormat.snap,
+      packageId: 'vlc',
+      commonIds: ['org.example.legacy', ' ORG.VIDEOLAN.VLC '],
     );
 
     expect(resolver.matchTier(deb, snap), PackageMatchTier.commonId);
@@ -65,11 +80,26 @@ void main() {
     const snap = PackageSourceDescriptor(
       format: PackageFormat.snap,
       packageId: 'gimp',
-      commonId: 'gimp.desktop',
+      commonIds: ['gimp.desktop'],
       isDesktopApplication: true,
     );
 
     expect(resolver.matchTier(deb, snap), PackageMatchTier.alias);
+  });
+
+  test('does not use Snap app aliases for Tier 3', () {
+    const deb = PackageSourceDescriptor(
+      format: PackageFormat.deb,
+      packageId: 'gimp',
+      aliases: ['gimp.desktop'],
+    );
+    const snap = PackageSourceDescriptor(
+      format: PackageFormat.snap,
+      packageId: 'gimp',
+      aliases: ['gimp.desktop'],
+    );
+
+    expect(resolver.matchTier(deb, snap), isNull);
   });
 
   test('uses package names only for desktop applications', () {
@@ -94,7 +124,7 @@ void main() {
     const deb = PackageSourceDescriptor(
       format: PackageFormat.deb,
       packageId: 'vlc',
-      commonId: 'org.videolan.vlc',
+      commonIds: ['org.videolan.vlc'],
     );
     final aliasCandidate = const PackageSourceDescriptor(
       format: PackageFormat.snap,
@@ -104,7 +134,7 @@ void main() {
     final canonicalCandidate = const PackageSourceDescriptor(
       format: PackageFormat.snap,
       packageId: 'vlc',
-      commonId: 'org.videolan.vlc',
+      commonIds: ['org.videolan.vlc'],
     );
 
     final identity = resolver.resolve(deb, [
@@ -142,12 +172,12 @@ void main() {
     const first = PackageSourceDescriptor(
       format: PackageFormat.snap,
       packageId: 'vlc',
-      commonId: 'org.videolan.vlc',
+      commonIds: ['org.videolan.vlc'],
     );
     const second = PackageSourceDescriptor(
       format: PackageFormat.snap,
       packageId: 'vlc-edge',
-      commonId: 'org.videolan.vlc',
+      commonIds: ['org.videolan.vlc'],
     );
 
     expect(resolver.matchTier(first, second), isNull);

@@ -8,7 +8,7 @@ class PackageSourceDescriptor with _$PackageSourceDescriptor {
   const factory PackageSourceDescriptor({
     required PackageFormat format,
     required String packageId,
-    String? commonId,
+    @Default([]) List<String> commonIds,
     String? desktopId,
     String? packageName,
     @Default([]) List<String> aliases,

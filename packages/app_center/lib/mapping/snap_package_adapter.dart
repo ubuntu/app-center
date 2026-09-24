@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:app_center/mapping/identifier_normalization.dart';
 import 'package:app_center/mapping/package_format.dart';
 import 'package:app_center/mapping/package_format_adapter.dart';
@@ -13,10 +11,8 @@ import 'package:snapd/snapd.dart';
 class SnapPackageAdapter implements PackageFormatAdapter {
   SnapPackageAdapter({
     @visibleForTesting SnapdService? snapd,
-    this.pollInterval = const Duration(seconds: 5),
   }) : _snapdService = snapd ?? SnapdService();
 
-  final Duration pollInterval;
   final SnapdService _snapdService;
 
   @override
@@ -47,11 +43,14 @@ class SnapPackageAdapter implements PackageFormatAdapter {
     return _firstDescriptor(snaps, (snap) {
       return snap.apps.any(
         (app) =>
-            normalizeDesktopId(app.desktopFile) ==
-            normalizeDesktopId(desktopId, snapName: snap.name),
+            normalizeDesktopId(app.desktopFile, snapName: snap.name) ==
+            normalizeDesktopId(desktopId),
       );
     });
   }
+
+  @override
+  Future<PackageSourceDescriptor?> findByAlias(String alias) async => null;
 
   @override
   Future<PackageSourceDescriptor?> findByPackageName(String packageName) async {
@@ -63,17 +62,6 @@ class SnapPackageAdapter implements PackageFormatAdapter {
       snaps,
       (snap) => normalizeCommonId(snap.name) == normalizeCommonId(packageName),
     );
-  }
-
-  @override
-  Stream<PackageRuntimeState> watchRuntimeState(String packageId) async* {
-    yield await _runtimeState(packageId);
-    await for (final _ in _snapdService.watchChanges(
-      name: packageId,
-      interval: pollInterval,
-    )) {
-      yield await _runtimeState(packageId);
-    }
   }
 
   PackageSourceDescriptor? _firstDescriptor(
@@ -91,17 +79,15 @@ class SnapPackageAdapter implements PackageFormatAdapter {
     final app = snap.apps.firstWhereOrNull(
       (app) => app.commonId != null || app.desktopFile != null,
     );
-    final commonId = app?.commonId ?? snap.commonIds.firstOrNull;
     final desktopId = app?.desktopFile;
     final aliases = {
-      ...snap.commonIds,
       ...snap.apps.map((app) => app.commonId).whereType<String>(),
     }.toList()..sort();
 
     return PackageSourceDescriptor(
       format: format,
       packageId: snap.name,
-      commonId: commonId,
+      commonIds: snap.commonIds,
       desktopId: desktopId,
       packageName: snap.name,
       aliases: aliases,
@@ -109,7 +95,8 @@ class SnapPackageAdapter implements PackageFormatAdapter {
     );
   }
 
-  Future<PackageRuntimeState> _runtimeState(String name) async {
+  @override
+  Future<PackageRuntimeState> getRuntimeState(String name) async {
     Snap? localSnap;
     try {
       localSnap = await _snapdService.getSnap(name);

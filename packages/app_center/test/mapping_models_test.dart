@@ -11,14 +11,14 @@ void main() {
     const first = PackageSourceDescriptor(
       format: PackageFormat.snap,
       packageId: 'vlc',
-      commonId: 'org.videolan.vlc',
+      commonIds: ['org.videolan.vlc'],
       desktopId: 'vlc_vlc.desktop',
       packageName: 'vlc',
     );
     const second = PackageSourceDescriptor(
       format: PackageFormat.snap,
       packageId: 'vlc',
-      commonId: 'org.videolan.vlc',
+      commonIds: ['org.videolan.vlc'],
       desktopId: 'vlc_vlc.desktop',
       packageName: 'vlc',
     );

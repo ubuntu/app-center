@@ -1,5 +1,6 @@
 import 'package:app_center/mapping/mapping.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'test_utils.dart';
 
@@ -16,51 +17,52 @@ class _FakeAdapter implements PackageFormatAdapter {
 
   @override
   Future<PackageSourceDescriptor?> findByCommonId(String commonId) async {
-    return descriptors.firstWhere(
-      (descriptor) => descriptor.commonId == commonId,
-      orElse: () => const PackageSourceDescriptor(
-        format: PackageFormat.deb,
-        packageId: '',
-      ),
-    );
+    for (final descriptor in descriptors) {
+      if (descriptor.commonIds.contains(commonId)) return descriptor;
+    }
+    return null;
   }
 
   @override
   Future<PackageSourceDescriptor?> findByDesktopId(String desktopId) async {
-    return descriptors.firstWhere(
-      (descriptor) => descriptor.desktopId == desktopId,
-      orElse: () => const PackageSourceDescriptor(
-        format: PackageFormat.deb,
-        packageId: '',
-      ),
-    );
+    for (final descriptor in descriptors) {
+      if (descriptor.desktopId == desktopId) return descriptor;
+    }
+    return null;
+  }
+
+  @override
+  Future<PackageSourceDescriptor?> findByAlias(String alias) async {
+    for (final descriptor in descriptors) {
+      if (descriptor.aliases.contains(alias)) return descriptor;
+    }
+    return null;
   }
 
   @override
   Future<PackageSourceDescriptor?> findByPackageName(String packageName) async {
-    return descriptors.firstWhere(
-      (descriptor) => descriptor.packageName == packageName,
-      orElse: () => const PackageSourceDescriptor(
-        format: PackageFormat.deb,
-        packageId: '',
-      ),
-    );
+    for (final descriptor in descriptors) {
+      if (descriptor.packageName == packageName) return descriptor;
+    }
+    return null;
   }
 
   @override
-  Stream<PackageRuntimeState> watchRuntimeState(String packageId) async* {
-    yield const PackageRuntimeState(isInstalled: false);
+  Future<PackageRuntimeState> getRuntimeState(String packageId) async {
+    return const PackageRuntimeState(isInstalled: false);
   }
 }
 
 void main() {
+  tearDown(resetAllServices);
+
   test(
     'resolves a matching snap descriptor using the common-id tier',
     () async {
       const source = PackageSourceDescriptor(
         format: PackageFormat.deb,
         packageId: 'vlc',
-        commonId: 'org.videolan.vlc',
+        commonIds: ['org.videolan.vlc'],
         desktopId: 'vlc.desktop',
         packageName: 'vlc',
         isDesktopApplication: true,
@@ -68,7 +70,7 @@ void main() {
       const snap = PackageSourceDescriptor(
         format: PackageFormat.snap,
         packageId: 'vlc',
-        commonId: 'org.videolan.vlc',
+        commonIds: ['org.videolan.vlc'],
         desktopId: 'vlc_vlc.desktop',
         packageName: 'vlc',
         isDesktopApplication: true,
@@ -90,11 +92,85 @@ void main() {
     },
   );
 
+  test('looks up each common ID and resolves a later match', () async {
+    const source = PackageSourceDescriptor(
+      format: PackageFormat.snap,
+      packageId: 'vlc',
+      commonIds: ['org.example.legacy', 'org.videolan.vlc'],
+    );
+    const deb = PackageSourceDescriptor(
+      format: PackageFormat.deb,
+      packageId: 'vlc',
+      commonIds: ['org.videolan.vlc'],
+    );
+
+    final identity = await PackageMappingService(
+      adapters: [
+        _FakeAdapter(PackageFormat.snap, [source]),
+        _FakeAdapter(PackageFormat.deb, [deb]),
+      ],
+    ).resolve(source);
+
+    expect(identity, isNotNull);
+    expect(identity!.appStreamId, 'org.videolan.vlc');
+  });
+
+  test('falls back to desktop ID after common ID lookups miss', () async {
+    const source = PackageSourceDescriptor(
+      format: PackageFormat.deb,
+      packageId: 'vlc',
+      commonIds: ['org.videolan.vlc'],
+      desktopId: 'vlc.desktop',
+    );
+    const snap = PackageSourceDescriptor(
+      format: PackageFormat.snap,
+      packageId: 'vlc',
+      commonIds: ['org.example.vlc'],
+      desktopId: 'vlc.desktop',
+    );
+
+    final identity = await PackageMappingService(
+      adapters: [
+        _FakeAdapter(PackageFormat.deb, [source]),
+        _FakeAdapter(PackageFormat.snap, [snap]),
+      ],
+    ).resolve(source);
+
+    expect(identity, isNotNull);
+    expect(identity!.sources, [source, snap]);
+  });
+
+  test('falls back to AppStream aliases after stronger tiers miss', () async {
+    const source = PackageSourceDescriptor(
+      format: PackageFormat.snap,
+      packageId: 'gimp',
+      commonIds: ['gimp.desktop'],
+      desktopId: 'gimp_gimp.desktop',
+    );
+    const deb = PackageSourceDescriptor(
+      format: PackageFormat.deb,
+      packageId: 'gimp',
+      commonIds: ['org.gimp.gimp'],
+      desktopId: 'org.gimp.gimp.desktop',
+      aliases: ['gimp.desktop'],
+    );
+
+    final identity = await PackageMappingService(
+      adapters: [
+        _FakeAdapter(PackageFormat.snap, [source]),
+        _FakeAdapter(PackageFormat.deb, [deb]),
+      ],
+    ).resolve(source);
+
+    expect(identity, isNotNull);
+    expect(identity!.sources, [deb, source]);
+  });
+
   test('returns null when no cross-format match is available', () async {
     const source = PackageSourceDescriptor(
       format: PackageFormat.deb,
       packageId: 'firefox',
-      commonId: 'org.mozilla.firefox',
+      commonIds: ['org.mozilla.firefox'],
       desktopId: 'firefox.desktop',
       packageName: 'firefox',
       isDesktopApplication: true,
@@ -102,7 +178,7 @@ void main() {
     const snap = PackageSourceDescriptor(
       format: PackageFormat.snap,
       packageId: 'chromium',
-      commonId: 'org.chromium.chromium',
+      commonIds: ['org.chromium.chromium'],
       desktopId: 'chromium.desktop',
       packageName: 'chromium',
       isDesktopApplication: true,
@@ -124,7 +200,7 @@ void main() {
       const source = PackageSourceDescriptor(
         format: PackageFormat.deb,
         packageId: 'vlc',
-        commonId: 'org.videolan.vlc',
+        commonIds: ['org.videolan.vlc'],
         desktopId: 'vlc.desktop',
         packageName: 'vlc',
         isDesktopApplication: true,
@@ -132,7 +208,7 @@ void main() {
       const snap = PackageSourceDescriptor(
         format: PackageFormat.snap,
         packageId: 'vlc',
-        commonId: 'org.videolan.vlc',
+        commonIds: ['org.videolan.vlc'],
         desktopId: 'vlc_vlc.desktop',
         packageName: 'vlc',
         isDesktopApplication: true,
@@ -171,7 +247,7 @@ void main() {
     const source = PackageSourceDescriptor(
       format: PackageFormat.deb,
       packageId: 'vlc',
-      commonId: 'org.videolan.vlc',
+      commonIds: ['org.videolan.vlc'],
       desktopId: 'vlc.desktop',
       packageName: 'vlc',
       isDesktopApplication: true,
@@ -196,7 +272,7 @@ void main() {
       const sourceDeb = PackageSourceDescriptor(
         format: PackageFormat.deb,
         packageId: 'firefox',
-        commonId: 'org.mozilla.firefox',
+        commonIds: ['org.mozilla.firefox'],
         desktopId: 'firefox.desktop',
         packageName: 'firefox',
         isDesktopApplication: true,
@@ -204,7 +280,7 @@ void main() {
       const sourceSnap = PackageSourceDescriptor(
         format: PackageFormat.snap,
         packageId: 'firefox',
-        commonId: 'org.mozilla.firefox',
+        commonIds: ['org.mozilla.firefox'],
         desktopId: 'firefox_firefox.desktop',
         packageName: 'firefox',
         isDesktopApplication: true,
@@ -227,27 +303,29 @@ void main() {
 
       final service = PackageRuntimeStateService(
         adapters: [
-          _StreamingRuntimeAdapter(PackageFormat.deb, [debState]),
-          _StreamingRuntimeAdapter(PackageFormat.snap, [snapState]),
+          _RuntimeAdapter(PackageFormat.deb, debState),
+          _RuntimeAdapter(PackageFormat.snap, snapState),
         ],
       );
 
-      final states = await service
-          .watchIdentity(identity)
-          .where((snapshot) => snapshot.length == 2)
-          .first;
+      final states = await service.getIdentityState(identity);
 
       expect(states[PackageFormat.deb], debState);
       expect(states[PackageFormat.snap], snapState);
     },
   );
 
-  test('runtime state service cancels adapter subscriptions', () async {
+  test('runtime state provider queries again on explicit refresh', () async {
     const source = PackageSourceDescriptor(
       format: PackageFormat.deb,
       packageId: 'firefox',
     );
-    final adapter = _CancelableRuntimeAdapter();
+    const initialState = PackageRuntimeState(isInstalled: false);
+    const installedState = PackageRuntimeState(
+      isInstalled: true,
+      installedVersion: '120.0',
+    );
+    final adapter = _RuntimeAdapter(PackageFormat.deb, initialState);
     final service = PackageRuntimeStateService(adapters: [adapter]);
     final identity = UnifiedAppIdentity(
       unifiedId: 'firefox',
@@ -255,21 +333,77 @@ void main() {
       sources: [source],
     );
 
-    final subscription = service.watchIdentity(identity).listen((_) {});
-    await Future<void>.delayed(Duration.zero);
-    await subscription.cancel();
+    final container = createContainer(
+      overrides: [
+        packageRuntimeStateServiceProvider.overrideWithValue(service),
+      ],
+    );
+    final provider = runtimeStateProvider(identity);
+    final subscription = container.listen(provider, (_, _) {});
+    addTearDown(subscription.close);
 
-    expect(adapter.cancelled, isTrue);
+    expect(await container.read(provider.future), {
+      PackageFormat.deb: initialState,
+    });
+    adapter.state = installedState;
+    expect(await container.read(provider.future), {
+      PackageFormat.deb: initialState,
+    });
+    expect(await container.refresh(provider.future), {
+      PackageFormat.deb: installedState,
+    });
+  });
+
+  test(
+    'runtime state service returns an empty snapshot for no sources',
+    () async {
+      final service = PackageRuntimeStateService(adapters: []);
+      const identity = UnifiedAppIdentity(
+        unifiedId: 'firefox',
+        appStreamId: 'firefox',
+        sources: [],
+      );
+      expect(await service.getIdentityState(identity), isEmpty);
+    },
+  );
+
+  test('runtime state provider propagates adapter errors', () async {
+    final adapter = _RuntimeAdapter(
+      PackageFormat.deb,
+      const PackageRuntimeState(isInstalled: false),
+    )..error = StateError('query failed');
+    final container = createContainer(
+      overrides: [
+        packageRuntimeStateServiceProvider.overrideWithValue(
+          PackageRuntimeStateService(adapters: [adapter]),
+        ),
+      ],
+    );
+    const identity = UnifiedAppIdentity(
+      unifiedId: 'firefox',
+      appStreamId: 'firefox',
+      sources: [
+        PackageSourceDescriptor(
+          format: PackageFormat.deb,
+          packageId: 'firefox',
+        ),
+      ],
+    );
+    await expectLater(
+      container.read(runtimeStateProvider(identity).future),
+      throwsA(isA<StateError>()),
+    );
   });
 }
 
-class _StreamingRuntimeAdapter implements PackageFormatAdapter {
-  _StreamingRuntimeAdapter(this.format, this.states);
+class _RuntimeAdapter implements PackageFormatAdapter {
+  _RuntimeAdapter(this.format, this.state);
 
   @override
   final PackageFormat format;
 
-  final List<PackageRuntimeState> states;
+  PackageRuntimeState state;
+  Object? error;
 
   @override
   Future<void> initialize() async {}
@@ -283,32 +417,7 @@ class _StreamingRuntimeAdapter implements PackageFormatAdapter {
       null;
 
   @override
-  Future<PackageSourceDescriptor?> findByPackageName(
-    String packageName,
-  ) async => null;
-
-  @override
-  Stream<PackageRuntimeState> watchRuntimeState(String packageId) async* {
-    yield* Stream.fromIterable(states);
-  }
-}
-
-class _CancelableRuntimeAdapter implements PackageFormatAdapter {
-  @override
-  PackageFormat get format => PackageFormat.deb;
-
-  bool cancelled = false;
-
-  @override
-  Future<void> initialize() async {}
-
-  @override
-  Future<PackageSourceDescriptor?> findByCommonId(String commonId) async =>
-      null;
-
-  @override
-  Future<PackageSourceDescriptor?> findByDesktopId(String desktopId) async =>
-      null;
+  Future<PackageSourceDescriptor?> findByAlias(String alias) async => null;
 
   @override
   Future<PackageSourceDescriptor?> findByPackageName(
@@ -316,13 +425,9 @@ class _CancelableRuntimeAdapter implements PackageFormatAdapter {
   ) async => null;
 
   @override
-  Stream<PackageRuntimeState> watchRuntimeState(String packageId) {
-    return Stream.multi((controller) {
-      controller.add(const PackageRuntimeState(isInstalled: false));
-      controller.onCancel = () {
-        cancelled = true;
-      };
-    });
+  Future<PackageRuntimeState> getRuntimeState(String packageId) async {
+    if (error != null) throw error!;
+    return state;
   }
 }
 

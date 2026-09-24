@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:app_center/appstream/appstream_service.dart';
 import 'package:app_center/mapping/package_format.dart';
 import 'package:app_center/mapping/package_format_adapter.dart';
@@ -15,11 +13,9 @@ class DebPackageAdapter implements PackageFormatAdapter {
   DebPackageAdapter({
     @visibleForTesting AppstreamService? appstream,
     @visibleForTesting PackageKitService? packageKit,
-    this.pollInterval = const Duration(seconds: 30),
   }) : _appstreamService = appstream ?? AppstreamService(),
        _packageKitService = packageKit ?? PackageKitService();
 
-  final Duration pollInterval;
   final AppstreamService _appstreamService;
   final PackageKitService _packageKitService;
 
@@ -44,56 +40,17 @@ class DebPackageAdapter implements PackageFormatAdapter {
   }
 
   @override
+  Future<PackageSourceDescriptor?> findByAlias(String alias) async {
+    return _descriptorForComponent(await _appstreamService.findByAlias(alias));
+  }
+
+  @override
   Future<PackageSourceDescriptor?> findByPackageName(
     String packageName,
   ) async {
     return _descriptorForComponent(
       await _appstreamService.findByPackageName(packageName),
     );
-  }
-
-  @override
-  Stream<PackageRuntimeState> watchRuntimeState(String packageId) async* {
-    yield await _runtimeState(packageId);
-    yield* Stream.multi((controller) {
-      var refreshInFlight = false;
-      var refreshQueued = false;
-      var cancelled = false;
-
-      Future<void> refresh() async {
-        if (cancelled) return;
-        if (refreshInFlight) {
-          refreshQueued = true;
-          return;
-        }
-
-        refreshInFlight = true;
-        do {
-          refreshQueued = false;
-          try {
-            controller.add(await _runtimeState(packageId));
-          } on Object catch (error, stackTrace) {
-            controller.addError(error, stackTrace);
-          }
-        } while (refreshQueued && !cancelled);
-        refreshInFlight = false;
-      }
-
-      final mutationSubscription = _packageKitService.mutationStream.listen(
-        (packageNames) {
-          if (packageNames.isEmpty || packageNames.contains(packageId)) {
-            unawaited(refresh());
-          }
-        },
-      );
-      final timer = Timer.periodic(pollInterval, (_) => unawaited(refresh()));
-
-      controller.onCancel = () async {
-        cancelled = true;
-        timer.cancel();
-        await mutationSubscription.cancel();
-      };
-    });
   }
 
   PackageSourceDescriptor? _descriptorForComponent(
@@ -114,7 +71,7 @@ class DebPackageAdapter implements PackageFormatAdapter {
     return PackageSourceDescriptor(
       format: format,
       packageId: packageName ?? component.id,
-      commonId: component.id,
+      commonIds: [component.id],
       desktopId: desktopId,
       packageName: packageName,
       aliases: aliases,
@@ -123,7 +80,8 @@ class DebPackageAdapter implements PackageFormatAdapter {
     );
   }
 
-  Future<PackageRuntimeState> _runtimeState(String packageName) async {
+  @override
+  Future<PackageRuntimeState> getRuntimeState(String packageName) async {
     await _packageKitService.activateService();
     final package = (await _packageKitService.resolve([
       packageName,

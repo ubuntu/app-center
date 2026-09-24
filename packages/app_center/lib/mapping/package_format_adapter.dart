@@ -11,7 +11,9 @@ abstract class PackageFormatAdapter {
 
   Future<PackageSourceDescriptor?> findByDesktopId(String desktopId);
 
+  Future<PackageSourceDescriptor?> findByAlias(String alias) async => null;
+
   Future<PackageSourceDescriptor?> findByPackageName(String packageName);
 
-  Stream<PackageRuntimeState> watchRuntimeState(String packageId);
+  Future<PackageRuntimeState> getRuntimeState(String packageId);
 }
