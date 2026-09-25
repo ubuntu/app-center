@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:app_center/appstream/appstream.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter_test/flutter_test.dart';
