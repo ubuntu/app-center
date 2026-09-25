@@ -21,6 +21,7 @@ const kBreakPointLarge = 1680.0;
 const kPrimaryButtonMaxWidth = 136.0;
 
 const kMaxDialogWidth = 500.0;
+const kDialogContentPadding = EdgeInsets.all(20.0);
 
 enum ResponsiveLayoutType {
   small,
