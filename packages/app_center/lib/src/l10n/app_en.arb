@@ -79,6 +79,7 @@
     "managePagePackageTypeAll": "All",
     "managePagePackageTypeSnap": "Snap",
     "managePagePackageTypeDeb": "Deb",
+    "managePageRefreshLabel": "Refresh",
     "managePageUpdateAllLabel": "Update all",
     "managePageUpdatedDaysAgo": "Updated {n, plural, =1{{n} day} other{{n} days}} ago",
     "@managePageUpdatedDaysAgo": {
