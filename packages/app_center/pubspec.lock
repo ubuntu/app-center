@@ -1172,10 +1172,10 @@ packages:
     dependency: "direct main"
     description:
       name: snapd
-      sha256: "1d62b9bfb1eb15a900214e4fc9daeb146be55c9e3981b1ee83b530bc01ca28b8"
+      sha256: d4ee856494b8433d98971b9995b42172e75698330f3921f235f3e7b9830ea3da
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.5"
+    version: "0.7.6"
   snowball_stemmer:
     dependency: "direct main"
     description:
