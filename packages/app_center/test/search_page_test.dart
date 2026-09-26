@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/search/search.dart';
 import 'package:app_center/snapd/multisnap_model.dart';
 import 'package:app_center/snapd/snapd.dart';
@@ -9,6 +12,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
+import 'package:yaru/yaru.dart';
 
 import 'test_utils.dart';
 import 'test_utils.mocks.dart';
@@ -85,6 +89,43 @@ void main() {
     expect(find.text('Test Snap'), findsOneWidget);
     expect(find.text('Another Test Snap'), findsOneWidget);
     expect(find.text('Yet Another Test Snap'), findsOneWidget);
+  });
+
+  testWidgets('shows progress when switching to deb search', (tester) async {
+    final initialized = Completer<void>();
+    var isInitialized = false;
+    final appstream = MockAppstreamService();
+    when(appstream.initialized).thenAnswer((_) => isInitialized);
+    when(appstream.init()).thenAnswer((_) async {
+      await initialized.future;
+      isInitialized = true;
+    });
+    when(appstream.search(any)).thenAnswer((_) async => []);
+    registerMockService<AppstreamService>(appstream);
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          snapSearchProvider.overrideWith(
+            (ref, query) => mockSearchProvider(query),
+          ),
+        ],
+        child: const SearchPage(query: 'testsn'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text(tester.l10n.packageFormatSnapLabel).first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(tester.l10n.packageFormatDebLabel).last);
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
+
+    expect(find.byType(YaruCircularProgressIndicator), findsOneWidget);
+
+    initialized.complete();
+    await tester.pumpAndSettle();
+    expect(find.byType(YaruCircularProgressIndicator), findsNothing);
   });
 
   testWidgets('query + category', (tester) async {
