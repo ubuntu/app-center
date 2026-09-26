@@ -419,6 +419,8 @@ class _IconRow extends ConsumerWidget {
                   builder: (context) => SnapReport(
                     name: snapData.snap.titleOrName,
                     snapName: snapData.snap.name,
+                    contact: snap.contact.isEmpty ? null : snap.contact,
+                    website: snap.website,
                   ),
                 );
               },
