@@ -2,6 +2,10 @@ import 'package:app_center/store/store_routes.dart';
 import 'package:flutter/widgets.dart';
 
 class StoreNavigator {
+  static Future<void> pushAbout(BuildContext context) {
+    return Navigator.of(context).pushAbout();
+  }
+
   static Future<void> pushDeb(
     BuildContext context, {
     required String id,
@@ -50,6 +54,10 @@ class StoreNavigator {
 }
 
 extension StoreNavigatorState on NavigatorState {
+  Future<void> pushAbout() {
+    return pushNamed(StoreRoutes.about);
+  }
+
   Future<void> pushDeb({required String id}) {
     return pushNamed(StoreRoutes.namedDeb(id: id));
   }
