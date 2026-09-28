@@ -1,20 +1,18 @@
 import 'package:app_center/appstream/appstream_service.dart';
-import 'package:app_center/mapping/package_format.dart';
 import 'package:app_center/mapping/package_format_adapter.dart';
 import 'package:app_center/mapping/package_runtime_state.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
 import 'package:app_center/packagekit/packagekit_service.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 import 'package:packagekit/packagekit.dart';
 
 class DebPackageAdapter implements PackageFormatAdapter {
   DebPackageAdapter({
-    @visibleForTesting AppstreamService? appstream,
-    @visibleForTesting PackageKitService? packageKit,
-  }) : _appstreamService = appstream ?? AppstreamService(),
-       _packageKitService = packageKit ?? PackageKitService();
+    required AppstreamService appstream,
+    required PackageKitService packageKit,
+  }) : _appstreamService = appstream,
+       _packageKitService = packageKit;
 
   final AppstreamService _appstreamService;
   final PackageKitService _packageKitService;

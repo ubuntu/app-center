@@ -1,17 +1,13 @@
 import 'package:app_center/mapping/identifier_normalization.dart';
-import 'package:app_center/mapping/package_format.dart';
 import 'package:app_center/mapping/package_format_adapter.dart';
 import 'package:app_center/mapping/package_runtime_state.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
 import 'package:app_center/snapd/snapd_service.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 import 'package:snapd/snapd.dart';
 
 class SnapPackageAdapter implements PackageFormatAdapter {
-  SnapPackageAdapter({
-    @visibleForTesting SnapdService? snapd,
-  }) : _snapdService = snapd ?? SnapdService();
+  SnapPackageAdapter({required SnapdService snapd}) : _snapdService = snapd;
 
   final SnapdService _snapdService;
 
@@ -127,7 +123,6 @@ class SnapPackageAdapter implements PackageFormatAdapter {
       isInstalled: true,
       installedVersion: localSnap.version,
       channelOrOrigin: localSnap.trackingChannel,
-      isBusy: localSnap.refreshInhibit != null,
     );
   }
 }

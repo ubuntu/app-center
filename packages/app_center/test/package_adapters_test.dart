@@ -66,7 +66,6 @@ void main() {
     expect(state.isInstalled, isTrue);
     expect(state.installedVersion, snap.version);
     expect(state.channelOrOrigin, snap.trackingChannel);
-    expect(state.isBusy, isFalse);
   });
 
   test('Deb adapter converts AppStream metadata to a descriptor', () async {

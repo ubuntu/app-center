@@ -1,6 +1,5 @@
 export 'deb_package_adapter.dart';
 export 'identifier_normalization.dart';
-export 'package_format.dart';
 export 'package_format_adapter.dart';
 export 'package_mapping_providers.dart';
 export 'package_mapping_resolver.dart';

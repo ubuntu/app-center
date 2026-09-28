@@ -1,4 +1,3 @@
-import 'package:app_center/mapping/package_format.dart';
 import 'package:app_center/mapping/package_runtime_state.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
 

@@ -1,24 +1,15 @@
-import 'package:app_center/mapping/deb_package_adapter.dart';
 import 'package:app_center/mapping/identifier_normalization.dart';
-import 'package:app_center/mapping/package_format.dart';
 import 'package:app_center/mapping/package_format_adapter.dart';
 import 'package:app_center/mapping/package_mapping_resolver.dart';
 import 'package:app_center/mapping/package_runtime_state.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
-import 'package:app_center/mapping/snap_package_adapter.dart';
 import 'package:app_center/mapping/unified_app_identity.dart';
 
 class PackageMappingService {
   PackageMappingService({
-    List<PackageFormatAdapter>? adapters,
+    required this._adapters,
     PackageMappingResolver? resolver,
-  }) : _adapters = adapters ?? _defaultAdapters(),
-       _resolver = resolver ?? const PackageMappingResolver();
-
-  static List<PackageFormatAdapter> _defaultAdapters() => [
-    DebPackageAdapter(),
-    SnapPackageAdapter(),
-  ];
+  }) : _resolver = resolver ?? const PackageMappingResolver();
 
   final List<PackageFormatAdapter> _adapters;
   final PackageMappingResolver _resolver;
@@ -77,13 +68,7 @@ class PackageMappingService {
 }
 
 class PackageRuntimeStateService {
-  PackageRuntimeStateService({List<PackageFormatAdapter>? adapters})
-    : _adapters = adapters ?? _defaultAdapters();
-
-  static List<PackageFormatAdapter> _defaultAdapters() => [
-    DebPackageAdapter(),
-    SnapPackageAdapter(),
-  ];
+  PackageRuntimeStateService({required this._adapters});
 
   final List<PackageFormatAdapter> _adapters;
 

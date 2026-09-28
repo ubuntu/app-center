@@ -2,11 +2,6 @@ import 'package:app_center/mapping/mapping.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('package formats expose display names', () {
-    expect(PackageFormat.snap.displayName, 'Snap');
-    expect(PackageFormat.deb.displayName, 'Debian (APT)');
-  });
-
   test('source descriptors are value objects', () {
     const first = PackageSourceDescriptor(
       format: PackageFormat.snap,
@@ -69,6 +64,5 @@ void main() {
     expect(installed.isInstalled, isTrue);
     expect(installed.installedVersion, '3.0.21');
     expect(installed.hasUpdate, isFalse);
-    expect(installed.isBusy, isFalse);
   });
 }

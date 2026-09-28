@@ -72,8 +72,29 @@ Future<void> main(List<String> args) async {
     PackageKitService.new,
     dispose: (service) => service.dispose(),
   );
-  registerService(PackageMappingService.new);
-  registerService(PackageRuntimeStateService.new);
+  registerService(
+    () => DebPackageAdapter(
+      appstream: getService<AppstreamService>(),
+      packageKit: getService<PackageKitService>(),
+    ),
+  );
+  registerService(() => SnapPackageAdapter(snapd: getService<SnapdService>()));
+  registerService(
+    () => PackageMappingService(
+      adapters: [
+        getService<DebPackageAdapter>(),
+        getService<SnapPackageAdapter>(),
+      ],
+    ),
+  );
+  registerService(
+    () => PackageRuntimeStateService(
+      adapters: [
+        getService<DebPackageAdapter>(),
+        getService<SnapPackageAdapter>(),
+      ],
+    ),
+  );
   registerService(
     DriversService.new,
     dispose: (service) => service.dispose(),

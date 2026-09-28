@@ -293,7 +293,7 @@ void main() {
   });
 
   test(
-    'provider keeps a stable service instance and resolves identities',
+    'provider resolves identities through the registered service',
     () async {
       const source = PackageSourceDescriptor(
         format: PackageFormat.deb,
@@ -318,14 +318,9 @@ void main() {
         ],
       );
 
-      final container = createContainer(
-        overrides: [
-          packageMappingServiceProvider.overrideWithValue(service),
-        ],
-      );
+      registerMockService<PackageMappingService>(service);
+      final container = createContainer();
 
-      final first = container.read(packageMappingServiceProvider);
-      final second = container.read(packageMappingServiceProvider);
       final identity1 = await container.read(
         unifiedIdentityProvider(source).future,
       );
@@ -333,7 +328,6 @@ void main() {
         unifiedIdentityProvider(source).future,
       );
 
-      expect(identical(first, second), isTrue);
       expect(identity1, isNotNull);
       expect(identity2, isNotNull);
       expect(identity1!.unifiedId, identity2!.unifiedId);
@@ -350,13 +344,10 @@ void main() {
       packageName: 'vlc',
       isDesktopApplication: true,
     );
-    final container = createContainer(
-      overrides: [
-        packageMappingServiceProvider.overrideWithValue(
-          _ThrowingPackageMappingService(),
-        ),
-      ],
+    registerMockService<PackageMappingService>(
+      _ThrowingPackageMappingService(),
     );
+    final container = createContainer();
 
     expect(
       () => container.read(unifiedIdentityProvider(source).future),
@@ -431,11 +422,8 @@ void main() {
       sources: [source],
     );
 
-    final container = createContainer(
-      overrides: [
-        packageRuntimeStateServiceProvider.overrideWithValue(service),
-      ],
-    );
+    registerMockService<PackageRuntimeStateService>(service);
+    final container = createContainer();
     final provider = runtimeStateProvider(identity);
     final subscription = container.listen(provider, (_, _) {});
     addTearDown(subscription.close);
@@ -470,13 +458,10 @@ void main() {
       PackageFormat.deb,
       const PackageRuntimeState(isInstalled: false),
     )..error = StateError('query failed');
-    final container = createContainer(
-      overrides: [
-        packageRuntimeStateServiceProvider.overrideWithValue(
-          PackageRuntimeStateService(adapters: [adapter]),
-        ),
-      ],
+    registerMockService<PackageRuntimeStateService>(
+      PackageRuntimeStateService(adapters: [adapter]),
     );
+    final container = createContainer();
     const identity = UnifiedAppIdentity(
       unifiedId: 'firefox',
       appStreamId: 'firefox',

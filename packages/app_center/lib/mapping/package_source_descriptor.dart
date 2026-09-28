@@ -1,7 +1,8 @@
-import 'package:app_center/mapping/package_format.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'package_source_descriptor.freezed.dart';
+
+enum PackageFormat { snap, deb }
 
 @freezed
 class PackageSourceDescriptor with _$PackageSourceDescriptor {

@@ -1,5 +1,4 @@
 import 'package:app_center/mapping/identifier_normalization.dart';
-import 'package:app_center/mapping/package_format.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
 import 'package:app_center/mapping/unified_app_identity.dart';
 import 'package:collection/collection.dart';

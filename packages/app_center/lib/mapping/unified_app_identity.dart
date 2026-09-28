@@ -1,4 +1,3 @@
-import 'package:app_center/mapping/package_format.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
 import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

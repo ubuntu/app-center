@@ -10,6 +10,5 @@ class PackageRuntimeState with _$PackageRuntimeState {
     String? availableVersion,
     String? channelOrOrigin,
     @Default(false) bool hasUpdate,
-    @Default(false) bool isBusy,
   }) = _PackageRuntimeState;
 }
