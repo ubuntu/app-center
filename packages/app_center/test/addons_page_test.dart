@@ -26,7 +26,7 @@ void main() {
       find.text(tester.l10n.addonsPageAdditionalDriversDescription),
       findsOneWidget,
     );
-    expect(find.byIcon(YaruIcons.go_next), findsOneWidget);
+    expect(find.byIcon(YaruIcons.go_next), findsNWidgets(2));
   });
 
   testWidgets('hides Additional drivers tile when drivers are unavailable', (
@@ -42,5 +42,6 @@ void main() {
       find.text(tester.l10n.addonsPageAdditionalDriversTitle),
       findsNothing,
     );
+    expect(find.byIcon(YaruIcons.go_next), findsOneWidget);
   });
 }
