@@ -54,7 +54,7 @@ void main() {
         matching: find.button(tester.l10n.snapActionInstallLabel),
       ),
     );
-    await tester.pumpAndSettle();
+    await tester.pumpUntil(find.text(tester.l10n.snapActionInstalledLabel));
 
     final result = await Process.run('dpkg', ['-s', 'appcenter-testdeb']);
     expect(result.exitCode, isZero);
