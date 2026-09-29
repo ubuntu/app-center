@@ -1,4 +1,5 @@
 import 'package:app_center/apps/apps_utils.dart';
+import 'package:app_center/deb/deb_architecture.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:packagekit/packagekit.dart';
@@ -13,13 +14,22 @@ class LocalDebData extends AppMetadata with _$LocalDebData {
   factory LocalDebData({
     required String path,
     required PackageKitDetailsEvent details,
+    required String systemArch,
     PackageKitPackageInfo? packageInfo,
     int? activeTransactionId,
+    PackageKitServiceError? error,
   }) = _LocalDebData;
 
   LocalDebData._();
 
   bool get isInstalled => packageInfo?.info == PackageKitInfo.installed;
+
+  /// Whether this `.deb` is built for an architecture the system can execute.
+  /// When `false` the page stays fully visible, but installing is disabled.
+  bool get isArchitectureCompatible => isDebArchitectureCompatible(
+    packageArch: details.packageId.arch,
+    systemArch: systemArch,
+  );
 
   @override
   AppConfinement? get confinement => AppConfinement.fromDeb();
@@ -55,21 +65,64 @@ class LocalDebModel extends _$LocalDebModel {
     if (details == null) {
       throw Exception('Failed to get package details');
     }
+    final systemArch = await packageKit.getNativeArchitecture();
     final packageName = details.packageId.name;
     final results = await packageKit.resolve([packageName]);
     final packageInfo = results[packageName];
-    return LocalDebData(path: path, details: details, packageInfo: packageInfo);
+
+    final errorListener = packageKit.errorStream.listen(_onError);
+    ref.onDispose(errorListener.cancel);
+
+    return LocalDebData(
+      path: path,
+      details: details,
+      systemArch: systemArch,
+      packageInfo: packageInfo,
+    );
   }
 
   Future<void> install() async {
     assert(state.hasValue, 'install() called during loading or error state');
     final packageKit = getService<PackageKitService>();
-    final activeTransactionId = await packageKit.installLocal(path);
+    final errorBefore = state.value!.error;
+    try {
+      final activeTransactionId = await packageKit.installLocal(path);
+      state = AsyncValue.data(
+        state.value!.copyWith(activeTransactionId: activeTransactionId),
+      );
+      await packageKit.waitTransaction(activeTransactionId);
+      ref.invalidateSelf();
+    } on Exception catch (e) {
+      // Failures that emit a PackageKit error code have already been recorded
+      // by _onError; any other failure (creating the transaction, a destroyed
+      // transaction, a closed stream) would otherwise be silent, so record a
+      // generic error for it. Either way the spinner is cleared.
+      final data = state.valueOrNull;
+      if (data == null) return;
+      final recorded = identical(data.error, errorBefore) ? null : data.error;
+      state = AsyncValue.data(
+        data.copyWith(
+          error:
+              recorded ??
+              PackageKitServiceError(
+                code: PackageKitError.unknown,
+                details: e.toString(),
+              ),
+          activeTransactionId: null,
+        ),
+      );
+    }
+  }
+
+  void _onError(PackageKitServiceError error) {
+    final data = state.valueOrNull;
+    if (data == null) return;
     state = AsyncValue.data(
-      state.value!.copyWith(activeTransactionId: activeTransactionId),
+      data.copyWith(
+        error: error,
+        activeTransactionId: null,
+      ),
     );
-    await packageKit.waitTransaction(activeTransactionId);
-    ref.invalidateSelf();
   }
 
   Future<void> cancel() async {
@@ -81,7 +134,4 @@ class LocalDebModel extends _$LocalDebModel {
     await packageKit.cancelTransaction(state.value!.activeTransactionId!);
     state = AsyncValue.data(state.value!.copyWith(activeTransactionId: null));
   }
-
-  Stream<PackageKitServiceError> get errorStream =>
-      getService<PackageKitService>().errorStream;
 }
