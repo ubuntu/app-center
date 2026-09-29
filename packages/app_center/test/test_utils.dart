@@ -449,6 +449,8 @@ MockPackageKitService createMockPackageKitService({
     packageKit.getUpdateDetails(any),
   ).thenAnswer((_) async => packageUpdates);
   when(packageKit.update(any)).thenAnswer((_) async => transactionId);
+  when(packageKit.updateAll(any)).thenAnswer((_) async => transactionId);
+  when(packageKit.cancelTransaction(any)).thenAnswer((_) async {});
   when(packageKit.whatProvides(any)).thenAnswer((_) async => packageEvents!);
   when(packageKit.remove(any)).thenAnswer((_) async => transactionId);
   when(packageKit.errorStream).thenAnswer((_) => errorStream);
