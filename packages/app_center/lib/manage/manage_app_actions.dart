@@ -6,6 +6,7 @@ import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/manage/local_deb_updates_model.dart';
 import 'package:app_center/manage/manage_app_data.dart';
 import 'package:app_center/manage/quit_to_update_notice.dart';
+import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/current_desktops_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/active_change_content.dart';
@@ -155,7 +156,7 @@ class ManageAppActions extends ConsumerWidget {
 
     if (hasActiveTransaction) {
       final progress = ref.watch(
-        debTransactionProgressProvider(debInfo.activeTransactionId),
+        packageKitTransactionProgressProvider(debInfo.activeTransactionId),
       );
       return Row(
         mainAxisSize: MainAxisSize.min,
