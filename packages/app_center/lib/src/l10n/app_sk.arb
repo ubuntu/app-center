@@ -27,7 +27,7 @@
     "snapCategoryServerAndCloud": "Server a cloud",
     "aboutPageLabel": "O aplikácii",
     "snapPageSummaryLabel": "Súhrn",
-    "appstreamSearchGreylist": "aplikácia;program;balík;softvér;súprava;nástroj",
+    "appstreamSearchGreylist": "aplikácia;balík;program;nástroj;sada",
     "snapCategoryScience": "Veda",
     "snapCategoryEntertainment": "Zábava",
     "snapActionInstallLabel": "Inštalovať",
@@ -78,7 +78,7 @@
     "appstreamUrlTypeHelp": "Pomoc",
     "snapCategoryPersonalisation": "Prispôsobenie",
     "aboutPagePublishLabel": "Zverejniť na Snap Store",
-    "aboutPageContributorTitle": "Navrhnuté a vyvinuté:",
+    "aboutPageContributorTitle": "Navrhli a vyvinuli:",
     "managePageInstalledAndUpdatedLabel": "Nainštalované aplikácie",
     "appstreamUrlTypeHomepage": "Domovská stránka",
     "managePageCheckingForUpdates": "Kontrolujú sa aktualizácie",
@@ -92,7 +92,7 @@
     },
     "snapRatingsBandInsufficientVotes": "Nedostatok hlasov",
     "snapRatingsBandVeryPoor": "Zlé",
-    "managePageDescription": "Skontrolujte dostupné aktualizácie, aktualizujte svoje aplikácie a spravujte stav všetkých vašich aplikácií.",
+    "managePageDescription": "Skontrolujte dostupné aktualizácie, aktualizujte svoje aplikácie a spravujte stav všetkých svojich aplikácií.",
     "snapActionRemovingLabel": "Odinštaluje sa",
     "snapSortOrderInstalledSizeDesc": "Najväčšie",
     "snapPageDeveloperWebsiteLabel": "Webová stránka vývojára",
@@ -117,7 +117,7 @@
     "aboutPageCommunityTitle": "Staňte sa súčasťou komunity:",
     "searchPageNoResultsCategoryHint": "Skúste inú kategóriu alebo použite všeobecnejšie kľúčové slová",
     "snapSortOrderAlphabeticalDesc": "Z–A",
-    "searchPageNoResultsCategory": "Ľutujeme, v tejto kategórii sa nenašli žiadne balíky",
+    "searchPageNoResultsCategory": "Ľutujeme, v tejto kategórii sme nenašli žiadne balíky",
     "snapRatingsVotes": "{n, plural, =1{{n} hlas} few{{n} hlasy} other{{n} hlasov}}",
     "@snapRatingsVotes": {
         "placeholders": {
@@ -159,7 +159,7 @@
     "snapActionUpdatingLabel": "Aktualizuje sa",
     "searchPageRelevanceLabel": "Relevancia",
     "snapSortOrderAlphabeticalAsc": "A–Z",
-    "managePageNoUpdatesAvailableDescription": "Žiadne aktualizácie nie sú k dispozícii. Všetky vaše aplikácie sú aktuálne.",
+    "managePageNoUpdatesAvailableDescription": "Nie sú dostupné žiadne aktualizácie. Vaše aplikácie sú aktuálne.",
     "snapSortOrderRelevance": "Relevancia",
     "snapSortOrderDownloadSizeDesc": "Najväčšie",
     "appstreamUrlTypeBugtracker": "Sledovanie chýb",
@@ -190,7 +190,7 @@
     "snapReportPrivacyAgreementAndLabel": "a ",
     "snapReportPrivacyAgreementPrivacyPolicy": "Zásadami ochrany",
     "debPageErrorNoPackageInfo": "Nenašli sa žiadne informácie o balíku",
-    "externalResources": "Dodatočné zdroje",
+    "externalResources": "Ďalšie zdroje",
     "externalResourcesButtonLabel": "Objavte viac",
     "allGamesButtonLabel": "Všetky hry",
     "openInBrowser": "Otvoriť v prehliadači",
@@ -239,13 +239,13 @@
     },
     "appstreamUrlTypeContribute": "Prispieť",
     "appstreamUrlTypeVcsBrowser": "Zdroj",
-    "localDebWarningBody": "Tento balík je poskytnutý treťou stranou. Inštalácia balíkov mimo Centra aplikácií môže zvýšiť riziko pre váš systém a osobné údaje. Pred pokračovaním sa uistite, že dôverujete zdroju.",
+    "localDebWarningBody": "Tento balík poskytuje tretia strana. Inštalácia balíkov mimo Centra aplikácií môže zvýšiť riziko pre váš systém a osobné údaje. Pred pokračovaním sa uistite, že zdroju dôverujete.",
     "localDebDialogMessage": "Tento balík je poskytnutý treťou stranou a môže ohroziť váš systém a osobné údaje.",
-    "localDebDialogConfirmation": "Naozaj ho chcete nainštalovať?",
+    "localDebDialogConfirmation": "Ste si istí, že ho chcete nainštalovať?",
     "snapPageSizeLabel": "Veľkosť",
     "localDebWarningTitle": "Potenciálne nebezpečné",
-    "localDebLearnMore": "Zistite viac o balíkoch tretích strán",
-    "managePageDebUpdatesMessage": "Aktualizácie balíkov Debianu spravuje nástroj Aktualizácia softvéru.",
+    "localDebLearnMore": "Zistite viac o balíkoch od tretích strán",
+    "managePageDebUpdatesMessage": "Aktualizácie balíkov Debian sú spravované nástrojom Aktualizácia softvéru.",
     "snapActionInstalledLabel": "Nainštalované",
     "errorViewNetworkErrorDescription": "Bez internetového pripojenia sa nedá načítať obsah v Centre aplikácií.",
     "errorViewServerErrorDescription": "Ľutujeme, momentálne máme problémy s Centrom aplikácií.",
@@ -255,7 +255,7 @@
     "errorViewCheckStatusLabel": "Skontrolovať stav",
     "errorViewNetworkErrorAction": "Skontrolujte svoje pripojenie a skúste to znova.",
     "errorViewNetworkErrorTitle": "Pripojte sa k internetu",
-    "snapdExceptionRunningApps": "Nepodarilo sa aktualizovať {snapName}, pretože je aktuálne spustený.",
+    "snapdExceptionRunningApps": "Nepodarilo sa aktualizovať {snapName}, pretože je práve spustený.",
     "@snapdExceptionRunningApps": {
         "placeholders": {
             "snapName": {
@@ -263,9 +263,9 @@
             }
         }
     },
-    "errorViewServerErrorAction": "Skontrolujte stav, či nie sú k dispozícii aktualizácie, alebo to skúste znova neskôr.",
-    "managePageNoInternet": "Nedá sa pripojiť k serveru. Skontrolujte svoje internetové pripojenie alebo skúste to znova neskôr.",
-    "managePageOwnUpdateAvailable": "Je dostupná aktualizácia Centra aplikácií",
+    "errorViewServerErrorAction": "Skontrolujte stav aktualizácií alebo to skúste znova neskôr.",
+    "managePageNoInternet": "Nedá sa pripojiť k serveru, skontrolujte internetové pripojenie alebo to skúste znova neskôr.",
+    "managePageOwnUpdateAvailable": "Dostupná aktualizácia Centra aplikácií",
     "managePageOwnUpdateDescription": "Po ukončení aplikácie sa automaticky aktualizuje.",
     "managePageOwnUpdateQuitButton": "Ukončiť a aktualizovať",
     "managePageOwnUpdateDescriptionSoon": "Centrum aplikácií sa automaticky aktualizuje o {time}.",
@@ -285,8 +285,8 @@
             }
         }
     },
-    "managePageUpdatesFailedBody": "Tieto aplikácie sa nepodarilo aktualizovať, pretože sú momentálne spustené.\n\n{snapList}\nPo ich ukončení sa automaticky aktualizujú.",
-    "managePageTitle": "Spravovať nainštalované balíky Snap",
+    "managePageUpdatesFailedBody": "Tieto aplikácie sa nepodarilo aktualizovať, pretože sú práve spustené.\n\n{snapList}\nPo ich ukončení sa automaticky aktualizujú.",
+    "managePageTitle": "Spravovať nainštalované snapy",
     "snapCategoryArtAndDesignSlogan": "Začnite tvoriť – od náčrtu po výsledok",
     "snapCategoryArtAndDesignButtonLabel": "Objavte aplikácie pre tvorbu",
     "managePageInstallingLabel": "Inštaluje sa ({n})",
@@ -298,7 +298,7 @@
         }
     },
     "debPageDocumentationLinkLabel": "Zistiť viac o správe balíkov Debian",
-    "managePageDocumentationLinkLabel": "Zistite, ako spravovať balíky Debianu v dokumentácii.",
+    "managePageDocumentationLinkLabel": "Zistite, ako spravovať balíky Debian v dokumentácii.",
     "snapPageGalleryPreviousSemanticLabel": "Predchádzajúci obrázok",
     "snapPageGalleryImageSemanticLabel": "Obrázok {n}",
     "@snapPageGalleryImageSemanticLabel": {
@@ -351,8 +351,8 @@
     "codecInstallAllButton": "Nainštalovať odporúčané kodeky",
     "snapActionRevertLabel": "Vrátiť verziu",
     "snapActionRevertingLabel": "Prebieha návrat",
-    "snapRevertConfirmTitle": "Vrátiť staršiu verziu?",
-    "snapRevertConfirmMessage": "Automatické aktualizácie sa obnovia, keď bude k dispozícii nová verzia.",
+    "snapRevertConfirmTitle": "Vrátiť sa na predchádzajúcu verziu?",
+    "snapRevertConfirmMessage": "Automatické aktualizácie sa obnovia, keď bude dostupná nová verzia.",
     "snapRevertConfirmRevert": "Vrátiť",
     "snapRevertConfirmCancel": "Zrušiť",
     "snapRevertConfirmTitleWithVersions": "Vrátiť z {currentVersion} (revízia {currentRevision}) na {previousVersion} (revízia {previousRevision})?",
@@ -372,7 +372,7 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "Nie je k dispozícii žiadna predchádzajúca lokálna revízia, na ktorú by sa dalo vrátiť.",
+    "snapRevertNoPreviousRevisionMessage": "Nie je dostupná žiadna predchádzajúca lokálna revízia, na ktorú by sa dalo vrátiť.",
     "appUrlTypeContact": "Kontaktovať {publisher}",
     "@appUrlTypeContact": {
         "placeholders": {
@@ -395,7 +395,7 @@
     "managePagePackageTypeLabel": "Balíky",
     "managePagePackageTypeAll": "Všetky",
     "appMoreActionsSemanticLabel": "Ďalšie akcie",
-    "appConfinementStrictTooltip": "Táto aplikácia má obmedzený prístup k vašim zdrojom. Jej oprávnenia môžete spravovať v aplikácii Nastavenia.",
+    "appConfinementStrictTooltip": "Táto aplikácia má obmedzený prístup k vašim zdrojom. Jej oprávnenia môžete ovládať v aplikácii Nastavenia.",
     "appConfinementClassicTooltip": "Táto aplikácia používa klasickú izoláciu, čo jej poskytuje plný prístup k vašim zdrojom. Je to bežné pri vývojárskych aplikáciách.",
     "appConfinementUnrestrictedTooltip": "Táto aplikácia má plný prístup k vašim zdrojom.",
     "snapActionSwitchChannelTitle": "Prepnúť kanál pre {appName}",
@@ -405,5 +405,60 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "addonsPageLabel": "Doplnky",
+    "addonsPageAdditionalDriversTitle": "Ďalšie ovládače",
+    "addonsPageAdditionalDriversDescription": "Pridať lepšiu podporu pre grafické karty a iný hardvér",
+    "driversPageDescription": "Proprietárne ovládače majú súkromný kód, ktorý vývojári Ubuntu nemôžu kontrolovať ani vylepšovať. Bezpečnostné a iné aktualizácie závisia od dodávateľa ovládača.",
+    "driversPageSectionUpdateAvailable": "Dostupná aktualizácia",
+    "driversPageSectionAvailable": "Dostupné",
+    "driversPageSectionInstalled": "Nainštalované",
+    "driversPageSectionUnsupported": "Nie sú dostupné žiadne ovládače",
+    "driversPageNoPackagesMessage": "Žiadne balíky neposkytujú ovládače pre toto zariadenie",
+    "driversPageDeviceClassGraphics": "Grafika",
+    "driversPageDeviceClassNetwork": "Sieť",
+    "driversPageDeviceClassCamera": "Kamera",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Úložisko",
+    "driversPageDeviceClassAudio": "Audio",
+    "driversPageDeviceClassOther": "Iné",
+    "driversPageBranchProduction": "Produkcia",
+    "driversPageBranchLts": "Dlhodobá podpora",
+    "driversPageBranchNewFeature": "Nové funkcie",
+    "driversPageVersionLabel": "Verzia {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Vyžaduje sa reštart",
+    "driversPageRestartRequiredMessage": "Reštartujte počítač na dokončenie aplikácie zmien ovládačov.",
+    "driversPageErrorLabel": "Chyba",
+    "driversPageRetryLabel": "Skúsiť znova",
+    "driversPageNoDriversFoundMessage": "Používajú sa zabudované ovládače. Nenašli sa žiadne ďalšie ovládače.",
+    "driversPageUnavailableTitle": "Správa ovládačov nie je dostupná",
+    "driversPageUnsupportedMessage": "Služba správy ovládačov nie je dostupná. Uistite sa, že snapd je aktuálny a ubuntu-drivers-common je nainštalovaný.",
+    "driversPageSwitchBranchLabel": "Prepnúť vetvu",
+    "driversPageSwitchBranchTitle": "Prepnúť vetvu",
+    "driversPageSwitchBranchProductionDescription": "Vyvažuje funkcie a stabilitu",
+    "driversPageSwitchBranchLtsDescription": "Maximálna stabilita pre kritické pracovné zaťaženia",
+    "driversPageSwitchBranchNewFeatureDescription": "Náhľad, menej stabilné",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (odporúčané)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "Táto vetva je menej stabilná",
+    "driversPageSwitchBranchLessStableWarningMessage": "Zostaňte na aktuálnej vetve, aby ste predišli problémom s týmto zariadením.",
+    "driversPageSwitchLabel": "Prepnúť",
+    "driversPageSwitchingBranchLabel": "Prepína sa vetva",
+    "driversPageUninstallTitle": "Odinštalovať ovládač",
+    "driversPageUninstallWarningTitle": "Odinštalovanie ovládačov môže spôsobiť problémy",
+    "driversPageUninstallWarningMessage": "Možno nebudete môcť ľahko znovu nainštalovať ovládače, najmä ak súvisia s grafikou alebo sieťou.",
+    "driversPageUninstallAcknowledgeLabel": "Rozumiem riziku"
 }
