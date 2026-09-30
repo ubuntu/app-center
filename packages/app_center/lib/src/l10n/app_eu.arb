@@ -402,5 +402,44 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "addonsPageLabel": "Gehigarriak",
+    "addonsPageAdditionalDriversTitle": "Kontrolatzaile gehigarriak",
+    "driversPageSectionUpdateAvailable": "Eguneratzea erabilgarri",
+    "driversPageSectionAvailable": "Erabilgarri",
+    "driversPageSectionInstalled": "Instalatua",
+    "driversPageSectionUnsupported": "Ez dago kontrolatzaile erabilgarririk",
+    "driversPageDeviceClassGraphics": "Grafikoak",
+    "driversPageDeviceClassNetwork": "Sarea",
+    "driversPageDeviceClassCamera": "Kamera",
+    "driversPageDeviceClassUsb": "USBa",
+    "driversPageDeviceClassStorage": "Biltegiratzea",
+    "driversPageDeviceClassAudio": "Audioa",
+    "driversPageDeviceClassOther": "Bestelakoa",
+    "driversPageBranchNewFeature": "Eginbide berriak",
+    "driversPageVersionLabel": "{version} bertsioa",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Berrabiarazi beharra",
+    "driversPageErrorLabel": "Errorea",
+    "driversPageRetryLabel": "Saiatu berriz",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (gomendatua)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "Adar hau ezegonkorragoa da",
+    "driversPageSwitchLabel": "Aldatu",
+    "driversPageSwitchingBranchLabel": "Adarrez aldatzen",
+    "driversPageUninstallTitle": "Desinstalatu kontrolatzailea",
+    "driversPageSwitchBranchLabel": "Aldatu adarrez",
+    "driversPageSwitchBranchTitle": "Aldatu adarrez"
 }
