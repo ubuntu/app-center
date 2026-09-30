@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_center/l10n.dart';
 import 'package:app_center/media_support/media_support.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,6 +21,39 @@ PackageKitPackageEvent _package(String name, PackageKitInfo info) =>
 
 void main() {
   tearDown(resetAllServices);
+
+  testWidgets('shows the dependency-inclusive size after loading', (
+    tester,
+  ) async {
+    final addons = _package(
+      mediaSupportPackages.first,
+      PackageKitInfo.available,
+    );
+    final dependency = _package('codec-library', PackageKitInfo.installing);
+    final kit = createMockPackageKitService(
+      resolveMap: {mediaSupportPackages.first: addons},
+      packageDetailsMany: {
+        addons.packageId.name: PackageKitDetailsEvent(
+          packageId: addons.packageId,
+          size: 1000,
+        ),
+        dependency.packageId.name: PackageKitDetailsEvent(
+          packageId: dependency.packageId,
+          size: 10000000,
+        ),
+      },
+    );
+    final pending = Completer<List<PackageKitPackageInfo>>();
+    when(kit.simulateInstall(any)).thenAnswer((_) => pending.future);
+    await tester.pumpApp((_) => const ProviderScope(child: MediaSupportPage()));
+    await tester.pump();
+    expect(find.button(tester.l10n.snapActionInstallLabel), findsNothing);
+    pending.complete([addons, dependency]);
+    await tester.pumpAndSettle();
+    final context = tester.element(find.byType(MediaSupportPage));
+    expect(find.text(context.formatByteSize(10001000)), findsOneWidget);
+    expect(find.button(tester.l10n.snapActionInstallLabel), findsOneWidget);
+  });
 
   testWidgets('install missing packages even when an update is available', (
     tester,

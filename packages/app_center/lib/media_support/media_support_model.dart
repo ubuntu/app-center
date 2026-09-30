@@ -1,3 +1,4 @@
+import 'package:app_center/packagekit/logger.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -65,15 +66,41 @@ class MediaSupportModel extends _$MediaSupportModel {
         .where((u) => mediaSupportPackages.contains(u.packageId.name))
         .map((u) => u.packageId)
         .toList();
-    final ids = packages.values.whereType<PackageKitPackageInfo>().map(
-      (info) => info.packageId,
-    );
-    final details = await _packageKit.getDetails(ids.toList());
-    return MediaSupportState(
+    final data = MediaSupportState(
       packages: packages,
       updatePackageIds: updatePackageIds,
-      size: details.isEmpty ? null : details.values.map((x) => x.size).sum,
     );
+    if (data.isInstalled) return data;
+
+    try {
+      final planned = await _packageKit.simulateInstall(data.missingIds);
+      final ids = planned.map((info) => info.packageId).toSet().toList();
+      return data.copyWith(size: await _getSize(ids));
+    } on Exception catch (error) {
+      log.warning('Could not estimate media support install size: $error');
+      final ids = packages.values
+          .whereType<PackageKitPackageInfo>()
+          .map((info) => info.packageId)
+          .toList();
+      try {
+        return data.copyWith(size: await _getSize(ids));
+      } on Exception catch (error) {
+        log.warning('Could not get media support package sizes: $error');
+        return data;
+      }
+    }
+  }
+
+  Future<int?> _getSize(List<PackageKitPackageId> ids) async {
+    if (ids.isEmpty) return null;
+    var size = 0;
+    // Details are keyed by name, so query architectures separately.
+    for (final group in ids.groupListsBy((id) => id.arch).values) {
+      final details = await _packageKit.getDetails(group);
+      if (group.any((id) => !details.containsKey(id.name))) return null;
+      size += details.values.map((detail) => detail.size).sum;
+    }
+    return size;
   }
 
   Future<void> install() => _runAction(
