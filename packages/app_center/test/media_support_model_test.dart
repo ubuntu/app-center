@@ -184,7 +184,7 @@ void main() {
       await model.cancel();
       verify(kit.cancelTransaction(7)).called(1);
       pending.completeError(
-        PackageKitTransactionError('cancelled', exit: PackageKitExit.cancelled),
+        PackageKitTransactionCancelled('cancelled'),
       );
       await action;
       expect(

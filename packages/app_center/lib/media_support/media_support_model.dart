@@ -161,7 +161,17 @@ class MediaSupportModel extends _$MediaSupportModel {
         ),
       );
       await _packageKit.waitTransaction(id);
-      state = AsyncData(await _load());
+      final load = await _load();
+      state = AsyncData(load);
+    } on PackageKitTransactionCancelled catch (_) {
+      state = AsyncData(
+        state.value!.copyWith(
+          activeTransactionId: null,
+          activeAction: null,
+          lastAction: action,
+          hasError: false,
+        ),
+      );
     } on PackageKitTransactionError catch (error) {
       state = AsyncData(
         state.value!.copyWith(
