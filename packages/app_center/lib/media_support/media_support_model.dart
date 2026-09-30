@@ -80,6 +80,7 @@ class MediaSupportModel extends _$MediaSupportModel {
       log.warning('Could not estimate media support install size: $error');
       final ids = packages.values
           .whereType<PackageKitPackageInfo>()
+          .where((info) => info.info != PackageKitInfo.installed)
           .map((info) => info.packageId)
           .toList();
       try {
