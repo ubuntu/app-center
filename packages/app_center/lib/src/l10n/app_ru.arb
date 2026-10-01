@@ -405,5 +405,60 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "addonsPageLabel": "Дополнения",
+    "addonsPageAdditionalDriversTitle": "Дополнительные драйверы",
+    "addonsPageAdditionalDriversDescription": "Добавление улучшенной поддержки видеокарт и другого оборудования",
+    "driversPageDescription": "Проприетарные драйверы содержат закрытый код, который разработчики Ubuntu не могут проанализировать или усовершенствовать. Обновления, связанные с безопасностью и другими аспектами, зависят от поставщика драйвера.",
+    "driversPageSectionUpdateAvailable": "Доступно обновление",
+    "driversPageSectionAvailable": "Доступные",
+    "driversPageSectionInstalled": "Установленные",
+    "driversPageSectionUnsupported": "Нет доступных драйверов",
+    "driversPageNoPackagesMessage": "Ни один пакет не содержит драйверов для этого устройства",
+    "driversPageDeviceClassGraphics": "Графика",
+    "driversPageDeviceClassNetwork": "Сеть",
+    "driversPageDeviceClassCamera": "Камера",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Хранилище",
+    "driversPageDeviceClassAudio": "Аудио",
+    "driversPageDeviceClassOther": "Другое",
+    "driversPageBranchProduction": "Промышленная среда",
+    "driversPageBranchLts": "Долгосрочная поддержка",
+    "driversPageBranchNewFeature": "Новые функции",
+    "driversPageVersionLabel": "Версия {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Требуется перезагрузка",
+    "driversPageRestartRequiredMessage": "Перезагрузите компьютер, чтобы завершить применение изменений в драйверах.",
+    "driversPageErrorLabel": "Ошибка",
+    "driversPageRetryLabel": "Повторить",
+    "driversPageNoDriversFoundMessage": "Используются встроенные драйверы. Дополнительных драйверов не обнаружено.",
+    "driversPageUnavailableTitle": "Управление драйверами недоступно",
+    "driversPageUnsupportedMessage": "Служба управления драйверами недоступна. Убедитесь, что snapd обновлен до последней версии и установлен пакет ubuntu-drivers-common.",
+    "driversPageSwitchBranchLabel": "Сменить ветку",
+    "driversPageSwitchBranchTitle": "Смена ветки",
+    "driversPageSwitchBranchProductionDescription": "Сочетает функционал и стабильность",
+    "driversPageSwitchBranchLtsDescription": "Максимальная стабильность для важных рабочих нагрузок",
+    "driversPageSwitchBranchNewFeatureDescription": "Предварительная версия, менее стабильная",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (рекомендуется)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "Эта ветка менее стабильна",
+    "driversPageSwitchBranchLessStableWarningMessage": "Оставайтесь на текущей ветке, чтобы избежать проблем с этим устройством.",
+    "driversPageSwitchLabel": "Сменить",
+    "driversPageSwitchingBranchLabel": "Выполняется смена ветки",
+    "driversPageUninstallTitle": "Удалить драйвер",
+    "driversPageUninstallWarningTitle": "Удаление драйверов может привести к возникновению проблем",
+    "driversPageUninstallWarningMessage": "Возможно, Вы не сможете легко переустановить драйверы, особенно если речь идёт о драйверах графики или сети.",
+    "driversPageUninstallAcknowledgeLabel": "Я осознаю риск"
 }
