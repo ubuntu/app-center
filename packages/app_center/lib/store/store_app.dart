@@ -233,6 +233,9 @@ class _StoreAppHome extends ConsumerWidget {
             builder: (_) => YaruDetailPage(
               appBar: searchField,
               body: SnapPage(snapName: StoreRoutes.snapOf(settings)!),
+              // body: UnifiedAppPage(
+              //   entry: AppDetailsEntry.snap(StoreRoutes.snapOf(settings)!),
+              // ),
             ),
           ),
           StoreRoutes.search => MaterialPageRoute(
