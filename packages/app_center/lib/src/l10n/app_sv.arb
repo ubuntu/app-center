@@ -456,7 +456,7 @@
     "driversPageSwitchBranchLessStableWarningTitle": "Det här spåret har mindre stabilitet",
     "driversPageSwitchBranchLessStableWarningMessage": "Stanna kvar i aktuellt spår för att slippa problem med den här enheten.",
     "driversPageSwitchLabel": "Byt",
-    "driversPageSwitchingBranchLabel": "Byter spår",
+    "driversPageSwitchingBranchLabel": "Byter gren",
     "driversPageUninstallTitle": "Avinstallera drivrutin",
     "driversPageUninstallWarningTitle": "Att avinstallera drivrutiner kan orsaka problem",
     "driversPageUninstallWarningMessage": "Du kanske inte kommer att kunna ominstallera drivrutinerna på ett smidigt sätt, särskilt om det gäller grafik eller nätverk.",
