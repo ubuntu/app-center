@@ -405,5 +405,60 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "addonsPageLabel": "Додатки",
+    "addonsPageAdditionalDriversTitle": "Додаткові драйвери",
+    "addonsPageAdditionalDriversDescription": "Забезпечити кращу підтримку відеокарт та іншого обладнання",
+    "driversPageDescription": "Пропрієтарні драйвери містять закритий код, який розробники Ubuntu не можуть перевірити чи вдосконалити. Оновлення безпеки та інші оновлення залежать від постачальника драйвера.",
+    "driversPageSectionUpdateAvailable": "Доступне оновлення",
+    "driversPageSectionAvailable": "Доступно",
+    "driversPageSectionInstalled": "Встановлено",
+    "driversPageSectionUnsupported": "Драйверів немає",
+    "driversPageNoPackagesMessage": "Жоден пакет не містить драйверів для цього пристрою",
+    "driversPageDeviceClassGraphics": "Графіка",
+    "driversPageDeviceClassNetwork": "Мережа",
+    "driversPageDeviceClassCamera": "Камера",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Сховище",
+    "driversPageDeviceClassAudio": "Аудіо",
+    "driversPageDeviceClassOther": "Інше",
+    "driversPageBranchProduction": "Виробництво",
+    "driversPageBranchLts": "Довготривала підтримка",
+    "driversPageBranchNewFeature": "Нові функції",
+    "driversPageVersionLabel": "Версія {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Потрібен перезапуск",
+    "driversPageRestartRequiredMessage": "Перезапустіть комп’ютер, щоб завершити застосування змін до драйверів.",
+    "driversPageErrorLabel": "Помилка",
+    "driversPageRetryLabel": "Повторити спробу",
+    "driversPageNoDriversFoundMessage": "Використання вбудованих драйверів. Додаткових драйверів не знайдено.",
+    "driversPageUnavailableTitle": "Управління драйверами недоступне",
+    "driversPageUnsupportedMessage": "Служба управління драйверами недоступна. Переконайтеся, що snapd оновлено до останньої версії та встановлено пакет ubuntu-drivers-common.",
+    "driversPageSwitchBranchLabel": "Перемкнути гілку",
+    "driversPageSwitchBranchTitle": "Перемкнути гілку",
+    "driversPageSwitchBranchProductionDescription": "Поєднання функціональності та стабільності",
+    "driversPageSwitchBranchLtsDescription": "Максимальна стабільність для критично важливих робочих навантажень",
+    "driversPageSwitchBranchNewFeatureDescription": "Попередній перегляд, менш стабільний",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (рекомендовано)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "Ця гілка є менш стабільною",
+    "driversPageSwitchBranchLessStableWarningMessage": "Залишайтеся на поточній гілці, щоб уникнути проблем із цим пристроєм.",
+    "driversPageSwitchLabel": "Перемикач",
+    "driversPageSwitchingBranchLabel": "Перемикання гілки",
+    "driversPageUninstallTitle": "Видалити драйвер",
+    "driversPageUninstallWarningTitle": "Видалення драйверів може спричинити проблеми",
+    "driversPageUninstallWarningMessage": "Можливо, вам не вдасться легко перевстановити драйвери, особливо якщо вони стосуються графіки чи мережі.",
+    "driversPageUninstallAcknowledgeLabel": "Я усвідомлюю ризик"
 }
