@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:app_center/addons/addons.dart';
@@ -85,7 +86,7 @@ class _StoreAppState extends ConsumerState<StoreApp>
           searchFocus.nextFocus();
         },
         LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyQ): () {
-          ServicesBinding.instance.exitApplication(AppExitType.cancelable);
+          unawaited(ServicesBinding.instance.exitApplication(AppExitType.cancelable));
         },
       },
       child: YaruTheme(
