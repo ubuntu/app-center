@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:app_center/addons/addons.dart';
 import 'package:app_center/deb/deb.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/games/games.dart';
@@ -7,6 +8,7 @@ import 'package:app_center/gstreamer/gstreamer.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/manage_page.dart';
+import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/search/search.dart';
 import 'package:app_center/snapd/snapd.dart';
@@ -28,7 +30,7 @@ final materialAppNavigatorKeyProvider = Provider(
 );
 
 final yaruPageControllerProvider = Provider(
-  (ref) => YaruPageController(length: pages.length),
+  (ref) => YaruPageController(length: ref.watch(storePagesProvider).length),
 );
 
 final routeNameProvider = StateProvider<String?>((ref) => null);
@@ -40,11 +42,35 @@ class StoreApp extends ConsumerStatefulWidget {
   ConsumerState<StoreApp> createState() => _StoreAppState();
 }
 
-class _StoreAppState extends ConsumerState<StoreApp> {
+class _StoreAppState extends ConsumerState<StoreApp>
+    with WidgetsBindingObserver {
   final _navigatorKey = GlobalKey<NavigatorState>();
   final searchFocus = FocusNode();
+  late Locale _locale;
 
   NavigatorState get _navigator => _navigatorKey.currentState!;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _locale = _resolveFontLocale(
+      WidgetsBinding.instance.platformDispatcher.locales,
+    );
+  }
+
+  @override
+  void didChangeLocales(List<Locale>? locales) {
+    final locale = _resolveFontLocale(locales);
+    if (locale != _locale) setState(() => _locale = locale);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    searchFocus.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,13 +87,15 @@ class _StoreAppState extends ConsumerState<StoreApp> {
       },
       child: YaruTheme(
         builder: (context, yaru, child) => MaterialApp(
-          theme: yaru.theme.customize(),
-          darkTheme: yaru.darkTheme.customize(),
+          theme: yaru.theme.customize(locale: _locale),
+          darkTheme: yaru.darkTheme.customize(locale: _locale),
           highContrastTheme: yaruHighContrastLight.customize(
             highContrast: true,
+            locale: _locale,
           ),
           highContrastDarkTheme: yaruHighContrastDark.customize(
             highContrast: true,
+            locale: _locale,
           ),
           debugShowCheckedModeBanner: false,
           localizationsDelegates: localizationsDelegates,
@@ -92,18 +120,28 @@ class _StoreAppState extends ConsumerState<StoreApp> {
   }
 }
 
+Locale _resolveFontLocale(List<Locale>? preferredLocales) {
+  final resolvedLocale = basicLocaleListResolution(
+    preferredLocales,
+    supportedLocales,
+  );
+  return preferredLocales
+          ?.where(
+            (locale) => locale.languageCode == resolvedLocale.languageCode,
+          )
+          .firstOrNull ??
+      resolvedLocale;
+}
+
 class _StoreAppHome extends ConsumerWidget {
-  const _StoreAppHome({
-    required this.navigatorKey,
-    required this.searchFocus,
-  });
+  const _StoreAppHome({required this.navigatorKey, required this.searchFocus});
 
   final GlobalKey<NavigatorState> navigatorKey;
   final FocusNode searchFocus;
 
   NavigatorState get navigator => navigatorKey.currentState!;
 
-  Future<void> _showError(BuildContext context, SnapdException e) {
+  Future<void> _showError(BuildContext context, Object e) {
     final errorMessage = ErrorMessage.fromObject(e);
     final title = errorMessage.title(AppLocalizations.of(context));
     final body = errorMessage.body(AppLocalizations.of(context));
@@ -124,13 +162,20 @@ class _StoreAppHome extends ConsumerWidget {
     final textScalar = MediaQuery.textScalerOf(context);
 
     ref.listen(errorStreamProvider, (_, error) {
-      if (error.hasValue && error.value is SnapdException) {
-        final snapdError = error.value as SnapdException;
+      if (!error.hasValue) return;
+      final value = error.value!;
+      if (value is SnapdException) {
         // Don't show an error if the user cancelled the auth dialog.
-        if (snapdError.kind == 'auth-cancelled') {
+        if (value.kind == 'auth-cancelled') {
           return;
         }
-        _showError(context, snapdError);
+        _showError(context, value);
+      } else if (value is PackageKitTransactionCancelled) {
+        // User cancelled (e.g. dismissed the polkit dialog) — not an error.
+        return;
+      } else if (value is PackageKitTransactionError ||
+          value is PackageKitServiceError) {
+        _showError(context, value);
       }
     });
 
@@ -155,9 +200,10 @@ class _StoreAppHome extends ConsumerWidget {
         initialRoute: ref.watch(initialRouteProvider),
         controller: ref.watch(yaruPageControllerProvider),
         tileBuilder: (context, index, selected, availableWidth) =>
-            pages[index].tileBuilder(context, selected),
-        pageBuilder: (context, index) =>
-            pages[index].pageBuilder(context, searchField),
+            ref.watch(storePagesProvider)[index].tileBuilder(context, selected),
+        pageBuilder: (context, index) => ref
+            .watch(storePagesProvider)[index]
+            .pageBuilder(context, searchField),
         paneLayoutDelegate: YaruResizablePaneDelegate(
           initialPaneSize: kPaneWidth * textScalar.scale(1),
           minPaneSize: kPaneWidth * textScalar.scale(1),
@@ -174,27 +220,21 @@ class _StoreAppHome extends ConsumerWidget {
             settings: settings,
             builder: (_) => YaruDetailPage(
               appBar: searchField,
-              body: DebPage(
-                id: StoreRoutes.debOf(settings)!,
-              ),
+              body: DebPage(id: StoreRoutes.debOf(settings)!),
             ),
           ),
           StoreRoutes.localDeb => MaterialPageRoute(
             settings: settings,
             builder: (_) => YaruDetailPage(
               appBar: searchField,
-              body: LocalDebPage(
-                path: StoreRoutes.localDebOf(settings)!,
-              ),
+              body: LocalDebPage(path: StoreRoutes.localDebOf(settings)!),
             ),
           ),
           StoreRoutes.snap => MaterialPageRoute(
             settings: settings,
             builder: (_) => YaruDetailPage(
               appBar: searchField,
-              body: SnapPage(
-                snapName: StoreRoutes.snapOf(settings)!,
-              ),
+              body: SnapPage(snapName: StoreRoutes.snapOf(settings)!),
             ),
           ),
           StoreRoutes.search => MaterialPageRoute(
@@ -216,10 +256,8 @@ class _StoreAppHome extends ConsumerWidget {
           ),
           StoreRoutes.manage => MaterialPageRoute(
             settings: settings,
-            builder: (_) => YaruDetailPage(
-              appBar: searchField,
-              body: const ManagePage(),
-            ),
+            builder: (_) =>
+                YaruDetailPage(appBar: searchField, body: const ManagePage()),
           ),
           StoreRoutes.gstreamer => MaterialPageRoute(
             settings: settings,
@@ -228,6 +266,17 @@ class _StoreAppHome extends ConsumerWidget {
               body: GStreamerPage(
                 resources: StoreRoutes.gstResourcesOf(settings),
               ),
+            ),
+          ),
+          StoreRoutes.additionalDrivers => MaterialPageRoute(
+            settings: settings,
+            builder: (_) => YaruDetailPage(
+              appBar: YaruWindowTitleBar(
+                border: BorderSide.none,
+                leading: _MaybeBackButton(navigatorKey),
+                title: Text(AdditionalDriversPage.label(context)),
+              ),
+              body: const AdditionalDriversPage(),
             ),
           ),
           _ => null,
@@ -256,18 +305,128 @@ class _MaybeBackButton extends ConsumerWidget {
 }
 
 extension StoreAppThemeX on ThemeData {
-  ThemeData customize({bool highContrast = false}) {
+  ThemeData customize({required Locale locale, bool highContrast = false}) {
+    final cjkFallback = _cjkFallbackFor(locale);
+    TextStyle? withFallback(TextStyle? style) =>
+        style?.apply(fontFamilyFallback: cjkFallback);
+    InputDecorationThemeData withInputFallback(
+      InputDecorationThemeData theme,
+    ) => theme.copyWith(
+      labelStyle: withFallback(theme.labelStyle),
+      floatingLabelStyle: withFallback(theme.floatingLabelStyle),
+      helperStyle: withFallback(theme.helperStyle),
+      hintStyle: withFallback(theme.hintStyle),
+      errorStyle: withFallback(theme.errorStyle),
+      prefixStyle: withFallback(theme.prefixStyle),
+      suffixStyle: withFallback(theme.suffixStyle),
+      counterStyle: withFallback(theme.counterStyle),
+    );
+    WidgetStateProperty<TextStyle?>? withStateFallback(
+      WidgetStateProperty<TextStyle?>? style,
+    ) => style == null
+        ? null
+        : WidgetStateProperty.resolveWith(
+            (states) => withFallback(style.resolve(states)),
+          );
+
     final base = copyWith(
-      inputDecorationTheme: inputDecorationTheme.copyWith(
+      textTheme: textTheme.apply(fontFamilyFallback: cjkFallback),
+      primaryTextTheme: primaryTextTheme.apply(fontFamilyFallback: cjkFallback),
+
+      appBarTheme: appBarTheme.copyWith(
+        toolbarTextStyle: withFallback(appBarTheme.toolbarTextStyle),
+        titleTextStyle: withFallback(appBarTheme.titleTextStyle),
+      ),
+
+      navigationRailTheme: navigationRailTheme.copyWith(
+        selectedLabelTextStyle: withFallback(
+          navigationRailTheme.selectedLabelTextStyle,
+        ),
+        unselectedLabelTextStyle: withFallback(
+          navigationRailTheme.unselectedLabelTextStyle,
+        ),
+      ),
+
+      listTileTheme: listTileTheme.copyWith(
+        titleTextStyle: withFallback(listTileTheme.titleTextStyle),
+        subtitleTextStyle: withFallback(listTileTheme.subtitleTextStyle),
+        leadingAndTrailingTextStyle: withFallback(
+          listTileTheme.leadingAndTrailingTextStyle,
+        ),
+      ),
+
+      chipTheme: chipTheme.copyWith(
+        labelStyle: withFallback(chipTheme.labelStyle),
+        secondaryLabelStyle: withFallback(chipTheme.secondaryLabelStyle),
+      ),
+      menuButtonTheme: MenuButtonThemeData(
+        style: menuButtonTheme.style?.copyWith(
+          textStyle: withStateFallback(menuButtonTheme.style?.textStyle),
+        ),
+      ),
+      snackBarTheme: snackBarTheme.copyWith(
+        contentTextStyle: withFallback(snackBarTheme.contentTextStyle),
+      ),
+      dropdownMenuTheme: dropdownMenuTheme.copyWith(
+        textStyle: withFallback(dropdownMenuTheme.textStyle),
+        inputDecorationTheme: dropdownMenuTheme.inputDecorationTheme == null
+            ? null
+            : withInputFallback(dropdownMenuTheme.inputDecorationTheme!),
+      ),
+      inputDecorationTheme: withInputFallback(inputDecorationTheme).copyWith(
         fillColor: colorScheme.surface,
         hoverColor: colorScheme.surface,
       ),
     );
 
-    final highContrastTheme = base.copyWith(
-      hintColor: colorScheme.onSurface,
-    );
+    final highContrastTheme = base.copyWith(hintColor: colorScheme.onSurface);
 
     return highContrast ? highContrastTheme : base;
   }
+}
+
+List<String> _cjkFallbackFor(Locale locale) {
+  const simplifiedChinese = 'Noto Sans CJK SC';
+  const traditionalChinese = 'Noto Sans CJK TC';
+  const hongKongChinese = 'Noto Sans CJK HK';
+  const japanese = 'Noto Sans CJK JP';
+  const korean = 'Noto Sans CJK KR';
+
+  return switch ((locale.languageCode, locale.scriptCode, locale.countryCode)) {
+    ('ja', _, _) => const [
+      japanese,
+      simplifiedChinese,
+      traditionalChinese,
+      hongKongChinese,
+      korean,
+    ],
+    ('ko', _, _) => const [
+      korean,
+      simplifiedChinese,
+      traditionalChinese,
+      hongKongChinese,
+      japanese,
+    ],
+    ('zh', _, 'HK') => const [
+      hongKongChinese,
+      traditionalChinese,
+      simplifiedChinese,
+      japanese,
+      korean,
+    ],
+    ('zh', 'Hant', _) || ('zh', _, 'TW') => const [
+      traditionalChinese,
+      hongKongChinese,
+      simplifiedChinese,
+      japanese,
+      korean,
+    ],
+    _ => const [
+      simplifiedChinese,
+      traditionalChinese,
+      hongKongChinese,
+      japanese,
+      korean,
+    ],
+  };
 }
