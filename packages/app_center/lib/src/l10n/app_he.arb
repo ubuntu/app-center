@@ -404,5 +404,13 @@
     "appPublishedUnknown": "לא ידוע",
     "appConfinementStrictTooltip": "ליישום הזה יש גישה מוגבלת למשאבים שלך. אפשר לשלוט בהרשאות שלו דרך יישום ההגדרות.",
     "appConfinementClassicTooltip": "היישום הזה משתמש בבידוד קלסי, מה שמעניק גישה מלאה למשאבים שלך. נפוץ ביישומי פיתוח.",
-    "appConfinementUnrestrictedTooltip": "ליישום הזה יש גישה מלאה למשאבים שלך."
+    "appConfinementUnrestrictedTooltip": "ליישום הזה יש גישה מלאה למשאבים שלך.",
+    "snapActionSwitchChannelTitle": "החלפת ערוץ עבור {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }

@@ -64,9 +64,6 @@ class LocalDebInfo with _$LocalDebInfo {
   }
 }
 
-final localDebFilterProvider = StateProvider.autoDispose<String>((_) => '');
-final showLocalSystemDebsProvider = StateProvider<bool>((_) => false);
-
 /// Returns all installed packages from PackageKit.
 @riverpod
 Future<List<PackageKitPackageEvent>> installedPackages(Ref ref) async {
