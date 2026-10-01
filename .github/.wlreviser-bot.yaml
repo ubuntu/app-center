@@ -1,0 +1,19 @@
+weblate:
+  api_url: https://hosted.weblate.org/api/
+  project: ubuntu-desktop-translations
+
+github:
+  repository: ubuntu/app-center
+
+ai:
+  api_url: https://openrouter.ai/api/v1
+  model: google/gemini-3.8-flash
+
+components:
+  - weblate_component: app-center
+    source_locale: en
+    context_locales: [de, fr, es]
+    format: arb
+    source_file: packages/app_center/lib/src/l10n/app_en.arb
+    path: packages/app_center/lib/src/l10n/app_{locale}.arb
+    push_after_commit: false
