@@ -19,8 +19,67 @@ class SnapReport extends StatefulWidget {
 
 class _SnapReportState extends State<SnapReport> {
   String? selectedReason;
+  bool _isSubmitting = false;
+  bool _hasDetails = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _detailsController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _detailsController.addListener(_onDetailsChanged);
+  }
+
+  @override
+  void dispose() {
+    _detailsController.removeListener(_onDetailsChanged);
+    _emailController.dispose();
+    _detailsController.dispose();
+    super.dispose();
+  }
+
+  void _onDetailsChanged() {
+    final hasDetails = _detailsController.text.isNotEmpty;
+    if (hasDetails != _hasDetails) {
+      setState(() => _hasDetails = hasDetails);
+    }
+  }
+
+  Future<void> _submitReport() async {
+    setState(() => _isSubmitting = true);
+
+    const url =
+        'https://docs.google.com/forms/d/e/1FAIpQLSelELZwXzvnDkx52GL7cpnQyWdc_Te6APDs843gIKRBHbh6jA/formResponse';
+
+    final headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+    final requestBody = <String, String>{
+      'entry.1703677219': widget.snapName,
+      'entry.1193754313': selectedReason!,
+      'entry.1170971435': _detailsController.text,
+      'entry.1424146082': _emailController.text,
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: headers,
+        body: requestBody,
+      );
+      if (response.statusCode != 200) {
+        log.error(
+          'Snap reporting for snap "${widget.name}" failed with HTTP Code ${response.statusCode}',
+        );
+      }
+    } finally {
+      if (mounted) {
+        // TODO: fix async gap
+        // ignore: use_build_context_synchronously
+        Navigator.of(context).pop();
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -183,42 +242,17 @@ class _SnapReportState extends State<SnapReport> {
                   ),
                   const SizedBox(width: kPagePadding),
                   ElevatedButton(
-                    onPressed: () async {
-                      if (selectedReason == null ||
-                          _detailsController.text.isEmpty) {
-                        return;
-                      }
-
-                      const url =
-                          'https://docs.google.com/forms/d/e/1FAIpQLSelELZwXzvnDkx52GL7cpnQyWdc_Te6APDs843gIKRBHbh6jA/formResponse';
-
-                      final headers = {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                      };
-                      final requestBody = <String, String>{
-                        'entry.1703677219': widget.snapName,
-                        'entry.1193754313': selectedReason!,
-                        'entry.1170971435': _detailsController.text,
-                        'entry.1424146082': _emailController.text,
-                      };
-
-                      final response = await http.post(
-                        Uri.parse(url),
-                        headers: headers,
-                        body: requestBody,
-                      );
-                      if (response.statusCode != 200) {
-                        log.error(
-                          'Snap reporting for snap "${widget.name}" failed with HTTP Code ${response.statusCode}',
-                        );
-                      }
-                      if (mounted) {
-                        // TODO: fix async gap
-                        // ignore: use_build_context_synchronously
-                        Navigator.of(context).pop();
-                      }
-                    },
-                    child: Text(l10n.snapReportSubmitButtonLabel),
+                    onPressed:
+                        _isSubmitting || selectedReason == null || !_hasDetails
+                        ? null
+                        : _submitReport,
+                    child: _isSubmitting
+                        ? const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : Text(l10n.snapReportSubmitButtonLabel),
                   ),
                 ],
               ),
