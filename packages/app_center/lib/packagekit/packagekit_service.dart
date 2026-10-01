@@ -282,6 +282,33 @@ class PackageKitService {
         action: (transaction) => transaction.installPackages(packageId),
       );
 
+  /// Returns packages an install would add or replace, without installing them.
+  Future<List<PackageKitPackageInfo>> simulateInstall(
+    Iterable<PackageKitPackageId> packageIds,
+  ) async {
+    if (packageIds.isEmpty) return [];
+
+    final packages = <PackageKitPackageInfo>[];
+    await _createTransaction(
+      action: (transaction) => transaction.installPackages(
+        packageIds,
+        transactionFlags: {PackageKitTransactionFlag.simulate},
+      ),
+      listener: (event) {
+        if (event is PackageKitPackageEvent &&
+            {
+              PackageKitInfo.installing,
+              PackageKitInfo.updating,
+              PackageKitInfo.downgrading,
+              PackageKitInfo.reinstalling,
+            }.contains(event.info)) {
+          packages.add(event);
+        }
+      },
+    ).then(waitTransaction);
+    return packages;
+  }
+
   /// Creates a transaction that installs the local package given by `path` and
   /// returns the transaction ID.
   Future<int> installLocal(String path) async {
