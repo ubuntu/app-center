@@ -416,7 +416,7 @@
     "driversPageDeviceClassStorage": "Biltegiratzea",
     "driversPageDeviceClassAudio": "Audioa",
     "driversPageDeviceClassOther": "Bestelakoa",
-    "driversPageBranchNewFeature": "Eginbide berriak",
+    "driversPageBranchNewFeature": "Ezaugarri berriak",
     "driversPageVersionLabel": "{version} bertsioa",
     "@driversPageVersionLabel": {
         "placeholders": {
