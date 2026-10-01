@@ -78,7 +78,7 @@
     "managePagePackageTypeSnap": "Snap",
     "managePagePackageTypeDeb": "Deb",
     "managePageUpdateAllLabel": "Hamısını yenilə",
-    "managePageDebUpdatesMessage": "Debian paket yenilənmələri Proqram Təminatı Mərkəzi tərəfindən emal olunur.",
+    "managePageDebUpdatesMessage": "Debian paket yenilənmələri Proqram Təminatı Yeniləyicisi tərəfindən idarə olunur.",
     "managePageDescription": "Mövcud yeniləmələri yoxlayın, tətbiqlərinizi yeniləyin və bütün tətbiqlərinizin vəziyyətini idarə edin.",
     "managePageUpdatedDaysAgo": "{n, plural, =1{{n} gün} other{{n} gün}} əvvəl yenilənib",
     "@managePageUpdatedDaysAgo": {
@@ -302,7 +302,7 @@
     "snapSortOrderRelevance": "Uyğunluq",
     "snapRatingsBandVeryGood": "Çox yaxşı",
     "snapRatingsBandGood": "Yaxşı",
-    "snapRatingsBandNeutral": "Ortabab",
+    "snapRatingsBandNeutral": "Neytral",
     "snapRatingsBandPoor": "Pis",
     "snapRatingsBandVeryPoor": "Çox pis",
     "snapRatingsBandInsufficientVotes": "Kifayət qədər səs yoxdur",
@@ -409,7 +409,7 @@
     "driversPageSwitchBranchLabel": "Budağı dəyiş",
     "driversPageSwitchBranchTitle": "Budağı dəyiş",
     "driversPageSwitchBranchProductionDescription": "Özəlliklər və sabitlik balansını təmin edir",
-    "driversPageSwitchBranchLtsDescription": "Böhranlı iş yükləri üçün maksimum sabitlik",
+    "driversPageSwitchBranchLtsDescription": "Kritik iş yükləri üçün maksimum sabitlik",
     "driversPageSwitchBranchNewFeatureDescription": "Sınaq versiyası, daha az stabil",
     "driversPageSwitchBranchRecommendedLabel": "{branch} (məsləhət görülür)",
     "@driversPageSwitchBranchRecommendedLabel": {
