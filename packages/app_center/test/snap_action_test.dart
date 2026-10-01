@@ -15,12 +15,38 @@ void main() {
           SnapAction.revert.label(l10n),
           equals(l10n.snapActionRevertLabel),
         );
+        expect(
+          SnapAction.removePurge.label(l10n),
+          equals(l10n.snapActionPurgeLabel),
+        );
         return const SizedBox.shrink();
       });
     });
 
     test('revert action has correct icon', () {
       expect(SnapAction.revert.icon, equals(YaruIcons.undo));
+    });
+
+    test('removePurge action has correct icon', () {
+      expect(SnapAction.removePurge.icon, equals(YaruIcons.trash));
+    });
+
+    test('removePurge callback invokes remove with purge', () async {
+      final container = createContainer();
+      final service = registerMockSnapdService(
+        localSnap: createSnap(name: 'test'),
+      );
+      final model = container.read(snapModelProvider('test').notifier);
+      await container.read(snapModelProvider('test').future);
+      final snapData = SnapData(
+        name: 'test',
+        localSnap: createSnap(name: 'test'),
+      );
+
+      final callback = SnapAction.removePurge.callback(snapData, model);
+      expect(callback, isNotNull);
+      await callback!();
+      verify(service.remove('test', purge: true)).called(1);
     });
 
     test(

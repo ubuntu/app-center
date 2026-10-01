@@ -152,9 +152,11 @@ class SnapModel extends _$SnapModel {
   }
 
   /// Uninstalls the snap.
-  Future<void> remove() async {
+  ///
+  /// If [purge] is `true`, all user data associated with the snap is also removed.
+  Future<void> remove({bool purge = false}) async {
     assert(state.hasValue, 'The snap must be loaded before removing it');
-    final changeId = await _snapd.remove(snapName);
+    final changeId = await _snapd.remove(snapName, purge: purge);
     _updateChangeId(changeId);
     await _listenUntilDone(changeId, ref);
     ref.read(snapUpdatesModelProvider.notifier).removeFromList(snapName);
