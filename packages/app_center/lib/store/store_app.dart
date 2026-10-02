@@ -4,7 +4,6 @@ import 'package:app_center/addons/addons.dart';
 import 'package:app_center/deb/deb.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/games/games.dart';
-import 'package:app_center/gstreamer/gstreamer.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/manage_page.dart';
@@ -259,15 +258,6 @@ class _StoreAppHome extends ConsumerWidget {
             settings: settings,
             builder: (_) =>
                 YaruDetailPage(appBar: searchField, body: const ManagePage()),
-          ),
-          StoreRoutes.gstreamer => MaterialPageRoute(
-            settings: settings,
-            builder: (_) => YaruDetailPage(
-              appBar: searchField,
-              body: GStreamerPage(
-                resources: StoreRoutes.gstResourcesOf(settings),
-              ),
-            ),
           ),
           StoreRoutes.additionalDrivers => MaterialPageRoute(
             settings: settings,
