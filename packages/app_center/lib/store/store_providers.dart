@@ -33,7 +33,7 @@ String? _parseRoute(List<String>? args) {
     'gst',
     splitCommas: false,
     valueHelp: 'gstreamer resource tuple',
-    help: 'Install a set of gstreamer resources',
+    help: 'Show media support for gstreamer resources',
   );
 
   try {
@@ -67,7 +67,7 @@ String? _parseRoute(List<String>? args) {
 
     final gstResources = result.multiOption('gst');
     if (gstResources.isNotEmpty) {
-      return StoreRoutes.namedGStreamer(resources: gstResources);
+      return StoreRoutes.mediaSupport;
     }
   } on FormatException {
     // TODO: print usage
