@@ -359,7 +359,6 @@ void main() {
         child: StoreApp(),
       ),
     );
-    // Ton application déclenche un timer de 100 ms dans l'autocomplete.
 
     await tester.sendKeyDownEvent(LogicalKeyboardKey.controlLeft);
     await tester.sendKeyDownEvent(LogicalKeyboardKey.keyQ);
@@ -393,8 +392,6 @@ class TestAppBinding extends AutomatedTestWidgetsFlutterBinding {
     requestedExitType = exitType;
     requestedExitCode = exitCode;
 
-    // On simule une annulation afin que le processus de test
-    // ne soit jamais réellement arrêté.
     return AppExitResponse.cancel;
   }
 }
