@@ -123,6 +123,16 @@ class PackageBackendException implements Exception {
   String toString() => 'PackageBackendException: $message';
 }
 
+/// The package has neither an installed copy nor store metadata.
+class PackageSourceNotFound implements Exception {
+  const PackageSourceNotFound(this.key);
+
+  final SourceKey key;
+
+  @override
+  String toString() => 'PackageSourceNotFound(${key.value})';
+}
+
 /// Like `AsyncValue.whenData`, but keeps the previous value on error/reload.
 AsyncValue<R> mapAsyncValue<T, R>(
   AsyncValue<T> source,

@@ -101,6 +101,54 @@ void main() {
     );
   });
 
+  group('not found', () {
+    AsyncError<PackageSourceSnapshot> notFound(SourceKey key) =>
+        AsyncError(PackageSourceNotFound(key), StackTrace.empty);
+
+    test('when every source is gone', () async {
+      container = create();
+      container.read(fakeSnapshotProvider(testSnapKey).notifier).state =
+          notFound(testSnapKey);
+      container.read(fakeSnapshotProvider(testDebKey).notifier).state =
+          notFound(testDebKey);
+      open();
+      await settle();
+
+      expect(async().error, isA<AppNotFound>());
+    });
+
+    test('not while another source remains', () async {
+      container = create();
+      container
+          .read(fakeSnapshotProvider(testSnapKey).notifier)
+          .state = notFound(
+        testSnapKey,
+      ).copyWithPrevious(AsyncData(createSourceSnapshot(testSnapKey)));
+      setSnapshot(
+        testDebKey,
+        createSourceSnapshot(testDebKey, installState: _installed),
+      );
+      open();
+      await settle();
+
+      expect(view().activePackage.format, PackageFormat.deb);
+    });
+
+    test('not for other source errors', () async {
+      container = create();
+      for (final key in [testSnapKey, testDebKey]) {
+        container.read(fakeSnapshotProvider(key).notifier).state = AsyncError(
+          Exception('offline'),
+          StackTrace.empty,
+        );
+      }
+      open();
+      await settle();
+
+      expect(async().error, isNot(isA<AppNotFound>()));
+    });
+  });
+
   test('installs the active package', () async {
     final initial = await start(
       snap: createSourceSnapshot(testSnapKey),

@@ -60,6 +60,10 @@ class AppDetailsModel extends _$AppDetailsModel {
           key: ref.watch(backend.snapshot(key)),
     };
     final operations = ref.watch(packageOperationCoordinatorProvider);
+    if (snapshots.isNotEmpty &&
+        snapshots.values.every((s) => s.error is PackageSourceNotFound)) {
+      return AsyncError(AppNotFound(entry), StackTrace.current);
+    }
     final snapKey = keys.firstWhereOrNull(
       (key) => key.format == PackageFormat.snap,
     );

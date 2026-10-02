@@ -251,6 +251,20 @@ void main() {
       expect(value.valueOrNull?.installState, InstallState.notInstalled);
       expect(value.valueOrNull?.appName, isA<FieldFailed<String>>());
     });
+
+    test('snap with no local or store data is not found', () async {
+      final service = registerMockSnapdService();
+      when(service.getSnap(any)).thenThrow(
+        SnapdException(message: 'not installed', kind: 'snap-not-found'),
+      );
+      final container = createContainer();
+      container.listen(snapSourceSnapshotProvider('testsnap'), (_, _) {});
+      await settle();
+
+      final value = container.read(snapSourceSnapshotProvider('testsnap'));
+      expect(value.error, isA<PackageSourceNotFound>());
+      expect(value.valueOrNull?.installState, InstallState.notInstalled);
+    });
   });
 
   group('commands', () {

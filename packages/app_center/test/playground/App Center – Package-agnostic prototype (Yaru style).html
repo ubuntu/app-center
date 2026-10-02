@@ -1,0 +1,2465 @@
+<!DOCTYPE html>
+<!-- saved from url=(0090)https://silver-carnival-qw7el8k.pages.github.io/26.10/appcenter/package-agnostic-yaru.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="App Center package-agnostic prototype, restyled with Yaru theme colors and typography.">
+  <meta name="color-scheme" content="light only">
+  <title>App Center – Package-agnostic prototype (Yaru style)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="stylesheet" href="./App Center – Package-agnostic prototype (Yaru style)_files/css2">
+  <style>
+    :root {
+      color-scheme: light only;
+      --bg: #ffffff;
+      --surface: #fff;
+      --border: #e5e5e5;
+      --text: #1a1a1a;
+      --muted: #656565;
+      --accent: #e95420;
+      --link: #1c71d8;
+      --soft: #fdf1ec;
+      --warn-bg: rgba(249,155,17,.1);
+      --warn-border: #f99b11;
+      --green: #0e8420;
+      --green-hover: #208e32;
+      --chrome-bg: #ffffff;
+      --sidebar-bg: #ffffff;
+      --nav-hover: #f2f2f2;
+      --nav-active: #f2f2f2;
+      /* Yaru "Button" component (Figma: Yaru - Core component library) */
+      --button-radius: 6px;
+      --button-height: 36px;
+      --button-padding-x: 15px;
+      --button-gap: 8px;
+      --outline: #ccc;
+      --focus-ring: #e95420;
+      font-family: 'Ubuntu Sans', 'Ubuntu', system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--text); background: var(--bg); display: flex; align-items: flex-start; }
+    button, select { font: inherit; cursor: pointer; }
+    a { color: var(--link); }
+    p { margin: 0; line-height: 1.48; }
+
+    /* ─── App viewport (chrome + shell) takes the remaining width next to the prototype sidebar ─── */
+    .app-viewport { flex: 1; min-width: 0; }
+
+    /* ─── Prototype control sidebar ─────────────────────── */
+    .proto-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      width: 280px;
+      flex-shrink: 0;
+      min-height: 100vh;
+      max-height: 100vh;
+      overflow-y: auto;
+      background: #202020;
+      border-right: 1px solid rgba(255,255,255,.12);
+    }
+    .proto-bar {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 6px;
+      padding: 16px;
+      background: #202020;
+      color: white;
+      font-size: 12px;
+    }
+    .proto-label { color: rgba(255,255,255,.6); letter-spacing: .04em; text-transform: uppercase; font-size: 11px; margin-top: 12px; }
+    .proto-label:first-child { margin-top: 0; }
+    .proto-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 7px 12px;
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 8px;
+      background: transparent;
+      color: white;
+      font-size: 12px;
+    }
+    .proto-btn.active {
+      background: white;
+      border-color: white;
+      color: #202020;
+      font-weight: 500;
+    }
+    .proto-btn:hover:not(.active) { border-color: white; color: white; }
+    .proto-sep { display: none; }
+
+    .proto-fidelity-note {
+      padding: 10px 12px;
+      background: rgba(229,165,10,.12);
+      border: 1px solid rgba(229,165,10,.4);
+      border-radius: 8px;
+      font-size: 11.5px;
+      line-height: 1.5;
+    }
+    .proto-fidelity-note strong { display: block; margin-bottom: 4px; color: #f0c419; }
+    .proto-fidelity-note p { margin: 0; color: rgba(255,255,255,.75); }
+
+    /* ─── Additional info 5-col metadata grid (matches App Center screenshot) ─ */
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 24px;
+      margin-top: 20px;
+    }
+
+    .meta-grid div { display: grid; gap: 6px; }
+    .meta-grid a { display: block; }
+
+    /* ─── Approach A: compact info card for the alternative format ──── */
+    .alt-card {
+      margin-top: 18px;
+      padding: 16px 18px;
+      background: var(--soft);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .alt-card-title { font-size: 15px; margin-bottom: 12px; line-height: 1.5; }
+
+    .alt-facts-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 28px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .alt-facts-row strong { color: var(--text); }
+
+    /* ─── Shell ───────────────────────────────────────── */
+    .shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 200px 1fr;
+    }
+
+    aside {
+      padding: 12px 8px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border);
+    }
+
+    .sidebar-title {
+      padding: 10px 14px 14px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    nav {
+      position: sticky;
+      top: 56px;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .nav-icon { width: 16px; height: 16px; flex-shrink: 0; opacity: .6; }
+
+    .nav:hover { background: var(--nav-hover); }
+    .nav:hover .nav-icon { opacity: .85; }
+    .nav:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+    .nav.active { color: var(--text); font-weight: 500; background: rgba(54,54,54,.08); }
+    .nav.active .nav-icon { opacity: .85; }
+    .nav-spacer { height: 8px; }
+
+    main {
+      width: min(1220px, calc(100vw - 260px - 280px));
+      margin: auto;
+      padding: 0 32px 60px;
+    }
+
+    /* ─── GNOME-style app headerbar ─────────────────────────── */
+    .app-chrome {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 47px;
+      padding: 0 14px;
+      background: var(--chrome-bg);
+    }
+
+    .chrome-back {
+      background: none;
+      border: 0;
+      padding: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chrome-back img { width: 16px; height: 16px; display: block; }
+    .chrome-back:hover { background: var(--nav-hover); }
+
+    .chrome-search {
+      display: flex;
+      align-items: center;
+      height: var(--button-height);
+      background: var(--surface);
+      border: 1px solid var(--outline);
+      border-radius: 4px;
+      padding: 0 8px;
+      gap: 8px;
+      width: 320px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .chrome-controls { display: flex; gap: 14px; align-items: center; }
+
+    .chrome-ctrl {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 0;
+      background: none;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .chrome-ctrl img { width: 24px; height: 24px; display: block; }
+    .chrome-ctrl:hover { background: var(--nav-hover); }
+
+    .back {
+      border: 0;
+      color: var(--muted);
+      background: none;
+      font-size: 27px;
+      padding: 0 6px;
+    }
+
+    .card {
+      margin-top: 0;
+      padding: 28px;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+    }
+
+    main > section.card:first-child { padding-top: 32px; }
+
+    /* ─── Hero ────────────────────────────────────────── */
+    .hero {
+      display: grid;
+      grid-template-columns: 145px 1fr;
+      gap: 28px;
+    }
+
+    .app-icon {
+      width: 130px;
+      height: 130px;
+      object-fit: contain;
+    }
+
+    h1 { margin: 4px 0 7px; font-size: 24px; font-weight: 500; }
+    h2 { margin: 0; font-size: 15px; font-weight: 500; }
+
+    .summary { margin-bottom: 8px; font-size: 17px; }
+    .publisher-line { color: var(--muted); font-size: 14px; }
+    .verified { color: var(--link); font-weight: normal; }
+
+    .install-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+
+    .actions {
+      position: relative;
+      display: flex;
+      gap: 7px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--button-gap);
+      height: var(--button-height);
+      padding: 0 var(--button-padding-x);
+      border: 0;
+      border-radius: var(--button-radius);
+      color: white;
+      font-weight: 500;
+      background: var(--green);
+    }
+
+    .btn-primary:hover { background: var(--green-hover); }
+    .btn-primary:disabled { opacity: .5; cursor: default; pointer-events: none; }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--button-gap);
+      height: var(--button-height);
+      padding: 0 var(--button-padding-x);
+      border: 1px solid var(--outline);
+      border-radius: var(--button-radius);
+      color: var(--text);
+      background: var(--surface);
+    }
+
+    .btn-secondary:hover { background: var(--nav-hover); }
+    .btn-secondary:disabled { opacity: .5; cursor: default; pointer-events: none; }
+
+    .btn-primary:focus-visible, .btn-secondary:focus-visible, .btn-more:focus-visible {
+      outline: 2px solid var(--focus-ring);
+      outline-offset: 2px;
+    }
+
+    .btn-more {
+      width: var(--button-height);
+      height: var(--button-height);
+      border: 1px solid var(--outline);
+      border-radius: var(--button-radius);
+      background: var(--surface);
+      font-size: 19px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-more:hover, .btn-more[aria-expanded=true] {
+      background: var(--nav-hover);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      z-index: 5;
+      top: calc(100% + 6px);
+      right: 0;
+      min-width: 220px;
+      padding: 4px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      box-shadow: 0 4px 16px rgba(0,0,0,.12);
+    }
+
+    .dropdown-menu button {
+      display: block;
+      width: 100%;
+      padding: 10px 12px;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      text-align: left;
+      border-radius: 6px;
+    }
+
+    .dropdown-menu button:hover { background: var(--nav-hover); }
+    .dropdown-menu button:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; }
+
+    .rec-line { font-size: 14px; }
+    .rec-line span { color: var(--muted); }
+
+    /* ─── Image placeholders (neutral, still wireframe content) ──── */
+    .img-placeholder {
+      background: var(--nav-hover);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    /* Info panel: thin borders above and below to visually frame the metadata strip */
+    .info-panel { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .info-panel {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 0;
+    }
+
+    /* Rating cell adds a 5th column; only shown for formats with store reviews (Snap) */
+    .info-panel.has-rating { grid-template-columns: repeat(5, 1fr); }
+
+    .info-cell {
+      display: grid;
+      gap: 6px;
+      padding: 14px 16px;
+    }
+
+    /* column dividers: NONE — real App Center has no vertical lines between cells */
+
+    .label { color: var(--muted); font-size: 12px; }
+    /* Strip bold from all metadata value cells */
+    .info-cell strong, .meta-grid div strong { font-weight: normal; }
+
+    /* Long version strings are truncated with an ellipsis + custom hover tooltip (data-tip). */
+    #info-version { display: block; max-width: 100%; }
+
+    .truncate-tip {
+      position: relative;
+      display: inline-block;
+      max-width: 100%;
+      cursor: help;
+    }
+
+    .truncate-tip .truncate-inner {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .truncate-tip:hover::after {
+      content: attr(data-tip);
+      position: absolute;
+      left: 0;
+      bottom: 100%;
+      margin-bottom: 6px;
+      background: #2b2b2b;
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      line-height: 1.4;
+      white-space: nowrap;
+      z-index: 30;
+      box-shadow: 0 2px 6px rgba(0,0,0,.25);
+    }
+
+    .truncate-version { max-width: 150px; }
+
+    /* Permissions info-cell: icon (sandboxed only) + hover tooltip explaining the access level */
+    .perms-value {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: help;
+    }
+
+    .perms-icon { font-size: 13px; }
+
+    .perms-value:hover::after {
+      content: attr(data-tip);
+      position: absolute;
+      left: 0;
+      top: 100%;
+      margin-top: 6px;
+      background: #2b2b2b;
+      color: #fff;
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      line-height: 1.4;
+      white-space: normal;
+      width: 220px;
+      z-index: 30;
+      box-shadow: 0 2px 6px rgba(0,0,0,.25);
+    }
+
+    .stars { color: var(--accent); letter-spacing: 1px; font-size: 15px; }
+
+    /* ─── Gallery ─────────────────────────────────────── */
+    .gallery-head, .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .gallery-grid img {
+      width: 100%;
+      height: 100%;
+      min-height: 170px;
+      object-fit: cover;
+      border-radius: 5px;
+      background: #eee;
+    }
+
+    /* ─── Description ─────────────────────────────────── */
+    .copy p + p { margin-top: 13px; }
+    ul { margin: 8px 0 0; padding-left: 20px; line-height: 1.6; }
+
+    /* ─── Other formats section ───────────────────────── */
+    .formats-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .formats-table th {
+      text-align: left;
+      padding: 8px 14px;
+      color: var(--muted);
+      font-weight: 400;
+      font-size: 12px;
+      border-bottom: 1px solid var(--border);
+      letter-spacing: .03em;
+      text-transform: uppercase;
+    }
+
+    .formats-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    .formats-table tr:last-child td { border-bottom: 0; }
+
+    .fmt-name { font-weight: 500; }
+
+    /* Badges: plain text only in wireframe mode */
+    .badge { font-size: 13px; }
+    .badge-snap { color: inherit; }
+    .badge-deb  { color: inherit; }
+
+    .learn-more-link {
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .table-link-btn {
+      background: none;
+      border: none;
+      padding: 0;
+      margin-top: 2px;
+      font: inherit;
+      font-size: 12px;
+      color: var(--link);
+      cursor: pointer;
+    }
+    .table-link-btn:hover { text-decoration: underline; }
+
+    /* ─── Warning banner ──────────────────────────────── */
+    .warning-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 13px 16px;
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-border);
+      border-radius: 6px;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .warning-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+
+    /* ─── Metadata grid ───────────────────────────────── */
+    .metadata {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .metadata div { display: grid; gap: 6px; }
+
+    /* ─── Modal ───────────────────────────────────────── */
+    dialog {
+      width: min(780px, calc(100vw - 30px));
+      padding: 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      background: var(--surface);
+      box-shadow: 0 12px 40px rgba(0,0,0,.25);
+    }
+
+    dialog::backdrop { background: rgba(0,0,0,.45); }
+
+    .dialog-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dialog-head h2 { font-size: 20px; }
+
+    .btn-close {
+      width: 30px;
+      height: 30px;
+      border: 0;
+      border-radius: 50%;
+      background: var(--nav-hover);
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-close:hover { background: var(--nav-active); }
+
+    .modal-warning-bar {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 16px 24px 0;
+      padding: 12px 16px;
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-border);
+      border-radius: 6px;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    /* Modal comparison table */
+    .modal-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+
+    .modal-table th {
+      text-align: left;
+      padding: 9px 16px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 400;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+
+    .modal-table th:first-child { width: 44px; }
+
+    .modal-table td {
+      padding: 15px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+      font-size: 14px;
+    }
+
+    .modal-table tr:last-child td { border-bottom: 0; }
+
+    .modal-table tr.row-selected td { background: var(--soft); }
+    .modal-table tr:hover:not(.row-selected) td { background: var(--bg); }
+    .modal-table tr.row-disabled { opacity: .5; }
+    .modal-table tr.row-disabled td { cursor: not-allowed; }
+
+    .modal-table input[type=radio] {
+      accent-color: var(--accent);
+      width: 17px;
+      height: 17px;
+      cursor: pointer;
+    }
+
+    .tag-installed {
+      font-size: 11px;
+      margin-left: 4px;
+      color: var(--green);
+      font-weight: 500;
+    }
+
+    .track-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 7px;
+    }
+
+    .track-row .label { font-size: 12px; }
+
+    /* ─── Search bar: unified autocomplete, no format grouping (DE92 target flow) ─── */
+    .chrome-search { position: relative; }
+    .chrome-search input {
+      flex: 1;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      font: inherit;
+      color: var(--text);
+      width: 100%;
+    }
+    .chrome-search input::placeholder { color: var(--muted); }
+
+    .search-dropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.18);
+      overflow: hidden;
+      z-index: 30;
+    }
+
+    .search-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 10px 14px;
+      border: 0;
+      background: none;
+      text-align: left;
+      font-size: 14px;
+      color: var(--text);
+    }
+    .search-row:hover { background: var(--nav-hover); }
+
+    .search-row-seeall { color: var(--link); border-top: 1px solid var(--border); font-size: 13px; background: var(--nav-hover); }
+
+    .search-empty { padding: 14px; font-size: 13px; color: var(--muted); }
+
+    /* Icon placeholder used in both the autocomplete dropdown and the results grid */
+    .app-icon-swatch {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 22%;
+      color: #fff;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ─── Search results page (inline, replaces the app detail view while active) ─── */
+    .search-results-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin: 24px 0 20px;
+    }
+    .search-results-head h1 { font-size: 22px; }
+    .search-results-controls { display: flex; gap: 16px; }
+    .search-control { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+    .search-control select {
+      height: var(--button-height);
+      padding: 0 10px;
+      border: 1px solid var(--outline);
+      border-radius: 4px;
+      background: var(--surface);
+      font-size: 14px;
+    }
+    .search-control select:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+
+    .search-results-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .result-card {
+      display: flex;
+      gap: 14px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      text-align: left;
+    }
+    .result-card:hover { border-color: var(--muted); box-shadow: 0 2px 10px rgba(0,0,0,.06); }
+    .result-card-body { display: flex; flex-direction: column; gap: 2px; }
+    .result-card-name { font-size: 15px; font-weight: 500; }
+    .result-card-publisher { font-size: 13px; color: var(--muted); }
+    .result-card-desc { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+    /* ─── Explore page: Featured Apps banner, no format branding (DE92 target flow) ─── */
+    .featured-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 36px 40px;
+      margin-top: 20px;
+      border-radius: 14px;
+      background: linear-gradient(120deg, #362664 0%, #1c6f6a 55%, #3ecf8e 100%);
+      color: #fff;
+    }
+    .featured-banner-text h1 { font-size: 26px; color: #fff; }
+    .featured-banner-btn {
+      margin-top: 16px;
+      padding: 8px 18px;
+      border: 1px solid rgba(255,255,255,.7);
+      border-radius: 999px;
+      background: transparent;
+      color: #fff;
+      font-size: 14px;
+    }
+    .featured-banner-btn:hover { background: rgba(255,255,255,.12); }
+    .featured-banner-icons { display: flex; gap: 12px; flex-shrink: 0; }
+    .featured-icon-card {
+      display: flex;
+      padding: 10px;
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 4px 14px rgba(0,0,0,.18);
+    }
+
+    /* ─── Manage page: Updates available + Installed apps, all formats,
+       no mandatory format filter (DE92 target flow) ─── */
+    .nav-badge {
+      margin-left: auto;
+      background: var(--green);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 5px;
+    }
+
+    .manage-section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 24px 0 14px;
+    }
+    #manage-view h1 + .manage-section-head { margin-top: 0; }
+
+    .manage-controls {
+      display: flex;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .manage-search-input {
+      height: var(--button-height);
+      padding: 0 16px;
+      border: 1px solid var(--outline);
+      border-radius: 4px;
+      background: var(--surface);
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+      min-width: 200px;
+    }
+    .manage-search-input:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+
+    .toggle-switch { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text); cursor: pointer; }
+    .toggle-switch input {
+      appearance: none;
+      width: 34px;
+      height: 20px;
+      border-radius: 999px;
+      background: var(--border);
+      position: relative;
+      outline: 0;
+      cursor: pointer;
+      transition: background .15s;
+      flex-shrink: 0;
+    }
+    .toggle-switch input::before {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #fff;
+      transition: transform .15s;
+      box-shadow: 0 1px 2px rgba(0,0,0,.3);
+    }
+    .toggle-switch input:checked { background: var(--accent); }
+    .toggle-switch input:checked::before { transform: translateX(14px); }
+
+    .manage-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 4px;
+      border-bottom: 1px solid var(--border);
+    }
+    .manage-row:last-child { border-bottom: 0; }
+    .manage-row-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+    .manage-row-name, .manage-row-meta { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .manage-row-name { font-size: 14px; font-weight: 500; }
+    .manage-row-meta { font-size: 12px; color: var(--muted); }
+    .manage-row-updated { width: 150px; flex-shrink: 0; font-size: 13px; color: var(--muted); }
+    .manage-row-size { width: 80px; flex-shrink: 0; font-size: 13px; color: var(--muted); text-align: right; }
+    .manage-row-warning {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--warn-border);
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .manage-empty { padding: 20px 4px; font-size: 13px; color: var(--muted); }
+
+    .track-row select {
+      padding: 4px 8px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text);
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .publisher-verified { color: inherit; font-size: 12px; font-weight: normal; margin-top: 2px; }
+
+    .dialog-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .dialog-foot .summary { color: var(--muted); font-size: 13px; flex: 1; }
+    .dialog-foot .foot-actions { display: flex; gap: 10px; flex-shrink: 0; }
+
+    /* ─── Utility ─────────────────────────────────────── */
+    [hidden] { display: none !important; }
+
+    /* ─── Responsive ──────────────────────────────────── */
+    @media (max-width: 900px) {
+      body { flex-direction: column; }
+      .proto-header {
+        position: static;
+        width: 100%;
+        max-height: none;
+        overflow: visible;
+        border-left: 0;
+        border-bottom: 1px solid rgba(255,255,255,.15);
+      }
+      .proto-bar { flex-direction: row; flex-wrap: wrap; }
+      .proto-btn { width: auto; }
+    }
+
+    @media (max-width: 780px) {
+      .shell { display: block; }
+
+      aside {
+        position: fixed;
+        z-index: 5;
+        right: 0; bottom: 0; left: 0;
+        padding: 9px;
+        border-top: 1px solid var(--border);
+        border-right: 0;
+      }
+
+      nav {
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+
+      .nav { font-size: 12px; padding: 6px 10px; }
+      .nav i { width: 16px; height: 16px; }
+
+      main { width: 100%; padding: 0 13px 90px; }
+      header { height: 62px; }
+      .card { padding: 18px; margin-top: 14px; }
+
+      .hero { grid-template-columns: 75px 1fr; }
+      .app-icon { width: 70px; height: 70px; }
+      h1 { font-size: 22px; }
+
+      .install-row { flex-direction: column; align-items: flex-start; }
+
+      /* Single-column stacked list on mobile — works regardless of whether the rating cell is shown */
+      .info-panel, .info-panel.has-rating { grid-template-columns: 1fr; }
+      .info-cell { border-left: 0 !important; }
+      .info-cell:not(:last-child) { border-bottom: 1px solid var(--border); }
+
+      .gallery-grid, .metadata { grid-template-columns: 1fr; }
+      .gallery-grid img { min-height: auto; }
+
+      .modal-table th:nth-child(6),
+      .modal-table td:nth-child(6),
+      .modal-table th:nth-child(7),
+      .modal-table td:nth-child(7) { display: none; }
+
+      .dialog-foot { flex-direction: column; align-items: stretch; }
+      .foot-actions .btn-primary { width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="proto-header">
+    <!-- ─── Prototype navigation ─────────────────────── -->
+    <!-- Decision (27 Aug 2026): alternative package formats are surfaced via the ⋮ overflow
+         menu (previously "Approach B"). The inline "section on page" alternative (previously
+         "Approach A") is archived — see archive/package-agnostic-yaru-option-a-section-on-page-2026-08-27.html. -->
+    <div class="proto-bar" role="navigation" aria-label="Prototype state switcher">
+      <div class="proto-fidelity-note">
+        <strong>⚠ Not high-fidelity</strong>
+        <p>This prototype validates UX flows and decisions, not final visuals — some newer bits (permissions tooltips, format tables) are functional placeholders. Please don't build to this pixel-for-pixel. The flows are correct.</p>
+      </div>
+      <span class="proto-label">Scenario:</span>
+      <button class="proto-btn active" data-state="snap-deb-fresh">Snap + Deb · not installed</button>
+      <button class="proto-btn" data-state="snap-deb-installed">Snap installed · deb available</button>
+      <button class="proto-btn" data-state="deb-installed">Deb installed · snap available</button>
+      <button class="proto-btn" data-state="both-installed">Snap + Deb both installed</button>
+    </div>
+  </div>
+
+  <div class="app-viewport">
+  <!-- ─── App shell ────────────────────────────────── -->
+  <!-- ─── GNOME app headerbar ────────────────────── -->
+  <!-- Back, window control icons: real Yaru assets (Figma: Yaru - Core component library, Window control / Title bar) -->
+  <div class="app-chrome">
+    <button class="chrome-back" id="chrome-back" aria-label="Go back"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAACE4AAAhOAFFljFgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAAjRJREFUeAHFmr3PcUEQxc/71mr0elGLmhqtr5ZSQlQidNRofdT09Hr+AD1KoX6eHMnd7KPdmbm/6m63Z/bMfszcf8/n8wfG7Pd7VCoVSPAfxtxuNywWC0hhKoCT73a7kMRUwGw2w+PxgCRmAtbrNS6Xy+c7lUpBChMBp9MJ2+3WjcfjMaRQF0Dfz+dzN67VashkMpBCXQAjH/m+WCyi1WpBElUBx+MRh8Ph803fS0+eqAmgdVarlRvT98lkEtKoCfCtI+17HxUBFtaJEBfwbZ12uw1NxAV87zqFQgGaiApg9K2sEyEqwL+o8bqsset8IyaAiRtZh9GvVquwQEyAn7iNRgNWiAj4jn6pVIIVIgLiij4JFuBHP5fLmUafBAvwo88rgzVBAr69zxWwJlhAhLX3I8S20XQ6jTgIEuBH3X/zWhIkIJvNIpFIfL7P57OrOlgSbKFyuey+41iFYAG888S5CsECOPk4V0FkF4pzFUQEcPKdTseNp9MprBA7B/h8jE7i+/3+qYVaIPoi888FNjFerxe0ERXAcyFK6Pf7jeVyCW3EqxLNZtMlNB/42gktLoCT7/f7bsyE1rSSSmUun8//SejNZgMt1GqjvV7PWYkJrWUlNQF84Pi7kpaVVPsDLG75VpJsr0aod2hGo5Gr0PEFt9vtIIm6AObBYDBwY54N1+sVUph0KXnA1et1Nx4Oh5DCrE/MA87PBylMO/XcWqUr1qYCuLVOJhNIYv63Cpt9/tshlF80Vug1qSnDMwAAAABJRU5ErkJggg== VqugCSguYPmQ8LP6OEwf7na7l2be1n0OdUZFjxQIK3niKE2kQH/NmfBcoLzUGUbYk/ZldiXasocCycT2rZm8XSFqllAgLGUyA72p6HkcO1lFOZddhHt0k8QEct1FuEcf/rkZ7sBFLo4R4Z7f39+b12+UQBzurXKNJHEg0Sr0iVxq9omVtM5yai1xu5ALpZZWWopUBRBnMBg0ulVj3/r9fuZ7Mi2CSHkfUGdwTl6V5NYQeZRlwbpChBTJ2UIhQ4hVdaP+K2CyP4VTmA5vgJNP9MBrjQHlKLu8mtFeEQGaE0HTsy7gdZyhgOBzWqgtAU853LjMwWGovVRegDp1JXH/PAb17cRMG+ym5V1zchKy5dzi5svWDuI2IJXKeLRRZU2WrW+kCS4iDSM8QqmphAtC1tcgbc4xtLNGlY3uJLmuXMtRyWWqlO9NF3tKILvL2iEai9ehlAhGL6bVKOARj0+8XUbNO6HfxWC0X+Oi5BP8AiTIFUIkbmyAAAAAAElFTkSuQmCC" alt=""></button>
+    <div class="chrome-search" id="chrome-search">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+        <circle cx="5.5" cy="5.5" r="3.75" stroke="currentColor" stroke-width="1.4"></circle>
+        <line x1="8.8" y1="8.8" x2="12.5" y2="12.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></line>
+      </svg>
+      <input type="text" id="search-input" placeholder="Search for apps" autocomplete="off" aria-label="Search for apps">
+      <div class="search-dropdown" id="search-dropdown" hidden=""></div>
+    </div>
+    <div class="chrome-controls">
+      <button class="chrome-ctrl" aria-label="Minimize"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAYAAABV7bNHAAAACXBIWXMAACE4AAAhOAFFljFgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAA6FJREFUeAHtnIl2qjAURSO1s+Pf+Yl+nvM8vLdjgxCZgkSFZK/Fqlpr5XDuSQghrdlsdhYP5Hg8isPhILfT6ST2+718ncdRgiAIt7e3N9Fut+Xj9/d38UjawjLn81nsdjux2WykKDwvAoLpokGr1ZIifXx8yJ+IZxMrAkVFUQ6p+rPZAKHYvr6+hA1aVZYYXx5RVqtVYadUBU76/PyUW5WuqkSgZwqjo4T6+fkRVXC3QJTQfD5PzItnglCdTufuUC8tEE7BMev1WrwyuAmhCPcylAppmurpdPpyrkliu93K1rPX65XKpkAYQklNJpNaiKNQBxSxTDFyEP+AvKkjHFCVld/f34X/rrBAZM1yuRR1h30gP4u2coVKDOc0QRyFSeOSK1CdyyoLDniRXn6mQITbYrEQTYUDzz5mkSoQdUryP7tnbBMC+38/MHMfUwWiTuvUlJclr0oSBaI2X72HXCXkbFoeJQrUxFDOAxclldqNQDjHhdLSodSIFZ1Af5NLpaVDqekuignEKJ2L7lGw77qLYgK57B6F7qIg+guX3aNAg6hRQoG8e64wfqSQAqlrVZ4LZLEqMymQF+cWVVFB9InnijJNWGKeOKFAJpeDXYLWDOMEPn/SoevjBcqAyvICZUCZGV8XcwmZQf70IhsvUAbEjy+xHLxAOXiBcgiYOepJRs6sFZ5UmHQV2J5GW2fkPG0vUDoI1KbObDIajYRNxuOxsIUssUdP7a8TMqQpsbIzQJsM5cUMfjkNmEmZ/qw+DtOHu93upZm3dZ9DnVHRIwXCSp44ShMp0F9zJjwXKC91hhH2pH2ZXYm27KFAMrF9ayZvV4iaJRQIS5nMQG8qeh7HTlZRzmUX4R7dJDGBXHcR7tGHf26GO3CRi2NEuOf39/fm9RslEId7q1wjSRxItAp9IpeafWIlrbOcWkvcLuRCqaWVliJVAcQZDAaNbtXYt36/n/meTIsgUt4H1Bmck1cluTVEHmVZsK4QIUVytlDIEGJV3aj/CpjsT+EU5gOb4CTT/TAa40B5Si7vJrRXhEBmhNB07Mu4HWcoYDgc1qoLQFPOdy4zMFhqL1UXoA6dSVx/zwG9e3ETBvspuVdc3ISsuXc4ubL1g7iNiCVyni0UWVNlq1vpAkuIg0jPEKpqYcLPtbXIG3OMbSzRpWN7iS5rlzLUcllqpTvTRd7SiC7y9ohGovXoZQIRi+m1SjgEY9PvF1GzTuh38VgtF/jouQT/AIkyBVCJG5sgAAAAAElFTkSuQmCC TgnCNGGJeeKEApnclXYJWjOME/j8SYeujxcoAyrLC5QBZWZ8XcwlZAb504tsvEAZED++xHLwAuXgBcohYOaoJxk5s1Z4UmHSVWB7Gm2dkfO0vUDpIFCbOrPJaDQSNhmPxsIWvsUdP7a8TMqQpsbIzQJsM5cUMfjkNmEmZ/qw+DtOHu93upZm3dZ9DnVHRIwXCSp44ShMp0F9zJjwXKC91hhH2pH2ZXYm27KFAMrF9ayZvV4iaJRQIS5nMQG8qeh7HTlZRzmUX4R7dJDGBXHcR7tGHf26GO3CRi2NEuOf39/fm9RslEId7q1wjSRxItAp9IpeafWIlrbOcWkvcLuRCqaWVliJVAcQZDAaNbtXYt36/n/meTIsgUt4H1Bmck1cluTVEHmVZsK4QIUVytlDIEGJV3aj/CpjsT+EU5gOb4CTT/TAa40B5Si7vJrRXhEBmhNB07Mu4HWcoYDgc1qoLQFPOdy4zMFhqL1UXoA6dSVx/zwG9e3ETBvspuVdc3ISsuXc4ubL1g7iNiCVyni0UWVNlq1vpAkuIg0jPEKpqYcLPtbXIG3OMbSzRpWN7iS5rlzLUcllqpTvTRd7SiC7y9ohGovXoZQIRi+m1SjgEY9PvF1GzTuh38VgtF/jouQT/AIkyBVCJG5sgAAAAAElFTkSuQmCC" alt=""></button>
+      <button class="chrome-ctrl" aria-label="Maximise"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAYAAABV7bNHAAAACXBIWXMAACE4AAAhOAFFljFgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAA6tJREFUeAHtnImS4iAURTFt7/vf+Yl+nvu+zBy6iBGzESFK4FSlxu7pcTo3975HkNCbTCZH0SL7/V7sdjt5HA4Hsd1u5fd5nSVJkvR4eHgQ/X5fvn58fBRt0heOOR6PYrPZiNVqJUXh6zogmC4a9Ho9KdLT05P8E/Fc4kSgrCjKIbbfmwMQiuPl5UW4oGczYvzyiLJYLGo7xRY46fn5WR42XWVFoFsKo6OEent7Eza4WiAiNJ1Oc+vFLUGoj4+Pq4t6Y4FwCo5ZLpfinsFNCEVxb0KjIk2rHo/Hd+eaPNbrteyeX19fjWpTIgwhUqPRyAtxFOqCIpYpRg7iP6De+AgXVNXK19fX2v+utkDUmvl8LnyHc6B+1u1ytSKGc7ogjsKkuVQK5HOsyuCC1xnllwpEcZvNZqKrcOE5xzIKBSKnVP5bj4xdQsH+Pw4sPcdCgcipT628KVUpyRWIbN77CNkm1NmiepQrUBeLchW4KC9qFwLhnBCipUPUKCs6if5DIUVLh6jpLjoTiFm6EN2j4Nx1F50JFLJ7FLqLkuxfhOweBRpkjZIKFN1zgvkjhbybV59VuWAwGAiXDIdDYRtqMTFjFlI6yJU4PqMSlWS/iJxQpkkj1ga24uA6tqAESkw+Dg4JuhnGSWL9KYahTxSoBJIVBSqBmBl/LhYSsgbF24tyokAlUH5ixCqIAlUQBaogYeVoJB+5slZECpHTHa6X0fqMXKcdBSpGCkTOIvnIiLW9tN8nZJEmYk1XgHYZ4sUKfpkvRGrjrr6NmUBbqGTJNu/qOQefORMIK0XOUZqkK+1Z+xwnz/5gdf7n56d8nY6kY8xOZDt7KhCWit3sr2FlzZIKRFszWYHeVfR6fHazinIhuwj36CY5Eyh0F+EeffrnYroDF4U4R4R73t/fL75/oQTi8GxVaOSJA7lW4SYtpLZPWSkaLBdmiceFQohaUbQUhQogzs/PT6e7Guf2/f1d+jOlFkGkqjfwGZxTlZLKDFGPyizoK5SQOnW2VpGhiNl6UP8eMDmf2lWYN+yCk0zPw2jGHuWJXNVDaPcIBZkpDNO5L+M+zlTA7++vV0MAWjm/c5OJwUZnqYYAPgwmcf01F/TqzU2YhSRy97i5CbXm2ulka/sH8RgRW+TcWihqjc2ua3WDJcRBpFsIZVuY9H1dbfLGGmMXW3TpuN6iy9kH82q7LLXTnekmb0VkN3lro0n02t4mELFYXquEQzAO/XkRteqEcRev1XaBba8l+Ad3eww+U/wjkgAAAABJRU5ErkJggg== ffrnYroDF4U4R4R73t/fL75/oQTi8GxVaOSJA7lW4SYtpLZPWSkaLBdmiceFQohaUbQUhQogzs/PT6e7Guf2/f1d+jOlFkGkqjfwGZxTlZLKDFGPyizoK5SQOnW2VpGhiNl6UP8eMDmf2lWYN+yCk0zPw2jGHuWJXNVDaPcIBZkpDNO5L+M+zlTA7++vV0MAWjm/c5OJwUZnqYYAPgwmcf01F/TqzU2YhSRy97i5CbXm2ulka/sH8RgRW+TcWihqjc2ua3WDJcRBpFsIZVuY9H1dbfLGGmMXW3TpuN6iy9kH82q7LLXTnekmb0VkN3lro0n02t4mELFYXquEQzAO/XkRteqEcRev1XaBba8l+Ad3eww+U/wjkgAAAABJRU5ErkJggg==" alt=""></button>
+      <button class="chrome-ctrl" aria-label="Close"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAYAAABV7bNHAAAACXBIWXMAACE4AAAhOAFFljFgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAABJ5JREFUeAHlnLlS5DAQQGVz3xBACt9DzG8Qk0HxP8R8DxBCwn3D7D5VtctjfMlWW/b4VbmW2QUtftPdOqxR9Pj4ODEd8vPzY76/v+31+/trvr6+7N/zdZo4jpNrbm7OzM/P268XFhZMl8wbZSaTifn8/DTv7+9WCq/rgLCsNIiiyEpaXFy0fyJPExVBaSkSIb7b5gJEcS0vLxsNIp8pxi+PlNfX19qR4gsiaWlpyV4+o8qLoJBisoio1dVV44PWgkihp6en3HoREkStr6+3LuqNBREpRMzb25vpM0QToijuTWhUpOmqHx4eehc1eXx8fNjec3Nzs1Ftio0jpNT9/f0g5AjyhiLLFacI4j+g3gwR3lCplSsrK7V/rrYgas3Ly4sZOtwD9bNuL1crxYicWZAjuHQulYKGnFZl8IbXGeWXCqK4PT8/m1mFN557LKNQEHlK5Q89MtaEgv1/HFh6j4WCyNMhdeVNqcqSXEHkZt9HyD6hzhbVo1xBs1iUqyCK8lLtjyAiZwyplYVUo6xkibPfNKbUykKqZaNoShCrdGOMHoF7z0bRlKAxR4+QjaI4/Q9jjh4BB+lASQRpR4/Pudzd3Z3RhPUjwQqSZ1VaXFxcmOPjY3N9fW3aQhsnJye2TS2oxZJmVpC2HC6K3/n5eStJ/Cxt0Ja0q4VkVJx+4RtS4fLyMnndRlJajkDbWsswEjRJimmwu7trzs7OphanmkjKk0Obp6enZm1tzWiQCHJ5HNyE/f39VpLK5BwcHBgt6M0InFiz/ghNJYWSIzD06UQQuEoKLQfIrM4EQV1JfZADpFl0c3Mz6VISFAlAHvRBDrAnKbq6upqEmGIUSYI+yAG7aSvU/Kso3foiB8gs50fPPsmTJISWIwQVVEXTHRk+CSoorw4JPuZuPojZORqCoiLddlriE1ukTQDKxjk+5m6+IMVj7W20WaoGgW3nbj6x+7S7FFR3hNwXSVYQedYFrtOHPkiyKdbF1v6mc6vQkmyRJsU0xxttJ56hJJFe7OC3vZhWHZIbaTt9KJN0e3trNJDMsoK0PufADR0eHk69bjp9yJNE23t7e0aDKUGEkhZHR0f28jG3SkuSdrUQJ8lOe/Y+a64L8YSDRXwf8CRDa7Ee2J2/sbFhv05G0lppJviSA5pyIN2zJ4IIqT7MnkNDh5UOlkQQ3ZrLDvRZJVuPpyarmBtzFBE92SCZEjT2KLIDw8zyz5/lDqIo1BpRSIievOL/xwRy+GzV2CjqGXNDhUmadrffJygrRYPlwlxitDqGVCtKLaHQAHK2t7dnulfj3ra2tkq/pzREkFTVwJAhcqqypDKHqEfaQ/sQUELq1NlaRYYi5uuD+n3A5X5qV2EanIVIcr0PpxV7zJNyVR9C6yMUZJYwXNe+nPtxlgJ2dnYGNQSgK+d3brIw2OguZQgwhMEkUd/mDW19uAmrkKRcHw83oda0XU72dn4QTxk4Iie0KGqNz17X6wFLyEFSCFG+xSTtah3yxh5jjSO6smgf0aX2YF6Oy5KT7lwPeSsifchbF51E1PUxgchii7+IQxhX9vMi8rSXcRdfy3GBXR8T+A+xEHnc3tANVAAAAABJRU5ErkJggg== pFl0c3Mz6VISFAlAHvRBDrAnKbq6upqEmGIUSYI+yAG7aSvU/Kso3foiB8gs50fPPsmTJISWIwQVVEXTHRk+CSoorw4JPuZuPojZORqCoiLddlriE1ukTQDKxjk+5m6+IMVj7W20WaoGgW3nbj6x+7S7FFR3hNwXSVYQedYFrtOHPkiyKdbF1v6mc6vQkmyRJsU0xxttJ56hJJFe7OC3vZhWHZIbaTt9KJN0e3trNJDMsoK0PufADR0eHk69bjp9yJNE23t7e0aDKUGEkhZHR0f28jG3SkuSdrUQJ8lOe/Y+a64L8YSDRXwf8CRDa7Ee2J2/sbFhv05G0lppJviSA5pyIN2zJ4IIqT7MnkNDh5UOlkQQ3ZrLDvRZJVuPpyarmBtzFBE92SCZEjT2KLIDw8zyz5/lDqIo1BpRSIievOL/xwRy+GzV2CjqGXNDhUmadrffJygrRYPlwlxitDqGVCtKLaHQAHK2t7dnulfj3ra2tkq/pzREkFTVwJAhcqqypDKHqEfaQ/sQUELq1NlaRYYi5uuD+n3A5X5qV2EanIVIcr0PpxV7zJNyVR9C6yMUZJYwXNe+nPtxlgJ2dnYGNQSgK+d3brIw2OguZQgwhMEkUd/mDW19uAmrkKRcHw83oda0XU72dn4QTxk4Iie0KGqNz17X6wFLyEFSCFG+xSTtah3yxh5jjSO6smgf0aX2YF6Oy5KT7lwPeSsifchbF51E1PUxgchii7+IQxhX9vMi8rSXcRdfy3GBXR8T+A+xEHnc3tANVAAAAABJRU5ErkJggg==" alt=""></button>
+    </div>
+  </div>
+
+  <div class="shell">
+    <aside>
+      <div class="sidebar-title">App Center</div>
+      <nav>
+        <a class="nav active" href="https://silver-carnival-qw7el8k.pages.github.io/26.10/appcenter/package-agnostic-yaru.html#" id="nav-explore"><img class="nav-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAACE4AAAhOAFFljFgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAAVxJREFUeAHtmc2NgzAQRu3V9kBDiDboAtECdIHoAgpCXGlgV98hUfxDAvaM7UjzbgQO78mAcayP4/hTX8yP+nIkIDcSkBsJyI0EpGAYBjVNk/fcryocyK/r+jxu29Y4X/QI2PLzPDsjUWyALf9g2zbjuMiAM/m6rlXf98ZvxQXckQdFBdyVB8UEhMiDIgJC5YE3AK+qcRxVCmLkgTORQR7v2wdd1ykuYuWBMQK2/LIsbCNBIQ+MgH3fnQs4IqjkgRGA26VpGuciyghKeeA8xJwR1PLA+xbiiOCQB6fzAGUElzx4O5FRRHDKg48zcUwEtzy49CkREpFCHlz+FroTkUoe3PqYuxKRUh7okL/XIQtpm6qqvLM5lzzQofsDZxE2nPIgeD1wdju9wi0PohY07yJSyIPoFZkvIpU8IFlSvkaklAeacpMPD/Wn54IaLbuUmZGA3EhAbiQgNxKQm384iQaGqve1VAAAAABJRU5ErkJggg==" alt="">Explore</a>
+        <a class="nav" href="https://silver-carnival-qw7el8k.pages.github.io/26.10/appcenter/package-agnostic-yaru.html#"><img class="nav-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAACE4AAAhOAFFljFgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAAvNJREFUeAHtmjuPMVEYx59583a79e5+gC03oab3BSjdWjoFWlG5RisqIpRq1C6lW+lSo3Rr3zf/SUaYHWPOcc5aiV+yMQ47zv+c53YelM1m848emD/04DwFmDEej2k0GpFM/pJEWq0WrVYrstlsJAtpApbLpSoAQMT7+zvJQJoJVavV43Wz2SRZSBMwGAyO141Gg3a7HclAioB2u03r9fr4fL/fq2MykCZAT6/XIxkIFwDnHQ6H38YxJiOkChdw6rx6jITdinABp86rB84sGqECkHlPnVcPnFm0GQkVoCUuM0RHI6ECut3u1fd0Oh2hOUGYAIRJKxODGc3ncxKFYnSgwUQOhwNtt1s1LOJDAa41UN+cMp1OabFYkBVQF9nt9rPnGq+vr+rfy8vL8Rqv4/GqgHQ6Tf1+X1rav5WPjw9yOBwUDoePY2cmFI/H1Tf8Vr6+vs4mDwxNqFKpmCake+D1eikYDH4bNzwPBAIB9fG3iAiFQuR2uw1fU8y6EogsmUzmbj4Bx00kEmcOr0e51lZBtIlEIqYZVgaIPIVCgd7e3kzfdzUP4EalUomcTif9FAgk+MxrkwcKS2PrJ5z7krNeQmHtzKFgS6VSwk0KOx2NRk3t3QiFp7UIv8hms8Lqe7RdkIOsmIwerloIq+X3+0kUuBfP5AF3MWeldLbKLTvJLcDs5MXKZDIhXrgEzGYzoU6MHeBNllwCEIlEw3tS4xIgo8fDe1ZmFoCttup0iFZWowuvIzMLsGo+WjmAesZKcuLtWDALuLZSqCBR/iaTSfVYiF3I5XLk8/no1nsbIXQHkFGx6ka1O84YtVrN1KR4wimTANg/QqgebdXz+bzpBLEb9Xr94m6gMcAaTpkEGK2+2apfQtuNz8/Ps3GelgvTV0ynNorVxAGb95yA/y8Wi2r8L5fLx8QIASzfqTEJ0Po+MAGPx6M66a24XC51wjhrQAzrDjCZECYMG4YJiJi8BnYjFoupZsWK8vypwZ15Crg3Dy/gP5wQeUo2GDS4AAAAAElFTkSuQmCC" alt="">Featured</a>
+        <div class="nav-spacer"></div>
+        <a class="nav" href="https://silver-carnival-qw7el8k.pages.github.io/26.10/appcenter/package-agnostic-yaru.html#"><img class="nav-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAACE4AAAhOAFFljFgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAABP1JREFUeAHNmjdM9EwQhpcTHdSEktQSGgqgJHSIVJFpENCBCB0SEgVBQEeqCDWhhR5qoCW0hBIB7ffr8a9ZjX2+O/vsC69kOd3Zk3b2nVmXfH9//zMR8fPzY+7v783r66v5+Phw9lxjA+Xl5aaqqsrZ19XVmcbGRlNfX28qKytNVJRkqwDC3d7emru7O/P4+GiyQXNzs+nq6nL22SoTWgEEv7y8dDaxcFTgmfb2djM+Ph5akVAKnJ2d+QouoYEQCEB4cK2srMy5//v7a97f35093np6ejIPDw9Jz+e/3d3dZmJiwgRFIAWI69XVVfP29ua63tTU5Ajd09NjhQ0KlCH8Tk5OzNfXl+seiuzu7gbyRkYFbm5uzMHBgcvqCD42NubEbhzAK5ubmy5FMMjy8rJjoHRIq8Dp6ak5Pz+354QFgg8ODppcgPAkTLWxeF+6kEqpgFd43Lm3t2cqKipMLvH5+Wnm5+dd3pidnU1ptITfRWJTC19bW2uOj49zLjwQQ5EIBIQwMvkhyQMM2JmZGetGhOeBYQdpVPD+xcVF8/Ly4pzzfozoHdhJCgwPD1v35StsUgElpqenrTx45fDw0PUbVwgR9/JjBmwhhdcysAd4Axk1rAKEztXVlb3B6C+k8AKigBla4J1IrQIMWrnBn3KVKrPBwMCAnXOYAC8uLuw9RwGsz4QlWFpaMsWGVF5wFICbCLB+XDNsECDI9va26ezsTIpvDSi49gJMGDgKoJFAa5pr8N7R0VHrfT33+KGtrc0eU3+ABOEjuRZk4h5xAO5Dut7f33cNSJRJB5iqZCTYLP8t1QwTF8kPUkEoBgyUwQWNDgqM5TerBiWHyMZcIFQcL5RqXk6cZYK4GbezSVWFQungV0tkQw4JI5H5+fnZ7YEgCvT397vmCx7GhoA8fGhoyDXd+1Fl0NfXZ6ampkJTFGprAc8s6e3t/YdrwdHRUaCQgDESSgjuFQzgZsYVL5NnC6LWErx7ZGTEOcZQJa2trZYLXV9fZxwDXpDOCA2dCPwQVy1BCOI9gPdKvS8JCzIDG6FCGPl1KAitlZWVWBitlpH5IGFigtTHfiBcckXHE1qjqG0SnacFnHd0dJi4oGXEKC4F/v7+TBTwrJ2dHdc1zuNktTopVFdXm4Qu3cirUeHNYmEmuiDQRsZgCW0dUlSxQ0+8NTU1JqEtJASpmKGZM8khoTMHIRRXvzMXQDbtgYaGhv8HsR/PLkboCEFmwt+ZB/x4djGCPqoAAgkcBbw8O9t+fy5B7AvvIv+3tLQ4x44CCA/LFGSqjAqBjY0Ne8y4lexpqQQkS3tBV/5hIcYQ0hUVkEXNeicnJ+2xqzOnG7qpWnn5hrfVSdmpFXCROdrYMjOTkRYWFgqaVhFey4AxtfAgiY2ura3ZUGJmpsFaCCV4J6tC3lanF0kKoOXc3Jw9p1BBiXzSDITH8rrcpdnmRwp96wHSKtWTACV4YD6UIGzoSGvhiftUtUaoJSYGNo2vfC4xeQetFxkX+ZiZt7a2XA8lzFiAowqLA37lKDHP0lKmdk2gZVa/dSsgrW/cG7aeTrfSz6rQ+vp6oEIo1EK3N6Q0IFf0lfAKyqCcKIWwFCKwXYyB0PI9hYYwgtgXujWkJ0RoxfmpAYLTFAtb/Gf9sQeK4HrCwO+zgSCIstIvKInjcxuUIdWiEOkPz5AO9ec28j0FocWeTkUcrZb/AEqJHhMEwT1cAAAAAElFTkSuQmCC" alt="">Productivity</a>
+        <a class="nav" href="https://silver-carnival-qw7el8k.pages.github.io/26.10/appcenter/package-agnostic-yaru.html#"><img class="nav-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAACE4AAAhOAFFljFgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAAi9JREFUeAHtmjuvAUEcR/9ubkdNL1HTU0q0hNKrFpVKrxIFDbVHKz4ALbXQU4tSqO/Nb5MRs/b9mBmJU21mSc6ZISszIrfb7Y8+mB/6cL4BQXK/36nT6dDpdHL8HmUCmPzxeHQVoUzAYDCg8/msXT8eD8cRSgT0+33a7XbcmNMI6QGQ32w2hvecREgNsJJn2EVIC3Aiz7CKkBLgRp5hFiE8wIs8AxHj8ZgbExrgRx4kk0nq9XrcmLAAv/LpdJqGwyFFo1Fu/JcEMJlMfMnn83nqdruG90JfgdlsRqvVirxiJQ9CDYD8YrEgr9jJg9ACRMiDUAJEyYPAA0TKg0ADRMuDwAJkyINAngN+5YvFIrXbbfKC7wC/8tVqlZrNJnnF10dItjzwHKCCPPAUoIo8cB2gkjxwFaCaPHAcoKI8cBSgqjywDViv18rKA9uA6XT6vI7H4+SGsOWBZQBm/3q9ateJRIJGoxHVajVyggh5YBnwOvv1el1bgUajYRshSh6YBuhnv1AoPO9ZRYiUB6YB+tnXUy6XKRaLcWOi5YHhr9HX2cc+TDab5e7P53NtpwGHEgwZ8sA0gJFKpbSZhizGl8vlM44hSx5E9Mesl8tFE3oFK3A4HLgZB/hutFqttxUSydsKGD209KcnWJFSqUSVSuVtq080bwH7/d70xSqJM7gAnBDqP98AG6sQz+VypBpcwHa7fV6z2YZ8JpMhVeECcPqBB5Tq0q9Evn/2kMzHB/wD2sJKeAsxUiAAAAAASUVORK5CYII=" alt="">Development</a>
+        <a class="nav" href="https://silver-carnival-qw7el8k.pages.github.io/26.10/appcenter/package-agnostic-yaru.html#"><img class="nav-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAACE4AAAhOAFFljFgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAAstJREFUeAHtmDvMKUEUx+fb6Kg9Wo/So0YpqNUeLVERj1LQkdCR6ESvJ0rUHi1aj1Ko781/kt3MsFy+a3cj2V+y2Z2dneOcmTPnnPFzPp//kC9GIF+OboDW6AZojYEoQCgUkp4nkwlREkUMSCaTRC1+vj0P6C4kh+5Cb/D1LqQnMq3RDdAa3QCt0Q3QmoeZeLlckvl8Tu+Hw4FcLheiNCaTiTidTuJwOEgsFiMWi+WfY+4MgLLNZpMqrjWRSITWVc8M4QwYjUak2+2qMtuvYjQaSalUIoFAQLZfMmA2m5FKpcJ1hsNherlcLipIaa7XK9lsNnQix+Mx11csFumK3EINgNuk02lp5rFktVqN+qJWHI9HksvlyOl0om1MYK/Xu3MnGoVYt8EH7XZbU+VZPcxmM21jdbA3bxGwZHAfEXaQCMpj8VKCfr9PZePOAiPq9brUXiwWd8FFYH0N/n6rvBoMBgPuzgJPgF4i0+mU6xdWq5XUYD9Uk0QiQe/xeFy2PxqNSs/r9ZrrM2ADiyCJiDxyl0+dtuAumHEon0ql6CX3Htjtdmncfr/n5AhszEcmVItHbiP3ntULm5lFYDvVTGCP3EbuPavXbT4yWK1WmjzAdrslXq+XPrPuocQh/ZnbiO9Fdrud9Gyz2bg+wePxSI3b7KcWz6IQQGYWcbvdXJ8QDAa5D7EKavMsCiHIsAawEQnQUqJQKNAkAZA8Wq3WS6UshOfzeSndv8L/yEdBV61WuW9oKYFCSdzMqEEwCPdnICO+q/w78rEvWfnQL5vN3n0nVaPw/0ajwXWi+kNyQzaEAEQDuNhwOOTKj9/ySD50Yd0GPK1GxQYGdjqdt8IpfjiTycgKvwUnPEzSJ+XfnciwtDDilRlGyC2Xy2/VT5+W//BMDB/EiqBWEs/EmA3kDYRev99PfD4f+S2fkv/1f6/r/wtpjW6A1ny9AX8BTL+uq8/leEQAAAAASUVORK5CYII=" alt="">Games</a>
+        <div class="nav-spacer"></div>
+        <a class="nav" href="https://silver-carnival-qw7el8k.pages.github.io/26.10/appcenter/package-agnostic-yaru.html#" id="nav-manage"><img class="nav-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAACE4AAAhOAFFljFgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAAJlJREFUeAHt1rENAyEQRFHOcmkUAJRBQZRBBVRFA3a6lh1c9oX8X4gmmWDFXHvvVzrYIx3OAjQL0CxAO77A805ojJHmnB9vrbXUe0fy0XXnJ845/3xfayH5yBug/UeBWuvXWykFy0eXcxpmAZoFaG4hIh95AzS3EJGP3EI0C9AsQHMLEfnIG6C5hYh85BaiWYBmAZoFaMcXeAPt9X0uC2kIewAAAABJRU5ErkJggg==" alt="">Manage<span class="nav-badge" id="nav-manage-badge">1</span></a>
+        <a class="nav" href="https://silver-carnival-qw7el8k.pages.github.io/26.10/appcenter/package-agnostic-yaru.html#"><img class="nav-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAACE4AAAhOAFFljFgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAABRRJREFUeAHNmjksLVEYx7830aG1dbbW0qKmtUUhtkrQEZREorCFDlFZQkePmhqtpbWUgva9/M7LmXwz5t47M/eM+CeTMffed+b7f/v5zvvz/v7+V4rEx8eHXF9fy+Pjo7y8vJg7n3FZVFVVmau+vl6ampqkoaFBKisrpVj8SUsA4S4uLuTq6kpub28lDSDR09MjLS0tqckkJoDgZ2dn5tIaLhZdXV0yMjKSmEgiAoeHh5GCl5WVGddob283AqBZPistLTXff35+yvPzs7ljrbu7O7m5uYl8x/DwsIyOjopTAvj1wsKCPD09BT5vbm42QqM9K2xcQAb329/fl7e3t8B3KGFzczOWNQoSOD8/l52dnYDWERxN4bsugFVWV1cDRFDI/Py8UVA+5CVwcHAgR0dH/jNugeB9fX2SBXBP3FQrq5BL5SQQFh5zbm1tSUVFhWSJ19dXmZ6eDlgjHwkv6kN8UwtfV1cne3t7mQsPrKJIBBbIgitH4ZsFCNiJiQnfjAjPgnGC1NYGfDpczGwRa2trM0EfZ63Z2Vl5eHgwz7wfJYYD+xuBwcFB33xJ3GZxcdFYLg7iZhlIjI+P+/Jgld3d3cBvAi6E39sfE7BJfJ60qIHGyVJc2h0Afo5g3PPBysAdYA1k1PAtgOsMDQ35X0xOTibKNhQnFs9VFxB2fX09UMAgt7GxUXBtstP29rb5m3WPj499Uj4BFreBgmn5URYgvqxfg5OTk1hWJh4seZ2VjAuhfR3lc3NzkhWmpqYCz7laijDokyx0O2MIYH4LtO+qwkaBrKaB8uKAFtzKRbyR7YAhACMLzfQnYH05DkjBFuw/gIcGtE8W6j2KRbghDFskHzo7O33CuB5u5OkFMVESjaQBvY5+XxJ3RTadkrGCp4MIP8sSuKp+H91mUmg3ur+/D1ogSwJUaZvLAXUmTW9FgbSg6Ho6C5SXl0sWIMaoMxYUzLQtOf2UXrdEE3AxJQiDl1CEbN6mxsRp5nJBV3gTxPpL1wFst6JWeDRfjPBAy0g98CRDzMzM+M1hd3e3jI2NiWt4mpHLMQkpTrflAwMD4gJhGQMEvr6+xBV0uiRgXe3mwjHr6cJAXnUFnZ6TVNtC0Equrq4WT2um0AYjCbRla2pqxBW0ZWtra6VE51X8tre3V1yAnp25J3A5DNCdM22Ip5s3XMhVIKMYBmBcroBs2gKNjY3/gziqz/6NsC00IHaxrKkDUX32bwRzVAvrnoZAuM9OO+8PI3zIUQzwfT2ta21tNXdDAOEtI6CncmnBsJbqy6W70LRYWVnx/0bhNjH4rQTFRlvh9PRU0oI4ury89J/ZB+QaDcYB/15rX7ckPoGwFdg5pa0LURv1YtbSuzgaQp2WA80csxZbmclINGNpfDg8iQNpWnWE1zKwRrgh/NaNLi0t+a6E1nQvHxdkNQoZ63ClaaN5J614eNQZRuT5AD68trbmP6NRiGWx4YkCwqN53U/x/qiJSeR+gChHgxbsqljQZa+UC7gNg18tPBbMNe5JdMTEdo7B108eMSF8vo1QwUM+KjPupBfFlRiJuOpzKJwIrgsoPs/kolDsxDpmjTq3AhDBIpg36X4630k/+4fl5eVYXWyig+6wS2nQEDJXwiqQgZwlhbBsROh2UQZC2yMoDVuLnB90ayAARFx2rVbw/v7+xAfmqf+zB0QwPYGnh8NJUMxJv0VqAhqQgQSESH+kQt1O2ILGJgfX4t7R0ZFaaI1/9Dcwt0PNJPIAAAAASUVORK5CYII=" alt="">About</a>
+      </nav>
+    </aside>
+
+    <main>
+      <!-- Explore: entry point when opening App Center — Featured Apps banner, no format
+           branding (DE92 target flow). Default landing view. -->
+      <div id="explore-view" hidden="">
+        <section class="featured-banner">
+          <div class="featured-banner-text">
+            <h1>Featured Apps</h1>
+            <button type="button" class="featured-banner-btn">Discover more</button>
+          </div>
+          <div class="featured-banner-icons">
+            <span class="featured-icon-card"><span class="app-icon-swatch" style="width:36px;height:36px;background:#3fb618;font-size:15px">🛡</span></span>
+            <span class="featured-icon-card"><span class="app-icon-swatch" style="width:36px;height:36px;background:#0067c0;font-size:15px">⌘</span></span>
+            <span class="featured-icon-card"><span class="app-icon-swatch" style="width:36px;height:36px;background:#ef3939;font-size:15px">V</span></span>
+          </div>
+        </section>
+
+        <div class="search-results-grid" id="explore-grid" style="margin-top:20px">
+        <button type="button" class="result-card" onclick="selectExploreApp(&#39;gimp&#39;)">
+          <span class="app-icon-swatch" style="width:48px;height:48px;background:#3a3a3a;font-size:18px">GI</span>
+          <span class="result-card-body">
+            <span class="result-card-name">GNU Image Manipulation Program <span class="verified">✓</span></span>
+            <span class="result-card-publisher">GIMP team</span>
+            <span class="result-card-desc">Create images and edit photographs.</span>
+          </span>
+        </button>
+        <button type="button" class="result-card" onclick="selectExploreApp(&#39;gitea&#39;)">
+          <span class="app-icon-swatch" style="width:48px;height:48px;background:#4a934a;font-size:18px">GT</span>
+          <span class="result-card-body">
+            <span class="result-card-name">gitea</span>
+            <span class="result-card-publisher">Gitea</span>
+            <span class="result-card-desc">Gitea - A painless self-hosted Git service</span>
+          </span>
+        </button>
+        <button type="button" class="result-card" onclick="selectExploreApp(&#39;gsm&#39;)">
+          <span class="app-icon-swatch" style="width:48px;height:48px;background:#2c2c2c;font-size:18px">SM</span>
+          <span class="result-card-body">
+            <span class="result-card-name">GNOME System Monitor <span class="verified">✓</span></span>
+            <span class="result-card-publisher">Canonical</span>
+            <span class="result-card-desc">System Monitor</span>
+          </span>
+        </button>
+        <button type="button" class="result-card" onclick="selectExploreApp(&#39;pycharm&#39;)">
+          <span class="app-icon-swatch" style="width:48px;height:48px;background:#0f7c7c;font-size:18px">PC</span>
+          <span class="result-card-body">
+            <span class="result-card-name">pycharm <span class="verified">✓</span></span>
+            <span class="result-card-publisher">JetBrains</span>
+            <span class="result-card-desc">PyCharm</span>
+          </span>
+        </button>
+        <button type="button" class="result-card" onclick="selectExploreApp(&#39;plex&#39;)">
+          <span class="app-icon-swatch" style="width:48px;height:48px;background:#1a1a1a;font-size:18px">PX</span>
+          <span class="result-card-body">
+            <span class="result-card-name">plexmediaserver <span class="verified">✓</span></span>
+            <span class="result-card-publisher">Plex, Inc.</span>
+            <span class="result-card-desc">Your media on all your devices.</span>
+          </span>
+        </button>
+        <button type="button" class="result-card" onclick="selectExploreApp(&#39;halloy&#39;)">
+          <span class="app-icon-swatch" style="width:48px;height:48px;background:#c9705a;font-size:18px">H</span>
+          <span class="result-card-body">
+            <span class="result-card-name">halloy</span>
+            <span class="result-card-publisher">Alan Pope</span>
+            <span class="result-card-desc">IRC application written in Rust</span>
+          </span>
+        </button>
+        <button type="button" class="result-card" onclick="selectExploreApp(&#39;parca&#39;)">
+          <span class="app-icon-swatch" style="width:48px;height:48px;background:#111827;font-size:18px">P</span>
+          <span class="result-card-body">
+            <span class="result-card-name">parca-agent <span class="verified">✓</span></span>
+            <span class="result-card-publisher">Parca Team</span>
+            <span class="result-card-desc">Parca Agent is an always-on sampling profiler that uses eBPF</span>
+          </span>
+        </button></div>
+      </div>
+
+      <!-- Manage: Updates available + Installed apps, all formats, no mandatory format filter
+           (DE92 target flow). Package format filter defaults to "All" and is purely optional. -->
+      <div id="manage-view" hidden="">
+        <h1 style="margin:24px 0 20px">Manage</h1>
+
+        <div class="manage-section-head">
+          <h2 id="updates-heading">Updates available (1)</h2>
+          <div style="display:flex;gap:10px">
+            <button type="button" class="btn-secondary" id="btn-check-updates">Check for updates</button>
+            <button type="button" class="btn-primary" id="btn-update-all">Update all</button>
+          </div>
+        </div>
+        <div id="updates-list" style="margin-bottom:32px">
+          <div class="manage-row">
+            <span class="app-icon-swatch" style="width:32px;height:32px;background:#0067c0;font-size:13px"></span>
+            <div class="manage-row-main">
+              <span class="manage-row-name">code</span>
+              <span class="manage-row-meta">latest/stable 110a328e → 110a328e</span>
+            </div>
+            <span class="manage-row-warning"><span class="warning-icon">⚠</span>Quit to update</span>
+            <button type="button" class="btn-secondary" onclick="handleUpdate(&#39;code&#39;)">Update</button>
+          </div></div>
+
+        <div class="manage-section-head">
+          <h2>Installed apps</h2>
+        </div>
+        <div class="manage-controls">
+          <input type="text" id="installed-search" class="manage-search-input" placeholder="Search installed apps…">
+          <label class="toggle-switch">
+            <input type="checkbox" id="show-system-snaps">
+            <span>Show system snaps</span>
+          </label>
+          <label class="search-control">
+            <span class="label">Sort by</span>
+            <select id="installed-sort">
+              <option>Name</option>
+              <option>Recently updated</option>
+              <option>Size</option>
+            </select>
+          </label>
+        </div>
+        <div id="installed-list">
+          <div class="manage-row">
+            <span class="app-icon-swatch" style="width:32px;height:32px;background:#8a8a8a;font-size:13px">⚙</span>
+            <div class="manage-row-main">
+              <span class="manage-row-name">(URW)++ Core Font Set [...</span>
+              <span class="manage-row-meta">20200910-8 · Deb</span>
+            </div>
+            <span class="manage-row-updated">Updated 9 years ago</span>
+            <span class="manage-row-size">16 MB</span>
+            <button type="button" class="btn-secondary" onclick="handleUninstall(&#39;urw&#39;)">Uninstall</button>
+          </div>
+          <div class="manage-row">
+            <span class="app-icon-swatch" style="width:32px;height:32px;background:#e95420;font-size:13px">A</span>
+            <div class="manage-row-main">
+              <span class="manage-row-name">App Center</span>
+              <span class="manage-row-meta">2/stable 0+git.8334e2e4 · Snap</span>
+            </div>
+            <span class="manage-row-updated">Updated 4 days ago</span>
+            <span class="manage-row-size">12 MB</span>
+            <button type="button" class="btn-secondary" onclick="handleUninstall(&#39;app-center&#39;)">Uninstall</button>
+          </div>
+          <div class="manage-row">
+            <span class="app-icon-swatch" style="width:32px;height:32px;background:#8a8a8a;font-size:13px">AS</span>
+            <div class="manage-row-main">
+              <span class="manage-row-name">AppStream CLI</span>
+              <span class="manage-row-meta">1.0.2-1build6 · Deb</span>
+            </div>
+            <span class="manage-row-updated">Updated 3 years ago</span>
+            <span class="manage-row-size">340 kB</span>
+            <button type="button" class="btn-secondary" onclick="handleUninstall(&#39;appstream&#39;)">Uninstall</button>
+          </div>
+          <div class="manage-row">
+            <span class="app-icon-swatch" style="width:32px;height:32px;background:#c0392b;font-size:13px">G</span>
+            <div class="manage-row-main">
+              <span class="manage-row-name">authd-google</span>
+              <span class="manage-row-meta">0.x/stable 0.4.1 · Snap</span>
+            </div>
+            <span class="manage-row-updated">Updated 2 months ago</span>
+            <span class="manage-row-size">10 MB</span>
+            <button type="button" class="btn-secondary" onclick="handleUninstall(&#39;authd&#39;)">Uninstall</button>
+          </div>
+          <div class="manage-row">
+            <span class="app-icon-swatch" style="width:32px;height:32px;background:#8a8a8a;font-size:13px">BR</span>
+            <div class="manage-row-main">
+              <span class="manage-row-name">BRLTTY</span>
+              <span class="manage-row-meta">6.6-4ubuntu5 · Deb</span>
+            </div>
+            <span class="manage-row-updated"></span>
+            <span class="manage-row-size">10 MB</span>
+            <button type="button" class="btn-secondary" onclick="handleUninstall(&#39;brltty&#39;)">Uninstall</button>
+          </div>
+          <div class="manage-row">
+            <span class="app-icon-swatch" style="width:32px;height:32px;background:#f2a900;font-size:13px">+</span>
+            <div class="manage-row-main">
+              <span class="manage-row-name">Calculator</span>
+              <span class="manage-row-meta">1:46.3-0ubuntu0.1 · Deb</span>
+            </div>
+            <span class="manage-row-updated">Updated 2 years ago</span>
+            <span class="manage-row-size">3 MB</span>
+            <button type="button" class="btn-secondary" onclick="handleUninstall(&#39;calculator&#39;)">Uninstall</button>
+          </div>
+          <div class="manage-row">
+            <span class="app-icon-swatch" style="width:32px;height:32px;background:#e95420;font-size:13px">⟳</span>
+            <div class="manage-row-main">
+              <span class="manage-row-name">canonical-livepatch</span>
+              <span class="manage-row-meta">latest/stable v10.16.2 · Snap</span>
+            </div>
+            <span class="manage-row-updated">Updated 3 months ago</span>
+            <span class="manage-row-size">14 MB</span>
+            <button type="button" class="btn-secondary" onclick="handleUninstall(&#39;livepatch&#39;)">Uninstall</button>
+          </div>
+          <div class="manage-row">
+            <span class="app-icon-swatch" style="width:32px;height:32px;background:#5b5b5b;font-size:13px">Ω</span>
+            <div class="manage-row-main">
+              <span class="manage-row-name">Characters</span>
+              <span class="manage-row-meta">46.0-1build1 · Deb</span>
+            </div>
+            <span class="manage-row-updated">Updated 3 years ago</span>
+            <span class="manage-row-size">3 MB</span>
+            <button type="button" class="btn-secondary" onclick="handleUninstall(&#39;characters&#39;)">Uninstall</button>
+          </div></div>
+      </div>
+
+      <!-- Search results: single de-duplicated entry per app, sorted by relevance and popularity
+           (DE92 target flow — deliberately no package-format filter, only category). -->
+      <div id="search-results-view" hidden="">
+        <div class="search-results-head">
+          <h1 id="search-results-heading">Results for “”</h1>
+          <div class="search-results-controls">
+            <label class="search-control">
+              <span class="label">Sort by</span>
+              <select id="search-sort">
+                <option>Relevance</option>
+                <option>Popularity</option>
+                <option>Name (A–Z)</option>
+              </select>
+            </label>
+            <label class="search-control">
+              <span class="label">Filter by</span>
+              <select id="search-category-filter">
+                <option>All categories</option>
+                <option>Art and Design</option>
+                <option>Developer tools</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div class="search-results-grid" id="search-results-grid"></div>
+      </div>
+
+      <div id="app-detail-view">
+
+      <!-- Hero -->
+      <section class="card hero">
+        <div class="img-placeholder" style="width:96px;height:96px;border-radius:22px">App icon</div>
+        <div>
+          <h1>GNU Image Manipulation Program</h1>
+          <!-- Publisher: snap shows verified badge, deb shows plain name -->
+          <p class="publisher-line" id="publisher-line">GIMP team <span class="verified">✓</span></p>
+          <!-- Category: shown for all formats. Debs almost always have a real AppStream
+               category once the unified mapping table is complete (see deb-snap-category-merge.md),
+               so this is no longer hidden for deb-only apps. -->
+          <p id="category-line" style="margin-top:2px;font-size:14px"><a href="https://silver-carnival-qw7el8k.pages.github.io/26.10/appcenter/package-agnostic-yaru.html#" style="color:var(--link)">Art and Design</a></p>
+
+          <div class="install-row">
+            <div class="actions">
+              <button class="btn-primary" id="btn-install">Install</button>
+              <button class="btn-primary" id="btn-open" hidden="">Open</button>
+              <button class="btn-secondary" id="btn-uninstall" hidden="">Uninstall</button>
+              <button class="btn-more" id="btn-more" aria-label="More actions" aria-expanded="false">⋮</button>
+              <div class="dropdown-menu" id="dropdown" hidden="">
+                <button id="btn-switch-channel">Switch channel</button>
+                <button id="btn-other-formats">Choose package format…</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Info panel — top-level fields only: Rating, Permissions, Version, Download size, Package format.
+           Everything else (Last updated, License, Links, etc.) lives in Additional information below.
+           Rating: Snap Store reviews only shown for the Snap format (Deb/Flatpak have no reviews). -->
+      <section class="card info-panel has-rating" id="info-panel" aria-label="Application information">
+        <div class="info-cell" id="info-rating-cell">
+          <strong style="color:var(--green)">Very good</strong>
+          <span class="label">1283 votes</span>
+        </div>
+        <div class="info-cell">
+          <span class="label">Permissions</span>
+          <strong id="info-permissions" class="perms-value" data-tip="This app has limited access to your resources. You can control its permissions in the Settings app.">
+            <span id="info-permissions-icon" class="perms-icon" aria-hidden="true">🛡</span><span id="info-permissions-text">Sandboxed</span>
+          </strong>
+        </div>
+        <div class="info-cell">
+          <span class="label">Version</span>
+          <strong id="info-version" class="truncate-tip" data-tip="3.2.4"><span class="truncate-inner" id="info-version-text">3.2.4</span></strong>
+        </div>
+        <div class="info-cell">
+          <span class="label">Download size</span>
+          <strong id="info-size">147.21 MB</strong>
+        </div>
+        <div class="info-cell">
+          <span class="label">Package format</span>
+          <strong id="info-pkgtype">Snap</strong>
+        </div>
+      </section>
+
+      <!-- Gallery -->
+      <section class="card">
+        <h2 id="gallery-heading">High-end image creation and manipulation</h2>
+        <div class="gallery-grid" style="margin-top:16px">
+          <div class="img-placeholder" style="width:100%;min-height:360px">Screenshot</div>
+        </div>
+      </section>
+
+      <!-- Description -->
+      <section class="card">
+        <div class="copy">
+          <p id="desc-p1">GIMP is Community-driven Free Software for high-end image creation and manipulation.</p>
+          <p id="desc-p2" style="margin-top:13px">It has many capabilities. It can be used as a simple paint program, an expert quality photo retouching program, an online batch processing system, a mass production image renderer, an image format converter, etc.</p>
+          <p id="desc-p3" style="margin-top:13px">GIMP is expandable and extensible. It is designed to be augmented with plug-ins and extensions to do just about anything. The advanced scripting interface allows everything from the simplest task to the most complex image manipulation procedures to be easily scripted.</p>
+        </div>
+      </section>
+
+      <!-- Additional information (always expanded, no collapsible section) -->
+      <section class="card">
+        <div class="section-head">
+          <h2>Additional information</h2>
+        </div>
+        <div id="meta-body">
+          <div class="meta-grid">
+            <div><span class="label">Publisher</span><strong id="meta-publisher">GIMP team · Verified</strong></div>
+            <!-- Publication date: no Debian packaging equivalent exists (hidden for Deb, not "Not available") -->
+            <div id="meta-pub-date-cell"><span class="label">Publication date</span><strong id="meta-pub-date">Apr 17, 2026</strong></div>
+            <div><span class="label">Last updated</span><strong id="meta-updated">Apr 17, 2026</strong></div>
+            <div><span class="label">License</span><strong id="meta-license">GPL-3.0+ AND LGPL-3.0+</strong></div>
+            <div><span class="label">Category</span><strong id="meta-category">Art and Design</strong></div>
+            <div><span class="label">Age rating</span><strong id="meta-age">3+</strong></div>
+            <div><span class="label">Installation date</span><strong id="meta-install-date">Not installed</strong></div>
+            <div><span class="label">Languages</span><strong id="meta-languages">English + 30 more</strong></div>
+            <div><span class="label">Links</span><div id="meta-links"><a href="https://silver-carnival-qw7el8k.pages.github.io/26.10/appcenter/package-agnostic-yaru.html#">Developer website</a><a href="https://silver-carnival-qw7el8k.pages.github.io/26.10/appcenter/package-agnostic-yaru.html#">Contact publisher</a></div></div>
+            <!-- Terms and conditions: no Debian packaging equivalent exists (hidden for Deb, not "Not available") -->
+            <div id="meta-terms-cell"><span class="label">Terms and conditions</span><div id="meta-terms"><a href="https://silver-carnival-qw7el8k.pages.github.io/26.10/appcenter/package-agnostic-yaru.html#">Privacy policy</a><a href="https://silver-carnival-qw7el8k.pages.github.io/26.10/appcenter/package-agnostic-yaru.html#">License agreement</a></div></div>
+          </div>
+        </div>
+      </section>
+
+      </div>
+    </main>
+  </div>
+  </div>
+
+  <!-- ─────────────────────────────────────────────────────────────────────
+       "Choose package format" modal
+       Key changes vs previous HTML:
+       - Radio CARDS → compact comparison TABLE (Figma approach, scales to Flatpak)
+       - Channel/track selector stays inline per-row (HTML approach)
+       - Warning bar shown when current format is already installed
+       - Facts strip updates live when selection changes
+       ──────────────────────────────────────────────────────────────────── -->
+  <dialog id="dialog" aria-labelledby="dialog-title">
+
+    <div class="dialog-head">
+      <h2 id="dialog-title">Choose package format</h2>
+      <button class="btn-close" id="btn-dialog-close" aria-label="Close">×</button>
+    </div>
+
+    <!-- Warning: shown only when a format is already installed -->
+    <div class="modal-warning-bar" id="modal-warning" hidden="">
+      <span class="warning-icon">⚠</span>
+      <div id="modal-warning-text">
+        <strong>Snap is currently installed.</strong>
+        You'll need to uninstall it before installing a different format.
+        App data is not shared between package formats.
+        <br><a href="https://silver-carnival-qw7el8k.pages.github.io/26.10/appcenter/package-agnostic-yaru.html#">Uninstall snap first</a>
+      </div>
+    </div>
+
+    <table class="modal-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Format</th>
+          <th>Publisher</th>
+          <th>App access</th>
+          <th>Size</th>
+          <th>Version</th>
+          <th>Updated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Snap row (default format; no "Recommended" tag — Snap is already the default) -->
+        <tr class="row-selected" id="modal-row-snap">
+          <td><input type="radio" name="install-format" value="snap" id="radio-snap" checked=""></td>
+          <td>
+            <label for="radio-snap" style="cursor:pointer">
+              <div class="fmt-name">Snap Store</div>
+              <div class="track-row">
+                <span class="label">Track</span>
+                <select id="modal-track" aria-label="Snap channel">
+                  <option>latest/stable</option>
+                  <option>preview/stable</option>
+                </select>
+              </div>
+            </label>
+          </td>
+          <td>
+            <div>GIMP team</div>
+            <div class="publisher-verified">● Verified</div>
+          </td>
+          <td><span class="perms-value badge badge-snap" data-tip="This app has limited access to your resources. You can control its permissions in the Settings app."><span class="perms-icon" aria-hidden="true">🛡</span>Sandboxed</span></td>
+          <td>147 MB</td>
+          <td>3.2.4</td>
+          <td>Apr 2026</td>
+        </tr>
+        <!-- Deb row -->
+        <tr id="modal-row-deb">
+          <td><input type="radio" name="install-format" value="deb" id="radio-deb"></td>
+          <td>
+            <label for="radio-deb" style="cursor:pointer">
+              <div class="fmt-name">Ubuntu repository</div>
+            </label>
+          </td>
+          <td>Ubuntu developers</td>
+          <td><span class="perms-value badge badge-deb" data-tip="This app has full access to your resources."><span class="perms-icon" aria-hidden="true"></span>Unrestricted</span></td>
+          <td>33.8 MB</td>
+          <td>2.10.36</td>
+          <td>Feb 2023</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="dialog-foot">
+      <span class="summary" id="modal-summary">Snap Store · latest/stable · 147 MB · Sandboxed</span>
+      <div class="foot-actions">
+        <button class="btn-secondary" id="btn-cancel">Cancel</button>
+        <button class="btn-primary" id="btn-confirm">Use this installation</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ─────────────────────────────────────────────────────────────────────
+       Script
+       ──────────────────────────────────────────────────────────────────── -->
+  <!-- Choose package format popup: reached from the ⋮ overflow menu -->
+  <dialog id="other-formats-dialog" aria-labelledby="other-formats-title">
+    <div class="dialog-head">
+      <h2 id="other-formats-title">Choose package format</h2>
+      <button class="btn-close" id="btn-other-formats-close" aria-label="Close">×</button>
+    </div>
+    <div class="warning-banner" id="other-formats-warning" hidden="" style="margin:16px 24px 0;border-radius:0">
+      <span class="warning-icon">⚠</span>
+      <div id="other-formats-warning-text"></div>
+    </div>
+    <table class="formats-table" style="margin-top:16px">
+      <tbody id="other-formats-tbody"></tbody>
+    </table>
+    <p class="learn-more-link" style="padding:16px 24px 20px">
+      <a href="https://ubuntu.com/desktop/docs/en/latest/explanation/snap-and-deb-packages/">Learn more about package formats</a>
+    </p>
+  </dialog>
+
+  <!-- Switch channel: reached from the ⋮ "More options" menu (Snap only). Button reads
+       "Install" when the snap isn't installed yet (choosing a channel up front), or
+       "Switch channel" when it's already installed (per Figma: node 581:7526). -->
+  <dialog id="channel-dialog" aria-labelledby="channel-dialog-title">
+    <div class="dialog-head">
+      <h2 id="channel-dialog-title">Switch channel for GIMP</h2>
+      <button class="btn-close" id="btn-channel-close" aria-label="Close">×</button>
+    </div>
+    <div style="padding:20px 24px">
+      <label style="display:block">
+        <span class="label">Channel</span>
+        <select id="channel-select" style="width:100%;margin-top:6px;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font:inherit"></select>
+      </label>
+    </div>
+    <div class="dialog-foot" style="justify-content:flex-end">
+      <button type="button" class="btn-primary" id="btn-channel-confirm">Install</button>
+    </div>
+  </dialog>
+
+  <!-- Authentication Required: shown before any Update or Uninstall completes on the Manage
+       page (DE92 target flow — password prompt for both snap and deb).
+       Styled as a real Polkit modal (Figma: Yaru - Core component library, Modal / Polkit variant). -->
+  <dialog id="auth-dialog" class="modal-polkit" aria-labelledby="auth-dialog-title">
+    <div class="modal-polkit-text">
+      <h2 id="auth-dialog-title">Authentication Required</h2>
+      <p id="auth-dialog-text"></p>
+    </div>
+    <div class="modal-polkit-user">
+      <span class="modal-polkit-avatar">🧑</span>
+      <p>User</p>
+    </div>
+    <input type="password" id="auth-password" class="modal-polkit-password" placeholder="Password">
+    <div class="modal-polkit-actions">
+      <button type="button" class="btn-secondary" id="btn-auth-cancel">Cancel</button>
+      <button type="button" class="btn-secondary" id="btn-auth-confirm">Accept</button>
+    </div>
+  </dialog>
+
+  <script>
+    /* ── Scenario definitions ──────────────────────────────────────────── */
+    const SCENARIOS = {
+      'snap-deb-fresh': {
+        installed: null,
+        defaultFormat: 'snap',
+        hasAlternatives: true,
+        isSnap: true,
+        channel: 'latest/stable',
+        publisherHtml: 'GIMP team <span class="verified">✓</span>',
+        showCategory: true,
+        showMore: true,
+        showSwitchChannel: true,
+        descHeading: 'High-end image creation and manipulation',
+        descP1: 'GIMP is Community-driven Free Software for high-end image creation and manipulation.',
+        descP2: 'It has many capabilities. It can be used as a simple paint program, an expert quality photo retouching program, an online batch processing system, a mass production image renderer, an image format converter, etc.',
+        descP3: 'GIMP is expandable and extensible. It is designed to be augmented with plug-ins and extensions to do just about anything. The advanced scripting interface allows everything from the simplest task to the most complex image manipulation procedures to be easily scripted.',
+        infoSize: '147.21 MB',
+        infoPermissions: 'Sandboxed',
+        infoVersion: '3.2.4',
+        infoUpdated: 'Apr 17, 2026',
+        infoPkgtype: 'Snap',
+        infoLicense: 'GPL-3.0+ AND LGPL-3.0+',
+        infoLinks: 'Developer website',
+        metaPublisher: 'GIMP team · Verified',
+        metaPubDate: 'Apr 17, 2026',
+        metaLicense: 'GPL-3.0+ AND LGPL-3.0+',
+        metaCategory: 'Art and Design',
+        metaAgeRating: '3+',
+        metaInstallDate: 'Not installed',
+        metaLanguages: 'English + 30 more',
+        metaLinksHtml: '<a href="#">Developer website</a><a href="#">Contact publisher</a>',
+        metaTermsHtml: '<a href="#">Privacy policy</a><a href="#">License agreement</a>',
+      },
+      'snap-deb-installed': {
+        installed: 'snap',
+        defaultFormat: 'snap',
+        hasAlternatives: true,
+        isSnap: true,
+        channel: 'latest/stable',
+        publisherHtml: 'GIMP team <span class="verified">✓</span>',
+        showCategory: true,
+        showMore: true,
+        showSwitchChannel: true,
+        descHeading: 'High-end image creation and manipulation',
+        descP1: 'GIMP is Community-driven Free Software for high-end image creation and manipulation.',
+        descP2: 'It has many capabilities. It can be used as a simple paint program, an expert quality photo retouching program, an online batch processing system, a mass production image renderer, an image format converter, etc.',
+        descP3: 'GIMP is expandable and extensible. It is designed to be augmented with plug-ins and extensions to do just about anything. The advanced scripting interface allows everything from the simplest task to the most complex image manipulation procedures to be easily scripted.',
+        infoSize: '147.21 MB',
+        infoPermissions: 'Sandboxed',
+        infoVersion: '3.2.4',
+        infoUpdated: 'Apr 17, 2026',
+        infoPkgtype: 'Snap',
+        infoLicense: 'GPL-3.0+ AND LGPL-3.0+',
+        infoLinks: 'Developer website',
+        metaPublisher: 'GIMP team · Verified',
+        metaPubDate: 'Apr 17, 2026',
+        metaLicense: 'GPL-3.0+ AND LGPL-3.0+',
+        metaCategory: 'Art and Design',
+        metaAgeRating: '3+',
+        metaInstallDate: 'Today',
+        metaLanguages: 'English + 30 more',
+        metaLinksHtml: '<a href="#">Developer website</a><a href="#">Contact publisher</a>',
+        metaTermsHtml: '<a href="#">Privacy policy</a><a href="#">License agreement</a>',
+      },
+      // Reverse format-switching direction: app was installed as a deb before this app was
+      // package-agnostic (or the user picked deb explicitly); snap is available as a secondary
+      // option. Mirrors 'snap-deb-installed' — uninstall deb first, then install snap (no direct
+      // "Switch to Snap" shortcut), per the agreed Figma flow (deprecated flow used a direct
+      // switch button and was rejected).
+      'deb-installed': {
+        installed: 'deb',
+        defaultFormat: 'snap',
+        hasAlternatives: true,
+        isSnap: false,
+        publisherHtml: 'The GIMP team',
+        showCategory: true,
+        showMore: true,
+        showSwitchChannel: false,
+        descHeading: 'High-end image creation and manipulation',
+        descP1: 'GIMP is Community-driven Free Software for high-end image creation and manipulation.',
+        descP2: 'It has many capabilities. It can be used as a simple paint program, an expert quality photo retouching program, an online batch processing system, a mass production image renderer, an image format converter, etc.',
+        descP3: 'GIMP is expandable and extensible. It is designed to be augmented with plug-ins and extensions to do just about anything. The advanced scripting interface allows everything from the simplest task to the most complex image manipulation procedures to be easily scripted.',
+        infoSize: '20.03 MB',
+        infoPermissions: 'Unrestricted',
+        infoVersion: '2.10.36-3ubuntu0.24.04.1+esm3',
+        infoUpdated: 'Feb 21, 2023',
+        infoPkgtype: 'Deb',
+        infoLicense: 'GPL-3.0+ AND LGPL-3.0+',
+        infoLinks: 'Developer website',
+        metaPublisher: 'The GIMP team',
+        metaPubDate: 'Not available',
+        metaLicense: 'GPL-3.0+ AND LGPL-3.0+',
+        metaCategory: 'Art and Design',
+        metaAgeRating: 'Not available',
+        metaInstallDate: 'Today',
+        metaLanguages: 'English + 30 more',
+        metaLinksHtml: '<a href="#">Developer website</a><a href="#">Contact publisher</a>',
+        metaTermsHtml: '<span style="color:var(--muted)">Not available</span>',
+      },
+      // Both formats installed at once (Figma: "snap and deb both already installed").
+      // Decision (27 Aug 2026): the app page defaults to whichever format was installed last —
+      // here, deb — with the other format ("also installed") reachable via the secondary
+      // options. The Manage page lists both as separate installed rows (see gimpManageRows()).
+      'both-installed': {
+        installed: 'deb',
+        alsoInstalled: 'snap',
+        hasAlternatives: true,
+        isSnap: false,
+        publisherHtml: 'The GIMP team',
+        showCategory: true,
+        showMore: true,
+        showSwitchChannel: false,
+        descHeading: 'High-end image creation and manipulation',
+        descP1: 'GIMP is Community-driven Free Software for high-end image creation and manipulation.',
+        descP2: 'It has many capabilities. It can be used as a simple paint program, an expert quality photo retouching program, an online batch processing system, a mass production image renderer, an image format converter, etc.',
+        descP3: 'GIMP is expandable and extensible. It is designed to be augmented with plug-ins and extensions to do just about anything. The advanced scripting interface allows everything from the simplest task to the most complex image manipulation procedures to be easily scripted.',
+        infoSize: '20.03 MB',
+        infoPermissions: 'Unrestricted',
+        infoVersion: '2.10.36-3ubuntu0.24.04.1+esm3',
+        infoUpdated: 'Feb 21, 2023',
+        infoPkgtype: 'Deb',
+        infoLicense: 'GPL-3.0+ AND LGPL-3.0+',
+        infoLinks: 'Developer website',
+        metaPublisher: 'The GIMP team',
+        metaPubDate: 'Not available',
+        metaLicense: 'GPL-3.0+ AND LGPL-3.0+',
+        metaCategory: 'Art and Design',
+        metaAgeRating: 'Not available',
+        metaInstallDate: 'Today',
+        metaLanguages: 'English + 30 more',
+        metaLinksHtml: '<a href="#">Developer website</a><a href="#">Contact publisher</a>',
+        metaTermsHtml: '<span style="color:var(--muted)">Not available</span>',
+      },
+    };
+
+    /* ── Refs ──────────────────────────────────────────────────────────── */
+    let activeState = 'snap-deb-fresh';
+    let modalFormat = 'snap';
+
+    const $ = id => document.getElementById(id);
+
+    /* ── Apply scenario ────────────────────────────────────────────────── */
+    function applyScenario(key) {
+      const s = SCENARIOS[key];
+      activeState = key;
+
+      // Publisher + category
+      $('publisher-line').innerHTML = s.publisherHtml;
+      $('category-line').hidden = !s.showCategory;
+
+      // Buttons
+      const isInstalled = s.installed !== null;
+      $('btn-install').hidden = isInstalled;
+      $('btn-install').textContent = 'Install';
+      $('btn-install').disabled = false;
+      $('btn-open').hidden = !isInstalled;
+      $('btn-uninstall').hidden = !isInstalled;
+      // ⋮ button: only show when there's at least one menu item
+      $('btn-more').hidden = !s.showMore;
+      $('btn-switch-channel').hidden = !s.showSwitchChannel;
+      $('btn-other-formats').hidden = !s.hasAlternatives;
+      updateMoreMenuVisibility();
+
+      $('gallery-heading').textContent  = s.descHeading;
+
+      $('desc-p1').textContent = s.descP1;
+      $('desc-p2').textContent = s.descP2;
+      $('desc-p3').textContent = s.descP3;
+
+      // Info panel
+      $('info-size').textContent        = s.infoSize;
+      setInfoPermissions(s.infoPermissions);
+      $('info-pkgtype').textContent     = s.infoPkgtype;
+      setInfoVersion(s.isSnap ? snapVersionDisplay(s.channel) : s.infoVersion);
+
+      // Additional information
+      $('meta-publisher').textContent    = s.metaPublisher;
+      $('meta-pub-date').textContent     = s.metaPubDate;
+      $('meta-updated').textContent      = s.infoUpdated;
+      $('meta-license').textContent      = s.metaLicense;
+      $('meta-category').textContent     = s.metaCategory;
+      $('meta-age').textContent          = s.metaAgeRating;
+      $('meta-install-date').textContent = s.metaInstallDate;
+      $('meta-languages').textContent    = s.metaLanguages;
+      $('meta-links').innerHTML          = s.metaLinksHtml;
+      $('meta-terms').innerHTML          = s.metaTermsHtml;
+      updateSnapOnlyFields();
+
+      // Proto buttons (scenario switcher)
+      document.querySelectorAll('.proto-btn[data-state]').forEach(b =>
+        b.classList.toggle('active', b.dataset.state === key)
+      );
+
+      // Manage page's GIMP rows depend on this scenario's install state, keep them in sync
+      if (typeof renderInstalled === 'function') renderInstalled();
+    }
+
+    /* ── Comparison table: always lists every format (Snap, Deb, Flatpak) so users can compare and switch between them. ── */
+    const ALL_FORMATS = [
+      { id: 'snap',    label: 'Snap',    publisher: 'GIMP team',     verified: true, source: 'Snap Store',    channel: 'latest/stable', version: '3.2.4',                         perms: 'Sandboxed',    date: 'Apr 17, 2026', size: '147.21 MB', pkgtype: 'Snap',    infoPermissions: 'Sandboxed',    publisherHtml: 'GIMP team <span class="verified">✓</span>', pubDate: 'Apr 17, 2026',  termsHtml: '<a href="#">Privacy policy</a><a href="#">License agreement</a>' },
+      { id: 'deb',     label: 'Deb',     publisher: 'The GIMP Team', source: 'Ubuntu archive', channel: '—',           version: '2.10.36-3ubuntu0.24.04.1+esm3', perms: 'Unrestricted', date: 'Feb 21, 2023', size: '20.03 MB',  pkgtype: 'Deb',     infoPermissions: 'Unrestricted', publisherHtml: 'The GIMP team', pubDate: 'Not available', termsHtml: '<span style="color:var(--muted)">Not available</span>' },
+      { id: 'flatpak', label: 'Flatpak', publisher: 'The GIMP Team', source: 'Flathub',        channel: '—',           version: '3.2.4',                         perms: 'Unrestricted', date: 'Apr 1, 2026',  size: '99.6 MB',   pkgtype: 'Flatpak', infoPermissions: 'Unrestricted', publisherHtml: 'The GIMP team', pubDate: 'Not available', termsHtml: '<span style="color:var(--muted)">Not available</span>' },
+    ];
+
+    /* Snap channels available from the "Switch channel" dialog (⋮ menu, Snap only). Per Figma
+       (node 581:7526): Version only shows the channel prefix when it isn't latest/stable. */
+    const SNAP_CHANNELS = [
+      { id: 'latest/stable', version: '3.2.4' },
+      { id: 'preview/stable', version: '3.3.0' },
+    ];
+
+    function snapVersionDisplay(channelId) {
+      const c = SNAP_CHANNELS.find(c => c.id === channelId) || SNAP_CHANNELS[0];
+      return channelId === 'latest/stable' ? c.version : `${channelId} ${c.version}`;
+    }
+
+    /* Copy that clearly states which format(s) are already installed, shown above the table.
+       Edge case: when more than one format is installed at once (s.alsoInstalled set), calls
+       that out explicitly instead of naming a single installed format. */
+    function installedWarningHtml(s) {
+      if (s.alsoInstalled) {
+        const a = ALL_FORMATS.find(f => f.id === s.installed);
+        const b = ALL_FORMATS.find(f => f.id === s.alsoInstalled);
+        return `<strong>${cap(a.id)} and ${cap(b.id)} are both installed</strong><br>
+          Uninstall both to switch to a different format. App data isn't shared between formats.`;
+      }
+      const installedFmt = ALL_FORMATS.find(f => f.id === s.installed);
+      const name = installedFmt ? cap(installedFmt.id) : '';
+      return `<strong>Already installed as ${name}</strong><br>
+        Uninstall it before installing a different package format. App data isn't shared between formats.`;
+    }
+
+    /* Shared uninstall logic: removes fmtId. If it was the primary installed format and a second
+       format is also installed (edge case), that second format is promoted to primary instead of
+       leaving the app fully uninstalled. */
+    function uninstallFormat(s, fmtId) {
+      if (fmtId === s.installed) {
+        if (s.alsoInstalled) {
+          s.installed = s.alsoInstalled;
+          s.alsoInstalled = null;
+        } else {
+          s.installed = null;
+        }
+      } else if (fmtId === s.alsoInstalled) {
+        s.alsoInstalled = null;
+      }
+    }
+
+    /* Builds the shared table rows: Install for available formats, Uninstall for the installed one(s). */
+    function formatsTableRows(s) {
+      const isInstalled = s.installed !== null;
+      return ALL_FORMATS.map(alt => {
+        const installedHere = alt.id === s.installed || alt.id === s.alsoInstalled;
+        // Publisher verification only applies to Snap — Deb and Flatpak have no equivalent status
+        const verifiedBadge = alt.verified ? ' <span class="verified">✓</span>' : '';
+        const label = installedHere
+          ? `${alt.label} <span class="tag-installed">Installed</span>`
+          : alt.label;
+        const btnLabel = installedHere ? 'Uninstall' : 'Install';
+        const disabled = !installedHere && isInstalled;
+        const handler  = installedHere
+          ? `handleAltUninstall(this,'${alt.id}')`
+          : `handleAltInstall(this,'${alt.id}')`;
+        // Snap only: channel/version reflect the currently selected channel, plus a way to
+        // switch it right from the comparison table instead of only via the ⋮ menu.
+        const isSnapRow = alt.id === 'snap';
+        const channelCell = isSnapRow
+          ? `${s.channel}<br><button type="button" class="table-link-btn" onclick="openChannelDialog()">Switch channel</button>`
+          : alt.channel;
+        const versionText = isSnapRow ? snapVersionDisplay(s.channel) : alt.version;
+        return `
+        <tr>
+          <td style="font-weight:500">${label}</td>
+          <td style="color:var(--muted);font-size:13px">${alt.publisher}${verifiedBadge}</td>
+          <td style="color:var(--muted);font-size:13px">${alt.source}</td>
+          <td style="color:var(--muted);font-size:13px">${channelCell}</td>
+          <td style="color:var(--muted);font-size:13px">
+            <span class="truncate-tip truncate-version" data-tip="${versionText}"><span class="truncate-inner">${versionText}</span></span>
+          </td>
+          <td>${permsCellHtml(alt.perms)}</td>
+          <td style="color:var(--muted);font-size:13px">${alt.date}</td>
+          <td style="color:var(--muted);font-size:13px">${alt.size}</td>
+          <td style="text-align:right">
+            <button class="btn-secondary" style="padding:5px 14px"
+              ${disabled ? 'disabled' : ''}
+              onclick="${handler}">${btnLabel}</button>
+          </td>
+        </tr>`;
+      }).join('');
+    }
+
+    /* Sets the Version info-panel value together with its truncation tooltip. */
+    function setInfoVersion(v) {
+      $('info-version-text').textContent = v;
+      $('info-version').dataset.tip = v;
+    }
+
+    /* Sets the Permissions info-panel value, plus the icon and hover tooltip that explain what
+       the access level means in plain language (sandboxed apps get a shield icon, unrestricted
+       apps don't). */
+    const PERMS_INFO = {
+      Sandboxed:    { icon: '🛡', tip: 'This app has limited access to your resources. You can control its permissions in the Settings app.' },
+      Unrestricted: { icon: '',   tip: 'This app has full access to your resources.' },
+    };
+
+    /* Shared markup for any "Permissions"/"App access" table cell — same icon + tooltip as the
+       info-panel, used by both the format comparison tables and the choose-format dialog. */
+    function permsCellHtml(label) {
+      const meta = PERMS_INFO[label] || { icon: '', tip: '' };
+      return `<span class="perms-value" data-tip="${meta.tip}"><span class="perms-icon" aria-hidden="true">${meta.icon}</span>${label}</span>`;
+    }
+
+    function setInfoPermissions(label) {
+      const meta = PERMS_INFO[label] || { icon: '', tip: '' };
+      $('info-permissions-text').textContent = label;
+      $('info-permissions-icon').textContent = meta.icon;
+      $('info-permissions').dataset.tip = meta.tip;
+    }
+
+    /* Rating, Publication date, and Terms and conditions have no Debian packaging equivalent —
+       only shown for the Snap format. */
+    function updateSnapOnlyFields() {
+      const isSnap = $('info-pkgtype').textContent === 'Snap';
+      $('info-panel').classList.toggle('has-rating', isSnap);
+      $('info-rating-cell').hidden = !isSnap;
+      $('meta-pub-date-cell').hidden = !isSnap;
+      $('meta-terms-cell').hidden = !isSnap;
+    }
+
+    /* Hide the ⋮ "More actions" button entirely when its dropdown would have no visible items. */
+    function updateMoreMenuVisibility() {
+      const hasMenuItems = !$('btn-switch-channel').hidden || !$('btn-other-formats').hidden;
+      $('btn-more').hidden = !hasMenuItems;
+    }
+
+    /* Refreshes every UI area that reflects install state, once an Install/Uninstall completes. */
+    function applyInstalledState() {
+      const s = SCENARIOS[activeState];
+      const isInstalled = s.installed !== null;
+      const fmt = ALL_FORMATS.find(f => f.id === s.installed);
+      renderInstalled();
+
+      // Hero actions
+      $('btn-install').hidden = isInstalled;
+      $('btn-install').textContent = 'Install';
+      $('btn-install').disabled = false;
+      $('btn-open').hidden = !isInstalled;
+      $('btn-uninstall').hidden = !isInstalled;
+      $('btn-uninstall').textContent = 'Uninstall';
+      $('btn-uninstall').disabled = false;
+      // Switch channel is a Snap-only concept — hide it for Deb/Flatpak
+      $('btn-switch-channel').hidden = isInstalled ? fmt.pkgtype !== 'Snap' : !s.showSwitchChannel;
+      updateMoreMenuVisibility();
+
+      if (isInstalled) {
+        $('publisher-line').innerHTML = fmt.publisherHtml;
+        $('info-size').textContent        = fmt.size;
+        setInfoPermissions(fmt.infoPermissions);
+        setInfoVersion(fmt.pkgtype === 'Snap' ? snapVersionDisplay(s.channel) : fmt.version);
+        $('meta-updated').textContent     = fmt.date;
+        $('info-pkgtype').textContent     = fmt.pkgtype;
+        $('meta-install-date').textContent = 'Today';
+        $('meta-pub-date').textContent    = fmt.pubDate;
+        $('meta-terms').innerHTML         = fmt.termsHtml;
+      } else {
+        $('publisher-line').innerHTML = s.publisherHtml;
+        $('info-size').textContent        = s.infoSize;
+        setInfoPermissions(s.infoPermissions);
+        setInfoVersion(s.isSnap ? snapVersionDisplay(s.channel) : s.infoVersion);
+        $('meta-updated').textContent     = s.infoUpdated;
+        $('info-pkgtype').textContent     = s.infoPkgtype;
+        $('meta-install-date').textContent = 'Not installed';
+        $('meta-pub-date').textContent    = s.metaPubDate;
+        $('meta-terms').innerHTML         = s.metaTermsHtml;
+      }
+      updateSnapOnlyFields();
+
+      // Comparison table (⋮ dialog) — refresh only while it's open
+      if ($('other-formats-dialog').open) {
+        $('other-formats-warning').hidden = !isInstalled;
+        if (isInstalled) $('other-formats-warning-text').innerHTML = installedWarningHtml(s);
+        $('other-formats-tbody').innerHTML = formatsTableRows(s);
+      }
+    }
+
+    function handleAltInstall(btn, fmtId) {
+      const fmt = ALL_FORMATS.find(f => f.id === fmtId);
+      if (!confirm(`Install ${fmt.pkgtype}?\n\nIn the real app this would start the installation.`)) return;
+      btn.textContent = 'Installing…';
+      btn.disabled = true;
+      setTimeout(() => {
+        SCENARIOS[activeState].installed = fmtId;
+        applyInstalledState();
+      }, 900);
+    }
+
+    function handleAltUninstall(btn, fmtId) {
+      const fmt = ALL_FORMATS.find(f => f.id === fmtId);
+      if (!confirm(`Uninstall ${fmt.pkgtype}?\n\nApp data for this package format will be removed.`)) return;
+      btn.textContent = 'Uninstalling…';
+      btn.disabled = true;
+      setTimeout(() => {
+        uninstallFormat(SCENARIOS[activeState], fmtId);
+        applyInstalledState();
+      }, 900);
+    }
+
+    /* ── ⋮ dropdown ─────────────────────────────────────────────────────── */
+    const btnMore   = $('btn-more');
+    const dropdown  = $('dropdown');
+
+    btnMore.addEventListener('click', () => {
+      const open = dropdown.hidden;
+      dropdown.hidden = !open;
+      btnMore.setAttribute('aria-expanded', String(open));
+    });
+
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.actions')) {
+        dropdown.hidden = true;
+        btnMore.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    /* ── Install / Uninstall buttons — simulate completion, mirroring the table rows ──────────── */
+    $('btn-install').addEventListener('click', () => {
+      const btn = $('btn-install');
+      const fmtId = $('info-pkgtype').textContent.toLowerCase();
+      btn.textContent = 'Installing…';
+      btn.disabled = true;
+      setTimeout(() => {
+        SCENARIOS[activeState].installed = fmtId;
+        applyInstalledState();
+      }, 900);
+    });
+
+    $('btn-uninstall').addEventListener('click', () => {
+      const btn = $('btn-uninstall');
+      btn.textContent = 'Uninstalling…';
+      btn.disabled = true;
+      setTimeout(() => {
+        const s = SCENARIOS[activeState];
+        uninstallFormat(s, s.installed);
+        applyInstalledState();
+      }, 900);
+    });
+
+    /* ── Other installation options popup (⋮ menu) ─────────────────── */
+    function openOtherFormatsDialog() {
+      const s = SCENARIOS[activeState];
+      const isInstalled = s.installed !== null;
+
+      $('other-formats-warning').hidden = !isInstalled;
+      if (isInstalled) $('other-formats-warning-text').innerHTML = installedWarningHtml(s);
+      $('other-formats-tbody').innerHTML = formatsTableRows(s);
+
+      $('other-formats-dialog').showModal();
+    }
+
+    $('btn-other-formats').addEventListener('click', () => {
+      dropdown.hidden = true;
+      btnMore.setAttribute('aria-expanded', 'false');
+      openOtherFormatsDialog();
+    });
+
+    $('btn-other-formats-close').addEventListener('click', () => $('other-formats-dialog').close());
+
+    /* ── Switch channel (⋮ → Switch channel, Snap only) ────────────────────
+       Button label/style depends on install state: "Install" (primary) when the snap
+       isn't installed yet, "Switch channel" (secondary) once it is. Per Figma node 581:7526. */
+    function openChannelDialog() {
+      const s = SCENARIOS[activeState];
+      const isSnapInstalled = s.installed === 'snap';
+
+      $('channel-select').innerHTML = SNAP_CHANNELS.map(c =>
+        `<option value="${c.id}" ${c.id === s.channel ? 'selected' : ''}>${c.id} ${c.version}</option>`
+      ).join('');
+
+      const btn = $('btn-channel-confirm');
+      btn.textContent = isSnapInstalled ? 'Switch channel' : 'Install';
+      btn.className = isSnapInstalled ? 'btn-secondary' : 'btn-primary';
+
+      $('channel-dialog').showModal();
+    }
+
+    $('btn-switch-channel').addEventListener('click', () => {
+      dropdown.hidden = true;
+      btnMore.setAttribute('aria-expanded', 'false');
+      openChannelDialog();
+    });
+
+    $('btn-channel-close').addEventListener('click', () => $('channel-dialog').close());
+
+    $('btn-channel-confirm').addEventListener('click', () => {
+      const s = SCENARIOS[activeState];
+      s.channel = $('channel-select').value;
+      if (s.installed !== 'snap') s.installed = 'snap';
+      applyInstalledState();
+      $('channel-dialog').close();
+    });
+
+    function openModal() {
+      const s = SCENARIOS[activeState];
+      const isInstalled = s.installed !== null;
+
+      // Warning bar
+      const warn = $('modal-warning');
+      warn.hidden = !isInstalled;
+      if (isInstalled) {
+        $('modal-warning-text').innerHTML =
+          `<strong>${cap(s.installed)} is currently installed.</strong>
+           You'll need to uninstall it before installing a different format.
+           App data is not shared between package formats.
+           <br><a href="#">Uninstall ${s.installed} first</a>`;
+      }
+
+      // Disable the non-default radio if format is installed
+      const radioSnap = $('radio-snap');
+      const radioDeb  = $('radio-deb');
+      if (isInstalled && s.installed === 'snap') {
+        radioDeb.disabled = true;
+        $('modal-row-deb').classList.add('row-disabled');
+      } else {
+        radioDeb.disabled = false;
+        $('modal-row-deb').classList.remove('row-disabled');
+      }
+
+      // Reset to snap (recommended default)
+      radioSnap.checked = true;
+      modalFormat = 'snap';
+      updateModalSelection('snap');
+
+      $('dialog').showModal();
+    }
+
+    /* ── Modal radio changes ────────────────────────────────────────────── */
+    document.querySelectorAll('[name=install-format]').forEach(r => {
+      r.addEventListener('change', () => {
+        modalFormat = r.value;
+        updateModalSelection(r.value);
+      });
+    });
+
+    $('modal-track').addEventListener('change', () => {
+      if (modalFormat === 'snap') updateModalSelection('snap');
+    });
+
+    function updateModalSelection(fmt) {
+      $('modal-row-snap').classList.toggle('row-selected', fmt === 'snap');
+      $('modal-row-deb').classList.toggle('row-selected', fmt === 'deb');
+
+      const track = $('modal-track').value;
+      $('modal-summary').textContent = fmt === 'snap'
+        ? `Snap Store · ${track} · 147 MB · Sandboxed`
+        : 'Ubuntu repository · 33.8 MB · Unrestricted access';
+    }
+
+    /* ── Modal confirm ──────────────────────────────────────────────────── */
+    $('btn-confirm').addEventListener('click', () => {
+      const fmt   = modalFormat;
+      const track = $('modal-track').value;
+
+      // Update info panel to reflect chosen format
+      if (fmt === 'snap') {
+        $('info-size').textContent        = '147.21 MB';
+        setInfoPermissions('Sandboxed');
+        setInfoVersion('3.2.4');
+        $('meta-updated').textContent     = 'Apr 17, 2026';
+        $('info-pkgtype').textContent     = 'Snap';
+        $('meta-license').textContent     = 'GPL-3.0+ AND LGPL-3.0+';
+      } else {
+        $('info-size').textContent        = '20.03 MB';
+        setInfoPermissions('Unrestricted');
+        setInfoVersion('2.10.36-3ubuntu0.24.04.1+esm3');
+        $('meta-updated').textContent     = 'Feb 21, 2023';
+        $('info-pkgtype').textContent     = 'Deb';
+        $('meta-license').textContent     = 'GPL-3.0+ AND LGPL-3.0+';
+      }
+      updateSnapOnlyFields();
+
+      $('dialog').close();
+
+      // If not yet installed, trigger install for the chosen format
+      if (SCENARIOS[activeState].installed === null) {
+        const btnInstall = $('btn-install');
+        btnInstall.textContent = `Installing ${cap(fmt)}…`;
+        btnInstall.disabled = true;
+      }
+    });
+
+    /* ── Modal close ────────────────────────────────────────────────────── */
+    $('btn-dialog-close').addEventListener('click', () => $('dialog').close());
+    $('btn-cancel').addEventListener('click', () => $('dialog').close());
+
+    /* ── Search bar: unified autocomplete, no format grouping (DE92 target flow) ──
+       Mock index only contains GIMP-related apps so the "gimp" example demonstrates
+       de-duplication: one row per app, regardless of whether it exists as snap/deb.
+       Deliberately no package-format field/filter anywhere in this data or UI. */
+    const SEARCH_INDEX = [
+      { id: 'gimp',     name: 'GNU Image Manipulation Program', publisher: 'GIMP team',        verified: true,  desc: 'High-end image creation and manipulation',                          iconBg: '#3a3a3a', initials: 'GI', keywords: ['gimp'] },
+      { id: 'gmic',     name: 'G\u2019MIC Plugins for GIMP',    publisher: 'Will French',       verified: false, desc: 'A Full-Featured Open-Source Framework for Image Processing',        iconBg: '#1a8a8a', initials: 'GM', keywords: ['gimp'] },
+      { id: 'openvino', name: 'openvino-ai-plugins-gimp',       publisher: 'Intel OpenVINO',    verified: true,  desc: 'Intel\u2019s OpenVINO\u2122 AI Plugins for GIMP',                    iconBg: '#0f4c99', initials: 'OV', keywords: ['gimp'] },
+    ];
+
+    function searchMatches(query) {
+      const q = query.trim().toLowerCase();
+      if (!q) return [];
+      return SEARCH_INDEX.filter(a =>
+        a.name.toLowerCase().includes(q) || a.keywords.some(k => k.includes(q))
+      );
+    }
+
+    function iconSwatch(app, size) {
+      return `<span class="app-icon-swatch" style="width:${size}px;height:${size}px;background:${app.iconBg};font-size:${Math.round(size * .38)}px">${app.initials}</span>`;
+    }
+
+    /* ── View switcher: Explore (default landing page) / app detail / search results ──── */
+    let currentView = 'explore-view';
+    let viewBeforeSearch = 'explore-view';
+
+    function showView(id) {
+      ['explore-view', 'app-detail-view', 'search-results-view', 'manage-view'].forEach(v => {
+        $(v).hidden = v !== id;
+      });
+      currentView = id;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* Explore: entry point when opening App Center — Featured Apps banner, no format
+       branding (DE92 target flow). None of these apps have a built-out detail page in
+       this prototype, so selecting one shows a placeholder instead of a real navigation. */
+    const EXPLORE_APPS = [
+      { id: 'gimp',    name: 'GNU Image Manipulation Program', publisher: 'GIMP team', verified: true, desc: 'Create images and edit photographs.',                                iconBg: '#3a3a3a', initials: 'GI' },
+      { id: 'gitea',   name: 'gitea',           publisher: 'Gitea',       verified: false, desc: 'Gitea - A painless self-hosted Git service',                         iconBg: '#4a934a', initials: 'GT' },
+      { id: 'gsm',     name: 'GNOME System Monitor', publisher: 'Canonical', verified: true, desc: 'System Monitor',                                                    iconBg: '#2c2c2c', initials: 'SM' },
+      { id: 'pycharm', name: 'pycharm',         publisher: 'JetBrains',   verified: true,  desc: 'PyCharm',                                                             iconBg: '#0f7c7c', initials: 'PC' },
+      { id: 'plex',    name: 'plexmediaserver', publisher: 'Plex, Inc.',  verified: true,  desc: 'Your media on all your devices.',                                     iconBg: '#1a1a1a', initials: 'PX' },
+      { id: 'halloy',  name: 'halloy',          publisher: 'Alan Pope',   verified: false, desc: 'IRC application written in Rust',                                     iconBg: '#c9705a', initials: 'H' },
+      { id: 'parca',   name: 'parca-agent',     publisher: 'Parca Team',  verified: true,  desc: 'Parca Agent is an always-on sampling profiler that uses eBPF',        iconBg: '#111827', initials: 'P' },
+    ];
+
+    function resultCardHtml(app, onclick) {
+      return `
+        <button type="button" class="result-card" onclick="${onclick}">
+          ${iconSwatch(app, 48)}
+          <span class="result-card-body">
+            <span class="result-card-name">${app.name}${app.verified ? ' <span class="verified">✓</span>' : ''}</span>
+            <span class="result-card-publisher">${app.publisher}</span>
+            <span class="result-card-desc">${app.desc}</span>
+          </span>
+        </button>`;
+    }
+
+    function selectExploreApp(id) {
+      // GIMP is the only app with a real detail page in this prototype — every other card
+      // is a decorative placeholder.
+      if (id === 'gimp') { showView('app-detail-view'); return; }
+      const app = EXPLORE_APPS.find(a => a.id === id);
+      alert(`In the real app this would open the "${app.name}" detail page.\n\n(This prototype only has the GIMP detail page built out.)`);
+    }
+
+    function renderExplore() {
+      $('explore-grid').innerHTML = EXPLORE_APPS.map(a => resultCardHtml(a, `selectExploreApp('${a.id}')`)).join('');
+    }
+
+    function closeSearchDropdown() {
+      $('search-dropdown').hidden = true;
+    }
+
+    function renderSearchDropdown(query) {
+      const dropdown = $('search-dropdown');
+      if (!query.trim()) { closeSearchDropdown(); dropdown.innerHTML = ''; return; }
+      const matches = searchMatches(query);
+      if (!matches.length) {
+        dropdown.innerHTML = `<div class="search-empty">No results for "${query}"</div>`;
+        dropdown.hidden = false;
+        return;
+      }
+      dropdown.innerHTML = matches.map(a => `
+        <button type="button" class="search-row" onclick="selectSearchResult('${a.id}')">
+          ${iconSwatch(a, 28)}
+          <span>${a.name}</span>
+        </button>`).join('') + `
+        <button type="button" class="search-row search-row-seeall" onclick='openSearchResults(${JSON.stringify(query)})'>
+          See all results for "${query}"
+        </button>`;
+      dropdown.hidden = false;
+    }
+
+    /* Selecting any result — from the dropdown or the results page — lands on a single
+       unified detail page (no per-format duplicates). This prototype only has the GIMP
+       page built out, so other matches show a placeholder instead of a real navigation. */
+    function selectSearchResult(id) {
+      closeSearchDropdown();
+      $('search-input').value = '';
+      if (id === 'gimp') {
+        showView('app-detail-view');
+      } else {
+        const app = SEARCH_INDEX.find(a => a.id === id);
+        alert(`In the real app this would open the "${app.name}" detail page.\n\n(This prototype only has the GIMP detail page built out.)`);
+      }
+    }
+
+    /* Search results page: single de-duplicated entry per app, sorted by relevance and
+       popularity. Sort/filter controls intentionally omit any package-format option — that's
+       the whole point of the unified search experience. */
+    function openSearchResults(query) {
+      closeSearchDropdown();
+      $('search-input').value = '';
+      if (currentView !== 'search-results-view') viewBeforeSearch = currentView;
+      const matches = searchMatches(query);
+      $('search-results-heading').textContent = `Results for \u201c${query}\u201d`;
+      $('search-results-grid').innerHTML = matches.map(a => resultCardHtml(a, `selectSearchResult('${a.id}')`)).join('');
+      showView('search-results-view');
+    }
+
+    $('search-input').addEventListener('input', e => renderSearchDropdown(e.target.value));
+    $('search-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); openSearchResults(e.target.value); }
+      if (e.key === 'Escape') closeSearchDropdown();
+    });
+    document.addEventListener('click', e => {
+      if (!$('chrome-search').contains(e.target)) closeSearchDropdown();
+    });
+    $('chrome-back').addEventListener('click', () => {
+      if (currentView === 'search-results-view') showView(viewBeforeSearch);
+      else if (currentView === 'app-detail-view') showView('explore-view');
+    });
+    $('nav-explore').addEventListener('click', e => { e.preventDefault(); showView('explore-view'); });
+
+    /* ── Proto state bar ────────────────────────────────────────────────── */
+    document.querySelectorAll('[data-state]').forEach(btn => {
+      btn.addEventListener('click', () => { applyScenario(btn.dataset.state); showView('app-detail-view'); });
+    });
+
+    /* ── Manage page: Updates available + Installed apps, all formats, no mandatory
+       format filter (DE92 target flow). Update/Uninstall both go through the same
+       Authentication Required dialog, matching the FigJam flow for snap and deb. ── */
+    let UPDATES = [
+      { id: 'code', name: 'code', iconBg: '#0067c0', initials: '</>', channel: 'latest/stable', hashFrom: '110a328e', hashTo: '110a328e', warning: 'Quit to update' },
+    ];
+
+    let INSTALLED = [
+      { id: 'urw',        name: '(URW)++ Core Font Set [...',        version: '20200910-8',                 updated: 'Updated 9 years ago',  size: '16 MB',     pkgtype: 'deb',  iconBg: '#8a8a8a', initials: '⚙' },
+      { id: 'app-center', name: 'App Center',                        version: '2/stable 0+git.8334e2e4',    updated: 'Updated 4 days ago',   size: '12 MB',     pkgtype: 'snap', iconBg: '#e95420', initials: 'A' },
+      { id: 'appstream',  name: 'AppStream CLI',                     version: '1.0.2-1build6',              updated: 'Updated 3 years ago',  size: '340 kB',    pkgtype: 'deb',  iconBg: '#8a8a8a', initials: 'AS' },
+      { id: 'authd',      name: 'authd-google',                      version: '0.x/stable 0.4.1',           updated: 'Updated 2 months ago', size: '10 MB',     pkgtype: 'snap', iconBg: '#c0392b', initials: 'G' },
+      { id: 'brltty',     name: 'BRLTTY',                            version: '6.6-4ubuntu5',               updated: '',                     size: '10 MB',     pkgtype: 'deb',  iconBg: '#8a8a8a', initials: 'BR' },
+      { id: 'calculator', name: 'Calculator',                        version: '1:46.3-0ubuntu0.1',          updated: 'Updated 2 years ago',  size: '3 MB',      pkgtype: 'deb',  iconBg: '#f2a900', initials: '+' },
+      { id: 'livepatch',  name: 'canonical-livepatch',                version: 'latest/stable v10.16.2',     updated: 'Updated 3 months ago', size: '14 MB',     pkgtype: 'snap', iconBg: '#e95420', initials: '⟳' },
+      { id: 'characters', name: 'Characters',                        version: '46.0-1build1',               updated: 'Updated 3 years ago',  size: '3 MB',      pkgtype: 'deb',  iconBg: '#5b5b5b', initials: 'Ω' },
+    ];
+
+    /* GIMP rows only appear in Manage when the active app-detail scenario has it installed —
+       both rows only show for the 'both-installed' edge case, not for every scenario. */
+    const GIMP_SNAP_ROW = { id: 'gimp-snap', name: 'GNU Image Manipulation Program', version: '3.2.4', updated: 'Updated today', size: '147.21 MB', pkgtype: 'snap', iconBg: '#3a3a3a', initials: 'GI', keywords: ['gimp'] };
+    const GIMP_DEB_ROW  = { id: 'gimp-deb',  name: 'GNU Image Manipulation Program', version: '2.10.36-3ubuntu0.24.04.1+esm3', updated: 'Updated 2 years ago', size: '20.03 MB', pkgtype: 'deb', iconBg: '#3a3a3a', initials: 'GI', keywords: ['gimp'] };
+
+    function gimpManageRows() {
+      const s = SCENARIOS[activeState];
+      const formats = [s.installed, s.alsoInstalled].filter(Boolean);
+      const rows = [];
+      if (formats.includes('snap')) rows.push(GIMP_SNAP_ROW);
+      if (formats.includes('deb')) rows.push(GIMP_DEB_ROW);
+      return rows;
+    }
+
+    function manageIconSwatch(app, size = 32) {
+      return `<span class="app-icon-swatch" style="width:${size}px;height:${size}px;background:${app.iconBg};font-size:${Math.round(size * .4)}px">${app.initials}</span>`;
+    }
+
+    function updateManageBadge() {
+      const badge = $('nav-manage-badge');
+      badge.hidden = UPDATES.length === 0;
+      badge.textContent = UPDATES.length;
+    }
+
+    function renderUpdates() {
+      $('updates-heading').textContent = `Updates available (${UPDATES.length})`;
+      $('btn-update-all').disabled = UPDATES.length === 0;
+      $('updates-list').innerHTML = UPDATES.length
+        ? UPDATES.map(u => `
+          <div class="manage-row">
+            ${manageIconSwatch(u)}
+            <div class="manage-row-main">
+              <span class="manage-row-name">${u.name}</span>
+              <span class="manage-row-meta">${u.channel} ${u.hashFrom} \u2192 ${u.hashTo}</span>
+            </div>
+            ${u.warning ? `<span class="manage-row-warning"><span class="warning-icon">⚠</span>${u.warning}</span>` : ''}
+            <button type="button" class="btn-secondary" onclick="handleUpdate('${u.id}')">Update</button>
+          </div>`).join('')
+        : '<div class="manage-empty">Everything is up to date.</div>';
+      updateManageBadge();
+    }
+
+    function renderInstalled() {
+      const query = $('installed-search').value.trim().toLowerCase();
+      // GIMP rows go first so the app this prototype is built around is easy to spot.
+      const list = [...gimpManageRows(), ...INSTALLED].filter(a => a.name.toLowerCase().includes(query) || (a.keywords || []).some(k => k.includes(query)));
+      $('installed-list').innerHTML = list.length
+        ? list.map(a => `
+          <div class="manage-row">
+            ${manageIconSwatch(a)}
+            <div class="manage-row-main">
+              <span class="manage-row-name">${a.name}</span>
+              <span class="manage-row-meta">${a.version} · ${a.pkgtype === 'snap' ? 'Snap' : 'Deb'}</span>
+            </div>
+            <span class="manage-row-updated">${a.updated}</span>
+            <span class="manage-row-size">${a.size}</span>
+            <button type="button" class="btn-secondary" onclick="handleUninstall('${a.id}')">Uninstall</button>
+          </div>`).join('')
+        : '<div class="manage-empty">No installed apps match your search.</div>';
+    }
+
+    /* Authentication Required: shared by Update and Uninstall — password prompt for both
+       snap and deb (DE92 target flow). Confirming runs the pending action. */
+    let pendingAuthAction = null;
+
+    function openAuthDialog(text, action) {
+      $('auth-dialog-text').textContent = text;
+      $('auth-password').value = '';
+      pendingAuthAction = action;
+      $('auth-dialog').showModal();
+    }
+
+    function closeAuthDialog() {
+      pendingAuthAction = null;
+      $('auth-dialog').close();
+    }
+
+    $('btn-auth-cancel').addEventListener('click', closeAuthDialog);
+    $('btn-auth-confirm').addEventListener('click', () => {
+      const action = pendingAuthAction;
+      $('auth-dialog').close();
+      pendingAuthAction = null;
+      if (action) action();
+    });
+
+    function handleUpdate(id) {
+      const u = UPDATES.find(x => x.id === id);
+      openAuthDialog(`Enter your password to update ${u.name}.`, () => {
+        UPDATES = UPDATES.filter(x => x.id !== id);
+        renderUpdates();
+      });
+    }
+
+    function handleUpdateAll() {
+      if (!UPDATES.length) return;
+      openAuthDialog(`Enter your password to update ${UPDATES.length} app${UPDATES.length === 1 ? '' : 's'}.`, () => {
+        UPDATES = [];
+        renderUpdates();
+      });
+    }
+
+    function handleUninstall(id) {
+      // GIMP rows are derived from the app-detail scenario's install state, not the static
+      // list, so uninstalling here must go through the same uninstallFormat() logic.
+      if (id === 'gimp-snap' || id === 'gimp-deb') {
+        const row = id === 'gimp-snap' ? GIMP_SNAP_ROW : GIMP_DEB_ROW;
+        openAuthDialog(`Enter your password to uninstall ${row.name}.`, () => {
+          uninstallFormat(SCENARIOS[activeState], row.pkgtype);
+          applyInstalledState();
+          renderInstalled();
+        });
+        return;
+      }
+      const a = INSTALLED.find(x => x.id === id);
+      openAuthDialog(`Enter your password to uninstall ${a.name}.`, () => {
+        INSTALLED = INSTALLED.filter(x => x.id !== id);
+        renderInstalled();
+      });
+    }
+
+    $('btn-check-updates').addEventListener('click', () =>
+      alert('Checking for updates\u2026\n\n(This prototype does not simulate finding new updates.)'));
+    $('btn-update-all').addEventListener('click', handleUpdateAll);
+    $('installed-search').addEventListener('input', renderInstalled);
+    $('installed-sort').addEventListener('change', renderInstalled);
+    $('show-system-snaps').addEventListener('change', renderInstalled);
+    $('nav-manage').addEventListener('click', e => { e.preventDefault(); showView('manage-view'); });
+
+    /* ── Helpers ────────────────────────────────────────────────────────── */
+    function cap(str) { return str.charAt(0).toUpperCase() + str.slice(1); }
+
+    /* ── Init ───────────────────────────────────────────────────────────── */
+    renderExplore();
+    renderUpdates();
+    renderInstalled();
+    // Optional deep link, e.g. ?state=deb-installed&view=manage, so a scenario and/or view can be
+    // shared/referenced directly (view defaults to app-detail-view when only ?state= is given).
+    const linkParams = new URLSearchParams(location.search);
+    const linkedState = linkParams.get('state');
+    const linkedView = linkParams.get('view');
+    const VALID_VIEWS = ['explore-view', 'app-detail-view', 'search-results-view', 'manage-view'];
+    if (linkedState && SCENARIOS[linkedState]) {
+      document.querySelectorAll('.proto-btn[data-state]').forEach(
+        b => b.classList.toggle('active', b.dataset.state === linkedState));
+      applyScenario(linkedState);
+    } else {
+      // Both formats installed by default so GIMP shows up on Manage right away, no scenario
+      // switching or search needed.
+      applyScenario('both-installed');
+    }
+    renderInstalled(); // re-render so Manage reflects whichever scenario just got applied
+    if (linkedView && VALID_VIEWS.includes(linkedView)) {
+      showView(linkedView);
+    } else if (linkedState && SCENARIOS[linkedState]) {
+      showView('app-detail-view');
+    }
+  </script>
+
+
+
+</body></html>

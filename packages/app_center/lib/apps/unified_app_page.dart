@@ -12,18 +12,15 @@ import 'package:app_center/error/error.dart';
 import 'package:app_center/extensions/string_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
+import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
 import 'package:app_center/ratings/ratings_l10n.dart';
-import 'package:app_center/snapd/snap_report.dart';
-import 'package:app_center/store/store_app.dart';
 import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:app_center/widgets/shimmer_placeholder.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,6 +37,16 @@ class UnifiedAppPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final details = ref.watch(appDetailsModelProvider(entry));
+
+    if (details.error is AppNotFound) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (context.mounted && Navigator.canPop(context)) {
+          ref.invalidate(filteredLocalSnapsProvider);
+          Navigator.pop(context);
+        }
+      });
+      return const Center(child: YaruCircularProgressIndicator());
+    }
 
     return details.when(
       data: (state) => ResponsiveLayoutBuilder(
@@ -62,6 +69,7 @@ class _UnifiedAppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final layout = ResponsiveLayout.of(context);
     final app = state.app;
     final name = app.name.valueOrNull ?? app.appId;
@@ -69,7 +77,7 @@ class _UnifiedAppView extends StatelessWidget {
     final icon = app.icon.valueOrNull;
     final screenshots = app.screenshots.valueOrNull ?? const <String>[];
     final description = app.description.valueOrNull;
-    final snapName = entry.mapOrNull(snap: (entry) => entry.snapName);
+    final categories = _categoryLabels(l10n, state.activePackage.categories);
 
     return AppPage(
       titleBar: AppTitleBar(
@@ -77,24 +85,44 @@ class _UnifiedAppView extends StatelessWidget {
         iconWidget: icon?.mapOrNull(
           file: (icon) => Image.file(File(icon.path), width: 96, height: 96),
         ),
-        title: AppTitle(
-          title: name,
-          publisher: publisher?.name,
-          verifiedPublisher:
-              publisher?.validation == PublisherValidation.verified,
-          starredPublisher:
-              publisher?.validation == PublisherValidation.starred,
-          large: true,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AppTitle(
+              title: name,
+              publisher: publisher?.name,
+              verifiedPublisher:
+                  publisher?.validation == PublisherValidation.verified,
+              starredPublisher:
+                  publisher?.validation == PublisherValidation.starred,
+              large: true,
+            ),
+            if (categories.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              Wrap(
+                children: [
+                  for (final (index, category) in categories.indexed) ...[
+                    if (index > 0) const Text(', '),
+                    // Category pages are not wired up yet.
+                    HyperlinkText(text: category, onTap: () {}),
+                  ],
+                ],
+              ),
+            ],
+          ],
         ),
-        actions: snapName == null
-            ? null
-            : _IconRow(snapName: snapName, title: name),
       ),
       actionBar: _ActionBar(entry: entry, state: state),
       infoBar: _InfoBar(state: state),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            app.summary.valueOrNull ?? '',
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          const SizedBox(height: kPagePadding),
           if (screenshots.isNotEmpty) ...[
             ScreenshotGallery(
               title: name,
@@ -103,17 +131,26 @@ class _UnifiedAppView extends StatelessWidget {
             ),
             const SizedBox(height: kSectionSpacing),
           ],
-          Text(
-            app.summary.valueOrNull ?? '',
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
-          const SizedBox(height: kPagePadding),
-          if (description != null) _Description(description: description),
+          if (description != null) ...[
+            _Description(description: description),
+            const SizedBox(height: kSectionSpacing),
+          ],
+          _AdditionalInfo(state: state),
         ],
       ),
     );
   }
 }
+
+List<String> _categoryLabels(
+  AppLocalizations l10n,
+  FieldState<List<AppCategory>> categories,
+) => [
+  for (final category in categories.valueOrNull ?? const <AppCategory>[])
+    if (category != AppCategory.featured) category.localize(l10n),
+];
+
+String _formatDate(DateTime date) => DateFormat.yMMMd().format(date);
 
 class _Description extends StatelessWidget {
   const _Description({required this.description});
@@ -279,25 +316,19 @@ class _InfoBar extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final active = state.activePackage;
     final release = state.release;
-    final footer = state.footer;
     final size = release.size.valueOrNull;
     final confinement = active.confinement.valueOrNull;
-    final published = release.releaseDate.valueOrNull;
-    final links = footer.links.valueOrNull ?? const {};
+    final version = release.version.valueOrNull ?? '';
+    final channel = active.channel;
+    final displayedVersion = channel == null || channel == 'latest/stable'
+        ? version
+        : '$channel $version';
 
     return Wrap(
       spacing: kPagePadding,
       runSpacing: 32,
       children: [
         ?_ratingsItem(context, l10n),
-        _InfoItem(
-          label: Text(
-            size?.kind == SizeKind.installed
-                ? l10n.snapPageSizeLabel
-                : l10n.snapPageDownloadSizeLabel,
-          ),
-          value: Text(size == null ? '' : context.formatByteSize(size.bytes)),
-        ),
         if (confinement != null)
           _InfoItem(
             label: Text(l10n.snapPageConfinementLabel),
@@ -318,45 +349,30 @@ class _InfoBar extends StatelessWidget {
           ),
         _InfoItem(
           label: Text(l10n.snapPageVersionLabel),
-          value: Text(release.version.valueOrNull ?? ''),
-        ),
-        if (active.channel != null)
-          _InfoItem(
-            label: Text(l10n.snapPageChannelLabel),
-            value: Text(active.channel!),
-          ),
-        _InfoItem(
-          label: Text(l10n.snapPagePublishedLabel),
-          value: Text(
-            published != null
-                ? DateFormat.yMMMd().format(published)
-                : l10n.appPublishedUnknown,
-          ),
-        ),
-        _InfoItem(
-          label: Text(l10n.snapPageLicenseLabel),
-          value: Text(footer.license.valueOrNull ?? l10n.appLicenseUnknown),
-        ),
-        if (links.isNotEmpty)
-          _InfoItem(
-            label: Text(l10n.snapPageLinksLabel),
-            value: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                for (final MapEntry(key: type, value: url) in links.entries)
-                  HyperlinkText(
-                    text: switch (type) {
-                      AppLink.homepage => l10n.appUrlTypeHomepage,
-                      AppLink.contact => l10n.appUrlTypeContact(
-                        footer.publisher.valueOrNull?.name ?? '',
-                      ),
-                      AppLink.unknown => l10n.appUrlTypeUnknown,
-                    },
-                    link: url,
-                  ),
-              ],
+          value: Tooltip(
+            message: displayedVersion,
+            child: Text(
+              displayedVersion,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
+        ),
+        _InfoItem(
+          label: Text(
+            size?.kind == SizeKind.installed
+                ? l10n.snapPageSizeLabel
+                : l10n.snapPageDownloadSizeLabel,
+          ),
+          value: Text(size == null ? '' : context.formatByteSize(size.bytes)),
+        ),
+        _InfoItem(
+          label: Text(l10n.appDetailsPackageFormatLabel),
+          value: Text(switch (active.format) {
+            PackageFormat.snap => l10n.managePagePackageTypeSnap,
+            PackageFormat.deb => l10n.managePagePackageTypeDeb,
+          }),
+        ),
       ],
     );
   }
@@ -422,53 +438,97 @@ class _InfoItem extends StatelessWidget {
   }
 }
 
-class _IconRow extends ConsumerWidget {
-  const _IconRow({required this.snapName, required this.title});
+class _AdditionalInfo extends StatelessWidget {
+  const _AdditionalInfo({required this.state});
 
-  final String snapName;
-  final String title;
+  final AppDetailsViewState state;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final active = state.activePackage;
+    final footer = state.footer;
+    final notAvailable = l10n.appDetailsNotAvailable;
+    final categories = _categoryLabels(l10n, active.categories);
+    final links = footer.links.valueOrNull ?? const {};
+    final installDate = footer.installDate.valueOrNull;
+    final releaseDate = state.release.releaseDate.valueOrNull;
+    final languages = footer.languages.valueOrNull ?? const [];
 
-    return Row(
+    _InfoItem item(String label, String value) =>
+        _InfoItem(label: Text(label), value: Text(value));
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        YaruIconButton(
-          icon: Icon(
-            YaruIcons.share,
-            semanticLabel: l10n.snapPageShareSemanticLabel,
-          ),
-          onPressed: () {
-            final navigationKey = ref.read(materialAppNavigatorKeyProvider);
-            final context = navigationKey.currentContext!;
-
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(l10n.snapPageShareLinkCopiedMessage)),
-            );
-            SemanticsService.sendAnnouncement(
-              View.of(context),
-              l10n.snapPageShareLinkCopiedMessage,
-              Directionality.of(context),
-            );
-            unawaited(
-              Clipboard.setData(
-                ClipboardData(text: '$snapStoreBaseUrl/$snapName'),
-              ),
-            );
-          },
+        Text(
+          l10n.appDetailsAdditionalInfoLabel,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
-        YaruIconButton(
-          icon: Icon(
-            YaruIcons.flag,
-            semanticLabel: l10n.snapPageReportSemanticLabel,
-          ),
-          onPressed: () => showDialog<void>(
-            context: context,
-            builder: (context) => ResponsiveLayoutBuilder(
-              builder: (context) => SnapReport(name: title, snapName: snapName),
+        const SizedBox(height: kPagePadding),
+        Wrap(
+          spacing: kPagePadding,
+          runSpacing: 32,
+          children: [
+            item(
+              l10n.snapPagePublisherLabel,
+              footer.publisher.valueOrNull?.name ?? notAvailable,
             ),
-          ),
+            item(
+              l10n.snapPagePublishedLabel,
+              releaseDate == null
+                  ? l10n.appPublishedUnknown
+                  : _formatDate(releaseDate),
+            ),
+            item(
+              l10n.snapPageLicenseLabel,
+              footer.license.valueOrNull ?? l10n.appLicenseUnknown,
+            ),
+            item(
+              l10n.appDetailsCategoryLabel,
+              categories.isEmpty ? notAvailable : categories.join(', '),
+            ),
+            // Pending a decision on mapping OARS levels to ages.
+            item(l10n.appDetailsAgeRatingLabel, notAvailable),
+            item(
+              l10n.appDetailsInstallDateLabel,
+              installDate != null
+                  ? _formatDate(installDate)
+                  : active.installState == InstallState.installed
+                  ? notAvailable
+                  : l10n.appDetailsNotInstalled,
+            ),
+            item(
+              l10n.appDetailsLanguagesLabel,
+              languages.isEmpty ? notAvailable : languages.join(', '),
+            ),
+            _InfoItem(
+              label: Text(l10n.snapPageLinksLabel),
+              value: links.isEmpty
+                  ? Text(notAvailable)
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        for (final MapEntry(key: type, value: url)
+                            in links.entries)
+                          HyperlinkText(
+                            text: switch (type) {
+                              AppLink.homepage => l10n.appUrlTypeHomepage,
+                              AppLink.contact => l10n.appUrlTypeContact(
+                                footer.publisher.valueOrNull?.name ?? '',
+                              ),
+                              AppLink.unknown => l10n.appUrlTypeUnknown,
+                            },
+                            link: url,
+                          ),
+                      ],
+                    ),
+            ),
+            item(
+              l10n.appDetailsTermsLabel,
+              footer.terms.valueOrNull ?? notAvailable,
+            ),
+          ],
         ),
       ],
     );

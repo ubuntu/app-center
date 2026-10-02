@@ -76,6 +76,16 @@ class InvalidAppDetailsEntry implements Exception {
   String toString() => 'InvalidAppDetailsEntry($entry)';
 }
 
+/// Every source of the app is confirmed to no longer exist.
+class AppNotFound implements Exception {
+  const AppNotFound(this.entry);
+
+  final AppDetailsEntry entry;
+
+  @override
+  String toString() => 'AppNotFound($entry)';
+}
+
 @freezed
 class ResolvedAppIdentity with _$ResolvedAppIdentity {
   const factory ResolvedAppIdentity({

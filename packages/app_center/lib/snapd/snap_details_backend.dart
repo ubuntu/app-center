@@ -38,6 +38,15 @@ AsyncValue<PackageSourceSnapshot> snapSourceSnapshot(
   String snapName,
 ) {
   final model = ref.watch(snapModelProvider(snapName));
+  if (model.error is SnapDataNotFoundException && !model.isLoading) {
+    // Not found confirms the snap is absent, unlike other errors.
+    return AsyncError<PackageSourceSnapshot>(
+      PackageSourceNotFound(
+        SourceKey(format: PackageFormat.snap, id: snapName),
+      ),
+      model.stackTrace ?? StackTrace.empty,
+    ).copyWithPrevious(AsyncData(snapSnapshotWithoutStore(snapName, null)));
+  }
   if (!model.hasValue && model.hasError) {
     final local = ref.watch(snapLocalStateProvider(snapName));
     if (local.isLoading) return const AsyncLoading();
