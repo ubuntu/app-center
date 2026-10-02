@@ -889,20 +889,7 @@ void main() {
 
     test('reports progress and success', () async {
       final packageKit = createService(
-        createMockPackageKitTransaction(
-          events: const [
-            PackageKitItemProgressEvent(
-              packageId: foo,
-              status: PackageKitStatus.download,
-              percentage: 30,
-            ),
-            PackageKitItemProgressEvent(
-              packageId: foo,
-              status: PackageKitStatus.download,
-              percentage: 101,
-            ),
-          ],
-        ),
+        createMockPackageKitTransaction(percentages: const [30, 101]),
       );
       final events = <PackageKitMutation>[];
       packageKit.mutationEvents.listen(events.add);

@@ -251,6 +251,7 @@ MockPackageKitClient createMockPackageKitClient({
 @GenerateMocks([PackageKitTransaction])
 MockPackageKitTransaction createMockPackageKitTransaction({
   Iterable<PackageKitEvent>? events,
+  Iterable<int> percentages = const [],
   PackageKitExit? exit,
   int? runtime,
   Future<void>? start,
@@ -258,10 +259,20 @@ MockPackageKitTransaction createMockPackageKitTransaction({
 }) {
   final transaction = MockPackageKitTransaction();
   final controller = StreamController<PackageKitEvent>.broadcast();
+  final properties = StreamController<List<String>>.broadcast();
+  var percentage = 101;
   when(transaction.events).thenAnswer((_) => controller.stream);
+  when(transaction.propertiesChanged).thenAnswer((_) => properties.stream);
+  when(transaction.percentage).thenAnswer((_) => percentage);
 
   Future<void> emitEvents() async {
     if (start != null) await start;
+    for (final value in percentages) {
+      percentage = value;
+      properties.add(['Percentage']);
+      // Let listeners read this value before the next one.
+      await Future<void>.delayed(Duration.zero);
+    }
     for (final event in events ?? <PackageKitEvent>[]) {
       controller.add(event);
     }
@@ -278,6 +289,7 @@ MockPackageKitTransaction createMockPackageKitTransaction({
     );
     controller.add(const PackageKitDestroyEvent());
     await controller.close();
+    await properties.close();
   }
 
   // Add similar statements for further methods as needed.

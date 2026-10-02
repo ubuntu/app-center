@@ -211,7 +211,7 @@ class _ActionBar extends ConsumerWidget {
     final uninstall = state.actions.secondary.firstWhereOrNull(
       (action) => action.kind == ActionKind.uninstall,
     );
-    final moreActions = state.actions.secondary
+    final otherActions = state.actions.secondary
         .where(
           (action) =>
               action.kind != ActionKind.uninstall &&
@@ -236,7 +236,7 @@ class _ActionBar extends ConsumerWidget {
           ActiveChangeStatus(
             key: ValueKey(operation.id),
             actionLabel: _operationLabel(l10n, operation.kind),
-            progress: operation.progress ?? 0,
+            progress: operation.progress,
             onCancelPressed: operation.canCancel
                 ? () => unawaited(model.cancel(operation.id))
                 : null,
@@ -249,23 +249,22 @@ class _ActionBar extends ConsumerWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
+        for (final action in otherActions)
+          OutlinedButton(
+            onPressed: run(action),
+            child: Text(_actionLabel(l10n, action.kind)),
+          ),
         if (uninstall != null)
           OutlinedButton(
             onPressed: run(uninstall),
             child: Text(l10n.snapActionRemoveLabel),
           ),
-        if (moreActions.isNotEmpty || otherFormats.isNotEmpty)
+        if (otherFormats.isNotEmpty)
           YaruPopupMenuButton<void>(
             showArrow: false,
             semanticLabel: l10n.appMoreActionsSemanticLabel,
             childPadding: const EdgeInsets.symmetric(horizontal: 2),
             itemBuilder: (context) => [
-              for (final action in moreActions)
-                _menuItem(
-                  _actionLabel(l10n, action.kind),
-                  enabled: action.enabled,
-                  onTap: run(action),
-                ),
               for (final (format, action) in otherFormats)
                 _menuItem(
                   '${_actionLabel(l10n, action.kind)} '
@@ -453,7 +452,6 @@ class _AdditionalInfo extends StatelessWidget {
     final links = footer.links.valueOrNull ?? const {};
     final installDate = footer.installDate.valueOrNull;
     final releaseDate = state.release.releaseDate.valueOrNull;
-    final languages = footer.languages.valueOrNull ?? const [];
 
     _InfoItem item(String label, String value) =>
         _InfoItem(label: Text(label), value: Text(value));
@@ -488,8 +486,6 @@ class _AdditionalInfo extends StatelessWidget {
               l10n.appDetailsCategoryLabel,
               categories.isEmpty ? notAvailable : categories.join(', '),
             ),
-            // Pending a decision on mapping OARS levels to ages.
-            item(l10n.appDetailsAgeRatingLabel, notAvailable),
             item(
               l10n.appDetailsInstallDateLabel,
               installDate != null
@@ -497,10 +493,6 @@ class _AdditionalInfo extends StatelessWidget {
                   : active.installState == InstallState.installed
                   ? notAvailable
                   : l10n.appDetailsNotInstalled,
-            ),
-            item(
-              l10n.appDetailsLanguagesLabel,
-              languages.isEmpty ? notAvailable : languages.join(', '),
             ),
             _InfoItem(
               label: Text(l10n.snapPageLinksLabel),
@@ -523,10 +515,6 @@ class _AdditionalInfo extends StatelessWidget {
                           ),
                       ],
                     ),
-            ),
-            item(
-              l10n.appDetailsTermsLabel,
-              footer.terms.valueOrNull ?? notAvailable,
             ),
           ],
         ),

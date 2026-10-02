@@ -248,12 +248,21 @@ class PackageKitService {
 
     if (tracked != null) _publishMutation(tracked!);
 
+    final progressSubscription = tracked == null
+        ? null
+        : transaction.propertiesChanged.listen((changed) {
+            if (!changed.contains('Percentage')) return;
+            final percentage = transaction.percentage;
+            // PackageKit reports 101 while progress is unknown.
+            if (percentage <= 100) {
+              publish((m) => m._copyWith(percentage: percentage));
+            }
+          });
+
     late final StreamSubscription<PackageKitEvent> subscription;
     subscription = transaction.events.listen((event) {
       listener?.call(event);
-      if (event is PackageKitItemProgressEvent && event.percentage <= 100) {
-        publish((m) => m._copyWith(percentage: event.percentage));
-      } else if (event is PackageKitFinishedEvent) {
+      if (event is PackageKitFinishedEvent) {
         publish(
           (m) => m._copyWith(
             outcome: event.exit == PackageKitExit.success
@@ -273,6 +282,7 @@ class PackageKitService {
       if (event is PackageKitFinishedEvent || event is PackageKitDestroyEvent) {
         _transactions.remove(id);
         subscription.cancel();
+        progressSubscription?.cancel();
         try {
           onDone?.call();
         } on Exception catch (e) {
@@ -296,6 +306,7 @@ class PackageKitService {
       await action?.call(transaction);
     } on Exception {
       await subscription.cancel();
+      await progressSubscription?.cancel();
       _transactions.remove(id);
       publish((m) => m._copyWith(outcome: PackageKitMutationOutcome.failed));
       try {
