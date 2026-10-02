@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_center/media_support/media_support.dart';
+import 'package:app_center/media_support/media_support_installer_signal.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -21,6 +22,138 @@ PackageKitPackageEvent _event(String name, PackageKitInfo info) =>
 
 void main() {
   tearDown(resetAllServices);
+
+  group('installation completion signal', () {
+    var signals = 0;
+
+    setUp(() => signals = 0);
+
+    final available = {
+      _addons: _event(_addons, PackageKitInfo.available),
+      _aac: _event(_aac, PackageKitInfo.available),
+    };
+    final installed = {
+      _addons: _event(_addons, PackageKitInfo.installed),
+      _aac: _event(_aac, PackageKitInfo.installed),
+    };
+
+    test('emitted once after successful installation', () async {
+      final kit = createMockPackageKitService(resolveMap: available);
+      final pending = Completer<void>();
+      when(kit.waitTransaction(any)).thenAnswer((_) => pending.future);
+      final container = createContainer(
+        overrides: [
+          mediaSupportInstallationFinishedProvider.overrideWithValue(() async {
+            signals++;
+          }),
+        ],
+      );
+      await container.read(mediaSupportModelProvider.future);
+      final action = container
+          .read(mediaSupportModelProvider.notifier)
+          .install();
+      await pumpEventQueue();
+      expect(signals, 0);
+
+      when(kit.resolve(any)).thenAnswer((_) async => installed);
+      pending.complete();
+      await action;
+
+      expect(signals, 1);
+      final data = container.read(mediaSupportModelProvider).value!;
+      expect(data.isInstalled, isTrue);
+      expect(data.hasError, isFalse);
+      expect(data.activeTransactionId, isNull);
+    });
+
+    for (final testCase in [
+      (name: 'packages still missing', error: null),
+      (name: 'cancelled', error: PackageKitTransactionCancelled('cancelled')),
+      (
+        name: 'failed',
+        error: PackageKitTransactionError(
+          'failed',
+          exit: PackageKitExit.failed,
+        ),
+      ),
+      (
+        name: 'cancelled exit',
+        error: PackageKitTransactionError(
+          'cancelled',
+          exit: PackageKitExit.cancelled,
+        ),
+      ),
+    ]) {
+      test('not emitted when ${testCase.name}', () async {
+        final kit = createMockPackageKitService(resolveMap: available);
+        if (testCase.error != null) {
+          when(kit.waitTransaction(any)).thenThrow(testCase.error!);
+        }
+        final container = createContainer(
+          overrides: [
+            mediaSupportInstallationFinishedProvider.overrideWithValue(
+              () async {
+                signals++;
+              },
+            ),
+          ],
+        );
+        await container.read(mediaSupportModelProvider.future);
+        await container.read(mediaSupportModelProvider.notifier).install();
+
+        expect(signals, 0);
+      });
+    }
+
+    for (final action in [
+      MediaSupportAction.update,
+      MediaSupportAction.uninstall,
+    ]) {
+      test('not emitted for $action or already installed packages', () async {
+        createMockPackageKitService(resolveMap: installed);
+        final container = createContainer(
+          overrides: [
+            mediaSupportInstallationFinishedProvider.overrideWithValue(
+              () async {
+                signals++;
+              },
+            ),
+          ],
+        );
+        await container.read(mediaSupportModelProvider.future);
+        expect(signals, 0);
+        final model = container.read(mediaSupportModelProvider.notifier);
+        if (action == MediaSupportAction.update) {
+          await model.updatePackages();
+        } else {
+          await model.uninstall();
+        }
+
+        expect(signals, 0);
+      });
+    }
+
+    test('signal failure does not mark installation as failed', () async {
+      final kit = createMockPackageKitService(resolveMap: available);
+      final container = createContainer(
+        overrides: [
+          mediaSupportInstallationFinishedProvider.overrideWithValue(() async {
+            signals++;
+            throw Exception('session bus unavailable');
+          }),
+        ],
+      );
+      await container.read(mediaSupportModelProvider.future);
+      when(kit.resolve(any)).thenAnswer((_) async => installed);
+      await container.read(mediaSupportModelProvider.notifier).install();
+
+      expect(signals, 1);
+      final data = container.read(mediaSupportModelProvider).value!;
+      expect(data.isInstalled, isTrue);
+      expect(data.hasError, isFalse);
+      expect(data.activeTransactionId, isNull);
+    });
+  });
 
   test('includes dependencies and installs only missing packages', () async {
     final addons = _event(_addons, PackageKitInfo.installed);

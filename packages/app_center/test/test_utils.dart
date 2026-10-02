@@ -3,8 +3,6 @@ import 'dart:io';
 
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/drivers/drivers.dart';
-import 'package:app_center/gstreamer/gstreamer_model.dart';
-import 'package:app_center/gstreamer/gstreamer_resource.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/packagekit/packagekit.dart';
@@ -129,18 +127,6 @@ SnapLauncher createMockSnapLauncher({
   final launcher = MockSnapLauncher();
   when(launcher.isLaunchable).thenReturn(isLaunchable);
   return launcher;
-}
-
-@GenerateMocks([GstreamerModel])
-GstreamerModel createMockGstreamerModel({
-  required List<GstResource> resources,
-}) {
-  final model = MockGstreamerModel();
-  when(model.resources).thenReturn(GstResourceCollection(resources));
-  when(
-    model.state,
-  ).thenReturn(AsyncValue.data(GStreamerData(packageInfos: [])));
-  return model;
 }
 
 @GenerateMocks([ErrorStreamController])
@@ -320,9 +306,6 @@ MockPackageKitTransaction createMockPackageKitTransaction({
     transaction.getDetailsLocal(any),
   ).thenAnswer((_) async => unawaited(emitEvents()));
   when(
-    transaction.whatProvides(any),
-  ).thenAnswer((_) async => unawaited(emitEvents()));
-  when(
     transaction.getDetails(any),
   ).thenAnswer((_) async => unawaited(emitEvents()));
   when(
@@ -426,7 +409,6 @@ MockPackageKitService createMockPackageKitService({
   PackageKitPackageInfo? packageInfo,
   PackageKitPackageDetails? packageDetails,
   PackageKitUpdateDetailEvent? packageUpdates,
-  Iterable<PackageKitPackageEvent>? packageEvents,
   int transactionId = 0,
   Future<void>? waitTransaction,
   Stream<PackageKitServiceError> errorStream = const Stream.empty(),
@@ -486,7 +468,6 @@ MockPackageKitService createMockPackageKitService({
   when(
     packageKit.updateAllPackages(any),
   ).thenAnswer((_) async => transactionId);
-  when(packageKit.whatProvides(any)).thenAnswer((_) async => packageEvents!);
   when(packageKit.remove(any)).thenAnswer((_) async => transactionId);
   when(packageKit.removeAll(any)).thenAnswer((_) async => transactionId);
   when(packageKit.errorStream).thenAnswer((_) => errorStream);
