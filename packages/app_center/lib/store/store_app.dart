@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:app_center/addons/addons.dart';
 import 'package:app_center/deb/deb.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/games/games.dart';
@@ -29,7 +30,7 @@ final materialAppNavigatorKeyProvider = Provider(
 );
 
 final yaruPageControllerProvider = Provider(
-  (ref) => YaruPageController(length: pages.length),
+  (ref) => YaruPageController(length: ref.watch(storePagesProvider).length),
 );
 
 final routeNameProvider = StateProvider<String?>((ref) => null);
@@ -199,9 +200,10 @@ class _StoreAppHome extends ConsumerWidget {
         initialRoute: ref.watch(initialRouteProvider),
         controller: ref.watch(yaruPageControllerProvider),
         tileBuilder: (context, index, selected, availableWidth) =>
-            pages[index].tileBuilder(context, selected),
-        pageBuilder: (context, index) =>
-            pages[index].pageBuilder(context, searchField),
+            ref.watch(storePagesProvider)[index].tileBuilder(context, selected),
+        pageBuilder: (context, index) => ref
+            .watch(storePagesProvider)[index]
+            .pageBuilder(context, searchField),
         paneLayoutDelegate: YaruResizablePaneDelegate(
           initialPaneSize: kPaneWidth * textScalar.scale(1),
           minPaneSize: kPaneWidth * textScalar.scale(1),
@@ -264,6 +266,17 @@ class _StoreAppHome extends ConsumerWidget {
               body: GStreamerPage(
                 resources: StoreRoutes.gstResourcesOf(settings),
               ),
+            ),
+          ),
+          StoreRoutes.additionalDrivers => MaterialPageRoute(
+            settings: settings,
+            builder: (_) => YaruDetailPage(
+              appBar: YaruWindowTitleBar(
+                border: BorderSide.none,
+                leading: _MaybeBackButton(navigatorKey),
+                title: Text(AdditionalDriversPage.label(context)),
+              ),
+              body: const AdditionalDriversPage(),
             ),
           ),
           _ => null,

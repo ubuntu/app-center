@@ -10,6 +10,7 @@ MimeType=x-scheme-handler/snap;application/vnd.debian.binary-package;
 StartupWMClass=snap-store
 Name=App Center
 Name[ar]=مركز التطبيقات
+Name[az]=Proqram Mərkəzi
 Name[be]=Цэнтр праграм
 Name[bn]=অ্যাপ সেন্টার
 Name[bs]=Centar aplikacija

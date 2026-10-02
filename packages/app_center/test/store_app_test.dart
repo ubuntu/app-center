@@ -94,6 +94,48 @@ void main() {
     });
   });
 
+  group('Add-ons tab', () {
+    testWidgets('shown when drivers are available', (tester) async {
+      registerMockService<GtkApplicationNotifier>(
+        createMockGtkApplicationNotifier(),
+      );
+      registerMockService<RatingsService>(registerMockRatingsService());
+      registerMockSnapdService();
+      registerMockDriversService();
+      await tester.pumpApp(
+        (_) => const ProviderScope(
+          child: StoreApp(),
+        ),
+      );
+      await tester.pump();
+
+      expect(
+        find.widgetWithText(YaruMasterTile, tester.l10n.addonsPageLabel),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('hidden when drivers are unavailable', (tester) async {
+      registerMockService<GtkApplicationNotifier>(
+        createMockGtkApplicationNotifier(),
+      );
+      registerMockService<RatingsService>(registerMockRatingsService());
+      registerMockSnapdService();
+      registerMockDriversService(available: false);
+      await tester.pumpApp(
+        (_) => const ProviderScope(
+          child: StoreApp(),
+        ),
+      );
+      await tester.pump();
+
+      expect(
+        find.widgetWithText(YaruMasterTile, tester.l10n.addonsPageLabel),
+        findsNothing,
+      );
+    });
+  });
+
   group('updates badge', () {
     testWidgets('no updates available', (tester) async {
       registerMockService<GtkApplicationNotifier>(
@@ -101,6 +143,7 @@ void main() {
       );
       registerMockService<RatingsService>(registerMockRatingsService());
       registerMockSnapdService();
+      registerMockDriversService();
       await tester.pumpApp(
         (_) => const ProviderScope(
           child: StoreApp(),
@@ -132,6 +175,7 @@ void main() {
         createMockGtkApplicationNotifier(),
       );
       registerMockService<RatingsService>(registerMockRatingsService());
+      registerMockDriversService();
       await tester.pumpApp(
         (_) => const ProviderScope(
           child: StoreApp(),
@@ -167,6 +211,7 @@ void main() {
           message: 'error message',
         );
         when(snapdService.getSnap(any)).thenThrow(exception);
+        registerMockDriversService();
 
         final container = createContainer();
         unawaited(
@@ -238,6 +283,7 @@ void main() {
           registerMockService<GtkApplicationNotifier>(
             createMockGtkApplicationNotifier(),
           );
+          registerMockDriversService();
           await tester.pumpApp(
             (_) => ProviderScope(
               overrides: [
