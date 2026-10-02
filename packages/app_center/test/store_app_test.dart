@@ -359,9 +359,6 @@ void main() {
         child: StoreApp(),
       ),
     );
-
-    await tester.pump();
-    await tester.pump();
     // Ton application déclenche un timer de 100 ms dans l'autocomplete.
 
     await tester.sendKeyDownEvent(LogicalKeyboardKey.controlLeft);
@@ -369,8 +366,6 @@ void main() {
     await tester.sendKeyUpEvent(LogicalKeyboardKey.keyQ);
     await tester.sendKeyUpEvent(LogicalKeyboardKey.controlLeft);
 
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 100));
     await tester.pump();
     expect(
       binding.requestedExitType,
