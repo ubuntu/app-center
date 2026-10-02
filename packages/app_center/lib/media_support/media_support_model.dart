@@ -1,3 +1,4 @@
+import 'package:app_center/media_support/media_support_installer_signal.dart';
 import 'package:app_center/packagekit/logger.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:collection/collection.dart';
@@ -163,6 +164,13 @@ class MediaSupportModel extends _$MediaSupportModel {
       await _packageKit.waitTransaction(id);
       final load = await _load();
       state = AsyncData(load);
+      if (action == MediaSupportAction.install && load.isInstalled) {
+        try {
+          await ref.read(mediaSupportInstallationFinishedProvider)();
+        } on Exception catch (error) {
+          log.warning('Could not signal media support installation: $error');
+        }
+      }
     } on PackageKitTransactionCancelled catch (_) {
       state = AsyncData(
         state.value!.copyWith(
