@@ -81,11 +81,11 @@ class _StoreAppState extends ConsumerState<StoreApp>
 
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
-        LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyF): () {
+        const SingleActivator(LogicalKeyboardKey.keyF, control: true): () {
           searchFocus.requestFocus();
           searchFocus.nextFocus();
         },
-        LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyQ): () {
+        const SingleActivator(LogicalKeyboardKey.keyQ, control: true): () {
           unawaited(ServicesBinding.instance.exitApplication(AppExitType.cancelable));
         },
       },
