@@ -405,5 +405,60 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "addonsPageLabel": "Tillägg",
+    "addonsPageAdditionalDriversTitle": "Övriga drivrutiner",
+    "addonsPageAdditionalDriversDescription": "Lägg till bättre stöd för grafikkort och annan hårdvara",
+    "driversPageDescription": "Proprietära drivrutiner har privat kod som Ubuntus utvecklare inte kan granska eller förbättra. Säkerhets- och andra uppdateringar sköts helt av drivrutinsleverantören.",
+    "driversPageSectionUpdateAvailable": "Uppdatering tillgänglig",
+    "driversPageSectionAvailable": "Tillgänglig",
+    "driversPageSectionInstalled": "Installerad",
+    "driversPageSectionUnsupported": "Inga drivrutiner tillgängliga",
+    "driversPageNoPackagesMessage": "Inga paket innehåller driverutiner för den här enheten",
+    "driversPageDeviceClassGraphics": "Grafik",
+    "driversPageDeviceClassNetwork": "Nätverk",
+    "driversPageDeviceClassCamera": "Kamera",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Lagring",
+    "driversPageDeviceClassAudio": "Ljud",
+    "driversPageDeviceClassOther": "Övrigt",
+    "driversPageBranchProduction": "Produktion",
+    "driversPageBranchLts": "Långvarig support",
+    "driversPageBranchNewFeature": "Nya funktioner",
+    "driversPageVersionLabel": "Version {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Omstart krävs",
+    "driversPageRestartRequiredMessage": "Starta om din dator för att slutföra drivrutinsändringarna.",
+    "driversPageErrorLabel": "Fel",
+    "driversPageRetryLabel": "Försök igen",
+    "driversPageNoDriversFoundMessage": "Använder inbyggda drivrutiner. Inga ytterligare drivrutiner hittades.",
+    "driversPageUnavailableTitle": "Drivrutinshantering ej tillgänglig",
+    "driversPageUnsupportedMessage": "Tjänsten för drivrutinshantering är inte tillgänglig. Kontrollera att snapd är uppdaterad och att ubuntu-drivers-common har installerats.",
+    "driversPageSwitchBranchLabel": "Byt spår",
+    "driversPageSwitchBranchTitle": "Byt spår",
+    "driversPageSwitchBranchProductionDescription": "Balanserar funktion och stabilitet",
+    "driversPageSwitchBranchLtsDescription": "Maximal stabilitet för kritiska arbetsuppgifter",
+    "driversPageSwitchBranchNewFeatureDescription": "Förhandsversion, mindre stabil",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (rekommenderas)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "Det här spåret har mindre stabilitet",
+    "driversPageSwitchBranchLessStableWarningMessage": "Stanna kvar i aktuellt spår för att slippa problem med den här enheten.",
+    "driversPageSwitchLabel": "Byt",
+    "driversPageSwitchingBranchLabel": "Byter gren",
+    "driversPageUninstallTitle": "Avinstallera drivrutin",
+    "driversPageUninstallWarningTitle": "Att avinstallera drivrutiner kan orsaka problem",
+    "driversPageUninstallWarningMessage": "Du kanske inte kommer att kunna ominstallera drivrutinerna på ett smidigt sätt, särskilt om det gäller grafik eller nätverk.",
+    "driversPageUninstallAcknowledgeLabel": "Jag förstår risken"
 }
