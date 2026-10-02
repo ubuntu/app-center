@@ -45,11 +45,8 @@ class StoreNavigator {
     return Navigator.of(context).pushAdditionalDrivers();
   }
 
-  static Future<void> pushGStreamer(
-    BuildContext context, {
-    required List<String> resources,
-  }) {
-    return Navigator.of(context).pushGStreamer(resources: resources);
+  static Future<void> pushMediaSupport(BuildContext context) {
+    return Navigator.of(context).pushMediaSupport();
   }
 }
 
@@ -95,7 +92,7 @@ extension StoreNavigatorState on NavigatorState {
     return pushNamed(StoreRoutes.additionalDrivers);
   }
 
-  Future<void> pushGStreamer({required List<String> resources}) {
-    return pushNamed(StoreRoutes.namedGStreamer(resources: resources));
+  Future<void> pushMediaSupport() {
+    return pushNamed(StoreRoutes.mediaSupport);
   }
 }

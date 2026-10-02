@@ -170,6 +170,77 @@ void main() {
     expect(packageKit.getTransaction(id), isNull);
   });
 
+  group('simulateInstall', () {
+    test(
+      'uses simulation and returns only added or replaced packages',
+      () async {
+        final events = [
+          for (final info in [
+            PackageKitInfo.installing,
+            PackageKitInfo.updating,
+            PackageKitInfo.downgrading,
+            PackageKitInfo.reinstalling,
+            PackageKitInfo.installed,
+            PackageKitInfo.removing,
+            PackageKitInfo.obsoleting,
+            PackageKitInfo.untrusted,
+          ])
+            PackageKitPackageEvent(
+              info: info,
+              packageId: PackageKitPackageId(name: info.name, version: '1.0'),
+              summary: info.name,
+            ),
+        ];
+        final transaction = createMockPackageKitTransaction(events: events);
+        final packageKit = PackageKitService(
+          dbus: createMockDbusClient(),
+          client: createMockPackageKitClient(transaction: transaction),
+          fs: MemoryFileSystem.test(),
+        );
+        addTearDown(packageKit.dispose);
+        final ids = [events.first.packageId];
+        final packages = await packageKit.simulateInstall(ids);
+        expect(packages, events.take(4));
+        verify(
+          transaction.installPackages(
+            ids,
+            transactionFlags: {PackageKitTransactionFlag.simulate},
+          ),
+        ).called(1);
+      },
+    );
+
+    test('propagates failed simulation', () async {
+      final transaction = createMockPackageKitTransaction(
+        exit: PackageKitExit.failed,
+      );
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: createMockPackageKitClient(transaction: transaction),
+        fs: MemoryFileSystem.test(),
+      );
+      addTearDown(packageKit.dispose);
+      await expectLater(
+        packageKit.simulateInstall([
+          const PackageKitPackageId(name: 'foo', version: '1.0'),
+        ]),
+        throwsA(isA<PackageKitTransactionError>()),
+      );
+    });
+
+    test('empty input does not create a transaction', () async {
+      final client = createMockPackageKitClient();
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: client,
+        fs: MemoryFileSystem.test(),
+      );
+      addTearDown(packageKit.dispose);
+      expect(await packageKit.simulateInstall([]), isEmpty);
+      verifyNever(client.createTransaction());
+    });
+  });
+
   test('install local package', () async {
     final completer = Completer();
     final mockTransaction = createMockPackageKitTransaction(
@@ -192,38 +263,6 @@ void main() {
     completer.complete();
     await packageKit.waitTransaction(id);
     expect(packageKit.getTransaction(id), isNull);
-  });
-
-  test('whatProvides', () async {
-    const mockInfo = PackageKitPackageEvent(
-      info: PackageKitInfo.available,
-      packageId: PackageKitPackageId(
-        name: 'foo',
-        version: '1.0',
-        arch: 'amd64',
-      ),
-      summary: 'summary',
-    );
-    final mockTransaction = createMockPackageKitTransaction(
-      events: [mockInfo],
-    );
-    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
-    final packageKit = PackageKitService(
-      dbus: createMockDbusClient(),
-      client: mockClient,
-      fs: MemoryFileSystem.test(),
-    );
-    await packageKit.activateService();
-
-    final packages = await packageKit.whatProvides(
-      'gstreamer1(decoder-video/x-h265)()(64bit)',
-    );
-    verify(
-      mockTransaction.whatProvides([
-        'gstreamer1(decoder-video/x-h265)()(64bit)',
-      ]),
-    ).called(1);
-    expect(packages, contains(mockInfo));
   });
 
   test('remove', () async {

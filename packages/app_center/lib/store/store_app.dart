@@ -4,10 +4,10 @@ import 'package:app_center/addons/addons.dart';
 import 'package:app_center/deb/deb.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/games/games.dart';
-import 'package:app_center/gstreamer/gstreamer.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/manage_page.dart';
+import 'package:app_center/media_support/media_support.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/search/search.dart';
@@ -259,15 +259,6 @@ class _StoreAppHome extends ConsumerWidget {
             builder: (_) =>
                 YaruDetailPage(appBar: searchField, body: const ManagePage()),
           ),
-          StoreRoutes.gstreamer => MaterialPageRoute(
-            settings: settings,
-            builder: (_) => YaruDetailPage(
-              appBar: searchField,
-              body: GStreamerPage(
-                resources: StoreRoutes.gstResourcesOf(settings),
-              ),
-            ),
-          ),
           StoreRoutes.additionalDrivers => MaterialPageRoute(
             settings: settings,
             builder: (_) => YaruDetailPage(
@@ -277,6 +268,17 @@ class _StoreAppHome extends ConsumerWidget {
                 title: Text(AdditionalDriversPage.label(context)),
               ),
               body: const AdditionalDriversPage(),
+            ),
+          ),
+          StoreRoutes.mediaSupport => MaterialPageRoute(
+            settings: settings,
+            builder: (_) => YaruDetailPage(
+              appBar: YaruWindowTitleBar(
+                border: BorderSide.none,
+                leading: _MaybeBackButton(navigatorKey),
+                title: Text(MediaSupportPage.label(context)),
+              ),
+              body: const MediaSupportPage(),
             ),
           ),
           _ => null,

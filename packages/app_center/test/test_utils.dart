@@ -3,8 +3,6 @@ import 'dart:io';
 
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/drivers/drivers.dart';
-import 'package:app_center/gstreamer/gstreamer_model.dart';
-import 'package:app_center/gstreamer/gstreamer_resource.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/packagekit/packagekit.dart';
@@ -129,18 +127,6 @@ SnapLauncher createMockSnapLauncher({
   final launcher = MockSnapLauncher();
   when(launcher.isLaunchable).thenReturn(isLaunchable);
   return launcher;
-}
-
-@GenerateMocks([GstreamerModel])
-GstreamerModel createMockGstreamerModel({
-  required List<GstResource> resources,
-}) {
-  final model = MockGstreamerModel();
-  when(model.resources).thenReturn(GstResourceCollection(resources));
-  when(
-    model.state,
-  ).thenReturn(AsyncValue.data(GStreamerData(packageInfos: [])));
-  return model;
 }
 
 @GenerateMocks([ErrorStreamController])
@@ -302,7 +288,10 @@ MockPackageKitTransaction createMockPackageKitTransaction({
 
   // Add similar statements for further methods as needed.
   when(
-    transaction.installPackages(any),
+    transaction.installPackages(
+      any,
+      transactionFlags: anyNamed('transactionFlags'),
+    ),
   ).thenAnswer((_) async => unawaited(emitEvents()));
   when(
     transaction.removePackages(any),
@@ -315,9 +304,6 @@ MockPackageKitTransaction createMockPackageKitTransaction({
   ).thenAnswer((_) async => unawaited(emitEvents()));
   when(
     transaction.getDetailsLocal(any),
-  ).thenAnswer((_) async => unawaited(emitEvents()));
-  when(
-    transaction.whatProvides(any),
   ).thenAnswer((_) async => unawaited(emitEvents()));
   when(
     transaction.getDetails(any),
@@ -423,7 +409,6 @@ MockPackageKitService createMockPackageKitService({
   PackageKitPackageInfo? packageInfo,
   PackageKitPackageDetails? packageDetails,
   PackageKitUpdateDetailEvent? packageUpdates,
-  Iterable<PackageKitPackageEvent>? packageEvents,
   int transactionId = 0,
   Future<void>? waitTransaction,
   Stream<PackageKitServiceError> errorStream = const Stream.empty(),
@@ -431,6 +416,7 @@ MockPackageKitService createMockPackageKitService({
   List<PackageKitPackageEvent>? availableUpdates,
   Map<String, PackageKitDetailsEvent>? packageDetailsMany,
   List<PackageKitPackageEvent>? installedPackages,
+  List<PackageKitPackageEvent>? simulatedInstall,
   PackageKitServiceError? lastError,
 }) {
   final packageKit = MockPackageKitService();
@@ -471,6 +457,9 @@ MockPackageKitService createMockPackageKitService({
   when(packageKit.getDetailsLocal(any)).thenAnswer((_) async => packageDetails);
   when(packageKit.install(any)).thenAnswer((_) async => transactionId);
   when(packageKit.installAll(any)).thenAnswer((_) async => transactionId);
+  when(packageKit.simulateInstall(any)).thenAnswer(
+    (_) async => simulatedInstall ?? [],
+  );
   when(packageKit.installLocal(any)).thenAnswer((_) async => transactionId);
   when(
     packageKit.getUpdateDetails(any),
@@ -479,7 +468,6 @@ MockPackageKitService createMockPackageKitService({
   when(
     packageKit.updateAllPackages(any),
   ).thenAnswer((_) async => transactionId);
-  when(packageKit.whatProvides(any)).thenAnswer((_) async => packageEvents!);
   when(packageKit.remove(any)).thenAnswer((_) async => transactionId);
   when(packageKit.removeAll(any)).thenAnswer((_) async => transactionId);
   when(packageKit.errorStream).thenAnswer((_) => errorStream);

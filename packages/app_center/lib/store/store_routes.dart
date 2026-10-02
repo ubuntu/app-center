@@ -1,4 +1,3 @@
-import 'package:app_center/gstreamer/gstreamer_resource.dart';
 import 'package:flutter/widgets.dart';
 
 abstract class StoreRoutes {
@@ -10,7 +9,7 @@ abstract class StoreRoutes {
   static const search = '/search';
   static const externalTools = '/externalTools';
   static const additionalDrivers = '/additionalDrivers';
-  static const gstreamer = '/gstreamer';
+  static const mediaSupport = '/mediaSupport';
 
   static bool isSnap(RouteSettings route) => routeOf(route) == snap;
   static bool isSearch(RouteSettings route) => routeOf(route) == search;
@@ -33,13 +32,6 @@ abstract class StoreRoutes {
 
   static String? queryOf(RouteSettings route) =>
       Uri.parse(route.name ?? '').queryParameters['query'];
-
-  static List<GstResource> gstResourcesOf(RouteSettings route) =>
-      (Uri.parse(route.name ?? '').queryParametersAll['resources'] ?? [])
-          .map((item) => item.split('|'))
-          .where((parts) => parts.length >= 2)
-          .map((parts) => (name: parts[0], id: parts[1]))
-          .toList();
 
   static String namedRoute(String path, [Map<String, dynamic>? params]) {
     return Uri(path: path, queryParameters: params).toString();
@@ -74,9 +66,5 @@ abstract class StoreRoutes {
       if (query != null) 'query': query,
       if (category != null) 'category': category,
     });
-  }
-
-  static String namedGStreamer({required List<String> resources}) {
-    return namedRoute(StoreRoutes.gstreamer, {'resources': resources});
   }
 }
