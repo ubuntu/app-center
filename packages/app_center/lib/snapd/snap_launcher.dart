@@ -6,8 +6,10 @@ import 'package:snapcraft_launcher/snapcraft_launcher.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-final launchProvider =
-    Provider.family.autoDispose<SnapLauncher, Snap>((ref, snap) {
+final launchProvider = Provider.family.autoDispose<SnapLauncher, Snap>((
+  ref,
+  snap,
+) {
   final launcher = getService<PrivilegedDesktopLauncher>();
   return SnapLauncher(snap: snap, launcher: launcher);
 });

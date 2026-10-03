@@ -16,7 +16,8 @@ class TestSnapdCache extends MockSnapdClient with SnapdCache {}
 
 void main() {
   test('path', () {
-    final cacheHome = Platform.environment['XDG_CACHE_HOME'] ??
+    final cacheHome =
+        Platform.environment['XDG_CACHE_HOME'] ??
         '${Platform.environment['HOME']}/.cache';
     expect(cachePath, startsWith(cacheHome));
     expect(cachePath, endsWith('/snapd'));
@@ -342,7 +343,7 @@ final localSnap = Snap.fromJson(const {
           'https://dashboard.snapcraft.io/site_media/appmedia/2021/09/Screenshot_from_2021-09-30_08-01-50.png',
       'width': 1850,
       'height': 1415,
-    }
+    },
   ],
 });
 
@@ -399,7 +400,7 @@ final storeSnap = Snap.fromJson(const {
           'https://dashboard.snapcraft.io/site_media/appmedia/2021/09/Screenshot_from_2021-09-30_08-01-50.png',
       'width': 1850,
       'height': 1415,
-    }
+    },
   ],
   'categories': [
     {'name': 'productivity', 'featured': true},

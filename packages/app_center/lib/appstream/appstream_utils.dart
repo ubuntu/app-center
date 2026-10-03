@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
+import 'package:gtk/gtk.dart';
 
 extension _GetOrDefault<K, V> on Map<K, V> {
   V getOrDefault(K? key, V fallback) {
@@ -84,7 +85,25 @@ extension Metadata on AppstreamComponent {
     );
   }
 
-  String? get icon {
+  /// The stock icon name from the Appstream metadata (e.g. `org.gnome.Nautilus`),
+  /// or `null` if this component has no stock icon.
+  String? get iconName {
+    final stockIcon = icons.whereType<AppstreamStockIcon>().firstOrNull;
+    return stockIcon?.name;
+  }
+
+  /// Resolves the local themed icon path, falling back to [remoteIconUrl].
+  Future<String?> get iconAsync async {
+    if (iconName != null) {
+      final iconTheme = GtkIcon();
+      final localPath = iconTheme.findIcon(iconName!);
+      if (localPath != null) return localPath;
+    }
+    return remoteIconUrl;
+  }
+
+  /// The remote icon URL from Appstream metadata, or `null` if not present.
+  String? get remoteIconUrl {
     final remoteIcon = icons.whereType<AppstreamRemoteIcon>().firstOrNull;
     return remoteIcon?.url;
   }

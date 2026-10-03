@@ -404,5 +404,40 @@
     "appPublishedUnknown": "לא ידוע",
     "appConfinementStrictTooltip": "ליישום הזה יש גישה מוגבלת למשאבים שלך. אפשר לשלוט בהרשאות שלו דרך יישום ההגדרות.",
     "appConfinementClassicTooltip": "היישום הזה משתמש בבידוד קלסי, מה שמעניק גישה מלאה למשאבים שלך. נפוץ ביישומי פיתוח.",
-    "appConfinementUnrestrictedTooltip": "ליישום הזה יש גישה מלאה למשאבים שלך."
+    "appConfinementUnrestrictedTooltip": "ליישום הזה יש גישה מלאה למשאבים שלך.",
+    "snapActionSwitchChannelTitle": "החלפת ערוץ עבור {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "addonsPageLabel": "הרחבות",
+    "addonsPageAdditionalDriversTitle": "מנהלי התקנים נוספים",
+    "addonsPageAdditionalDriversDescription": "הוספת תמיכה משופרת בכרטיסים גרפיים וסוגי חומרה נוספים",
+    "driversPageSectionUpdateAvailable": "יש עדכון",
+    "driversPageSectionAvailable": "יש",
+    "driversPageSectionInstalled": "מותקן",
+    "driversPageSectionUnsupported": "אין מנהלי התקנים זמינים",
+    "driversPageNoPackagesMessage": "אין חבילות שמספקות מנהלי התקנים להתקן הזה",
+    "driversPageDeviceClassGraphics": "גרפיקה",
+    "driversPageDeviceClassNetwork": "רשת",
+    "driversPageDeviceClassCamera": "מצלמה",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "אחסון",
+    "driversPageDeviceClassAudio": "שמע",
+    "driversPageDeviceClassOther": "אחר",
+    "driversPageBranchProduction": "הפקה",
+    "driversPageBranchLts": "תמיכה לטווח ארוך",
+    "driversPageBranchNewFeature": "יכולות חדשות",
+    "driversPageVersionLabel": "גרסה {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "יש להפעיל מחדש"
 }

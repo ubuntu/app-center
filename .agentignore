@@ -1,0 +1,6 @@
+*.freezed.dart
+*.g.dart
+*.mocks.dart
+*.pb*.dart
+**/l10n/app_localizations*.dart
+**/generated/

@@ -397,5 +397,13 @@
     "appMoreActionsSemanticLabel": "More actions",
     "appConfinementStrictTooltip": "This app has limited access to your resources. You can control its permissions in the Settings app.",
     "appConfinementClassicTooltip": "This app uses classic confinement, giving full access to your resources. This is common with development apps.",
-    "appConfinementUnrestrictedTooltip": "This app has full access to your resources."
+    "appConfinementUnrestrictedTooltip": "This app has full access to your resources.",
+    "snapActionSwitchChannelTitle": "Switch channel for {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }

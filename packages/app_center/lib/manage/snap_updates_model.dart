@@ -142,7 +142,8 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
     final errors = <String, Exception>{};
     try {
       // TODO: Should we call each and rely on the error messages from snapd?
-      final refreshableSnapNames = state.value?.snaps
+      final refreshableSnapNames =
+          state.value?.snaps
               .where((s) => s.refreshInhibit == null)
               .map((s) => s.name)
               .toList() ??
@@ -154,8 +155,9 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
           refreshableSnapNames.toList();
 
       Future<void> refreshSnap(String snapName) async {
-        final refreshFuture =
-            ref.read(SnapModelProvider(snapName).notifier).refresh();
+        final refreshFuture = ref
+            .read(SnapModelProvider(snapName).notifier)
+            .refresh();
         try {
           final completedSuccessfully = await refreshFuture;
           if (completedSuccessfully) {
@@ -184,7 +186,9 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
     } finally {
       ref.read(currentlyRefreshAllSnapsProvider.notifier).state = [];
       if (errors.isNotEmpty) {
-        ref.read(errorStreamControllerProvider).add(
+        ref
+            .read(errorStreamControllerProvider)
+            .add(
               errors.length == 1
                   ? errors.values.first
                   : ConsolidatedSnapdException(errors),

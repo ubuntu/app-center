@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:app_center/appstream/appstream.dart';
+import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/deb/deb_page.dart';
 import 'package:app_center/packagekit/packagekit_service.dart';
 import 'package:app_center/providers/current_desktops_provider.dart';
@@ -7,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:ubuntu_test/ubuntu_test.dart';
+import 'package:yaru/yaru.dart';
 
 import 'test_utils.dart';
 
@@ -69,8 +73,48 @@ void main() {
       findsOneWidget,
     );
   });
-  testWidgets('remove button hidden for compulsory deb on current desktop',
-      (tester) async {
+
+  testWidgets('error dialog is not repeated on a later state change', (
+    tester,
+  ) async {
+    final errors = StreamController<PackageKitServiceError>.broadcast();
+    addTearDown(errors.close);
+    createMockPackageKitService(
+      packageInfo: packageInfo,
+      errorStream: errors.stream,
+    );
+    createMockAppstreamService(component: component);
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        child: const DebPage(id: 'testdeb'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    errors.add(
+      const PackageKitServiceError(
+        code: PackageKitError.internalError,
+        details: 'internal error',
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('internal error'), findsOneWidget);
+
+    // Starting another action changes the state while the error is still in
+    // it. That must not put a second dialog on top of the first.
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(DebPage)),
+    );
+    await container.read(debModelProvider('testdeb').notifier).installDeb();
+    await tester.pumpAndSettle();
+
+    expect(find.text('internal error'), findsOneWidget);
+  });
+
+  testWidgets('remove button hidden for compulsory deb on current desktop', (
+    tester,
+  ) async {
     const compulsoryComponent = AppstreamComponent(
       id: 'gnome-shell',
       type: AppstreamComponentType.desktopApplication,
@@ -100,8 +144,9 @@ void main() {
     expect(find.text(tester.l10n.snapActionRemoveLabel), findsNothing);
   });
 
-  testWidgets('remove button shown for non-compulsory installed deb',
-      (tester) async {
+  testWidgets('remove button shown for non-compulsory installed deb', (
+    tester,
+  ) async {
     const installedPackageInfo = PackageKitPackageInfo(
       info: PackageKitInfo.installed,
       packageId: PackageKitPackageId(name: 'testdeb', version: '1.0'),
@@ -121,5 +166,23 @@ void main() {
     await tester.pump();
 
     expect(find.text(tester.l10n.snapActionRemoveLabel), findsOneWidget);
+  });
+
+  testWidgets('does not offer a share button', (tester) async {
+    // There is no link that opens a deb in App Center, and the project's
+    // website is already offered in the metadata under a label that says so.
+    // A share button that copied it read as sharing the app, so it is not
+    // shown for debs rather than shown doing something else. See #1929.
+    createMockPackageKitService(packageInfo: packageInfo);
+    createMockAppstreamService(component: component);
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        child: const DebPage(id: 'testdeb'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byIcon(YaruIcons.share), findsNothing);
   });
 }

@@ -169,8 +169,6 @@ void main() {
       matching: find.byIcon(YaruIcons.view_more),
     );
     expect(viewMoreButton, findsOneWidget);
-    await tester.tap(viewMoreButton);
-    await tester.pumpAndSettle();
 
     final removeButton = find.text(tester.l10n.snapActionRemoveLabel);
     expect(removeButton, findsOneWidget);
@@ -234,16 +232,14 @@ void main() {
       ),
     ).called(1);
 
+    final openButton = find.text(tester.l10n.snapActionOpenLabel);
+    expect(openButton, findsNothing);
+
     final viewMoreButton = find.descendant(
       of: find.byType(YaruPopupMenuButton),
       matching: find.byIcon(YaruIcons.view_more),
     );
     expect(viewMoreButton, findsOneWidget);
-    await tester.tap(viewMoreButton);
-    await tester.pumpAndSettle();
-
-    final openButton = find.text(tester.l10n.snapActionOpenLabel);
-    expect(openButton, findsOneWidget);
 
     await tester.tap(find.text(tester.l10n.snapActionRemoveLabel));
     await tester.pumpAndSettle();
@@ -336,11 +332,6 @@ void main() {
     verify(snapLauncher.open()).called(1);
     await tester.pump();
 
-    final findMoreButton = find.byIcon(YaruIcons.view_more);
-    expect(findMoreButton, findsOneWidget);
-    await tester.tap(findMoreButton);
-    await tester.pumpAndSettle();
-
     final removeButton = find.text(tester.l10n.snapActionRemoveLabel);
     expect(removeButton, findsOneWidget);
     await tester.tap(removeButton);
@@ -356,31 +347,84 @@ void main() {
     expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
   });
 
-  testWidgets('revert button appears in dropdown when previous revision exists',
-      (tester) async {
-    final service = registerMockSnapdService(
-      localSnap: localSnap,
-      storeSnap: storeSnap,
-    );
+  testWidgets(
+    'revert button appears in dropdown when previous revision exists',
+    (tester) async {
+      final service = registerMockSnapdService(
+        localSnap: localSnap,
+        storeSnap: storeSnap,
+      );
 
-    when(service.hasPreviousRevision(any)).thenAnswer((_) async => true);
+      when(service.hasPreviousRevision(any)).thenAnswer((_) async => true);
 
+      final snapLauncher = createMockSnapLauncher(isLaunchable: true);
+
+      final container = createContainer(
+        overrides: [
+          launchProvider.overrideWith((ref, arg) => snapLauncher),
+        ],
+      );
+
+      await tester.pumpApp(
+        (_) => UncontrolledProviderScope(
+          container: container,
+          child: const SnapPage(snapName: 'testsnap'),
+        ),
+      );
+      await container.read(snapModelProvider('testsnap').future);
+      await container.read(ratingsModelProvider('testsnap').future);
+      await tester.pumpAndSettle();
+
+      final viewMoreButton = find.descendant(
+        of: find.byType(YaruPopupMenuButton),
+        matching: find.byIcon(YaruIcons.view_more),
+      );
+      expect(viewMoreButton, findsOneWidget);
+      await tester.tap(viewMoreButton);
+      await tester.pumpAndSettle();
+
+      final revertButton = find.text(tester.l10n.snapActionRevertLabel);
+      expect(revertButton, findsOneWidget);
+    },
+  );
+
+  testWidgets('share is offered without a website', (tester) async {
+    // The share link is the snapcraft.io page, which every snap has, so the
+    // button must not depend on the snap declaring a website.
+    final snap = createSnap(name: 'nosite', id: '4');
+    registerMockSnapdService(localSnap: snap, storeSnap: snap);
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
 
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          launchProvider.overrideWith((ref, arg) => snapLauncher),
+        ],
+        child: const SnapPage(snapName: 'nosite'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byIcon(YaruIcons.share), findsOneWidget);
+  });
+
+  testWidgets('switch channel appears in dropdown', (tester) async {
+    registerMockSnapdService(
+      storeSnap: storeSnap,
+    );
     final container = createContainer(
       overrides: [
-        launchProvider.overrideWith((ref, arg) => snapLauncher),
+        launchProvider.overrideWith((ref, arg) => createMockSnapLauncher()),
       ],
     );
 
     await tester.pumpApp(
       (_) => UncontrolledProviderScope(
         container: container,
-        child: const SnapPage(snapName: 'testsnap'),
+        child: SnapPage(snapName: storeSnap.name),
       ),
     );
-    await container.read(snapModelProvider('testsnap').future);
-    await container.read(ratingsModelProvider('testsnap').future);
+    await container.read(snapModelProvider(storeSnap.name).future);
     await tester.pumpAndSettle();
 
     final viewMoreButton = find.descendant(
@@ -391,8 +435,10 @@ void main() {
     await tester.tap(viewMoreButton);
     await tester.pumpAndSettle();
 
-    final revertButton = find.text(tester.l10n.snapActionRevertLabel);
-    expect(revertButton, findsOneWidget);
+    final switchChannelButton = find.text(
+      tester.l10n.snapActionSwitchChannelLabel,
+    );
+    expect(switchChannelButton, findsOneWidget);
   });
 
   testWidgets('loading', (tester) async {

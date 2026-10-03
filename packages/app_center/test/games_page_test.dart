@@ -67,8 +67,9 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          snapSearchProvider
-              .overrideWith((ref, arg) => mockSearchProvider(arg)),
+          snapSearchProvider.overrideWith(
+            (ref, arg) => mockSearchProvider(arg),
+          ),
         ],
         child: SearchPage(category: SnapCategoryEnum.games.name),
       ),
@@ -86,8 +87,9 @@ void main() {
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
-            snapSearchProvider
-                .overrideWith((ref, arg) => mockSearchProvider(arg)),
+            snapSearchProvider.overrideWith(
+              (ref, arg) => mockSearchProvider(arg),
+            ),
           ],
           child: const FeaturedCarousel(
             snapAmount: 1,
@@ -107,8 +109,9 @@ void main() {
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
-            snapSearchProvider
-                .overrideWith((ref, arg) => mockSearchProvider(arg)),
+            snapSearchProvider.overrideWith(
+              (ref, arg) => mockSearchProvider(arg),
+            ),
           ],
           child: const FeaturedCarousel(),
         ),
@@ -127,8 +130,9 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          snapSearchProvider
-              .overrideWith((ref, arg) => mockSearchProvider(arg)),
+          snapSearchProvider.overrideWith(
+            (ref, arg) => mockSearchProvider(arg),
+          ),
         ],
         child: const GamesPage(),
       ),

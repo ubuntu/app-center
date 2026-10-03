@@ -8,9 +8,10 @@ mixin SnapdWatcher on SnapdClient {
     String id, {
     Duration interval = const Duration(milliseconds: 100),
   }) {
-    return Stream.periodic(interval, (_) => getChange(id))
-        .asyncMap((response) async => response)
-        .distinct();
+    return Stream.periodic(
+      interval,
+      (_) => getChange(id),
+    ).asyncMap((response) async => response).distinct();
   }
 
   Stream<List<String>> watchChanges({

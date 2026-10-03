@@ -1,4 +1,6 @@
 import 'package:app_center/about/about.dart';
+import 'package:app_center/addons/addons.dart';
+import 'package:app_center/drivers/drivers.dart';
 import 'package:app_center/explore/explore.dart';
 import 'package:app_center/games/games.dart';
 import 'package:app_center/l10n.dart';
@@ -9,7 +11,10 @@ import 'package:app_center/search/search.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:yaru/yaru.dart';
+
+part 'store_pages.g.dart';
 
 class _NavigationTile extends StatelessWidget {
   const _NavigationTile({
@@ -29,8 +34,9 @@ class _NavigationTile extends StatelessWidget {
     final scope = YaruMasterTileScope.maybeOf(context);
     final isSelected = scope?.selected ?? false;
 
-    final backgroundColor =
-        isSelected ? listTileTheme.selectedTileColor : listTileTheme.tileColor;
+    final backgroundColor = isSelected
+        ? listTileTheme.selectedTileColor
+        : listTileTheme.tileColor;
 
     return YaruMasterTile(
       title: title,
@@ -66,37 +72,38 @@ typedef StorePage = ({
   Widget Function(BuildContext context, YaruWindowTitleBar title) pageBuilder,
 });
 
-final pages = <StorePage>[
+/// Builds the list of top-level navigation tabs.
+List<StorePage> buildStorePages({required bool showAddons}) => [
   (
     tileBuilder: (context, selected) => _NavigationTile(
-          leading: Icon(ExplorePage.icon(selected)),
-          title: Text(ExplorePage.label(context)),
-        ),
+      leading: Icon(ExplorePage.icon(selected)),
+      title: Text(ExplorePage.label(context)),
+    ),
     pageBuilder: (_, title) => YaruDetailPage(
-          appBar: title,
-          body: const ExplorePage(),
-        ),
+      appBar: title,
+      body: const ExplorePage(),
+    ),
   ),
   for (final category in displayedCategories)
     (
       tileBuilder: (context, selected) => _NavigationTile(
-            leading: Icon(category.icon(selected)),
-            title: Text(category.localize(AppLocalizations.of(context))),
-          ),
+        leading: Icon(category.icon(selected)),
+        title: Text(category.localize(AppLocalizations.of(context))),
+      ),
       pageBuilder: (_, title) => YaruDetailPage(
-            appBar: title,
-            body: SearchPage(category: category.categoryName),
-          ),
+        appBar: title,
+        body: SearchPage(category: category.categoryName),
+      ),
     ),
   (
     tileBuilder: (context, selected) => _NavigationTile(
-          leading: Icon(GamesPage.icon(selected)),
-          title: Text(GamesPage.label(context)),
-        ),
+      leading: Icon(GamesPage.icon(selected)),
+      title: Text(GamesPage.label(context)),
+    ),
     pageBuilder: (_, title) => YaruDetailPage(
-          appBar: title,
-          body: const GamesPage(),
-        ),
+      appBar: title,
+      body: const GamesPage(),
+    ),
   ),
   (
     tileBuilder: (context, selected) => const Spacer(),
@@ -104,36 +111,55 @@ final pages = <StorePage>[
   ),
   (
     tileBuilder: (context, selected) => _NavigationTile(
-          leading: Icon(ManagePage.icon(selected)),
-          title: Text(ManagePage.label(context)),
-          trailing: Consumer(
-            builder: (context, ref, child) {
-              final snapUpdates = ref.watch(snapUpdatesModelProvider);
-              final debUpdates = ref.watch(localDebUpdatesModelProvider);
+      leading: Icon(ManagePage.icon(selected)),
+      title: Text(ManagePage.label(context)),
+      trailing: Consumer(
+        builder: (context, ref, child) {
+          final snapUpdates = ref.watch(snapUpdatesModelProvider);
+          final debUpdates = ref.watch(localDebUpdatesModelProvider);
 
-              final snapCount = snapUpdates.valueOrNull?.length ?? 0;
-              final debCount = debUpdates.valueOrNull?.length ?? 0;
-              final totalCount = snapCount + debCount;
+          final snapCount = snapUpdates.valueOrNull?.length ?? 0;
+          final debCount = debUpdates.valueOrNull?.length ?? 0;
+          final totalCount = snapCount + debCount;
 
-              return totalCount > 0
-                  ? Badge(label: Text('$totalCount'))
-                  : const SizedBox.shrink();
-            },
-          ),
-        ),
+          return totalCount > 0
+              ? Badge(label: Text('$totalCount'))
+              : const SizedBox.shrink();
+        },
+      ),
+    ),
     pageBuilder: (_, title) => YaruDetailPage(
-          appBar: title,
-          body: const ManagePage(),
-        ),
+      appBar: title,
+      body: const ManagePage(),
+    ),
   ),
+  if (showAddons)
+    (
+      tileBuilder: (context, selected) => _NavigationTile(
+        leading: Icon(AddonsPage.icon(selected)),
+        title: Text(AddonsPage.label(context)),
+      ),
+      pageBuilder: (context, _) => YaruDetailPage(
+        appBar: YaruWindowTitleBar(
+          title: Text(AddonsPage.label(context)),
+          border: BorderSide.none,
+        ),
+        body: const AddonsPage(),
+      ),
+    ),
   (
     tileBuilder: (context, selected) => _NavigationTile(
-          leading: Icon(AboutPage.icon(selected)),
-          title: Text(AboutPage.label(context)),
-        ),
+      leading: Icon(AboutPage.icon(selected)),
+      title: Text(AboutPage.label(context)),
+    ),
     pageBuilder: (_, title) => YaruDetailPage(
-          appBar: title,
-          body: const AboutPage(),
-        ),
+      appBar: title,
+      body: const AboutPage(),
+    ),
   ),
 ];
+
+@riverpod
+List<StorePage> storePages(Ref ref) => buildStorePages(
+  showAddons: ref.watch(driversAvailableProvider).valueOrNull ?? false,
+);

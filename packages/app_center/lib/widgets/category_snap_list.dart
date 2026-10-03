@@ -33,7 +33,7 @@ class CategorySnapList extends ConsumerWidget {
 
     final bannerSnaps =
         category.featuredSnapNames?.take(kNumberOfBannerSnaps) ??
-            categorySnaps?.take(kNumberOfBannerSnaps).map((snap) => snap.name);
+        categorySnaps?.take(kNumberOfBannerSnaps).map((snap) => snap.name);
 
     // .. without the banner snaps, if we don't want them
     final filteredSnaps = categorySnaps?.where(
@@ -49,7 +49,8 @@ class CategorySnapList extends ConsumerWidget {
         )
         .nonNulls;
 
-    final snaps = (onlyFeatured ? featuredSnaps : filteredSnaps)
+    final snaps =
+        (onlyFeatured ? featuredSnaps : filteredSnaps)
             ?.take(numberOfSnaps)
             .toList() ??
         [];

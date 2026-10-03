@@ -24,42 +24,39 @@ class AppTitle extends StatelessWidget {
   });
 
   factory AppTitle.fromSnap(Snap snap, {bool large = false}) => AppTitle(
-        title: snap.titleOrName,
-        publisher: snap.publisher?.displayName,
-        verifiedPublisher: snap.verifiedPublisher,
-        starredPublisher: snap.starredPublisher,
-        snapCategories: snap.categories,
-        large: large,
-      );
+    title: snap.titleOrName,
+    publisher: snap.publisher?.displayName,
+    verifiedPublisher: snap.verifiedPublisher,
+    starredPublisher: snap.starredPublisher,
+    snapCategories: snap.categories,
+    large: large,
+  );
 
   factory AppTitle.fromDeb(
     AppstreamComponent component, {
     bool large = false,
-  }) =>
-      AppTitle(
-        title: component.getLocalizedName(),
-        publisher: component.getLocalizedDeveloperName(),
-        large: large,
-      );
+  }) => AppTitle(
+    title: component.getLocalizedName(),
+    publisher: component.getLocalizedDeveloperName(),
+    large: large,
+  );
 
   factory AppTitle.fromLocalDeb(
     LocalDebData localDebData, {
     bool large = false,
-  }) =>
-      AppTitle(
-        title: localDebData.details.packageId.name,
-        large: large,
-      );
+  }) => AppTitle(
+    title: localDebData.details.packageId.name,
+    large: large,
+  );
 
   factory AppTitle.fromTool(
     Tool tool, {
     bool large = false,
-  }) =>
-      AppTitle(
-        title: tool.name,
-        publisher: tool.publisher,
-        large: large,
-      );
+  }) => AppTitle(
+    title: tool.name,
+    publisher: tool.publisher,
+    large: large,
+  );
 
   final String title;
   final String? publisher;
@@ -74,10 +71,12 @@ class AppTitle extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
     final textTheme = theme.textTheme;
-    final titleTextStyle =
-        large ? textTheme.headlineSmall! : textTheme.titleMedium!;
-    final publisherTextStyle =
-        large ? textTheme.bodyMedium! : textTheme.bodyMedium!;
+    final titleTextStyle = large
+        ? textTheme.headlineSmall!
+        : textTheme.titleMedium!;
+    final publisherTextStyle = large
+        ? textTheme.bodyMedium!
+        : textTheme.bodyMedium!;
     final publisherIconColor = verifiedPublisher
         ? theme.colorScheme.success
         : theme.colorScheme.warning;
@@ -112,8 +111,9 @@ class AppTitle extends StatelessWidget {
                   child: Icon(
                     verifiedPublisher ? Icons.verified : Icons.stars,
                     size: publisherTextStyle.fontSize,
-                    color:
-                        isHighContrast ? theme.hintColor : publisherIconColor,
+                    color: isHighContrast
+                        ? theme.hintColor
+                        : publisherIconColor,
                   ),
                 ),
             ],

@@ -86,8 +86,9 @@ class SnapInfoBar extends ConsumerWidget {
       loading: () => _AppInfoItem(
         label: Shimmer.fromColors(
           baseColor: isLightTheme ? kShimmerBaseLight : kShimmerBaseDark,
-          highlightColor:
-              isLightTheme ? kShimmerHighLightLight : kShimmerHighLightDark,
+          highlightColor: isLightTheme
+              ? kShimmerHighLightLight
+              : kShimmerHighLightDark,
           child: ShimmerPlaceholder(
             child: Text(
               RatingsBand.insufficientVotes.localize(l10n),
@@ -96,8 +97,9 @@ class SnapInfoBar extends ConsumerWidget {
         ),
         value: Shimmer.fromColors(
           baseColor: isLightTheme ? kShimmerBaseLight : kShimmerBaseDark,
-          highlightColor:
-              isLightTheme ? kShimmerHighLightLight : kShimmerHighLightDark,
+          highlightColor: isLightTheme
+              ? kShimmerHighLightLight
+              : kShimmerHighLightDark,
           child: ShimmerPlaceholder(
             child: Text(l10n.snapRatingsVotes(0)),
           ),
@@ -172,48 +174,44 @@ class _AppInfoItem extends StatelessWidget {
   factory _AppInfoItem.downloadSize({
     required BuildContext context,
     required AppMetadata appData,
-  }) =>
-      _AppInfoItem(
-        label: Text(AppLocalizations.of(context).snapPageDownloadSizeLabel),
-        value: Text(
-          appData.downloadSize != null
-              ? context.formatByteSize(appData.downloadSize!)
-              : '',
-        ),
-      );
+  }) => _AppInfoItem(
+    label: Text(AppLocalizations.of(context).snapPageDownloadSizeLabel),
+    value: Text(
+      appData.downloadSize != null
+          ? context.formatByteSize(appData.downloadSize!)
+          : '',
+    ),
+  );
 
   factory _AppInfoItem.license({
     required BuildContext context,
     required AppMetadata appData,
-  }) =>
-      _AppInfoItem(
-        label: Text(AppLocalizations.of(context).snapPageLicenseLabel),
-        value: Text(
-          appData.license ?? AppLocalizations.of(context).appLicenseUnknown,
-        ),
-      );
+  }) => _AppInfoItem(
+    label: Text(AppLocalizations.of(context).snapPageLicenseLabel),
+    value: Text(
+      appData.license ?? AppLocalizations.of(context).appLicenseUnknown,
+    ),
+  );
 
   factory _AppInfoItem.version({
     required BuildContext context,
     required AppMetadata appData,
-  }) =>
-      _AppInfoItem(
-        label: Text(AppLocalizations.of(context).snapPageVersionLabel),
-        value: Text(appData.version ?? ''),
-      );
+  }) => _AppInfoItem(
+    label: Text(AppLocalizations.of(context).snapPageVersionLabel),
+    value: Text(appData.version ?? ''),
+  );
 
   factory _AppInfoItem.published({
     required BuildContext context,
     required AppMetadata appData,
-  }) =>
-      _AppInfoItem(
-        label: Text(AppLocalizations.of(context).snapPagePublishedLabel),
-        value: Text(
-          appData.published != null
-              ? DateFormat.yMMMd().format(appData.published!)
-              : AppLocalizations.of(context).appPublishedUnknown,
-        ),
-      );
+  }) => _AppInfoItem(
+    label: Text(AppLocalizations.of(context).snapPagePublishedLabel),
+    value: Text(
+      appData.published != null
+          ? DateFormat.yMMMd().format(appData.published!)
+          : AppLocalizations.of(context).appPublishedUnknown,
+    ),
+  );
 
   factory _AppInfoItem.links({
     required BuildContext context,
@@ -244,7 +242,8 @@ class _AppInfoItem extends StatelessWidget {
     final layout = ResponsiveLayout.of(context);
 
     return SizedBox(
-      width: (layout.totalWidth -
+      width:
+          (layout.totalWidth -
               (layout.snapInfoColumnCount - 1) * kPagePadding) /
           layout.snapInfoColumnCount,
       child: Column(

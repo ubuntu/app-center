@@ -6,6 +6,7 @@ import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/manage/local_deb_updates_model.dart';
 import 'package:app_center/manage/manage_app_data.dart';
 import 'package:app_center/manage/quit_to_update_notice.dart';
+import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/current_desktops_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/active_change_content.dart';
@@ -85,7 +86,8 @@ class ManageAppActions extends ConsumerWidget {
         actionLabel: ref
             .watch(activeChangeProvider(snapData.activeChangeId))
             ?.localize(l10n),
-        progress: ref
+        progress:
+            ref
                 .watch(activeChangeProvider(snapData.activeChangeId))
                 ?.progress ??
             0,
@@ -153,8 +155,9 @@ class ManageAppActions extends ConsumerWidget {
     final hasActiveTransaction = debInfo.activeTransactionId != null;
 
     if (hasActiveTransaction) {
-      final progress = ref
-          .watch(debTransactionProgressProvider(debInfo.activeTransactionId));
+      final progress = ref.watch(
+        packageKitTransactionProgressProvider(debInfo.activeTransactionId),
+      );
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -178,11 +181,11 @@ class ManageAppActions extends ConsumerWidget {
           OutlinedButton(
             onPressed: () => showOnlyUpdate
                 ? ref
-                    .read(localDebUpdatesModelProvider.notifier)
-                    .cancelTransaction(debInfo.id)
+                      .read(localDebUpdatesModelProvider.notifier)
+                      .cancelTransaction(debInfo.id)
                 : ref
-                    .read(installedAppsProvider.notifier)
-                    .cancelDebTransaction(debInfo.id),
+                      .read(installedAppsProvider.notifier)
+                      .cancelDebTransaction(debInfo.id),
             child: Text(l10n.snapActionCancelLabel),
           ),
         ],

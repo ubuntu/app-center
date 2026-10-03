@@ -76,7 +76,7 @@ class _AboutHeader extends ConsumerWidget {
                 focused: true,
                 label: l10n.aboutPageLabel,
                 child: Text(
-                  kAppName,
+                  l10n.appCenterLabel,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ),
@@ -125,8 +125,9 @@ class _ContributorView extends ConsumerWidget {
           error: (error, stackTrace) => Text(error.toString()),
           loading: () => Shimmer.fromColors(
             baseColor: light ? kShimmerBaseLight : kShimmerBaseDark,
-            highlightColor:
-                light ? kShimmerHighLightLight : kShimmerHighLightDark,
+            highlightColor: light
+                ? kShimmerHighLightLight
+                : kShimmerHighLightDark,
             child: _ContributorWrap(List<Contributor?>.filled(36, null)),
           ),
         ),

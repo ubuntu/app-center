@@ -5,7 +5,6 @@ import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/app_providers.dart';
-import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/manage/local_deb_updates_model.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage_app_data.dart';
@@ -45,8 +44,9 @@ class ManagePage extends ConsumerWidget {
     final appUpdates = appUpdatesModel.valueOrNull ?? [];
     final isLoading = appUpdatesModel.isLoading;
     final hasInternet = ref.watch(
-      snapUpdatesModelProvider
-          .select((value) => value.valueOrNull?.hasInternet ?? true),
+      snapUpdatesModelProvider.select(
+        (value) => value.valueOrNull?.hasInternet ?? true,
+      ),
     );
 
     return ResponsiveLayoutScrollView(
@@ -66,7 +66,8 @@ class ManagePage extends ConsumerWidget {
               _SelfUpdateInfoBox(),
               Builder(
                 builder: (context) {
-                  final compact = ResponsiveLayout.of(context).type ==
+                  final compact =
+                      ResponsiveLayout.of(context).type ==
                       ResponsiveLayoutType.small;
                   return Flex(
                     direction: compact ? Axis.vertical : Axis.horizontal,
@@ -80,9 +81,7 @@ class ManagePage extends ConsumerWidget {
                         l10n.managePageUpdatesAvailable(
                           appUpdates.length,
                         ),
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
+                        style: Theme.of(context).textTheme.titleMedium!
                             .copyWith(fontWeight: FontWeight.w500),
                       ),
                       if (compact) const SizedBox(height: 16),
@@ -137,10 +136,9 @@ class ManagePage extends ConsumerWidget {
               const SizedBox(height: kSectionSpacing),
               Text(
                 l10n.managePageInstallingLabel(1),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(fontWeight: FontWeight.w500),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: kMarginLarge),
             ],
@@ -165,10 +163,9 @@ class ManagePage extends ConsumerWidget {
             const SizedBox(height: kSectionSpacing),
             Text(
               l10n.managePageInstalledAndUpdatedLabel,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(fontWeight: FontWeight.w500),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: kSpacing),
             _FilterRow(),
@@ -218,20 +215,25 @@ class _ActionButtons extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final appUpdatesModel = ref.watch(appUpdatesProvider);
-    final isRefreshingAll =
-        ref.watch(currentlyRefreshAllSnapsProvider).isNotEmpty;
-    final isUpdatingAllDebs =
-        ref.watch(currentlyUpdatingAllDebsProvider).isNotEmpty;
+    final isRefreshingAll = ref
+        .watch(currentlyRefreshAllSnapsProvider)
+        .isNotEmpty;
+    final isUpdatingAllDebs = ref
+        .watch(currentlyUpdatingAllDebsProvider)
+        .isNotEmpty;
     final isUpdatingAll = isRefreshingAll || isUpdatingAllDebs;
     final hasInternet = ref.watch(
-      snapUpdatesModelProvider
-          .select((value) => value.valueOrNull?.hasInternet ?? true),
+      snapUpdatesModelProvider.select(
+        (value) => value.valueOrNull?.hasInternet ?? true,
+      ),
     );
     final isLoading = appUpdatesModel.isLoading;
-    final isSilentlyCheckingSnapUpdates =
-        ref.watch(isSilentlyCheckingUpdatesProvider);
-    final isSilentlyCheckingDebUpdates =
-        ref.watch(isSilentlyCheckingDebUpdatesProvider);
+    final isSilentlyCheckingSnapUpdates = ref.watch(
+      isSilentlyCheckingUpdatesProvider,
+    );
+    final isSilentlyCheckingDebUpdates = ref.watch(
+      isSilentlyCheckingDebUpdatesProvider,
+    );
     final isSilentlyCheckingUpdates =
         isSilentlyCheckingSnapUpdates || isSilentlyCheckingDebUpdates;
 
@@ -241,7 +243,8 @@ class _ActionButtons extends ConsumerWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         PushButton.outlined(
-          onPressed: isUpdatingAll ||
+          onPressed:
+              isUpdatingAll ||
                   appUpdatesModel.hasError ||
                   isLoading ||
                   isSilentlyCheckingUpdates
@@ -272,18 +275,20 @@ class _ActionButtons extends ConsumerWidget {
           ),
         ),
         PushButton.elevated(
-          onPressed: ref.watch(appUpdatesProvider).whenOrNull(
+          onPressed: ref
+              .watch(appUpdatesProvider)
+              .whenOrNull(
                 data: (updates) =>
                     updates.isNotEmpty && !isUpdatingAll && hasInternet
-                        ? () {
-                            ref
-                                .read(snapUpdatesModelProvider.notifier)
-                                .refreshAll();
-                            ref
-                                .read(localDebUpdatesModelProvider.notifier)
-                                .updateAll();
-                          }
-                        : null,
+                    ? () {
+                        ref
+                            .read(snapUpdatesModelProvider.notifier)
+                            .refreshAll();
+                        ref
+                            .read(localDebUpdatesModelProvider.notifier)
+                            .updateAll();
+                      }
+                    : null,
               ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -338,10 +343,10 @@ class _SelfUpdateInfoBox extends ConsumerWidget {
     }
 
     final buttonStyle = OutlinedButtonTheme.of(context).style?.copyWith(
-          backgroundColor: WidgetStatePropertyAll(
-            Theme.of(context).colorScheme.surface,
-          ),
-        );
+      backgroundColor: WidgetStatePropertyAll(
+        Theme.of(context).colorScheme.surface,
+      ),
+    );
 
     return Padding(
       padding: const EdgeInsets.only(top: 34, bottom: 34),
@@ -453,9 +458,9 @@ class _FilterRow extends ConsumerWidget {
                     values: PackageTypeFilter.values,
                     itemBuilder: (context, type, child) =>
                         Text(type.localize(l10n)),
-                    onSelected: (value) => ref
-                        .read(packageTypeFilterProvider.notifier)
-                        .state = value,
+                    onSelected: (value) =>
+                        ref.read(packageTypeFilterProvider.notifier).state =
+                            value,
                     expanded: false,
                     child: Text(packageType.localize(l10n)),
                   ),
@@ -570,7 +575,6 @@ class _DebouncedSearchFieldState extends ConsumerState<_DebouncedSearchField> {
     _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 200), () {
       ref.read(localSnapFilterProvider.notifier).state = value;
-      ref.read(localDebFilterProvider.notifier).state = value;
     });
   }
 
