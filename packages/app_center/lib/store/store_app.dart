@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:app_center/addons/addons.dart';
@@ -80,9 +81,14 @@ class _StoreAppState extends ConsumerState<StoreApp>
 
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
-        LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyF): () {
+        const SingleActivator(LogicalKeyboardKey.keyF, control: true): () {
           searchFocus.requestFocus();
           searchFocus.nextFocus();
+        },
+        const SingleActivator(LogicalKeyboardKey.keyQ, control: true): () {
+          unawaited(
+            ServicesBinding.instance.exitApplication(AppExitType.cancelable),
+          );
         },
       },
       child: YaruTheme(
