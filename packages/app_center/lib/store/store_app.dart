@@ -86,7 +86,9 @@ class _StoreAppState extends ConsumerState<StoreApp>
           searchFocus.nextFocus();
         },
         const SingleActivator(LogicalKeyboardKey.keyQ, control: true): () {
-          unawaited(ServicesBinding.instance.exitApplication(AppExitType.cancelable));
+          unawaited(
+            ServicesBinding.instance.exitApplication(AppExitType.cancelable),
+          );
         },
       },
       child: YaruTheme(
