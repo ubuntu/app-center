@@ -358,4 +358,63 @@ void main() {
     expect(states.any((s) => s.activeTransactionId == 42), isTrue);
     expect(states.any((s) => s.error != null), isFalse);
   });
+
+  test(
+    'keeps the transaction active until the refreshed state is ready',
+    () async {
+      final packageKit = createMockPackageKitService(
+        packageInfo: packageInfo,
+        transactionId: 42,
+      );
+      const installedInfo = PackageKitPackageInfo(
+        info: PackageKitInfo.installed,
+        packageId: PackageKitPackageId(name: 'testdeb', version: '1.0'),
+        summary: 'summary',
+      );
+      final refreshResolve = Completer<void>();
+      var resolveCalls = 0;
+      when(packageKit.resolve(any)).thenAnswer((invocation) async {
+        final names = invocation.positionalArguments.first as List<String>;
+        if (++resolveCalls > 1) await refreshResolve.future;
+        return {
+          for (final name in names)
+            name: resolveCalls > 1 ? installedInfo : packageInfo,
+        };
+      });
+      createMockAppstreamService(component: component);
+      final container = ProviderContainer();
+      final states = <AsyncValue<DebData>>[];
+      container.listen(
+        debModelProvider('testdeb'),
+        (_, next) => states.add(next),
+      );
+
+      await container.read(debModelProvider('testdeb').future);
+      await container.read(debModelProvider('testdeb').notifier).installDeb();
+      // Let the rebuild reach the pending resolve().
+      await Future<void>.delayed(Duration.zero);
+
+      // Stale data must not be shown without an active transaction.
+      expect(resolveCalls, equals(2));
+      final current = container.read(debModelProvider('testdeb'));
+      expect(current.value!.packageInfo, equals(packageInfo));
+      expect(current.value!.activeTransactionId, equals(42));
+
+      refreshResolve.complete();
+      final refreshed = await container.read(
+        debModelProvider('testdeb').future,
+      );
+
+      expect(refreshed.isInstalled, isTrue);
+      expect(refreshed.activeTransactionId, isNull);
+      final staleWithoutTransaction = states.where(
+        (s) =>
+            s.hasValue &&
+            s.value!.packageInfo == packageInfo &&
+            s.value!.activeTransactionId == null,
+      );
+      // Only the initial state may carry the stale package info without a transaction.
+      expect(staleWithoutTransaction.length, equals(1));
+    },
+  );
 }

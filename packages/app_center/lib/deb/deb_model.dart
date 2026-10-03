@@ -179,6 +179,7 @@ class DebModel extends _$DebModel {
       await packageKit.waitTransaction(transactionId);
     } on PackageKitTransactionCancelled {
       // User cancelled (e.g. dismissed the polkit dialog) — not an error.
+      _clearActiveTransaction();
     } on Exception catch (e) {
       /* Report via the same path as PackageKitServiceError events so the
          page shows the error and clears the stuck transaction state. */
@@ -188,11 +189,16 @@ class DebModel extends _$DebModel {
           details: e.toString(),
         ),
       );
-    } finally {
-      state = AsyncValue.data(
-        state.value!.copyWith(activeTransactionId: null),
-      );
+      _clearActiveTransaction();
     }
+    /* On success keep activeTransactionId set until the rebuild finishes, so
+       the page doesn't flash the stale install/uninstall state meanwhile. */
     ref.invalidateSelf();
+  }
+
+  void _clearActiveTransaction() {
+    state = AsyncValue.data(
+      state.value!.copyWith(activeTransactionId: null),
+    );
   }
 }
