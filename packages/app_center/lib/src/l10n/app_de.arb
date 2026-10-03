@@ -405,5 +405,60 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "addonsPageAdditionalDriversTitle": "Zusätzliche Treiber",
+    "addonsPageAdditionalDriversDescription": "Bessere Unterstützung für Grafikkarten und andere Hardware hinzufügen",
+    "driversPageDescription": "Proprietäre Treiber enthalten geschlossenen Code, den Ubuntu-Entwickler weder überprüfen noch verbessern können. Sicherheitsaktualisierungen und sonstige Aktualisierungen hängen vom Treiberhersteller ab.",
+    "driversPageSectionUpdateAvailable": "Aktualisierung verfügbar",
+    "driversPageSectionAvailable": "Verfügbar",
+    "driversPageSectionInstalled": "Installiert",
+    "driversPageSectionUnsupported": "Keine Treiber verfügbar",
+    "driversPageNoPackagesMessage": "Es gibt keine Pakete, die Treiber für dieses Gerät enthalten",
+    "driversPageDeviceClassGraphics": "Grafik",
+    "driversPageDeviceClassNetwork": "Netzwerk",
+    "driversPageDeviceClassCamera": "Kamera",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Speicher",
+    "driversPageDeviceClassAudio": "Audio",
+    "driversPageDeviceClassOther": "Sonstige",
+    "driversPageBranchProduction": "Produktion",
+    "driversPageBranchLts": "Langfristige Unterstützung",
+    "driversPageBranchNewFeature": "Neue Funktionen",
+    "driversPageVersionLabel": "Version {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Neustart erforderlich",
+    "driversPageRestartRequiredMessage": "Starten Sie Ihren Computer neu, um die Übernahme der Treiberänderungen abzuschließen.",
+    "driversPageErrorLabel": "Fehler",
+    "driversPageRetryLabel": "Erneut versuchen",
+    "driversPageNoDriversFoundMessage": "Es werden integrierte Treiber verwendet. Es wurden keine zusätzlichen Treiber gefunden.",
+    "driversPageUnavailableTitle": "Treiberverwaltung nicht verfügbar",
+    "driversPageUnsupportedMessage": "Der Treiberverwaltungsdienst ist nicht verfügbar. Stellen Sie sicher, dass snapd auf dem neuesten Stand und ubuntu-drivers-common installiert ist.",
+    "driversPageSwitchBranchLabel": "Zweig wechseln",
+    "driversPageSwitchBranchTitle": "Zweig wechseln",
+    "driversPageSwitchBranchProductionDescription": "Schafft ein Gleichgewicht zwischen Funktionen und Stabilität",
+    "driversPageSwitchBranchLtsDescription": "Maximale Stabilität für kritische Arbeitslasten",
+    "driversPageSwitchBranchNewFeatureDescription": "Vorschau, weniger stabil",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (empfohlen)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "Dieser Zweig ist weniger stabil",
+    "driversPageSwitchBranchLessStableWarningMessage": "Bleiben Sie auf dem aktuellen Zweig, um Probleme mit diesem Gerät zu vermeiden.",
+    "driversPageSwitchLabel": "Wechseln",
+    "driversPageSwitchingBranchLabel": "Zweig wechseln",
+    "driversPageUninstallTitle": "Treiber deinstallieren",
+    "driversPageUninstallWarningTitle": "Das Deinstallieren von Treibern kann Probleme verursachen",
+    "driversPageUninstallWarningMessage": "Möglicherweise lassen sich die Treiber nicht ohne Weiteres neu installieren, insbesondere wenn es sich um Grafik- oder Netzwerktreiber handelt.",
+    "driversPageUninstallAcknowledgeLabel": "Ich bin mir des Risikos bewusst",
+    "addonsPageLabel": "Add-ons"
 }
