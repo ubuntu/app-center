@@ -4,7 +4,6 @@ import 'package:app_center/apps/app_page.dart';
 import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/deb/deb_model.dart';
-import 'package:app_center/deb/deb_providers.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
@@ -123,6 +122,9 @@ class _DebActionButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final progress = ref.watch(
+      packageKitTransactionProgressProvider(debModel.activeTransactionId),
+    );
 
     final primaryAction = debModel.hasUpdate
         ? DebAction.update
@@ -144,13 +146,7 @@ class _DebActionButtons extends ConsumerWidget {
     if (debModel.activeTransactionId != null) {
       return ActiveChangeStatus(
         onCancelPressed: DebAction.cancel.callback(ref, debModel),
-        progress:
-            (ref
-                    .watch(transactionProvider(debModel.activeTransactionId!))
-                    .valueOrNull
-                    ?.percentage ??
-                0) /
-            100.0,
+        progress: progress ?? 0.0,
       );
     }
 
