@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/search/search.dart';
 import 'package:app_center/snapd/multisnap_model.dart';
 import 'package:app_center/snapd/snapd.dart';
@@ -9,6 +12,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
+import 'package:yaru/yaru.dart';
 
 import 'test_utils.dart';
 import 'test_utils.mocks.dart';
@@ -85,6 +89,63 @@ void main() {
     expect(find.text('Test Snap'), findsOneWidget);
     expect(find.text('Another Test Snap'), findsOneWidget);
     expect(find.text('Yet Another Test Snap'), findsOneWidget);
+  });
+
+  testWidgets('shows progress when switching to deb search', (tester) async {
+    final initialized = Completer<void>();
+    var isInitialized = false;
+    final appstream = MockAppstreamService();
+    when(appstream.initialized).thenAnswer((_) => isInitialized);
+    when(appstream.init()).thenAnswer((_) async {
+      await initialized.future;
+      isInitialized = true;
+    });
+    when(appstream.search(any)).thenAnswer((_) async => []);
+    registerMockService<AppstreamService>(appstream);
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          snapSearchProvider.overrideWith(
+            (ref, query) => mockSearchProvider(query),
+          ),
+        ],
+        child: const SearchPage(query: 'testsn'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text(tester.l10n.packageFormatSnapLabel).first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(tester.l10n.packageFormatDebLabel).last);
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
+    // Render any stream event received while initialization is still pending.
+    await tester.pump();
+
+    final debResults = find.byWidgetPredicate(
+      (widget) => widget.runtimeType.toString() == '_DebSearchResults',
+    );
+    final progressIndicator = find.descendant(
+      of: debResults,
+      matching: find.byType(YaruCircularProgressIndicator),
+    );
+    final noResults = find.descendant(
+      of: debResults,
+      matching: find.text(tester.l10n.searchPageNoResults('testsn')),
+    );
+
+    expect(debResults, findsOneWidget);
+    expect(noResults, findsNothing);
+    expect(progressIndicator, findsOneWidget);
+    verify(appstream.init()).called(1);
+    verifyNever(appstream.search(any));
+
+    initialized.complete();
+    await tester.pumpAndSettle();
+    expect(progressIndicator, findsNothing);
+    expect(noResults, findsOneWidget);
+    verify(appstream.search('testsn')).called(1);
   });
 
   testWidgets('query + category', (tester) async {
