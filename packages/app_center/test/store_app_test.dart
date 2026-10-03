@@ -346,7 +346,7 @@ void main() {
       expect(focusNode.hasFocus, isTrue);
     });
 
-    testWidgets('app terminates when Control+Q is pressed', (tester) async {
+    testWidgets('requests app exit when Control+Q is pressed', (tester) async {
       registerMockService<GtkApplicationNotifier>(
         createMockGtkApplicationNotifier(),
       );
