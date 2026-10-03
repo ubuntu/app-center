@@ -1,12 +1,18 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:app_center/apps/app_details_entry.dart';
+import 'package:app_center/apps/app_details_state.dart';
+import 'package:app_center/apps/apps_utils.dart' show AppConfinement, AppLink;
+import 'package:app_center/apps/package_details_backend.dart';
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/drivers/drivers.dart';
 import 'package:app_center/gstreamer/gstreamer_model.dart';
 import 'package:app_center/gstreamer/gstreamer_resource.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/manage/local_deb_providers.dart';
+import 'package:app_center/mapping/package_source_descriptor.dart';
+import 'package:app_center/mapping/unified_app_identity.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/providers/file_system_provider.dart';
@@ -271,6 +277,7 @@ MockPackageKitClient createMockPackageKitClient({
 @GenerateMocks([PackageKitTransaction])
 MockPackageKitTransaction createMockPackageKitTransaction({
   Iterable<PackageKitEvent>? events,
+  Iterable<int> percentages = const [],
   PackageKitExit? exit,
   int? runtime,
   Future<void>? start,
@@ -278,10 +285,20 @@ MockPackageKitTransaction createMockPackageKitTransaction({
 }) {
   final transaction = MockPackageKitTransaction();
   final controller = StreamController<PackageKitEvent>.broadcast();
+  final properties = StreamController<List<String>>.broadcast();
+  var percentage = 101;
   when(transaction.events).thenAnswer((_) => controller.stream);
+  when(transaction.propertiesChanged).thenAnswer((_) => properties.stream);
+  when(transaction.percentage).thenAnswer((_) => percentage);
 
   Future<void> emitEvents() async {
     if (start != null) await start;
+    for (final value in percentages) {
+      percentage = value;
+      properties.add(['Percentage']);
+      // Let listeners read this value before the next one.
+      await Future<void>.delayed(Duration.zero);
+    }
     for (final event in events ?? <PackageKitEvent>[]) {
       controller.add(event);
     }
@@ -298,6 +315,7 @@ MockPackageKitTransaction createMockPackageKitTransaction({
     );
     controller.add(const PackageKitDestroyEvent());
     await controller.close();
+    await properties.close();
   }
 
   // Add similar statements for further methods as needed.
@@ -483,6 +501,10 @@ MockPackageKitService createMockPackageKitService({
   when(packageKit.remove(any)).thenAnswer((_) async => transactionId);
   when(packageKit.removeAll(any)).thenAnswer((_) async => transactionId);
   when(packageKit.errorStream).thenAnswer((_) => errorStream);
+  when(
+    packageKit.mutationEvents,
+  ).thenAnswer((_) => const Stream<PackageKitMutation>.empty());
+  when(packageKit.activeMutations).thenReturn([]);
   when(
     packageKit.taggedErrorStream,
   ).thenAnswer((_) => errorStream.map((e) => (id: transactionId, error: e)));
@@ -685,4 +707,243 @@ Snap createSnap({
     website: website,
     refreshInhibit: refreshInhibit,
   );
+}
+
+const testSnapKey = SourceKey(format: PackageFormat.snap, id: 'testsnap');
+const testDebKey = SourceKey(format: PackageFormat.deb, id: 'org.test.app');
+
+/// An identity with the given sources, matching [testSnapKey]/[testDebKey].
+ResolvedAppIdentity createResolvedIdentity({
+  bool snap = true,
+  bool deb = true,
+  bool discoveryFailed = false,
+}) => ResolvedAppIdentity(
+  identity: UnifiedAppIdentity(
+    unifiedId: 'org.test.app',
+    appStreamId: 'org.test.app',
+    sources: [
+      if (snap)
+        const PackageSourceDescriptor(
+          format: PackageFormat.snap,
+          packageId: 'testsnap',
+          packageName: 'testsnap',
+          commonIds: ['org.test.app'],
+        ),
+      if (deb)
+        const PackageSourceDescriptor(
+          format: PackageFormat.deb,
+          packageId: 'test-app',
+          packageName: 'test-app',
+          commonIds: ['org.test.app'],
+        ),
+    ],
+  ),
+  discoveryFailed: discoveryFailed,
+);
+
+const testSnapStable = PackageRelease(
+  candidateId: 'rev:2',
+  version: '2.0',
+  channel: 'latest/stable',
+  size: FieldState.value(ByteSize(bytes: 50, kind: SizeKind.download)),
+  confinement: AppConfinement.strict,
+);
+
+const testSnapBeta = PackageRelease(
+  candidateId: 'rev:4',
+  version: '4.0-beta',
+  channel: 'latest/beta',
+  size: FieldState.value(ByteSize(bytes: 70, kind: SizeKind.download)),
+  confinement: AppConfinement.classic,
+);
+
+const testSnapUpdate = PackageRelease(
+  candidateId: 'rev:3',
+  version: '3.0',
+  channel: 'latest/stable',
+  size: FieldState.value(ByteSize(bytes: 60, kind: SizeKind.download)),
+  confinement: AppConfinement.strict,
+);
+
+const testDebCandidate = PackageRelease(
+  candidateId: 'test-app;1.0-1;amd64;ubuntu',
+  version: '1.0-1',
+  size: FieldState.value(ByteSize(bytes: 40, kind: SizeKind.download)),
+  confinement: AppConfinement.unrestricted,
+);
+
+const testDebUpdate = PackageRelease(
+  candidateId: 'test-app;1.1-1;amd64;ubuntu',
+  version: '1.1-1',
+  size: FieldState.value(ByteSize(bytes: 45, kind: SizeKind.download)),
+  confinement: AppConfinement.unrestricted,
+);
+
+/// A realistic source snapshot for [testSnapKey] or [testDebKey].
+PackageSourceSnapshot createSourceSnapshot(
+  SourceKey key, {
+  InstallState installState = InstallState.notInstalled,
+  String installedChannel = 'latest/stable',
+  bool withUpdate = false,
+  bool canLaunch = false,
+  DisabledReason? updateBlocked,
+  DisabledReason? removeBlocked,
+  ObservedOperation? activeOperation,
+  List<String>? channels,
+}) {
+  final isSnap = key.format == PackageFormat.snap;
+  final installed = installState == InstallState.installed;
+  final label = isSnap ? 'Snap' : 'Deb';
+
+  final PackageRelease? installedRelease;
+  final List<PackageTarget> targets;
+  if (isSnap) {
+    final releases = {
+      'latest/stable': testSnapStable,
+      'latest/beta': testSnapBeta,
+    };
+    installedRelease = installed
+        ? releases[installedChannel]!.copyWith(
+            size: const FieldState.value(
+              ByteSize(bytes: 100, kind: SizeKind.installed),
+            ),
+          )
+        : null;
+    targets = [
+      for (final channel in channels ?? releases.keys)
+        PackageTarget(
+          id: channel,
+          label: channel,
+          isInstalled: installed && channel == installedChannel,
+          candidate: releases[channel],
+        ),
+    ];
+  } else {
+    installedRelease = installed
+        ? testDebCandidate.copyWith(size: FieldState<ByteSize>.unavailable())
+        : null;
+    targets = [
+      PackageTarget(
+        id: 'test-app',
+        label: 'test-app',
+        isInstalled: installed,
+        candidate: installedRelease ?? testDebCandidate,
+      ),
+    ];
+  }
+
+  return PackageSourceSnapshot(
+    key: key,
+    installState: installState,
+    appName: FieldState.value('$label App'),
+    icon: FieldState.value(ImageRef.network('https://example.com/$label.png')),
+    summary: FieldState.value('$label summary'),
+    description: FieldState.value(
+      RichContent(
+        text: '$label description',
+        type: isSnap ? RichContentType.markdown : RichContentType.html,
+      ),
+    ),
+    screenshots: FieldState.value(['https://example.com/$label-shot.png']),
+    publisher: FieldState.value(Publisher(name: '$label Publisher')),
+    categories: FieldState.value([
+      if (isSnap) AppCategory.development else AppCategory.utilities,
+    ]),
+    confinement: FieldState.value(
+      isSnap ? AppConfinement.strict : AppConfinement.unrestricted,
+    ),
+    license: FieldState.value(isSnap ? 'MIT' : 'GPL-3.0'),
+    links: FieldState.value({AppLink.homepage: 'https://example.com/$label'}),
+    ageRating: isSnap
+        ? FieldState<ContentRatingLevel>.unavailable()
+        : const FieldState.value(ContentRatingLevel.mild),
+    installDate: installed && isSnap
+        ? FieldState.value(DateTime(2026, 2, 3))
+        : FieldState<DateTime>.unavailable(),
+    installed: installedRelease,
+    installCandidate: installed
+        ? null
+        : targets.firstWhere((t) => !t.isInstalled).candidate,
+    updateCandidate: installed && withUpdate
+        ? (isSnap ? testSnapUpdate : testDebUpdate)
+        : null,
+    capabilities: PackageCapabilities(
+      canLaunch: canLaunch,
+      updateBlocked: updateBlocked,
+      removeBlocked: removeBlocked,
+    ),
+    targets: targets,
+    activeOperation: activeOperation,
+  );
+}
+
+final fakeSnapshotProvider =
+    StateProvider.family<AsyncValue<PackageSourceSnapshot>, SourceKey>(
+      (ref, key) => const AsyncLoading(),
+    );
+
+/// A backend whose snapshots and command results are driven by the test.
+class FakePackageDetailsBackend implements PackageDetailsBackend {
+  final executed = <(SourceKey, PackageCommand)>[];
+  final cancelled = <SourceKey>[];
+  final opened = <SourceKey>[];
+  final reconciled = <SourceKey>[];
+  final _pending = <SourceKey, Completer<OperationOutcome>>{};
+
+  /// Called when a command starts, before its result is awaited.
+  void Function(Ref ref, SourceKey key, PackageCommand command)? onExecute;
+
+  /// Snapshot published on reconciliation, per source.
+  final afterReconcile = <SourceKey, PackageSourceSnapshot>{};
+  Exception? reconcileError;
+  Exception? cancelError;
+
+  /// Completes the running command on [key].
+  void complete(SourceKey key, OperationOutcome outcome) =>
+      _pending.remove(key)!.complete(outcome);
+
+  void fail(SourceKey key, Exception error) =>
+      _pending.remove(key)!.completeError(error);
+
+  @override
+  ProviderListenable<AsyncValue<PackageSourceSnapshot>> snapshot(
+    SourceKey key,
+  ) => fakeSnapshotProvider(key);
+
+  @override
+  Future<OperationOutcome> execute(
+    Ref ref,
+    SourceKey key,
+    PackageCommand command,
+  ) {
+    executed.add((key, command));
+    onExecute?.call(ref, key, command);
+    return (_pending[key] = Completer()).future;
+  }
+
+  @override
+  Future<void> reconcile(Ref ref, SourceKey key) async {
+    reconciled.add(key);
+    if (reconcileError != null) throw reconcileError!;
+    final next = afterReconcile.remove(key);
+    if (next != null) {
+      ref.read(fakeSnapshotProvider(key).notifier).state = AsyncData(next);
+    }
+  }
+
+  @override
+  Future<void> cancel(Ref ref, SourceKey key) async {
+    cancelled.add(key);
+    if (cancelError != null) throw cancelError!;
+  }
+
+  @override
+  Future<void> open(Ref ref, SourceKey key) async => opened.add(key);
+}
+
+/// Lets pending microtasks and zero-delay timers run.
+Future<void> settle() async {
+  for (var i = 0; i < 10; i++) {
+    await Future<void>.delayed(Duration.zero);
+  }
 }
