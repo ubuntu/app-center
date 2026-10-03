@@ -120,12 +120,32 @@ void main() {
     await tester.tap(find.text(tester.l10n.packageFormatDebLabel).last);
     await tester.pump();
     await tester.pump(const Duration(seconds: 1));
+    // Render any stream event received while initialization is still pending.
+    await tester.pump();
 
-    expect(find.byType(YaruCircularProgressIndicator), findsOneWidget);
+    final debResults = find.byWidgetPredicate(
+      (widget) => widget.runtimeType.toString() == '_DebSearchResults',
+    );
+    final progressIndicator = find.descendant(
+      of: debResults,
+      matching: find.byType(YaruCircularProgressIndicator),
+    );
+    final noResults = find.descendant(
+      of: debResults,
+      matching: find.text(tester.l10n.searchPageNoResults('testsn')),
+    );
+
+    expect(debResults, findsOneWidget);
+    expect(noResults, findsNothing);
+    expect(progressIndicator, findsOneWidget);
+    verify(appstream.init()).called(1);
+    verifyNever(appstream.search(any));
 
     initialized.complete();
     await tester.pumpAndSettle();
-    expect(find.byType(YaruCircularProgressIndicator), findsNothing);
+    expect(progressIndicator, findsNothing);
+    expect(noResults, findsOneWidget);
+    verify(appstream.search('testsn')).called(1);
   });
 
   testWidgets('query + category', (tester) async {
