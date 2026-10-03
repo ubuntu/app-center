@@ -111,6 +111,13 @@ List<Tool> tools = [
     'https://usebottles.com',
   ),
   Tool(
+    'CrossOver',
+    'Run Windows softwares. Wine's main contributor.',
+    'CodeWeavers',
+    'https://media.codeweavers.com/pub/crossover/website/images/CrossOver-logo-wht.png',
+    'https://www.codeweavers.com/',
+  ),
+  Tool(
     'Wine',
     'Run Microsoft Windows programs on Linux',
     'WineHQ',
