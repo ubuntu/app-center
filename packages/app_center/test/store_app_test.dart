@@ -22,7 +22,6 @@ import 'package:yaru/yaru.dart';
 import 'test_utils.dart';
 
 void main() {
-
   final binding = TestAppBinding();
   tearDown(resetAllServices);
 
@@ -316,7 +315,9 @@ void main() {
   });
 
   group('shortcuts', () {
-    testWidgets('search field requests focus when Control+F is pressed', (tester) async {
+    testWidgets('search field requests focus when Control+F is pressed', (
+      tester,
+    ) async {
       registerMockService<GtkApplicationNotifier>(
         createMockGtkApplicationNotifier(),
       );
@@ -324,7 +325,7 @@ void main() {
       registerMockSnapdService();
       registerMockDriversService();
       await tester.pumpApp(
-            (_) => const ProviderScope(
+        (_) => const ProviderScope(
           child: StoreApp(),
         ),
       );
@@ -343,41 +344,38 @@ void main() {
       final focusNode = textField.searchFocus;
 
       expect(focusNode.hasFocus, isTrue);
-
     });
 
-  testWidgets('app terminates when Control+Q is pressed', (tester) async {
+    testWidgets('app terminates when Control+Q is pressed', (tester) async {
+      registerMockService<GtkApplicationNotifier>(
+        createMockGtkApplicationNotifier(),
+      );
+      registerMockService<RatingsService>(registerMockRatingsService());
+      registerMockSnapdService();
+      registerMockDriversService();
 
-    registerMockService<GtkApplicationNotifier>(
-      createMockGtkApplicationNotifier(),
-    );
-    registerMockService<RatingsService>(registerMockRatingsService());
-    registerMockSnapdService();
-    registerMockDriversService();
+      await tester.pumpWidget(
+        const ProviderScope(
+          child: StoreApp(),
+        ),
+      );
 
-    await tester.pumpWidget(
-      const ProviderScope(
-        child: StoreApp(),
-      ),
-    );
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.controlLeft);
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.keyQ);
+      await tester.sendKeyUpEvent(LogicalKeyboardKey.keyQ);
+      await tester.sendKeyUpEvent(LogicalKeyboardKey.controlLeft);
 
-    await tester.sendKeyDownEvent(LogicalKeyboardKey.controlLeft);
-    await tester.sendKeyDownEvent(LogicalKeyboardKey.keyQ);
-    await tester.sendKeyUpEvent(LogicalKeyboardKey.keyQ);
-    await tester.sendKeyUpEvent(LogicalKeyboardKey.controlLeft);
+      await tester.pump();
+      expect(
+        binding.requestedExitType,
+        AppExitType.cancelable,
+      );
 
-    await tester.pump();
-    expect(
-      binding.requestedExitType,
-      AppExitType.cancelable,
-    );
-
-    expect(
-      binding.requestedExitCode,
-      0,
-    );
+      expect(
+        binding.requestedExitCode,
+        0,
+      );
     });
-
   });
 }
 
@@ -387,9 +385,9 @@ class TestAppBinding extends AutomatedTestWidgetsFlutterBinding {
 
   @override
   Future<AppExitResponse> exitApplication(
-      AppExitType exitType, [
-        int exitCode = 0,
-      ]) async {
+    AppExitType exitType, [
+    int exitCode = 0,
+  ]) async {
     requestedExitType = exitType;
     requestedExitCode = exitCode;
 
