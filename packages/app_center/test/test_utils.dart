@@ -302,7 +302,10 @@ MockPackageKitTransaction createMockPackageKitTransaction({
 
   // Add similar statements for further methods as needed.
   when(
-    transaction.installPackages(any),
+    transaction.installPackages(
+      any,
+      transactionFlags: anyNamed('transactionFlags'),
+    ),
   ).thenAnswer((_) async => unawaited(emitEvents()));
   when(
     transaction.removePackages(any),
@@ -311,7 +314,10 @@ MockPackageKitTransaction createMockPackageKitTransaction({
     transaction.resolve(any),
   ).thenAnswer((_) async => unawaited(emitEvents()));
   when(
-    transaction.installFiles(any),
+    transaction.installFiles(
+      any,
+      transactionFlags: anyNamed('transactionFlags'),
+    ),
   ).thenAnswer((_) async => unawaited(emitEvents()));
   when(
     transaction.getDetailsLocal(any),
@@ -323,7 +329,10 @@ MockPackageKitTransaction createMockPackageKitTransaction({
     transaction.getDetails(any),
   ).thenAnswer((_) async => unawaited(emitEvents()));
   when(
-    transaction.updatePackages(any),
+    transaction.updatePackages(
+      any,
+      transactionFlags: anyNamed('transactionFlags'),
+    ),
   ).thenAnswer((_) async => unawaited(emitEvents()));
   when(
     transaction.getPackages(filter: anyNamed('filter')),
