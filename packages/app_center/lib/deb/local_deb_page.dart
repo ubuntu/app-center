@@ -69,6 +69,8 @@ class _LocalDebPage extends StatelessWidget {
         runSpacing: kSpacing,
         children: [
           _LocalDebActionButtons(debData: debData),
+          if (debData.installedVersion case final String installedVersion)
+            Text(l10n.localDebInstalledVersion(installedVersion)),
         ],
       ),
       infoBar: LocalDebInfoBar(localDebData: debData),

@@ -69,39 +69,78 @@ void main() {
     await tester.pump();
 
     expect(find.button(tester.l10n.snapActionInstalledLabel), isDisabled);
+    expect(
+      find.text(tester.l10n.localDebInstalledVersion('1.0')),
+      findsOneWidget,
+    );
   });
 
-  testWidgets('install a local update to an installed package', (tester) async {
-    final packageKit = createMockPackageKitService(
+  for (final installedVersion in ['0.9', '1.1']) {
+    testWidgets('install local 1.0 over installed $installedVersion', (
+      tester,
+    ) async {
+      final packageKit = createMockPackageKitService(
+        packageDetails: mockPackage,
+        packageInfo: PackageKitPackageInfo(
+          info: PackageKitInfo.installed,
+          packageId: PackageKitPackageId(
+            name: 'testdeb',
+            version: installedVersion,
+          ),
+          summary: 'summary',
+        ),
+      );
+
+      await tester.pumpApp(
+        (_) => const ProviderScope(
+          child: LocalDebPage(path: '/path/to/package.deb'),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.button(tester.l10n.snapActionInstalledLabel), findsNothing);
+      expect(find.button(tester.l10n.snapActionInstallLabel), isEnabled);
+      expect(
+        find.text(tester.l10n.localDebInstalledVersion(installedVersion)),
+        findsOneWidget,
+      );
+
+      await tester.tapButton(tester.l10n.snapActionInstallLabel);
+      await tester.pumpAndSettle();
+      await tester.tap(
+        find.descendant(
+          of: find.byType(AlertDialog),
+          matching: find.button(tester.l10n.snapActionInstallLabel),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      verify(packageKit.installLocal('/path/to/package.deb')).called(1);
+    });
+  }
+
+  testWidgets('does not present an available version as installed', (
+    tester,
+  ) async {
+    createMockPackageKitService(
       packageDetails: mockPackage,
       packageInfo: const PackageKitPackageInfo(
-        info: PackageKitInfo.installed,
-        packageId: PackageKitPackageId(name: 'testdeb', version: '0.9'),
+        info: PackageKitInfo.available,
+        packageId: PackageKitPackageId(name: 'testdeb', version: '1.1'),
         summary: 'summary',
       ),
     );
-
     await tester.pumpApp(
       (_) => const ProviderScope(
         child: LocalDebPage(path: '/path/to/package.deb'),
       ),
     );
     await tester.pumpAndSettle();
-
-    expect(find.button(tester.l10n.snapActionInstalledLabel), findsNothing);
     expect(find.button(tester.l10n.snapActionInstallLabel), isEnabled);
-
-    await tester.tapButton(tester.l10n.snapActionInstallLabel);
-    await tester.pumpAndSettle();
-    await tester.tap(
-      find.descendant(
-        of: find.byType(AlertDialog),
-        matching: find.button(tester.l10n.snapActionInstallLabel),
-      ),
+    expect(
+      find.text(tester.l10n.localDebInstalledVersion('1.1')),
+      findsNothing,
     );
-    await tester.pumpAndSettle();
-
-    verify(packageKit.installLocal('/path/to/package.deb')).called(1);
   });
 
   testWidgets('install', (tester) async {
