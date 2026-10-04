@@ -397,5 +397,68 @@
     "appMoreActionsSemanticLabel": "Mai d’accions",
     "appConfinementStrictTooltip": "Aquesta aplicacion a un accès limitat a vòstras ressorsas. Podètz contrarotlar sas permissions dins l'aplicacion Paramètres.",
     "appConfinementClassicTooltip": "Aquesta aplicacion utiliza l’isolament classic, çò que dòna un accès complèt a vòstras ressorsas. Es frequent per las aplicacions de desvolopament.",
-    "appConfinementUnrestrictedTooltip": "Aquesta aplicacion a un accès complèt a vòstras ressorsas."
+    "appConfinementUnrestrictedTooltip": "Aquesta aplicacion a un accès complèt a vòstras ressorsas.",
+    "snapActionSwitchChannelTitle": "Cambiar de canal per {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "addonsPageLabel": "Apondons",
+    "addonsPageAdditionalDriversTitle": "Pilòts suplementaris",
+    "addonsPageAdditionalDriversDescription": "Apondre una melhora presa en carga de las cartas graficas e d’autres equipaments",
+    "driversPageDescription": "Los pilòts proprietaris contenon de còdi privat que los desvolopaires d’Ubuntu pòdon pas examinar ni melhorar. La seguretat e las autras mesas a jorn dependon del fabricant del pilòt.",
+    "driversPageSectionUpdateAvailable": "Mesa a jorn disponibla",
+    "driversPageSectionAvailable": "Disponible",
+    "driversPageSectionInstalled": "Installat",
+    "driversPageSectionUnsupported": "Cap de pilòt pas disponible",
+    "driversPageDeviceClassGraphics": "Grafics",
+    "driversPageDeviceClassNetwork": "Ret",
+    "driversPageDeviceClassCamera": "Camèra",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Emmagazinatge",
+    "driversPageDeviceClassAudio": "Àudio",
+    "driversPageDeviceClassOther": "Autre",
+    "driversPageBranchProduction": "Produccion",
+    "driversPageBranchNewFeature": "Foncionalitats novèlas",
+    "driversPageVersionLabel": "Version {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageErrorLabel": "Error",
+    "driversPageUninstallTitle": "Desinstallar lo pilòt",
+    "driversPageUninstallAcknowledgeLabel": "Compreni lo risc",
+    "driversPageNoPackagesMessage": "Cap de paquet provesís pas de pilòt per aqueste aparelh",
+    "driversPageBranchLts": "Assisténcia longa durada",
+    "driversPageRestartRequiredTitle": "Reaviada requerida",
+    "driversPageRestartRequiredMessage": "Reaviatz l’ordenador per terminar l’aplicacion de las modificacions del pilòt.",
+    "driversPageRetryLabel": "Tornar ensajar",
+    "driversPageNoDriversFoundMessage": "Utilizacion dels pilòts integrats. Cap de pilòt addicional pas trobat.",
+    "driversPageUnavailableTitle": "Gestion dels pilòts indisponibla",
+    "driversPageSwitchBranchLabel": "Bascular de branca",
+    "driversPageSwitchBranchTitle": "Bascular de branca",
+    "driversPageSwitchBranchProductionDescription": "Equilibri entre foncionalitats e estabilitat",
+    "driversPageSwitchBranchLtsDescription": "Estabilitat maximala per las cargas de trabalh criticas",
+    "driversPageSwitchBranchNewFeatureDescription": "Apercebut, mens estable",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (recomanda)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "Aquesta branca es mens establa",
+    "driversPageSwitchLabel": "Bascular",
+    "driversPageSwitchingBranchLabel": "Basculament de branca",
+    "driversPageUnsupportedMessage": "Lo servici de gestion dels pilòts es pas disponible. Asseguratz-vos que snapd es a jorn e que ubuntu-drivers-common es installat.",
+    "driversPageSwitchBranchLessStableWarningMessage": "Demoratz sus la branca actuala per evitar de problèmas amb aqueste aparelh.",
+    "driversPageUninstallWarningTitle": "Desinstallar los pilòts pòt provocar de problèmas",
+    "driversPageUninstallWarningMessage": "Benlèu vos serà pas aisit de tornar installar los pilòts, sustot se concernisson la carta grafica o la ret."
 }

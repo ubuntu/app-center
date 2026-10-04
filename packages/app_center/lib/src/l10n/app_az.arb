@@ -1,0 +1,449 @@
+{
+    "appCenterLabel": "Proqram Mərkəzi",
+    "appstreamSearchGreylist": "tətbiq;tətbiqetmə;paket;proqram;alət",
+    "snapPageChannelLabel": "Kanal",
+    "snapPageConfinementLabel": "İcazələr",
+    "snapPageContactPublisherLabel": "{publisher} ilə əlaqə",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageDeveloperWebsiteLabel": "Tərtibatçının veb-saytı",
+    "snapPageDownloadSizeLabel": "Endirmə ölçüsü",
+    "snapPageSizeLabel": "Ölçü",
+    "snapPageGalleryNextSemanticLabel": "Növbəti şəkil",
+    "snapPageGalleryPreviousSemanticLabel": "Öncəki şəkil",
+    "snapPageGalleryImageSemanticLabel": "{n}. şəkil",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageLicenseLabel": "Lisenziya",
+    "snapPageLinksLabel": "Keçidlər",
+    "snapPagePublishedLabel": "Son yenilənmə",
+    "snapPageSummaryLabel": "İcmal",
+    "snapPageVersionLabel": "Buraxılış",
+    "snapPageShareLinkCopiedMessage": "Keçid mübadilə buferinə köçürüldü",
+    "snapPageShareSemanticLabel": "Keçidi köçür",
+    "snapPageReportSemanticLabel": "Bildir",
+    "sectionExpandSemanticLabel": "{section} bölməsini genişlət",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "{section} bölməsini yığ",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "explorePageLabel": "Kəşf et",
+    "explorePageCategoriesLabel": "Kateqoriyalar",
+    "managePageOwnUpdateAvailable": "Proqram Mərkəzi yenilənməsi mövcuddur",
+    "managePageQuitToUpdate": "Yeniləmək üçün çıxın",
+    "managePageOwnUpdateDescription": "Tətbiqdən çıxdığınızda avtomatik yenilənəcəkdir.",
+    "managePageOwnUpdateQuitButton": "Yeniləmək üçün çıx",
+    "managePageCheckForUpdates": "Yeniləmələri yoxla",
+    "managePageCheckingForUpdates": "Yeniləmələr yoxlanılır",
+    "managePageNoInternet": "Serverlə qoşula bilmir. İnternet bağlantınızı yoxlayın və ya yenidən cəhd edin.",
+    "snapPagePublisherLabel": "Naşir",
+    "managePageInstalledAndUpdatedLabel": "Quraşdırılmış tətbiqlər",
+    "managePageInstallingLabel": "Quraşdırılır ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageLabel": "İdarə et",
+    "managePageTitle": "Quraşdırılmış snap-ləri idarə et",
+    "managePageNoUpdatesAvailableDescription": "Yenilənmə yoxdur. Tətbiqləriniz güncəl vəziyyətdədir.",
+    "managePageSearchFieldSearchHint": "Quraşdırlımış tətbiq axtar",
+    "managePageShowDetailsLabel": "Təfərrüatları göstər",
+    "managePageShowSystemSnapsLabel": "Sistem snap-lərini göstər",
+    "managePagePackageTypeLabel": "Paket növü",
+    "managePagePackageTypeAll": "Hamısı",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "managePageUpdateAllLabel": "Hamısını yenilə",
+    "managePageDebUpdatesMessage": "Debian paket yenilənmələri Proqram Təminatı Yeniləyicisi tərəfindən idarə olunur.",
+    "managePageDescription": "Mövcud yeniləmələri yoxlayın, tətbiqlərinizi yeniləyin və bütün tətbiqlərinizin vəziyyətini idarə edin.",
+    "managePageUpdatedDaysAgo": "{n, plural, =1{{n} gün} other{{n} gün}} əvvəl yenilənib",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedWeeksAgo": "{n, plural, =1{{n} həftə} other{{n} həftə}} əvvəl yenilənib",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "{n, plural, =1{{n} ay} other{{n} ay}} əvvəl yenilənib",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "{n, plural, =1{{n} il} other{{n} il}} əvvəl yenilənib",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesAvailable": "Yenilənmələr mövcuddur ({n})",
+    "@managePageUpdatesAvailable": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailed": "{n, plural, =1{Bir yenilənmə} other{{n} yenilənmə}} uğursuz oldu",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "Bu tətbiqləri yeniləyə bilmədik, çünki onlar hazırda işləyirlər:\n\n{snapList}\nTətbiqlərdən çıxdıqda onlar avtomatik yenilənəcəkər.",
+    "managePageDocumentationLinkLabel": "Sənədləşmədə Debian paketlərini idarə etməyi öyrənin.",
+    "productivityPageLabel": "Məhsuldarlıq",
+    "developmentPageLabel": "Tərtibat",
+    "gamesPageLabel": "Oyunlar",
+    "gamesPageTitle": "Oyunlar",
+    "gamesPageTop": "Ən yüksək qiymətləndirilənlər",
+    "gamesPageFeatured": "Seçilmiş başlıqlar",
+    "gamesPageBundles": "Tətbiq paketləri",
+    "unknownPublisher": "Bilinməyən naşir",
+    "searchFieldDebSection": "Debian paketləri",
+    "searchFieldSearchForLabel": "\"{query}\" üçün bütün nəticələrə bax",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchFieldSnapSection": "Snap paketləri",
+    "searchPageFilterByLabel": "Süz",
+    "searchPageNoResults": "\"{query}\" üçün heç bir nəticə tapılmadı",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageNoResultsHint": "Fərqli və ya daha ümumi açar sözlərdən istifadə etməyə çalışın",
+    "searchFieldSearchHint": "Tətbiq axtar",
+    "searchPageNoResultsCategory": "Bağışlayın amma, bu kateqoriyada heç bir paket tapa bilmədik",
+    "searchPageNoResultsCategoryHint": "Başqa kateqoriya yoxlayın və ya daha ümumi açar sözlərdən istifadə edin",
+    "searchPageSortByLabel": "Çeşidlə",
+    "searchPageRelevanceLabel": "Uyğunluq",
+    "searchPageTitle": "\"{query}\" üçün nəticələr",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageLabel": "Haqqında",
+    "aboutPageVersionLabel": "Buraxılış: {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageContributorTitle": "Dizayn və tərtib edib hazırlayan:",
+    "aboutPageCommunityTitle": "İcmanın üzvü olun:",
+    "aboutPageContributeLabel": "Töhfə verin və ya xətanı bildirin",
+    "aboutPageGitHubLabel": "Bizi GitHub-da tapın",
+    "aboutPagePublishLabel": "Snap Mağazasında yayımlayın",
+    "aboutPageLearnMoreLabel": "Daha çox öyrən",
+    "appUrlTypeContact": "{publisher} ilə əlaqə saxlayın",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Tərtibatçının veb-saytı",
+    "appUrlTypeUnknown": "Keçid",
+    "appConfinementUnknown": "Bilinməyən",
+    "appConfinementStrict": "İzolyasiya olunmuş",
+    "appConfinementDevelopment": "Tərtibatçı rejimi",
+    "appConfinementClassic": "Məhdudiyyətsiz",
+    "appConfinementUnrestricted": "Məhdudiyyətsiz",
+    "appConfinementStrictTooltip": "Bu tətbiqin resurslarınıza girişi məhduddur. Onun icazələrini \"Quraşdırmalar\" tətbiqində idarə edə bilərsiniz.",
+    "appConfinementClassicTooltip": "Bu tətbiq klassik məhdudiyyətsizlik rejimindən istifadə edir və resurslarınıza tam giriş imkanı verir. Bu, tərtibat tətbiqləri üçün adi haldır.",
+    "appConfinementUnrestrictedTooltip": "Bu tətbiqin resurslarınıza tam giriş imkanı var.",
+    "appLicenseUnknown": "Bilinməyən",
+    "appPublishedUnknown": "Bilinməyən",
+    "appMoreActionsSemanticLabel": "Daha çox əməliyyat",
+    "packageFormatDebLabel": "Debian paketləri",
+    "packageFormatSnapLabel": "Snap paketləri",
+    "snapActionInstallLabel": "Quraşdır",
+    "snapActionInstalledLabel": "Quraşdırılıb",
+    "snapActionInstallingLabel": "Quraşdırılır",
+    "snapActionOpenLabel": "Aç",
+    "snapActionRemoveLabel": "Sil",
+    "snapActionRemovingLabel": "Silinir",
+    "snapActionRevertLabel": "Yenilənməni geri qaytar",
+    "snapActionRevertingLabel": "Yenilənmə geri qaytarılır",
+    "snapRevertConfirmTitle": "Öncəki versiyaya qaytarılsın?",
+    "snapRevertConfirmMessage": "Yeni versiya əlçatan olduqda avtomatik yeniləmələr bərpa olunacaq.",
+    "snapRevertConfirmRevert": "Geri qaytar",
+    "snapRevertConfirmCancel": "İmtina",
+    "snapRevertNoPreviousRevisionMessage": "Geri qaytarmaq üçün öncəki versiya mövcud deyil.",
+    "snapActionSwitchChannelLabel": "Kanalı dəyiş",
+    "snapActionSwitchChannelTitle": "{appName} üçün kanalı dəyiş",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapActionUpdateLabel": "Yenilə",
+    "snapCategoryAll": "Bütün kateqoriyalar",
+    "snapActionUpdatingLabel": "Yenilənir",
+    "appCardPublisherSemanticLabel": "{publisher} tərəfindən nəşr edilib.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "Qiymətləndirmə {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "snapCategoryArtAndDesign": "İncəsənət və dizayn",
+    "snapCategoryArtAndDesignButtonLabel": "Yaratmağa başla",
+    "snapCategoryArtAndDesignSlogan": "İlk eskizinizdən son toxunuşunuza qədər incəsənət və dizayn üçün tətbiqləri kəşf edin.",
+    "snapCategoryBooksAndReference": "Kitablar və istinadlar",
+    "snapCategoryDefaultButtonLabel": "Daha çoxunu kəşf et",
+    "snapCategoryDevelopment": "Tərtibat",
+    "snapCategoryDevelopmentSlogan": "Tərtibatçılar üçün olmazsa olmaz snap-lər",
+    "snapCategoryDevicesAndIot": "Qurğular və əşyaların interneti",
+    "snapCategoryEducation": "Təhsil",
+    "snapCategoryEntertainment": "Əyləncə",
+    "snapCategoryFeatured": "Seçilmişlər",
+    "snapCategoryFeaturedSlogan": "Seçilmiş Snap-lər",
+    "snapCategoryFinance": "Maliyyə",
+    "snapCategoryGames": "Oyunlar",
+    "snapCategoryGamesSlogan": "Oyun gecəniz üçün hər şey",
+    "snapCategoryGameDev": "Oyun tərtibatı",
+    "snapCategoryGameDevSlogan": "Oyun tərtibatı",
+    "snapCategoryGameEmulators": "Emulyatorlar",
+    "snapCategoryGameEmulatorsSlogan": "Emulyatorlar",
+    "snapCategoryGnomeGames": "GNOME Oyunları",
+    "snapCategoryGnomeGamesSlogan": "GNOME Oyunlar Dəsti",
+    "snapCategoryKdeGames": "KDE Oyunları",
+    "snapCategoryKdeGamesSlogan": "KDE Oyunlar Dəsti",
+    "snapCategoryGameLaunchers": "Oyun başladıcıları",
+    "snapCategoryGameLaunchersSlogan": "Oyun başladıcıları",
+    "snapCategoryGameContentCreation": "Məzmun yaradılması",
+    "snapCategoryGameContentCreationSlogan": "Məzmun yaradılması",
+    "snapCategoryHealthAndFitness": "Sağlamlıq və fitnes",
+    "snapCategoryMusicAndAudio": "Musiqi və səs",
+    "snapCategoryNewsAndWeather": "Xəbərlər və hava",
+    "snapCategoryPersonalisation": "Fərdiləşdirmə",
+    "snapCategoryPhotoAndVideo": "Foto və video",
+    "snapCategoryProductivity": "Məhsuldarlıq",
+    "snapCategoryProductivityButtonLabel": "Məhsuldarlıq kolleksiyasını kəşf edin",
+    "snapCategoryProductivitySlogan": "Görüləcək işlər siyahınızdan bir işi silin",
+    "snapCategoryScience": "Elm",
+    "snapCategorySecurity": "Təhlükəsizlik",
+    "snapCategoryServerAndCloud": "Server və bulud",
+    "snapCategorySocial": "Sosial",
+    "snapCategoryUbuntuDesktop": "Ubuntu Masüstü",
+    "snapCategoryUbuntuDesktopSlogan": "Masaüstünüzü sürətlə işə salın",
+    "snapSortOrderAlphabeticalAsc": "Əlifba sırası ilə (A-dan Z-yə)",
+    "snapSortOrderAlphabeticalDesc": "Əlifba sırası ilə (Z-dən A-ya)",
+    "snapSortOrderDownloadSizeAsc": "Ölçü (Kiçikdən böyüyə)",
+    "snapSortOrderDownloadSizeDesc": "Ölçü (Böyükdən kiçiyə)",
+    "snapSortOrderInstalledSizeAsc": "Ölçü (Kiçikdən böyüyə)",
+    "snapSortOrderInstalledSizeDesc": "Ölçü (Böyükdən kiçiyə)",
+    "snapSortOrderInstalledDateAsc": "Uzun müddətdir yenilənməyənlər",
+    "snapSortOrderInstalledDateDesc": "Ən son yenilənən",
+    "snapSortOrderRelevance": "Uyğunluq",
+    "snapRatingsBandVeryGood": "Çox yaxşı",
+    "snapRatingsBandGood": "Yaxşı",
+    "snapRatingsBandNeutral": "Neytral",
+    "snapRatingsBandPoor": "Pis",
+    "snapRatingsBandVeryPoor": "Çox pis",
+    "snapRatingsBandInsufficientVotes": "Kifayət qədər səs yoxdur",
+    "snapRatingsVotes": "{n} səs",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapReportLabel": "{snapName} tətbiqini şikayət et",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectReportReasonLabel": "Bu snap-dən şikayət etmək üçün səbəb seçin",
+    "snapReportSelectAnOptionLabel": "Birini seçin",
+    "snapReportOptionCopyrightViolation": "Müəllif hüquqları və ya əmtəə nişanının pozulması",
+    "snapReportOptionStoreViolation": "Snap Mağazası istifadə şərtlərinin pozulması",
+    "snapReportDetailsLabel": "Zəhmət olmasa, şikayətiniz üçün daha ətraflı səbəb göstərin",
+    "snapReportOptionalEmailAddressLabel": "E-poçtunuz (istəyə bağlı)",
+    "snapReportCancelButtonLabel": "İmtina",
+    "snapReportSubmitButtonLabel": "Şikayəti göndər",
+    "snapReportEnterValidEmailError": "Düzgün e-poçt ünvanı daxil edin",
+    "snapReportDetailsHint": "Rəy...",
+    "snapReportPrivacyAgreementLabel": "Bu formanı təqdim etməklə, oxuduğumu və razılaşdığımı təsdiq edirəm ",
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonical-ın məxfilik bildirişi ",
+    "snapReportPrivacyAgreementAndLabel": "və ",
+    "snapReportPrivacyAgreementPrivacyPolicy": "məxfilik siyasəti",
+    "debPageErrorNoPackageInfo": "Paket məlumatı tapılmadı",
+    "debPageDocumentationLinkLabel": "Debian paketlərini idarə etmək barədə daha çox öyrənin",
+    "debPageShareLinkCopiedMessage": "Keçid mübadilə buferinə köçürüldü",
+    "debPageShareSemanticLabel": "Keçidi köçür",
+    "externalResources": "Əlavə resurslar",
+    "externalResourcesButtonLabel": "Daha çox kəşf et",
+    "allGamesButtonLabel": "Bütün oyunlar",
+    "externalResourcesDisclaimer": "Qeyd: Bunların hamısı xarici alətlərdir. Bunlar Canonical-a məxsus deyil və onun tərəfindən paylanmır.",
+    "openInBrowser": "Brauzerdə aç",
+    "installAll": "Hamısını quraşdır",
+    "localDebWarningTitle": "Ehtimal ki, təhlükəsiz deyil",
+    "localDebWarningBody": "Bu paket üçüncü tərəf tərəfindən təmin edilir. Proqram Mərkəzindən kənar paketlərin quraşdırılması sisteminiz və şəxsi məlumatlarınız üçün riski artıra bilər. Davam etməzdən əvvəl mənbəyə etibar etdiyinizdən əmin olun.",
+    "localDebLearnMore": "Üçüncü tərəf paketləri barədə daha çox öyrənin",
+    "localDebDialogMessage": "Bu paket üçüncü tərəf tərəfindən təmin edilir və sisteminiz, eləcə də şəxsi məlumatlarınız üçün təhlükə yarada bilər.",
+    "localDebDialogConfirmation": "Quraşdırmaq istədiyinizdən əminsiniz?",
+    "snapdExceptionRunningApps": "{snapName} hazırda çalışdığı üçün onu yeniləyə bilmədik.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewCheckStatusLabel": "Statusu yoxla",
+    "errorViewNetworkErrorTitle": "İnternetə qoşul",
+    "errorViewNetworkErrorDescription": "İnternet bağlantısı olmadan Proqram Mərkəzindəki məzmunu yükləyə bilmirik.",
+    "errorViewNetworkErrorAction": "Bağlantınızı yoxlayın və yenidən cəhd edin.",
+    "errorViewServerErrorDescription": "Bağışlayın, hazırda Proqram Mərkəzi ilə bağlı problem yaşayırıq.",
+    "errorViewServerErrorAction": "Yenilənmələr üçün statusu yoxlayın və ya bir qədər sonra yenidən cəhd edin.",
+    "errorViewUnknownErrorTitle": "Nəsə düz getmədi",
+    "errorViewUnknownErrorDescription": "Bağışlayın, amma problemin nə olduğunu bilmirik.",
+    "errorViewUnknownErrorAction": "İndi yenidən cəhd edə, yenilənmələr üçün statusu yoxlaya və ya bir qədər sonra yenidən cəhd edə bilərsiniz.",
+    "snapActionCancelLabel": "İmtina",
+    "snapCategoryUtilities": "Yardımçı proqramlar",
+    "codecPageTitle": "Çatışmayan media kodekləri",
+    "codecPageDescription": "Müəyyən video və audio formatlarını emal etmək üçün aşağıdakı kodekləri quraşdırmalısınız:",
+    "codecProprietaryDisclaimer": "Tövsiyə olunan kodeklərin bəziləri mülkiyyətli ola bilər.",
+    "codecInstallAllButton": "Tövsiyə olunan kodekləri quraşdır",
+    "addonsPageLabel": "Əlavələr",
+    "addonsPageAdditionalDriversDescription": "Qrafik kartları və digər avadanlıqlar üçün daha yaxşı dəstək əlavə edin",
+    "driversPageDescription": "Mülkiyyətli drayverlər Ubuntu tərtibatçılarının nəzərdən keçirə və ya təkmilləşdirə bilmədiyi özəl koda malikdirlər. Təhlükəsizlik və digər yenilənmələr drayver təchizatçısından asılıdır.",
+    "driversPageSectionAvailable": "Əlçatan",
+    "driversPageSectionInstalled": "Quraşdırılıb",
+    "driversPageSectionUnsupported": "Heç bir drayver yoxdur",
+    "driversPageNoPackagesMessage": "Heç bir paket bu cihaz üçün drayver təmin etmir",
+    "driversPageDeviceClassGraphics": "Qrafika",
+    "driversPageDeviceClassNetwork": "Şəbəkə",
+    "driversPageDeviceClassCamera": "Kamera",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Saxlanc",
+    "driversPageDeviceClassAudio": "Səs",
+    "driversPageDeviceClassOther": "Digər",
+    "driversPageBranchProduction": "İstehsalat",
+    "driversPageBranchLts": "Uzun müddətli dəstək",
+    "driversPageBranchNewFeature": "Yeni özəlliklər",
+    "driversPageVersionLabel": "{version} nömrəli buraxılış",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Yenidən başladılma tələb olunur",
+    "driversPageRestartRequiredMessage": "Drayver dəyişikliklərini tətbiq etməyi başa çatdırmaq üçün kompüterinizi yenidən başladın.",
+    "driversPageErrorLabel": "Xəta",
+    "driversPageRetryLabel": "Yenidən cəhd et",
+    "driversPageNoDriversFoundMessage": "Daxili drayverlərdən istifadə olunur. Əlavə drayver tapılmadı.",
+    "driversPageUnavailableTitle": "Drayver idarəetməsi əlçatan deyil",
+    "driversPageUnsupportedMessage": "Drayver idarəetmə xidməti əlçatan deyil. snapd xidmətinin yenilənmiş olduğuna və ubuntu-drivers-common paketinin quraşdırıldığına əmin olun.",
+    "driversPageSwitchBranchLabel": "Budağı dəyiş",
+    "driversPageSwitchBranchTitle": "Budağı dəyiş",
+    "driversPageSwitchBranchProductionDescription": "Özəlliklər və sabitlik balansını təmin edir",
+    "driversPageSwitchBranchLtsDescription": "Kritik iş yükləri üçün maksimum sabitlik",
+    "driversPageSwitchBranchNewFeatureDescription": "Sınaq versiyası, daha az stabil",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (məsləhət görülür)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "Bu budaq daha az stabildir",
+    "driversPageSwitchBranchLessStableWarningMessage": "Bu cihazda problemlərin qarşısını almaq üçün hazırki budaqda qalın.",
+    "driversPageSwitchLabel": "Dəyiş",
+    "driversPageSwitchingBranchLabel": "Budaq dəyişilir",
+    "driversPageUninstallTitle": "Drayveri sil",
+    "driversPageUninstallWarningTitle": "Drayverləri silmək problemlərə yol aça bilər",
+    "driversPageUninstallWarningMessage": "Drayverləri, xüsusən də qrafika və ya şəbəkə ilə bağlıdırsa, yenidən quraşdırmaq asan olmaya bilər.",
+    "driversPageUninstallAcknowledgeLabel": "Riski başa düşürəm",
+    "addonsPageAdditionalDriversTitle": "Əlavə drayverlər",
+    "driversPageSectionUpdateAvailable": "Yenilənmə mövcuddur",
+    "snapRevertConfirmTitleWithVersions": "{currentVersion} (rev. {currentRevision}) versiyasından {previousVersion} (rev. {previousRevision}) versiyasına geri qaytarılsın?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    }
+}

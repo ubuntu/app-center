@@ -42,14 +42,20 @@ final appSortOrderProvider = StateProvider<AppSortOrder>(
 @riverpod
 Future<List<ManageAppData>> appUpdates(Ref ref) async {
   final snapUpdates = await ref.watch(snapUpdatesModelProvider.future);
+  final localSnaps = await ref.watch(localSnapsProvider.future);
   final debUpdates = await ref.watch(localDebUpdatesModelProvider.future);
 
-  final snapApps = snapUpdates.snaps.map(
-    (snap) => ManageAppData.snap(
-      snap: snap,
-      updateVersion: snap.version,
-    ),
-  );
+  // `snapUpdatesModelProvider` lists the refresh candidates from the store, so
+  // each of those carries the version on offer, not the one installed. Pair it
+  // with the local snap so the tile can show installed → available. Using the
+  // store snap for both sides prints the new version twice.
+  final snapApps = snapUpdates.snaps.map((storeSnap) {
+    final installed = localSnaps.getSnap(storeSnap.name);
+    return ManageAppData.snap(
+      snap: installed ?? storeSnap,
+      updateVersion: storeSnap.version,
+    );
+  });
 
   final debApps = debUpdates.map((deb) => ManageAppData.localDeb(debInfo: deb));
 

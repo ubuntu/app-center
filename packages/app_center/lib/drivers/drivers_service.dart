@@ -10,6 +10,13 @@ class DriversServiceException implements Exception {
   String toString() => 'DriversServiceException: $message';
 }
 
+/// Thrown by [DriversService.getDrivers] when the caller isn't permitted to
+/// use the `com.ubuntu.Drivers` D-Bus service.
+class DriversServiceUnavailableException implements Exception {
+  @override
+  String toString() => 'DriversServiceUnavailableException';
+}
+
 const _serviceName = 'com.ubuntu.Drivers';
 final _objectPath = DBusObjectPath('/com/ubuntu/Drivers');
 
@@ -23,7 +30,8 @@ class DriversService {
 
   /// Returns the detected devices and their driver packages.
   ///
-  /// Returns an empty list if the service is unreachable.
+  /// Throws [DriversServiceUnavailableException] if the service isn't
+  /// reachable.
   ///
   /// Throws [DriversServiceException] if the service reports an error while
   /// building the driver list.
@@ -42,9 +50,10 @@ class DriversService {
         const [],
         replySignature: DBusSignature('aa{sv}'),
       );
+    } on DBusAccessDeniedException catch (_) {
+      throw DriversServiceUnavailableException();
     } on DBusServiceUnknownException catch (_) {
-      log.info('Could not reach $_serviceName - returning an empty list');
-      return const [];
+      throw DriversServiceUnavailableException();
     } on DBusMethodResponseException catch (e) {
       throw DriversServiceException(e.toString());
     }
@@ -60,10 +69,10 @@ class DriversService {
     final driversArray = fields['drivers'] as DBusArray?;
 
     return DriverDevice(
-      sysPath: _asString(fields['sys_path']),
-      modalias: _asString(fields['modalias']),
-      vendor: _asString(fields['vendor']),
-      model: _asString(fields['model']),
+      sysPath: fields['sys_path']!.asString(),
+      modalias: fields['modalias']!.asString(),
+      vendor: fields['vendor']!.asString(),
+      model: fields['model']!.asString(),
       drivers:
           driversArray?.children
               .map(
@@ -78,18 +87,27 @@ class DriversService {
     final fields = driver.mapStringVariant();
 
     return DriverPackage(
-      name: _asString(fields['name']),
-      source: DriverSource.fromString(_asString(fields['source'])),
-      free: _asBool(fields['free']),
-      builtin: _asBool(fields['builtin']),
-      recommended: _asBool(fields['recommended']),
-      support: _asString(fields['support']),
+      name: fields['name']!.asString(),
+      source: DriverSource.fromString(fields['source']!.asString()),
+      free: fields['free']!.asBoolean(),
+      builtin: fields['builtin']!.asBoolean(),
+      recommended: fields['recommended']!.asBoolean(),
+      support: fields['support']!.asString(),
+      openPreferred: fields['open_preferred']!.asBoolean(),
+      packages: fields['packages']!.asStringArray().toList(),
     );
   }
 
-  String _asString(DBusValue? value) => value is DBusString ? value.value : '';
-
-  bool _asBool(DBusValue? value) => value is DBusBoolean ? value.value : false;
+  /// Returns whether the `com.ubuntu.Drivers` D-Bus service is reachable
+  Future<bool> isAvailable() async {
+    try {
+      await _dbus.ping(_serviceName);
+      return true;
+    } on Exception catch (e) {
+      log.warning('Drivers service unavailable: $e');
+      return false;
+    }
+  }
 
   /// Closes the underlying D-Bus connection.
   Future<void> dispose() => _dbus.close();
