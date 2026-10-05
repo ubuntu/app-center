@@ -389,7 +389,7 @@
     "appConfinementClassic": "Neomezené",
     "appConfinementUnrestricted": "Neomezené",
     "appLicenseUnknown": "Neznámá",
-    "appPublishedUnknown": "Neznámý",
+    "appPublishedUnknown": "Neznámé",
     "managePagePackageTypeLabel": "Typ balíčku",
     "managePagePackageTypeAll": "Vše",
     "managePagePackageTypeSnap": "Snap",
