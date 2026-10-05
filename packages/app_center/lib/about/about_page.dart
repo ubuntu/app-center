@@ -34,7 +34,7 @@ class AboutPage extends StatelessWidget {
             child: Align(
               alignment: AlignmentDirectional.topStart,
               child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 500),
+                constraints: const BoxConstraints(maxWidth: double.infinity),
                 child: const _ContributorView(repo: kGitHubRepo),
               ),
             ),
@@ -114,7 +114,7 @@ class _ContributorView extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(l10n.aboutPageContributorTitle),
-        const SizedBox(height: 8),
+        const SizedBox(height: 15),
         state.when(
           data: _ContributorWrap.new,
           error: (error, stackTrace) => Text(error.toString()),
@@ -139,8 +139,8 @@ class _ContributorWrap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Wrap(
-      spacing: 8,
-      runSpacing: 8,
+      spacing: 10,
+      runSpacing: 10,
       children: [
         for (final contributor in contributors)
           Tooltip(
@@ -174,7 +174,7 @@ class _CommunityView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(l10n.aboutPageCommunityTitle),
-        const SizedBox(height: 8),
+        const SizedBox(height: 10),
         Row(
           children: [
             Expanded(
