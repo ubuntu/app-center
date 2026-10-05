@@ -34,7 +34,7 @@ class AboutPage extends StatelessWidget {
             child: Align(
               alignment: AlignmentDirectional.topStart,
               child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 700),
+                constraints: const BoxConstraints(maxWidth: 500),
                 child: const _ContributorView(repo: kGitHubRepo),
               ),
             ),
@@ -62,15 +62,12 @@ class _AboutHeader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Image.asset('assets/app-center.png'),
-        const SizedBox(width: 32),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            MergeSemantics(
+        const SizedBox(height: 25),
+        MergeSemantics(
               child: Semantics(
                 header: true,
                 focused: true,
@@ -81,8 +78,6 @@ class _AboutHeader extends ConsumerWidget {
                 ),
               ),
             ),
-          ],
-        ),
       ],
     );
   }
@@ -118,8 +113,8 @@ class _ContributorView extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l10n.aboutPageContributorTitle,style: TextStyle(fontSize: responsiveFont(context, 08)),),
-        const SizedBox(height: 15),
+        Text(l10n.aboutPageContributorTitle),
+        const SizedBox(height: 8),
         state.when(
           data: _ContributorWrap.new,
           error: (error, stackTrace) => Text(error.toString()),
@@ -156,10 +151,10 @@ class _ContributorWrap extends StatelessWidget {
                   ? () => launchUrlString(contributor?.htmlUrl ?? '')
                   : null,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(16),
                 child: AppIcon(
                   iconUrl: contributor?.avatarUrl,
-                  size: 50,
+                  size: 32,
                 ),
               ),
             ),
@@ -178,8 +173,8 @@ class _CommunityView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l10n.aboutPageCommunityTitle,style: TextStyle(fontSize: responsiveFont(context,08)),),
-        const SizedBox(height: 10),
+        Text(l10n.aboutPageCommunityTitle),
+        const SizedBox(height: 8),
         Row(
           children: [
             Expanded(
@@ -215,17 +210,8 @@ class _CommunityTile extends StatelessWidget {
       title: Text(
         title,
         overflow: TextOverflow.ellipsis,
-        style: TextStyle(fontSize: responsiveFont(context, 07)),
       ),
-      subtitle: HyperlinkText(text: subtitle, link: href,fontSize: responsiveFont(context, 05),),
+      subtitle: HyperlinkText(text: subtitle, link: href),
     );
   }
-}
-
-/// Responsive functions are based on a design width of 375, which is a common width for mobile designs.
-double responsiveFont(
-    BuildContext context,
-    double size,
-    ) {
-  return MediaQuery.of(context).size.width * (size / 375);
 }

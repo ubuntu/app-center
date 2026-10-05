@@ -72,6 +72,9 @@ dev_dependencies:
   riverpod_generator: ^2.6.1
   ubuntu_lints: ^0.4.2
 
+dependency_overrides:
+  html: 0.15.6
+
 flutter:
   uses-material-design: true
   generate: true
