@@ -96,7 +96,6 @@ class ResolvedAppIdentity with _$ResolvedAppIdentity {
 
   const ResolvedAppIdentity._();
 
-  /// Usable sources, Snap first.
   List<SourceKey> get sourceKeys =>
       identity.sources
           .map(SourceKey.fromDescriptor)
