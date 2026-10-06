@@ -22,15 +22,6 @@ import 'package:yaru_test/yaru_test.dart';
 import 'test_utils.dart';
 import 'test_utils.mocks.dart';
 
-class _FakeActiveChange extends ActiveChange {
-  _FakeActiveChange(super.id, this.change);
-
-  final SnapdChange? change;
-
-  @override
-  SnapdChange? build() => change;
-}
-
 /// Common overrides to disable deb-related providers for snap-focused tests.
 List<Override> get debProviderOverrides => [
   localDebsProvider.overrideWith((ref) async => []),
@@ -337,9 +328,7 @@ void main() {
         ...debProviderOverrides,
         launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
         showLocalSystemAppsProvider.overrideWith((ref) => true),
-        activeChangeProvider.overrideWith2(
-          (id) => _FakeActiveChange(id, mockChange),
-        ),
+        activeChangeProvider.overrideWithBuild((_, _) => mockChange),
         currentlyRefreshAllSnapsProvider.overrideWith((_) => [snapName]),
       ],
     );
@@ -382,9 +371,7 @@ void main() {
         overrides: [
           ...debProviderOverrides,
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
-          activeChangeProvider.overrideWith2(
-            (id) => _FakeActiveChange(id, mockChange),
-          ),
+          activeChangeProvider.overrideWithBuild((_, _) => mockChange),
           currentlyRefreshAllSnapsProvider.overrideWith((_) => ['name']),
         ],
         child: const ManagePage(),

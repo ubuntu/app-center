@@ -155,9 +155,7 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
           refreshableSnapNames.toList();
 
       Future<void> refreshSnap(String snapName) async {
-        // snapModel depends on this provider (via hasUpdate), so read it through
-        // the container to bypass Riverpod's debug-only circular dependency
-        // assertion.
+        // snapModel watches this provider, so ref.read would assert a cycle.
         final refreshFuture = ref.container
             .read(snapModelProvider(snapName).notifier)
             .refresh();

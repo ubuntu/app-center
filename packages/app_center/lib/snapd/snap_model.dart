@@ -288,12 +288,12 @@ final progressProvider = StreamProvider.family
 
 /// Provides the active change, if any, for a given changeId.
 final activeChangeProvider =
-    NotifierProvider.family<ActiveChange, SnapdChange?, String?>(
-      ActiveChange.new,
+    NotifierProvider.family<_ActiveChange, SnapdChange?, String?>(
+      _ActiveChange.new,
     );
 
-class ActiveChange extends Notifier<SnapdChange?> {
-  ActiveChange(this.id);
+class _ActiveChange extends Notifier<SnapdChange?> {
+  _ActiveChange(this.id);
 
   final String? id;
 
