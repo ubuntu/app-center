@@ -460,5 +460,10 @@
     "driversPageUninstallTitle": "Odinštalovať ovládač",
     "driversPageUninstallWarningTitle": "Odinštalovanie ovládačov môže spôsobiť problémy",
     "driversPageUninstallWarningMessage": "Možno nebudete môcť ľahko znovu nainštalovať ovládače, najmä ak súvisia s grafikou alebo sieťou.",
-    "driversPageUninstallAcknowledgeLabel": "Rozumiem riziku"
+    "driversPageUninstallAcknowledgeLabel": "Rozumiem riziku",
+    "addonsPageMediaSupportTitle": "Podpora médií",
+    "addonsPageMediaSupportDescription": "Nainštalovať ďalší softvér na podporu viacerých formátov médií",
+    "mediaSupportPageDescription": "Ubuntu sa v predvolenom nastavení dodáva s niektorými open source kodekmi. Možno budete musieť nainštalovať ďalší softvér na prehrávanie a úpravu určitých hudobných a video formátov.",
+    "mediaSupportPageAdditionalMediaTitle": "Ďalšia podpora médií",
+    "mediaSupportPageInstallButton": "Inštalovať"
 }
