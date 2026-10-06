@@ -111,13 +111,13 @@ void main() {
     expect(values, [
       null,
       0.0,
-      closeTo(0.045, 1e-9),
-      closeTo(0.155, 1e-9),
-      closeTo(0.32, 1e-9),
-      0.5, // download phase is complete
-      closeTo(0.6, 1e-9),
-      closeTo(0.7, 1e-9),
-      closeTo(0.9, 1e-9),
+      closeTo(0.063, 1e-9),
+      closeTo(0.217, 1e-9),
+      closeTo(0.448, 1e-9),
+      0.7, // download phase is complete
+      closeTo(0.76, 1e-9),
+      closeTo(0.82, 1e-9),
+      closeTo(0.94, 1e-9),
       1.0,
     ]);
   });
