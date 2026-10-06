@@ -218,11 +218,6 @@ class _ActionBar extends ConsumerWidget {
               action.kind != ActionKind.cancel,
         )
         .toList();
-    final otherFormats = [
-      for (final group in state.targets)
-        if (group.format != state.activePackage.format)
-          if (_formatAction(group) case final action?) (group.format, action),
-    ];
 
     VoidCallback? run(ActionDescriptor action) =>
         action.enabled ? () => unawaited(model.execute(action.id)) : null;
@@ -259,50 +254,27 @@ class _ActionBar extends ConsumerWidget {
             onPressed: run(uninstall),
             child: Text(l10n.snapActionRemoveLabel),
           ),
-        if (otherFormats.isNotEmpty)
+        if (state.formats.length > 1)
           YaruPopupMenuButton<void>(
             showArrow: false,
             semanticLabel: l10n.appMoreActionsSemanticLabel,
             childPadding: const EdgeInsets.symmetric(horizontal: 2),
-            itemBuilder: (context) => [
-              for (final (format, action) in otherFormats)
-                _menuItem(
-                  '${_actionLabel(l10n, action.kind)} '
-                  '${_formatLabel(l10n, format)}',
-                  enabled: action.enabled,
-                  onTap: run(action),
+            itemBuilder: (_) => [
+              PopupMenuItem<void>(
+                onTap: () => unawaited(showPackageFormatDialog(context, entry)),
+                child: IntrinsicWidth(
+                  child: ListTile(
+                    mouseCursor: SystemMouseCursors.click,
+                    title: Text(l10n.appDetailsChoosePackageFormatAction),
+                  ),
                 ),
+              ),
             ],
             child: const Icon(YaruIcons.view_more),
           ),
       ],
     );
   }
-
-  /// Uninstalls the installed target, otherwise installs the default one.
-  ActionDescriptor? _formatAction(TargetGroup group) {
-    // No channel picker yet, so a Snap installs from latest/stable.
-    final option =
-        group.options.firstWhereOrNull((o) => o.isInstalled) ??
-        group.options.firstWhereOrNull((o) => o.label == 'latest/stable') ??
-        group.options.firstWhereOrNull((o) => o.action?.enabled ?? false);
-    return option?.action;
-  }
-
-  PopupMenuItem<void> _menuItem(
-    String label, {
-    VoidCallback? onTap,
-    bool enabled = true,
-  }) => PopupMenuItem<void>(
-    enabled: enabled,
-    onTap: onTap,
-    child: IntrinsicWidth(
-      child: ListTile(
-        mouseCursor: SystemMouseCursors.click,
-        title: Text(label),
-      ),
-    ),
-  );
 }
 
 class _InfoBar extends StatelessWidget {
@@ -331,20 +303,7 @@ class _InfoBar extends StatelessWidget {
         if (confinement != null)
           _InfoItem(
             label: Text(l10n.snapPageConfinementLabel),
-            value: Tooltip(
-              constraints: const BoxConstraints(maxWidth: 200),
-              message: confinement.localizeTooltip(l10n) ?? '',
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (confinement == AppConfinement.strict) ...const [
-                    Icon(YaruIcons.shield, size: 12),
-                    SizedBox(width: 2),
-                  ],
-                  Text(confinement.localize(l10n)),
-                ],
-              ),
-            ),
+            value: _ConfinementLabel(confinement),
           ),
         _InfoItem(
           label: Text(l10n.snapPageVersionLabel),
@@ -367,10 +326,7 @@ class _InfoBar extends StatelessWidget {
         ),
         _InfoItem(
           label: Text(l10n.appDetailsPackageFormatLabel),
-          value: Text(switch (active.format) {
-            PackageFormat.snap => l10n.managePagePackageTypeSnap,
-            PackageFormat.deb => l10n.managePagePackageTypeDeb,
-          }),
+          value: Text(_formatLabel(l10n, active.format)),
         ),
       ],
     );
@@ -400,6 +356,31 @@ class _InfoBar extends StatelessWidget {
           ),
         ),
         value: Text(l10n.snapRatingsVotes(field.value.totalVotes)),
+      ),
+    );
+  }
+}
+
+class _ConfinementLabel extends StatelessWidget {
+  const _ConfinementLabel(this.confinement);
+
+  final AppConfinement confinement;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Tooltip(
+      constraints: const BoxConstraints(maxWidth: 200),
+      message: confinement.localizeTooltip(l10n) ?? '',
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (confinement == AppConfinement.strict) ...const [
+            Icon(YaruIcons.shield, size: 12),
+            SizedBox(width: 2),
+          ],
+          Text(confinement.localize(l10n)),
+        ],
       ),
     );
   }
@@ -519,6 +500,240 @@ class _AdditionalInfo extends StatelessWidget {
           ],
         ),
       ],
+    );
+  }
+}
+
+Future<void> showPackageFormatDialog(
+  BuildContext context,
+  AppDetailsEntry entry,
+) => showDialog(
+  context: context,
+  builder: (_) => PackageFormatDialog(entry: entry),
+);
+
+/// Compares the package formats of an app and installs or removes them.
+class PackageFormatDialog extends ConsumerWidget {
+  const PackageFormatDialog({required this.entry, super.key});
+
+  final AppDetailsEntry entry;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final state = ref.watch(appDetailsModelProvider(entry)).valueOrNull;
+    final installed = [
+      for (final option in state?.formats ?? const <FormatOption>[])
+        if (option.installState == InstallState.installed) option.format,
+    ];
+
+    return SimpleDialog(
+      contentPadding: kDialogContentPadding,
+      titlePadding: EdgeInsets.zero,
+      title: YaruDialogTitleBar(
+        title: Text(l10n.appDetailsChoosePackageFormatTitle),
+      ),
+      children: [
+        if (state == null)
+          const Center(child: YaruCircularProgressIndicator())
+        else ...[
+          if (installed.isNotEmpty) ...[
+            YaruInfoBox(
+              yaruInfoType: YaruInfoType.warning,
+              title: Text(
+                installed.length == 1
+                    ? l10n.appDetailsInstalledAsFormat(
+                        _formatLabel(l10n, installed.single),
+                      )
+                    : l10n.appDetailsInstalledAsMultipleFormats,
+              ),
+              subtitle: Text(l10n.appDetailsPackageFormatDataNotShared),
+            ),
+            const SizedBox(height: kSpacing),
+          ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: _FormatTable(entry: entry, state: state),
+          ),
+          const SizedBox(height: kPagePadding),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: HyperlinkText(
+              text: l10n.appDetailsPackageFormatsLearnMore,
+              link: packageFormatsDocsUrl,
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+class _FormatTable extends ConsumerWidget {
+  const _FormatTable({required this.entry, required this.state});
+
+  final AppDetailsEntry entry;
+  final AppDetailsViewState state;
+
+  static const _missing = '—';
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final model = ref.read(appDetailsModelProvider(entry).notifier);
+    final operation = state.operation;
+
+    Widget cell(Widget child) =>
+        Padding(padding: const EdgeInsets.all(kSpacing), child: child);
+    Widget header(String label) => cell(
+      Text(
+        label,
+        style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor),
+      ),
+    );
+    Widget text(String? value) => cell(Text(value ?? _missing));
+
+    Widget action(FormatOption option) {
+      if (operation != null && operation.sourceId == option.sourceId) {
+        return OutlinedButton(
+          onPressed: null,
+          child: Text(_operationLabel(l10n, operation.kind)),
+        );
+      }
+      final action = option.action;
+      if (action == null) return const SizedBox.shrink();
+      return OutlinedButton(
+        onPressed: action.enabled
+            ? () => unawaited(model.execute(action.id))
+            : null,
+        child: Text(_actionLabel(l10n, action.kind)),
+      );
+    }
+
+    return Table(
+      defaultColumnWidth: const IntrinsicColumnWidth(),
+      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+      border: TableBorder(
+        horizontalInside: BorderSide(color: theme.dividerColor),
+      ),
+      children: [
+        TableRow(
+          children: [
+            header(l10n.appDetailsPackageFormatLabel),
+            header(l10n.snapPagePublisherLabel),
+            header(l10n.appDetailsPackageSourceLabel),
+            header(l10n.snapPageChannelLabel),
+            header(l10n.snapPageVersionLabel),
+            header(l10n.snapPageConfinementLabel),
+            header(l10n.snapPagePublishedLabel),
+            header(l10n.snapPageSizeLabel),
+            const SizedBox.shrink(),
+          ],
+        ),
+        for (final option in state.formats)
+          TableRow(
+            key: ValueKey(option.sourceId),
+            children: [
+              cell(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      _formatLabel(l10n, option.format),
+                      style: const TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                    if (option.installState == InstallState.installed)
+                      Text(
+                        l10n.snapActionInstalledLabel,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.success,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              cell(_PublisherLabel(option.publisher.valueOrNull)),
+              text(switch (option.format) {
+                PackageFormat.snap => l10n.appDetailsPackageSourceSnapStore,
+                PackageFormat.deb => l10n.appDetailsPackageSourceUbuntuArchive,
+              }),
+              text(option.channel),
+              cell(
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 150),
+                  child: Tooltip(
+                    message: option.version.valueOrNull ?? '',
+                    child: Text(
+                      option.version.valueOrNull ?? _missing,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+              ),
+              cell(
+                switch (option.confinement.valueOrNull) {
+                  final confinement? => _ConfinementLabel(confinement),
+                  null => const Text(_missing),
+                },
+              ),
+              text(switch (option.releaseDate.valueOrNull) {
+                final date? => _formatDate(date),
+                null => null,
+              }),
+              text(switch (option.size.valueOrNull) {
+                final size? => context.formatByteSize(size.bytes),
+                null => null,
+              }),
+              cell(action(option)),
+            ],
+          ),
+      ],
+    );
+  }
+}
+
+class _PublisherLabel extends StatelessWidget {
+  const _PublisherLabel(this.publisher);
+
+  final Publisher? publisher;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final validation = publisher?.validation ?? PublisherValidation.none;
+    final verified = validation == PublisherValidation.verified;
+
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 200),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+            child: Text(
+              publisher?.name ?? l10n.unknownPublisher,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          if (validation != PublisherValidation.none)
+            Padding(
+              padding: const EdgeInsetsDirectional.only(start: 4),
+              child: Icon(
+                verified ? Icons.verified : Icons.stars,
+                size: 14,
+                color: MediaQuery.highContrastOf(context)
+                    ? theme.hintColor
+                    : verified
+                    ? theme.colorScheme.success
+                    : theme.colorScheme.warning,
+              ),
+            ),
+        ],
+      ),
     );
   }
 }

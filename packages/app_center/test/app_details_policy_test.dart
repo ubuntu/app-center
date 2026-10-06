@@ -611,6 +611,83 @@ void main() {
     });
   });
 
+  group('formats', () {
+    FormatOption format(AppDetailsViewState state, PackageFormat format) =>
+        state.formats.firstWhere((f) => f.format == format);
+
+    test('compare the default release of each format', () {
+      final composition = _compose(snap: _snap(), deb: _deb());
+      final state = composition.state;
+      final snap = format(state, PackageFormat.snap);
+      final deb = format(state, PackageFormat.deb);
+
+      expect(state.formats.map((f) => f.format), [
+        PackageFormat.snap,
+        PackageFormat.deb,
+      ]);
+      expect(snap.channel, 'latest/stable');
+      expect(snap.version.valueOrNull, '2.0');
+      expect(snap.confinement.valueOrNull, AppConfinement.strict);
+      expect(snap.size.valueOrNull?.bytes, 50);
+      expect(snap.publisher.valueOrNull?.name, 'Snap Publisher');
+      expect(deb.channel, isNull);
+      expect(deb.version.valueOrNull, '1.0-1');
+      expect(deb.confinement.valueOrNull, AppConfinement.unrestricted);
+      expect(deb.publisher.valueOrNull?.name, 'Deb Publisher');
+
+      expect(snap.action?.kind, ActionKind.install);
+      expect(snap.action?.id, state.actions.primary?.id);
+      final debInstall = composition.bindings[deb.action!.id]!;
+      expect(debInstall.command?.kind, OperationKind.install);
+      expect(debInstall.command?.candidateId, testDebCandidate.candidateId);
+    });
+
+    test('installed format shows its installed release and uninstalls', () {
+      final state = _compose(
+        snap: _snap(_installed),
+        deb: _deb(),
+      ).state;
+      final snap = format(state, PackageFormat.snap);
+      final deb = format(state, PackageFormat.deb);
+
+      expect(snap.installState, _installed);
+      expect(snap.size.valueOrNull?.kind, SizeKind.installed);
+      expect(snap.action?.kind, ActionKind.uninstall);
+      expect(deb.installState, _notInstalled);
+      expect(deb.action?.kind, ActionKind.install);
+      expect(deb.action?.enabled, isTrue);
+    });
+
+    test('actions are disabled while busy', () {
+      final state = _compose(
+        snap: _snap(_installed),
+        deb: _deb(),
+        operations: [_operation(testSnapKey, OperationKind.remove)],
+      ).state;
+      expect(
+        state.formats.map((f) => f.action?.disabledReason),
+        everyElement(DisabledReason.busy),
+      );
+    });
+
+    test('unknown install state has no action', () {
+      final state = _compose(
+        snap: _snap(),
+        deb: _deb(InstallState.unknown),
+      ).state;
+      expect(format(state, PackageFormat.deb).action, isNull);
+    });
+
+    test('loading sources are omitted', () {
+      final state = _compose(
+        identity: createResolvedIdentity(),
+        snap: _snap(),
+        async: {testDebKey: const AsyncLoading()},
+      ).state;
+      expect(state.formats.single.format, PackageFormat.snap);
+    });
+  });
+
   group('issues', () {
     test('failed operations surface until acknowledged', () {
       final operation = _operation(

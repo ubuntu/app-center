@@ -220,6 +220,22 @@
     "appDetailsInstallDateLabel": "Installation date",
     "appDetailsNotInstalled": "Not installed",
     "appDetailsNotAvailable": "Not available",
+    "appDetailsChoosePackageFormatAction": "Choose package format…",
+    "appDetailsChoosePackageFormatTitle": "Choose package format",
+    "appDetailsPackageSourceLabel": "Source",
+    "appDetailsPackageSourceSnapStore": "Snap Store",
+    "appDetailsPackageSourceUbuntuArchive": "Ubuntu archive",
+    "appDetailsInstalledAsFormat": "Already installed as {format}",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Installed as multiple package formats",
+    "appDetailsPackageFormatDataNotShared": "App data isn't shared between package formats.",
+    "appDetailsPackageFormatsLearnMore": "Learn more about package formats",
     "packageFormatDebLabel": "Debian packages",
     "packageFormatSnapLabel": "Snap packages",
     "snapActionCancelLabel": "Cancel",

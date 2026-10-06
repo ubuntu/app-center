@@ -155,6 +155,7 @@ class _Composer {
       ),
       actions: _actions(activeKey, snapshot),
       targets: _targets(),
+      formats: _formats(),
       operation: _operation(),
       issues: [],
     );
@@ -355,6 +356,17 @@ class _Composer {
     );
   }
 
+  ActionDescriptor _defaultInstall(
+    SourceKey key,
+    PackageSourceSnapshot snapshot,
+  ) {
+    final candidate = snapshot.installCandidate;
+    final target = snapshot.targets.firstWhereOrNull(
+      (t) => candidate != null && t.candidate == candidate,
+    );
+    return _install(key, snapshot, target);
+  }
+
   ActionsSection _actions(SourceKey key, PackageSourceSnapshot? snapshot) {
     final hasMoreActions =
         keys.map((k) => _snapshot(k)?.targets.length ?? 0).sum > 1;
@@ -404,12 +416,8 @@ class _Composer {
       case InstallState.unknown:
         return ActionsSection(hasMoreActions: hasMoreActions);
       case InstallState.notInstalled:
-        final candidate = snapshot.installCandidate;
-        final target = snapshot.targets.firstWhereOrNull(
-          (t) => candidate != null && t.candidate == candidate,
-        );
         return ActionsSection(
-          primary: _install(key, snapshot, target),
+          primary: _defaultInstall(key, snapshot),
           hasMoreActions: hasMoreActions,
         );
       case InstallState.installed:
@@ -465,6 +473,38 @@ class _Composer {
           ],
         ),
   ];
+
+  List<FormatOption> _formats() => [
+    for (final key in keys)
+      if (_snapshot(key) case final snapshot?) _formatOption(key, snapshot),
+  ];
+
+  FormatOption _formatOption(SourceKey key, PackageSourceSnapshot snapshot) {
+    final source = _async(key);
+    final release = switch (snapshot.installState) {
+      InstallState.installed => snapshot.installed,
+      InstallState.notInstalled => snapshot.installCandidate,
+      InstallState.unknown => null,
+    };
+    return FormatOption(
+      sourceId: key.value,
+      format: key.format,
+      installState: snapshot.installState,
+      publisher: _field(source, (s) => s.publisher),
+      channel: release?.channel,
+      version: FieldState.fromNullable(release?.version),
+      confinement: release?.confinement != null
+          ? FieldState.value(release!.confinement!)
+          : _field(source, (s) => s.confinement),
+      size: release?.size ?? FieldState<ByteSize>.unavailable(),
+      releaseDate: release?.releaseDate ?? FieldState<DateTime>.unavailable(),
+      action: switch (snapshot.installState) {
+        InstallState.installed => _uninstall(key, snapshot),
+        InstallState.notInstalled => _defaultInstall(key, snapshot),
+        InstallState.unknown => null,
+      },
+    );
+  }
 
   OperationView? _operation() {
     final owned = ownedActive;
