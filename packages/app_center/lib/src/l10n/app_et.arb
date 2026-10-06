@@ -467,5 +467,10 @@
     "driversPageUninstallTitle": "Eemalda paigaldatud draiver",
     "driversPageUninstallWarningTitle": "Draiverite eemaldamisel võib tekkida probleeme",
     "driversPageUninstallWarningMessage": "Mõnel juhu ei pruugi olla võimalik draivereid uuesti paigaldada, seda eriti kui need olid seotud võrgunduse või graafikaga.",
-    "driversPageUninstallAcknowledgeLabel": "Ma mõistan riske"
+    "driversPageUninstallAcknowledgeLabel": "Ma mõistan riske",
+    "addonsPageMediaSupportTitle": "Meediumi tugi",
+    "addonsPageMediaSupportDescription": "Täiendavate meediumivormingute kasutamiseks paigalda täiendavat tarkvara",
+    "mediaSupportPageDescription": "Ubuntus on vaikimisi kaasas paljude avatud lähtekoodiga koodekite tugi. Mõnede muude heli- ja videovormingute esitamiseks ja muutmiseks pead ilmselt paigaldama täiendavat tarkvara.",
+    "mediaSupportPageAdditionalMediaTitle": "Täiendava multimeediumi tugi",
+    "mediaSupportPageInstallButton": "Paigalda"
 }
