@@ -36,8 +36,8 @@ class DebPage extends ConsumerWidget {
     // that a later action causes. Comparing against the previous value keeps a
     // state change that leaves the error untouched from showing it twice.
     ref.listen(debModelProvider(id), (previous, next) {
-      final error = next.valueOrNull?.error;
-      if (error == null || error == previous?.valueOrNull?.error) return;
+      final error = next.value?.error;
+      if (error == null || error == previous?.value?.error) return;
       showError(context, error);
     });
 

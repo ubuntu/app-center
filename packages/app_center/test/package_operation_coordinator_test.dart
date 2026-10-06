@@ -70,10 +70,7 @@ void main() {
     expect(op.outcome, OperationOutcome.success);
     expect(backend.reconciled, [testSnapKey]);
     expect(
-      container
-          .read(fakeSnapshotProvider(testSnapKey))
-          .valueOrNull
-          ?.installState,
+      container.read(fakeSnapshotProvider(testSnapKey)).value?.installState,
       InstallState.installed,
     );
   });

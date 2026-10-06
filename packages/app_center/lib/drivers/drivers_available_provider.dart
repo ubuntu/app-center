@@ -1,5 +1,4 @@
 import 'package:app_center/drivers/drivers_service.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 

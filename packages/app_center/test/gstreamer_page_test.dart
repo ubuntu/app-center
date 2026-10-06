@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+
 import 'test_utils.dart';
 
 void main() {

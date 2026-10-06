@@ -5,7 +5,7 @@ import 'package:app_center/error/error.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:snapd/snapd.dart';
@@ -15,7 +15,7 @@ part 'snap_updates_model.g.dart';
 part 'snap_updates_model.freezed.dart';
 
 @freezed
-class SnapListState with _$SnapListState {
+abstract class SnapListState with _$SnapListState {
   factory SnapListState({
     @Default([]) Iterable<Snap> snaps,
     @Default(true) bool hasInternet,
@@ -90,11 +90,11 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
     try {
       final newSnapListState = await fetchRefreshableSnaps();
       final isSameList = const ListEquality().equals(
-        state.valueOrNull?.snaps.toList() ?? [],
+        state.value?.snaps.toList() ?? [],
         newSnapListState.snaps.toList(),
       );
       if (!isSameList ||
-          newSnapListState.hasInternet != state.valueOrNull?.hasInternet) {
+          newSnapListState.hasInternet != state.value?.hasInternet) {
         state = AsyncData(newSnapListState);
       }
     } finally {
@@ -155,15 +155,16 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
           refreshableSnapNames.toList();
 
       Future<void> refreshSnap(String snapName) async {
-        final refreshFuture = ref
-            .read(SnapModelProvider(snapName).notifier)
+        // snapModel depends on this provider (via hasUpdate), so read it through
+        // the container to bypass Riverpod's debug-only circular dependency
+        // assertion.
+        final refreshFuture = ref.container
+            .read(snapModelProvider(snapName).notifier)
             .refresh();
         try {
           final completedSuccessfully = await refreshFuture;
           if (completedSuccessfully) {
-            ref
-                .read(snapUpdatesModelProvider.notifier)
-                .removeFromList(snapName);
+            removeFromList(snapName);
           }
         } on Exception catch (e) {
           if (e is SnapdException && e.kind == 'auth-cancelled') {
@@ -205,7 +206,8 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
 
     try {
       final cancelFutures = snapNames.map(
-        (snapName) => ref.read(SnapModelProvider(snapName).notifier).cancel(),
+        (snapName) =>
+            ref.container.read(snapModelProvider(snapName).notifier).cancel(),
       );
       await Future.wait(cancelFutures);
     } on SnapdException catch (e) {

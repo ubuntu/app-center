@@ -9,7 +9,7 @@ part 'local_deb_model.freezed.dart';
 part 'local_deb_model.g.dart';
 
 @freezed
-class LocalDebData extends AppMetadata with _$LocalDebData {
+abstract class LocalDebData extends AppMetadata with _$LocalDebData {
   factory LocalDebData({
     required String path,
     required PackageKitDetailsEvent details,

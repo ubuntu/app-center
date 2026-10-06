@@ -17,7 +17,7 @@ const kMaxRetainedOperations = 20;
 
 /// A mutation accepted by the coordinator; it outlives the page.
 @freezed
-class TrackedOperation with _$TrackedOperation {
+abstract class TrackedOperation with _$TrackedOperation {
   const factory TrackedOperation({
     required OperationId id,
     required SourceKey source,
@@ -41,7 +41,7 @@ class TrackedOperation with _$TrackedOperation {
 }
 
 @freezed
-class OperationRequest with _$OperationRequest {
+abstract class OperationRequest with _$OperationRequest {
   const factory OperationRequest({
     required SourceKey source,
     required PackageCommand command,

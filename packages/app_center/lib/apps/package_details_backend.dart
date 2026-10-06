@@ -6,13 +6,14 @@ import 'package:app_center/mapping/package_source_descriptor.dart';
 import 'package:app_center/snapd/snap_category_enum.dart';
 import 'package:app_center/snapd/snap_details_backend.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show ProviderListenable;
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'package_details_backend.freezed.dart';
 
 /// One exact release reported by a backend.
 @freezed
-class PackageRelease with _$PackageRelease {
+abstract class PackageRelease with _$PackageRelease {
   const factory PackageRelease({
     // Exact backend identity (e.g. snap revision, PackageKit package ID).
     required String candidateId,
@@ -27,7 +28,7 @@ class PackageRelease with _$PackageRelease {
 
 /// An installation destination: a Deb package or a Snap channel.
 @freezed
-class PackageTarget with _$PackageTarget {
+abstract class PackageTarget with _$PackageTarget {
   const factory PackageTarget({
     required String id,
     required String label,
@@ -38,7 +39,7 @@ class PackageTarget with _$PackageTarget {
 
 /// A live mutation observed on a source, whoever started it.
 @freezed
-class ObservedOperation with _$ObservedOperation {
+abstract class ObservedOperation with _$ObservedOperation {
   const factory ObservedOperation({
     required OperationKind kind,
     String? targetId,
@@ -48,7 +49,7 @@ class ObservedOperation with _$ObservedOperation {
 }
 
 @freezed
-class PackageCapabilities with _$PackageCapabilities {
+abstract class PackageCapabilities with _$PackageCapabilities {
   const factory PackageCapabilities({
     @Default(false) bool canLaunch,
     DisabledReason? updateBlocked,
@@ -58,7 +59,7 @@ class PackageCapabilities with _$PackageCapabilities {
 
 /// Normalized, immutable state of one package source.
 @freezed
-class PackageSourceSnapshot with _$PackageSourceSnapshot {
+abstract class PackageSourceSnapshot with _$PackageSourceSnapshot {
   const factory PackageSourceSnapshot({
     required SourceKey key,
     required InstallState installState,
@@ -105,7 +106,7 @@ class PackageSourceSnapshot with _$PackageSourceSnapshot {
 
 /// A mutation bound to an exact target.
 @freezed
-class PackageCommand with _$PackageCommand {
+abstract class PackageCommand with _$PackageCommand {
   const factory PackageCommand({
     required OperationKind kind,
     String? targetId,
@@ -143,13 +144,15 @@ AsyncValue<R> mapAsyncValue<T, R>(
         ? AsyncError<R>(source.error!, source.stackTrace ?? StackTrace.empty)
         : AsyncLoading<R>();
   }
-  final mapped = AsyncData<R>(map(source.valueOrNull as T));
+  final mapped = AsyncData<R>(map(source.value as T));
   if (source.hasError) {
     return AsyncError<R>(
       source.error!,
       source.stackTrace ?? StackTrace.empty,
+      // ignore: invalid_use_of_internal_member
     ).copyWithPrevious(mapped);
   }
+  // ignore: invalid_use_of_internal_member
   if (source.isLoading) return AsyncLoading<R>().copyWithPrevious(mapped);
   return mapped;
 }

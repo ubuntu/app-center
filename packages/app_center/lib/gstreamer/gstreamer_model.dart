@@ -11,7 +11,7 @@ part 'gstreamer_model.freezed.dart';
 part 'gstreamer_model.g.dart';
 
 @freezed
-class GStreamerData with _$GStreamerData {
+abstract class GStreamerData with _$GStreamerData {
   factory GStreamerData({
     required List<PackageKitPackageEvent> packageInfos,
     int? activeTransactionId,

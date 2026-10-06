@@ -111,6 +111,8 @@ Future<void> main(List<String> args) async {
       await YaruWindowTitleBar.ensureInitialized();
       runApp(
         ProviderScope(
+          // Riverpod 3 retries failed providers by default; keep errors immediate.
+          retry: (_, _) => null,
           observers: [ErrorObserver()],
           child: const StoreApp(),
         ),

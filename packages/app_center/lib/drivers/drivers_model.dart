@@ -17,7 +17,7 @@ enum DriverSource {
 
 /// A single driver package that can be installed for a [DriverDevice].
 @freezed
-class DriverPackage with _$DriverPackage {
+abstract class DriverPackage with _$DriverPackage {
   const factory DriverPackage({
     required String name,
     required DriverSource source,
@@ -33,7 +33,7 @@ class DriverPackage with _$DriverPackage {
 /// A hardware device detected by the `com.ubuntu.Drivers` D-Bus service,
 /// along with the driver packages available for it.
 @freezed
-class DriverDevice with _$DriverDevice {
+abstract class DriverDevice with _$DriverDevice {
   const factory DriverDevice({
     required String sysPath,
     required String modalias,

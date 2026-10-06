@@ -18,7 +18,7 @@ enum DriverActionKind { install, update, uninstall, switchBranch }
 /// Per-device mutable state not covered by [DriverDeviceInfo]: transaction,
 /// error, and restart-required status.
 @freezed
-class DriverDeviceState with _$DriverDeviceState {
+abstract class DriverDeviceState with _$DriverDeviceState {
   const factory DriverDeviceState({
     required DriverDeviceInfo info,
     int? activeTransactionId,
@@ -38,13 +38,13 @@ class DriverDeviceState with _$DriverDeviceState {
 @riverpod
 bool driversRequireRestart(Ref ref) {
   final sysPaths = ref.watch(
-    driverListModelProvider.select((v) => v.valueOrNull?.sysPaths ?? const []),
+    driverListModelProvider.select((v) => v.value?.sysPaths ?? const []),
   );
   return sysPaths.any(
     (sysPath) => ref.watch(
       driverModelProvider(
         sysPath,
-      ).select((v) => v.valueOrNull?.requiresRestart ?? false),
+      ).select((v) => v.value?.requiresRestart ?? false),
     ),
   );
 }
@@ -67,7 +67,7 @@ class DriverModel extends _$DriverModel {
     }
     // Carry forward transient state across rebuilds triggered by
     // driverListModelProvider refreshing.
-    final previous = state.valueOrNull;
+    final previous = state.value;
     return DriverDeviceState(
       info: info,
       activeTransactionId: previous?.activeTransactionId,
@@ -80,7 +80,7 @@ class DriverModel extends _$DriverModel {
   /// Whether this device can start a new operation: no transaction already
   /// running here, and no other device transacting (see [driversBusyProvider]).
   bool get canOperate {
-    final current = state.valueOrNull;
+    final current = state.value;
     if (current == null || current.isBusy) return false;
     return !ref.read(driversBusyProvider);
   }
@@ -128,7 +128,7 @@ class DriverModel extends _$DriverModel {
   /// Best-effort cancellation. If PackageKit refuses, the transaction
   /// continues and this is a no-op.
   Future<void> cancel() async {
-    final transactionId = state.valueOrNull?.activeTransactionId;
+    final transactionId = state.value?.activeTransactionId;
     if (transactionId == null) return;
     try {
       await _packageKit.cancelTransaction(transactionId);

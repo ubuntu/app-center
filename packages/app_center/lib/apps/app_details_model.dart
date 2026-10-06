@@ -6,7 +6,6 @@ import 'package:app_center/apps/package_operation_coordinator.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
 import 'package:app_center/ratings/ratings_model.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_details_model.g.dart';
@@ -41,7 +40,7 @@ class AppDetailsModel extends _$AppDetailsModel {
     }
 
     final resolved = ref.watch(appDetailsIdentityProvider(entry));
-    final identity = resolved.valueOrNull;
+    final identity = resolved.value;
     if (identity == null) {
       return resolved.hasError
           ? AsyncError(resolved.error!, resolved.stackTrace ?? StackTrace.empty)

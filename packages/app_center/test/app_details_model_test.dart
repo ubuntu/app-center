@@ -123,6 +123,7 @@ void main() {
           .read(fakeSnapshotProvider(testSnapKey).notifier)
           .state = notFound(
         testSnapKey,
+        // ignore: invalid_use_of_internal_member
       ).copyWithPrevious(AsyncData(createSourceSnapshot(testSnapKey)));
       setSnapshot(
         testDebKey,

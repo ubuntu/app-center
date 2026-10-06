@@ -1444,6 +1444,10 @@ void main() {
         );
         final container = createContainer();
 
+        // Keep both auto-disposed providers alive across the async gap below.
+        container
+          ..listen(driverModelProvider(_gpuSysPath), (_, _) {})
+          ..listen(driverModelProvider(_wifiSysPath), (_, _) {});
         await container.read(driverModelProvider(_gpuSysPath).future);
         await container.read(driverModelProvider(_wifiSysPath).future);
 

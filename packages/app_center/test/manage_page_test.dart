@@ -10,6 +10,7 @@ import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
@@ -20,6 +21,15 @@ import 'package:yaru_test/yaru_test.dart';
 
 import 'test_utils.dart';
 import 'test_utils.mocks.dart';
+
+class _FakeActiveChange extends ActiveChange {
+  _FakeActiveChange(super.id, this.change);
+
+  final SnapdChange? change;
+
+  @override
+  SnapdChange? build() => change;
+}
 
 /// Common overrides to disable deb-related providers for snap-focused tests.
 List<Override> get debProviderOverrides => [
@@ -327,7 +337,9 @@ void main() {
         ...debProviderOverrides,
         launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
         showLocalSystemAppsProvider.overrideWith((ref) => true),
-        activeChangeProvider.overrideWith((_, __) => mockChange),
+        activeChangeProvider.overrideWith2(
+          (id) => _FakeActiveChange(id, mockChange),
+        ),
         currentlyRefreshAllSnapsProvider.overrideWith((_) => [snapName]),
       ],
     );
@@ -370,7 +382,9 @@ void main() {
         overrides: [
           ...debProviderOverrides,
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
-          activeChangeProvider.overrideWith((_, __) => mockChange),
+          activeChangeProvider.overrideWith2(
+            (id) => _FakeActiveChange(id, mockChange),
+          ),
           currentlyRefreshAllSnapsProvider.overrideWith((_) => ['name']),
         ],
         child: const ManagePage(),

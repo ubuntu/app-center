@@ -7,7 +7,6 @@ import 'package:app_center/mapping/snap_package_adapter.dart';
 import 'package:app_center/mapping/unified_app_identity.dart';
 import 'package:app_center/snapd/snap_data.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -17,7 +16,7 @@ part 'app_details_entry.g.dart';
 
 /// Typed input for opening the unified details page.
 @freezed
-class AppDetailsEntry with _$AppDetailsEntry {
+sealed class AppDetailsEntry with _$AppDetailsEntry {
   const factory AppDetailsEntry.snap(String snapName) = SnapNameEntry;
   const factory AppDetailsEntry.debComponent(String componentId) =
       DebComponentEntry;
@@ -45,7 +44,7 @@ class AppDetailsEntry with _$AppDetailsEntry {
 ///
 /// Snap: snap name. Deb: AppStream component ID.
 @freezed
-class SourceKey with _$SourceKey {
+abstract class SourceKey with _$SourceKey {
   const factory SourceKey({
     required PackageFormat format,
     required String id,
@@ -87,7 +86,7 @@ class AppNotFound implements Exception {
 }
 
 @freezed
-class ResolvedAppIdentity with _$ResolvedAppIdentity {
+abstract class ResolvedAppIdentity with _$ResolvedAppIdentity {
   const factory ResolvedAppIdentity({
     required UnifiedAppIdentity identity,
     // Lookup failed, so counterparts may be missing; not a confirmed no-match.

@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'unified_app_identity.freezed.dart';
 
 @freezed
-class UnifiedAppIdentity with _$UnifiedAppIdentity {
+abstract class UnifiedAppIdentity with _$UnifiedAppIdentity {
   const factory UnifiedAppIdentity({
     required String unifiedId,
     required String appStreamId,

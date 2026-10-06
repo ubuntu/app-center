@@ -26,6 +26,8 @@ import 'package:file/memory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_riverpod/misc.dart' show Override, ProviderListenable;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gtk/gtk.dart';
 import 'package:mockito/annotations.dart';
@@ -76,6 +78,7 @@ extension WidgetTesterX on WidgetTester {
     await fontLoader.load();
     return pumpWidget(
       ProviderScope(
+        retry: (_, _) => null,
         child: MaterialApp(
           theme: ThemeData(fontFamily: 'UbuntuRegular'),
           localizationsDelegates: localizationsDelegates,
@@ -96,6 +99,7 @@ ProviderContainer createContainer({
   // Create a ProviderContainer, and optionally allow specifying parameters.
   final container = ProviderContainer(
     parent: parent,
+    retry: (_, _) => null,
     overrides: [
       fileSystemProvider.overrideWithValue(MemoryFileSystem()),
       ...overrides,

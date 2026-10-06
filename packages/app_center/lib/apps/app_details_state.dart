@@ -17,7 +17,7 @@ extension type const IssueId(String value) {}
 
 /// A displayed value that may still be loading, be absent or have failed.
 @freezed
-class FieldState<T> with _$FieldState<T> {
+sealed class FieldState<T> with _$FieldState<T> {
   const factory FieldState.loading() = FieldLoading<T>;
   const factory FieldState.value(T value, {@Default(false) bool stale}) =
       FieldValue<T>;
@@ -82,7 +82,7 @@ enum CommandRejection { unknownAction, staleAction, disabled, busy, failed }
 
 /// Acceptance of a command; completion arrives through the watched state.
 @freezed
-class CommandReceipt with _$CommandReceipt {
+sealed class CommandReceipt with _$CommandReceipt {
   const factory CommandReceipt.accepted(OperationId operationId) =
       AcceptedCommand;
   const factory CommandReceipt.completed() = CompletedCommand;
@@ -91,7 +91,7 @@ class CommandReceipt with _$CommandReceipt {
 }
 
 @freezed
-class Publisher with _$Publisher {
+abstract class Publisher with _$Publisher {
   const factory Publisher({
     required String name,
     @Default(PublisherValidation.none) PublisherValidation validation,
@@ -99,14 +99,14 @@ class Publisher with _$Publisher {
 }
 
 @freezed
-class ImageRef with _$ImageRef {
+sealed class ImageRef with _$ImageRef {
   const factory ImageRef.network(String url) = NetworkImageRef;
   const factory ImageRef.file(String path) = FileImageRef;
 }
 
 /// Package-supplied text; render as untrusted content.
 @freezed
-class RichContent with _$RichContent {
+abstract class RichContent with _$RichContent {
   const factory RichContent({
     required String text,
     required RichContentType type,
@@ -114,13 +114,13 @@ class RichContent with _$RichContent {
 }
 
 @freezed
-class ByteSize with _$ByteSize {
+abstract class ByteSize with _$ByteSize {
   const factory ByteSize({required int bytes, required SizeKind kind}) =
       _ByteSize;
 }
 
 @freezed
-class RatingsSummary with _$RatingsSummary {
+abstract class RatingsSummary with _$RatingsSummary {
   const factory RatingsSummary({
     required RatingsBand band,
     required int totalVotes,
@@ -128,7 +128,7 @@ class RatingsSummary with _$RatingsSummary {
 }
 
 @freezed
-class AppSection with _$AppSection {
+abstract class AppSection with _$AppSection {
   const factory AppSection({
     required String appId,
     required FieldState<String> name,
@@ -141,7 +141,7 @@ class AppSection with _$AppSection {
 }
 
 @freezed
-class ActivePackageSection with _$ActivePackageSection {
+abstract class ActivePackageSection with _$ActivePackageSection {
   const factory ActivePackageSection({
     required String sourceId,
     required PackageFormat format,
@@ -157,7 +157,7 @@ class ActivePackageSection with _$ActivePackageSection {
 }
 
 @freezed
-class ReleaseSection with _$ReleaseSection {
+abstract class ReleaseSection with _$ReleaseSection {
   const factory ReleaseSection({
     required FieldState<String> version,
     required FieldState<ByteSize> size,
@@ -167,7 +167,7 @@ class ReleaseSection with _$ReleaseSection {
 }
 
 @freezed
-class FooterSection with _$FooterSection {
+abstract class FooterSection with _$FooterSection {
   const factory FooterSection({
     required FieldState<Publisher> publisher,
     required FieldState<DateTime> lastUpdated,
@@ -181,7 +181,7 @@ class FooterSection with _$FooterSection {
 }
 
 @freezed
-class ActionDescriptor with _$ActionDescriptor {
+abstract class ActionDescriptor with _$ActionDescriptor {
   const factory ActionDescriptor({
     required ActionId id,
     required ActionKind kind,
@@ -191,7 +191,7 @@ class ActionDescriptor with _$ActionDescriptor {
 }
 
 @freezed
-class ActionsSection with _$ActionsSection {
+abstract class ActionsSection with _$ActionsSection {
   const factory ActionsSection({
     ActionDescriptor? primary,
     @Default([]) List<ActionDescriptor> secondary,
@@ -200,7 +200,7 @@ class ActionsSection with _$ActionsSection {
 }
 
 @freezed
-class TargetOption with _$TargetOption {
+abstract class TargetOption with _$TargetOption {
   const factory TargetOption({
     required String label,
     required bool isInstalled,
@@ -210,7 +210,7 @@ class TargetOption with _$TargetOption {
 }
 
 @freezed
-class TargetGroup with _$TargetGroup {
+abstract class TargetGroup with _$TargetGroup {
   const factory TargetGroup({
     required String sourceId,
     required PackageFormat format,
@@ -219,7 +219,7 @@ class TargetGroup with _$TargetGroup {
 }
 
 @freezed
-class OperationView with _$OperationView {
+abstract class OperationView with _$OperationView {
   const factory OperationView({
     required OperationId id,
     required String sourceId,
@@ -234,7 +234,7 @@ class OperationView with _$OperationView {
 }
 
 @freezed
-class AppDetailsIssue with _$AppDetailsIssue {
+abstract class AppDetailsIssue with _$AppDetailsIssue {
   const factory AppDetailsIssue({
     required IssueId id,
     required IssueScope scope,
@@ -245,7 +245,7 @@ class AppDetailsIssue with _$AppDetailsIssue {
 }
 
 @freezed
-class AppDetailsViewState with _$AppDetailsViewState {
+abstract class AppDetailsViewState with _$AppDetailsViewState {
   const factory AppDetailsViewState({
     required AppSection app,
     required ActivePackageSection activePackage,
