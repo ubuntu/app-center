@@ -25,16 +25,31 @@ class AddonsPage extends ConsumerWidget {
           padding: const EdgeInsets.all(kPagePadding),
           sliver: SliverList.list(
             children: [
-              if (showDrivers)
-                YaruBorderContainer(
-                  clipBehavior: Clip.hardEdge,
-                  child: YaruListTile(
-                    title: Text(l10n.addonsPageAdditionalDriversTitle),
-                    subtitle: Text(l10n.addonsPageAdditionalDriversDescription),
-                    trailing: const Icon(YaruIcons.go_next),
-                    onTap: () => StoreNavigator.pushAdditionalDrivers(context),
-                  ),
+              YaruBorderContainer(
+                clipBehavior: Clip.hardEdge,
+                child: Column(
+                  children: [
+                    if (showDrivers) ...[
+                      YaruListTile(
+                        title: Text(l10n.addonsPageAdditionalDriversTitle),
+                        subtitle: Text(
+                          l10n.addonsPageAdditionalDriversDescription,
+                        ),
+                        trailing: const Icon(YaruIcons.go_next),
+                        onTap: () =>
+                            StoreNavigator.pushAdditionalDrivers(context),
+                      ),
+                      const Divider(height: 1),
+                    ],
+                    YaruListTile(
+                      title: Text(l10n.addonsPageMediaSupportTitle),
+                      subtitle: Text(l10n.addonsPageMediaSupportDescription),
+                      trailing: const Icon(YaruIcons.go_next),
+                      onTap: () => StoreNavigator.pushMediaSupport(context),
+                    ),
+                  ],
                 ),
+              ),
             ],
           ),
         ),

@@ -119,7 +119,7 @@ void main() {
       );
     });
 
-    testWidgets('hidden when drivers are unavailable', (tester) async {
+    testWidgets('shown when drivers are unavailable', (tester) async {
       registerMockService<GtkApplicationNotifier>(
         createMockGtkApplicationNotifier(),
       );
@@ -135,7 +135,7 @@ void main() {
 
       expect(
         find.widgetWithText(YaruMasterTile, tester.l10n.addonsPageLabel),
-        findsNothing,
+        findsOneWidget,
       );
     });
   });
