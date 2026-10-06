@@ -397,5 +397,68 @@
     "appMoreActionsSemanticLabel": "Więcej czynności",
     "appConfinementStrictTooltip": "Ta aplikacja ma ograniczony dostęp do zasobów. Możesz kontrolować jej uprawnienia w aplikacji Ustawienia.",
     "appConfinementClassicTooltip": "Ta aplikacja wykorzystuje klasyczne ograniczenie, dając pełny dostęp do zasobów. Jest to powszechne w aplikacjach programistycznych.",
-    "appConfinementUnrestrictedTooltip": "Ta aplikacja ma pełny dostęp do zasobów."
+    "appConfinementUnrestrictedTooltip": "Ta aplikacja ma pełny dostęp do zasobów.",
+    "snapActionSwitchChannelTitle": "Zmień kanał dla {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "addonsPageLabel": "Dodatki",
+    "addonsPageAdditionalDriversTitle": "Dodatkowe sterowniki",
+    "addonsPageAdditionalDriversDescription": "Dodaj lepszą obsługę kart graficznych i innego sprzętu",
+    "driversPageDescription": "Sterowniki własnościowe zawierają zamknięty kod, którego programiści Ubuntu nie mogą analizować ani ulepszać. Aktualizacje – w tym te dotyczące bezpieczeństwa – zależą od dostawcy sterownika.",
+    "driversPageSectionUpdateAvailable": "Dostępna aktualizacja",
+    "driversPageSectionAvailable": "Dostępne",
+    "driversPageSectionInstalled": "Zainstalowano",
+    "driversPageSectionUnsupported": "Brak dostępnych sterowników",
+    "driversPageNoPackagesMessage": "Żadne pakiety nie dostarczają sterowników dla tego urządzenia",
+    "driversPageDeviceClassGraphics": "Grafika",
+    "driversPageDeviceClassNetwork": "Sieć",
+    "driversPageDeviceClassCamera": "Kamera",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Pamięć masowa",
+    "driversPageDeviceClassAudio": "Dźwięk",
+    "driversPageDeviceClassOther": "Inne",
+    "driversPageBranchProduction": "Produkcja",
+    "driversPageBranchLts": "Długoterminowe wsparcie",
+    "driversPageBranchNewFeature": "Nowe funkcje",
+    "driversPageVersionLabel": "Wersja {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Wymagane ponowne uruchomienie",
+    "driversPageRestartRequiredMessage": "Uruchom ponownie komputer, aby zakończyć wprowadzanie zmian w sterownikach.",
+    "driversPageErrorLabel": "Błąd",
+    "driversPageRetryLabel": "Ponów",
+    "driversPageNoDriversFoundMessage": "Używanie wbudowanych sterowników. Nie znaleziono dodatkowych sterowników.",
+    "driversPageUnavailableTitle": "Zarządzanie sterownikami niedostępne",
+    "driversPageUnsupportedMessage": "Usługa zarządzania sterownikami jest niedostępna. Upewnij się, że pakiet snapd jest aktualny, a pakiet ubuntu-drivers-common jest zainstalowany.",
+    "driversPageSwitchBranchLabel": "Przełącz gałąź",
+    "driversPageSwitchBranchTitle": "Przełącz gałąź",
+    "driversPageSwitchBranchProductionDescription": "Łączy funkcjonalność ze stabilnością",
+    "driversPageSwitchBranchLtsDescription": "Maksymalna stabilność w przypadku krytycznych obciążeń",
+    "driversPageSwitchBranchNewFeatureDescription": "Wersja poglądowa, mniej stabilna",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (zalecana)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "Ta gałąź jest mniej stabilna",
+    "driversPageSwitchBranchLessStableWarningMessage": "Pozostań na bieżącej gałęzi, aby uniknąć problemów z tym urządzeniem.",
+    "driversPageSwitchLabel": "Przełącz",
+    "driversPageSwitchingBranchLabel": "Przełączanie gałęzi",
+    "driversPageUninstallTitle": "Odinstaluj sterownik",
+    "driversPageUninstallWarningTitle": "Odinstalowanie sterowników może spowodować problemy",
+    "driversPageUninstallWarningMessage": "Ponowna instalacja sterowników może nie być łatwa, zwłaszcza w przypadku sterowników karty graficznej lub sieciowej.",
+    "driversPageUninstallAcknowledgeLabel": "Rozumiem ryzyko"
 }

@@ -490,6 +490,39 @@ void main() {
     );
   });
 
+  testWidgets('snap update tile shows installed → available version', (
+    tester,
+  ) async {
+    await resetAllServices();
+    // The refresh candidate from the store carries the version on offer. The
+    // installed version only lives in the local snap.
+    registerMockSnapdService(
+      installedSnaps: [createSnap(name: 'firefox', version: '1.0')],
+      refreshableSnaps: [createSnap(name: 'firefox', version: '2.0')],
+    );
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+          localDebsProvider.overrideWith((ref) async => []),
+          localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
+        ],
+        child: const ManagePage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final snapTile = find.snapTile('firefox');
+    expect(snapTile, findsOneWidget);
+
+    expect(
+      find.descendant(of: snapTile, matching: find.text('1.0 → 2.0')),
+      findsOneWidget,
+    );
+  });
+
   testWidgets('compulsory deb with update shows update button but not remove', (
     tester,
   ) async {

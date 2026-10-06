@@ -63,7 +63,7 @@
     "managePageShowDetailsLabel": "Zobrazit podrobnosti",
     "snapPageDownloadSizeLabel": "Stahovaná velikost",
     "snapCategoryProductivityButtonLabel": "Objevte sbírku pro produktivitu",
-    "snapPagePublishedLabel": "Naposledy aktualizováno",
+    "snapPagePublishedLabel": "Aktualizováno",
     "aboutPageLearnMoreLabel": "Dozvědět se více",
     "snapRatingsBandNeutral": "Neutrální",
     "appstreamUrlTypeTranslate": "Překlady",
@@ -389,7 +389,7 @@
     "appConfinementClassic": "Neomezené",
     "appConfinementUnrestricted": "Neomezené",
     "appLicenseUnknown": "Neznámá",
-    "appPublishedUnknown": "Neznámý",
+    "appPublishedUnknown": "Neznámé",
     "managePagePackageTypeLabel": "Typ balíčku",
     "managePagePackageTypeAll": "Vše",
     "managePagePackageTypeSnap": "Snap",
@@ -397,5 +397,68 @@
     "appMoreActionsSemanticLabel": "Další akce",
     "appConfinementStrictTooltip": "Tato aplikace má omezený přístup k vašim prostředkům. Její oprávnění můžete spravovat v aplikaci Nastavení.",
     "appConfinementClassicTooltip": "Tato aplikace používá klasické omezení, které poskytuje plný přístup k vašim prostředkům. To je běžné u vývojářských aplikací.",
-    "appConfinementUnrestrictedTooltip": "Tato aplikace má plný přístup k vašim prostředkům."
+    "appConfinementUnrestrictedTooltip": "Tato aplikace má plný přístup k vašim prostředkům.",
+    "snapActionSwitchChannelTitle": "Přepnout kanál pro {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "addonsPageLabel": "Doplňky",
+    "addonsPageAdditionalDriversTitle": "Dodatečné ovladače",
+    "addonsPageAdditionalDriversDescription": "Přidejte lepší podporu pro grafické karty a další hardware",
+    "driversPageDescription": "Nesvobodné ovladače mají uzavřený kód, který nemohou vývojáři Ubuntu zkontrolovat nebo vylepšit. Bezpečnostní i další aktualizace závisí zcela na výrobci ovladače.",
+    "driversPageSectionUpdateAvailable": "Je k dispozici aktualizace",
+    "driversPageSectionAvailable": "Dostupné",
+    "driversPageSectionInstalled": "Nainstalováno",
+    "driversPageSectionUnsupported": "Žádné ovladače k dispozici",
+    "driversPageNoPackagesMessage": "Žádné balíčky neposkytují ovladače pro toto zařízení",
+    "driversPageDeviceClassGraphics": "Grafika",
+    "driversPageDeviceClassNetwork": "Síť",
+    "driversPageDeviceClassCamera": "Kamera",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Úložiště",
+    "driversPageDeviceClassAudio": "Zvuk",
+    "driversPageDeviceClassOther": "Ostatní",
+    "driversPageBranchProduction": "Výroba",
+    "driversPageBranchLts": "Dlouhodobá podpora",
+    "driversPageBranchNewFeature": "Nové funkce",
+    "driversPageVersionLabel": "Verze {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Vyžadován restart",
+    "driversPageRestartRequiredMessage": "Restartujte počítač, abyste dokončili použití změn ovladače.",
+    "driversPageErrorLabel": "Chyba",
+    "driversPageRetryLabel": "Zkusit znovu",
+    "driversPageNoDriversFoundMessage": "Používají se vestavěné ovladače. Nebyly nalezeny žádné další ovladače.",
+    "driversPageUnavailableTitle": "Správa ovladačů není k dispozici",
+    "driversPageUnsupportedMessage": "Služba správy ovladačů není dostupná. Ujistěte se, že máte aktuální verzi snapd a nainstalovaný balíček ubuntu-drivers-common.",
+    "driversPageSwitchBranchLabel": "Přepnout větev",
+    "driversPageSwitchBranchTitle": "Přepnout větev",
+    "driversPageSwitchBranchProductionDescription": "Vyvažuje vlastnosti a stabilitu",
+    "driversPageSwitchBranchLtsDescription": "Maximální stabilita pro kritické úlohy",
+    "driversPageSwitchBranchNewFeatureDescription": "Předběžná verze, méně stabilní",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (doporučeno)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "Tato větev je méně stabilní",
+    "driversPageSwitchBranchLessStableWarningMessage": "Zůstaňte na aktuální větvi, abyste předešli problémům s tímto zařízením.",
+    "driversPageSwitchLabel": "Přepnout",
+    "driversPageSwitchingBranchLabel": "Přepínání větve",
+    "driversPageUninstallTitle": "Odinstalovat ovladač",
+    "driversPageUninstallWarningTitle": "Odinstalace ovladačů může způsobit problémy",
+    "driversPageUninstallWarningMessage": "Možná nebudete moci tyto ovladače snadno přeinstalovat, zejména pokud se týkají grafiky nebo sítě.",
+    "driversPageUninstallAcknowledgeLabel": "Chápu riziko"
 }

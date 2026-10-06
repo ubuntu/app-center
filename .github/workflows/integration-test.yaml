@@ -11,11 +11,7 @@ jobs:
   integration:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-fvm
-      - uses: bluefireteam/melos-action@v3
-        with:
-          melos-version: 6.3.3
+      - uses: canonical/desktop-engineering/gh-actions/flutter/setup@e1069c189573b3525a60f54c5107ea3264f80805
       - run: sudo apt update
       - run: sudo apt install -y clang cmake debhelper libblkid-dev libglib2.0-dev libgtk-3-dev liblzma-dev network-manager ninja-build packagekit pkg-config polkitd xvfb
 

@@ -404,5 +404,29 @@
     "appConfinementDevelopment": "Arendusrežiimis",
     "appConfinementUnrestrictedTooltip": "Sellel rakendusel on täismahuline ligipääs sinu arvuti/seadme ressurssidele.",
     "appConfinementClassicTooltip": "Sellel rakendusel on kasutusel klassikaline eraldamine, aga ka täismahuline ligipääs sinu arvuti/seadme ressurssidele. See on tavaline arendustarvikute puhul.",
-    "appConfinementStrictTooltip": "Sellel rakendusel on piiratud ligipääs sinu arvuti/seadme ressurssidele. Õigusi saad kohendada Seadistuste rakendusest."
+    "appConfinementStrictTooltip": "Sellel rakendusel on piiratud ligipääs sinu arvuti/seadme ressurssidele. Õigusi saad kohendada Seadistuste rakendusest.",
+    "snapActionSwitchChannelTitle": "Vaheta rakenduse {appName} kanalit",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "addonsPageLabel": "Lisamoodulid",
+    "addonsPageAdditionalDriversTitle": "Täiendavad draiverid",
+    "addonsPageAdditionalDriversDescription": "Lisab graafikakaartide ja muu raudvara parema toe",
+    "driversPageDescription": "Suletud draiverite lähtekood pole Ubuntu arendajate poolt ülevaadatav ja täiendatav. Turva- ja muud uuendused sõltuvad vaid sellest, kas algne tootja seda teeb.",
+    "driversPageSectionUpdateAvailable": "Uuendus on saadaval",
+    "driversPageSectionAvailable": "Saadaval",
+    "driversPageSectionInstalled": "Paigaldatud",
+    "driversPageSectionUnsupported": "Ühtegi draiverit ei leidu",
+    "driversPageNoPackagesMessage": "Ükski pakett ei paku võimalust selle seadme jaoks draivereid paigaldada",
+    "driversPageDeviceClassGraphics": "Graafika",
+    "driversPageDeviceClassNetwork": "Võrgundus",
+    "driversPageDeviceClassCamera": "Kaamera",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Andmeruum",
+    "driversPageDeviceClassAudio": "Heliseadmed",
+    "driversPageDeviceClassOther": "Muud seadmed"
 }

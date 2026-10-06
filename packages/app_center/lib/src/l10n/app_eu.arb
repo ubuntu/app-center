@@ -394,5 +394,68 @@
     "appMoreActionsSemanticLabel": "Ekintza gehiago",
     "appConfinementStrictTooltip": "Aplikazio honek zure baliabideetara sarbide mugatua dauka. Bere baimenak Ezarpenak aplikaziotik kontrola ditzakezu.",
     "appConfinementClassicTooltip": "Aplikazio honek konfinamendu klasikoa darabil, zure baliabideetara erabateko sarbidea emanez. Hau ohikoa izaten da garapenerako aplikazioetan.",
-    "appConfinementUnrestrictedTooltip": "Aplikazio honek zure baliabideetara erabateko sarbidea dauka."
+    "appConfinementUnrestrictedTooltip": "Aplikazio honek zure baliabideetara erabateko sarbidea dauka.",
+    "snapActionSwitchChannelTitle": "Aldatu {appName}ren kanala",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "addonsPageLabel": "Gehigarriak",
+    "addonsPageAdditionalDriversTitle": "Kontrolatzaile gehigarriak",
+    "driversPageSectionUpdateAvailable": "Eguneratzea erabilgarri",
+    "driversPageSectionAvailable": "Erabilgarri",
+    "driversPageSectionInstalled": "Instalatua",
+    "driversPageSectionUnsupported": "Ez dago kontrolatzaile erabilgarririk",
+    "driversPageDeviceClassGraphics": "Grafikoak",
+    "driversPageDeviceClassNetwork": "Sarea",
+    "driversPageDeviceClassCamera": "Kamera",
+    "driversPageDeviceClassUsb": "USBa",
+    "driversPageDeviceClassStorage": "Biltegiratzea",
+    "driversPageDeviceClassAudio": "Audioa",
+    "driversPageDeviceClassOther": "Bestelakoa",
+    "driversPageBranchNewFeature": "Ezaugarri berriak",
+    "driversPageVersionLabel": "{version} bertsioa",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Berrabiarazi beharra",
+    "driversPageErrorLabel": "Errorea",
+    "driversPageRetryLabel": "Saiatu berriz",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (gomendatua)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "Adar hau ezegonkorragoa da",
+    "driversPageSwitchLabel": "Aldatu",
+    "driversPageSwitchingBranchLabel": "Adarrez aldatzen",
+    "driversPageUninstallTitle": "Desinstalatu kontrolatzailea",
+    "driversPageSwitchBranchLabel": "Aldatu adarrez",
+    "driversPageSwitchBranchTitle": "Aldatu adarrez",
+    "addonsPageAdditionalDriversDescription": "Jaso sostengu hobea txartel grafikoentzat eta bestelako hardwarearentzat",
+    "driversPageDescription": "Kontrolatzaile jabedunek kode pribatua daukate, Ubunturen garantzaileek berrikus eta hobetu ezin dezaketena. Segurtasuna eta bestelako eguneratzeak kontrolatzailearen hornitzailearen menpe daude.",
+    "driversPageNoPackagesMessage": "Ez dago gailu honentzako kontrolatzaileak hornitzen dituen paketerik",
+    "driversPageBranchProduction": "Produkzioa",
+    "driversPageBranchLts": "Epe luzeko sostengua",
+    "driversPageRestartRequiredMessage": "Berrabiarazi ordenagailua kontrolatzaile aldaketen ezarpena amaitzeko.",
+    "driversPageNoDriversFoundMessage": "Kontrolatzaile integratuak erabiltzen. Ez da kontrolatzaile gehigarririk aurkitu.",
+    "driversPageUnavailableTitle": "Kontrolatzaileen kudeaketa ez dago erabilgarri",
+    "driversPageUnsupportedMessage": "Kontrolatzaileen kudeaketa zerbitzua ez dago erabilgarri. Ziurtatu snapd egunean dagoela eta ubuntu-drivers-common instalatuta duzula.",
+    "driversPageSwitchBranchProductionDescription": "Eginbideen eta egonkortasunaren arteko oreka",
+    "driversPageSwitchBranchLtsDescription": "Egonkortasun gorena lan-karga kritikoentzat",
+    "driversPageSwitchBranchNewFeatureDescription": "Aurrebista, egonkortasun gutxiagokoa",
+    "driversPageSwitchBranchLessStableWarningMessage": "Jarraitu uneko adarrean gailu honekin arazoak izatea ekiditeko.",
+    "driversPageUninstallWarningTitle": "Kontrolatzaileak desinstalatzeak arazoak sor ditzake",
+    "driversPageUninstallWarningMessage": "Baliteke kontrolatzaileak errazki berrinstalatu ahal ez izatea, batez ere grafikoekin edo sarearekin lotuta badaude.",
+    "driversPageUninstallAcknowledgeLabel": "Ulertzen dut arriskua"
 }
