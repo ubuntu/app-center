@@ -441,5 +441,21 @@
     "driversPageSwitchingBranchLabel": "Adarrez aldatzen",
     "driversPageUninstallTitle": "Desinstalatu kontrolatzailea",
     "driversPageSwitchBranchLabel": "Aldatu adarrez",
-    "driversPageSwitchBranchTitle": "Aldatu adarrez"
+    "driversPageSwitchBranchTitle": "Aldatu adarrez",
+    "addonsPageAdditionalDriversDescription": "Jaso sostengu hobea txartel grafikoentzat eta bestelako hardwarearentzat",
+    "driversPageDescription": "Kontrolatzaile jabedunek kode pribatua daukate, Ubunturen garantzaileek berrikus eta hobetu ezin dezaketena. Segurtasuna eta bestelako eguneratzeak kontrolatzailearen hornitzailearen menpe daude.",
+    "driversPageNoPackagesMessage": "Ez dago gailu honentzako kontrolatzaileak hornitzen dituen paketerik",
+    "driversPageBranchProduction": "Produkzioa",
+    "driversPageBranchLts": "Epe luzeko sostengua",
+    "driversPageRestartRequiredMessage": "Berrabiarazi ordenagailua kontrolatzaile aldaketen ezarpena amaitzeko.",
+    "driversPageNoDriversFoundMessage": "Kontrolatzaile integratuak erabiltzen. Ez da kontrolatzaile gehigarririk aurkitu.",
+    "driversPageUnavailableTitle": "Kontrolatzaileen kudeaketa ez dago erabilgarri",
+    "driversPageUnsupportedMessage": "Kontrolatzaileen kudeaketa zerbitzua ez dago erabilgarri. Ziurtatu snapd egunean dagoela eta ubuntu-drivers-common instalatuta duzula.",
+    "driversPageSwitchBranchProductionDescription": "Eginbideen eta egonkortasunaren arteko oreka",
+    "driversPageSwitchBranchLtsDescription": "Egonkortasun gorena lan-karga kritikoentzat",
+    "driversPageSwitchBranchNewFeatureDescription": "Aurrebista, egonkortasun gutxiagokoa",
+    "driversPageSwitchBranchLessStableWarningMessage": "Jarraitu uneko adarrean gailu honekin arazoak izatea ekiditeko.",
+    "driversPageUninstallWarningTitle": "Kontrolatzaileak desinstalatzeak arazoak sor ditzake",
+    "driversPageUninstallWarningMessage": "Baliteke kontrolatzaileak errazki berrinstalatu ahal ez izatea, batez ere grafikoekin edo sarearekin lotuta badaude.",
+    "driversPageUninstallAcknowledgeLabel": "Ulertzen dut arriskua"
 }

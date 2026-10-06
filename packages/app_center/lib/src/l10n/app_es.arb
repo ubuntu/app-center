@@ -405,5 +405,60 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "addonsPageLabel": "Complementos",
+    "addonsPageAdditionalDriversTitle": "Controladores adicionales",
+    "addonsPageAdditionalDriversDescription": "Optimice el funcionamiento de tarjetas gráficas y otros componentes físicos",
+    "driversPageDescription": "Los controladores privativos incluyen código cerrado que el equipo de desarrollo de Ubuntu no puede revisar ni mejorar. La seguridad y demás actualizaciones dependen exclusivamente de la proveedora del controlador.",
+    "driversPageSectionUpdateAvailable": "Actualización disponible",
+    "driversPageSectionUnsupported": "No hay ningún controlador disponible",
+    "driversPageNoPackagesMessage": "Ningún paquete provee controladores para este dispositivo",
+    "driversPageDeviceClassNetwork": "Red",
+    "driversPageDeviceClassCamera": "Cámara",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Almacenamiento",
+    "driversPageDeviceClassAudio": "Audio",
+    "driversPageDeviceClassOther": "Otros",
+    "driversPageBranchProduction": "Producción",
+    "driversPageBranchLts": "Servicio técnico a largo plazo",
+    "driversPageBranchNewFeature": "Funcionalidades nuevas",
+    "driversPageVersionLabel": "Versión {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Se necesita reiniciar",
+    "driversPageRestartRequiredMessage": "Reinicie el equipo para terminar de aplicar las modificaciones a los controladores.",
+    "driversPageErrorLabel": "Error",
+    "driversPageRetryLabel": "Reintentar",
+    "driversPageNoDriversFoundMessage": "Se usan los controladores incorporados. No se encontraron más controladores.",
+    "driversPageUnavailableTitle": "Gestión de controladores no disponible",
+    "driversPageUnsupportedMessage": "El servicio de gestión de controladores no está disponible. Cerciórese de que snapd esté actualizado y ubuntu-drivers-common se haya instalado.",
+    "driversPageSwitchBranchLabel": "Cambiar de rama",
+    "driversPageSwitchBranchTitle": "Cambiar de rama",
+    "driversPageSwitchLabel": "Cambiar",
+    "driversPageSwitchingBranchLabel": "Cambiando de rama",
+    "driversPageUninstallTitle": "Desinstalar controlador",
+    "driversPageUninstallAcknowledgeLabel": "Entiendo el riesgo",
+    "driversPageSwitchBranchLessStableWarningMessage": "Manténgase en la rama actual para evitar problemas en este dispositivo.",
+    "driversPageSwitchBranchLessStableWarningTitle": "Esta rama es menos estable",
+    "driversPageUninstallWarningTitle": "Desinstalar controladores puede causar problemas",
+    "driversPageSwitchBranchProductionDescription": "Equilibra funcionalidades y estabilidad",
+    "driversPageUninstallWarningMessage": "Podría tener dificultades para reinstalar los controladores, especialmente si corresponden a vídeo o a la red.",
+    "driversPageSwitchBranchLtsDescription": "Máxima estabilidad para entornos de alta exigencia",
+    "driversPageSwitchBranchNewFeatureDescription": "Preliminar; menos estable",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (recomendado)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSectionAvailable": "Disponibles",
+    "driversPageSectionInstalled": "Instalados",
+    "driversPageDeviceClassGraphics": "Gráficos"
 }

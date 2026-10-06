@@ -395,15 +395,70 @@
     "appLicenseUnknown": "Ismeretlen",
     "appPublishedUnknown": "Ismeretlen",
     "appMoreActionsSemanticLabel": "További műveletek",
-    "appConfinementStrictTooltip": "Ez az alkalmazás korlátozott hozzáféréssel rendelkezik az Ön erőforrásaihoz. A jogosultságait a Beállítások alkalmazásban szabályozhatja.",
-    "appConfinementClassicTooltip": "Ez az alkalmazás klasszikus elszigetelést használ, így teljes hozzáférést kap az Ön erőforrásaihoz. Ez a fejlesztői alkalmazásoknál gyakori.",
-    "appConfinementUnrestrictedTooltip": "Ez az alkalmazás teljes hozzáféréssel rendelkezik az erőforrásaidhoz.",
-    "snapActionSwitchChannelTitle": "Csatorna váltása: {appName}",
+    "appConfinementStrictTooltip": "Ez az alkalmazás korlátozott hozzáféréssel rendelkezik az erőforrásaihoz. A jogosultságait a Beállítások alkalmazásban szabályozhatja.",
+    "appConfinementClassicTooltip": "Ez az alkalmazás klasszikus elszigeteltséget használ, teljes hozzáférést adva az erőforrásaihoz. Ez a fejlesztői alkalmazásoknál gyakori.",
+    "appConfinementUnrestrictedTooltip": "Ez az alkalmazás teljes hozzáféréssel rendelkezik az erőforrásaihoz.",
+    "snapActionSwitchChannelTitle": "Csatorna váltása a(z) {appName} alkalmazásnál",
     "@snapActionSwitchChannelTitle": {
         "placeholders": {
             "appName": {
                 "type": "String"
             }
         }
-    }
+    },
+    "addonsPageLabel": "Kiegészítők",
+    "addonsPageAdditionalDriversTitle": "További illesztőprogramok",
+    "addonsPageAdditionalDriversDescription": "Jobb támogatás hozzáadása a grafikus kártyákhoz és egyéb hardverekhez",
+    "driversPageDescription": "A tulajdonosi illesztőprogramok zárt kódúak, amelyeket az Ubuntu-fejlesztők nem tudnak áttekinteni vagy továbbfejleszteni. A biztonsági és egyéb frissítések az illesztőprogram gyártójától függenek.",
+    "driversPageSectionUpdateAvailable": "Frissítés érhető el",
+    "driversPageSectionAvailable": "Elérhető",
+    "driversPageSectionInstalled": "Telepítve",
+    "driversPageSectionUnsupported": "Nem érhetők el illesztőprogramok",
+    "driversPageNoPackagesMessage": "Nincs olyan csomag, amely illesztőprogramokat biztosítana ehhez az eszközhöz",
+    "driversPageDeviceClassGraphics": "Grafika",
+    "driversPageDeviceClassNetwork": "Hálózat",
+    "driversPageDeviceClassCamera": "Kamera",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Tároló",
+    "driversPageDeviceClassAudio": "Hang",
+    "driversPageDeviceClassOther": "Egyéb",
+    "driversPageBranchProduction": "Produktív",
+    "driversPageBranchLts": "Hosszú távú támogatás",
+    "driversPageBranchNewFeature": "Új funkciók",
+    "driversPageVersionLabel": "Verzió: {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Újraindítás szükséges",
+    "driversPageRestartRequiredMessage": "Indítsa újra a számítógépet az illesztőprogram-változtatások alkalmazásának befejezéséhez.",
+    "driversPageErrorLabel": "Hiba",
+    "driversPageRetryLabel": "Újrapróbálás",
+    "driversPageNoDriversFoundMessage": "Beépített illesztőprogramok használata. Nem találhatók további illesztőprogramok.",
+    "driversPageUnavailableTitle": "Az illesztőprogram-kezelés nem érhető el",
+    "driversPageUnsupportedMessage": "Az illesztőprogram-kezelési szolgáltatás nem érhető el. Győződjön meg arról, hogy a snapd naprakész-e és az „ubuntu-drivers-common” csomag telepítve van-e.",
+    "driversPageSwitchBranchLabel": "Ág váltása",
+    "driversPageSwitchBranchTitle": "Ág váltása",
+    "driversPageSwitchBranchProductionDescription": "Kiegyensúlyozza a funkciókat és a stabilitást",
+    "driversPageSwitchBranchLtsDescription": "Legnagyobb stabilitás a kritikus munkaterhelésekhez",
+    "driversPageSwitchBranchNewFeatureDescription": "Előnézet, kevésbé stabil",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (ajánlott)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "Ez az ág kevésbé stabil",
+    "driversPageSwitchBranchLessStableWarningMessage": "Maradjon a jelenlegi ágon, hogy elkerülje az eszközzel kapcsolatos problémákat.",
+    "driversPageSwitchLabel": "Váltás",
+    "driversPageSwitchingBranchLabel": "Ág váltása",
+    "driversPageUninstallTitle": "Illesztőprogram eltávolítása",
+    "driversPageUninstallWarningTitle": "Az illesztőprogramok eltávolítása problémákat okozhat",
+    "driversPageUninstallWarningMessage": "Lehet, hogy nem fogja tudni egyszerűen újratelepíteni az illesztőprogramokat, különösen akkor, ha grafikus kártyával vagy hálózattal kapcsolatosak.",
+    "driversPageUninstallAcknowledgeLabel": "Megértem a kockázatot"
 }
