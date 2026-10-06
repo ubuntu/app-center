@@ -38,7 +38,7 @@
     },
     "explorePageLabel": "Explorar",
     "explorePageCategoriesLabel": "Categorías",
-    "managePageOwnUpdateAvailable": "Actualización do centro de aplicacións dispoñíbel",
+    "managePageOwnUpdateAvailable": "Actualización do Centro de aplicacións dispoñíbel",
     "appstreamSearchGreylist": "aplicación; aplicativo; paquete; programa; programas; conxunto de programas; ferramenta",
     "snapPageChannelLabel": "Canle",
     "snapPageConfinementLabel": "Permisos",
@@ -394,5 +394,60 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "addonsPageLabel": "Complementos",
+    "addonsPageAdditionalDriversTitle": "Controladores adicionais",
+    "addonsPageAdditionalDriversDescription": "Engade un mellor soporte para tarxetas gráficas e outro hardware",
+    "driversPageDescription": "Os controladores propietarios conteñen código privado que os desenvolvedores de Ubuntu non poden revisar nin mellorar. As actualizacións de seguridade e outras actualizacións dependen do fabricante do controlador.",
+    "driversPageSectionUpdateAvailable": "Actualización dispoñíbel",
+    "driversPageSectionAvailable": "Dispoñíbel",
+    "driversPageSectionInstalled": "Instalados",
+    "driversPageSectionUnsupported": "Non hai controladores dispoñíbeis",
+    "driversPageNoPackagesMessage": "Ningún paquete fornece controladores para este dispositivo",
+    "driversPageDeviceClassGraphics": "Gráficos",
+    "driversPageDeviceClassNetwork": "Rede",
+    "driversPageDeviceClassCamera": "Cámara",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Almacenamento",
+    "driversPageDeviceClassAudio": "Son",
+    "driversPageDeviceClassOther": "Outros",
+    "driversPageBranchProduction": "Produción",
+    "driversPageBranchLts": "Soporte a longo prazo",
+    "driversPageBranchNewFeature": "Novas funcionalidades",
+    "driversPageVersionLabel": "Versión {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Requírese reiniciar",
+    "driversPageRestartRequiredMessage": "Reinicia o ordenador para rematar de aplicar os cambios nos controladores.",
+    "driversPageErrorLabel": "Erro",
+    "driversPageRetryLabel": "Tentar de novo",
+    "driversPageNoDriversFoundMessage": "Usando controladores integrados. Non se atoparon controladores adicionais.",
+    "driversPageUnavailableTitle": "Xestión de controladores non dispoñíbel",
+    "driversPageUnsupportedMessage": "O servizo de xestión de controladores non está dispoñíbel. Asegúrate de que snapd estea actualizado e de que ubuntu-drivers-common estea instalado.",
+    "driversPageSwitchBranchLabel": "Cambiar de rama",
+    "driversPageSwitchBranchTitle": "Cambiar de rama",
+    "driversPageSwitchBranchProductionDescription": "Equilibra funcionalidades e estabilidade",
+    "driversPageSwitchBranchLtsDescription": "Máxima estabilidade para cargas de traballo críticas",
+    "driversPageSwitchBranchNewFeatureDescription": "Vista previa, menos estable",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (recomendado)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "Esta rama é menos estable",
+    "driversPageSwitchBranchLessStableWarningMessage": "Mantente na rama actual para evitar problemas con este dispositivo.",
+    "driversPageSwitchLabel": "Cambiar",
+    "driversPageSwitchingBranchLabel": "Cambiando de rama",
+    "driversPageUninstallTitle": "Desinstalar o controlador",
+    "driversPageUninstallWarningTitle": "Desinstalar controladores pode causar problemas",
+    "driversPageUninstallWarningMessage": "Pode que non poidas reinstalar facilmente os controladores, especialmente se están relacionados coa gráfica ou coa rede.",
+    "driversPageUninstallAcknowledgeLabel": "Comprendo o risco"
 }
