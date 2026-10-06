@@ -460,5 +460,10 @@
     "driversPageUninstallTitle": "Видалити драйвер",
     "driversPageUninstallWarningTitle": "Видалення драйверів може спричинити проблеми",
     "driversPageUninstallWarningMessage": "Можливо, вам не вдасться легко перевстановити драйвери, особливо якщо вони стосуються графіки чи мережі.",
-    "driversPageUninstallAcknowledgeLabel": "Я усвідомлюю ризик"
+    "driversPageUninstallAcknowledgeLabel": "Я усвідомлюю ризик",
+    "addonsPageMediaSupportTitle": "Медійна підтримка",
+    "addonsPageMediaSupportDescription": "Встановіть додаткове програмне забезпечення для підтримки більшої кількості форматів мультимедіа",
+    "mediaSupportPageDescription": "Ubuntu за замовчуванням постачається з деякими кодеками з відкритим кодом. Для відтворення та редагування певних музичних і відеоформатів може знадобитися встановити додаткове програмне забезпечення.",
+    "mediaSupportPageAdditionalMediaTitle": "Додаткова медійна підтримка",
+    "mediaSupportPageInstallButton": "Встановити"
 }
