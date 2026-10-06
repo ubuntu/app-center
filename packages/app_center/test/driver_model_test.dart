@@ -1444,7 +1444,7 @@ void main() {
         );
         final container = createContainer();
 
-        // Keep both auto-disposed providers alive across the async gap below.
+        // Keep the auto-dispose providers alive.
         container
           ..listen(driverModelProvider(_gpuSysPath), (_, _) {})
           ..listen(driverModelProvider(_wifiSysPath), (_, _) {});

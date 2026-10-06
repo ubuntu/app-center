@@ -44,7 +44,7 @@ void main() {
         query: 'office',
         category: SnapCategoryEnum.ubuntuDesktop,
       );
-      // Riverpod 3 pauses StreamProviders without listeners.
+      // Stream providers are paused without a listener.
       container.listen(snapSearchProvider(searchParamsLower), (_, _) {});
       final resultLower = await container.read(
         snapSearchProvider(searchParamsLower).future,
@@ -65,7 +65,6 @@ void main() {
         query: 'OFFICE',
         category: SnapCategoryEnum.ubuntuDesktop,
       );
-      // Riverpod 3 pauses StreamProviders without listeners.
       container.listen(snapSearchProvider(searchParamsUpper), (_, _) {});
       final resultUpper = await container.read(
         snapSearchProvider(searchParamsUpper).future,
@@ -98,7 +97,6 @@ void main() {
         query: 'GODOT',
         category: SnapCategoryEnum.gameDev,
       );
-      // Riverpod 3 pauses StreamProviders without listeners.
       container.listen(snapSearchProvider(searchParams), (_, _) {});
       final result = await container.read(
         snapSearchProvider(searchParams).future,
