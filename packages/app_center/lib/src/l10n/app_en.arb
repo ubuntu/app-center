@@ -233,8 +233,26 @@
             }
         }
     },
+    "appDetailsInstalledAsTwoFormats": "{first} and {second} are both installed",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
     "appDetailsInstalledAsMultipleFormats": "Installed as multiple package formats",
-    "appDetailsPackageFormatDataNotShared": "App data isn't shared between package formats.",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Uninstall it before installing a different package format. App data isn't shared between formats.} =2{Uninstall both to switch to a different format. App data isn't shared between formats.} other{Uninstall them to switch to a different format. App data isn't shared between formats.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "appDetailsPackageFormatsLearnMore": "Learn more about package formats",
     "packageFormatDebLabel": "Debian packages",
     "packageFormatSnapLabel": "Snap packages",

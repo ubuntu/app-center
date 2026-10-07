@@ -524,7 +524,8 @@ class PackageFormatDialog extends ConsumerWidget {
     final state = ref.watch(appDetailsModelProvider(entry)).valueOrNull;
     final installed = [
       for (final option in state?.formats ?? const <FormatOption>[])
-        if (option.installState == InstallState.installed) option.format,
+        if (option.installState == InstallState.installed)
+          _formatLabel(l10n, option.format),
     ];
 
     return SimpleDialog(
@@ -540,14 +541,15 @@ class PackageFormatDialog extends ConsumerWidget {
           if (installed.isNotEmpty) ...[
             YaruInfoBox(
               yaruInfoType: YaruInfoType.warning,
-              title: Text(
-                installed.length == 1
-                    ? l10n.appDetailsInstalledAsFormat(
-                        _formatLabel(l10n, installed.single),
-                      )
-                    : l10n.appDetailsInstalledAsMultipleFormats,
+              title: Text(switch (installed) {
+                [final format] => l10n.appDetailsInstalledAsFormat(format),
+                [final first, final second] =>
+                  l10n.appDetailsInstalledAsTwoFormats(first, second),
+                _ => l10n.appDetailsInstalledAsMultipleFormats,
+              }),
+              subtitle: Text(
+                l10n.appDetailsUninstallToChangeFormat(installed.length),
               ),
-              subtitle: Text(l10n.appDetailsPackageFormatDataNotShared),
             ),
             const SizedBox(height: kSpacing),
           ],

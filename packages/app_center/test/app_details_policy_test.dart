@@ -573,6 +573,10 @@ void main() {
         ActionKind.switchChannel,
       ]);
       expect(debGroup.options.single.action?.kind, ActionKind.install);
+      expect(
+        debGroup.options.single.action?.disabledReason,
+        DisabledReason.otherFormatInstalled,
+      );
       expect(state.actions.hasMoreActions, isTrue);
 
       final beta = composition.bindings[snapGroup.options.last.action!.id]!;
@@ -653,9 +657,29 @@ void main() {
       expect(snap.installState, _installed);
       expect(snap.size.valueOrNull?.kind, SizeKind.installed);
       expect(snap.action?.kind, ActionKind.uninstall);
+      expect(snap.action?.enabled, isTrue);
       expect(deb.installState, _notInstalled);
       expect(deb.action?.kind, ActionKind.install);
-      expect(deb.action?.enabled, isTrue);
+      expect(deb.action?.disabledReason, DisabledReason.otherFormatInstalled);
+    });
+
+    test('every installed format can be uninstalled', () {
+      final state = _compose(
+        snap: _snap(_installed),
+        deb: _deb(_installed),
+      ).state;
+      for (final option in state.formats) {
+        expect(option.action?.kind, ActionKind.uninstall);
+        expect(option.action?.enabled, isTrue);
+      }
+    });
+
+    test('install is not blocked by an unknown install state', () {
+      final state = _compose(
+        snap: _snap(InstallState.unknown),
+        deb: _deb(),
+      ).state;
+      expect(format(state, PackageFormat.deb).action?.enabled, isTrue);
     });
 
     test('actions are disabled while busy', () {

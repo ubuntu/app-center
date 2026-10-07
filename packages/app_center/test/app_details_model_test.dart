@@ -176,32 +176,18 @@ void main() {
     expect(view().actions.primary?.kind, ActionKind.uninstall);
   });
 
-  test('installs deb alongside snap, then returns to snap', () async {
+  test('rejects installing deb while snap is installed', () async {
     await start(
       snap: createSourceSnapshot(testSnapKey, installState: _installed),
       deb: createSourceSnapshot(testDebKey),
     );
-    backend.afterReconcile[testDebKey] = createSourceSnapshot(
-      testDebKey,
-      installState: _installed,
-    );
 
-    await model().execute(targetAction(PackageFormat.deb, 'test-app').id);
-
-    expect(view().activePackage.format, PackageFormat.deb);
-    expect(view().activePackage.publisher.valueOrNull?.name, 'Deb Publisher');
-    expect(view().release.version.valueOrNull, '1.0-1');
-    expect(view().app.name.valueOrNull, 'Snap App');
-    expect(backend.executed.single.$2.kind, OperationKind.install);
-
-    backend.complete(testDebKey, OperationOutcome.success);
-    await settle();
-
-    expect(view().activePackage.format, PackageFormat.snap);
     expect(
-      view().targets.expand((g) => g.options).where((o) => o.isInstalled),
-      hasLength(2),
+      await model().execute(targetAction(PackageFormat.deb, 'test-app').id),
+      const CommandReceipt.rejected(CommandRejection.disabled),
     );
+    expect(backend.executed, isEmpty);
+    expect(view().activePackage.format, PackageFormat.snap);
   });
 
   test('switches channel in place and rejects the old update', () async {
@@ -260,23 +246,25 @@ void main() {
 
   test('rejects duplicate, disabled and unknown actions', () async {
     final initial = await start(
-      snap: createSourceSnapshot(testSnapKey),
-      deb: createSourceSnapshot(
-        testDebKey,
+      snap: createSourceSnapshot(
+        testSnapKey,
         installState: _installed,
+        withUpdate: true,
         removeBlocked: DisabledReason.protectedPackage,
       ),
+      deb: createSourceSnapshot(testDebKey),
     );
-    final protectedRemoval = targetAction(PackageFormat.deb, 'test-app');
+    final protectedRemoval = targetAction(PackageFormat.snap, 'latest/stable');
     expect(
       await model().execute(protectedRemoval.id),
       const CommandReceipt.rejected(CommandRejection.disabled),
     );
 
-    final install = targetAction(PackageFormat.snap, 'latest/stable');
-    expect(await model().execute(install.id), isA<AcceptedCommand>());
+    final update = initial.actions.primary!;
+    expect(update.kind, ActionKind.update);
+    expect(await model().execute(update.id), isA<AcceptedCommand>());
     expect(
-      await model().execute(install.id),
+      await model().execute(update.id),
       const CommandReceipt.rejected(CommandRejection.busy),
     );
     expect(
@@ -284,7 +272,7 @@ void main() {
       const CommandReceipt.rejected(CommandRejection.staleAction),
     );
     expect(backend.executed, hasLength(1));
-    expect(initial.activePackage.format, PackageFormat.deb);
+    expect(initial.activePackage.format, PackageFormat.snap);
   });
 
   test('reopening during a deb install shows it without re-running', () async {

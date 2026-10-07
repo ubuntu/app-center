@@ -66,6 +66,7 @@ enum DisabledReason {
   appRunning,
   targetUnavailable,
   installStateUnknown,
+  otherFormatInstalled,
 }
 
 enum OperationKind { install, update, switchChannel, remove }

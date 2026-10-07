@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:yaru/yaru.dart';
 
 import 'test_utils.dart';
 
@@ -73,11 +74,11 @@ void main() {
     expect(find.text('2.0'), findsOneWidget);
     expect(find.text('1.0-1'), findsOneWidget);
     expect(find.text(l10n.snapActionInstallLabel), findsNWidgets(2));
-    expect(find.text(l10n.appDetailsPackageFormatDataNotShared), findsNothing);
+    expect(find.byType(YaruInfoBox), findsNothing);
     expect(find.text(l10n.appDetailsPackageFormatsLearnMore), findsOneWidget);
   });
 
-  testWidgets('warns about the installed format and installs another', (
+  testWidgets('blocks installing another format while one is installed', (
     tester,
   ) async {
     await pumpDialog(
@@ -96,18 +97,23 @@ void main() {
       ),
       findsOneWidget,
     );
+    expect(
+      find.text(l10n.appDetailsUninstallToChangeFormat(1)),
+      findsOneWidget,
+    );
     expect(find.text(l10n.snapActionInstalledLabel), findsOneWidget);
     expect(find.text(l10n.snapActionRemoveLabel), findsOneWidget);
 
-    await tester.ensureVisible(find.text(l10n.snapActionInstallLabel));
-    await tester.tap(find.text(l10n.snapActionInstallLabel));
-    await tester.pump();
+    final install = find.widgetWithText(
+      OutlinedButton,
+      l10n.snapActionInstallLabel,
+    );
+    expect(tester.widget<OutlinedButton>(install).onPressed, isNull);
 
-    final (key, command) = backend.executed.single;
-    expect(key, testDebKey);
-    expect(command.kind, OperationKind.install);
-    expect(command.candidateId, testDebCandidate.candidateId);
-    expect(find.text(l10n.snapActionInstallingLabel), findsOneWidget);
+    await tester.ensureVisible(install);
+    await tester.tap(install);
+    await tester.pump();
+    expect(backend.executed, isEmpty);
   });
 
   testWidgets('warns when several formats are installed', (tester) async {
@@ -125,7 +131,16 @@ void main() {
     final l10n = tester.l10n;
 
     expect(
-      find.text(l10n.appDetailsInstalledAsMultipleFormats),
+      find.text(
+        l10n.appDetailsInstalledAsTwoFormats(
+          l10n.managePagePackageTypeSnap,
+          l10n.managePagePackageTypeDeb,
+        ),
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.text(l10n.appDetailsUninstallToChangeFormat(2)),
       findsOneWidget,
     );
     expect(find.text(l10n.snapActionRemoveLabel), findsNWidgets(2));
