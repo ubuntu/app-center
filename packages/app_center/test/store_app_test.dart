@@ -1,12 +1,15 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:app_center/error/error_l10n.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/ratings/ratings.dart';
+import 'package:app_center/search/search_field.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store_app.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gtk/gtk.dart';
@@ -19,6 +22,7 @@ import 'package:yaru/yaru.dart';
 import 'test_utils.dart';
 
 void main() {
+  final binding = TestAppBinding();
   tearDown(resetAllServices);
 
   group('font fallbacks', () {
@@ -115,7 +119,7 @@ void main() {
       );
     });
 
-    testWidgets('hidden when drivers are unavailable', (tester) async {
+    testWidgets('shown when drivers are unavailable', (tester) async {
       registerMockService<GtkApplicationNotifier>(
         createMockGtkApplicationNotifier(),
       );
@@ -131,7 +135,7 @@ void main() {
 
       expect(
         find.widgetWithText(YaruMasterTile, tester.l10n.addonsPageLabel),
-        findsNothing,
+        findsOneWidget,
       );
     });
   });
@@ -309,6 +313,86 @@ void main() {
       }
     });
   });
+
+  group('shortcuts', () {
+    testWidgets('search field requests focus when Control+F is pressed', (
+      tester,
+    ) async {
+      registerMockService<GtkApplicationNotifier>(
+        createMockGtkApplicationNotifier(),
+      );
+      registerMockService<RatingsService>(registerMockRatingsService());
+      registerMockSnapdService();
+      registerMockDriversService();
+      await tester.pumpApp(
+        (_) => const ProviderScope(
+          child: StoreApp(),
+        ),
+      );
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.controlLeft);
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.keyF);
+      await tester.sendKeyUpEvent(LogicalKeyboardKey.keyF);
+      await tester.sendKeyUpEvent(LogicalKeyboardKey.controlLeft);
+
+      await tester.pump(const Duration(milliseconds: 100));
+
+      final textFieldFinder = find.byType(SearchField);
+
+      expect(textFieldFinder, findsOneWidget);
+
+      final textField = tester.widget<SearchField>(textFieldFinder);
+      final focusNode = textField.searchFocus;
+
+      expect(focusNode.hasFocus, isTrue);
+    });
+
+    testWidgets('requests app exit when Control+Q is pressed', (tester) async {
+      registerMockService<GtkApplicationNotifier>(
+        createMockGtkApplicationNotifier(),
+      );
+      registerMockService<RatingsService>(registerMockRatingsService());
+      registerMockSnapdService();
+      registerMockDriversService();
+
+      await tester.pumpWidget(
+        const ProviderScope(
+          child: StoreApp(),
+        ),
+      );
+
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.controlLeft);
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.keyQ);
+      await tester.sendKeyUpEvent(LogicalKeyboardKey.keyQ);
+      await tester.sendKeyUpEvent(LogicalKeyboardKey.controlLeft);
+
+      await tester.pump();
+      expect(
+        binding.requestedExitType,
+        AppExitType.cancelable,
+      );
+
+      expect(
+        binding.requestedExitCode,
+        0,
+      );
+    });
+  });
+}
+
+class TestAppBinding extends AutomatedTestWidgetsFlutterBinding {
+  AppExitType? requestedExitType;
+  int? requestedExitCode;
+
+  @override
+  Future<AppExitResponse> exitApplication(
+    AppExitType exitType, [
+    int exitCode = 0,
+  ]) async {
+    requestedExitType = exitType;
+    requestedExitCode = exitCode;
+
+    return AppExitResponse.cancel;
+  }
 }
 
 Iterable<TextStyle> _textStylesOf(Object theme) => switch (theme) {

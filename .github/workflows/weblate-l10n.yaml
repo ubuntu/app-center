@@ -1,0 +1,28 @@
+name: Regenerate Weblate localizations
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '**/*.arb'
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: weblate-l10n-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  regenerate:
+    if: >-
+      github.event.sender.login == 'weblate' &&
+      github.event.pull_request.user.login == 'weblate' &&
+      github.event.pull_request.head.repo.owner.login == 'weblate'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: canonical/desktop-engineering/gh-actions/flutter/weblate-l10n@f0377b0b730d3c0e8961e929bb22d70ee20e9062
+        with:
+          github-token: ${{ secrets.DESKTOP_GH_BOT_TOKEN }}
+          ssh-signing-private-key: ${{ secrets.DESKTOP_GH_BOT_SSH_SIGNING_PRIVATE_KEY }}

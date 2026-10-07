@@ -320,7 +320,10 @@ MockPackageKitTransaction createMockPackageKitTransaction({
 
   // Add similar statements for further methods as needed.
   when(
-    transaction.installPackages(any),
+    transaction.installPackages(
+      any,
+      transactionFlags: anyNamed('transactionFlags'),
+    ),
   ).thenAnswer((_) async => unawaited(emitEvents()));
   when(
     transaction.removePackages(any),
@@ -449,6 +452,7 @@ MockPackageKitService createMockPackageKitService({
   List<PackageKitPackageEvent>? availableUpdates,
   Map<String, PackageKitDetailsEvent>? packageDetailsMany,
   List<PackageKitPackageEvent>? installedPackages,
+  List<PackageKitPackageEvent>? simulatedInstall,
   PackageKitServiceError? lastError,
 }) {
   final packageKit = MockPackageKitService();
@@ -489,6 +493,9 @@ MockPackageKitService createMockPackageKitService({
   when(packageKit.getDetailsLocal(any)).thenAnswer((_) async => packageDetails);
   when(packageKit.install(any)).thenAnswer((_) async => transactionId);
   when(packageKit.installAll(any)).thenAnswer((_) async => transactionId);
+  when(packageKit.simulateInstall(any)).thenAnswer(
+    (_) async => simulatedInstall ?? [],
+  );
   when(packageKit.installLocal(any)).thenAnswer((_) async => transactionId);
   when(
     packageKit.getUpdateDetails(any),

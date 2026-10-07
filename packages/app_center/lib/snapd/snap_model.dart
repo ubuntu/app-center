@@ -97,6 +97,7 @@ class SnapModel extends _$SnapModel {
     ref.read(currentlyInstallingModelProvider.notifier).add(snapName, model!);
     _updateChangeId(changeId);
     await _listenUntilDone(changeId, ref);
+    ref.read(currentlyInstallingModelProvider.notifier).remove(snapName);
     unawaited(
       ref.read(filteredLocalSnapsProvider.notifier).addToList(storeSnap),
     );
@@ -234,12 +235,21 @@ class SnapModel extends _$SnapModel {
         onSuccess?.call();
       }
     });
-    await completer.future.whenComplete(() {
-      subscription.cancel();
+    try {
+      await completer.future;
+    } catch (_) {
       _removeChangeId(changeId);
-    });
+      rethrow;
+    } finally {
+      // Not awaited: an extra async gap here lets the caller outlive the container.
+      unawaited(subscription.cancel());
+    }
+    /* When invalidating, keep the change active until the rebuild lands so
+       the page doesn't flash the stale pre-operation state meanwhile. */
     if (invalidate) {
       ref.invalidateSelf();
+    } else {
+      _removeChangeId(changeId);
     }
     return completedSuccessfully;
   }

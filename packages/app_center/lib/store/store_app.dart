@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:app_center/addons/addons.dart';
@@ -8,6 +9,7 @@ import 'package:app_center/gstreamer/gstreamer.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/manage_page.dart';
+import 'package:app_center/media_support/media_support.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/search/search.dart';
@@ -80,9 +82,14 @@ class _StoreAppState extends ConsumerState<StoreApp>
 
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
-        LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyF): () {
+        const SingleActivator(LogicalKeyboardKey.keyF, control: true): () {
           searchFocus.requestFocus();
           searchFocus.nextFocus();
+        },
+        const SingleActivator(LogicalKeyboardKey.keyQ, control: true): () {
+          unawaited(
+            ServicesBinding.instance.exitApplication(AppExitType.cancelable),
+          );
         },
       },
       child: YaruTheme(
@@ -277,6 +284,17 @@ class _StoreAppHome extends ConsumerWidget {
                 title: Text(AdditionalDriversPage.label(context)),
               ),
               body: const AdditionalDriversPage(),
+            ),
+          ),
+          StoreRoutes.mediaSupport => MaterialPageRoute(
+            settings: settings,
+            builder: (_) => YaruDetailPage(
+              appBar: YaruWindowTitleBar(
+                border: BorderSide.none,
+                leading: _MaybeBackButton(navigatorKey),
+                title: Text(MediaSupportPage.label(context)),
+              ),
+              body: const MediaSupportPage(),
             ),
           ),
           _ => null,
