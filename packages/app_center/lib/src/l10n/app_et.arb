@@ -472,5 +472,11 @@
     "addonsPageMediaSupportDescription": "Täiendavate meediumivormingute kasutamiseks paigalda täiendavat tarkvara",
     "mediaSupportPageDescription": "Ubuntus on vaikimisi kaasas paljude avatud lähtekoodiga koodekite tugi. Mõnede muude heli- ja videovormingute esitamiseks ja muutmiseks pead ilmselt paigaldama täiendavat tarkvara.",
     "mediaSupportPageAdditionalMediaTitle": "Täiendava multimeediumi tugi",
-    "mediaSupportPageInstallButton": "Paigalda"
+    "mediaSupportPageInstallButton": "Paigalda",
+    "appDetailsAdditionalInfoLabel": "Täiendav teave",
+    "appDetailsPackageFormatLabel": "Paketi vorming",
+    "appDetailsCategoryLabel": "Kategooria",
+    "appDetailsInstallDateLabel": "Paigalduse kuupäev",
+    "appDetailsNotInstalled": "Pole paigaldatud",
+    "appDetailsNotAvailable": "Pole saadaval"
 }
