@@ -165,16 +165,22 @@ class _StoreAppHome extends ConsumerWidget {
   ///
   /// Extracts the snap name and optional channel from [settings] via
   /// [StoreRoutes], and persists the channel into provider state so the
-  /// snap page's channel selector is pre-populated before the page builds.
+  /// snap page's channel selector is pre-populated with it.
+  ///
+  /// The write is deferred with [Future] because route generation runs while
+  /// the [Navigator] is building, and modifying a provider during the widget
+  /// build phase is not allowed.
   Route<void> _createSnapRoute({
     required RouteSettings settings,
-    required Widget searchField,
+    required PreferredSizeWidget searchField,
     required WidgetRef ref,
   }) {
     final snapName = StoreRoutes.snapOf(settings)!;
     final channel = StoreRoutes.channelOf(settings);
     if (channel != null) {
-      ref.read(snapInitialChannelProvider(snapName).notifier).state = channel;
+      Future(() {
+        ref.read(snapInitialChannelProvider(snapName).notifier).state = channel;
+      });
     }
     return MaterialPageRoute(
       settings: settings,

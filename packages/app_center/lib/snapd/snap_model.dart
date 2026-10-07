@@ -13,8 +13,9 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 part 'snap_model.g.dart';
 
-final snapInitialChannelProvider =
-    StateProvider.family<String?, String>((ref, snapName) => null);
+final snapInitialChannelProvider = StateProvider.family<String?, String>(
+  (ref, snapName) => null,
+);
 
 @Riverpod(keepAlive: true)
 class SnapModel extends _$SnapModel {
