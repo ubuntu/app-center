@@ -291,6 +291,20 @@ void main() {
     expect(refreshed.activeChangeId, isNull);
   });
 
+  test('remove with purge', () async {
+    final container = createContainer();
+    final service = registerMockSnapdService(
+      localSnap: localSnap,
+      storeSnap: storeSnap,
+    );
+    await container.read(snapModelProvider('testsnap').future);
+    await container
+        .read(snapModelProvider('testsnap').notifier)
+        .remove(purge: true);
+
+    verify(service.remove('testsnap', purge: true)).called(1);
+  });
+
   test('cancel active change', () async {
     final container = createContainer();
     final service = registerMockSnapdService(
