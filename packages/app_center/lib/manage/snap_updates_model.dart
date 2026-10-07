@@ -104,11 +104,9 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
 
   Future<SnapListState> fetchRefreshableSnaps() {
     return connectionCheck(
-      () => _snapd.find(filter: SnapFindFilter.refresh).then(
-            (snaps) => snaps.where(
-              (s) => s.name != kSnapName && (s.hold == null || s.hold!.isBefore(DateTime.now())),
-            ),
-          ),
+      () => _snapd
+          .find(filter: SnapFindFilter.refresh)
+          .then((snaps) => snaps.where((s) => s.name != kSnapName)),
       ref,
     );
   }
@@ -144,9 +142,11 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
     final errors = <String, Exception>{};
     try {
       // TODO: Should we call each and rely on the error messages from snapd?
+      // Held snaps stay visible in the updates list (with an "on hold"
+      // badge) but are skipped here: snapd refuses to refresh a held snap.
       final refreshableSnapNames =
           state.value?.snaps
-              .where((s) => s.refreshInhibit == null)
+              .where((s) => s.refreshInhibit == null && !s.isHeld)
               .map((s) => s.name)
               .toList() ??
           [];
@@ -220,6 +220,12 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
 
 extension IterableSnapExtensions on Iterable<Snap> {
   List<String> get snapNames => map((snap) => snap.name).toList();
+}
+
+/// Whether a snap's updates are currently on hold via `snap refresh --hold`.
+/// A null or already-expired hold timestamp counts as not held.
+extension SnapHoldExtension on Snap {
+  bool get isHeld => hold != null && hold!.isAfter(DateTime.now());
 }
 
 /// This runs the [function] and if it throws an exception that indicates that

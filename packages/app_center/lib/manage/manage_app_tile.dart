@@ -53,9 +53,13 @@ class ManageAppTile extends ConsumerWidget {
     final sizeText = shouldShowSize
         ? context.formatByteSize(app.installedSize!, precision: 0)
         : null;
+    // Held snaps are shown in the updates section with an "on hold" badge
+    // instead of being filtered out.
+    final isHeld = showOnlyUpdate && app.isHeld;
     final tileSemanticLabel = [
       app.name,
       sourceSemanticLabel(l10n, app),
+      if (isHeld) l10n.snapOnHoldLabel,
       if (dateTimeSinceUpdate != null)
         dateTimeSinceUpdate.managePageUpdateSinceDateTimeAgo(l10n),
       if (sizeText != null) l10n.managePageInstalledSizeSemanticLabel(sizeText),
@@ -181,7 +185,7 @@ class ManageAppTile extends ConsumerWidget {
           children: [
             Row(
               children: [
-                _SourceDisplay(app: app),
+                _SourceDisplay(app: app, isHeld: isHeld),
               ],
             ),
             if (ResponsiveLayout.of(context).type == ResponsiveLayoutType.small)
@@ -258,28 +262,35 @@ ManageTilePosition determineTilePosition({
 }
 
 /// Displays the package source info: channel + version for snaps, or just
-/// version for debs. Shows "current → update" when an update is available.
+/// version for debs. Shows "current → update" when an update is available, plus
+/// an "on hold" badge when the snap's updates are on hold.
 ///
 /// This info is purely decorative; its accessible description is already
 /// carried by the tile's composite label (see [sourceSemanticLabel]), so its
 /// own semantics are excluded to avoid duplicate announcements.
 class _SourceDisplay extends StatelessWidget {
-  const _SourceDisplay({required this.app});
+  const _SourceDisplay({required this.app, required this.isHeld});
 
   final ManageAppData app;
+  final bool isHeld;
 
   @override
   Widget build(BuildContext context) {
     return ExcludeSemantics(
       child: app.map(
         snap: (snapData) =>
-            _buildSnapSource(snapData.snap, snapData.updateVersion),
+            _buildSnapSource(context, snapData.snap, snapData.updateVersion),
         localDeb: (debData) => _buildDebSource(debData.debInfo),
       ),
     );
   }
 
-  Widget _buildSnapSource(Snap snap, String? updateVersion) {
+  Widget _buildSnapSource(
+    BuildContext context,
+    Snap snap,
+    String? updateVersion,
+  ) {
+    final l10n = AppLocalizations.of(context);
     final version = snap.version;
     final versionText = updateVersion != null
         ? '$version → $updateVersion'
@@ -291,6 +302,13 @@ class _SourceDisplay extends StatelessWidget {
         Text(snap.channel),
         const SizedBox(width: 4),
         Text(versionText),
+        if (isHeld) ...[
+          const SizedBox(width: 8),
+          Chip(
+            label: Text(l10n.snapOnHoldLabel),
+            visualDensity: VisualDensity.compact,
+          ),
+        ],
       ],
     );
   }
