@@ -460,5 +460,13 @@
     "driversPageUnsupportedMessage": "Lo servici de gestion dels pilòts es pas disponible. Asseguratz-vos que snapd es a jorn e que ubuntu-drivers-common es installat.",
     "driversPageSwitchBranchLessStableWarningMessage": "Demoratz sus la branca actuala per evitar de problèmas amb aqueste aparelh.",
     "driversPageUninstallWarningTitle": "Desinstallar los pilòts pòt provocar de problèmas",
-    "driversPageUninstallWarningMessage": "Benlèu vos serà pas aisit de tornar installar los pilòts, sustot se concernisson la carta grafica o la ret."
+    "driversPageUninstallWarningMessage": "Benlèu vos serà pas aisit de tornar installar los pilòts, sustot se concernisson la carta grafica o la ret.",
+    "appDetailsAdditionalInfoLabel": "Complement d'informacion",
+    "appDetailsPackageFormatLabel": "Format de paquet",
+    "appDetailsCategoryLabel": "Categoria",
+    "appDetailsInstallDateLabel": "Data d’installacion",
+    "appDetailsNotInstalled": "Non installada",
+    "appDetailsNotAvailable": "Non disponibla",
+    "mediaSupportPageDescription": "Ubuntu inclutz per defaut qualques còdecs de logicial liure. Benlèu vos caldrà installar de logicials suplementaris per legir e modificar certans formats de musica e de vidèo.",
+    "mediaSupportPageInstallButton": "Installar"
 }
