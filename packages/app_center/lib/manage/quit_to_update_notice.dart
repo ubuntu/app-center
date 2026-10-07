@@ -23,11 +23,15 @@ class QuitToUpdateNotice extends StatelessWidget {
               : colorScheme.warning,
         ),
         const SizedBox(width: kSpacingSmall),
-        Text(
-          l10n.managePageQuitToUpdate,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: theme.textTheme.bodyMedium,
+        // Expanded so the text ellipsizes instead of overflowing when the
+        // notice is given a tight width (e.g. fixed-size tile trailing).
+        Expanded(
+          child: Text(
+            l10n.managePageQuitToUpdate,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: theme.textTheme.bodyMedium,
+          ),
         ),
       ],
     );

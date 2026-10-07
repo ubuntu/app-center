@@ -263,6 +263,8 @@ void main() {
     );
 
     await tester.tap(find.text(tester.l10n.managePageUpdateAllLabel));
+    // The snap models are built lazily, so settle before verifying.
+    await tester.pumpAndSettle();
     verify(
       snapd.refresh(
         refreshableSnaps.first.name,

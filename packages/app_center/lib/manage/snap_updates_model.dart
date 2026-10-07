@@ -155,6 +155,14 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
           refreshableSnapNames.toList();
 
       Future<void> refreshSnap(String snapName) async {
+        // The model is built lazily; await it before invoking the action, as
+        // refresh() asserts on loaded state.
+        try {
+          await ref.read(SnapModelProvider(snapName).future);
+        } on Exception catch (e) {
+          errors[snapName] = e;
+          return;
+        }
         final refreshFuture = ref
             .read(SnapModelProvider(snapName).notifier)
             .refresh();
