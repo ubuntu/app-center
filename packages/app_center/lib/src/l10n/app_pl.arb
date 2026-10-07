@@ -465,5 +465,11 @@
     "addonsPageMediaSupportDescription": "Zainstaluj dodatkowe oprogramowanie, aby obsługiwać więcej formatów multimedialnych",
     "mediaSupportPageDescription": "System Ubuntu jest domyślnie dostarczany z pewnymi kodekami otwartoźródłowymi. Do odtwarzania i edycji niektórych formatów audio oraz wideo może być konieczne zainstalowanie dodatkowego oprogramowania.",
     "mediaSupportPageInstallButton": "Zainstaluj",
-    "mediaSupportPageAdditionalMediaTitle": "Dodatkowa obsługa multimediów"
+    "mediaSupportPageAdditionalMediaTitle": "Dodatkowa obsługa multimediów",
+    "appDetailsAdditionalInfoLabel": "Dodatkowe informacje",
+    "appDetailsPackageFormatLabel": "Format pakietu",
+    "appDetailsCategoryLabel": "Kategoria",
+    "appDetailsInstallDateLabel": "Data instalacji",
+    "appDetailsNotInstalled": "Nie zainstalowano",
+    "appDetailsNotAvailable": "Niedostępne"
 }
