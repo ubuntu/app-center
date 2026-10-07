@@ -465,5 +465,11 @@
     "addonsPageMediaSupportDescription": "Встановіть додаткове програмне забезпечення для підтримки більшої кількості форматів мультимедіа",
     "mediaSupportPageDescription": "Ubuntu за замовчуванням постачається з деякими кодеками з відкритим кодом. Для відтворення та редагування певних музичних і відеоформатів може знадобитися встановити додаткове програмне забезпечення.",
     "mediaSupportPageAdditionalMediaTitle": "Додаткова медійна підтримка",
-    "mediaSupportPageInstallButton": "Встановити"
+    "mediaSupportPageInstallButton": "Встановити",
+    "appDetailsAdditionalInfoLabel": "Додаткова інформація",
+    "appDetailsPackageFormatLabel": "Формат пакунка",
+    "appDetailsCategoryLabel": "Категорія",
+    "appDetailsInstallDateLabel": "Дата встановлення",
+    "appDetailsNotInstalled": "Не встановлено",
+    "appDetailsNotAvailable": "Не доступно"
 }
