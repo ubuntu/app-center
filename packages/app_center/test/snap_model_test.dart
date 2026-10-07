@@ -160,6 +160,23 @@ void main() {
         ),
       ).called(1);
     });
+
+    test('explicit channel ignores the selected channel', () async {
+      final container = createContainer();
+      final service = registerMockSnapdService(storeSnap: storeSnap);
+      await container.read(snapModelProvider('testsnap').future);
+      await container
+          .read(snapModelProvider('testsnap').notifier)
+          .install(channel: 'latest/edge');
+
+      verify(
+        service.install(
+          'testsnap',
+          channel: 'latest/edge',
+          classic: true,
+        ),
+      ).called(1);
+    });
   });
 
   group('refresh', () {
@@ -203,6 +220,29 @@ void main() {
         service.refresh(
           'testsnap',
           channel: 'latest/stable',
+        ),
+      ).called(1);
+    });
+
+    test('explicit channel ignores the selected channel', () async {
+      final container = createContainer();
+      final service = registerMockSnapdService(
+        localSnap: localSnap,
+        storeSnap: storeSnap,
+      );
+      await container.read(snapModelProvider('testsnap').future);
+      await container
+          .read(snapModelProvider('testsnap').notifier)
+          .selectChannel('latest/stable');
+      await container
+          .read(snapModelProvider('testsnap').notifier)
+          .refresh(channel: 'latest/edge');
+
+      verify(
+        service.refresh(
+          'testsnap',
+          channel: 'latest/edge',
+          classic: true,
         ),
       ).called(1);
     });

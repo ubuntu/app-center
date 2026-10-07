@@ -982,6 +982,117 @@ void main() {
     expect(updates, isNot(contains(blockedUpdate)));
     expect(updates.length, equals(1));
   });
+
+  group('mutation events', () {
+    const foo = PackageKitPackageId(name: 'foo', version: '1.0');
+    const bar = PackageKitPackageId(name: 'bar', version: '2.0');
+
+    PackageKitService createService(PackageKitTransaction transaction) =>
+        PackageKitService(
+          dbus: createMockDbusClient(),
+          client: createMockPackageKitClient(transaction: transaction),
+          fs: MemoryFileSystem.test(),
+        );
+
+    test('reports progress and success', () async {
+      final packageKit = createService(
+        createMockPackageKitTransaction(percentages: const [30, 101]),
+      );
+      final events = <PackageKitMutation>[];
+      packageKit.mutationEvents.listen(events.add);
+
+      final id = await packageKit.install(foo);
+      expect(packageKit.activeMutations.single.transactionId, id);
+      await packageKit.waitTransaction(id);
+      await pumpEventQueue();
+
+      expect(events.map((e) => e.percentage), [null, 30, 30]);
+      expect(events.last.outcome, PackageKitMutationOutcome.success);
+      expect(events.first.kind, PackageKitMutationKind.install);
+      expect(events.first.affects('foo'), isTrue);
+      expect(packageKit.activeMutations, isEmpty);
+      expect(packageKit.mutation(id)?.isTerminal, isTrue);
+    });
+
+    test('attributes batch updates to every package', () async {
+      final packageKit = createService(createMockPackageKitTransaction());
+      final events = <PackageKitMutation>[];
+      packageKit.mutationEvents.listen(events.add);
+
+      await packageKit.updateAll([foo, bar]);
+      await pumpEventQueue();
+
+      expect(events.first.kind, PackageKitMutationKind.update);
+      expect(events.first.affects('bar'), isTrue);
+      expect(events.last.outcome, PackageKitMutationOutcome.success);
+    });
+
+    test('declined authorization is a cancellation', () async {
+      final packageKit = createService(
+        createMockPackageKitTransaction(
+          events: const [
+            PackageKitErrorCodeEvent(
+              code: PackageKitError.notAuthorized,
+              details: 'declined',
+            ),
+          ],
+          exit: PackageKitExit.failed,
+        ),
+      );
+
+      final id = await packageKit.remove(foo);
+      await expectLater(
+        packageKit.waitTransaction(id),
+        throwsA(isA<PackageKitTransactionError>()),
+      );
+      expect(
+        packageKit.mutation(id)?.outcome,
+        PackageKitMutationOutcome.cancelled,
+      );
+    });
+
+    test('failure is scoped to its transaction', () async {
+      final packageKit = createService(
+        createMockPackageKitTransaction(exit: PackageKitExit.failed),
+      );
+
+      final id = await packageKit.update(foo);
+      await expectLater(
+        packageKit.waitTransaction(id),
+        throwsA(isA<PackageKitTransactionError>()),
+      );
+      expect(
+        packageKit.mutation(id)?.outcome,
+        PackageKitMutationOutcome.failed,
+      );
+      expect(packageKit.mutation(id)?.packageIds, [foo]);
+    });
+
+    test('queries are not mutations', () async {
+      final packageKit = createService(createMockPackageKitTransaction());
+      final events = <PackageKitMutation>[];
+      packageKit.mutationEvents.listen(events.add);
+
+      await packageKit.getUpdates();
+      await pumpEventQueue();
+
+      expect(events, isEmpty);
+    });
+
+    test('start failure is terminal', () async {
+      final transaction = createMockPackageKitTransaction();
+      when(transaction.installPackages(any)).thenThrow(Exception('denied'));
+      final packageKit = createService(transaction);
+      final events = <PackageKitMutation>[];
+      packageKit.mutationEvents.listen(events.add);
+
+      await expectLater(packageKit.install(foo), throwsException);
+      await pumpEventQueue();
+
+      expect(events.last.outcome, PackageKitMutationOutcome.failed);
+      expect(packageKit.activeMutations, isEmpty);
+    });
+  });
 }
 
 @GenerateMocks([DBusClient, XdgDocumentsPortal])

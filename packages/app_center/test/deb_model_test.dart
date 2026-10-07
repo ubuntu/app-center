@@ -99,7 +99,7 @@ void main() {
 
   test('hasUpdate when an installable update exists', () async {
     const updateId = PackageKitPackageId(name: 'testdeb', version: '2.0');
-    createMockPackageKitService(
+    final packageKit = createMockPackageKitService(
       packageInfo: packageInfo,
       packageUpdates: PackageKitUpdateDetailEvent(
         packageId: packageInfo.packageId,
@@ -134,6 +134,16 @@ void main() {
       container.read(debModelProvider('testdeb')).value!.hasUpdate,
       isTrue,
     );
+    expect(
+      container.read(debModelProvider('testdeb')).value!.updatePackageId,
+      updateId,
+    );
+
+    final outcome = await container
+        .read(debModelProvider('testdeb').notifier)
+        .updateDeb(updateId: updateId);
+    expect(outcome, PackageKitMutationOutcome.success);
+    verify(packageKit.update(updateId)).called(1);
   });
 
   test('no hasUpdate when the update is blocked (phased)', () async {

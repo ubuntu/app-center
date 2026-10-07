@@ -73,15 +73,15 @@ class SnapModel extends _$SnapModel {
     );
   }
 
-  /// Installs the selected snap from the selected channel.
-  Future<void> install() async {
+  /// Installs the snap from [channel], or from the selected channel.
+  Future<void> install({String? channel}) async {
     assert(
       state.hasStoreSnap,
       'The snap must be loaded from the store before installing it',
     );
     final model = state.value;
     final storeSnap = model?.storeSnap;
-    final selectedChannel = model?.selectedChannel;
+    final selectedChannel = channel ?? model?.selectedChannel;
 
     assert(
       storeSnap?.channels[selectedChannel] != null,
@@ -119,17 +119,17 @@ class SnapModel extends _$SnapModel {
     await _listenUntilDone(changeId, ref, invalidate: false);
   }
 
-  /// Updates the version of the snap.
+  /// Updates the snap from [channel], or from the selected channel.
   ///
   /// Returns `true` if the snap was updated, `false` otherwise.
-  Future<bool> refresh({bool removeFromList = false}) async {
+  Future<bool> refresh({bool removeFromList = false, String? channel}) async {
     assert(
       state.hasStoreSnap,
       'The snap must be loaded from the store before updating it',
     );
     final snapData = state.value!;
     final storeSnap = snapData.storeSnap;
-    final selectedChannel = snapData.selectedChannel;
+    final selectedChannel = channel ?? snapData.selectedChannel;
 
     final changeId = await _snapd.refresh(
       snapData.name,
