@@ -1,15 +1,16 @@
-import 'package:app_center/about/about_providers.dart';
 import 'package:app_center/about/about_page.dart';
-import 'package:flutter/material.dart';
+import 'package:app_center/about/about_providers.dart';
+import 'package:app_center/constants.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:github/github.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:yaru/yaru.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'test_utils.dart';
 
 void main() {
+  tearDown(resetAllServices);
+
   testWidgets('about page shows contributors when loaded', (tester) async {
     final contributors = [
       Contributor(login: 'user1', htmlUrl: 'https://github.com/user1'),
@@ -19,9 +20,9 @@ void main() {
     await tester.pumpApp(
       (context) => ProviderScope(
         overrides: [
-          contributorsProvider('ubuntu/app-center')
-              .overrideWith((_) async => contributors),
-          versionProvider.overrideWith((_) async => '1.0.0'),
+          contributorsProvider(
+            kGitHubRepo,
+          ).overrideWith((_) async => contributors),
         ],
         child: const AboutPage(),
       ),
@@ -30,16 +31,19 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('App Center'), findsOneWidget);
-    expect(find.text('Version 1.0.0'), findsOneWidget);
+    expect(find.byTooltip('user1'), findsOneWidget);
+    expect(find.byTooltip('user2'), findsOneWidget);
   });
 
-  testWidgets('about page gracefully handles contributor error', (tester) async {
+  testWidgets('about page gracefully handles contributor error', (
+    tester,
+  ) async {
     await tester.pumpApp(
       (context) => ProviderScope(
         overrides: [
-          contributorsProvider('ubuntu/app-center')
-              .overrideWith((_) => throw Exception('Network error')),
-          versionProvider.overrideWith((_) async => '1.0.0'),
+          contributorsProvider(
+            kGitHubRepo,
+          ).overrideWith((_) => throw Exception('Network error')),
         ],
         child: const AboutPage(),
       ),
@@ -48,7 +52,6 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('App Center'), findsOneWidget);
-    expect(find.text('Version 1.0.0'), findsOneWidget);
     expect(find.textContaining('Exception'), findsNothing);
     expect(find.textContaining('Network error'), findsNothing);
   });
