@@ -18,7 +18,9 @@ void main() {
   tearDown(resetAllServices);
 
   group('SnapInfoBar', () {
-    testWidgets('renders SelectionArea allowing keyboard focus', (tester) async {
+    testWidgets('renders SelectionArea allowing keyboard focus', (
+      tester,
+    ) async {
       final snap = createSnap(
         name: 'testsnap',
         version: '1.0.0',
@@ -47,7 +49,9 @@ void main() {
   });
 
   group('DebInfoBar', () {
-    testWidgets('renders SelectionArea allowing keyboard focus', (tester) async {
+    testWidgets('renders SelectionArea allowing keyboard focus', (
+      tester,
+    ) async {
       final debData = DebData(
         component: AppstreamComponent(
           id: 'test.deb',
