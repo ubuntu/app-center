@@ -1,6 +1,5 @@
 import 'package:app_center/about/about.dart';
 import 'package:app_center/addons/addons.dart';
-import 'package:app_center/drivers/drivers.dart';
 import 'package:app_center/explore/explore.dart';
 import 'package:app_center/games/games.dart';
 import 'package:app_center/l10n.dart';
@@ -73,7 +72,7 @@ typedef StorePage = ({
 });
 
 /// Builds the list of top-level navigation tabs.
-List<StorePage> buildStorePages({required bool showAddons}) => [
+List<StorePage> buildStorePages() => [
   (
     tileBuilder: (context, selected) => _NavigationTile(
       leading: Icon(ExplorePage.icon(selected)),
@@ -133,20 +132,19 @@ List<StorePage> buildStorePages({required bool showAddons}) => [
       body: const ManagePage(),
     ),
   ),
-  if (showAddons)
-    (
-      tileBuilder: (context, selected) => _NavigationTile(
-        leading: Icon(AddonsPage.icon(selected)),
-        title: Text(AddonsPage.label(context)),
-      ),
-      pageBuilder: (context, _) => YaruDetailPage(
-        appBar: YaruWindowTitleBar(
-          title: Text(AddonsPage.label(context)),
-          border: BorderSide.none,
-        ),
-        body: const AddonsPage(),
-      ),
+  (
+    tileBuilder: (context, selected) => _NavigationTile(
+      leading: Icon(AddonsPage.icon(selected)),
+      title: Text(AddonsPage.label(context)),
     ),
+    pageBuilder: (context, _) => YaruDetailPage(
+      appBar: YaruWindowTitleBar(
+        title: Text(AddonsPage.label(context)),
+        border: BorderSide.none,
+      ),
+      body: const AddonsPage(),
+    ),
+  ),
   (
     tileBuilder: (context, selected) => _NavigationTile(
       leading: Icon(AboutPage.icon(selected)),
@@ -160,6 +158,4 @@ List<StorePage> buildStorePages({required bool showAddons}) => [
 ];
 
 @riverpod
-List<StorePage> storePages(Ref ref) => buildStorePages(
-  showAddons: ref.watch(driversAvailableProvider).valueOrNull ?? false,
-);
+List<StorePage> storePages(Ref ref) => buildStorePages();
