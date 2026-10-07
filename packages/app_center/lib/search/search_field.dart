@@ -60,7 +60,15 @@ class _SearchFieldState extends ConsumerState<SearchField> {
     return RawAutocomplete<AutoCompleteOption>(
       optionsBuilder: (query) async {
         ref.read(queryProvider.notifier).state = query.text;
-        final options = await ref.watch(autoCompleteProvider.future);
+        // A rebuild closes subscriptions made outside of build, which would
+        // pause the search while it is still running.
+        final subscription = ref.listenManual(autoCompleteProvider, (_, _) {});
+        final AutoCompleteOptions options;
+        try {
+          options = await ref.read(autoCompleteProvider.future);
+        } finally {
+          subscription.close();
+        }
         if (options.snaps.isEmpty && options.debs.isEmpty) return [];
         _optionsAvailable = true;
         final snapOptions = options.snaps
