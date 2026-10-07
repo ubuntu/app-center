@@ -152,6 +152,8 @@ List<String> _categoryLabels(
 
 String _formatDate(DateTime date) => DateFormat.yMMMd().format(date);
 
+const _missing = '—';
+
 class _Description extends StatelessWidget {
   const _Description({required this.description});
 
@@ -317,12 +319,10 @@ class _InfoBar extends StatelessWidget {
           ),
         ),
         _InfoItem(
-          label: Text(
-            size?.kind == SizeKind.installed
-                ? l10n.snapPageSizeLabel
-                : l10n.snapPageDownloadSizeLabel,
+          label: Text(l10n.snapPageDownloadSizeLabel),
+          value: Text(
+            size == null ? _missing : context.formatByteSize(size.bytes),
           ),
-          value: Text(size == null ? '' : context.formatByteSize(size.bytes)),
         ),
         _InfoItem(
           label: Text(l10n.appDetailsPackageFormatLabel),
@@ -553,8 +553,7 @@ class PackageFormatDialog extends ConsumerWidget {
             ),
             const SizedBox(height: kSpacing),
           ],
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
+          _HorizontalScrollView(
             child: _FormatTable(entry: entry, state: state),
           ),
           const SizedBox(height: kPagePadding),
@@ -571,13 +570,43 @@ class PackageFormatDialog extends ConsumerWidget {
   }
 }
 
+class _HorizontalScrollView extends StatefulWidget {
+  const _HorizontalScrollView({required this.child});
+
+  final Widget child;
+
+  @override
+  State<_HorizontalScrollView> createState() => _HorizontalScrollViewState();
+}
+
+class _HorizontalScrollViewState extends State<_HorizontalScrollView> {
+  final _controller = ScrollController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  // Material only adds automatic scrollbars to vertical scroll views.
+  @override
+  Widget build(BuildContext context) => Scrollbar(
+    controller: _controller,
+    thumbVisibility: true,
+    child: SingleChildScrollView(
+      controller: _controller,
+      scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.only(bottom: kSpacing),
+      child: widget.child,
+    ),
+  );
+}
+
 class _FormatTable extends ConsumerWidget {
   const _FormatTable({required this.entry, required this.state});
 
   final AppDetailsEntry entry;
   final AppDetailsViewState state;
-
-  static const _missing = '—';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -629,7 +658,7 @@ class _FormatTable extends ConsumerWidget {
             header(l10n.snapPageVersionLabel),
             header(l10n.snapPageConfinementLabel),
             header(l10n.snapPagePublishedLabel),
-            header(l10n.snapPageSizeLabel),
+            header(l10n.snapPageDownloadSizeLabel),
             const SizedBox.shrink(),
           ],
         ),
