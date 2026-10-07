@@ -95,7 +95,7 @@
     "managePageDescription": "Skontrolujte dostupné aktualizácie, aktualizujte svoje aplikácie a spravujte stav všetkých svojich aplikácií.",
     "snapActionRemovingLabel": "Odinštaluje sa",
     "snapSortOrderInstalledSizeDesc": "Najväčšie",
-    "snapPageDeveloperWebsiteLabel": "Webová stránka vývojára",
+    "snapPageDeveloperWebsiteLabel": "Webstránka vývojára",
     "snapConfinementClassic": "Klasická",
     "snapRatingsBandPoor": "Slabé",
     "snapCategoryDevelopmentSlogan": "Užitočné nástroje pre vývojárov",
@@ -381,7 +381,7 @@
             }
         }
     },
-    "appUrlTypeHomepage": "Webová stránka vývojára",
+    "appUrlTypeHomepage": "Webstránka vývojára",
     "appUrlTypeUnknown": "Odkaz",
     "appConfinementUnknown": "Neznáme",
     "appConfinementStrict": "Izolované",
@@ -465,5 +465,11 @@
     "addonsPageMediaSupportDescription": "Nainštalovať ďalší softvér na podporu viacerých formátov médií",
     "mediaSupportPageDescription": "Ubuntu sa v predvolenom nastavení dodáva s niektorými open source kodekmi. Možno budete musieť nainštalovať ďalší softvér na prehrávanie a úpravu určitých hudobných a video formátov.",
     "mediaSupportPageAdditionalMediaTitle": "Ďalšia podpora médií",
-    "mediaSupportPageInstallButton": "Inštalovať"
+    "mediaSupportPageInstallButton": "Inštalovať",
+    "appDetailsAdditionalInfoLabel": "Ďalšie informácie",
+    "appDetailsPackageFormatLabel": "Formát balíka",
+    "appDetailsCategoryLabel": "Kategória",
+    "appDetailsInstallDateLabel": "Dátum inštalácie",
+    "appDetailsNotInstalled": "Nenainštalované",
+    "appDetailsNotAvailable": "Nedostupný"
 }
