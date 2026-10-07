@@ -3,6 +3,7 @@ import 'package:app_center/snapd/snap_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 
@@ -14,12 +15,14 @@ void main() {
   Future<void> pumpAddonsPage(
     WidgetTester tester, {
     SnapLauncher? firmwareLauncher,
+    Object? firmwareError,
   }) async {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
           firmwareUpdaterLauncherProvider.overrideWith(
-            (_) async => firmwareLauncher,
+            (_) async =>
+                firmwareError != null ? throw firmwareError : firmwareLauncher,
           ),
         ],
         child: const AddonsPage(),
@@ -70,6 +73,20 @@ void main() {
       findsOneWidget,
     );
     expect(find.byIcon(YaruIcons.external_link), findsNothing);
+  });
+
+  testWidgets('links to the firmware updater snap when snapd fails', (
+    tester,
+  ) async {
+    registerMockDriversService(available: false);
+    await pumpAddonsPage(
+      tester,
+      firmwareError: SnapdException(message: 'offline'),
+    );
+
+    expect(find.text(tester.l10n.addonsPageFirmwareTitle), findsOneWidget);
+    expect(find.byIcon(YaruIcons.external_link), findsNothing);
+    expect(find.byIcon(YaruIcons.go_next), findsNWidgets(2));
   });
 
   testWidgets('launches the firmware updater when installed', (tester) async {
