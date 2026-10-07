@@ -50,6 +50,9 @@ class ManageAppTile extends ConsumerWidget {
     // Hide size for debs in the updates section
     final shouldShowSize =
         app.installedSize != null && !(showOnlyUpdate && app is ManageDebData);
+    // Held snaps are shown in the updates section with an "on hold" badge
+    // instead of being filtered out.
+    final isHeld = showOnlyUpdate && app.isHeld;
     final actionButtons = Align(
       alignment: Alignment.centerRight,
       child: IntrinsicWidth(
@@ -159,7 +162,7 @@ class ManageAppTile extends ConsumerWidget {
           children: [
             Row(
               children: [
-                _SourceDisplay(app: app),
+                _SourceDisplay(app: app, isHeld: isHeld),
               ],
             ),
             if (ResponsiveLayout.of(context).type == ResponsiveLayoutType.small)
@@ -235,22 +238,29 @@ ManageTilePosition determineTilePosition({
 }
 
 /// Displays the package source info: channel + version for snaps, or just
-/// version for debs. Shows "current → update" when an update is available.
+/// version for debs. Shows "current → update" when an update is available, plus
+/// an "on hold" badge when the snap's updates are on hold.
 class _SourceDisplay extends StatelessWidget {
-  const _SourceDisplay({required this.app});
+  const _SourceDisplay({required this.app, required this.isHeld});
 
   final ManageAppData app;
+  final bool isHeld;
 
   @override
   Widget build(BuildContext context) {
     return app.map(
       snap: (snapData) =>
-          _buildSnapSource(snapData.snap, snapData.updateVersion),
+          _buildSnapSource(context, snapData.snap, snapData.updateVersion),
       localDeb: (debData) => _buildDebSource(debData.debInfo),
     );
   }
 
-  Widget _buildSnapSource(Snap snap, String? updateVersion) {
+  Widget _buildSnapSource(
+    BuildContext context,
+    Snap snap,
+    String? updateVersion,
+  ) {
+    final l10n = AppLocalizations.of(context);
     final version = snap.version;
     final versionText = updateVersion != null
         ? '$version → $updateVersion'
@@ -262,6 +272,13 @@ class _SourceDisplay extends StatelessWidget {
         Text(snap.channel),
         const SizedBox(width: 4),
         Text(versionText),
+        if (isHeld) ...[
+          const SizedBox(width: 8),
+          Chip(
+            label: Text(l10n.snapOnHoldLabel),
+            visualDensity: VisualDensity.compact,
+          ),
+        ],
       ],
     );
   }

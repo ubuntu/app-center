@@ -13,9 +13,12 @@ part 'manage_app_data.freezed.dart';
 @freezed
 class ManageAppData with _$ManageAppData {
   /// A snap package, with an optional [updateVersion] when an update is available.
+  /// [hold] carries the hold timestamp from the refresh candidate when the
+  /// snap's updates are on hold via `snap refresh --hold`; null otherwise.
   const factory ManageAppData.snap({
     required Snap snap,
     String? updateVersion,
+    DateTime? hold,
   }) = ManageSnapData;
 
   /// A deb package, backed by [LocalDebInfo] which aggregates PackageKit and
@@ -26,16 +29,24 @@ class ManageAppData with _$ManageAppData {
 
   const ManageAppData._();
 
+  /// Whether this snap's pending update is currently on hold
+  /// (`snap refresh --hold`). Never true for debs. An expired hold timestamp
+  /// counts as not held.
+  bool get isHeld => maybeWhen(
+    snap: (_, __, hold) => hold != null && hold.isAfter(DateTime.now()),
+    orElse: () => false,
+  );
+
   /// Unique identifier: snap ID or Appstream component ID (falling back to
   /// package name).
   String get id => when(
-    snap: (snap, _) => snap.id,
+    snap: (snap, _, __) => snap.id,
     localDeb: (debInfo) => debInfo.id,
   );
 
   /// Display name: snap title or localized Appstream name.
   String get name => when(
-    snap: (snap, _) => snap.titleOrName,
+    snap: (snap, _, __) => snap.titleOrName,
     localDeb: (debInfo) =>
         debInfo.component?.getLocalizedName() ??
         debInfo.packageInfo.packageId.name,
@@ -43,39 +54,39 @@ class ManageAppData with _$ManageAppData {
 
   /// Icon URL for display in the app list.
   String? get iconUrl => when(
-    snap: (snap, _) => snap.iconUrl,
+    snap: (snap, _, __) => snap.iconUrl,
     localDeb: (debInfo) => debInfo.component?.remoteIconUrl,
   );
 
   /// Whether this package has a pending update.
   bool get hasUpdate => when(
-    snap: (_, updateVersion) => updateVersion != null,
+    snap: (_, updateVersion, __) => updateVersion != null,
     localDeb: (debInfo) => debInfo.hasUpdate,
   );
 
   /// Whether this is a user-facing app (has desktop entries or Appstream data)
   /// vs a system/library package.
   bool get isLaunchable => when(
-    snap: (snap, _) => snap.apps.isNotEmpty,
+    snap: (snap, _, __) => snap.apps.isNotEmpty,
     localDeb: (debInfo) => debInfo.hasAppstreamEntry,
   );
 
   /// Install/release date. For snaps, this is the install date. For debs,
   /// this is the release date of the installed version from AppStream metadata.
   DateTime? get installDate => when(
-    snap: (snap, _) => snap.installDate,
+    snap: (snap, _, __) => snap.installDate,
     localDeb: (debInfo) => debInfo.releaseDate,
   );
 
   /// Installed size in bytes, used for sort-by-size.
   int? get installedSize => when(
-    snap: (snap, _) => snap.installedSize,
+    snap: (snap, _, __) => snap.installedSize,
     localDeb: (debInfo) => debInfo.details?.size,
   );
 
   /// Currently installed version string.
   String get version => when(
-    snap: (snap, _) => snap.version,
+    snap: (snap, _, __) => snap.version,
     localDeb: (debInfo) => debInfo.packageInfo.packageId.version,
   );
 }
