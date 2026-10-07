@@ -1,4 +1,8 @@
+import 'dart:async';
+
+import 'package:app_center/gstreamer/gstreamer_model.dart';
 import 'package:app_center/gstreamer/gstreamer_page.dart';
+import 'package:app_center/gstreamer/gstreamer_resource.dart';
 import 'package:app_center/packagekit/packagekit_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -47,6 +51,40 @@ void main() {
     expect(find.text(tester.l10n.codecPageDescription), findsOneWidget);
     expect(find.text('H.265 (Main Profile) decoder'), findsOne);
   });
+
+  test(
+    'installAll finishes when the page is closed during the install',
+    () async {
+      final event = PackageKitPackageEvent(
+        info: PackageKitInfo.available,
+        packageId: mockPackage.packageId,
+        summary: mockPackage.summary,
+      );
+      final transaction = Completer<void>();
+      final packageKit = createMockPackageKitService(
+        packageEvents: [event],
+        packageInfo: event,
+        waitTransaction: transaction.future,
+      );
+      registerMockService<PackageKitService>(packageKit);
+      addTearDown(resetAllServices);
+
+      final container = createContainer();
+      final provider = gstreamerModelProvider(
+        const GstResourceCollection(resources),
+      );
+      final subscription = container.listen(provider, (_, _) {});
+      await container.read(provider.future);
+
+      final install = container.read(provider.notifier).installAll();
+      await Future<void>.delayed(Duration.zero);
+      subscription.close();
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+      transaction.complete();
+
+      await expectLater(install, completes);
+    },
+  );
 
   testWidgets('installAll', (tester) async {
     final event = PackageKitPackageEvent(
