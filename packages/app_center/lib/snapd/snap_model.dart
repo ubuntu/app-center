@@ -94,10 +94,16 @@ class SnapModel extends _$SnapModel {
           storeSnap!.channels[selectedChannel]!.confinement ==
           SnapConfinement.classic,
     );
-    ref.read(currentlyInstallingModelProvider.notifier).add(snapName, model!);
+    // currentlyInstallingModel listens to this provider, so ref.read would
+    // assert a cycle.
+    ref.container
+        .read(currentlyInstallingModelProvider.notifier)
+        .add(snapName, model!);
     _updateChangeId(changeId);
     await _listenUntilDone(changeId, ref);
-    ref.read(currentlyInstallingModelProvider.notifier).remove(snapName);
+    ref.container
+        .read(currentlyInstallingModelProvider.notifier)
+        .remove(snapName);
     unawaited(
       ref.read(filteredLocalSnapsProvider.notifier).addToList(storeSnap),
     );
@@ -281,21 +287,31 @@ final progressProvider = StreamProvider.family
     });
 
 /// Provides the active change, if any, for a given changeId.
-final activeChangeProvider = StateProvider.family<SnapdChange?, String?>((
-  ref,
-  id,
-) {
-  if (id == null) return null;
-  late final StreamSubscription<SnapdChange> subscription;
-  subscription = getService<SnapdService>().watchChange(id).listen((event) {
-    ref.controller.state = event;
-    if (event.ready) {
-      subscription.cancel();
-    }
-  });
-  ref.onDispose(subscription.cancel);
-  return null;
-});
+final activeChangeProvider =
+    NotifierProvider.family<_ActiveChange, SnapdChange?, String?>(
+      _ActiveChange.new,
+    );
+
+class _ActiveChange extends Notifier<SnapdChange?> {
+  _ActiveChange(this.id);
+
+  final String? id;
+
+  @override
+  SnapdChange? build() {
+    final id = this.id;
+    if (id == null) return null;
+    late final StreamSubscription<SnapdChange> subscription;
+    subscription = getService<SnapdService>().watchChange(id).listen((event) {
+      state = event;
+      if (event.ready) {
+        subscription.cancel();
+      }
+    });
+    ref.onDispose(subscription.cancel);
+    return null;
+  }
+}
 
 extension SnapdChangeX on SnapdChange {
   double get progress {
@@ -311,7 +327,7 @@ extension SnapdChangeX on SnapdChange {
 }
 
 extension on AsyncValue<SnapData> {
-  bool get hasStoreSnap => valueOrNull?.storeSnap != null;
+  bool get hasStoreSnap => value?.storeSnap != null;
 }
 
 class SnapDataNotFoundException implements Exception {

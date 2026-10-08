@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:app_center/snapd/snapd.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
@@ -62,7 +61,7 @@ void main() {
         (_, __) {},
       );
       await container.read(snapModelProvider(snapName).future);
-      final snapData = subscription.read().valueOrNull;
+      final snapData = subscription.read().value;
 
       expect(snapData?.name, equals(snapName));
       expect(snapData?.localSnap, isNotNull);
@@ -93,7 +92,7 @@ void main() {
         (_, __) {},
       );
       await container.read(snapModelProvider(snapName).future);
-      final snapData = subscription.read().valueOrNull;
+      final snapData = subscription.read().value;
 
       expect(snapData?.storeSnap, isNull);
       expect(snapData?.localSnap, localSnap);
@@ -112,7 +111,7 @@ void main() {
         (_, __) {},
       );
       await container.read(snapModelProvider(snapName).future);
-      final snapData = subscription.read().valueOrNull;
+      final snapData = subscription.read().value;
       expect(snapData?.activeChangeId, equals('active change'));
 
       verify(

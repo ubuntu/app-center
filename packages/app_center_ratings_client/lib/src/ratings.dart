@@ -8,7 +8,7 @@ part 'ratings.freezed.dart';
 part 'ratings.g.dart';
 
 @freezed
-class Rating with _$Rating {
+abstract class Rating with _$Rating {
   const factory Rating({
     required String snapId,
     required int totalVotes,

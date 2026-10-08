@@ -14,7 +14,7 @@ class CurrentlyInstallingModel extends _$CurrentlyInstallingModel {
     state = {...state, snapName: snap};
     late final ProviderSubscription<AsyncValue<SnapData>> subscription;
     subscription = ref.listen(snapModelProvider(snapName), (_, snapModel) {
-      if (snapModel.valueOrNull?.activeChangeId == null) {
+      if (snapModel.value?.activeChangeId == null) {
         remove(snapName);
         subscription.close();
       } else if (snapModel.hasValue && state.containsKey(snapName)) {

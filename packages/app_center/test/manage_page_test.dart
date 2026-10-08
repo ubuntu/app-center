@@ -10,6 +10,7 @@ import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
@@ -327,7 +328,7 @@ void main() {
         ...debProviderOverrides,
         launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
         showLocalSystemAppsProvider.overrideWith((ref) => true),
-        activeChangeProvider.overrideWith((_, __) => mockChange),
+        activeChangeProvider.overrideWithBuild((_, _) => mockChange),
         currentlyRefreshAllSnapsProvider.overrideWith((_) => [snapName]),
       ],
     );
@@ -370,7 +371,7 @@ void main() {
         overrides: [
           ...debProviderOverrides,
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
-          activeChangeProvider.overrideWith((_, __) => mockChange),
+          activeChangeProvider.overrideWithBuild((_, _) => mockChange),
           currentlyRefreshAllSnapsProvider.overrideWith((_) => ['name']),
         ],
         child: const ManagePage(),

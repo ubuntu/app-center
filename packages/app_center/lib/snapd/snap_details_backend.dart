@@ -11,7 +11,6 @@ import 'package:app_center/snapd/snapd_service.dart';
 import 'package:app_center/snapd/snapx.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_logger/ubuntu_logger.dart';
@@ -45,6 +44,7 @@ AsyncValue<PackageSourceSnapshot> snapSourceSnapshot(
         SourceKey(format: PackageFormat.snap, id: snapName),
       ),
       model.stackTrace ?? StackTrace.empty,
+      // ignore: invalid_use_of_internal_member
     ).copyWithPrevious(AsyncData(snapSnapshotWithoutStore(snapName, null)));
   }
   if (!model.hasValue && model.hasError) {
@@ -55,12 +55,13 @@ AsyncValue<PackageSourceSnapshot> snapSourceSnapshot(
       model.stackTrace ?? StackTrace.empty,
     );
     if (!local.hasValue) return error;
+    // ignore: invalid_use_of_internal_member
     return error.copyWithPrevious(
-      AsyncData(snapSnapshotWithoutStore(snapName, local.valueOrNull)),
+      AsyncData(snapSnapshotWithoutStore(snapName, local.value)),
     );
   }
 
-  final data = model.valueOrNull;
+  final data = model.value;
   final changeId = data?.activeChangeId;
   final change = changeId == null
       ? null

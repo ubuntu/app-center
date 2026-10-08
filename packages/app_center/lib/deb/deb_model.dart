@@ -16,7 +16,7 @@ part 'deb_model.g.dart';
 enum DebTransactionKind { install, update, remove }
 
 @freezed
-class DebData extends AppMetadata with _$DebData {
+abstract class DebData extends AppMetadata with _$DebData {
   factory DebData({
     required String id,
     required AppstreamComponent component,
@@ -102,7 +102,7 @@ class DebModel extends _$DebModel {
   }
 
   Future<PackageKitMutationOutcome> installDeb() {
-    assert(state.valueOrNull?.packageInfo != null);
+    assert(state.value?.packageInfo != null);
     return _packageKitAction(
       DebTransactionKind.install,
       () => packageKit.install(state.value!.packageInfo!.packageId),
@@ -110,7 +110,7 @@ class DebModel extends _$DebModel {
   }
 
   Future<PackageKitMutationOutcome> removeDeb() {
-    assert(state.valueOrNull?.packageInfo != null);
+    assert(state.value?.packageInfo != null);
     return _packageKitAction(
       DebTransactionKind.remove,
       () => packageKit.remove(state.value!.packageInfo!.packageId),
@@ -121,7 +121,7 @@ class DebModel extends _$DebModel {
   Future<PackageKitMutationOutcome> updateDeb({
     PackageKitPackageId? updateId,
   }) {
-    assert(state.valueOrNull?.packageInfo != null);
+    assert(state.value?.packageInfo != null);
     return _packageKitAction(
       DebTransactionKind.update,
       () => packageKit.update(

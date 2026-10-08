@@ -248,8 +248,8 @@ void main() {
 
       final value = container.read(snapSourceSnapshotProvider('testsnap'));
       expect(value.hasError, isTrue);
-      expect(value.valueOrNull?.installState, InstallState.notInstalled);
-      expect(value.valueOrNull?.appName, isA<FieldFailed<String>>());
+      expect(value.value?.installState, InstallState.notInstalled);
+      expect(value.value?.appName, isA<FieldFailed<String>>());
     });
 
     test('snap with no local or store data is not found', () async {
@@ -263,7 +263,7 @@ void main() {
 
       final value = container.read(snapSourceSnapshotProvider('testsnap'));
       expect(value.error, isA<PackageSourceNotFound>());
-      expect(value.valueOrNull?.installState, InstallState.notInstalled);
+      expect(value.value?.installState, InstallState.notInstalled);
     });
   });
 

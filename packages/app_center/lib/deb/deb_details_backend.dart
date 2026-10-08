@@ -10,7 +10,6 @@ import 'package:app_center/providers/current_desktops_provider.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -59,10 +58,9 @@ AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
   String componentId,
 ) {
   final model = ref.watch(debModelProvider(componentId));
-  final mutations =
-      ref.watch(packageKitMutationsProvider).valueOrNull ?? const [];
+  final mutations = ref.watch(packageKitMutationsProvider).value ?? const [];
   final icon = ref.watch(debIconProvider(componentId));
-  final updateId = model.valueOrNull?.updatePackageId;
+  final updateId = model.value?.updatePackageId;
   final updateDetails = updateId == null
       ? null
       : ref.watch(debPackageDetailsProvider(updateId));
@@ -83,7 +81,7 @@ AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
 }
 
 FieldState<T> _fieldFromAsync<T>(AsyncValue<T?> value) {
-  if (value.hasValue) return FieldState.fromNullable(value.valueOrNull);
+  if (value.hasValue) return FieldState.fromNullable(value.value);
   return value.hasError ? FieldState<T>.failed() : FieldState<T>.loading();
 }
 

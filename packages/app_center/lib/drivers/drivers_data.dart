@@ -104,7 +104,7 @@ enum DriverSection { updateAvailable, installed, available, unsupported }
 /// A single installable branch for a [DriverDeviceInfo]: a driver candidate
 /// reported by `com.ubuntu.Drivers` combined with its PackageKit state.
 @freezed
-class DriverBranchOption with _$DriverBranchOption {
+abstract class DriverBranchOption with _$DriverBranchOption {
   const factory DriverBranchOption({
     required DriverBranch branch,
     required String packageName,
@@ -136,7 +136,7 @@ class DriverBranchOption with _$DriverBranchOption {
 /// A hardware device detected by `com.ubuntu.Drivers`, enriched with
 /// PackageKit install state for each candidate driver package.
 @freezed
-class DriverDeviceInfo with _$DriverDeviceInfo {
+abstract class DriverDeviceInfo with _$DriverDeviceInfo {
   const factory DriverDeviceInfo({
     required String sysPath,
     required String vendor,
@@ -196,7 +196,7 @@ class DriverDeviceInfo with _$DriverDeviceInfo {
 /// The full set of devices with installable drivers, as fetched and enriched
 /// by the drivers list provider.
 @freezed
-class DriverList with _$DriverList {
+abstract class DriverList with _$DriverList {
   const factory DriverList({
     required Map<String, DriverDeviceInfo> byPath,
     required List<String> sysPaths,

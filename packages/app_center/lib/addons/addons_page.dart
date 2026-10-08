@@ -19,8 +19,7 @@ class AddonsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final showDrivers =
-        ref.watch(driversAvailableProvider).valueOrNull ?? false;
+    final showDrivers = ref.watch(driversAvailableProvider).value ?? false;
     return ResponsiveLayoutScrollView(
       slivers: [
         SliverPadding(

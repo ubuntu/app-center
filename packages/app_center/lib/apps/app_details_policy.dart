@@ -85,7 +85,7 @@ class _Composer {
   AsyncValue<PackageSourceSnapshot>? _async(SourceKey? key) =>
       key == null ? null : input.snapshots[key];
 
-  PackageSourceSnapshot? _snapshot(SourceKey? key) => _async(key)?.valueOrNull;
+  PackageSourceSnapshot? _snapshot(SourceKey? key) => _async(key)?.value;
 
   InstallState _installState(SourceKey? key) =>
       _snapshot(key)?.installState ?? InstallState.unknown;
@@ -103,7 +103,7 @@ class _Composer {
   AppDetailsComposition compose() {
     final (activeKey, reason) = _selectActive();
     final active = _async(activeKey);
-    final snapshot = active?.valueOrNull;
+    final snapshot = active?.value;
     final installState = _installState(activeKey);
     final (release, releaseKind) = _displayedRelease(
       activeKey,
@@ -241,7 +241,7 @@ class _Composer {
     FieldState<T> Function(PackageSourceSnapshot snapshot) pick,
   ) {
     if (source == null) return FieldState<T>.unavailable();
-    final snapshot = source.valueOrNull;
+    final snapshot = source.value;
     if (snapshot != null) {
       final field = pick(snapshot);
       return source.hasError ? field.asStale() : field;
@@ -268,7 +268,7 @@ class _Composer {
     if (snapKey == null || ratings == null) {
       return FieldState<RatingsSummary>.unavailable();
     }
-    final value = ratings.valueOrNull;
+    final value = ratings.value;
     if (value != null) {
       return ratings.hasError
           ? FieldState.value(value, stale: true)

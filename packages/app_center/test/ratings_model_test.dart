@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:clock/clock.dart';
@@ -54,6 +56,40 @@ void main() {
       ),
     );
     expect(ratingsData.voteStatus, equals(VoteStatus.up));
+  });
+
+  test('cast vote finishes when the page is closed during the vote', () async {
+    final container = createContainer();
+    final mockService = getService<RatingsService>();
+    final pending = Completer<void>();
+    when(
+      mockService.vote(
+        Vote(
+          dateTime: DateTime(1984),
+          snapId: '1234',
+          snapRevision: 42,
+          voteUp: false,
+          snapName: 'firefox',
+        ),
+      ),
+    ).thenAnswer((_) => pending.future);
+    final subscription = container.listen(
+      ratingsModelProvider(snap.name),
+      (_, _) {},
+    );
+    await container.read(ratingsModelProvider(snap.name).future);
+    final model = container.read(ratingsModelProvider(snap.name).notifier);
+
+    final vote = withClock(
+      Clock.fixed(DateTime(1984)),
+      () => model.castVote(VoteStatus.down),
+    );
+    await Future<void>.delayed(Duration.zero);
+    subscription.close();
+    await Future<void>.delayed(const Duration(milliseconds: 50));
+    pending.complete();
+
+    await expectLater(vote, completes);
   });
 
   test('cast vote', () async {

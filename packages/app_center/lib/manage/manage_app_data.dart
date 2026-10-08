@@ -11,7 +11,7 @@ part 'manage_app_data.freezed.dart';
 /// page. Provides a common interface for properties like name, icon, version,
 /// and update status so the UI can treat both package types uniformly.
 @freezed
-class ManageAppData with _$ManageAppData {
+sealed class ManageAppData with _$ManageAppData {
   /// A snap package, with an optional [updateVersion] when an update is available.
   const factory ManageAppData.snap({
     required Snap snap,

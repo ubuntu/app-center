@@ -117,8 +117,8 @@ List<StorePage> buildStorePages() => [
           final snapUpdates = ref.watch(snapUpdatesModelProvider);
           final debUpdates = ref.watch(localDebUpdatesModelProvider);
 
-          final snapCount = snapUpdates.valueOrNull?.length ?? 0;
-          final debCount = debUpdates.valueOrNull?.length ?? 0;
+          final snapCount = snapUpdates.value?.length ?? 0;
+          final debCount = debUpdates.value?.length ?? 0;
           final totalCount = snapCount + debCount;
 
           return totalCount > 0

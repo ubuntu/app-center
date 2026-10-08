@@ -126,6 +126,44 @@ void main() {
     });
   });
 
+  testWidgets('options still load when rebuilt during a slow search', (
+    tester,
+  ) async {
+    final rebuild = ValueNotifier(0);
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          snapSearchProvider.overrideWith((ref, searchParameters) async* {
+            await Future<void>.delayed(const Duration(milliseconds: 400));
+            yield [createSnap(name: 'testsnap', title: 'Test Snap')];
+          }),
+          appstreamSearchProvider.overrideWith(
+            (ref, query) => Stream.value([]),
+          ),
+        ],
+        child: ValueListenableBuilder<int>(
+          valueListenable: rebuild,
+          builder: (_, _, _) => SearchField(
+            onSearch: (_) {},
+            onSnapSelected: (_) {},
+            onDebSelected: (_) {},
+            searchFocus: FocusNode(),
+          ),
+        ),
+      ),
+    );
+
+    await tester.enterText(find.byType(TextField), 'testsn');
+    await tester.pump(const Duration(milliseconds: 150));
+    rebuild.value++;
+    // Small steps so a frame is built while the search is still running.
+    for (var i = 0; i < 10; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+
+    expect(find.text('Test Snap'), findsOneWidget);
+  });
+
   group('callbacks', () {
     testWidgets('onSelected', (tester) async {
       final mockSearchCallback = MockStringCallback();
