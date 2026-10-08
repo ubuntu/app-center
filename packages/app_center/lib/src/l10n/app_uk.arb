@@ -471,5 +471,7 @@
     "appDetailsCategoryLabel": "Категорія",
     "appDetailsInstallDateLabel": "Дата встановлення",
     "appDetailsNotInstalled": "Не встановлено",
-    "appDetailsNotAvailable": "Не доступно"
+    "appDetailsNotAvailable": "Не доступно",
+    "addonsPageFirmwareTitle": "Прошивка",
+    "addonsPageFirmwareDescription": "Оновіть апаратне забезпечення для підвищення продуктивності та безпеки"
 }
