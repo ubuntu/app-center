@@ -483,20 +483,6 @@ class PackageKitService {
     }
   }
 
-  /// Get the packages that provide the given id (usually a codec string).
-  Future<Iterable<PackageKitPackageInfo>> whatProvides(String id) async {
-    final info = <PackageKitPackageInfo>[];
-    await _createTransaction(
-      action: (transaction) => transaction.whatProvides([id]),
-      listener: (event) {
-        if (event is PackageKitPackageEvent) {
-          info.add(event);
-        }
-      },
-    ).then(waitTransaction);
-    return info;
-  }
-
   /// Creates a transaction that removes the package given by `packageId` and
   /// returns the transaction ID.
   // TODO: Decide how to handle dependencies. Autoremove? Ask the user?

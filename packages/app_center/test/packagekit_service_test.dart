@@ -265,38 +265,6 @@ void main() {
     expect(packageKit.getTransaction(id), isNull);
   });
 
-  test('whatProvides', () async {
-    const mockInfo = PackageKitPackageEvent(
-      info: PackageKitInfo.available,
-      packageId: PackageKitPackageId(
-        name: 'foo',
-        version: '1.0',
-        arch: 'amd64',
-      ),
-      summary: 'summary',
-    );
-    final mockTransaction = createMockPackageKitTransaction(
-      events: [mockInfo],
-    );
-    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
-    final packageKit = PackageKitService(
-      dbus: createMockDbusClient(),
-      client: mockClient,
-      fs: MemoryFileSystem.test(),
-    );
-    await packageKit.activateService();
-
-    final packages = await packageKit.whatProvides(
-      'gstreamer1(decoder-video/x-h265)()(64bit)',
-    );
-    verify(
-      mockTransaction.whatProvides([
-        'gstreamer1(decoder-video/x-h265)()(64bit)',
-      ]),
-    ).called(1);
-    expect(packages, contains(mockInfo));
-  });
-
   test('remove', () async {
     final completer = Completer();
     final mockTransaction = createMockPackageKitTransaction(

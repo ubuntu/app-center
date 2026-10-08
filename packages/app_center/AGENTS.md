@@ -31,7 +31,7 @@ After modifying test mocks or model classes, regenerate first: `melos generate`
 - @lib/explore — Category browsing pages
 - @lib/search — Search functionality
 - @lib/games — Games category page
-- @lib/gstreamer — GStreamer codec installer
+- @lib/media_support — Additional media support installer
 - @lib/store — App shell, routing, navigation, top-level providers
 - @lib/widgets — Shared UI components (app cards, banners, screenshot gallery)
 - @lib/error — Error handling and display
