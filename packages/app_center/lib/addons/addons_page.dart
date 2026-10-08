@@ -68,7 +68,10 @@ class _FirmwareTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final launcher = ref.watch(firmwareUpdaterLauncherProvider).valueOrNull;
+    final state = ref.watch(firmwareUpdaterLauncherProvider);
+    final launcher = state.valueOrNull;
+    // Stay disabled until the first check so we don't wrongly open the store.
+    final resolved = state.hasValue || state.hasError;
 
     return YaruListTile(
       title: Text(l10n.addonsPageFirmwareTitle),
@@ -76,9 +79,14 @@ class _FirmwareTile extends ConsumerWidget {
       trailing: Icon(
         launcher != null ? YaruIcons.external_link : YaruIcons.go_next,
       ),
-      onTap: () => launcher != null
-          ? launcher.open()
-          : StoreNavigator.pushSnap(context, name: kFirmwareUpdaterSnapName),
+      onTap: !resolved
+          ? null
+          : () => launcher != null
+                ? launcher.open()
+                : StoreNavigator.pushSnap(
+                    context,
+                    name: kFirmwareUpdaterSnapName,
+                  ),
     );
   }
 }
