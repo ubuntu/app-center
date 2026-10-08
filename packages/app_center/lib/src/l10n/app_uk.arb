@@ -461,10 +461,10 @@
     "driversPageUninstallWarningTitle": "Видалення драйверів може спричинити проблеми",
     "driversPageUninstallWarningMessage": "Можливо, вам не вдасться легко перевстановити драйвери, особливо якщо вони стосуються графіки чи мережі.",
     "driversPageUninstallAcknowledgeLabel": "Я усвідомлюю ризик",
-    "addonsPageMediaSupportTitle": "Медійна підтримка",
+    "addonsPageMediaSupportTitle": "Підтримка мультимедіа",
     "addonsPageMediaSupportDescription": "Встановіть додаткове програмне забезпечення для підтримки більшої кількості форматів мультимедіа",
-    "mediaSupportPageDescription": "Ubuntu за замовчуванням постачається з деякими кодеками з відкритим кодом. Для відтворення та редагування певних музичних і відеоформатів може знадобитися встановити додаткове програмне забезпечення.",
-    "mediaSupportPageAdditionalMediaTitle": "Додаткова медійна підтримка",
+    "mediaSupportPageDescription": "Ubuntu усталено постачається з деякими кодеками з відкритим кодом. Для відтворення та редагування певних музичних і відеоформатів може знадобитися встановити додаткове програмне забезпечення.",
+    "mediaSupportPageAdditionalMediaTitle": "Додаткова підтримка мультимедіа",
     "mediaSupportPageInstallButton": "Встановити",
     "appDetailsAdditionalInfoLabel": "Додаткова інформація",
     "appDetailsPackageFormatLabel": "Формат пакунка",
@@ -473,5 +473,5 @@
     "appDetailsNotInstalled": "Не встановлено",
     "appDetailsNotAvailable": "Не доступно",
     "addonsPageFirmwareTitle": "Прошивка",
-    "addonsPageFirmwareDescription": "Оновіть апаратне забезпечення для підвищення продуктивності та безпеки"
+    "addonsPageFirmwareDescription": "Оновіть апаратне забезпечення для поліпшення швидкодії та безпеки"
 }
