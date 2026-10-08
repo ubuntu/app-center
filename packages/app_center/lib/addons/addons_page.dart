@@ -68,7 +68,7 @@ class _FirmwareTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final state = ref.watch(firmwareUpdaterLauncherProvider);
-    final launcher = state.valueOrNull;
+    final launcher = state.value;
     // Stay disabled until the first check so we don't wrongly open the store.
     final resolved = state.hasValue || state.hasError;
 
