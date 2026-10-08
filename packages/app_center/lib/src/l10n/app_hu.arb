@@ -460,5 +460,16 @@
     "driversPageUninstallTitle": "Illesztőprogram eltávolítása",
     "driversPageUninstallWarningTitle": "Az illesztőprogramok eltávolítása problémákat okozhat",
     "driversPageUninstallWarningMessage": "Lehet, hogy nem fogja tudni egyszerűen újratelepíteni az illesztőprogramokat, különösen akkor, ha grafikus kártyával vagy hálózattal kapcsolatosak.",
-    "driversPageUninstallAcknowledgeLabel": "Megértem a kockázatot"
+    "driversPageUninstallAcknowledgeLabel": "Megértem a kockázatot",
+    "appDetailsAdditionalInfoLabel": "További információk",
+    "appDetailsPackageFormatLabel": "Csomag formátuma",
+    "appDetailsCategoryLabel": "Kategória",
+    "appDetailsInstallDateLabel": "Telepítés dátuma",
+    "appDetailsNotInstalled": "Nincs telepítve",
+    "appDetailsNotAvailable": "Nem érhető el",
+    "addonsPageMediaSupportTitle": "Médiatámogatás",
+    "addonsPageMediaSupportDescription": "További szoftverek telepítése a több médiaformátum támogatásához",
+    "mediaSupportPageDescription": "Az Ubuntu alapértelmezetten néhány nyílt forráskódú kodekkel érkezik. Előfordulhat, hogy további szoftvereket kell telepítenie bizonyos zene- és videóformátumok lejátszásához és szerkesztéséhez.",
+    "mediaSupportPageAdditionalMediaTitle": "További média támogatása",
+    "mediaSupportPageInstallButton": "Telepítés"
 }
