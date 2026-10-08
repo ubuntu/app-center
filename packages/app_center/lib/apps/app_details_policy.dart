@@ -100,7 +100,7 @@ class _Composer {
 
   bool get _busy => ownedActive != null || _observed != null;
 
-  bool _otherFormatInstalled(SourceKey key) => keys.any(
+  bool _isOtherFormatInstalled(SourceKey key) => keys.any(
     (other) => other != key && _installState(other) == InstallState.installed,
   );
 
@@ -353,7 +353,7 @@ class _Composer {
         disabledReason: switch (snapshot.installState) {
           _ when _busy => DisabledReason.busy,
           InstallState.unknown => DisabledReason.installStateUnknown,
-          InstallState.notInstalled when _otherFormatInstalled(key) =>
+          InstallState.notInstalled when _isOtherFormatInstalled(key) =>
             DisabledReason.otherFormatInstalled,
           _ when candidate == null => DisabledReason.targetUnavailable,
           _ => null,

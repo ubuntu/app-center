@@ -2,7 +2,7 @@ import 'package:app_center/apps/app_details_entry.dart';
 import 'package:app_center/apps/app_details_model.dart';
 import 'package:app_center/apps/app_details_state.dart';
 import 'package:app_center/apps/package_details_backend.dart';
-import 'package:app_center/apps/unified_app_page.dart';
+import 'package:app_center/apps/package_format_dialog.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
 import 'package:flutter/material.dart';
