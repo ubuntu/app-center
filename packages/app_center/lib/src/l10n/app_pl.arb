@@ -460,5 +460,16 @@
     "driversPageUninstallTitle": "Odinstaluj sterownik",
     "driversPageUninstallWarningTitle": "Odinstalowanie sterowników może spowodować problemy",
     "driversPageUninstallWarningMessage": "Ponowna instalacja sterowników może nie być łatwa, zwłaszcza w przypadku sterowników karty graficznej lub sieciowej.",
-    "driversPageUninstallAcknowledgeLabel": "Rozumiem ryzyko"
+    "driversPageUninstallAcknowledgeLabel": "Rozumiem ryzyko",
+    "addonsPageMediaSupportTitle": "Obsługa multimediów",
+    "addonsPageMediaSupportDescription": "Zainstaluj dodatkowe oprogramowanie, aby obsługiwać więcej formatów multimedialnych",
+    "mediaSupportPageDescription": "System Ubuntu jest domyślnie dostarczany z pewnymi kodekami otwartoźródłowymi. Do odtwarzania i edycji niektórych formatów audio oraz wideo może być konieczne zainstalowanie dodatkowego oprogramowania.",
+    "mediaSupportPageInstallButton": "Zainstaluj",
+    "mediaSupportPageAdditionalMediaTitle": "Dodatkowa obsługa multimediów",
+    "appDetailsAdditionalInfoLabel": "Dodatkowe informacje",
+    "appDetailsPackageFormatLabel": "Format pakietu",
+    "appDetailsCategoryLabel": "Kategoria",
+    "appDetailsInstallDateLabel": "Data instalacji",
+    "appDetailsNotInstalled": "Nie zainstalowano",
+    "appDetailsNotAvailable": "Niedostępne"
 }

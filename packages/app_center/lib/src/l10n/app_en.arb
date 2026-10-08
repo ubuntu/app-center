@@ -401,6 +401,8 @@
     "addonsPageAdditionalDriversDescription": "Add better support for graphics cards and other hardware",
     "addonsPageMediaSupportTitle": "Media support",
     "addonsPageMediaSupportDescription": "Install additional software to support more media formats",
+    "addonsPageFirmwareTitle": "Firmware",
+    "addonsPageFirmwareDescription": "Update hardware for better performance and security",
     "mediaSupportPageDescription": "Ubuntu ships with some open source codecs by default. You might need to install additional software to play and edit certain music and video formats.",
     "mediaSupportPageAdditionalMediaTitle": "Additional media support",
     "mediaSupportPageInstallButton": "Install",

@@ -428,5 +428,55 @@
     "driversPageDeviceClassUsb": "USB",
     "driversPageDeviceClassStorage": "Andmeruum",
     "driversPageDeviceClassAudio": "Heliseadmed",
-    "driversPageDeviceClassOther": "Muud seadmed"
+    "driversPageDeviceClassOther": "Muud seadmed",
+    "driversPageBranchLts": "Pikaajaline tugi",
+    "driversPageBranchNewFeature": "Uus funktsionaalsus",
+    "driversPageBranchProduction": "Põhiline tarbetarkvara",
+    "driversPageVersionLabel": "Versioon {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Palun käivita arvuti uuesti",
+    "driversPageRestartRequiredMessage": "Draiveri muudatuste kasutamiseks palun käivita arvuti uuesti.",
+    "driversPageErrorLabel": "Viga",
+    "driversPageRetryLabel": "Proovi uuesti",
+    "driversPageNoDriversFoundMessage": "Kasutusel on kaasasolnud draiverid. Täiendavaid draivereid ei leidu.",
+    "driversPageUnavailableTitle": "Draiverite haldus pole saadaval",
+    "driversPageUnsupportedMessage": "Draiverite haldusteenus pole saadaval. Palun kontrolli, et snapd taustateenus on uuendatud ja ubuntu-drivers-common pakett on paigaldatud.",
+    "driversPageSwitchBranchLabel": "Kasuta muud tarkvaraharu",
+    "driversPageSwitchBranchTitle": "Tarkvaraharu vahetus",
+    "driversPageSwitchBranchProductionDescription": "Funktsionaalsus ja stabiilsus on tasakaalus",
+    "driversPageSwitchBranchLtsDescription": "Parim stabiilsus kriitiliste ülesannete jaoks",
+    "driversPageSwitchBranchNewFeatureDescription": "Väiksema stabiilsusega tarkvara eelversioon",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (soovitatud)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "See tarkvaraharu on vähem stabiilne",
+    "driversPageSwitchBranchLessStableWarningMessage": "Vältimaks probleeme selle seadmega jää senise tarkvaraharu juurde.",
+    "driversPageSwitchLabel": "Vaheta",
+    "driversPageSwitchingBranchLabel": "Tarkvaraharu on vahetamisel",
+    "driversPageUninstallTitle": "Eemalda paigaldatud draiver",
+    "driversPageUninstallWarningTitle": "Draiverite eemaldamisel võib tekkida probleeme",
+    "driversPageUninstallWarningMessage": "Mõnel juhu ei pruugi olla võimalik draivereid uuesti paigaldada, seda eriti kui need olid seotud võrgunduse või graafikaga.",
+    "driversPageUninstallAcknowledgeLabel": "Ma mõistan riske",
+    "addonsPageMediaSupportTitle": "Meediumi tugi",
+    "addonsPageMediaSupportDescription": "Täiendavate meediumivormingute kasutamiseks paigalda täiendavat tarkvara",
+    "mediaSupportPageDescription": "Ubuntus on vaikimisi kaasas paljude avatud lähtekoodiga koodekite tugi. Mõnede muude heli- ja videovormingute esitamiseks ja muutmiseks pead ilmselt paigaldama täiendavat tarkvara.",
+    "mediaSupportPageAdditionalMediaTitle": "Täiendava multimeediumi tugi",
+    "mediaSupportPageInstallButton": "Paigalda",
+    "appDetailsAdditionalInfoLabel": "Täiendav teave",
+    "appDetailsPackageFormatLabel": "Paketi vorming",
+    "appDetailsCategoryLabel": "Kategooria",
+    "appDetailsInstallDateLabel": "Paigalduse kuupäev",
+    "appDetailsNotInstalled": "Pole paigaldatud",
+    "appDetailsNotAvailable": "Pole saadaval"
 }

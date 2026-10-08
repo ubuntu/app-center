@@ -460,5 +460,10 @@
     "driversPageUninstallTitle": "Avinstallera drivrutin",
     "driversPageUninstallWarningTitle": "Att avinstallera drivrutiner kan orsaka problem",
     "driversPageUninstallWarningMessage": "Du kanske inte kommer att kunna ominstallera drivrutinerna på ett smidigt sätt, särskilt om det gäller grafik eller nätverk.",
-    "driversPageUninstallAcknowledgeLabel": "Jag förstår risken"
+    "driversPageUninstallAcknowledgeLabel": "Jag förstår risken",
+    "addonsPageMediaSupportTitle": "Stöd för media",
+    "addonsPageMediaSupportDescription": "Installera ytterligare programvara för att kunna använda fler mediaformat",
+    "mediaSupportPageDescription": "Ubuntu kommer förinstallerat med ett antal kodekar med öppen källkod. Du kan behöva installera ytterligare programvara för att spela upp och redigera vissa musik- och videoformat.",
+    "mediaSupportPageAdditionalMediaTitle": "Stöd för fler mediaformat",
+    "mediaSupportPageInstallButton": "Installera"
 }

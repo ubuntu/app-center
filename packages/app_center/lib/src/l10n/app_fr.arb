@@ -405,5 +405,29 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "driversPageUninstallAcknowledgeLabel": "Je comprends les risques",
+    "addonsPageLabel": "Modules d'extension",
+    "addonsPageAdditionalDriversDescription": "Ajout d'un meilleur support pour les cartes graphiques et autres matériels",
+    "driversPageDescription": "Les pilotes propriétaires contiennent un code privé que les développeurs Ubuntu ne peuvent ni examiner, ni améliorer. Sécurité et autres mises à jour dépendent donc du fournisseur du pilote.",
+    "driversPageSectionUpdateAvailable": "Mise à jour disponible",
+    "driversPageSectionAvailable": "Disponible",
+    "driversPageSectionInstalled": "Installé",
+    "driversPageSectionUnsupported": "Pas de pilote disponible",
+    "driversPageDeviceClassNetwork": "Réseau(x)",
+    "driversPageDeviceClassCamera": "Caméra",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassAudio": "Audio",
+    "driversPageDeviceClassOther": "Autre(s) type(s)",
+    "driversPageBranchLts": "Support à long terme",
+    "driversPageBranchNewFeature": "Nouveautés",
+    "driversPageRestartRequiredTitle": "Redémarrage nécessaire",
+    "driversPageRestartRequiredMessage": "Redémarrez votre ordinateur pour terminer l'application des changements de pilote.",
+    "driversPageErrorLabel": "Erreur",
+    "driversPageRetryLabel": "Essayer à nouveau",
+    "driversPageNoDriversFoundMessage": "Les pilotes supplémentaires n'ont pas été trouvés : utilisation de pilotes intégrés.",
+    "driversPageUnavailableTitle": "Gestion du pilote non disponible",
+    "driversPageUnsupportedMessage": "Le service de gestion du pilote n'est pas disponible. Assurez-vous que snapd est mis à jour et que ubuntu-drivers-common est installé.",
+    "driversPageSwitchBranchLtsDescription": "Stabilité maximale lors de charges de travail critiques",
+    "driversPageSwitchBranchNewFeatureDescription": "Pré-version, moins stable"
 }
