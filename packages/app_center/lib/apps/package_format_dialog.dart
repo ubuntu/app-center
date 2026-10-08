@@ -30,7 +30,7 @@ class PackageFormatDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final state = ref.watch(appDetailsModelProvider(entry)).valueOrNull;
+    final state = ref.watch(appDetailsModelProvider(entry)).value;
     final installed = [
       for (final option in state?.formats ?? const <FormatOption>[])
         if (option.installState == InstallState.installed)

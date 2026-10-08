@@ -221,7 +221,7 @@ abstract class TargetGroup with _$TargetGroup {
 
 /// The release one package format would provide, for comparing formats.
 @freezed
-class FormatOption with _$FormatOption {
+abstract class FormatOption with _$FormatOption {
   const factory FormatOption({
     required String sourceId,
     required PackageFormat format,
