@@ -36,103 +36,92 @@ class ManageAppActions extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
 
     return app.map(
-      snap: (snapData) => _buildSnapActions(
-        context,
-        ref,
-        l10n,
-        snapData.snap,
-        snapData.updateVersion,
+      snap: (snapData) => _SnapAppActions(
+        snap: snapData.snap,
+        showOnlyUpdate: showOnlyUpdate,
       ),
       localDeb: (debData) => _buildDebActions(
         context,
         ref,
         l10n,
+        showOnlyUpdate,
         debData.debInfo,
         debData.debInfo.isCompulsoryFor(ref.watch(currentDesktopsProvider)),
       ),
     );
   }
+}
 
-  /// Builds snap action buttons using the per-snap [SnapModel]. Shows a loading
-  /// indicator while the snap model loads, an active change status when a snapd
-  /// operation is in progress, or the appropriate action buttons (update, open,
-  /// remove) otherwise.
-  Widget _buildSnapActions(
-    BuildContext context,
-    WidgetRef ref,
-    AppLocalizations l10n,
-    Snap snap,
-    String? updateVersion,
-  ) {
-    final snapModel = ref.watch(snapModelProvider(snap.name));
-    if (!snapModel.hasValue) {
-      return const Center(
-        child: SizedBox.square(
-          dimension: kLoaderMediumHeight,
-          child: YaruCircularProgressIndicator(),
-        ),
-      );
+/// Snap action buttons for a manage page tile.
+///
+/// Display decisions use the [Snap] data directly plus the lightweight
+/// [snapActiveChangeProvider], so no per-tile [SnapModel] is built eagerly.
+/// The [SnapModel] is only built (awaited) when an action is actually invoked,
+/// keeping the tile cheap while actions stay correct.
+class _SnapAppActions extends ConsumerStatefulWidget {
+  const _SnapAppActions({required this.snap, required this.showOnlyUpdate});
+
+  final Snap snap;
+  final bool showOnlyUpdate;
+
+  @override
+  ConsumerState<_SnapAppActions> createState() => _SnapAppActionsState();
+}
+
+class _SnapAppActionsState extends ConsumerState<_SnapAppActions> {
+  /// Guards against double-taps in the gap between pressing a button and the
+  /// active change becoming visible.
+  var _busy = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final snap = widget.snap;
+
+    // Lightweight active-change lookup: covers changes started from this tile
+    // as well as changes already in progress (e.g. when the app launched).
+    final activeChangeId = ref.watch(snapActiveChangeProvider(snap.name));
+    if (activeChangeId != null) {
+      final activeChange = ref.watch(activeChangeProvider(activeChangeId));
+      // A seeded change may already be done by the time we subscribe to it.
+      if (activeChange?.ready != true) {
+        return ActiveChangeStatus(
+          actionLabel: activeChange?.localize(l10n),
+          progress: activeChange?.progress ?? 0,
+          onCancelPressed: _busy ? null : _cancelActiveChange,
+        );
+      }
     }
-    final snapData = snapModel.value!;
-    final shouldQuitToUpdate = snapData.localSnap?.refreshInhibit != null;
-    final snapViewModel = ref.watch(snapModelProvider(snap.name).notifier);
-    final snapLauncher = snapData.localSnap == null
-        ? null
-        : ref.watch(launchProvider(snapData.localSnap!));
-    final canOpen = snapLauncher?.isLaunchable ?? false;
-    final hasActiveChange = snapData.activeChangeId != null;
-    if (hasActiveChange) {
-      return ActiveChangeStatus(
-        actionLabel: ref
-            .watch(activeChangeProvider(snapData.activeChangeId))
-            ?.localize(l10n),
-        progress:
-            ref
-                .watch(activeChangeProvider(snapData.activeChangeId))
-                ?.progress ??
-            0,
-        onCancelPressed: () =>
-            ref.read(snapModelProvider(snap.name).notifier).cancel(),
-      );
-    }
+
+    final shouldQuitToUpdate = snap.refreshInhibit != null;
+    // launchProvider only wraps the Snap, so watching it stays cheap.
+    final launcher = ref.watch(launchProvider(snap));
+    final canOpen = launcher.isLaunchable;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         if (shouldQuitToUpdate) ...[
-          const QuitToUpdateNotice(),
+          // Expanded so the notice text ellipsizes instead of overflowing
+          // the fixed-width trailing area.
+          const Expanded(child: QuitToUpdateNotice()),
           const SizedBox(width: kSpacing),
         ],
-        if (showOnlyUpdate)
+        if (widget.showOnlyUpdate)
           OutlinedButton(
-            onPressed: SnapAction.update.callback(
-              snapData,
-              snapViewModel,
-              snapLauncher,
-              context,
-            ),
+            onPressed: _busy ? null : () => _performAction(SnapAction.update),
             child: Text(SnapAction.update.label(l10n)),
           ),
-        if (!showOnlyUpdate && snapData.isInstalled) ...[
+        if (!widget.showOnlyUpdate) ...[
           if (canOpen) ...[
             OutlinedButton(
-              onPressed: SnapAction.open.callback(
-                snapData,
-                snapViewModel,
-                snapLauncher,
-                context,
-              ),
+              onPressed: launcher.open,
               child: Text(SnapAction.open.label(l10n)),
             ),
             const SizedBox(width: kSpacing),
           ],
           OutlinedButton(
-            onPressed: SnapAction.remove.callback(
-              snapData,
-              snapViewModel,
-              snapLauncher,
-              context,
-            ),
+            onPressed: _busy ? null : () => _performAction(SnapAction.remove),
             child: Text(SnapAction.remove.label(l10n)),
           ),
         ],
@@ -140,75 +129,127 @@ class ManageAppActions extends ConsumerWidget {
     );
   }
 
-  /// Builds deb action buttons. Shows a progress indicator with a cancel button
-  /// when a PackageKit transaction is active, or update/remove buttons otherwise.
+  /// Runs [action] against the snap's [SnapModel], building it first if needed.
   ///
-  /// Cancel and update/remove are routed to [LocalDebUpdatesModel] (updates section)
-  /// or [InstalledApps] (installed section) depending on [showOnlyUpdate].
-  Widget _buildDebActions(
-    BuildContext context,
-    WidgetRef ref,
-    AppLocalizations l10n,
-    LocalDebInfo debInfo,
-    bool isCompulsory,
-  ) {
-    final hasActiveTransaction = debInfo.activeTransactionId != null;
-
-    if (hasActiveTransaction) {
-      final progress = ref.watch(
-        packageKitTransactionProgressProvider(debInfo.activeTransactionId),
-      );
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox.square(
-            dimension: kLoaderHeight,
-            child: YaruCircularProgressIndicator(
-              value: progress,
-              strokeWidth: 2,
-            ),
-          ),
-          const SizedBox(width: kSpacingSmall),
-          Text(
-            showOnlyUpdate
-                ? l10n.snapActionUpdatingLabel
-                : l10n.snapActionRemovingLabel,
-            style: Theme.of(context).textTheme.bodyMedium,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(width: kSpacing),
-          OutlinedButton(
-            onPressed: () => showOnlyUpdate
-                ? ref
-                      .read(localDebUpdatesModelProvider.notifier)
-                      .cancelTransaction(debInfo.id)
-                : ref
-                      .read(installedAppsProvider.notifier)
-                      .cancelDebTransaction(debInfo.id),
-            child: Text(l10n.snapActionCancelLabel),
-          ),
-        ],
-      );
+  /// The model is awaited before invoking the action (actions assert on loaded
+  /// state), and [SnapAction.callback] stays the single source of truth for
+  /// the isInstalled/storeSnap guards.
+  Future<void> _performAction(SnapAction action) async {
+    if (_busy) return;
+    setState(() => _busy = true);
+    try {
+      final snapName = widget.snap.name;
+      late final SnapData data;
+      try {
+        data = await ref.read(snapModelProvider(snapName).future);
+      } on Object catch (_) {
+        // The model failed to build (e.g. the snap is gone): nothing to do.
+        return;
+      }
+      if (!mounted) return;
+      final model = ref.read(snapModelProvider(snapName).notifier);
+      if (action == SnapAction.remove && !data.isInstalled) return;
+      if (action.callback(data, model, null, context) == null) return;
+      switch (action) {
+        case SnapAction.update:
+          await model.refresh();
+        case SnapAction.remove:
+          await model.remove();
+        case _:
+          return;
+      }
+    } finally {
+      if (mounted) setState(() => _busy = false);
     }
+  }
 
+  /// Aborts the active change, building the [SnapModel] first if needed so
+  /// that [SnapModel.cancel] sees the in-progress change id.
+  Future<void> _cancelActiveChange() async {
+    if (_busy) return;
+    setState(() => _busy = true);
+    try {
+      final snapName = widget.snap.name;
+      await ref.read(snapModelProvider(snapName).future);
+      if (!mounted) return;
+      await ref.read(snapModelProvider(snapName).notifier).cancel();
+    } on Object catch (_) {
+      // The model failed to build or there is nothing to abort.
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+}
+
+/// Builds deb action buttons. Shows a progress indicator with a cancel button
+/// when a PackageKit transaction is active, or update/remove buttons otherwise.
+///
+/// Cancel and update/remove are routed to [LocalDebUpdatesModel] (updates section)
+/// or [InstalledApps] (installed section) depending on [showOnlyUpdate].
+Widget _buildDebActions(
+  BuildContext context,
+  WidgetRef ref,
+  AppLocalizations l10n,
+  bool showOnlyUpdate,
+  LocalDebInfo debInfo,
+  bool isCompulsory,
+) {
+  final hasActiveTransaction = debInfo.activeTransactionId != null;
+
+  if (hasActiveTransaction) {
+    final progress = ref.watch(
+      packageKitTransactionProgressProvider(debInfo.activeTransactionId),
+    );
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (showOnlyUpdate)
-          OutlinedButton(
-            onPressed: () => ref
-                .read(localDebUpdatesModelProvider.notifier)
-                .updateDeb(debInfo.id),
-            child: Text(l10n.snapActionUpdateLabel),
+        SizedBox.square(
+          dimension: kLoaderHeight,
+          child: YaruCircularProgressIndicator(
+            value: progress,
+            strokeWidth: 2,
           ),
-        if (!showOnlyUpdate && !isCompulsory)
-          OutlinedButton(
-            onPressed: () =>
-                ref.read(installedAppsProvider.notifier).removeDeb(debInfo.id),
-            child: Text(l10n.snapActionRemoveLabel),
-          ),
+        ),
+        const SizedBox(width: kSpacingSmall),
+        Text(
+          showOnlyUpdate
+              ? l10n.snapActionUpdatingLabel
+              : l10n.snapActionRemovingLabel,
+          style: Theme.of(context).textTheme.bodyMedium,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        const SizedBox(width: kSpacing),
+        OutlinedButton(
+          onPressed: () => showOnlyUpdate
+              ? ref
+                    .read(localDebUpdatesModelProvider.notifier)
+                    .cancelTransaction(debInfo.id)
+              : ref
+                    .read(installedAppsProvider.notifier)
+                    .cancelDebTransaction(debInfo.id),
+          child: Text(l10n.snapActionCancelLabel),
+        ),
       ],
     );
   }
+
+  return Row(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      if (showOnlyUpdate)
+        OutlinedButton(
+          onPressed: () => ref
+              .read(localDebUpdatesModelProvider.notifier)
+              .updateDeb(debInfo.id),
+          child: Text(l10n.snapActionUpdateLabel),
+        ),
+      if (!showOnlyUpdate && !isCompulsory)
+        OutlinedButton(
+          onPressed: () =>
+              ref.read(installedAppsProvider.notifier).removeDeb(debInfo.id),
+          child: Text(l10n.snapActionRemoveLabel),
+        ),
+    ],
+  );
 }
