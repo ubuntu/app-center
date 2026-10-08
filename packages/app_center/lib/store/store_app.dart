@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:app_center/addons/addons.dart';
-import 'package:app_center/apps/app_details_entry.dart';
-import 'package:app_center/apps/unified_app_page.dart';
 import 'package:app_center/deb/deb.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/games/games.dart';
@@ -15,6 +13,7 @@ import 'package:app_center/media_support/media_support.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/search/search.dart';
+import 'package:app_center/snapd/snap_page.dart';
 import 'package:app_center/store/store_navigator.dart';
 import 'package:app_center/store/store_observer.dart';
 import 'package:app_center/store/store_pages.dart';
@@ -229,11 +228,7 @@ class _StoreAppHome extends ConsumerWidget {
             settings: settings,
             builder: (_) => YaruDetailPage(
               appBar: searchField,
-              body: UnifiedAppPage(
-                entry: AppDetailsEntry.debComponent(
-                  StoreRoutes.debOf(settings)!,
-                ),
-              ),
+              body: DebPage(id: StoreRoutes.debOf(settings)!),
             ),
           ),
           StoreRoutes.localDeb => MaterialPageRoute(
@@ -247,9 +242,7 @@ class _StoreAppHome extends ConsumerWidget {
             settings: settings,
             builder: (_) => YaruDetailPage(
               appBar: searchField,
-              body: UnifiedAppPage(
-                entry: AppDetailsEntry.snap(StoreRoutes.snapOf(settings)!),
-              ),
+              body: SnapPage(snapName: StoreRoutes.snapOf(settings)!),
             ),
           ),
           StoreRoutes.search => MaterialPageRoute(
