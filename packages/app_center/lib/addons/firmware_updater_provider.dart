@@ -1,7 +1,6 @@
 import 'package:app_center/constants.dart';
 import 'package:app_center/snapd/snap_details_backend.dart';
 import 'package:app_center/snapd/snapd.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'firmware_updater_provider.g.dart';

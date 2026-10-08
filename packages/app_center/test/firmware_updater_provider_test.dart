@@ -46,7 +46,7 @@ void main() {
 
     final value = await readLauncher(isLaunchable: true);
     expect(value.error, isA<SnapdException>());
-    expect(value.valueOrNull, isNull);
+    expect(value.value, isNull);
   });
 
   test('installed but not launchable', () async {
