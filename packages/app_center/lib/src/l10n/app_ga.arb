@@ -412,5 +412,71 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "appDetailsAdditionalInfoLabel": "Eolas breise",
+    "appDetailsPackageFormatLabel": "Formáid an phacáiste",
+    "appDetailsCategoryLabel": "Catagóir",
+    "appDetailsInstallDateLabel": "Dáta suiteála",
+    "appDetailsNotInstalled": "Gan a bheith suiteáilte",
+    "appDetailsNotAvailable": "Níl sé ar fáil",
+    "addonsPageLabel": "Breiseáin",
+    "addonsPageAdditionalDriversTitle": "Tiománaithe breise",
+    "addonsPageAdditionalDriversDescription": "Cuir tacaíocht níos fearr ar fáil do chártaí grafaicí agus do chrua-earraí eile",
+    "addonsPageMediaSupportTitle": "Tacaíocht ó na meáin",
+    "addonsPageMediaSupportDescription": "Suiteáil bogearraí breise chun tacú le tuilleadh formáidí meán",
+    "mediaSupportPageDescription": "Tagann Ubuntu le roinnt códac foinse oscailte mar chaighdeán. D’fhéadfadh sé go mbeadh ort bogearraí breise a shuiteáil chun formáidí áirithe ceoil agus físe a sheinm agus a chur in eagar.",
+    "mediaSupportPageAdditionalMediaTitle": "Tacaíocht bhreise ó na meáin",
+    "mediaSupportPageInstallButton": "Suiteáil",
+    "driversPageDescription": "Tá cód príobháideach i dtiománaithe dílseánaigh nach féidir le forbróirí Ubuntu athbhreithniú ná feabhsú a dhéanamh air. Braitheann nuashonruithe slándála agus nuashonruithe eile ar dhíoltóir an tiománaí.",
+    "driversPageSectionUpdateAvailable": "Nuashonrú ar fáil",
+    "driversPageSectionAvailable": "Ar fáil",
+    "driversPageSectionInstalled": "Suiteáilte",
+    "driversPageSectionUnsupported": "Níl aon tiománaithe ar fáil",
+    "driversPageNoPackagesMessage": "Ní sholáthraíonn aon phacáiste tiománaithe don fheiste seo",
+    "driversPageDeviceClassGraphics": "Grafaicí",
+    "driversPageDeviceClassNetwork": "Líonra",
+    "driversPageDeviceClassCamera": "Ceamara",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Stóráil",
+    "driversPageDeviceClassAudio": "Fuaim",
+    "driversPageDeviceClassOther": "Eile",
+    "driversPageBranchProduction": "Táirgeadh",
+    "driversPageBranchLts": "Tacaíocht fhadtéarmach",
+    "driversPageBranchNewFeature": "Gnéithe nua",
+    "driversPageVersionLabel": "Leagan {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Tá athsheoladh ag teastáil",
+    "driversPageRestartRequiredMessage": "Atosaigh do ríomhaire chun cur i bhfeidhm na n-athruithe ar na tiománaithe a chríochnú.",
+    "driversPageErrorLabel": "Earráid",
+    "driversPageRetryLabel": "Déan iarracht arís",
+    "driversPageNoDriversFoundMessage": "Ag baint úsáide as tiománaithe ionsuite. Níor aimsíodh aon tiománaithe breise.",
+    "driversPageUnavailableTitle": "Níl bainistíocht tiománaithe ar fáil",
+    "driversPageUnsupportedMessage": "Níl an tseirbhís bainistíochta tiománaithe ar fáil. Cinntigh go bhfuil snapd cothrom le dáta agus go bhfuil ubuntu-drivers-common suiteáilte.",
+    "driversPageSwitchBranchLabel": "Athraigh an brainse",
+    "driversPageSwitchBranchTitle": "Athraigh an brainse",
+    "driversPageSwitchBranchProductionDescription": "Cothromaíonn gnéithe agus cobhsaíocht",
+    "driversPageSwitchBranchLtsDescription": "Cobhsaíocht uasta do ualaí oibre ríthábhachtacha",
+    "driversPageSwitchBranchNewFeatureDescription": "Réamhamharc, níos lú cobhsaí",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (molta)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "Tá an brainse seo níos lú cobhsaí",
+    "driversPageSwitchBranchLessStableWarningMessage": "Fan ar an mbrainse reatha chun fadhbanna leis an bhfeiste seo a sheachaint.",
+    "driversPageSwitchLabel": "Athraigh",
+    "driversPageSwitchingBranchLabel": "Ag athrú brainse",
+    "driversPageUninstallTitle": "Díshuiteáil an tiománaí",
+    "driversPageUninstallWarningTitle": "Is féidir fadhbanna a chruthú má dhíshuiteáiltear tiománaithe",
+    "driversPageUninstallWarningMessage": "B’fhéidir nach mbeidh tú in ann na tiománaithe a athshuiteáil go héasca, go háirithe má bhaineann siad le grafaicí nó leis an líonra.",
+    "driversPageUninstallAcknowledgeLabel": "Tuigim an riosca"
 }

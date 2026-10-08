@@ -250,10 +250,10 @@
     "errorViewCheckStatusLabel": "Проверить состояние",
     "errorViewNetworkErrorTitle": "Подключитесь к Интернету",
     "errorViewNetworkErrorAction": "Проверьте соединение и повторите попытку.",
-    "errorViewServerErrorAction": "Проверьте состояние служб для сведения или повторите попытку позже.",
+    "errorViewServerErrorAction": "Проверьте состояние сервиса или повторите попытку позже.",
     "errorViewUnknownErrorTitle": "Что-то пошло не так",
     "errorViewUnknownErrorDescription": "Нам жаль, но мы не уверены, в чем заключается проблема.",
-    "errorViewUnknownErrorAction": "Вы можете повторить попытку сейчас, проверить состояние служб для сведения или повторить попытку позже.",
+    "errorViewUnknownErrorAction": "Вы можете повторить попытку сейчас, проверить состояние сервиса или зайти позже.",
     "snapdExceptionRunningApps": "Мы не смогли обновить приложение {snapName}, так как оно сейчас запущено.",
     "@snapdExceptionRunningApps": {
         "placeholders": {
@@ -263,7 +263,7 @@
         }
     },
     "errorViewNetworkErrorDescription": "Мы не можем загрузить каталог Центра приложений без подключения к Интернету.",
-    "errorViewServerErrorDescription": "Мы сожалеем, но в настоящее время у нас возникли проблемы с Центром приложений.",
+    "errorViewServerErrorDescription": "Сожалеем, но в настоящее время у нас возникли проблемы с Центром приложений.",
     "managePageNoInternet": "Не удалось подключиться к серверу. Проверьте подключение к Интернету или повторите попытку позже.",
     "managePageOwnUpdateDescriptionSoon": "Центр приложений будет автоматически обновлён через {time}.",
     "@managePageOwnUpdateDescriptionSoon": {
@@ -460,5 +460,16 @@
     "driversPageUninstallTitle": "Удалить драйвер",
     "driversPageUninstallWarningTitle": "Удаление драйверов может привести к возникновению проблем",
     "driversPageUninstallWarningMessage": "Возможно, Вы не сможете легко переустановить драйверы, особенно если речь идёт о драйверах графики или сети.",
-    "driversPageUninstallAcknowledgeLabel": "Я осознаю риск"
+    "driversPageUninstallAcknowledgeLabel": "Я осознаю риск",
+    "appDetailsAdditionalInfoLabel": "Дополнительные сведения",
+    "appDetailsPackageFormatLabel": "Формат пакета",
+    "appDetailsCategoryLabel": "Категория",
+    "appDetailsInstallDateLabel": "Дата установки",
+    "appDetailsNotInstalled": "Не установлено",
+    "appDetailsNotAvailable": "Недоступно",
+    "addonsPageMediaSupportTitle": "Поддержка мультимедиа",
+    "addonsPageMediaSupportDescription": "Установка дополнительного ПО для поддержки большего числа форматов мультимедиа",
+    "mediaSupportPageDescription": "В Ubuntu по умолчанию предустановлены некоторые кодеки с открытым исходным кодом. Для воспроизведения и редактирования определённых форматов музыки и видео может потребоваться установка дополнительного ПО.",
+    "mediaSupportPageAdditionalMediaTitle": "Дополнительная поддержка мультимедиа",
+    "mediaSupportPageInstallButton": "Установить"
 }

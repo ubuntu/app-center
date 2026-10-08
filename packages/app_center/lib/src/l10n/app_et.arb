@@ -478,5 +478,7 @@
     "appDetailsCategoryLabel": "Kategooria",
     "appDetailsInstallDateLabel": "Paigalduse kuupäev",
     "appDetailsNotInstalled": "Pole paigaldatud",
-    "appDetailsNotAvailable": "Pole saadaval"
+    "appDetailsNotAvailable": "Pole saadaval",
+    "addonsPageFirmwareTitle": "Püsivara",
+    "addonsPageFirmwareDescription": "Parema jõudluse ja turvalisuse nimel saad püsivara uuendada"
 }
