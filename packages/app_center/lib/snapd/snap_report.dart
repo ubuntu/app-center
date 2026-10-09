@@ -46,6 +46,9 @@ class _SnapReportState extends State<SnapReport> {
   }
 
   Future<void> _submitReport() async {
+    if (_isSubmitting) {
+      return;
+    }
     setState(() => _isSubmitting = true);
 
     const url =
@@ -246,13 +249,20 @@ class _SnapReportState extends State<SnapReport> {
                         _isSubmitting || selectedReason == null || !_hasDetails
                         ? null
                         : _submitReport,
-                    child: _isSubmitting
-                        ? const SizedBox(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Flexible(child: Text(l10n.snapReportSubmitButtonLabel)),
+                        if (_isSubmitting) ...[
+                          const SizedBox(width: 8),
+                          const SizedBox(
                             width: 16,
                             height: 16,
                             child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Text(l10n.snapReportSubmitButtonLabel),
+                          ),
+                        ],
+                      ],
+                    ),
                   ),
                 ],
               ),
