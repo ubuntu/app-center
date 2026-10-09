@@ -179,6 +179,62 @@ void main() {
     );
   });
 
+  testWidgets('held snap shows on hold indicator in updates', (tester) async {
+    await resetAllServices();
+    final heldSnap = createSnap(
+      name: 'heldsnap',
+      title: 'Held Snap',
+      version: '2.0',
+      channel: 'latest/stable',
+      hold: DateTime.now().add(const Duration(days: 30)),
+    );
+    registerMockSnapdService(
+      installedSnaps: [heldSnap],
+      refreshableSnaps: [heldSnap],
+      changes: [],
+    );
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          ...debProviderOverrides,
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+        ],
+        child: const ManagePage(),
+      ),
+    );
+
+    await tester.pumpAndSettle();
+    final heldTile = find.snapTile('Held Snap');
+    final scrollable = find.byType(Scrollable).first;
+    await tester.scrollUntilVisible(
+      heldTile,
+      kMinInteractiveDimension / 2,
+      scrollable: scrollable,
+    );
+    expect(heldTile, findsOneWidget);
+
+    // The held snap stays in the updates list with an explicit badge.
+    expect(
+      find.descendant(
+        of: heldTile,
+        matching: find.text(tester.l10n.snapOnHoldLabel),
+      ),
+      findsOneWidget,
+    );
+
+    // Its update button is disabled while on hold.
+    final updateButton = find.descendant(
+      of: heldTile,
+      matching: find.widgetWithText(
+        OutlinedButton,
+        tester.l10n.snapActionUpdateLabel,
+      ),
+    );
+    expect(updateButton, findsOneWidget);
+    expect(tester.widget<OutlinedButton>(updateButton).onPressed, isNull);
+  });
+
   testWidgets('launch desktop snap', (tester) async {
     await resetAllServices();
     registerMockSnapdService(

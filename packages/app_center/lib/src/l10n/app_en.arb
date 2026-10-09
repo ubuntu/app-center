@@ -255,6 +255,10 @@
         }
     },
     "snapActionUpdateLabel": "Update",
+    "snapOnHoldLabel": "On hold",
+    "@snapOnHoldLabel": {
+        "description": "Badge shown on a snap in the updates list when its updates are on hold via 'snap refresh --hold'"
+    },
     "snapCategoryAll": "All categories",
     "snapActionUpdatingLabel": "Updating",
     "appCardPublisherSemanticLabel": "Published by {publisher}.",

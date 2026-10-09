@@ -42,6 +42,7 @@ class ManageAppActions extends ConsumerWidget {
         l10n,
         snapData.snap,
         snapData.updateVersion,
+        snapData.isHeld,
       ),
       localDeb: (debData) => _buildDebActions(
         context,
@@ -63,6 +64,7 @@ class ManageAppActions extends ConsumerWidget {
     AppLocalizations l10n,
     Snap snap,
     String? updateVersion,
+    bool isHeld,
   ) {
     final snapModel = ref.watch(snapModelProvider(snap.name));
     if (!snapModel.hasValue) {
@@ -105,12 +107,16 @@ class ManageAppActions extends ConsumerWidget {
         ],
         if (showOnlyUpdate)
           OutlinedButton(
-            onPressed: SnapAction.update.callback(
-              snapData,
-              snapViewModel,
-              snapLauncher,
-              context,
-            ),
+            // A held snap cannot be refreshed; it stays visible in the list
+            // with an "on hold" badge until the hold is lifted.
+            onPressed: isHeld
+                ? null
+                : SnapAction.update.callback(
+                    snapData,
+                    snapViewModel,
+                    snapLauncher,
+                    context,
+                  ),
             child: Text(SnapAction.update.label(l10n)),
           ),
         if (!showOnlyUpdate && snapData.isInstalled) ...[
