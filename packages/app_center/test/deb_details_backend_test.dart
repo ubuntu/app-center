@@ -126,8 +126,8 @@ void main() {
 
       expect(snapshot.installState, InstallState.installed);
       expect(snapshot.installed?.version, '1.0-1');
-      // PackageKit's size for an installed package is ambiguous.
-      expect(snapshot.installed?.size, isA<FieldUnavailable<ByteSize>>());
+      expect(snapshot.installed?.size.valueOrNull?.bytes, 40);
+      expect(snapshot.installed?.size.valueOrNull?.kind, SizeKind.installed);
       expect(snapshot.updateCandidate?.candidateId, '$_updateId');
       expect(snapshot.updateCandidate?.size.valueOrNull?.bytes, 45);
       expect(

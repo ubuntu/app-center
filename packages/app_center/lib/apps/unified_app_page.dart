@@ -302,7 +302,11 @@ class _InfoBar extends StatelessWidget {
           ),
         ),
         _InfoItem(
-          label: Text(l10n.snapPageDownloadSizeLabel),
+          label: Text(
+            active.installState == InstallState.installed
+                ? l10n.appDetailsInstalledSizeLabel
+                : l10n.snapPageDownloadSizeLabel,
+          ),
           value: Text(
             size == null ? kMissingValue : context.formatByteSize(size.bytes),
           ),

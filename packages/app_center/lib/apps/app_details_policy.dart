@@ -124,7 +124,9 @@ class _Composer {
             ? FieldState<String>.unavailable()
             : FieldState<String>.value(r.version!),
       ),
-      size: _releaseField(active, release, (r) => r.size),
+      size: installState == InstallState.installed
+          ? snapshot?.installed?.size ?? FieldState<ByteSize>.unavailable()
+          : _releaseField(active, release, (r) => r.size),
       releaseDate: _releaseField(active, release, (r) => r.releaseDate),
     );
     final publisher = _field(active, (s) => s.publisher);
@@ -502,7 +504,9 @@ class _Composer {
       confinement: release?.confinement != null
           ? FieldState.value(release!.confinement!)
           : _field(source, (s) => s.confinement),
-      size: release?.size ?? FieldState<ByteSize>.unavailable(),
+      size: snapshot.installState == InstallState.installed
+          ? FieldState<ByteSize>.unavailable()
+          : release?.size ?? FieldState<ByteSize>.unavailable(),
       releaseDate: release?.releaseDate ?? FieldState<DateTime>.unavailable(),
       action: switch (snapshot.installState) {
         InstallState.installed => _uninstall(key, snapshot),

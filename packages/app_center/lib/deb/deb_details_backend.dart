@@ -114,7 +114,9 @@ AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
           : _fieldFromAsync(installSize),
       updateSize: updateDetails == null
           ? FieldState<ByteSize>.unavailable()
-          : _fieldFromAsync(updateDetails.whenData(_downloadSize)),
+          : _fieldFromAsync(
+              updateDetails.whenData((d) => _size(d, SizeKind.download)),
+            ),
       currentDesktops: desktops,
     ),
   );
@@ -125,12 +127,9 @@ FieldState<T> _fieldFromAsync<T>(AsyncValue<T?> value) {
   return value.hasError ? FieldState<T>.failed() : FieldState<T>.loading();
 }
 
-// PackageKit's size for a package that is not installed is its download size.
-ByteSize? _downloadSize(PackageKitDetailsEvent? details) {
+ByteSize? _size(PackageKitDetailsEvent? details, SizeKind kind) {
   final size = details?.size;
-  return size == null || size <= 0
-      ? null
-      : ByteSize(bytes: size, kind: SizeKind.download);
+  return size == null || size <= 0 ? null : ByteSize(bytes: size, kind: kind);
 }
 
 @visibleForTesting
@@ -163,7 +162,15 @@ PackageSourceSnapshot debSnapshotFromData(
           confinement: AppConfinement.unrestricted,
         );
 
-  final installedRelease = installed ? release(packageId) : null;
+  final installedRelease = installed
+      ? release(
+          packageId,
+          // Only the package itself, not the dependencies it pulled in.
+          size: FieldState.fromNullable(
+            _size(data.details, SizeKind.installed),
+          ),
+        )
+      : null;
   final installCandidate = installed
       ? null
       : release(packageId, size: installSize);

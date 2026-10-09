@@ -242,21 +242,17 @@ void main() {
       expect(state.footer.installDate.valueOrNull, DateTime(2026, 2, 3));
     });
 
-    test('update candidate is shown without installed size', () {
-      final deb =
-          createSourceSnapshot(
-            testDebKey,
-            installState: _installed,
-            withUpdate: true,
-          ).copyWith(
-            updateCandidate: testDebUpdate.copyWith(
-              size: FieldState<ByteSize>.unavailable(),
-            ),
-          );
-      final release = _compose(deb: deb).state.release;
+    test('installed app shows its installed size, even with an update', () {
+      final release = _compose(
+        snap: createSourceSnapshot(
+          testSnapKey,
+          installState: _installed,
+          withUpdate: true,
+        ),
+      ).state.release;
       expect(release.kind, ReleaseKind.update);
-      expect(release.version.valueOrNull, '1.1-1');
-      expect(release.size, isA<FieldUnavailable<ByteSize>>());
+      expect(release.version.valueOrNull, testSnapUpdate.version);
+      expect(release.size.valueOrNull?.kind, SizeKind.installed);
     });
 
     test('channel of displayed release is separate from installed one', () {
@@ -655,7 +651,8 @@ void main() {
       final deb = format(state, PackageFormat.deb);
 
       expect(snap.installState, _installed);
-      expect(snap.size.valueOrNull?.kind, SizeKind.installed);
+      expect(snap.size, isA<FieldUnavailable<ByteSize>>());
+      expect(deb.size.valueOrNull?.kind, SizeKind.download);
       expect(snap.action?.kind, ActionKind.uninstall);
       expect(snap.action?.enabled, isTrue);
       expect(deb.installState, _notInstalled);

@@ -218,6 +218,7 @@
     "appDetailsPackageFormatLabel": "Package format",
     "appDetailsCategoryLabel": "Category",
     "appDetailsInstallDateLabel": "Installation date",
+    "appDetailsInstalledSizeLabel": "Installed size",
     "appDetailsNotInstalled": "Not installed",
     "appDetailsNotAvailable": "Not available",
     "appDetailsChoosePackageFormatAction": "Choose package format…",
