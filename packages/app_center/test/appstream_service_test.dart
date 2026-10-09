@@ -51,6 +51,16 @@ void main() {
     summary: {},
   );
 
+  const componentWithIdentityMetadata = AppstreamComponent(
+    id: 'org.videolan.vlc',
+    type: AppstreamComponentType.desktopApplication,
+    package: 'vlc',
+    name: {'C': 'VLC'},
+    summary: {},
+    launchables: [AppstreamLaunchableDesktopId('vlc.desktop')],
+    provides: [AppstreamProvidesId('vlc-legacy.desktop')],
+  );
+
   setUp(() {
     pool = MockAppstreamPool();
     components = [];
@@ -134,5 +144,92 @@ void main() {
     // 'application' and 'tool' are grey-listed
     results = await service.search('package tool');
     expect(results, isEmpty);
+  });
+
+  test('getComponentsByPackage', () async {
+    const duplicateComponent = AppstreamComponent(
+      id: 'duplicate.desktop',
+      type: AppstreamComponentType.desktopApplication,
+      package: '0ad',
+      name: {'C': 'Duplicate'},
+      summary: {},
+    );
+
+    const emptyPackageComponent = AppstreamComponent(
+      id: 'empty.desktop',
+      type: AppstreamComponentType.desktopApplication,
+      package: '',
+      name: {'C': 'Empty Package'},
+      summary: {},
+    );
+
+    components.addAll([
+      component1,
+      component2,
+      duplicateComponent,
+      emptyPackageComponent,
+    ]);
+    await service.init();
+
+    final result = service.getComponentsByPackage();
+
+    expect(result.length, 2);
+    expect(result['0ad'], component1);
+    expect(result['qbrew'], component2);
+    expect(result.containsKey(''), isFalse);
+  });
+
+  test('indexes component identity metadata', () async {
+    components.add(componentWithIdentityMetadata);
+    await service.init();
+
+    expect(
+      await service.findById(' ORG.VIDEOLAN.VLC '),
+      componentWithIdentityMetadata,
+    );
+    expect(
+      await service.findByDesktopId(' VLC.DESKTOP '),
+      componentWithIdentityMetadata,
+    );
+    expect(
+      await service.findByAlias(' VLC-LEGACY.DESKTOP '),
+      componentWithIdentityMetadata,
+    );
+    expect(
+      await service.findByPackageName(' VLC '),
+      componentWithIdentityMetadata,
+    );
+  });
+
+  test('selects duplicate index entries deterministically', () async {
+    const duplicate = AppstreamComponent(
+      id: 'org.videolan.vlc',
+      type: AppstreamComponentType.desktopApplication,
+      package: 'z-vlc',
+      name: {'C': 'VLC duplicate'},
+      summary: {},
+    );
+    components.addAll([duplicate, componentWithIdentityMetadata]);
+    await service.init();
+
+    expect(
+      await service.findById('org.videolan.vlc'),
+      componentWithIdentityMetadata,
+    );
+  });
+
+  test('reload rebuilds the indices', () async {
+    components.add(component1);
+    await service.init();
+    expect(await service.findByPackageName('0ad'), component1);
+
+    components
+      ..clear()
+      ..add(component2);
+    await service.reload();
+
+    expect(await service.findByPackageName('0ad'), isNull);
+    expect(await service.findByPackageName('QBrew'), component2);
+    verify(pool.load()).called(2);
   });
 }

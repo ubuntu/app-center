@@ -2,7 +2,7 @@
     "appCenterLabel": "App Center",
     "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool",
     "snapPageChannelLabel": "Channel",
-    "snapPageConfinementLabel": "Confinement",
+    "snapPageConfinementLabel": "Permissions",
     "snapPageContactPublisherLabel": "Contact {publisher}",
     "@snapPageContactPublisherLabel": {
         "placeholders": {
@@ -11,11 +11,9 @@
             }
         }
     },
-    "snapPageDescriptionLabel": "Description",
     "snapPageDeveloperWebsiteLabel": "Developer website",
     "snapPageDownloadSizeLabel": "Download size",
     "snapPageSizeLabel": "Size",
-    "snapPageGalleryLabel": "Gallery",
     "snapPageGalleryNextSemanticLabel": "Next image",
     "snapPageGalleryPreviousSemanticLabel": "Previous image",
     "snapPageGalleryImageSemanticLabel": "Image {n}",
@@ -29,7 +27,7 @@
     "snapPageLicenseLabel": "License",
     "snapPageLinksLabel": "Links",
     "snapPagePublisherLabel": "Publisher",
-    "snapPagePublishedLabel": "Published",
+    "snapPagePublishedLabel": "Last updated",
     "snapPageSummaryLabel": "Summary",
     "snapPageVersionLabel": "Version",
     "snapPageShareLinkCopiedMessage": "Link copied to clipboard",
@@ -62,7 +60,7 @@
     "managePageNoInternet": "Can't reach server, check your internet connection or try again later.",
     "managePageDescription": "Check for available updates, update your apps, and manage the status of all your apps.",
     "managePageDebUpdatesMessage": "Debian package updates are handled by the Software Updater.",
-    "managePageInstalledAndUpdatedLabel": "Installed and updated",
+    "managePageInstalledAndUpdatedLabel": "Installed apps",
     "managePageInstallingLabel": "Installing ({n})",
     "@managePageInstallingLabel": {
         "placeholders": {
@@ -74,9 +72,13 @@
     "managePageLabel": "Manage",
     "managePageTitle": "Manage installed snaps",
     "managePageNoUpdatesAvailableDescription": "No updates available. Your applications are all up to date.",
-    "managePageSearchFieldSearchHint": "Search your installed apps",
+    "managePageSearchFieldSearchHint": "Search installed apps",
     "managePageShowDetailsLabel": "Show details",
     "managePageShowSystemSnapsLabel": "Show system snaps",
+    "managePagePackageTypeLabel": "Package type",
+    "managePagePackageTypeAll": "All",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
     "managePageUpdateAllLabel": "Update all",
     "managePageUpdatedDaysAgo": "Updated {n, plural, =1{{n} day} other{{n} days}} ago",
     "@managePageUpdatedDaysAgo": {
@@ -191,15 +193,33 @@
     "aboutPageGitHubLabel": "Find us on GitHub",
     "aboutPagePublishLabel": "Publish to the Snap Store",
     "aboutPageLearnMoreLabel": "Learn more",
-    "appstreamUrlTypeBugtracker": "Bugtracker",
-    "appstreamUrlTypeContact": "Contact",
-    "appstreamUrlTypeContribute": "Contribute",
-    "appstreamUrlTypeDonation": "Donate",
-    "appstreamUrlTypeFaq": "FAQ",
-    "appstreamUrlTypeHelp": "Help",
-    "appstreamUrlTypeHomepage": "Homepage",
-    "appstreamUrlTypeTranslate": "Translations",
-    "appstreamUrlTypeVcsBrowser": "Source",
+    "appUrlTypeContact": "Contact {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Developer website",
+    "appUrlTypeUnknown": "Link",
+    "appConfinementUnknown": "Unknown",
+    "appConfinementStrict": "Sandboxed",
+    "appConfinementDevelopment": "Devmode",
+    "appConfinementClassic": "Unrestricted",
+    "appConfinementUnrestricted": "Unrestricted",
+    "appConfinementStrictTooltip": "This app has limited access to your resources. You can control its permissions in the Settings app.",
+    "appConfinementClassicTooltip": "This app uses classic confinement, giving full access to your resources. This is common with development apps.",
+    "appConfinementUnrestrictedTooltip": "This app has full access to your resources.",
+    "appLicenseUnknown": "Unknown",
+    "appPublishedUnknown": "Unknown",
+    "appMoreActionsSemanticLabel": "More actions",
+    "appDetailsAdditionalInfoLabel": "Additional information",
+    "appDetailsPackageFormatLabel": "Package format",
+    "appDetailsCategoryLabel": "Category",
+    "appDetailsInstallDateLabel": "Installation date",
+    "appDetailsNotInstalled": "Not installed",
+    "appDetailsNotAvailable": "Not available",
     "packageFormatDebLabel": "Debian packages",
     "packageFormatSnapLabel": "Snap packages",
     "snapActionCancelLabel": "Cancel",
@@ -209,7 +229,31 @@
     "snapActionOpenLabel": "Open",
     "snapActionRemoveLabel": "Uninstall",
     "snapActionRemovingLabel": "Uninstalling",
+    "snapActionRevertLabel": "Revert update",
+    "snapActionRevertingLabel": "Reverting update",
+    "snapRevertConfirmTitle": "Revert to previous version?",
+    "snapRevertConfirmMessage": "Automatic updates will resume when a new version is available.",
+    "snapRevertConfirmRevert": "Revert",
+    "snapRevertConfirmCancel": "Cancel",
+    "snapRevertConfirmTitleWithVersions": "Revert from {currentVersion} (rev {currentRevision}) to {previousVersion} (rev {previousRevision})?",
+    "@snapRevertConfirmTitleWithVersions": {
+      "placeholders": {
+        "currentVersion": {"type": "String"},
+        "currentRevision": {"type": "int"},
+        "previousVersion": {"type": "String"},
+        "previousRevision": {"type": "int"}
+      }
+    },
+    "snapRevertNoPreviousRevisionMessage": "No previous local revision is available to revert to.",
     "snapActionSwitchChannelLabel": "Switch channel",
+    "snapActionSwitchChannelTitle": "Switch channel for {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
     "snapActionUpdateLabel": "Update",
     "snapCategoryAll": "All categories",
     "snapActionUpdatingLabel": "Updating",
@@ -271,9 +315,6 @@
     "snapCategoryUbuntuDesktop": "Ubuntu Desktop",
     "snapCategoryUbuntuDesktopSlogan": "Jump start your desktop",
     "snapCategoryUtilities": "Utilities",
-    "snapConfinementClassic": "Classic",
-    "snapConfinementDevmode": "Devmode",
-    "snapConfinementStrict": "Strict",
     "snapSortOrderAlphabeticalAsc": "Alphabetical (A to Z)",
     "snapSortOrderAlphabeticalDesc": "Alphabetical (Z to A)",
     "snapSortOrderDownloadSizeAsc": "Size (Smallest to largest)",
@@ -354,5 +395,67 @@
     "codecPageTitle": "Missing media codecs",
     "codecPageDescription": "You need to install the following codecs for handling certain video and audio formats:",
     "codecProprietaryDisclaimer": "Some of the recommended codecs could be proprietary.",
-    "codecInstallAllButton": "Install recommended codecs"
+    "codecInstallAllButton": "Install recommended codecs",
+    "addonsPageLabel": "Add-ons",
+    "addonsPageAdditionalDriversTitle": "Additional drivers",
+    "addonsPageAdditionalDriversDescription": "Add better support for graphics cards and other hardware",
+    "addonsPageMediaSupportTitle": "Media support",
+    "addonsPageMediaSupportDescription": "Install additional software to support more media formats",
+    "addonsPageFirmwareTitle": "Firmware",
+    "addonsPageFirmwareDescription": "Update hardware for better performance and security",
+    "mediaSupportPageDescription": "Ubuntu ships with some open source codecs by default. You might need to install additional software to play and edit certain music and video formats.",
+    "mediaSupportPageAdditionalMediaTitle": "Additional media support",
+    "mediaSupportPageInstallButton": "Install",
+    "driversPageDescription": "Proprietary drivers have private code that Ubuntu developers can't review or improve. Security and other updates are dependent on the driver vendor.",
+    "driversPageSectionUpdateAvailable": "Update available",
+    "driversPageSectionAvailable": "Available",
+    "driversPageSectionInstalled": "Installed",
+    "driversPageSectionUnsupported": "No drivers available",
+    "driversPageNoPackagesMessage": "No packages provide drivers for this device",
+    "driversPageDeviceClassGraphics": "Graphics",
+    "driversPageDeviceClassNetwork": "Network",
+    "driversPageDeviceClassCamera": "Camera",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Storage",
+    "driversPageDeviceClassAudio": "Audio",
+    "driversPageDeviceClassOther": "Other",
+    "driversPageBranchProduction": "Production",
+    "driversPageBranchLts": "Long term support",
+    "driversPageBranchNewFeature": "New features",
+    "driversPageVersionLabel": "Version {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Restart required",
+    "driversPageRestartRequiredMessage": "Restart your computer to finish applying driver changes.",
+    "driversPageErrorLabel": "Error",
+    "driversPageRetryLabel": "Retry",
+    "driversPageNoDriversFoundMessage": "Using built-in drivers. No additional drivers found.",
+    "driversPageUnavailableTitle": "Driver management unavailable",
+    "driversPageUnsupportedMessage": "The driver management service is unavailable. Make sure snapd is up to date and ubuntu-drivers-common is installed.",
+    "driversPageSwitchBranchLabel": "Switch branch",
+    "driversPageSwitchBranchTitle": "Switch branch",
+    "driversPageSwitchBranchProductionDescription": "Balances features and stability",
+    "driversPageSwitchBranchLtsDescription": "Maximum stability for critical workloads",
+    "driversPageSwitchBranchNewFeatureDescription": "Preview, less stable",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (recommended)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "This branch is less stable",
+    "driversPageSwitchBranchLessStableWarningMessage": "Stay on the current branch to prevent issues with this device.",
+    "driversPageSwitchLabel": "Switch",
+    "driversPageSwitchingBranchLabel": "Switching branch",
+    "driversPageUninstallTitle": "Uninstall driver",
+    "driversPageUninstallWarningTitle": "Uninstalling drivers can cause issues",
+    "driversPageUninstallWarningMessage": "You might not be able to easily reinstall the drivers, particularly if related to graphics or network.",
+    "driversPageUninstallAcknowledgeLabel": "I understand the risk"
 }

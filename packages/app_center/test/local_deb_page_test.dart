@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:app_center/deb/deb.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/packagekit/packagekit.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -44,7 +46,7 @@ void main() {
     expect(find.text('description'), findsOneWidget);
     expect(find.text('license'), findsOneWidget);
     expect(find.text(tester.context.formatByteSize(42)), findsOneWidget);
-    expect(find.text('url'), findsOneWidget);
+    expect(find.text(tester.l10n.appUrlTypeHomepage), findsOneWidget);
     expect(find.button(tester.l10n.snapActionInstallLabel), findsOneWidget);
   });
 
@@ -101,5 +103,33 @@ void main() {
     transactionCompleter.complete();
     await tester.pumpAndSettle();
     expect(find.byType(YaruCircularProgressIndicator), findsNothing);
+  });
+
+  testWidgets('warning link shows a pointer cursor on hover', (tester) async {
+    final packageKit = createMockPackageKitService(packageDetails: mockPackage);
+    registerMockService<PackageKitService>(packageKit);
+
+    await tester.pumpApp(
+      (_) => const ProviderScope(
+        child: LocalDebPage(path: '/path/to/package.deb'),
+      ),
+    );
+    await tester.pump();
+
+    final gesture = await tester.createGesture(
+      kind: PointerDeviceKind.mouse,
+      pointer: 1,
+    );
+    await gesture.addPointer(location: Offset.zero);
+    addTearDown(gesture.removePointer);
+    await gesture.moveTo(
+      tester.getCenter(find.text(tester.l10n.localDebLearnMore)),
+    );
+    await tester.pump();
+
+    expect(
+      RendererBinding.instance.mouseTracker.debugDeviceActiveCursor(1),
+      SystemMouseCursors.click,
+    );
   });
 }

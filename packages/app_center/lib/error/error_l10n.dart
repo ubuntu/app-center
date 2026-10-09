@@ -36,60 +36,60 @@ sealed class ErrorMessage {
 
   static final _patternMaps =
       <({RegExp pattern, ErrorMessage Function(Match) message})>[
-    (
-      pattern: RegExp('too many requests'),
-      message: (_) => ErrorMessageTooManyRequests(),
-    ),
-    (
-      pattern: RegExp(
-        r'cannot refresh "(.*?)": snap "\1" has running apps \((.*?)\)',
-      ),
-      message: (match) => ErrorMessageRunningApps(match.group(1)!),
-    ),
-    (
-      pattern: RegExp('persistent network error'),
-      message: (_) => ErrorMessageNetwork(),
-    ),
-  ];
+        (
+          pattern: RegExp('too many requests'),
+          message: (_) => ErrorMessageTooManyRequests(),
+        ),
+        (
+          pattern: RegExp(
+            r'cannot refresh "(.*?)": snap "\1" has running apps \((.*?)\)',
+          ),
+          message: (match) => ErrorMessageRunningApps(match.group(1)!),
+        ),
+        (
+          pattern: RegExp('persistent network error'),
+          message: (_) => ErrorMessageNetwork(),
+        ),
+      ];
 
   String body(AppLocalizations l10n) => switch (this) {
-        ErrorMessageNetwork() => l10n.errorViewNetworkErrorDescription,
-        ErrorMessageTooManyRequests() => l10n.errorViewServerErrorDescription,
-        ErrorMessageRunningApps(snap: final snap) =>
-          l10n.snapdExceptionRunningApps(snap),
-        _ => l10n.errorViewUnknownErrorDescription,
-      };
+    ErrorMessageNetwork() => l10n.errorViewNetworkErrorDescription,
+    ErrorMessageTooManyRequests() => l10n.errorViewServerErrorDescription,
+    ErrorMessageRunningApps(snap: final snap) => l10n.snapdExceptionRunningApps(
+      snap,
+    ),
+    _ => l10n.errorViewUnknownErrorDescription,
+  };
 
   String title(AppLocalizations l10n) => switch (this) {
-        ErrorMessageNetwork() => l10n.errorViewNetworkErrorTitle,
-        ErrorMessageRunningApps() => l10n.managePageUpdatesFailed(1),
-        ErrorMessageConsolidated() => l10n.managePageUpdatesFailed(
-            (this as ErrorMessageConsolidated).errors.length,
-          ),
-        _ => l10n.errorViewUnknownErrorTitle,
-      };
+    ErrorMessageNetwork() => l10n.errorViewNetworkErrorTitle,
+    ErrorMessageRunningApps() => l10n.managePageUpdatesFailed(1),
+    ErrorMessageConsolidated() => l10n.managePageUpdatesFailed(
+      (this as ErrorMessageConsolidated).errors.length,
+    ),
+    _ => l10n.errorViewUnknownErrorTitle,
+  };
 
   String actionLabel(AppLocalizations l10n) => switch (this) {
-        ErrorMessageNetwork() => l10n.errorViewNetworkErrorAction,
-        ErrorMessageTooManyRequests() => l10n.errorViewServerErrorAction,
-        _ => l10n.errorViewUnknownErrorAction,
-      };
+    ErrorMessageNetwork() => l10n.errorViewNetworkErrorAction,
+    ErrorMessageTooManyRequests() => l10n.errorViewServerErrorAction,
+    _ => l10n.errorViewUnknownErrorAction,
+  };
 
   List<ErrorAction> get actions => switch (this) {
-        ErrorMessageNetwork() => [ErrorAction.retry],
-        ErrorMessageTooManyRequests() => [ErrorAction.checkStatus],
-        ErrorMessageRunningApps() => [],
-        _ => [ErrorAction.retry, ErrorAction.checkStatus],
-      };
+    ErrorMessageNetwork() => [ErrorAction.retry],
+    ErrorMessageTooManyRequests() => [ErrorAction.checkStatus],
+    ErrorMessageRunningApps() => [],
+    _ => [ErrorAction.retry, ErrorAction.checkStatus],
+  };
 
   YaruInfoType get type => switch (this) {
-        ErrorMessageNetwork() => YaruInfoType.danger,
-        ErrorMessageTooManyRequests() => YaruInfoType.danger,
-        ErrorMessageRunningApps() ||
-        ErrorMessageConsolidated() =>
-          YaruInfoType.warning,
-        _ => YaruInfoType.danger,
-      };
+    ErrorMessageNetwork() => YaruInfoType.danger,
+    ErrorMessageTooManyRequests() => YaruInfoType.danger,
+    ErrorMessageRunningApps() ||
+    ErrorMessageConsolidated() => YaruInfoType.warning,
+    _ => YaruInfoType.danger,
+  };
 }
 
 class ErrorMessageNetwork extends ErrorMessage {}

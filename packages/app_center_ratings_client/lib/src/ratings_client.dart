@@ -48,8 +48,9 @@ class RatingsClient {
 
   Future<void> delete(String token) async {
     final request = Empty();
-    final callOptions =
-        CallOptions(metadata: {'authorization': 'Bearer $token'});
+    final callOptions = CallOptions(
+      metadata: {'authorization': 'Bearer $token'},
+    );
     await _userClient.delete(request, options: callOptions);
   }
 
@@ -62,10 +63,13 @@ class RatingsClient {
       timeframe: timeframe.toDTO(),
       category: category,
     );
-    final callOptions =
-        CallOptions(metadata: {'authorization': 'Bearer $token'});
-    final grpcResponse =
-        await _chartClient.getChart(request, options: callOptions);
+    final callOptions = CallOptions(
+      metadata: {'authorization': 'Bearer $token'},
+    );
+    final grpcResponse = await _chartClient.getChart(
+      request,
+      options: callOptions,
+    );
     return grpcResponse.orderedChartData.map((data) => data.fromDTO()).toList();
   }
 
@@ -79,8 +83,9 @@ class RatingsClient {
       snapName: snapName,
       snapId: snapId,
     );
-    final callOptions =
-        CallOptions(metadata: {'authorization': 'Bearer $token'});
+    final callOptions = CallOptions(
+      metadata: {'authorization': 'Bearer $token'},
+    );
     final grpcResponse = await _appClient.getRating(
       request,
       options: callOptions,
@@ -90,8 +95,9 @@ class RatingsClient {
 
   Future<List<Vote>> getSnapVotes(String snapId, String token) async {
     final request = user_pb.GetSnapVotesRequest(snapId: snapId);
-    final callOptions =
-        CallOptions(metadata: {'authorization': 'Bearer $token'});
+    final callOptions = CallOptions(
+      metadata: {'authorization': 'Bearer $token'},
+    );
     final grpcResponse = await _userClient.getSnapVotes(
       request,
       options: callOptions,
@@ -113,8 +119,9 @@ class RatingsClient {
       snapRevision: snapRevision,
       voteUp: voteUp,
     );
-    final callOptions =
-        CallOptions(metadata: {'authorization': 'Bearer $token'});
+    final callOptions = CallOptions(
+      metadata: {'authorization': 'Bearer $token'},
+    );
     await _userClient.vote(request, options: callOptions);
   }
 }

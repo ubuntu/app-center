@@ -16,7 +16,8 @@ class TestSnapdCache extends MockSnapdClient with SnapdCache {}
 
 void main() {
   test('path', () {
-    final cacheHome = Platform.environment['XDG_CACHE_HOME'] ??
+    final cacheHome =
+        Platform.environment['XDG_CACHE_HOME'] ??
         '${Platform.environment['HOME']}/.cache';
     expect(cachePath, startsWith(cacheHome));
     expect(cachePath, endsWith('/snapd'));
@@ -283,10 +284,8 @@ final localSnap = Snap.fromJson(const {
   'id': '3wdHCAVyZEmYsCMFDE9qt92UV8rC8Wdk',
   'title': 'firefox',
   'summary': 'Mozilla Firefox web browser',
-  'description':
-      'Firefox is a powerful, extensible web browser with support for modern web application technologies.',
-  'icon':
-      'https://dashboard.snapcraft.io/site_media/appmedia/2021/12/firefox_logo.png',
+  'description': 'Firefox is a powerful, extensible web browser with support for modern web application technologies.',
+  'icon': 'https://dashboard.snapcraft.io/site_media/appmedia/2021/12/firefox_logo.png',
   'installed-size': 256897024,
   'install-date': '2023-07-11T14:35:58.527931133+02:00',
   'name': 'firefox',
@@ -325,24 +324,21 @@ final localSnap = Snap.fromJson(const {
     ],
     'website': ['https://www.mozilla.org/firefox/'],
   },
-  'contact':
-      'https://support.mozilla.org/kb/file-bug-report-or-feature-request-mozilla',
+  'contact': 'https://support.mozilla.org/kb/file-bug-report-or-feature-request-mozilla',
   'website': 'https://www.mozilla.org/firefox/',
   'media': [
     {
       'type': 'icon',
-      'url':
-          'https://dashboard.snapcraft.io/site_media/appmedia/2021/12/firefox_logo.png',
+      'url': 'https://dashboard.snapcraft.io/site_media/appmedia/2021/12/firefox_logo.png',
       'width': 196,
       'height': 196,
     },
     {
       'type': 'screenshot',
-      'url':
-          'https://dashboard.snapcraft.io/site_media/appmedia/2021/09/Screenshot_from_2021-09-30_08-01-50.png',
+      'url': 'https://dashboard.snapcraft.io/site_media/appmedia/2021/09/Screenshot_from_2021-09-30_08-01-50.png',
       'width': 1850,
       'height': 1415,
-    }
+    },
   ],
 });
 
@@ -350,11 +346,9 @@ final storeSnap = Snap.fromJson(const {
   'id': '3wdHCAVyZEmYsCMFDE9qt92UV8rC8Wdk',
   'title': 'firefox',
   'summary': 'Mozilla Firefox web browser',
-  'description':
-      'Firefox is a powerful, extensible web browser with support for modern web application technologies.',
+  'description': 'Firefox is a powerful, extensible web browser with support for modern web application technologies.',
   'download-size': 256905216,
-  'icon':
-      'https://dashboard.snapcraft.io/site_media/appmedia/2021/12/firefox_logo.png',
+  'icon': 'https://dashboard.snapcraft.io/site_media/appmedia/2021/12/firefox_logo.png',
   'name': 'firefox',
   'publisher': {
     'id': 'OgeoZuqQpVvSr9eGKJzNCrFGSaKXpkey',
@@ -382,24 +376,21 @@ final storeSnap = Snap.fromJson(const {
     ],
     'website': ['https://www.mozilla.org/firefox/'],
   },
-  'contact':
-      'https://support.mozilla.org/kb/file-bug-report-or-feature-request-mozilla',
+  'contact': 'https://support.mozilla.org/kb/file-bug-report-or-feature-request-mozilla',
   'website': 'https://www.mozilla.org/firefox/',
   'media': [
     {
       'type': 'icon',
-      'url':
-          'https://dashboard.snapcraft.io/site_media/appmedia/2021/12/firefox_logo.png',
+      'url': 'https://dashboard.snapcraft.io/site_media/appmedia/2021/12/firefox_logo.png',
       'width': 196,
       'height': 196,
     },
     {
       'type': 'screenshot',
-      'url':
-          'https://dashboard.snapcraft.io/site_media/appmedia/2021/09/Screenshot_from_2021-09-30_08-01-50.png',
+      'url': 'https://dashboard.snapcraft.io/site_media/appmedia/2021/09/Screenshot_from_2021-09-30_08-01-50.png',
       'width': 1850,
       'height': 1415,
-    }
+    },
   ],
   'categories': [
     {'name': 'productivity', 'featured': true},
@@ -485,8 +476,7 @@ final localSnap2 = Snap.fromJson(const {
   'id': 'mVyGrEwiqSi5PugCwyH7WgpoQLemtTd6',
   'title': 'hello',
   'summary': 'GNU Hello, the \'hello world\' snap',
-  'description':
-      'GNU hello prints a friendly greeting. This is part of the snapcraft tour at https://snapcraft.io/',
+  'description': 'GNU hello prints a friendly greeting. This is part of the snapcraft tour at https://snapcraft.io/',
   'installed-size': 131072,
   'install-date': '2023-08-16T10:48:45.920574061+02:00',
   'name': 'hello',
@@ -524,8 +514,7 @@ final storeSnap2 = Snap.fromJson(const {
   'id': 'mVyGrEwiqSi5PugCwyH7WgpoQLemtTd6',
   'title': 'hello',
   'summary': 'GNU Hello, the \'hello world\' snap',
-  'description':
-      'GNU hello prints a friendly greeting. This is part of the snapcraft tour at https://snapcraft.io/',
+  'description': 'GNU hello prints a friendly greeting. This is part of the snapcraft tour at https://snapcraft.io/',
   'download-size': 106496,
   'name': 'hello',
   'publisher': {

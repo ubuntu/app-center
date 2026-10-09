@@ -11,6 +11,10 @@ parts:
     plugin: nil
     source: .
     override-build: |
+      if [ $CRAFT_ARCH_BUILD_FOR = riscv64 ]; then
+        export FLUTTER_STORAGE_BASE_URL=https://flutter-experimental.ubuntu.com
+      fi
+
       bash $CRAFT_PART_SRC/scripts/install-fvm.sh
       fvm install
       fvm flutter doctor
@@ -43,13 +47,22 @@ parts:
       set -e
 
       fvm dart pub global run melos exec -c 1 --fail-fast --depends-on=build_runner --order-dependents -- \
-      fvm dart run build_runner build --delete-conflicting-outputs
+      fvm dart run build_runner build
 
       cd packages/app_center
       fvm flutter gen-l10n
       fvm flutter build linux --release -v
       mkdir -p $CRAFT_PART_INSTALL/bin/
       cp -r build/linux/*/release/bundle/* $CRAFT_PART_INSTALL/bin/
+    stage-packages:
+      - to arm64:
+          - fonts-noto-cjk
+
+  packagekit-session-installer:
+    source: ./packagekit-session-installer
+    plugin: meson
+    meson-parameters:
+      - --prefix=/
 
 apps:
   snap-store:
@@ -58,6 +71,8 @@ apps:
       RATINGS_SERVICE_URL: 'ratings.ubuntu.com'
       RATINGS_SERVICE_PORT: '443'
       RATINGS_SERVICE_USE_TLS: 'true'
+      # temporary fix for https://github.com/canonical/snapcraft-desktop-integration/pull/35
+      GIO_LAUNCH_DESKTOP: "$SNAP_DESKTOP_RUNTIME/usr/libexec/gio-launch-desktop"
     desktop: bin/data/flutter_assets/assets/app-center.desktop
     extensions: [gnome]
     plugs: &store_plugs
@@ -67,6 +82,8 @@ apps:
       - network
       - snapd-control
       - packagekit-control
+      # Disabled temporarily until store supports ubuntu-drivers-observe SEC-10893
+      # - ubuntu-drivers-observe
 
 # This entry, along with the corresponding .desktop file, is required
 # to allow Snapd Desktop Integration to open the Snap Center in the
@@ -75,6 +92,16 @@ apps:
   show-updates:
     command: bin/snap-store --updates
     desktop: bin/data/flutter_assets/assets/app-center-updates.desktop
+    environment: *store_env
+    extensions: [gnome]
+    plugs: *store_plugs
+
+  packagekit-session-installer:
+    command: bin/packagekit-session-installer
+    desktop: bin/data/flutter_assets/assets/app-center-packagekit.desktop
+    daemon: dbus
+    daemon-scope: user
+    activates-on: [packagekit-session]
     environment: *store_env
     extensions: [gnome]
     plugs: *store_plugs

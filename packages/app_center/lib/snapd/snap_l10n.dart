@@ -8,18 +8,10 @@ extension SnapdChangeL10n on SnapdChange {
       'install-snap' => l10n.snapActionInstallingLabel,
       'refresh-snap' => l10n.snapActionUpdatingLabel,
       'remove-snap' => l10n.snapActionRemovingLabel,
+      'revert-snap' => l10n.snapActionRevertingLabel,
       _ => null,
     };
   }
-}
-
-extension SnapConfinementL10n on SnapConfinement {
-  String localize(AppLocalizations l10n) => switch (this) {
-        SnapConfinement.classic => l10n.snapConfinementClassic,
-        SnapConfinement.devmode => l10n.snapConfinementDevmode,
-        SnapConfinement.strict => l10n.snapConfinementStrict,
-        _ => name,
-      };
 }
 
 extension SnapSortOrderL10n on SnapSortOrder {

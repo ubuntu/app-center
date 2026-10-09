@@ -16,8 +16,16 @@ class RatingsModel extends _$RatingsModel {
 
   @override
   Future<RatingsData> build(String snapName) async {
-    final snap = (await ref.watch(snapModelProvider(snapName).future)).snap;
-    final snapId = snap.id;
+    final snapData = await ref.watch(snapModelProvider(snapName).future);
+    final snapId = snapData.snap.id;
+
+    // Ratings are recorded per revision, and the rating buttons are only shown
+    // for an installed snap, so the revision being rated is the installed one.
+    // `SnapData.snap` prefers the store snap, which carries the newest revision
+    // in the channel and differs from the installed one whenever an update is
+    // pending, so reading the revision from it attributes the vote to a
+    // revision the user has not run.
+    final snapRevision = snapData.localSnap?.revision ?? snapData.snap.revision;
 
     final cacheFile = _getCacheFile(snapId);
 
@@ -40,9 +48,9 @@ class RatingsModel extends _$RatingsModel {
 
     final ratingsData = RatingsData(
       snapId: snapId,
-      snapRevision: snap.revision,
+      snapRevision: snapRevision,
       rating: rating,
-      voteStatus: _getUserVote(snap.revision, votes),
+      voteStatus: _getUserVote(snapRevision, votes),
       snapName: snapName,
     );
 
@@ -56,17 +64,22 @@ class RatingsModel extends _$RatingsModel {
     final voteUp = voteStatus == VoteStatus.up ? true : false;
 
     if (voteStatus != ratingsData.voteStatus) {
-      final vote = Vote(
-        snapId: ratingsData.snapId,
-        snapRevision: ratingsData.snapRevision,
-        voteUp: voteUp,
-        dateTime: clock.now(),
-        snapName: ratingsData.snapName,
-      );
-      await _ratings.vote(vote);
-      state = AsyncData(ratingsData.copyWith(voteStatus: voteStatus));
-      await _getCacheFile(ratingsData.snapId).deleteIfExists();
-      ref.invalidateSelf();
+      final keepAliveLink = ref.keepAlive();
+      try {
+        final vote = Vote(
+          snapId: ratingsData.snapId,
+          snapRevision: ratingsData.snapRevision,
+          voteUp: voteUp,
+          dateTime: clock.now(),
+          snapName: ratingsData.snapName,
+        );
+        await _ratings.vote(vote);
+        state = AsyncData(ratingsData.copyWith(voteStatus: voteStatus));
+        await _getCacheFile(ratingsData.snapId).deleteIfExists();
+        ref.invalidateSelf();
+      } finally {
+        keepAliveLink.close();
+      }
     }
   }
 
@@ -88,7 +101,4 @@ class RatingsModel extends _$RatingsModel {
   }
 }
 
-enum VoteStatus {
-  up,
-  down;
-}
+enum VoteStatus { up, down }

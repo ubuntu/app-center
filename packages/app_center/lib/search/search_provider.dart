@@ -4,14 +4,16 @@ import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:snapd/snapd.dart';
 
 enum PackageFormat { snap, deb }
 
 final queryProvider = StateProvider<String?>((_) => null);
 
-final packageFormatProvider =
-    StateProvider.autoDispose<PackageFormat>((_) => PackageFormat.snap);
+final packageFormatProvider = StateProvider.autoDispose<PackageFormat>(
+  (_) => PackageFormat.snap,
+);
 
 typedef AutoCompleteOptions = ({
   Iterable<Snap> snaps,

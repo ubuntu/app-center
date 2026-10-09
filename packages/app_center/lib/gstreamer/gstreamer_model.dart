@@ -11,7 +11,7 @@ part 'gstreamer_model.freezed.dart';
 part 'gstreamer_model.g.dart';
 
 @freezed
-class GStreamerData with _$GStreamerData {
+abstract class GStreamerData with _$GStreamerData {
   factory GStreamerData({
     required List<PackageKitPackageEvent> packageInfos,
     int? activeTransactionId,
@@ -45,9 +45,10 @@ class GstreamerModel extends _$GstreamerModel {
       resources.list.map((resource) => packageKit.whatProvides(resource.id)),
     );
     final packageIds = providers.flattened.map((p) => p.packageId);
-    final packages =
-        await Future.wait(packageIds.map((id) => packageKit.resolve(id.name)));
-    return GStreamerData(packageInfos: packages.nonNulls.toList());
+    final packages = await packageKit.resolve(
+      packageIds.map((id) => id.name).toList(),
+    );
+    return GStreamerData(packageInfos: packages.values.nonNulls.toList());
   }
 
   Future<void> _emitInstallationFinishedSignal() async {
@@ -70,20 +71,25 @@ class GstreamerModel extends _$GstreamerModel {
 
   Future<void> installAll() async {
     final packageKit = getService<PackageKitService>();
+    final keepAliveLink = ref.keepAlive();
+    try {
+      final installTransaction = await packageKit.installAll(
+        state.value!.packageInfos.nonNulls.map((p) => p.packageId),
+      );
+      state = AsyncData(
+        state.value!.copyWith(activeTransactionId: installTransaction),
+      );
+      await packageKit.waitTransaction(installTransaction);
 
-    final installTransaction = await packageKit
-        .installAll(state.value!.packageInfos.nonNulls.map((p) => p.packageId));
-    state = AsyncData(
-      state.value!.copyWith(activeTransactionId: installTransaction),
-    );
-    await packageKit.waitTransaction(installTransaction);
+      final latestPackageInfo = await _getPackageInfos();
+      if (latestPackageInfo.isInstalled) {
+        await _emitInstallationFinishedSignal();
+      }
 
-    final latestPackageInfo = await _getPackageInfos();
-    if (latestPackageInfo.isInstalled) {
-      await _emitInstallationFinishedSignal();
+      state = AsyncData(latestPackageInfo);
+    } finally {
+      keepAliveLink.close();
     }
-
-    state = AsyncData(latestPackageInfo);
   }
 
   Future<void> cancel() async {

@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/packagekit/packagekit_service.dart';
 import 'package:appstream/appstream.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
@@ -24,18 +27,19 @@ const component = AppstreamComponent(
 void main() {
   test('init', () async {
     final packageKit = createMockPackageKitService(packageInfo: packageInfo);
-    final appstream = createMockAppstreamService(component: component);
-    final model = DebModel(
-      appstream: appstream,
-      packageKit: packageKit,
-      id: 'testdeb',
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    final provider = container.listen(debModelProvider('testdeb'), (_, __) {});
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
     );
 
-    await model.init();
-
     verify(packageKit.activateService()).called(1);
-    expect(model.state.hasValue, isTrue);
-    expect(model.packageInfo, equals(packageInfo));
+
+    expect(provider.read().hasValue, isTrue);
+    expect(provider.read().value!.packageInfo, equals(packageInfo));
   });
 
   test('install', () async {
@@ -43,15 +47,16 @@ void main() {
       packageInfo: packageInfo,
       transactionId: 42,
     );
-    final appstream = createMockAppstreamService(component: component);
-    final model = DebModel(
-      appstream: appstream,
-      packageKit: packageKit,
-      id: 'testdeb',
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    container.listen(debModelProvider('testdeb'), (_, __) {});
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
     );
 
-    await model.init();
-    await model.install();
+    await container.read(debModelProvider('testdeb').notifier).installDeb();
 
     verify(
       packageKit.install(
@@ -62,20 +67,128 @@ void main() {
       ),
     ).called(1);
   });
+
+  test('update', () async {
+    final packageKit = createMockPackageKitService(
+      packageInfo: packageInfo,
+      transactionId: 42,
+      packageUpdates: PackageKitUpdateDetailEvent(
+        packageId: packageInfo.packageId,
+      ),
+    );
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    container.listen(debModelProvider('testdeb'), (_, __) {});
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
+    );
+
+    await container.read(debModelProvider('testdeb').notifier).updateDeb();
+
+    verify(
+      packageKit.update(
+        const PackageKitPackageId(
+          name: 'testdeb',
+          version: '1.0',
+        ),
+      ),
+    ).called(1);
+  });
+
+  test('hasUpdate when an installable update exists', () async {
+    const updateId = PackageKitPackageId(name: 'testdeb', version: '2.0');
+    final packageKit = createMockPackageKitService(
+      packageInfo: packageInfo,
+      packageUpdates: PackageKitUpdateDetailEvent(
+        packageId: packageInfo.packageId,
+        updates: [updateId],
+      ),
+      availableUpdates: [
+        const PackageKitPackageInfo(
+          info: PackageKitInfo.normal,
+          packageId: updateId,
+          summary: 'update',
+        ),
+      ],
+      resolveMap: {
+        'testdeb-package': packageInfo,
+        'testdeb': const PackageKitPackageInfo(
+          info: PackageKitInfo.installed,
+          packageId: PackageKitPackageId(name: 'testdeb', version: '1.0'),
+          summary: 'summary',
+        ),
+      },
+    );
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    container.listen(debModelProvider('testdeb'), (_, __) {});
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
+    );
+
+    expect(
+      container.read(debModelProvider('testdeb')).value!.hasUpdate,
+      isTrue,
+    );
+    expect(
+      container.read(debModelProvider('testdeb')).value!.updatePackageId,
+      updateId,
+    );
+
+    final outcome = await container
+        .read(debModelProvider('testdeb').notifier)
+        .updateDeb(updateId: updateId);
+    expect(outcome, PackageKitMutationOutcome.success);
+    verify(packageKit.update(updateId)).called(1);
+  });
+
+  test('no hasUpdate when the update is blocked (phased)', () async {
+    /* Blocked updates are filtered out of PackageKitService.getUpdates, so
+       an update listed only in getUpdateDetails must not mark the deb as
+       updatable. */
+    const updateId = PackageKitPackageId(name: 'testdeb', version: '2.0');
+    createMockPackageKitService(
+      packageInfo: packageInfo,
+      packageUpdates: PackageKitUpdateDetailEvent(
+        packageId: packageInfo.packageId,
+        updates: [updateId],
+      ),
+      availableUpdates: [],
+    );
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    container.listen(debModelProvider('testdeb'), (_, __) {});
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
+    );
+
+    expect(
+      container.read(debModelProvider('testdeb')).value!.hasUpdate,
+      isFalse,
+    );
+  });
+
   test('remove', () async {
     final packageKit = createMockPackageKitService(
       packageInfo: packageInfo,
       transactionId: 42,
     );
-    final appstream = createMockAppstreamService(component: component);
-    final model = DebModel(
-      appstream: appstream,
-      packageKit: packageKit,
-      id: 'testdeb',
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    container.listen(debModelProvider('testdeb'), (_, __) {});
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
     );
 
-    await model.init();
-    await model.remove();
+    await container.read(debModelProvider('testdeb').notifier).removeDeb();
 
     verify(
       packageKit.remove(
@@ -88,7 +201,7 @@ void main() {
   });
 
   test('error stream', () async {
-    final packageKit = createMockPackageKitService(
+    createMockPackageKitService(
       packageInfo: packageInfo,
       errorStream: Stream.value(
         const PackageKitServiceError(
@@ -97,23 +210,221 @@ void main() {
         ),
       ),
     );
-    final appstream = createMockAppstreamService(component: component);
-    final model = DebModel(
-      appstream: appstream,
-      packageKit: packageKit,
-      id: 'testdeb',
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    final provider = container.listen(debModelProvider('testdeb'), (_, __) {});
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
     );
 
-    model.errorStream.listen(
-      expectAsync1<void, PackageKitServiceError>(
-        (e) {
-          expect(e.code, equals(PackageKitError.noNetwork));
-          expect(e.details, equals('error details'));
-        },
-      ),
+    expect(provider.read().value?.error, isNotNull);
+    expect(
+      provider.read().value!.error!.code,
+      equals(PackageKitError.noNetwork),
     );
-    await model.init();
+    expect(
+      provider.read().value!.error!.details,
+      equals('error details'),
+    );
   });
 
-  // TODO: test `activeTransactionId` and `cancel()`
+  test('cancelled transaction is not reported as an error', () async {
+    final packageKit = createMockPackageKitService(
+      packageInfo: packageInfo,
+      transactionId: 42,
+    );
+    when(packageKit.waitTransaction(any)).thenAnswer(
+      (_) async =>
+          throw PackageKitTransactionCancelled('Transaction 42 was cancelled'),
+    );
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    final states = <DebData>[];
+    container.listen(debModelProvider('testdeb'), (_, next) {
+      if (next.hasValue) states.add(next.value!);
+    });
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
+    );
+
+    await container.read(debModelProvider('testdeb').notifier).installDeb();
+
+    expect(
+      states.any((s) => s.activeTransactionId == 42),
+      isTrue,
+    );
+    expect(states.any((s) => s.error != null), isFalse);
+  });
+
+  test(
+    'cancelTransaction during in-flight install clears state without error',
+    () async {
+      final packageKit = createMockPackageKitService(
+        packageInfo: packageInfo,
+        transactionId: 42,
+      );
+      /* PackageKit answers Cancel by finishing the transaction with
+         PackageKitExit.cancelled, which waitTransaction surfaces as
+         PackageKitTransactionCancelled. */
+      final waitCompleter = Completer<void>();
+      when(
+        packageKit.waitTransaction(any),
+      ).thenAnswer((_) => waitCompleter.future);
+      when(packageKit.cancelTransaction(any)).thenAnswer(
+        (_) async => waitCompleter.completeError(
+          PackageKitTransactionCancelled('Transaction 42 was cancelled'),
+        ),
+      );
+      createMockAppstreamService(component: component);
+      final container = ProviderContainer();
+      final states = <DebData>[];
+      container.listen(debModelProvider('testdeb'), (_, next) {
+        if (next.hasValue) states.add(next.value!);
+      });
+
+      await expectLater(
+        container.read(debModelProvider('testdeb').future),
+        completes,
+      );
+
+      final installFuture = container
+          .read(debModelProvider('testdeb').notifier)
+          .installDeb();
+      // Let installDeb() reach the waitTransaction() await.
+      await Future<void>.delayed(Duration.zero);
+      expect(
+        container.read(debModelProvider('testdeb')).value!.activeTransactionId,
+        equals(42),
+      );
+
+      await container
+          .read(debModelProvider('testdeb').notifier)
+          .cancelTransaction();
+      await installFuture;
+
+      verify(packageKit.cancelTransaction(42)).called(1);
+      expect(states.any((s) => s.error != null), isFalse);
+      expect(states.last.activeTransactionId, isNull);
+    },
+  );
+
+  test('failed transaction reports error and clears transaction', () async {
+    final packageKit = createMockPackageKitService(
+      packageInfo: packageInfo,
+      transactionId: 42,
+    );
+    when(packageKit.waitTransaction(any)).thenAnswer(
+      (_) async => throw PackageKitTransactionError(
+        'Transaction 42 exited with exit failed',
+      ),
+    );
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    final states = <DebData>[];
+    container.listen(debModelProvider('testdeb'), (_, next) {
+      if (next.hasValue) states.add(next.value!);
+    });
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
+    );
+
+    await container.read(debModelProvider('testdeb').notifier).installDeb();
+
+    expect(
+      states.any(
+        (s) => s.error != null && s.activeTransactionId == null,
+      ),
+      isTrue,
+    );
+    final errorState = states.firstWhere((s) => s.error != null);
+    expect(errorState.error!.code, equals(PackageKitError.internalError));
+  });
+
+  test('successful transaction clears transaction without error', () async {
+    createMockPackageKitService(
+      packageInfo: packageInfo,
+      transactionId: 42,
+    );
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    final states = <DebData>[];
+    container.listen(debModelProvider('testdeb'), (_, next) {
+      if (next.hasValue) states.add(next.value!);
+    });
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
+    );
+
+    await container.read(debModelProvider('testdeb').notifier).installDeb();
+
+    expect(states.any((s) => s.activeTransactionId == 42), isTrue);
+    expect(states.any((s) => s.error != null), isFalse);
+  });
+
+  test(
+    'keeps the transaction active until the refreshed state is ready',
+    () async {
+      final packageKit = createMockPackageKitService(
+        packageInfo: packageInfo,
+        transactionId: 42,
+      );
+      const installedInfo = PackageKitPackageInfo(
+        info: PackageKitInfo.installed,
+        packageId: PackageKitPackageId(name: 'testdeb', version: '1.0'),
+        summary: 'summary',
+      );
+      final refreshResolve = Completer<void>();
+      var resolveCalls = 0;
+      when(packageKit.resolve(any)).thenAnswer((invocation) async {
+        final names = invocation.positionalArguments.first as List<String>;
+        if (++resolveCalls > 1) await refreshResolve.future;
+        return {
+          for (final name in names)
+            name: resolveCalls > 1 ? installedInfo : packageInfo,
+        };
+      });
+      createMockAppstreamService(component: component);
+      final container = ProviderContainer();
+      final states = <AsyncValue<DebData>>[];
+      container.listen(
+        debModelProvider('testdeb'),
+        (_, next) => states.add(next),
+      );
+
+      await container.read(debModelProvider('testdeb').future);
+      await container.read(debModelProvider('testdeb').notifier).installDeb();
+      // Let the rebuild reach the pending resolve().
+      await Future<void>.delayed(Duration.zero);
+
+      // Stale data must not be shown without an active transaction.
+      expect(resolveCalls, equals(2));
+      final current = container.read(debModelProvider('testdeb'));
+      expect(current.value!.packageInfo, equals(packageInfo));
+      expect(current.value!.activeTransactionId, equals(42));
+
+      refreshResolve.complete();
+      final refreshed = await container.read(
+        debModelProvider('testdeb').future,
+      );
+
+      expect(refreshed.isInstalled, isTrue);
+      expect(refreshed.activeTransactionId, isNull);
+      final staleWithoutTransaction = states.where(
+        (s) =>
+            s.hasValue &&
+            s.value!.packageInfo == packageInfo &&
+            s.value!.activeTransactionId == null,
+      );
+      // Only the initial state may carry the stale package info without a transaction.
+      expect(staleWithoutTransaction.length, equals(1));
+    },
+  );
 }

@@ -1,3 +1,5 @@
+import 'package:app_center/apps/app_page.dart';
+import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/constants.dart';
 import 'package:app_center/deb/local_deb_model.dart';
 import 'package:app_center/error/error.dart';
@@ -7,11 +9,9 @@ import 'package:app_center/layout.dart';
 import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yaru/yaru.dart';
 
 class LocalDebPage extends ConsumerWidget {
@@ -41,62 +41,54 @@ class _LocalDebPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+
     return AppPage(
-      appInfos: [
-        (
-          label: Text(l10n.snapPageSizeLabel),
-          value: Text(context.formatByteSize(debData.details.size))
+      titleBar: AppTitleBar.fromLocalDeb(
+        debData,
+        banner: YaruInfoBox(
+          title: Text(l10n.localDebWarningTitle),
+          yaruInfoType: YaruInfoType.warning,
+          child: Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(text: '${l10n.localDebWarningBody} '),
+                WidgetSpan(
+                  child: HyperlinkText(
+                    text: l10n.localDebLearnMore,
+                    link: localDebInfoUrl,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-        (
-          label: Text(l10n.snapPageLicenseLabel),
-          value: Text(debData.details.license)
-        ),
-        (
-          label: Text(l10n.snapPageLinksLabel),
-          value: Html(
-            data: '<a href="${debData.details.url}">${debData.details.url}</a>',
-            style: {'body': Style(margin: Margins.zero)},
-            onLinkTap: (url, attributes, element) => launchUrlString(url!),
-          )
-        ),
-      ],
-      header: _Header(debData: debData),
-      children: [_Description(debData: debData)],
-    );
-  }
-}
-
-class _Description extends StatelessWidget {
-  const _Description({required this.debData});
-
-  final LocalDebData debData;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          AppLocalizations.of(context).snapPageDescriptionLabel,
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium
-              ?.copyWith(fontWeight: FontWeight.w500),
-        ),
-        const SizedBox(height: kPagePadding),
-        Text(
-          debData.details.summary,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-        const SizedBox(height: kPagePadding),
-        MarkdownBody(
-          selectable: true,
-          builders: {
-            'a': HyperlinkTextMarkdown(),
-          },
-          data: debData.details.description.escapedMarkdown(),
-        ),
-      ],
+      ),
+      actionBar: Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        spacing: kSpacing,
+        runSpacing: kSpacing,
+        children: [
+          _LocalDebActionButtons(debData: debData),
+        ],
+      ),
+      infoBar: LocalDebInfoBar(localDebData: debData),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            debData.details.summary,
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          const SizedBox(height: kPagePadding),
+          MarkdownBody(
+            selectable: true,
+            builders: {
+              'a': HyperlinkTextMarkdown(),
+            },
+            data: debData.details.description.escapedMarkdown(),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -134,10 +126,9 @@ class _LocalDebActionButtons extends ConsumerWidget {
             const SizedBox(height: kPagePadding),
             Text(
               l10n.localDebDialogConfirmation,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -186,57 +177,9 @@ class _LocalDebActionButtons extends ConsumerWidget {
       children: [
         primaryActionButton,
         if (debData.activeTransactionId != null) ...[
-          const SizedBox(width: 8),
+          const SizedBox(width: kSpacing),
           cancelButton,
         ],
-      ],
-    );
-  }
-}
-
-class _Header extends StatelessWidget {
-  const _Header({required this.debData});
-
-  final LocalDebData debData;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        AppTitle(
-          title: debData.details.packageId.name,
-          large: true,
-          showPublisher: false,
-        ),
-        const SizedBox(height: kPagePadding),
-        YaruInfoBox(
-          title: Text(l10n.localDebWarningTitle),
-          yaruInfoType: YaruInfoType.warning,
-          child: Html(
-            data:
-                '${l10n.localDebWarningBody} <a href="$localDebInfoUrl">${l10n.localDebLearnMore}</a>',
-            style: {'body': Style(margin: Margins.zero)},
-            onLinkTap: (url, attributes, element) => launchUrlString(url!),
-          ),
-        ),
-        const SizedBox(height: kPagePadding),
-        Row(
-          children: [
-            _LocalDebActionButtons(debData: debData),
-            const SizedBox(width: 32),
-            Html(
-              shrinkWrap: true,
-              data:
-                  '<a href="$debManageDocsUrl">${l10n.debPageDocumentationLinkLabel} &gt;</a>',
-              style: {'body': Style(margin: Margins.zero)},
-              onLinkTap: (url, attributes, element) => launchUrlString(url!),
-            ),
-          ],
-        ),
-        const SizedBox(height: kPagePadding),
-        const Divider(),
       ],
     );
   }

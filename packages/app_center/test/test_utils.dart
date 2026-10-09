@@ -1,11 +1,18 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:app_center/apps/app_details_entry.dart';
+import 'package:app_center/apps/app_details_state.dart';
+import 'package:app_center/apps/apps_utils.dart' show AppConfinement, AppLink;
+import 'package:app_center/apps/package_details_backend.dart';
 import 'package:app_center/appstream/appstream.dart';
-import 'package:app_center/deb/deb_model.dart';
+import 'package:app_center/drivers/drivers.dart';
 import 'package:app_center/gstreamer/gstreamer_model.dart';
 import 'package:app_center/gstreamer/gstreamer_resource.dart';
 import 'package:app_center/l10n.dart';
+import 'package:app_center/manage/local_deb_providers.dart';
+import 'package:app_center/mapping/package_source_descriptor.dart';
+import 'package:app_center/mapping/unified_app_identity.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/providers/file_system_provider.dart';
@@ -19,6 +26,8 @@ import 'package:file/memory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_riverpod/misc.dart' show Override, ProviderListenable;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gtk/gtk.dart';
 import 'package:mockito/annotations.dart';
@@ -52,6 +61,32 @@ extension WidgetTesterX on WidgetTester {
       ),
     );
   }
+
+  /// Like [pumpApp], but places the [ProviderScope] above [MaterialApp] so
+  /// that widgets pushed onto the root [Navigator] (e.g. via `showDialog`)
+  /// can still find providers. Use this when the widget under test opens a
+  /// dialog that reads/watches providers.
+  Future<void> pumpScopedApp(WidgetBuilder builder) async {
+    view.physicalSize =
+        (const Size(800, 600) + const Offset(54, 54)) * view.devicePixelRatio;
+    final ubuntuRegular = File('test/fonts/Ubuntu-Regular.ttf');
+    final content = ByteData.view(
+      Uint8List.fromList(ubuntuRegular.readAsBytesSync()).buffer,
+    );
+    final fontLoader = FontLoader('UbuntuRegular')
+      ..addFont(Future.value(content));
+    await fontLoader.load();
+    return pumpWidget(
+      ProviderScope(
+        retry: (_, _) => null,
+        child: MaterialApp(
+          theme: ThemeData(fontFamily: 'UbuntuRegular'),
+          localizationsDelegates: localizationsDelegates,
+          home: Scaffold(body: Builder(builder: builder)),
+        ),
+      ),
+    );
+  }
 }
 
 /// A testing utility which creates a [ProviderContainer] and automatically
@@ -64,6 +99,7 @@ ProviderContainer createContainer({
   // Create a ProviderContainer, and optionally allow specifying parameters.
   final container = ProviderContainer(
     parent: parent,
+    retry: (_, _) => null,
     overrides: [
       fileSystemProvider.overrideWithValue(MemoryFileSystem()),
       ...overrides,
@@ -81,20 +117,19 @@ Stream<List<Snap>> Function(SnapSearchParameters) createMockSnapSearchProvider(
   Map<SnapSearchParameters, List<Snap>> searchResults,
 ) {
   return (searchParameters) => Stream.value(
-        searchResults.entries
-                .firstWhereOrNull((e) => e.key == searchParameters)
-                ?.value ??
-            [],
-      );
+    searchResults.entries
+            .firstWhereOrNull((e) => e.key == searchParameters)
+            ?.value ??
+        [],
+  );
 }
 
 Stream<List<AppstreamComponent>> Function(String) createMockDebSearchProvider(
   Map<String, List<AppstreamComponent>> searchResults,
 ) {
   return (query) => Stream.value(
-        searchResults.entries.firstWhereOrNull((e) => e.key == query)?.value ??
-            [],
-      );
+    searchResults.entries.firstWhereOrNull((e) => e.key == query)?.value ?? [],
+  );
 }
 
 @GenerateMocks([SnapLauncher])
@@ -106,44 +141,15 @@ SnapLauncher createMockSnapLauncher({
   return launcher;
 }
 
-@GenerateMocks([DebModel])
-DebModel createMockDebModel({
-  String? id,
-  AppstreamComponent? component,
-  PackageKitPackageInfo? packageInfo,
-  AsyncValue<void>? state,
-  Stream<PackageKitServiceError>? errorStream,
-}) {
-  final model = MockDebModel();
-  when(model.id).thenReturn(id ?? '');
-  when(model.state).thenReturn(state ?? AsyncValue.data(() {}()));
-  when(model.component).thenReturn(
-    component ??
-        const AppstreamComponent(
-          id: '',
-          type: AppstreamComponentType.desktopApplication,
-          package: '',
-          name: {'C': ''},
-          summary: {'C': ''},
-        ),
-  );
-  when(model.packageInfo).thenReturn(packageInfo);
-  when(model.isInstalled)
-      .thenReturn(packageInfo?.info == PackageKitInfo.installed);
-  when(model.activeTransactionId).thenReturn(null);
-  when(model.errorStream)
-      .thenAnswer((_) => errorStream ?? const Stream.empty());
-  return model;
-}
-
 @GenerateMocks([GstreamerModel])
 GstreamerModel createMockGstreamerModel({
   required List<GstResource> resources,
 }) {
   final model = MockGstreamerModel();
   when(model.resources).thenReturn(GstResourceCollection(resources));
-  when(model.state)
-      .thenReturn(AsyncValue.data(GStreamerData(packageInfos: [])));
+  when(
+    model.state,
+  ).thenReturn(AsyncValue.data(GStreamerData(packageInfos: [])));
   return model;
 }
 
@@ -165,8 +171,9 @@ MockSnapdService registerMockSnapdService({
 }) {
   final service = MockSnapdService();
   when(service.defaultFileSystem).thenReturn(MemoryFileSystem());
-  when(service.getStoreSnaps(any))
-      .thenAnswer((_) => Stream.value([if (storeSnap != null) storeSnap]));
+  when(
+    service.getStoreSnaps(any),
+  ).thenAnswer((_) => Stream.value([if (storeSnap != null) storeSnap]));
   if (localSnap != null) {
     when(service.getSnap(any)).thenAnswer((_) async => localSnap);
   } else if (storeSnap != null && localSnap == null) {
@@ -179,8 +186,10 @@ MockSnapdService registerMockSnapdService({
   } else {
     when(service.getSnap(any)).thenAnswer((invocation) async {
       final name = invocation.positionalArguments.first as String;
-      return [...?installedSnaps, ...?refreshableSnaps]
-          .firstWhere((s) => s.name == name);
+      return [
+        ...?installedSnaps,
+        ...?refreshableSnaps,
+      ].firstWhere((s) => s.name == name);
     });
   }
   when(
@@ -199,24 +208,32 @@ MockSnapdService registerMockSnapdService({
   ).thenAnswer((_) async => 'id');
   when(service.refreshMany(any)).thenAnswer((_) async => 'id');
   when(service.remove(any)).thenAnswer((_) async => 'id');
-  when(service.find(filter: SnapFindFilter.refresh))
-      .thenAnswer((_) async => refreshableSnaps ?? []);
-  when(service.find(name: anyNamed('name')))
-      .thenAnswer((_) async => [if (storeSnap != null) storeSnap]);
+  when(service.revert(any)).thenAnswer((_) async => 'id');
+  when(
+    service.hasPreviousRevision(any),
+  ).thenAnswer((_) async => localSnap != null);
+  when(
+    service.find(filter: SnapFindFilter.refresh),
+  ).thenAnswer((_) async => refreshableSnaps ?? []);
+  when(
+    service.find(name: anyNamed('name')),
+  ).thenAnswer((_) async => [if (storeSnap != null) storeSnap]);
   when(service.getSnaps()).thenAnswer((_) async => installedSnaps ?? []);
   when(service.getSnaps(filter: SnapsFilter.refreshInhibited)).thenAnswer(
     (_) async =>
         installedSnaps?.where((s) => s.refreshInhibit != null).toList() ?? [],
   );
-  when(service.getChanges(name: anyNamed('name')))
-      .thenAnswer((_) async => changes ?? []);
+  when(
+    service.getChanges(name: anyNamed('name')),
+  ).thenAnswer((_) async => changes ?? []);
   when(service.watchChange(any)).thenAnswer(
     (_) => Stream.fromIterable(
       changes ?? [SnapdChange(id: '', spawnTime: DateTime(1970), ready: true)],
     ),
   );
-  when(service.abortChange(any))
-      .thenAnswer((_) async => SnapdChange(id: '', spawnTime: DateTime.now()));
+  when(
+    service.abortChange(any),
+  ).thenAnswer((_) async => SnapdChange(id: '', spawnTime: DateTime.now()));
   when(
     service.installMany(
       any,
@@ -264,6 +281,7 @@ MockPackageKitClient createMockPackageKitClient({
 @GenerateMocks([PackageKitTransaction])
 MockPackageKitTransaction createMockPackageKitTransaction({
   Iterable<PackageKitEvent>? events,
+  Iterable<int> percentages = const [],
   PackageKitExit? exit,
   int? runtime,
   Future<void>? start,
@@ -271,14 +289,27 @@ MockPackageKitTransaction createMockPackageKitTransaction({
 }) {
   final transaction = MockPackageKitTransaction();
   final controller = StreamController<PackageKitEvent>.broadcast();
+  final properties = StreamController<List<String>>.broadcast();
+  var percentage = 101;
   when(transaction.events).thenAnswer((_) => controller.stream);
+  when(transaction.propertiesChanged).thenAnswer((_) => properties.stream);
+  when(transaction.percentage).thenAnswer((_) => percentage);
 
   Future<void> emitEvents() async {
     if (start != null) await start;
+    for (final value in percentages) {
+      percentage = value;
+      properties.add(['Percentage']);
+      // Let listeners read this value before the next one.
+      await Future<void>.delayed(Duration.zero);
+    }
     for (final event in events ?? <PackageKitEvent>[]) {
       controller.add(event);
     }
     if (end != null) await end;
+
+    // Yield to allow waitTransaction to subscribe before FinishedEvent
+    await Future.delayed(Duration.zero);
 
     controller.add(
       PackageKitFinishedEvent(
@@ -288,21 +319,46 @@ MockPackageKitTransaction createMockPackageKitTransaction({
     );
     controller.add(const PackageKitDestroyEvent());
     await controller.close();
+    await properties.close();
   }
 
   // Add similar statements for further methods as needed.
-  when(transaction.installPackages(any))
-      .thenAnswer((_) async => unawaited(emitEvents()));
-  when(transaction.removePackages(any))
-      .thenAnswer((_) async => unawaited(emitEvents()));
-  when(transaction.resolve(any))
-      .thenAnswer((_) async => unawaited(emitEvents()));
-  when(transaction.installFiles(any))
-      .thenAnswer((_) async => unawaited(emitEvents()));
-  when(transaction.getDetailsLocal(any))
-      .thenAnswer((_) async => unawaited(emitEvents()));
-  when(transaction.whatProvides(any))
-      .thenAnswer((_) async => unawaited(emitEvents()));
+  when(
+    transaction.installPackages(
+      any,
+      transactionFlags: anyNamed('transactionFlags'),
+    ),
+  ).thenAnswer((_) async => unawaited(emitEvents()));
+  when(
+    transaction.removePackages(any),
+  ).thenAnswer((_) async => unawaited(emitEvents()));
+  when(
+    transaction.resolve(any),
+  ).thenAnswer((_) async => unawaited(emitEvents()));
+  when(
+    transaction.installFiles(any),
+  ).thenAnswer((_) async => unawaited(emitEvents()));
+  when(
+    transaction.getDetailsLocal(any),
+  ).thenAnswer((_) async => unawaited(emitEvents()));
+  when(
+    transaction.whatProvides(any),
+  ).thenAnswer((_) async => unawaited(emitEvents()));
+  when(
+    transaction.getDetails(any),
+  ).thenAnswer((_) async => unawaited(emitEvents()));
+  when(
+    transaction.updatePackages(any),
+  ).thenAnswer((_) async => unawaited(emitEvents()));
+  when(
+    transaction.getPackages(filter: anyNamed('filter')),
+  ).thenAnswer((_) async => unawaited(emitEvents()));
+  when(
+    transaction.getUpdateDetail(any),
+  ).thenAnswer((_) async => unawaited(emitEvents()));
+  when(
+    transaction.getUpdates(),
+  ).thenAnswer((_) async => unawaited(emitEvents()));
   return transaction;
 }
 
@@ -355,12 +411,18 @@ MockRatingsClient createMockRatingsClient({
 @GenerateMocks([AppstreamService])
 MockAppstreamService createMockAppstreamService({
   AppstreamComponent? component,
+  List<AppstreamComponent>? components,
   bool initialized = true,
 }) {
   final appstream = MockAppstreamService();
   when(appstream.initialized).thenReturn(initialized);
-  when(appstream.getFromId(any)).thenAnswer(
-    (_) =>
+  when(appstream.init()).thenAnswer((_) async {});
+
+  final allComponents = components ?? [if (component != null) component];
+
+  when(appstream.getFromId(any)).thenAnswer((invocation) {
+    final id = invocation.positionalArguments.first as String;
+    return allComponents.firstWhereOrNull((c) => c.id == id) ??
         component ??
         const AppstreamComponent(
           id: '',
@@ -368,8 +430,16 @@ MockAppstreamService createMockAppstreamService({
           package: '',
           name: {},
           summary: {},
-        ),
-  );
+        );
+  });
+
+  when(appstream.getComponentsByPackage()).thenReturn({
+    for (final c in allComponents)
+      if (c.package != null) c.package!: c,
+  });
+
+  registerMockService<AppstreamService>(appstream);
+  addTearDown(unregisterService<AppstreamService>);
   return appstream;
 }
 
@@ -377,23 +447,116 @@ MockAppstreamService createMockAppstreamService({
 MockPackageKitService createMockPackageKitService({
   PackageKitPackageInfo? packageInfo,
   PackageKitPackageDetails? packageDetails,
+  PackageKitUpdateDetailEvent? packageUpdates,
   Iterable<PackageKitPackageEvent>? packageEvents,
   int transactionId = 0,
   Future<void>? waitTransaction,
   Stream<PackageKitServiceError> errorStream = const Stream.empty(),
+  Map<String, PackageKitPackageEvent?>? resolveMap,
+  List<PackageKitPackageEvent>? availableUpdates,
+  Map<String, PackageKitDetailsEvent>? packageDetailsMany,
+  List<PackageKitPackageEvent>? installedPackages,
+  List<PackageKitPackageEvent>? simulatedInstall,
+  PackageKitServiceError? lastError,
 }) {
   final packageKit = MockPackageKitService();
-  when(packageKit.resolve(any)).thenAnswer((_) async => packageInfo);
+  when(packageKit.activateService()).thenAnswer((_) async {});
+
+  when(
+    packageKit.resolve(any, installedOnly: anyNamed('installedOnly')),
+  ).thenAnswer((invocation) async {
+    final names = invocation.positionalArguments.first as List<String>;
+    if (resolveMap != null) {
+      return {for (final name in names) name: resolveMap[name]};
+    }
+    return {for (final name in names) name: packageInfo};
+  });
+  when(packageKit.resolve(any)).thenAnswer((invocation) async {
+    final names = invocation.positionalArguments.first as List<String>;
+    if (resolveMap != null) {
+      return {for (final name in names) name: resolveMap[name]};
+    }
+    return {for (final name in names) name: packageInfo};
+  });
+
+  when(packageKit.getDetails(any)).thenAnswer((invocation) async {
+    final packageIds =
+        invocation.positionalArguments.first as List<PackageKitPackageId>;
+    if (packageDetailsMany != null) {
+      return {
+        for (final id in packageIds)
+          if (packageDetailsMany.containsKey(id.name))
+            id.name: packageDetailsMany[id.name]!,
+      };
+    }
+    return {
+      if (packageDetails != null)
+        for (final id in packageIds) id.name: packageDetails,
+    };
+  });
   when(packageKit.getDetailsLocal(any)).thenAnswer((_) async => packageDetails);
   when(packageKit.install(any)).thenAnswer((_) async => transactionId);
   when(packageKit.installAll(any)).thenAnswer((_) async => transactionId);
+  when(packageKit.simulateInstall(any)).thenAnswer(
+    (_) async => simulatedInstall ?? [],
+  );
   when(packageKit.installLocal(any)).thenAnswer((_) async => transactionId);
+  when(
+    packageKit.getUpdateDetails(any),
+  ).thenAnswer((_) async => packageUpdates);
+  when(packageKit.update(any)).thenAnswer((_) async => transactionId);
+  when(
+    packageKit.updateAllPackages(any),
+  ).thenAnswer((_) async => transactionId);
   when(packageKit.whatProvides(any)).thenAnswer((_) async => packageEvents!);
   when(packageKit.remove(any)).thenAnswer((_) async => transactionId);
+  when(packageKit.removeAll(any)).thenAnswer((_) async => transactionId);
   when(packageKit.errorStream).thenAnswer((_) => errorStream);
-  when(packageKit.waitTransaction(any))
-      .thenAnswer((_) async => waitTransaction);
+  when(
+    packageKit.mutationEvents,
+  ).thenAnswer((_) => const Stream<PackageKitMutation>.empty());
+  when(packageKit.activeMutations).thenReturn([]);
+  when(
+    packageKit.taggedErrorStream,
+  ).thenAnswer((_) => errorStream.map((e) => (id: transactionId, error: e)));
+  when(
+    packageKit.errorsFor(any),
+  ).thenAnswer((_) => errorStream);
+  when(packageKit.requiresRestartFor(any)).thenReturn(false);
+  when(packageKit.getTransaction(any)).thenReturn(null);
+  when(packageKit.lastErrorFor(any)).thenReturn(lastError);
+  when(packageKit.cancelTransaction(any)).thenAnswer((_) async {});
+  when(
+    packageKit.waitTransaction(any),
+  ).thenAnswer((_) async => waitTransaction);
+  when(packageKit.getUpdates()).thenAnswer((_) async => availableUpdates ?? []);
+  when(
+    packageKit.getInstalledPackages(),
+  ).thenAnswer((_) async => installedPackages ?? []);
+
+  registerMockService<PackageKitService>(packageKit);
+  addTearDown(unregisterService<PackageKitService>);
   return packageKit;
+}
+
+@GenerateMocks([DriversService])
+MockDriversService registerMockDriversService({
+  List<DriverDevice>? devices,
+  bool unavailable = false,
+  bool available = true,
+}) {
+  final drivers = MockDriversService();
+  if (unavailable) {
+    when(
+      drivers.getDrivers(),
+    ).thenThrow(DriversServiceUnavailableException());
+  } else {
+    when(drivers.getDrivers()).thenAnswer((_) async => devices ?? []);
+  }
+  when(drivers.isAvailable()).thenAnswer((_) async => available);
+  registerMockService<DriversService>(drivers);
+  addTearDown(unregisterService<DriversService>);
+  return drivers;
 }
 
 @GenerateMocks([
@@ -401,6 +564,89 @@ MockPackageKitService createMockPackageKitService({
   Vote,
 ])
 class _Dummy {} // ignore: unused_element
+
+/// Creates an [AppstreamComponent] for testing.
+AppstreamComponent createAppstreamComponent({
+  String? id,
+  String? name,
+  String? packageName,
+  AppstreamComponentType type = AppstreamComponentType.desktopApplication,
+  List<AppstreamLaunchable>? launchables,
+  List<String> compulsoryForDesktops = const [],
+}) {
+  return AppstreamComponent(
+    id: id ?? 'test-component',
+    type: type,
+    package: packageName ?? 'test-package',
+    name: {'C': name ?? 'Test Component'},
+    summary: const {'C': 'A test component'},
+    launchables:
+        launchables ?? [const AppstreamLaunchableDesktopId('test.desktop')],
+    compulsoryForDesktops: compulsoryForDesktops,
+  );
+}
+
+/// Creates a [LocalDebInfo] for testing.
+LocalDebInfo createLocalDebInfo({
+  String? id,
+  String? name,
+  String? packageName,
+  String? version,
+  PackageKitPackageId? updatePackageId,
+  int? size,
+  List<AppstreamLaunchable>? launchables,
+  int? activeTransactionId,
+  List<String> compulsoryForDesktops = const [],
+}) {
+  final component = createAppstreamComponent(
+    id: id,
+    name: name,
+    packageName: packageName,
+    launchables: launchables,
+    compulsoryForDesktops: compulsoryForDesktops,
+  );
+  final packageInfo = PackageKitPackageEvent(
+    info: PackageKitInfo.installed,
+    packageId: PackageKitPackageId(
+      name: packageName ?? 'test-package',
+      version: version ?? '1.0',
+    ),
+    summary: 'summary',
+  );
+  return LocalDebInfo(
+    id: id ?? 'test-component',
+    packageInfo: packageInfo,
+    component: component,
+    updatePackageId: updatePackageId,
+    details: size != null
+        ? PackageKitDetailsEvent(
+            packageId: packageInfo.packageId,
+            size: size,
+          )
+        : null,
+    activeTransactionId: activeTransactionId,
+  );
+}
+
+/// Default installed deb for testing (no update available).
+final defaultInstalledDeb = createLocalDebInfo(
+  id: 'gimp',
+  name: 'GIMP',
+  packageName: 'gimp',
+  version: '2.10',
+);
+
+/// Default deb with an available update for testing.
+final defaultDebWithUpdate = createLocalDebInfo(
+  id: 'inkscape',
+  name: 'Inkscape',
+  packageName: 'inkscape',
+  version: '1.2',
+  updatePackageId: const PackageKitPackageId(
+    name: 'inkscape',
+    version: '1.3',
+  ),
+);
 
 Snap createSnap({
   String? id,
@@ -472,4 +718,243 @@ Snap createSnap({
     website: website,
     refreshInhibit: refreshInhibit,
   );
+}
+
+const testSnapKey = SourceKey(format: PackageFormat.snap, id: 'testsnap');
+const testDebKey = SourceKey(format: PackageFormat.deb, id: 'org.test.app');
+
+/// An identity with the given sources, matching [testSnapKey]/[testDebKey].
+ResolvedAppIdentity createResolvedIdentity({
+  bool snap = true,
+  bool deb = true,
+  bool discoveryFailed = false,
+}) => ResolvedAppIdentity(
+  identity: UnifiedAppIdentity(
+    unifiedId: 'org.test.app',
+    appStreamId: 'org.test.app',
+    sources: [
+      if (snap)
+        const PackageSourceDescriptor(
+          format: PackageFormat.snap,
+          packageId: 'testsnap',
+          packageName: 'testsnap',
+          commonIds: ['org.test.app'],
+        ),
+      if (deb)
+        const PackageSourceDescriptor(
+          format: PackageFormat.deb,
+          packageId: 'test-app',
+          packageName: 'test-app',
+          commonIds: ['org.test.app'],
+        ),
+    ],
+  ),
+  discoveryFailed: discoveryFailed,
+);
+
+const testSnapStable = PackageRelease(
+  candidateId: 'rev:2',
+  version: '2.0',
+  channel: 'latest/stable',
+  size: FieldState.value(ByteSize(bytes: 50, kind: SizeKind.download)),
+  confinement: AppConfinement.strict,
+);
+
+const testSnapBeta = PackageRelease(
+  candidateId: 'rev:4',
+  version: '4.0-beta',
+  channel: 'latest/beta',
+  size: FieldState.value(ByteSize(bytes: 70, kind: SizeKind.download)),
+  confinement: AppConfinement.classic,
+);
+
+const testSnapUpdate = PackageRelease(
+  candidateId: 'rev:3',
+  version: '3.0',
+  channel: 'latest/stable',
+  size: FieldState.value(ByteSize(bytes: 60, kind: SizeKind.download)),
+  confinement: AppConfinement.strict,
+);
+
+const testDebCandidate = PackageRelease(
+  candidateId: 'test-app;1.0-1;amd64;ubuntu',
+  version: '1.0-1',
+  size: FieldState.value(ByteSize(bytes: 40, kind: SizeKind.download)),
+  confinement: AppConfinement.unrestricted,
+);
+
+const testDebUpdate = PackageRelease(
+  candidateId: 'test-app;1.1-1;amd64;ubuntu',
+  version: '1.1-1',
+  size: FieldState.value(ByteSize(bytes: 45, kind: SizeKind.download)),
+  confinement: AppConfinement.unrestricted,
+);
+
+/// A realistic source snapshot for [testSnapKey] or [testDebKey].
+PackageSourceSnapshot createSourceSnapshot(
+  SourceKey key, {
+  InstallState installState = InstallState.notInstalled,
+  String installedChannel = 'latest/stable',
+  bool withUpdate = false,
+  bool canLaunch = false,
+  DisabledReason? updateBlocked,
+  DisabledReason? removeBlocked,
+  ObservedOperation? activeOperation,
+  List<String>? channels,
+}) {
+  final isSnap = key.format == PackageFormat.snap;
+  final installed = installState == InstallState.installed;
+  final label = isSnap ? 'Snap' : 'Deb';
+
+  final PackageRelease? installedRelease;
+  final List<PackageTarget> targets;
+  if (isSnap) {
+    final releases = {
+      'latest/stable': testSnapStable,
+      'latest/beta': testSnapBeta,
+    };
+    installedRelease = installed
+        ? releases[installedChannel]!.copyWith(
+            size: const FieldState.value(
+              ByteSize(bytes: 100, kind: SizeKind.installed),
+            ),
+          )
+        : null;
+    targets = [
+      for (final channel in channels ?? releases.keys)
+        PackageTarget(
+          id: channel,
+          label: channel,
+          isInstalled: installed && channel == installedChannel,
+          candidate: releases[channel],
+        ),
+    ];
+  } else {
+    installedRelease = installed
+        ? testDebCandidate.copyWith(size: FieldState<ByteSize>.unavailable())
+        : null;
+    targets = [
+      PackageTarget(
+        id: 'test-app',
+        label: 'test-app',
+        isInstalled: installed,
+        candidate: installedRelease ?? testDebCandidate,
+      ),
+    ];
+  }
+
+  return PackageSourceSnapshot(
+    key: key,
+    installState: installState,
+    appName: FieldState.value('$label App'),
+    icon: FieldState.value(ImageRef.network('https://example.com/$label.png')),
+    summary: FieldState.value('$label summary'),
+    description: FieldState.value(
+      RichContent(
+        text: '$label description',
+        type: isSnap ? RichContentType.markdown : RichContentType.html,
+      ),
+    ),
+    screenshots: FieldState.value(['https://example.com/$label-shot.png']),
+    publisher: FieldState.value(Publisher(name: '$label Publisher')),
+    categories: FieldState.value([
+      if (isSnap) AppCategory.development else AppCategory.utilities,
+    ]),
+    confinement: FieldState.value(
+      isSnap ? AppConfinement.strict : AppConfinement.unrestricted,
+    ),
+    license: FieldState.value(isSnap ? 'MIT' : 'GPL-3.0'),
+    links: FieldState.value({AppLink.homepage: 'https://example.com/$label'}),
+    ageRating: isSnap
+        ? FieldState<ContentRatingLevel>.unavailable()
+        : const FieldState.value(ContentRatingLevel.mild),
+    installDate: installed && isSnap
+        ? FieldState.value(DateTime(2026, 2, 3))
+        : FieldState<DateTime>.unavailable(),
+    installed: installedRelease,
+    installCandidate: installed
+        ? null
+        : targets.firstWhere((t) => !t.isInstalled).candidate,
+    updateCandidate: installed && withUpdate
+        ? (isSnap ? testSnapUpdate : testDebUpdate)
+        : null,
+    capabilities: PackageCapabilities(
+      canLaunch: canLaunch,
+      updateBlocked: updateBlocked,
+      removeBlocked: removeBlocked,
+    ),
+    targets: targets,
+    activeOperation: activeOperation,
+  );
+}
+
+final fakeSnapshotProvider =
+    StateProvider.family<AsyncValue<PackageSourceSnapshot>, SourceKey>(
+      (ref, key) => const AsyncLoading(),
+    );
+
+/// A backend whose snapshots and command results are driven by the test.
+class FakePackageDetailsBackend implements PackageDetailsBackend {
+  final executed = <(SourceKey, PackageCommand)>[];
+  final cancelled = <SourceKey>[];
+  final opened = <SourceKey>[];
+  final reconciled = <SourceKey>[];
+  final _pending = <SourceKey, Completer<OperationOutcome>>{};
+
+  /// Called when a command starts, before its result is awaited.
+  void Function(Ref ref, SourceKey key, PackageCommand command)? onExecute;
+
+  /// Snapshot published on reconciliation, per source.
+  final afterReconcile = <SourceKey, PackageSourceSnapshot>{};
+  Exception? reconcileError;
+  Exception? cancelError;
+
+  /// Completes the running command on [key].
+  void complete(SourceKey key, OperationOutcome outcome) =>
+      _pending.remove(key)!.complete(outcome);
+
+  void fail(SourceKey key, Exception error) =>
+      _pending.remove(key)!.completeError(error);
+
+  @override
+  ProviderListenable<AsyncValue<PackageSourceSnapshot>> snapshot(
+    SourceKey key,
+  ) => fakeSnapshotProvider(key);
+
+  @override
+  Future<OperationOutcome> execute(
+    Ref ref,
+    SourceKey key,
+    PackageCommand command,
+  ) {
+    executed.add((key, command));
+    onExecute?.call(ref, key, command);
+    return (_pending[key] = Completer()).future;
+  }
+
+  @override
+  Future<void> reconcile(Ref ref, SourceKey key) async {
+    reconciled.add(key);
+    if (reconcileError != null) throw reconcileError!;
+    final next = afterReconcile.remove(key);
+    if (next != null) {
+      ref.read(fakeSnapshotProvider(key).notifier).state = AsyncData(next);
+    }
+  }
+
+  @override
+  Future<void> cancel(Ref ref, SourceKey key) async {
+    cancelled.add(key);
+    if (cancelError != null) throw cancelError!;
+  }
+
+  @override
+  Future<void> open(Ref ref, SourceKey key) async => opened.add(key);
+}
+
+/// Lets pending microtasks and zero-delay timers run.
+Future<void> settle() async {
+  for (var i = 0; i < 10; i++) {
+    await Future<void>.delayed(Duration.zero);
+  }
 }

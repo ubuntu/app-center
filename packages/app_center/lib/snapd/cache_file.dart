@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_initializing_formals
+
 import 'dart:async';
 import 'dart:io';
 
@@ -23,19 +25,19 @@ class CacheFile {
     Duration? expiry,
     FileSystem? fs,
     MessageCodec<Object?> codec = const StandardMessageCodec(),
-  })  : _file = (fs ?? const LocalFileSystem()).file(path),
-        _expiry = expiry ?? Duration.zero,
-        _codec = codec;
+  }) : _file = (fs ?? const LocalFileSystem()).file(path),
+       _expiry = expiry ?? Duration.zero,
+       _codec = codec;
 
   CacheFile.fromFileName(
     String fileName, {
     Duration? expiry,
     FileSystem? fileSystem,
   }) : this(
-          '$cachePath/$fileName.smc',
-          expiry: expiry,
-          fs: fileSystem,
-        );
+         '$cachePath/$fileName.smc',
+         expiry: expiry,
+         fs: fileSystem,
+       );
 
   final File _file;
   final Duration _expiry;
