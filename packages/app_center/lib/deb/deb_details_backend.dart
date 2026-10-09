@@ -12,9 +12,12 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:ubuntu_logger/ubuntu_logger.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 part 'deb_details_backend.g.dart';
+
+final _log = Logger('deb_details_backend');
 
 /// Live PackageKit mutations, including those started elsewhere in the app.
 @riverpod
@@ -52,6 +55,33 @@ Future<PackageKitDetailsEvent?> debPackageDetails(
   return match?.packageId == packageId ? match : null;
 }
 
+/// Download size of installing [packageId], including the dependencies it adds.
+@riverpod
+Future<ByteSize?> debInstallSize(
+  Ref ref,
+  PackageKitPackageId packageId,
+) async {
+  final packageKit = getService<PackageKitService>();
+  var ids = [packageId];
+  try {
+    final planned = await packageKit.simulateInstall([packageId]);
+    if (planned.isNotEmpty) {
+      ids = planned.map((info) => info.packageId).toSet().toList();
+    }
+  } on Exception catch (error) {
+    _log.warning('Could not simulate installing $packageId: $error');
+  }
+
+  var bytes = 0;
+  // Details are keyed by name, so query architectures separately.
+  for (final group in ids.groupListsBy((id) => id.arch).values) {
+    final details = await packageKit.getDetails(group);
+    if (group.any((id) => !details.containsKey(id.name))) return null;
+    bytes += details.values.map((detail) => detail.size).sum;
+  }
+  return bytes > 0 ? ByteSize(bytes: bytes, kind: SizeKind.download) : null;
+}
+
 @riverpod
 AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
   Ref ref,
@@ -60,6 +90,13 @@ AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
   final model = ref.watch(debModelProvider(componentId));
   final mutations = ref.watch(packageKitMutationsProvider).value ?? const [];
   final icon = ref.watch(debIconProvider(componentId));
+  final data = model.value;
+  final candidateId = data == null || data.isInstalled
+      ? null
+      : data.packageInfo?.packageId;
+  final installSize = candidateId == null
+      ? null
+      : ref.watch(debInstallSizeProvider(candidateId));
   final updateId = model.value?.updatePackageId;
   final updateDetails = updateId == null
       ? null
@@ -72,6 +109,9 @@ AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
       data,
       mutations: mutations,
       icon: _fieldFromAsync(icon),
+      installSize: installSize == null
+          ? FieldState<ByteSize>.unavailable()
+          : _fieldFromAsync(installSize),
       updateSize: updateDetails == null
           ? FieldState<ByteSize>.unavailable()
           : _fieldFromAsync(updateDetails.whenData(_downloadSize)),
@@ -98,6 +138,7 @@ PackageSourceSnapshot debSnapshotFromData(
   DebData data, {
   List<PackageKitMutation> mutations = const [],
   FieldState<ImageRef> icon = const FieldState<ImageRef>.unavailable(),
+  FieldState<ByteSize> installSize = const FieldState<ByteSize>.unavailable(),
   FieldState<ByteSize> updateSize = const FieldState<ByteSize>.unavailable(),
   List<String> currentDesktops = const [],
 }) {
@@ -125,10 +166,7 @@ PackageSourceSnapshot debSnapshotFromData(
   final installedRelease = installed ? release(packageId) : null;
   final installCandidate = installed
       ? null
-      : release(
-          packageId,
-          size: FieldState.fromNullable(_downloadSize(data.details)),
-        );
+      : release(packageId, size: installSize);
   final updateCandidate = installed
       ? release(data.updatePackageId, size: updateSize)
       : null;
