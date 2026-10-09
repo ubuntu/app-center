@@ -6,7 +6,7 @@ import 'package:app_center/manage/logger.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
@@ -85,7 +85,7 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
       }).toList();
 
       // Only update if list changed
-      final currentIds = state.valueOrNull?.map((d) => d.id).toSet() ?? {};
+      final currentIds = state.value?.map((d) => d.id).toSet() ?? {};
       final newIds = newDebsList.map((d) => d.id).toSet();
       if (!const SetEquality<String>().equals(currentIds, newIds)) {
         state = AsyncData(newDebsList);

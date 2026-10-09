@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'vote.freezed.dart';
 
 @freezed
-class Vote with _$Vote {
+abstract class Vote with _$Vote {
   const factory Vote({
     required String snapId,
     required int snapRevision,

@@ -41,11 +41,11 @@ class ManagePage extends ConsumerWidget {
       );
     }
 
-    final appUpdates = appUpdatesModel.valueOrNull ?? [];
+    final appUpdates = appUpdatesModel.value ?? [];
     final isLoading = appUpdatesModel.isLoading;
     final hasInternet = ref.watch(
       snapUpdatesModelProvider.select(
-        (value) => value.valueOrNull?.hasInternet ?? true,
+        (value) => value.value?.hasInternet ?? true,
       ),
     );
 
@@ -224,7 +224,7 @@ class _ActionButtons extends ConsumerWidget {
     final isUpdatingAll = isRefreshingAll || isUpdatingAllDebs;
     final hasInternet = ref.watch(
       snapUpdatesModelProvider.select(
-        (value) => value.valueOrNull?.hasInternet ?? true,
+        (value) => value.value?.hasInternet ?? true,
       ),
     );
     final isLoading = appUpdatesModel.isLoading;
@@ -335,8 +335,7 @@ class _SelfUpdateInfoBox extends ConsumerWidget {
         ),
       ),
     );
-    final proceedTime =
-        refreshInhibitModel.valueOrNull?.refreshInhibit?.proceedTime;
+    final proceedTime = refreshInhibitModel.value?.refreshInhibit?.proceedTime;
 
     if (proceedTime == null) {
       return const SizedBox(height: kSectionSpacing);

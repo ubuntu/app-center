@@ -33,7 +33,7 @@ class _FeaturedCarouselState extends ConsumerState<FeaturedCarousel> {
                 const SnapSearchParameters(category: SnapCategoryEnum.games),
               ),
             )
-            .valueOrNull
+            .value
             ?.take(widget.snapAmount) ??
         [];
 

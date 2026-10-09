@@ -64,17 +64,22 @@ class RatingsModel extends _$RatingsModel {
     final voteUp = voteStatus == VoteStatus.up ? true : false;
 
     if (voteStatus != ratingsData.voteStatus) {
-      final vote = Vote(
-        snapId: ratingsData.snapId,
-        snapRevision: ratingsData.snapRevision,
-        voteUp: voteUp,
-        dateTime: clock.now(),
-        snapName: ratingsData.snapName,
-      );
-      await _ratings.vote(vote);
-      state = AsyncData(ratingsData.copyWith(voteStatus: voteStatus));
-      await _getCacheFile(ratingsData.snapId).deleteIfExists();
-      ref.invalidateSelf();
+      final keepAliveLink = ref.keepAlive();
+      try {
+        final vote = Vote(
+          snapId: ratingsData.snapId,
+          snapRevision: ratingsData.snapRevision,
+          voteUp: voteUp,
+          dateTime: clock.now(),
+          snapName: ratingsData.snapName,
+        );
+        await _ratings.vote(vote);
+        state = AsyncData(ratingsData.copyWith(voteStatus: voteStatus));
+        await _getCacheFile(ratingsData.snapId).deleteIfExists();
+        ref.invalidateSelf();
+      } finally {
+        keepAliveLink.close();
+      }
     }
   }
 

@@ -460,5 +460,16 @@
     "driversPageUninstallWarningTitle": "Das Deinstallieren von Treibern kann Probleme verursachen",
     "driversPageUninstallWarningMessage": "Möglicherweise lassen sich die Treiber nicht ohne Weiteres neu installieren, insbesondere wenn es sich um Grafik- oder Netzwerktreiber handelt.",
     "driversPageUninstallAcknowledgeLabel": "Ich bin mir des Risikos bewusst",
-    "addonsPageLabel": "Add-ons"
+    "addonsPageLabel": "Add-ons",
+    "appDetailsAdditionalInfoLabel": "Zusätzliche Informationen",
+    "appDetailsPackageFormatLabel": "Paketformat",
+    "appDetailsCategoryLabel": "Kategorie",
+    "appDetailsInstallDateLabel": "Installationsdatum",
+    "appDetailsNotInstalled": "Nicht installiert",
+    "appDetailsNotAvailable": "Nicht verfügbar",
+    "addonsPageMediaSupportTitle": "Medienunterstützung",
+    "addonsPageMediaSupportDescription": "Installieren Sie zusätzliche Software, um weitere Medienformate zu unterstützen",
+    "mediaSupportPageDescription": "Ubuntu wird standardmäßig mit einigen quelloffenen Codecs ausgeliefert. Möglicherweise müssen Sie zusätzliche Software installieren, um bestimmte Musik- und Videoformate abspielen und bearbeiten zu können.",
+    "mediaSupportPageAdditionalMediaTitle": "Zusätzliche Medienunterstützung",
+    "mediaSupportPageInstallButton": "Installieren"
 }

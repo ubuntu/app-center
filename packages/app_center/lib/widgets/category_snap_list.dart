@@ -29,7 +29,7 @@ class CategorySnapList extends ConsumerWidget {
     // get snaps from `category`
     final categorySnaps = ref
         .watch(snapSearchProvider(SnapSearchParameters(category: category)))
-        .valueOrNull;
+        .value;
 
     final bannerSnaps =
         category.featuredSnapNames?.take(kNumberOfBannerSnaps) ??

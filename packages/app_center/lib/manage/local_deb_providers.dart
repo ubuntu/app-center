@@ -2,7 +2,6 @@ import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -23,7 +22,7 @@ part 'local_deb_providers.g.dart';
 /// - [updateVersion]: Available update version, if any
 /// - [activeTransactionId]: Tracks ongoing install/remove/update operations
 @freezed
-class LocalDebInfo with _$LocalDebInfo {
+abstract class LocalDebInfo with _$LocalDebInfo {
   factory LocalDebInfo({
     required String id,
     required PackageKitPackageEvent packageInfo,

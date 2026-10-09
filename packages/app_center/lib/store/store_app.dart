@@ -23,6 +23,7 @@ import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart' hide AboutDialog, showAboutDialog;
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru/yaru.dart';
 

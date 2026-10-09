@@ -47,7 +47,7 @@ parts:
       set -e
 
       fvm dart pub global run melos exec -c 1 --fail-fast --depends-on=build_runner --order-dependents -- \
-      fvm dart run build_runner build --delete-conflicting-outputs
+      fvm dart run build_runner build
 
       cd packages/app_center
       fvm flutter gen-l10n
@@ -82,7 +82,8 @@ apps:
       - network
       - snapd-control
       - packagekit-control
-      - ubuntu-drivers-observe
+      # Disabled temporarily until store supports ubuntu-drivers-observe SEC-10893
+      # - ubuntu-drivers-observe
 
 # This entry, along with the corresponding .desktop file, is required
 # to allow Snapd Desktop Integration to open the Snap Center in the

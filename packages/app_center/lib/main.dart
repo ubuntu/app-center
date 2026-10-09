@@ -111,6 +111,8 @@ Future<void> main(List<String> args) async {
       await YaruWindowTitleBar.ensureInitialized();
       runApp(
         ProviderScope(
+          // Don't retry failed providers.
+          retry: (_, _) => null,
           observers: [ErrorObserver()],
           child: const StoreApp(),
         ),

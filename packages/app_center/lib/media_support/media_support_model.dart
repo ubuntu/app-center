@@ -17,7 +17,7 @@ const mediaSupportPackages = [
 enum MediaSupportAction { install, update, uninstall }
 
 @freezed
-class MediaSupportState with _$MediaSupportState {
+abstract class MediaSupportState with _$MediaSupportState {
   const factory MediaSupportState({
     required Map<String, PackageKitPackageInfo?> packages,
     required List<PackageKitPackageId> updatePackageIds,
@@ -119,7 +119,7 @@ class MediaSupportModel extends _$MediaSupportModel {
     () => _packageKit.removeAll(state.value!.installedIds),
   );
 
-  Future<void> retry() => switch (state.valueOrNull?.lastAction) {
+  Future<void> retry() => switch (state.value?.lastAction) {
     MediaSupportAction.install => install(),
     MediaSupportAction.update => updatePackages(),
     MediaSupportAction.uninstall => uninstall(),
@@ -127,7 +127,7 @@ class MediaSupportModel extends _$MediaSupportModel {
   };
 
   Future<void> cancel() async {
-    final id = state.valueOrNull?.activeTransactionId;
+    final id = state.value?.activeTransactionId;
     if (id == null) return;
     try {
       await _packageKit.cancelTransaction(id);
@@ -140,7 +140,7 @@ class MediaSupportModel extends _$MediaSupportModel {
     MediaSupportAction action,
     Future<int> Function() start,
   ) async {
-    if (_busy || state.valueOrNull == null) return;
+    if (_busy || state.value == null) return;
     _busy = true;
     final link = ref.keepAlive();
     state = AsyncData(
