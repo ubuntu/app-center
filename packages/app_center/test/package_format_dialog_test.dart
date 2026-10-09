@@ -73,6 +73,9 @@ void main() {
     expect(find.text('latest/stable'), findsOneWidget);
     expect(find.text('2.0'), findsOneWidget);
     expect(find.text('1.0-1'), findsOneWidget);
+    expect(find.byTooltip('Snap Publisher'), findsOneWidget);
+    expect(find.byTooltip('Deb Publisher'), findsOneWidget);
+    expect(find.byTooltip('1.0-1'), findsOneWidget);
     expect(find.text(l10n.snapActionInstallLabel), findsNWidgets(2));
     expect(find.byType(YaruInfoBox), findsNothing);
     expect(find.text(l10n.appDetailsPackageFormatsLearnMore), findsOneWidget);

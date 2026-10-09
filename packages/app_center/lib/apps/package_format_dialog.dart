@@ -252,6 +252,7 @@ class _PublisherLabel extends StatelessWidget {
     final theme = Theme.of(context);
     final validation = publisher?.validation ?? PublisherValidation.none;
     final verified = validation == PublisherValidation.verified;
+    final name = publisher?.name ?? l10n.unknownPublisher;
 
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 200),
@@ -259,10 +260,13 @@ class _PublisherLabel extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Flexible(
-            child: Text(
-              publisher?.name ?? l10n.unknownPublisher,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+            child: Tooltip(
+              message: name,
+              child: Text(
+                name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
           if (validation != PublisherValidation.none)

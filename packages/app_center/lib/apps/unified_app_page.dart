@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:app_center/apps/app_details_entry.dart';
 import 'package:app_center/apps/app_details_labels.dart';
@@ -81,9 +80,9 @@ class _UnifiedAppView extends StatelessWidget {
 
     return AppPage(
       titleBar: AppTitleBar(
-        iconUrl: icon?.mapOrNull(network: (icon) => icon.url),
-        iconWidget: icon?.mapOrNull(
-          file: (icon) => Image.file(File(icon.path), width: 96, height: 96),
+        iconUrl: icon?.mapOrNull(
+          network: (icon) => icon.url,
+          file: (icon) => icon.path,
         ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
