@@ -207,7 +207,9 @@ MockSnapdService registerMockSnapdService({
     ),
   ).thenAnswer((_) async => 'id');
   when(service.refreshMany(any)).thenAnswer((_) async => 'id');
-  when(service.remove(any)).thenAnswer((_) async => 'id');
+  when(
+    service.remove(any, purge: anyNamed('purge')),
+  ).thenAnswer((_) async => 'id');
   when(service.revert(any)).thenAnswer((_) async => 'id');
   when(
     service.hasPreviousRevision(any),
