@@ -9,11 +9,13 @@ import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/apps/package_format_dialog.dart';
 import 'package:app_center/constants.dart';
+import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/extensions/string_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
+import 'package:app_center/mapping/package_source_descriptor.dart';
 import 'package:app_center/ratings/ratings_l10n.dart';
 import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:app_center/widgets/shimmer_placeholder.dart';
@@ -36,6 +38,23 @@ class UnifiedAppPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final details = ref.watch(appDetailsModelProvider(entry));
+    final debKey = ref
+        .watch(appDetailsIdentityProvider(entry))
+        .value
+        ?.sourceKeys
+        .firstWhereOrNull((key) => key.format == PackageFormat.deb);
+    if (debKey != null) {
+      // Same error dialog as the old deb page.
+      ref.listen(debModelProvider(debKey.id), (previous, next) {
+        final error = next.value?.error;
+        if (error == null || error == previous?.value?.error) return;
+        showErrorDialog(
+          context: context,
+          title: 'PackageKit error: ${error.code}',
+          message: error.details,
+        );
+      });
+    }
 
     if (details.error is AppNotFound) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -99,15 +118,7 @@ class _UnifiedAppView extends StatelessWidget {
             ),
             if (categories.isNotEmpty) ...[
               const SizedBox(height: 8),
-              Wrap(
-                children: [
-                  for (final (index, category) in categories.indexed) ...[
-                    if (index > 0) const Text(', '),
-                    // Category pages are not wired up yet.
-                    HyperlinkText(text: category, onTap: () {}),
-                  ],
-                ],
-              ),
+              Text(categories.join(', ')),
             ],
           ],
         ),
