@@ -19,7 +19,11 @@ abstract class LocalDebData extends AppMetadata with _$LocalDebData {
 
   LocalDebData._();
 
-  bool get isInstalled => packageInfo?.info == PackageKitInfo.installed;
+  String? get installedVersion => packageInfo?.info == PackageKitInfo.installed
+      ? packageInfo?.packageId.version
+      : null;
+
+  bool get isInstalled => installedVersion == details.packageId.version;
 
   @override
   AppConfinement? get confinement => AppConfinement.fromDeb();
