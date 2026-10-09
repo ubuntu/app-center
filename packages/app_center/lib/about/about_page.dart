@@ -22,32 +22,26 @@ class AboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
+    return const ResponsiveLayoutScrollView(
       slivers: [
-        const SliverPadding(
-          padding: EdgeInsets.all(kPagePadding),
+        SliverPadding(
+          padding: EdgeInsets.only(top: kPagePadding),
           sliver: SliverToBoxAdapter(child: _AboutHeader()),
         ),
         SliverPadding(
-          padding: const EdgeInsets.all(kPagePadding),
+          padding: EdgeInsets.only(top: kSectionSpacing),
           sliver: SliverToBoxAdapter(
-            child: Align(
-              alignment: AlignmentDirectional.topStart,
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: double.infinity),
-                child: const _ContributorView(repo: kGitHubRepo),
-              ),
-            ),
+            child: _ContributorView(repo: kGitHubRepo),
           ),
         ),
-        const SliverPadding(
-          padding: EdgeInsets.all(kPagePadding),
+        SliverPadding(
+          padding: EdgeInsets.only(top: kSectionSpacing),
           sliver: SliverToBoxAdapter(child: _CommunityView()),
         ),
-        const SliverFillRemaining(
+        SliverFillRemaining(
           hasScrollBody: false,
           child: Padding(
-            padding: EdgeInsets.all(kPagePadding),
+            padding: EdgeInsets.symmetric(vertical: kPagePadding),
             child: _AboutFooter(),
           ),
         ),
@@ -63,21 +57,20 @@ class _AboutHeader extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Image.asset('assets/app-center.png'),
         const SizedBox(height: 25),
         MergeSemantics(
-              child: Semantics(
-                header: true,
-                focused: true,
-                label: l10n.aboutPageLabel,
-                child: Text(
-                  l10n.appCenterLabel,
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-              ),
+          child: Semantics(
+            header: true,
+            focused: true,
+            label: l10n.aboutPageLabel,
+            child: Text(
+              l10n.appCenterLabel,
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
+          ),
+        ),
       ],
     );
   }
