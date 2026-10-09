@@ -460,5 +460,18 @@
     "driversPageUninstallTitle": "Odinstalovat ovladač",
     "driversPageUninstallWarningTitle": "Odinstalace ovladačů může způsobit problémy",
     "driversPageUninstallWarningMessage": "Možná nebudete moci tyto ovladače snadno přeinstalovat, zejména pokud se týkají grafiky nebo sítě.",
-    "driversPageUninstallAcknowledgeLabel": "Chápu riziko"
+    "driversPageUninstallAcknowledgeLabel": "Chápu riziko",
+    "appDetailsAdditionalInfoLabel": "Další informace",
+    "appDetailsPackageFormatLabel": "Formát balíčku",
+    "appDetailsCategoryLabel": "Kategorie",
+    "appDetailsInstallDateLabel": "Datum instalace",
+    "appDetailsNotInstalled": "Není nainstalováno",
+    "appDetailsNotAvailable": "Není dostupné",
+    "addonsPageMediaSupportTitle": "Podpora médií",
+    "addonsPageMediaSupportDescription": "Nainstalujte další software pro podporu více formátů médií",
+    "addonsPageFirmwareTitle": "Firmware",
+    "addonsPageFirmwareDescription": "Aktualizujte hardware pro lepší výkon a zabezpečení",
+    "mediaSupportPageDescription": "Ubuntu je standardně dodáváno s některými open source kodeky. Pro přehrávání a úpravu určitých hudebních a video formátů může být nutné nainstalovat další software.",
+    "mediaSupportPageAdditionalMediaTitle": "Podpora dalších médií",
+    "mediaSupportPageInstallButton": "Instalovat"
 }
