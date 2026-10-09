@@ -1,5 +1,7 @@
 import 'package:app_center/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:markdown/markdown.dart' as md;
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yaru/yaru.dart';
 
@@ -53,5 +55,13 @@ class HyperlinkText extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+/// Custom builder for link texts on Markdown
+class HyperlinkTextMarkdown extends MarkdownElementBuilder {
+  @override
+  Widget? visitElementAfter(md.Element element, TextStyle? preferredStyle) {
+    return HyperlinkText(text: element.textContent, link: element.textContent);
   }
 }
