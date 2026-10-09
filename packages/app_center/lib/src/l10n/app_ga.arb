@@ -478,5 +478,7 @@
     "driversPageUninstallTitle": "Díshuiteáil an tiománaí",
     "driversPageUninstallWarningTitle": "Is féidir fadhbanna a chruthú má dhíshuiteáiltear tiománaithe",
     "driversPageUninstallWarningMessage": "B’fhéidir nach mbeidh tú in ann na tiománaithe a athshuiteáil go héasca, go háirithe má bhaineann siad le grafaicí nó leis an líonra.",
-    "driversPageUninstallAcknowledgeLabel": "Tuigim an riosca"
+    "driversPageUninstallAcknowledgeLabel": "Tuigim an riosca",
+    "addonsPageFirmwareTitle": "Dochtearraí",
+    "addonsPageFirmwareDescription": "Nuashonraigh crua-earraí le haghaidh feidhmíocht agus slándáil níos fearr"
 }
