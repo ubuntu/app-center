@@ -399,6 +399,25 @@ void main() {
       );
     });
 
+    test('PackageKit errors are reported to the error dialog', () async {
+      // ignore: close_sinks
+      final errors = registerMockErrorStreamControllerService();
+      final container = setUpServices(info: PackageKitInfo.available);
+      when(
+        (getService<PackageKitService>() as MockPackageKitService)
+            .waitTransaction(any),
+      ).thenAnswer((_) => Future.error(PackageKitTransactionError('broken')));
+
+      expect(
+        await execute(container, OperationKind.install),
+        OperationOutcome.failed,
+      );
+      final reported =
+          verify(errors.add(captureAny)).captured.single
+              as PackageKitServiceError;
+      expect(reported.details, contains('broken'));
+    });
+
     test('channel switch is not supported', () async {
       final container = setUpServices();
       expect(

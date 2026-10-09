@@ -7,6 +7,7 @@ import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/current_desktops_provider.dart';
+import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
@@ -348,25 +349,38 @@ class DebDetailsBackend implements PackageDetailsBackend {
     final notifier = ref.read(debModelProvider(key.id).notifier);
     if (data.packageInfo == null) return OperationOutcome.failed;
 
+    // The deb model records PackageKit errors without rethrowing them.
+    PackageKitServiceError? error;
+    final errors = ref.listen(debModelProvider(key.id), (_, next) {
+      error ??= next.value?.error;
+    });
     final PackageKitMutationOutcome outcome;
-    switch (command.kind) {
-      case OperationKind.install:
-        if (data.isInstalled) return OperationOutcome.failed;
-        outcome = await notifier.installDeb();
-      case OperationKind.update:
-        final updateId = data.updatePackageId;
-        if (updateId == null || '$updateId' != command.candidateId) {
+    try {
+      switch (command.kind) {
+        case OperationKind.install:
+          if (data.isInstalled) return OperationOutcome.failed;
+          outcome = await notifier.installDeb();
+        case OperationKind.update:
+          final updateId = data.updatePackageId;
+          if (updateId == null || '$updateId' != command.candidateId) {
+            return OperationOutcome.failed;
+          }
+          outcome = await notifier.updateDeb(updateId: updateId);
+        case OperationKind.remove:
+          if (!data.isInstalled ||
+              data.isCompulsoryFor(ref.read(currentDesktopsProvider))) {
+            return OperationOutcome.failed;
+          }
+          outcome = await notifier.removeDeb();
+        case OperationKind.switchChannel:
           return OperationOutcome.failed;
-        }
-        outcome = await notifier.updateDeb(updateId: updateId);
-      case OperationKind.remove:
-        if (!data.isInstalled ||
-            data.isCompulsoryFor(ref.read(currentDesktopsProvider))) {
-          return OperationOutcome.failed;
-        }
-        outcome = await notifier.removeDeb();
-      case OperationKind.switchChannel:
-        return OperationOutcome.failed;
+      }
+    } finally {
+      errors.close();
+    }
+    if (outcome == PackageKitMutationOutcome.failed && error != null) {
+      // Shown by the app-wide error dialog, like snapd errors.
+      ref.read(errorStreamControllerProvider).add(error!);
     }
     return switch (outcome) {
       PackageKitMutationOutcome.success => OperationOutcome.success,

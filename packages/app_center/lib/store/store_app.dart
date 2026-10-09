@@ -181,8 +181,14 @@ class _StoreAppHome extends ConsumerWidget {
       } else if (value is PackageKitTransactionCancelled) {
         // User cancelled (e.g. dismissed the polkit dialog) — not an error.
         return;
-      } else if (value is PackageKitTransactionError ||
-          value is PackageKitServiceError) {
+      } else if (value is PackageKitServiceError) {
+        // Same dialog as the old deb page.
+        showErrorDialog(
+          context: context,
+          title: 'PackageKit error: ${value.code}',
+          message: value.details,
+        );
+      } else if (value is PackageKitTransactionError) {
         _showError(context, value);
       }
     });
