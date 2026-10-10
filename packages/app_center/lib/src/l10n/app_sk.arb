@@ -1,7 +1,7 @@
 {
     "snapPageLinksLabel": "Odkazy",
     "snapPageVersionLabel": "Verzia",
-    "packageFormatDebLabel": "Debian balíky",
+    "packageFormatDebLabel": "Balíky Debian",
     "snapCategoryBooksAndReference": "Knihy a referencie",
     "snapCategoryProductivity": "Produktivita",
     "snapCategoryUtilities": "Nástroje",
@@ -17,7 +17,7 @@
     "snapActionUpdateLabel": "Aktualizovať",
     "searchPageSortByLabel": "Zoradiť",
     "snapPageGalleryLabel": "Galéria",
-    "searchFieldDebSection": "Debian balíky",
+    "searchFieldDebSection": "Balíky Debian",
     "snapActionOpenLabel": "Otvoriť",
     "snapCategoryDevelopment": "Vývoj",
     "snapCategoryHealthAndFitness": "Zdravie a kondícia",
@@ -36,7 +36,7 @@
     "snapPageConfinementLabel": "Oprávnenia",
     "snapCategoryMusicAndAudio": "Hudba a zvuk",
     "aboutPageGitHubLabel": "Nájdete nás na GitHube",
-    "packageFormatSnapLabel": "Snap balíky",
+    "packageFormatSnapLabel": "Balíky Snap",
     "snapCategoryGames": "Hry",
     "snapActionInstallingLabel": "Inštaluje sa",
     "searchFieldSearchHint": "Hľadať aplikácie",
@@ -46,7 +46,7 @@
     "snapPagePublisherLabel": "Vydavateľ",
     "snapPageDescriptionLabel": "Popis",
     "explorePageLabel": "Preskúmať",
-    "searchFieldSnapSection": "Snap balíky",
+    "searchFieldSnapSection": "Balíky Snap",
     "snapCategoryDevicesAndIot": "Zariadenia a IoT",
     "managePageCheckForUpdates": "Skontrolovať aktualizácie",
     "managePageUpdateAllLabel": "Aktualizovať všetko",
@@ -277,7 +277,7 @@
         }
     },
     "managePageQuitToUpdate": "Ukončite kvôli aktualizácii",
-    "managePageUpdatesFailed": "Zlyhanie {n, plural, =1{jednej aktualizácie} few{{n} aktualizácií} other{{n} aktualizácií}}",
+    "managePageUpdatesFailed": "Zlyhala {n, plural, =1{1 aktualizácia} few{{n} aktualizácie} other{{n} aktualizácií}}",
     "@managePageUpdatesFailed": {
         "placeholders": {
             "n": {
@@ -434,7 +434,7 @@
         }
     },
     "driversPageRestartRequiredTitle": "Vyžaduje sa reštart",
-    "driversPageRestartRequiredMessage": "Reštartujte počítač na dokončenie aplikácie zmien ovládačov.",
+    "driversPageRestartRequiredMessage": "Reštartujte počítač na dokončenie inštalácie ovládačov.",
     "driversPageErrorLabel": "Chyba",
     "driversPageRetryLabel": "Skúsiť znova",
     "driversPageNoDriversFoundMessage": "Používajú sa zabudované ovládače. Nenašli sa žiadne ďalšie ovládače.",
@@ -471,7 +471,7 @@
     "appDetailsCategoryLabel": "Kategória",
     "appDetailsInstallDateLabel": "Dátum inštalácie",
     "appDetailsNotInstalled": "Nenainštalované",
-    "appDetailsNotAvailable": "Nedostupný",
+    "appDetailsNotAvailable": "Nedostupné",
     "addonsPageFirmwareTitle": "Firmvér",
     "addonsPageFirmwareDescription": "Aktualizujte hardvér pre lepší výkon a bezpečnosť"
 }
