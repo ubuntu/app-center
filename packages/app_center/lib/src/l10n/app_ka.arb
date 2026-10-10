@@ -404,5 +404,73 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "appDetailsAdditionalInfoLabel": "დამატებითი ინფორმაცია",
+    "appDetailsPackageFormatLabel": "პაკეტის ფორმატი",
+    "appDetailsCategoryLabel": "კატეგორია",
+    "appDetailsInstallDateLabel": "დაყენების თარიღი",
+    "appDetailsNotInstalled": "დაყენებული არაა",
+    "appDetailsNotAvailable": "ხელმისაწვდომი არაა",
+    "addonsPageLabel": "დამატებები",
+    "addonsPageAdditionalDriversTitle": "დამატებითი დრაივერები",
+    "addonsPageAdditionalDriversDescription": "დაემატა გრაფიკული ბარათებისა და სხვა აპარატურის უკეთესი მხარდაჭერა",
+    "addonsPageMediaSupportTitle": "მედიის მხარდაჭერა",
+    "addonsPageMediaSupportDescription": "დამატებითი პროგრამების დაყენება მეტი მედიის ფორმატის მხარდასაჭერად",
+    "addonsPageFirmwareTitle": "მიკროკოდი",
+    "addonsPageFirmwareDescription": "განაახლეთ აპარატურა უკეთესი წარმადობისა და უსაფრთხოებისთვის",
+    "driversPageErrorLabel": "შეცდომა",
+    "driversPageSwitchLabel": "გადართვა",
+    "driversPageDeviceClassAudio": "აუდიო",
+    "mediaSupportPageInstallButton": "დაყენება",
+    "driversPageSectionAvailable": "ხელმისაწვდომი",
+    "driversPageSectionInstalled": "დაყენებული",
+    "driversPageDeviceClassStorage": "საცავი",
+    "driversPageBranchProduction": "მზადაა სამუშაოდ",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassCamera": "კამერა",
+    "driversPageDeviceClassGraphics": "გრაფიკა",
+    "driversPageDeviceClassNetwork": "ქსელი",
+    "driversPageRetryLabel": "თავიდან ცდა",
+    "driversPageDeviceClassOther": "სხვა",
+    "driversPageSwitchBranchLabel": "ტოტის შეცვლა",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (რეკომენდებულია)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchingBranchLabel": "მიმდინარეობს ტოტის შეცვლა",
+    "driversPageRestartRequiredTitle": "აუცილებელია გადატვირთვა",
+    "driversPageSectionUpdateAvailable": "ხელმისაწვდომია განახლდება",
+    "driversPageBranchNewFeature": "ახალი ფუნქციები",
+    "driversPageVersionLabel": "ვერსია {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageUninstallTitle": "დრაივერის წაშლ",
+    "driversPageSwitchBranchTitle": "ტოტის გადართვა",
+    "driversPageUnavailableTitle": "დრაივერის მართვა ხელმისაწვდომი არაა",
+    "driversPageSectionUnsupported": "დრაივერები ხელმისაწვდომი არაა",
+    "driversPageSwitchBranchNewFeatureDescription": "სატესტო. ნაკლებად სტაბილური",
+    "mediaSupportPageAdditionalMediaTitle": "დამატებითი მედიის მხარდაჭერა",
+    "driversPageBranchLts": "დიდხნიანი მხარდაჭერა",
+    "driversPageUninstallAcknowledgeLabel": "მე მესმის რისკი",
+    "driversPageSwitchBranchProductionDescription": "აბალანსებს ფუნქციებსა და სტაბილურობას შორის",
+    "driversPageSwitchBranchLtsDescription": "მაქსიმალური სტაბილურობა კრიტიკული დატვირთვისას",
+    "driversPageUninstallWarningTitle": "დრაივერების წაშლამ, შეიძლება, პრობლემები გამოიწვიოს",
+    "driversPageSwitchBranchLessStableWarningTitle": "ეს ტოტი ნაკლებად სტაბილურია",
+    "driversPageNoPackagesMessage": "ამ მოწყობილობისთვის დრაივერებს არცერთი პაკეტი მოგაწვდით",
+    "driversPageNoDriversFoundMessage": "გამოიყენება ჩაშენებული დრაივერები. დამატებითი დრაივერები აღმოჩენილი არაა.",
+    "driversPageRestartRequiredMessage": "დრაივერის ცვლილებების ძალაში შესასვლელად გადატვირთეთ კომპიუტერი.",
+    "driversPageSwitchBranchLessStableWarningMessage": "დარჩით მიმდინარე ტოტზე ამ მოწყობილობასთან პრობლემების თავიდან ასარიდებლად.",
+    "driversPageUninstallWarningMessage": "შეიძლება, დრაივერების თავიდან დაყენება ისეთი იოლი არ იყოს. განსაკუთრებით, თუ ეს გრაფიკას, ან ქსელს ეხება.",
+    "driversPageUnsupportedMessage": "დრაივერის მართვის სერვისი ხელმისაწვდომი არაა დარწმუნდით, რომ snapd განახლებულია და პაკეტი ubuntu-drivers-comoon დაყენებულია.",
+    "driversPageDescription": "დახურული კოდის დრაივერებს აქვთ პირადი კოდი, რომლის გადახედვა, ან გაუმჯობესება Ubuntu-ს პროგრამისტებს არ შეუძლიათ. უსაფრთხოება და სხვა განახლებები დრაივერის მომწოდებელზეა დამოკიდებული.",
+    "mediaSupportPageDescription": "Ubuntu-ს, ნაგულისხმევად, ზოგიერთი ღია კოდის მქონე კოდეკი მოჰყვება. ზოგიერთი მუსიკისა და ვიდეოს ფორმატების დასაკრავად, ან ჩასასწორებლად, შეიძლება, დამატებითი პროგრამების დაყენება დაგჭირდეთ."
 }
