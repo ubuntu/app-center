@@ -407,7 +407,7 @@
         }
     },
     "driversPageUninstallAcknowledgeLabel": "Je comprends les risques",
-    "addonsPageLabel": "Modules d'extension",
+    "addonsPageLabel": "Extensions",
     "addonsPageAdditionalDriversDescription": "Ajout d'un meilleur support pour les cartes graphiques et autres matériels",
     "driversPageDescription": "Les pilotes propriétaires contiennent un code privé que les développeurs Ubuntu ne peuvent ni examiner, ni améliorer. Sécurité et autres mises à jour dépendent donc du fournisseur du pilote.",
     "driversPageSectionUpdateAvailable": "Mise à jour disponible",
@@ -425,9 +425,53 @@
     "driversPageRestartRequiredMessage": "Redémarrez votre ordinateur pour terminer l'application des changements de pilote.",
     "driversPageErrorLabel": "Erreur",
     "driversPageRetryLabel": "Essayer à nouveau",
-    "driversPageNoDriversFoundMessage": "Les pilotes supplémentaires n'ont pas été trouvés : utilisation de pilotes intégrés.",
+    "driversPageNoDriversFoundMessage": "Utilise les pilotes intégrés. Aucun pilote supplémentaire trouvé.",
     "driversPageUnavailableTitle": "Gestion du pilote non disponible",
     "driversPageUnsupportedMessage": "Le service de gestion du pilote n'est pas disponible. Assurez-vous que snapd est mis à jour et que ubuntu-drivers-common est installé.",
     "driversPageSwitchBranchLtsDescription": "Stabilité maximale lors de charges de travail critiques",
-    "driversPageSwitchBranchNewFeatureDescription": "Pré-version, moins stable"
+    "driversPageSwitchBranchNewFeatureDescription": "Pré-version, moins stable",
+    "addonsPageMediaSupportTitle": "Prise en charge des médias",
+    "addonsPageAdditionalDriversTitle": "Pilotes supplémentaires",
+    "addonsPageMediaSupportDescription": "Installer des logiciels supplémentaires pour prendre en charge davantage de formats multimédias",
+    "addonsPageFirmwareTitle": "Micrologiciel",
+    "addonsPageFirmwareDescription": "Mettre à jour le matériel pour améliorer les performances et la sécurité",
+    "mediaSupportPageDescription": "Ubuntu inclut par défaut certains codecs open source. Vous devrez peut-être installer des logiciels supplémentaires pour lire et modifier certains formats audio et vidéo.",
+    "mediaSupportPageAdditionalMediaTitle": "Prise en charge supplémentaire des médias",
+    "mediaSupportPageInstallButton": "Installer",
+    "driversPageNoPackagesMessage": "Aucun paquet ne fournit de pilotes pour ce périphérique",
+    "driversPageDeviceClassGraphics": "Graphique",
+    "driversPageDeviceClassStorage": "Stockage",
+    "driversPageBranchProduction": "Création",
+    "driversPageVersionLabel": "Version {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLabel": "Changer de branche",
+    "driversPageSwitchBranchTitle": "Changer de branche",
+    "driversPageSwitchBranchProductionDescription": "Équilibre fonctionnalités et stabilité",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (recommandée)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "Cette branche est moins stable",
+    "driversPageSwitchBranchLessStableWarningMessage": "Rester sur la branche actuelle pour éviter les problèmes avec cet appareil.",
+    "driversPageSwitchLabel": "Changer",
+    "driversPageSwitchingBranchLabel": "Changement de branche",
+    "driversPageUninstallTitle": "Désinstaller le pilote",
+    "driversPageUninstallWarningTitle": "La désinstallation des pilotes peut entraîner des problèmes",
+    "driversPageUninstallWarningMessage": "Il pourrait être difficile de réinstaller les pilotes, notamment ceux liés à l’affichage ou au réseau.",
+    "appDetailsAdditionalInfoLabel": "Informations complémentaires",
+    "appDetailsPackageFormatLabel": "Format de paquet",
+    "appDetailsCategoryLabel": "Catégorie",
+    "appDetailsInstallDateLabel": "Date d’installation",
+    "appDetailsNotInstalled": "Non installé",
+    "appDetailsNotAvailable": "Non disponible"
 }

@@ -471,5 +471,7 @@
     "addonsPageMediaSupportDescription": "Установка дополнительного ПО для поддержки большего числа форматов мультимедиа",
     "mediaSupportPageDescription": "В Ubuntu по умолчанию предустановлены некоторые кодеки с открытым исходным кодом. Для воспроизведения и редактирования определённых форматов музыки и видео может потребоваться установка дополнительного ПО.",
     "mediaSupportPageAdditionalMediaTitle": "Дополнительная поддержка мультимедиа",
-    "mediaSupportPageInstallButton": "Установить"
+    "mediaSupportPageInstallButton": "Установить",
+    "addonsPageFirmwareTitle": "Прошивка",
+    "addonsPageFirmwareDescription": "Обновление ПО оборудования для повышения производительности и безопасности"
 }

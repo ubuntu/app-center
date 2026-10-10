@@ -457,5 +457,18 @@
     "driversPageSwitchBranchLessStableWarningMessage": "Jarraitu uneko adarrean gailu honekin arazoak izatea ekiditeko.",
     "driversPageUninstallWarningTitle": "Kontrolatzaileak desinstalatzeak arazoak sor ditzake",
     "driversPageUninstallWarningMessage": "Baliteke kontrolatzaileak errazki berrinstalatu ahal ez izatea, batez ere grafikoekin edo sarearekin lotuta badaude.",
-    "driversPageUninstallAcknowledgeLabel": "Ulertzen dut arriskua"
+    "driversPageUninstallAcknowledgeLabel": "Ulertzen dut arriskua",
+    "appDetailsAdditionalInfoLabel": "Informazio gehigarria",
+    "appDetailsPackageFormatLabel": "Pakete formatua",
+    "appDetailsCategoryLabel": "Kategoria",
+    "appDetailsInstallDateLabel": "Instalazio-data",
+    "appDetailsNotInstalled": "Instalatu gabe",
+    "appDetailsNotAvailable": "Ez dago erabilgarri",
+    "addonsPageMediaSupportTitle": "Euskarrien sostengua",
+    "addonsPageMediaSupportDescription": "Instalatu software gehigarria euskarri formatu gehiago onartzeko",
+    "addonsPageFirmwareTitle": "Firmwarea",
+    "addonsPageFirmwareDescription": "Eguneratu hardwarea errendimendua eta segurtasuna hobetzeko",
+    "mediaSupportPageDescription": "Ubuntuk defektuz kode irekiko zenbait kodek dakartza berekin. Baina musika eta bideo formatu jakin batzuk erreproduzitu eta editatzeko software gehigarria instalatu beharko duzu.",
+    "mediaSupportPageAdditionalMediaTitle": "Euskarrien sostengu gehigarria",
+    "mediaSupportPageInstallButton": "Instalatu"
 }
