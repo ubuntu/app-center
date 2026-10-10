@@ -29,18 +29,18 @@ packages:
     dependency: transitive
     description:
       name: animated_vector
-      sha256: f1beb10e6fcfd8bd15abb788e20345def786d1c7391d7c1426bb2a1f2adf2132
+      sha256: "44c09df5b11a8416c49dfd7433cc08714308addda61acdd8b97ea87a7d8e8f76"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.2"
+    version: "0.2.3"
   animated_vector_annotations:
     dependency: transitive
     description:
       name: animated_vector_annotations
-      sha256: "07c1ea603a2096f7eb6f1c2b8f16c3c330c680843ea78b7782a3217c3c53f979"
+      sha256: c1bf348882940b64d7b86b8fc09572310a5dc28091cdde8436156844ca15a30d
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.2"
+    version: "0.3.0"
   app_center_ratings_client:
     dependency: "direct main"
     description:
@@ -268,10 +268,10 @@ packages:
     dependency: "direct main"
     description:
       name: dbus
-      sha256: "0ce9b0a839e6dee59a37a623d2fc26a35bbbe6404213e419b0d6411023d62645"
+      sha256: f7db8504e715b835f5ebe5fe74604ccd961d504c73389a5d8e81bafc2e2f3612
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.14"
+    version: "0.8.0"
   diacritic:
     dependency: transitive
     description:
@@ -522,10 +522,10 @@ packages:
     dependency: "direct main"
     description:
       name: gsettings
-      sha256: "1b0ce661f5436d2db1e51f3c4295a49849f03d304003a7ba177d01e3a858249c"
+      sha256: "5e3e299b871a16d142691aa91595a4d73bab7a7fa65d53db0bf2c576959aaefc"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.8"
+    version: "0.2.9"
   gtk:
     dependency: "direct main"
     description:
@@ -602,10 +602,10 @@ packages:
     dependency: transitive
     description:
       name: image
-      sha256: f9881ff4998044947ec38d098bc7c8316ae1186fa786eddffdb867b9bc94dfce
+      sha256: a1e7f4951e538a568e14b856702afc9ae1d2f4b202daced8d22c1b9cd211ce89
       url: "https://pub.dev"
     source: hosted
-    version: "4.8.0"
+    version: "4.10.1"
   image_size_getter:
     dependency: transitive
     description:
@@ -927,10 +927,10 @@ packages:
     dependency: transitive
     description:
       name: platform
-      sha256: "5d6b1b0036a5f331ebc77c850ebc8506cbc1e9416c27e59b439f917a902a4984"
+      sha256: a36d119c13416516a7b5913fbe8af8531e11633d784c550b2125f76c758524ec
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.6"
+    version: "3.2.0"
   platform_linux:
     dependency: transitive
     description:
@@ -1548,10 +1548,10 @@ packages:
     dependency: "direct main"
     description:
       name: yaru
-      sha256: "95e801c52dfda458bcb772baee6b2575c711fd951616a24910d6d30e70f5fb0d"
+      sha256: b4f3167b9f138ffd20998bfa36d003dcf5e7979cf2652e4a01835dec66361e33
       url: "https://pub.dev"
     source: hosted
-    version: "10.2.0"
+    version: "11.0.0"
   yaru_test:
     dependency: "direct main"
     description:

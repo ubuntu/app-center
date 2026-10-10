@@ -15,7 +15,7 @@ dependencies:
   clock: ^1.1.1
   collection: ^1.18.0
   crypto: ^3.0.5
-  dbus: ^0.7.10
+  dbus: ^0.8.0
   file: ^7.0.0
   flutter:
     sdk: flutter
@@ -54,7 +54,7 @@ dependencies:
   url_launcher: ^6.3.0
   xdg_desktop_portal: ^0.1.14
   xdg_directories: ^1.0.4
-  yaru: ^10.2.0
+  yaru: ^11.0.0
   yaru_test: ^0.3.2
   yaru_window: ^0.2.1+1
 
@@ -73,8 +73,12 @@ dev_dependencies:
   ubuntu_lints: ^0.4.2
 
 dependency_overrides:
+  # xdg_desktop_portal 0.1.14 and packagekit 0.2.7 still require dbus ^0.7.
+  dbus: ^0.8.0
   # snapd 0.7.7 still requires freezed_annotation ^2.4.1.
   freezed_annotation: ^3.1.0
+  # ubuntu_widgets 0.8.1 and yaru_test 0.3.4 still cap yaru below 11.
+  yaru: ^11.0.0
 
 flutter:
   uses-material-design: true
