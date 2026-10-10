@@ -445,5 +445,11 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "appDetailsAdditionalInfoLabel": "Əlavə məlumat",
+    "appDetailsPackageFormatLabel": "Paket formatı",
+    "appDetailsCategoryLabel": "Kateqoriya",
+    "appDetailsInstallDateLabel": "Quraşdırılma tarixi",
+    "appDetailsNotInstalled": "Quraşdırılmayıb",
+    "addonsPageMediaSupportTitle": "Media dəstəyi"
 }
