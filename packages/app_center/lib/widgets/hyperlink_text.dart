@@ -11,9 +11,9 @@ class HyperlinkText extends StatelessWidget {
     this.onTap,
     super.key,
   }) : assert(
-          (link != null) ^ (onTap != null),
-          'Exactly one of link or onTap should be provided',
-        );
+         (link != null) ^ (onTap != null),
+         'Exactly one of link or onTap should be provided',
+       );
 
   /// The data of the [Text] underlying widget.
   final String text;
@@ -31,8 +31,8 @@ class HyperlinkText extends StatelessWidget {
     final hyperlinkColor = MediaQuery.highContrastOf(context)
         ? theme.colorScheme.primary
         : brightness == Brightness.dark
-            ? kHyperlinkDark
-            : kHyperlinkLight;
+        ? kHyperlinkDark
+        : kHyperlinkLight;
     final textStyle = DefaultTextStyle.of(context);
 
     return YaruFocusBorder(
