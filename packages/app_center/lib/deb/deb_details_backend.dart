@@ -7,14 +7,18 @@ import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/current_desktops_provider.dart';
+import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:ubuntu_logger/ubuntu_logger.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 part 'deb_details_backend.g.dart';
+
+final _log = Logger('deb_details_backend');
 
 /// Live PackageKit mutations, including those started elsewhere in the app.
 @riverpod
@@ -52,6 +56,33 @@ Future<PackageKitDetailsEvent?> debPackageDetails(
   return match?.packageId == packageId ? match : null;
 }
 
+/// Download size of installing [packageId], including the dependencies it adds.
+@riverpod
+Future<ByteSize?> debInstallSize(
+  Ref ref,
+  PackageKitPackageId packageId,
+) async {
+  final packageKit = getService<PackageKitService>();
+  var ids = [packageId];
+  try {
+    final planned = await packageKit.simulateInstall([packageId]);
+    if (planned.isNotEmpty) {
+      ids = planned.map((info) => info.packageId).toSet().toList();
+    }
+  } on Exception catch (error) {
+    _log.warning('Could not simulate installing $packageId: $error');
+  }
+
+  var bytes = 0;
+  // Details are keyed by name, so query architectures separately.
+  for (final group in ids.groupListsBy((id) => id.arch).values) {
+    final details = await packageKit.getDetails(group);
+    if (group.any((id) => !details.containsKey(id.name))) return null;
+    bytes += details.values.map((detail) => detail.size).sum;
+  }
+  return bytes > 0 ? ByteSize(bytes: bytes, kind: SizeKind.download) : null;
+}
+
 @riverpod
 AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
   Ref ref,
@@ -60,6 +91,13 @@ AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
   final model = ref.watch(debModelProvider(componentId));
   final mutations = ref.watch(packageKitMutationsProvider).value ?? const [];
   final icon = ref.watch(debIconProvider(componentId));
+  final data = model.value;
+  final candidateId = data == null || data.isInstalled
+      ? null
+      : data.packageInfo?.packageId;
+  final installSize = candidateId == null
+      ? null
+      : ref.watch(debInstallSizeProvider(candidateId));
   final updateId = model.value?.updatePackageId;
   final updateDetails = updateId == null
       ? null
@@ -72,9 +110,14 @@ AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
       data,
       mutations: mutations,
       icon: _fieldFromAsync(icon),
+      installSize: installSize == null
+          ? FieldState<ByteSize>.unavailable()
+          : _fieldFromAsync(installSize),
       updateSize: updateDetails == null
           ? FieldState<ByteSize>.unavailable()
-          : _fieldFromAsync(updateDetails.whenData(_downloadSize)),
+          : _fieldFromAsync(
+              updateDetails.whenData((d) => _size(d, SizeKind.download)),
+            ),
       currentDesktops: desktops,
     ),
   );
@@ -85,12 +128,9 @@ FieldState<T> _fieldFromAsync<T>(AsyncValue<T?> value) {
   return value.hasError ? FieldState<T>.failed() : FieldState<T>.loading();
 }
 
-// PackageKit's size for a package that is not installed is its download size.
-ByteSize? _downloadSize(PackageKitDetailsEvent? details) {
+ByteSize? _size(PackageKitDetailsEvent? details, SizeKind kind) {
   final size = details?.size;
-  return size == null || size <= 0
-      ? null
-      : ByteSize(bytes: size, kind: SizeKind.download);
+  return size == null || size <= 0 ? null : ByteSize(bytes: size, kind: kind);
 }
 
 @visibleForTesting
@@ -98,6 +138,7 @@ PackageSourceSnapshot debSnapshotFromData(
   DebData data, {
   List<PackageKitMutation> mutations = const [],
   FieldState<ImageRef> icon = const FieldState<ImageRef>.unavailable(),
+  FieldState<ByteSize> installSize = const FieldState<ByteSize>.unavailable(),
   FieldState<ByteSize> updateSize = const FieldState<ByteSize>.unavailable(),
   List<String> currentDesktops = const [],
 }) {
@@ -122,13 +163,18 @@ PackageSourceSnapshot debSnapshotFromData(
           confinement: AppConfinement.unrestricted,
         );
 
-  final installedRelease = installed ? release(packageId) : null;
+  final installedRelease = installed
+      ? release(
+          packageId,
+          // Only the package itself, not the dependencies it pulled in.
+          size: FieldState.fromNullable(
+            _size(data.details, SizeKind.installed),
+          ),
+        )
+      : null;
   final installCandidate = installed
       ? null
-      : release(
-          packageId,
-          size: FieldState.fromNullable(_downloadSize(data.details)),
-        );
+      : release(packageId, size: installSize);
   final updateCandidate = installed
       ? release(data.updatePackageId, size: updateSize)
       : null;
@@ -303,25 +349,38 @@ class DebDetailsBackend implements PackageDetailsBackend {
     final notifier = ref.read(debModelProvider(key.id).notifier);
     if (data.packageInfo == null) return OperationOutcome.failed;
 
+    // The deb model records PackageKit errors without rethrowing them.
+    PackageKitServiceError? error;
+    final errors = ref.listen(debModelProvider(key.id), (_, next) {
+      error ??= next.value?.error;
+    });
     final PackageKitMutationOutcome outcome;
-    switch (command.kind) {
-      case OperationKind.install:
-        if (data.isInstalled) return OperationOutcome.failed;
-        outcome = await notifier.installDeb();
-      case OperationKind.update:
-        final updateId = data.updatePackageId;
-        if (updateId == null || '$updateId' != command.candidateId) {
+    try {
+      switch (command.kind) {
+        case OperationKind.install:
+          if (data.isInstalled) return OperationOutcome.failed;
+          outcome = await notifier.installDeb();
+        case OperationKind.update:
+          final updateId = data.updatePackageId;
+          if (updateId == null || '$updateId' != command.candidateId) {
+            return OperationOutcome.failed;
+          }
+          outcome = await notifier.updateDeb(updateId: updateId);
+        case OperationKind.remove:
+          if (!data.isInstalled ||
+              data.isCompulsoryFor(ref.read(currentDesktopsProvider))) {
+            return OperationOutcome.failed;
+          }
+          outcome = await notifier.removeDeb();
+        case OperationKind.switchChannel:
           return OperationOutcome.failed;
-        }
-        outcome = await notifier.updateDeb(updateId: updateId);
-      case OperationKind.remove:
-        if (!data.isInstalled ||
-            data.isCompulsoryFor(ref.read(currentDesktopsProvider))) {
-          return OperationOutcome.failed;
-        }
-        outcome = await notifier.removeDeb();
-      case OperationKind.switchChannel:
-        return OperationOutcome.failed;
+      }
+    } finally {
+      errors.close();
+    }
+    if (outcome == PackageKitMutationOutcome.failed && error != null) {
+      // Shown by the app-wide error dialog, like snapd errors.
+      ref.read(errorStreamControllerProvider).add(error!);
     }
     return switch (outcome) {
       PackageKitMutationOutcome.success => OperationOutcome.success,

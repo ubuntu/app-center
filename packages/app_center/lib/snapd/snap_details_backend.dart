@@ -3,6 +3,7 @@ import 'package:app_center/apps/app_details_state.dart';
 import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/apps/package_details_backend.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
+import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/snapd/snap_category_enum.dart';
 import 'package:app_center/snapd/snap_data.dart';
 import 'package:app_center/snapd/snap_launcher.dart';
@@ -319,9 +320,10 @@ class SnapDetailsBackend implements PackageDetailsBackend {
       }
     } on SnapdException catch (e) {
       _log.error('Snap ${command.kind.name} of ${key.id} failed: $e');
-      return e.kind == 'auth-cancelled'
-          ? OperationOutcome.cancelled
-          : OperationOutcome.failed;
+      if (e.kind == 'auth-cancelled') return OperationOutcome.cancelled;
+      // Shown by the app-wide error dialog, as on the old snap page.
+      ref.read(errorStreamControllerProvider).add(e);
+      return OperationOutcome.failed;
     } on String catch (e) {
       // Failed snapd changes are reported as their error message.
       _log.error('Snap ${command.kind.name} of ${key.id} failed: $e');

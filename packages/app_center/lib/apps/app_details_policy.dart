@@ -100,6 +100,10 @@ class _Composer {
 
   bool get _busy => ownedActive != null || _observed != null;
 
+  bool _isOtherFormatInstalled(SourceKey key) => keys.any(
+    (other) => other != key && _installState(other) == InstallState.installed,
+  );
+
   AppDetailsComposition compose() {
     final (activeKey, reason) = _selectActive();
     final active = _async(activeKey);
@@ -120,7 +124,9 @@ class _Composer {
             ? FieldState<String>.unavailable()
             : FieldState<String>.value(r.version!),
       ),
-      size: _releaseField(active, release, (r) => r.size),
+      size: installState == InstallState.installed
+          ? snapshot?.installed?.size ?? FieldState<ByteSize>.unavailable()
+          : _releaseField(active, release, (r) => r.size),
       releaseDate: _releaseField(active, release, (r) => r.releaseDate),
     );
     final publisher = _field(active, (s) => s.publisher);
@@ -155,6 +161,7 @@ class _Composer {
       ),
       actions: _actions(activeKey, snapshot),
       targets: _targets(),
+      formats: _formats(),
       operation: _operation(),
       issues: [],
     );
@@ -348,11 +355,24 @@ class _Composer {
         disabledReason: switch (snapshot.installState) {
           _ when _busy => DisabledReason.busy,
           InstallState.unknown => DisabledReason.installStateUnknown,
+          InstallState.notInstalled when _isOtherFormatInstalled(key) =>
+            DisabledReason.otherFormatInstalled,
           _ when candidate == null => DisabledReason.targetUnavailable,
           _ => null,
         },
       ),
     );
+  }
+
+  ActionDescriptor _defaultInstall(
+    SourceKey key,
+    PackageSourceSnapshot snapshot,
+  ) {
+    final candidate = snapshot.installCandidate;
+    final target = snapshot.targets.firstWhereOrNull(
+      (t) => candidate != null && t.candidate == candidate,
+    );
+    return _install(key, snapshot, target);
   }
 
   ActionsSection _actions(SourceKey key, PackageSourceSnapshot? snapshot) {
@@ -404,12 +424,8 @@ class _Composer {
       case InstallState.unknown:
         return ActionsSection(hasMoreActions: hasMoreActions);
       case InstallState.notInstalled:
-        final candidate = snapshot.installCandidate;
-        final target = snapshot.targets.firstWhereOrNull(
-          (t) => candidate != null && t.candidate == candidate,
-        );
         return ActionsSection(
-          primary: _install(key, snapshot, target),
+          primary: _defaultInstall(key, snapshot),
           hasMoreActions: hasMoreActions,
         );
       case InstallState.installed:
@@ -465,6 +481,40 @@ class _Composer {
           ],
         ),
   ];
+
+  List<FormatOption> _formats() => [
+    for (final key in keys)
+      if (_snapshot(key) case final snapshot?) _formatOption(key, snapshot),
+  ];
+
+  FormatOption _formatOption(SourceKey key, PackageSourceSnapshot snapshot) {
+    final source = _async(key);
+    final release = switch (snapshot.installState) {
+      InstallState.installed => snapshot.installed,
+      InstallState.notInstalled => snapshot.installCandidate,
+      InstallState.unknown => null,
+    };
+    return FormatOption(
+      sourceId: key.value,
+      format: key.format,
+      installState: snapshot.installState,
+      publisher: _field(source, (s) => s.publisher),
+      channel: release?.channel,
+      version: FieldState.fromNullable(release?.version),
+      confinement: release?.confinement != null
+          ? FieldState.value(release!.confinement!)
+          : _field(source, (s) => s.confinement),
+      size: snapshot.installState == InstallState.installed
+          ? FieldState<ByteSize>.unavailable()
+          : release?.size ?? FieldState<ByteSize>.unavailable(),
+      releaseDate: release?.releaseDate ?? FieldState<DateTime>.unavailable(),
+      action: switch (snapshot.installState) {
+        InstallState.installed => _uninstall(key, snapshot),
+        InstallState.notInstalled => _defaultInstall(key, snapshot),
+        InstallState.unknown => null,
+      },
+    );
+  }
 
   OperationView? _operation() {
     final owned = ownedActive;

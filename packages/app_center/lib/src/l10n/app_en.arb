@@ -218,8 +218,43 @@
     "appDetailsPackageFormatLabel": "Package format",
     "appDetailsCategoryLabel": "Category",
     "appDetailsInstallDateLabel": "Installation date",
+    "appDetailsInstalledSizeLabel": "Installed size",
     "appDetailsNotInstalled": "Not installed",
     "appDetailsNotAvailable": "Not available",
+    "appDetailsChoosePackageFormatAction": "Choose package format…",
+    "appDetailsChoosePackageFormatTitle": "Choose package format",
+    "appDetailsPackageSourceLabel": "Source",
+    "appDetailsPackageSourceSnapStore": "Snap Store",
+    "appDetailsPackageSourceUbuntuArchive": "Ubuntu archive",
+    "appDetailsInstalledAsFormat": "Already installed as {format}",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "{first} and {second} are both installed",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Installed as multiple package formats",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Uninstall it before installing a different package format. App data isn't shared between formats.} =2{Uninstall both to switch to a different format. App data isn't shared between formats.} other{Uninstall them to switch to a different format. App data isn't shared between formats.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "appDetailsPackageFormatsLearnMore": "Learn more about package formats",
     "packageFormatDebLabel": "Debian packages",
     "packageFormatSnapLabel": "Snap packages",
     "snapActionCancelLabel": "Cancel",

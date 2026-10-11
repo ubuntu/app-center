@@ -262,14 +262,6 @@ void main() {
           expectDialog: true,
         ),
         (
-          name: 'PackageKit service error',
-          error: const PackageKitServiceError(
-            code: PackageKitError.packageNotFound,
-            details: 'not available as an update candidate',
-          ),
-          expectDialog: true,
-        ),
-        (
           name: 'PackageKit transaction cancelled',
           error: PackageKitTransactionCancelled('Transaction 1 was cancelled'),
           expectDialog: false,
@@ -311,6 +303,44 @@ void main() {
           );
         });
       }
+
+      testWidgets('PackageKit service error shows its code and details', (
+        tester,
+      ) async {
+        const error = PackageKitServiceError(
+          code: PackageKitError.packageNotFound,
+          details: 'not available as an update candidate',
+        );
+        registerMockSnapdService();
+        registerMockService<GtkApplicationNotifier>(
+          createMockGtkApplicationNotifier(),
+        );
+        registerMockDriversService();
+        await tester.pumpApp(
+          (_) => ProviderScope(
+            overrides: [
+              errorStreamProvider.overrideWith(
+                (ref) => Stream.value(error),
+              ),
+            ],
+            child: const StoreApp(),
+          ),
+        );
+        await tester.pump();
+
+        final dialog = find.byType(AlertDialog);
+        expect(
+          find.descendant(
+            of: dialog,
+            matching: find.text('PackageKit error: ${error.code}'),
+          ),
+          findsOneWidget,
+        );
+        expect(
+          find.descendant(of: dialog, matching: find.text(error.details)),
+          findsOneWidget,
+        );
+      });
     });
   });
 

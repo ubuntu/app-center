@@ -87,6 +87,9 @@ void main() {
     test('uninstalled deb', () {
       final snapshot = debSnapshotFromData(
         _data(info: PackageKitInfo.available),
+        installSize: const FieldState.value(
+          ByteSize(bytes: 90, kind: SizeKind.download),
+        ),
       );
 
       expect(snapshot.key, testDebKey);
@@ -100,6 +103,7 @@ void main() {
       expect(snapshot.terms, isA<FieldUnavailable<String>>());
       expect(snapshot.installDate, isA<FieldUnavailable<DateTime>>());
       expect(snapshot.installCandidate?.candidateId, '$_installedId');
+      expect(snapshot.installCandidate?.size.valueOrNull?.bytes, 90);
       expect(
         snapshot.installCandidate?.size.valueOrNull?.kind,
         SizeKind.download,
@@ -122,8 +126,8 @@ void main() {
 
       expect(snapshot.installState, InstallState.installed);
       expect(snapshot.installed?.version, '1.0-1');
-      // PackageKit's size for an installed package is ambiguous.
-      expect(snapshot.installed?.size, isA<FieldUnavailable<ByteSize>>());
+      expect(snapshot.installed?.size.valueOrNull?.bytes, 40);
+      expect(snapshot.installed?.size.valueOrNull?.kind, SizeKind.installed);
       expect(snapshot.updateCandidate?.candidateId, '$_updateId');
       expect(snapshot.updateCandidate?.size.valueOrNull?.bytes, 45);
       expect(
@@ -203,6 +207,70 @@ void main() {
         ],
       );
       expect(snapshot.activeOperation, isNull);
+    });
+  });
+
+  group('install size', () {
+    const dependencyId = PackageKitPackageId(
+      name: 'test-lib',
+      version: '2.0',
+      arch: 'amd64',
+    );
+
+    Future<ByteSize?> installSize() =>
+        createContainer().read(debInstallSizeProvider(_installedId).future);
+
+    test('includes the dependencies an install adds', () async {
+      createMockPackageKitService(
+        simulatedInstall: const [
+          PackageKitPackageEvent(
+            info: PackageKitInfo.installing,
+            packageId: _installedId,
+            summary: '',
+          ),
+          PackageKitPackageEvent(
+            info: PackageKitInfo.installing,
+            packageId: dependencyId,
+            summary: '',
+          ),
+        ],
+        packageDetailsMany: {
+          'test-app': PackageKitDetailsEvent(packageId: _installedId, size: 40),
+          'test-lib': PackageKitDetailsEvent(packageId: dependencyId, size: 60),
+        },
+      );
+
+      final size = await installSize();
+      expect(size?.bytes, 100);
+      expect(size?.kind, SizeKind.download);
+    });
+
+    test('falls back to the package itself if simulation fails', () async {
+      final packageKit = createMockPackageKitService(
+        packageDetailsMany: {
+          'test-app': PackageKitDetailsEvent(packageId: _installedId, size: 40),
+        },
+      );
+      when(
+        packageKit.simulateInstall(any),
+      ).thenThrow(Exception('simulation failed'));
+
+      expect((await installSize())?.bytes, 40);
+    });
+
+    test('is unknown when a package has no details', () async {
+      createMockPackageKitService(
+        simulatedInstall: const [
+          PackageKitPackageEvent(
+            info: PackageKitInfo.installing,
+            packageId: dependencyId,
+            summary: '',
+          ),
+        ],
+        packageDetailsMany: const {},
+      );
+
+      expect(await installSize(), isNull);
     });
   });
 
@@ -329,6 +397,25 @@ void main() {
         await execute(container, OperationKind.install),
         OperationOutcome.cancelled,
       );
+    });
+
+    test('PackageKit errors are reported to the error dialog', () async {
+      // ignore: close_sinks
+      final errors = registerMockErrorStreamControllerService();
+      final container = setUpServices(info: PackageKitInfo.available);
+      when(
+        (getService<PackageKitService>() as MockPackageKitService)
+            .waitTransaction(any),
+      ).thenAnswer((_) => Future.error(PackageKitTransactionError('broken')));
+
+      expect(
+        await execute(container, OperationKind.install),
+        OperationOutcome.failed,
+      );
+      final reported =
+          verify(errors.add(captureAny)).captured.single
+              as PackageKitServiceError;
+      expect(reported.details, contains('broken'));
     });
 
     test('channel switch is not supported', () async {
