@@ -471,5 +471,7 @@
     "addonsPageMediaSupportDescription": "Installieren Sie zusätzliche Software, um weitere Medienformate zu unterstützen",
     "mediaSupportPageDescription": "Ubuntu wird standardmäßig mit einigen quelloffenen Codecs ausgeliefert. Möglicherweise müssen Sie zusätzliche Software installieren, um bestimmte Musik- und Videoformate abspielen und bearbeiten zu können.",
     "mediaSupportPageAdditionalMediaTitle": "Zusätzliche Medienunterstützung",
-    "mediaSupportPageInstallButton": "Installieren"
+    "mediaSupportPageInstallButton": "Installieren",
+    "addonsPageFirmwareTitle": "Firmware",
+    "addonsPageFirmwareDescription": "Aktualisieren Sie die Hardware für bessere Leistung und Sicherheit"
 }
