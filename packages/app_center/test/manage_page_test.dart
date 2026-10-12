@@ -7,6 +7,7 @@ import 'package:app_center/manage/manage_app_actions.dart';
 import 'package:app_center/manage/manage_l10n.dart';
 import 'package:app_center/manage/quit_to_update_notice.dart';
 import 'package:app_center/manage/snap_updates_model.dart';
+import 'package:app_center/packagekit/packagekit_transaction_progress_provider.dart';
 import 'package:app_center/providers/current_desktops_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/widgets.dart';
@@ -847,7 +848,10 @@ void main() {
       (_) => ProviderScope(
         overrides: [
           currentDesktopsProvider.overrideWithValue(['GNOME']),
-          debTransactionProgressProvider.overrideWith((ref, transactionId) {
+          packageKitTransactionProgressProvider.overrideWithBuild((
+            ref,
+            transactionId,
+          ) {
             return 0.25;
           }),
         ],
