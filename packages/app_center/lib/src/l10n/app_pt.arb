@@ -397,5 +397,213 @@
     "appMoreActionsSemanticLabel": "Mais ações",
     "appConfinementStrictTooltip": "Esta aplicação tem acesso limitado aos seus recursos. Pode gerir as suas permissões nas Definições.",
     "appConfinementClassicTooltip": "Esta aplicação utiliza o confinamento clássico, concedendo acesso total aos seus recursos. Isto é comum em aplicações de desenvolvimento.",
-    "appConfinementUnrestrictedTooltip": "Esta aplicação tem acesso total aos seus recursos."
+    "appConfinementUnrestrictedTooltip": "Esta aplicação tem acesso total aos seus recursos.",
+    "managePageOpenAppSemanticLabel": "Abrir {appName}",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "Atualizar {appName}",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppRestartRequiredSemanticLabel": "Atualizar {appName}, é necessário reiniciar para concluir",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "Desinstalar {appName}",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "Cancelar {action} para {appName}",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "Tamanho: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "{channel} canal, versão {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "{channel} canal, versão {version} para {updateVersion}",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "Versão {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "Versão {version} para {updateVersion}",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsAdditionalInfoLabel": "Informações adicionais",
+    "appDetailsPackageFormatLabel": "Formato do pacote",
+    "appDetailsCategoryLabel": "Categoria",
+    "appDetailsInstallDateLabel": "Data de instalação",
+    "appDetailsInstalledSizeLabel": "Tamanho instalado",
+    "appDetailsNotInstalled": "Não instalado",
+    "appDetailsNotAvailable": "Não disponível",
+    "appDetailsChoosePackageFormatAction": "Escolha o formato do pacote…",
+    "appDetailsChoosePackageFormatTitle": "Escolha o formato do pacote",
+    "appDetailsPackageSourceLabel": "Fonte",
+    "appDetailsVerifiedPublisherSemanticLabel": "Editor verificado",
+    "appDetailsStarredPublisherSemanticLabel": "Editora favorita",
+    "appDetailsPackageSourceSnapStore": "Loja Snap",
+    "appDetailsPackageSourceUbuntuArchive": "Arquivo do Ubuntu",
+    "appDetailsInstalledAsFormat": "Já instalado como {format}",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "O {first} e o {second} estão ambos instalados",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Instalado em vários formatos de pacote",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Desinstale-o antes de instalar um formato de pacote diferente. Os dados da aplicação não são partilhados entre formatos.} =2{Desinstale ambos para mudar para um formato diferente. Os dados da aplicação não são partilhados entre formatos.} other{Desinstale-os para mudar para um formato diferente. Os dados da aplicação não são partilhados entre formatos.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "appDetailsPackageFormatsLearnMore": "Saiba mais sobre os formatos de pacotes",
+    "snapActionSwitchChannelTitle": "Mudar o canal para {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "addonsPageLabel": "Complementos",
+    "addonsPageAdditionalDriversTitle": "Condutores adicionais",
+    "addonsPageAdditionalDriversDescription": "Adicionar um melhor suporte para placas gráficas e outro hardware",
+    "addonsPageMediaSupportTitle": "Suporte multimédia",
+    "addonsPageMediaSupportDescription": "Instalar software adicional para suportar mais formatos multimédia",
+    "addonsPageFirmwareTitle": "Firmware",
+    "addonsPageFirmwareDescription": "Atualizar o hardware para obter melhor desempenho e segurança",
+    "mediaSupportPageDescription": "O Ubuntu inclui, por predefinição, alguns codecs de código aberto. Poderá ser necessário instalar software adicional para reproduzir e editar determinados formatos de música e vídeo.",
+    "mediaSupportPageAdditionalMediaTitle": "Suporte multimédia adicional",
+    "mediaSupportPageInstallButton": "Instalar",
+    "driversPageDescription": "Os controladores proprietários contêm código privado que os programadores do Ubuntu não podem analisar nem melhorar. As atualizações de segurança e outras dependem do fornecedor do controlador.",
+    "driversPageSectionUpdateAvailable": "Atualização disponível",
+    "driversPageSectionAvailable": "Disponível",
+    "driversPageSectionInstalled": "Instalado",
+    "driversPageSectionUnsupported": "Não há controladores disponíveis",
+    "driversPageNoPackagesMessage": "Não existem pacotes que forneçam controladores para este dispositivo",
+    "driversPageDeviceClassGraphics": "Gráficos",
+    "driversPageDeviceClassNetwork": "Rede",
+    "driversPageDeviceClassCamera": "Câmara",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Armazenamento",
+    "driversPageDeviceClassAudio": "Áudio",
+    "driversPageDeviceClassOther": "Outros",
+    "driversPageBranchProduction": "Produção",
+    "driversPageBranchLts": "Suporte a longo prazo",
+    "driversPageBranchNewFeature": "Novas funcionalidades",
+    "driversPageVersionLabel": "Versão {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "É necessário reiniciar",
+    "driversPageRestartRequiredMessage": "Reinicie o computador para concluir a aplicação das alterações aos controladores.",
+    "driversPageErrorLabel": "Erro",
+    "driversPageRetryLabel": "Tentar novamente",
+    "driversPageNoDriversFoundMessage": "Utilização de controladores integrados. Não foram encontrados controladores adicionais.",
+    "driversPageUnavailableTitle": "A gestão de controladores não está disponível",
+    "driversPageUnsupportedMessage": "O serviço de gestão de controladores não está disponível. Certifique-se de que o snapd está atualizado e de que o pacote ubuntu-drivers-common está instalado.",
+    "driversPageSwitchBranchLabel": "Mudar de ramo",
+    "driversPageSwitchBranchTitle": "Mudar de ramo",
+    "driversPageSwitchBranchProductionDescription": "Concilia funcionalidades e estabilidade",
+    "driversPageSwitchBranchLtsDescription": "Estabilidade máxima para cargas de trabalho críticas",
+    "driversPageSwitchBranchNewFeatureDescription": "Versão preliminar, menos estável",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (recomendado)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "Este ramo é menos estável",
+    "driversPageSwitchBranchLessStableWarningMessage": "Mantenha-se no ramo atual para evitar problemas com este dispositivo.",
+    "driversPageSwitchLabel": "Mudar",
+    "driversPageSwitchingBranchLabel": "A mudar de ramo",
+    "driversPageUninstallTitle": "Desinstalar o controlador",
+    "driversPageUninstallWarningTitle": "A desinstalação de controladores pode causar problemas",
+    "driversPageUninstallWarningMessage": "Pode não ser fácil reinstalar os controladores, especialmente se estiverem relacionados com a placa gráfica ou com a rede.",
+    "driversPageUninstallAcknowledgeLabel": "Compreendo o risco"
 }
