@@ -517,7 +517,7 @@
             }
         }
     },
-    "managePageInstalledSizeSemanticLabel": "尺寸：{size}",
+    "managePageInstalledSizeSemanticLabel": "大小：{size}",
     "@managePageInstalledSizeSemanticLabel": {
         "placeholders": {
             "size": {
@@ -568,5 +568,42 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "appDetailsInstalledSizeLabel": "安裝大小",
+    "appDetailsChoosePackageFormatAction": "選擇軟體包格式…",
+    "appDetailsChoosePackageFormatTitle": "選擇軟體包格式",
+    "appDetailsPackageSourceLabel": "來源",
+    "appDetailsVerifiedPublisherSemanticLabel": "已驗證的發行者",
+    "appDetailsStarredPublisherSemanticLabel": "星級發行者",
+    "appDetailsPackageSourceSnapStore": "Snap 商店",
+    "appDetailsPackageSourceUbuntuArchive": "Ubuntu 軟體庫",
+    "appDetailsInstalledAsFormat": "已安裝為 {format}",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "{first} 和 {second} 都已安裝",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "以多種軟體包格式安裝",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{安裝其他軟體包格式之前，請先將其解除安裝。不同格式之間不會共用應用程式資料。} =2{若要切換至其他格式，請將兩者皆解除安裝。不同格式之間不會共用應用程式資料。} other{若要切換至其他格式，請將它們解除安裝。不同格式之間不會共用應用程式資料。}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "appDetailsPackageFormatsLearnMore": "進一步了解軟體包格式"
 }
