@@ -1,10 +1,11 @@
+import 'dart:async';
 import 'dart:collection';
 
 import 'package:app_center/appstream/appstream_utils.dart';
 import 'package:app_center/appstream/logger.dart';
 import 'package:app_center/l10n.dart';
+import 'package:app_center/mapping/identifier_normalization.dart';
 import 'package:appstream/appstream.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:snowball_stemmer/snowball_stemmer.dart';
@@ -61,6 +62,7 @@ class _CachedComponent {
       mediaTypes,
     );
   }
+
   final AppstreamComponent component;
   final String id;
   final String name;
@@ -145,37 +147,79 @@ class AppstreamService {
       _populateCache();
     };
   }
+
   final AppstreamPool _pool;
   late final Future<void> _loader = _pool.load().then((_) {
     _populateCache();
     _initialized = true;
   });
+  bool _initialized = false;
+  final HashSet<_CachedComponent> _cache = HashSet<_CachedComponent>();
+  final _componentsById = <String, AppstreamComponent>{};
+  final _componentsByDesktopId = <String, AppstreamComponent>{};
+  final _componentsByAlias = <String, AppstreamComponent>{};
+  final _componentsByPackage = <String, AppstreamComponent>{};
 
   bool get initialized => _initialized;
-  bool _initialized = false;
-
-  final HashSet<_CachedComponent> _cache = HashSet<_CachedComponent>();
 
   @visibleForTesting
   int get cacheSize => _cache.length;
 
-  Map<String, AppstreamComponent> getComponentsByPackage() {
-    final result = <String, AppstreamComponent>{};
-    for (final component in _pool.components) {
-      final packageName = component.getPackage();
-      if (packageName.isNotEmpty && !result.containsKey(packageName)) {
-        result[packageName] = component;
-      }
-    }
-    return result;
+  Map<String, AppstreamComponent> getComponentsByPackage() =>
+      Map.unmodifiable(_componentsByPackage);
+
+  Future<void> init() async => _loader;
+
+  Future<void> reload() async {
+    await _pool.load();
+    _populateCache();
   }
 
   void _populateCache() {
     _cache.clear();
+    _componentsById.clear();
+    _componentsByDesktopId.clear();
+    _componentsByAlias.clear();
+    _componentsByPackage.clear();
+
     for (final component in _pool.components) {
       _cache.add(_CachedComponent.fromAppstream(component));
+      _index(_componentsById, component.id, component);
+      for (final launchable
+          in component.launchables.whereType<AppstreamLaunchableDesktopId>()) {
+        _index(
+          _componentsByDesktopId,
+          normalizeDesktopId(launchable.desktopId),
+          component,
+        );
+      }
+      for (final provide
+          in component.provides.whereType<AppstreamProvidesId>()) {
+        _index(_componentsByAlias, provide.id, component);
+      }
+      final packageName = component.getPackage();
+      if (packageName.isNotEmpty) {
+        _index(_componentsByPackage, packageName, component);
+      }
     }
   }
+
+  void _index(
+    Map<String, AppstreamComponent> index,
+    String key,
+    AppstreamComponent component,
+  ) {
+    final normalizedKey = key.trim().toLowerCase();
+    if (normalizedKey.isEmpty) return;
+    final current = index[normalizedKey];
+    if (current == null ||
+        _componentKey(component).compareTo(_componentKey(current)) < 0) {
+      index[normalizedKey] = component;
+    }
+  }
+
+  String _componentKey(AppstreamComponent component) =>
+      '${component.id.toLowerCase()}|${component.package?.toLowerCase() ?? ''}|${component.type.name}';
 
   final AppLocalizations _l10n;
 
@@ -196,7 +240,25 @@ class AppstreamService {
 
   List<String> get _greyList => _l10n.appstreamSearchGreylist.split(';');
 
-  Future<void> init() async => _loader;
+  Future<AppstreamComponent?> findById(String id) async {
+    await init();
+    return _componentsById[id.trim().toLowerCase()];
+  }
+
+  Future<AppstreamComponent?> findByDesktopId(String desktopId) async {
+    await init();
+    return _componentsByDesktopId[normalizeDesktopId(desktopId)];
+  }
+
+  Future<AppstreamComponent?> findByAlias(String alias) async {
+    await init();
+    return _componentsByAlias[alias.trim().toLowerCase()];
+  }
+
+  Future<AppstreamComponent?> findByPackageName(String packageName) async {
+    await init();
+    return _componentsByPackage[packageName.trim().toLowerCase()];
+  }
 
   static final stemmersMap = <String, Algorithm>{
     'ar': Algorithm.arabic,
@@ -287,12 +349,9 @@ class AppstreamService {
   AppstreamComponent getFromId(String id) {
     // Even though appstream IDs are unique, we can have multiple entries with
     // the same ID in the pool, since we're loading the metadata from multiple
-    // sources. Thus, we're using `firstWhereOrNull` instead of `singleWhereOrNull`
-    // for now.
+    // sources. The reverse index chooses the deterministic preferred entry.
     // TODO: Remove duplicate appstream components.
-    final component = _pool.components.firstWhereOrNull(
-      (component) => component.id == id,
-    );
+    final component = _componentsById[id.trim().toLowerCase()];
     assert(component != null, 'Component not found');
     return component!;
   }

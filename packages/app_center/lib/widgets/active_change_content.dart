@@ -14,7 +14,8 @@ class ActiveChangeStatus extends StatelessWidget {
   });
 
   final void Function()? onCancelPressed;
-  final double progress;
+  // Null shows an indeterminate spinner.
+  final double? progress;
   final String? actionLabel;
 
   /// Optional app name used to build an accessible label that identifies
@@ -69,11 +70,11 @@ class _ActiveChangeText extends StatelessWidget {
   });
 
   final String? label;
-  final double progress;
+  final double? progress;
 
   @override
   Widget build(BuildContext context) {
-    final percentage = (progress * 100).toStringAsFixed(0);
+    final progress = this.progress;
     return Row(
       children: [
         SizedBox.square(
@@ -94,11 +95,12 @@ class _ActiveChangeText extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              Text(
-                '$percentage%',
-                style: Theme.of(context).textTheme.bodySmall,
-                maxLines: 1,
-              ),
+              if (progress != null)
+                Text(
+                  '${(progress * 100).toStringAsFixed(0)}%',
+                  style: Theme.of(context).textTheme.bodySmall,
+                  maxLines: 1,
+                ),
             ],
           ),
         ],

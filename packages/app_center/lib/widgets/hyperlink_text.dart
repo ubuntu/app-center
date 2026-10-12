@@ -39,6 +39,7 @@ class HyperlinkText extends StatelessWidget {
       child: Semantics(
         link: true,
         child: InkWell(
+          mouseCursor: SystemMouseCursors.click,
           hoverColor: Colors.transparent,
           focusColor: Colors.transparent,
           onTap: onTap ?? () => launchUrlString(link!),

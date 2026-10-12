@@ -8,7 +8,7 @@ part 'snap_data.freezed.dart';
 
 // TODO: Better naming, easily confused with the Snap class.
 @freezed
-class SnapData extends AppMetadata with _$SnapData {
+abstract class SnapData extends AppMetadata with _$SnapData {
   factory SnapData({
     required String name,
     required Snap? localSnap,

@@ -1,4 +1,5 @@
 import 'package:app_center/about/about.dart';
+import 'package:app_center/addons/addons.dart';
 import 'package:app_center/explore/explore.dart';
 import 'package:app_center/games/games.dart';
 import 'package:app_center/l10n.dart';
@@ -9,7 +10,10 @@ import 'package:app_center/search/search.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:yaru/yaru.dart';
+
+part 'store_pages.g.dart';
 
 class _NavigationTile extends StatelessWidget {
   const _NavigationTile({
@@ -67,7 +71,8 @@ typedef StorePage = ({
   Widget Function(BuildContext context, YaruWindowTitleBar title) pageBuilder,
 });
 
-final pages = <StorePage>[
+/// Builds the list of top-level navigation tabs.
+List<StorePage> buildStorePages() => [
   (
     tileBuilder: (context, selected) => _NavigationTile(
       leading: Icon(ExplorePage.icon(selected)),
@@ -112,8 +117,8 @@ final pages = <StorePage>[
           final snapUpdates = ref.watch(snapUpdatesModelProvider);
           final debUpdates = ref.watch(localDebUpdatesModelProvider);
 
-          final snapCount = snapUpdates.valueOrNull?.length ?? 0;
-          final debCount = debUpdates.valueOrNull?.length ?? 0;
+          final snapCount = snapUpdates.value?.length ?? 0;
+          final debCount = debUpdates.value?.length ?? 0;
           final totalCount = snapCount + debCount;
 
           return totalCount > 0
@@ -129,6 +134,19 @@ final pages = <StorePage>[
   ),
   (
     tileBuilder: (context, selected) => _NavigationTile(
+      leading: Icon(AddonsPage.icon(selected)),
+      title: Text(AddonsPage.label(context)),
+    ),
+    pageBuilder: (context, _) => YaruDetailPage(
+      appBar: YaruWindowTitleBar(
+        title: Text(AddonsPage.label(context)),
+        border: BorderSide.none,
+      ),
+      body: const AddonsPage(),
+    ),
+  ),
+  (
+    tileBuilder: (context, selected) => _NavigationTile(
       leading: Icon(AboutPage.icon(selected)),
       title: Text(AboutPage.label(context)),
     ),
@@ -138,3 +156,6 @@ final pages = <StorePage>[
     ),
   ),
 ];
+
+@riverpod
+List<StorePage> storePages(Ref ref) => buildStorePages();

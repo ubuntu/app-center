@@ -380,34 +380,32 @@ class _IconRow extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final snap = snapData.storeSnap ?? snapData.localSnap!;
     final l10n = AppLocalizations.of(context);
 
     return Row(
       children: [
-        if (snap.website != null)
-          YaruIconButton(
-            icon: Icon(
-              YaruIcons.share,
-              semanticLabel: l10n.snapPageShareSemanticLabel,
-            ),
-            onPressed: () {
-              final navigationKey = ref.watch(materialAppNavigatorKeyProvider);
-              final snapStoreUrl = '$snapStoreBaseUrl/${snapData.name}';
-
-              ScaffoldMessenger.of(navigationKey.currentContext!).showSnackBar(
-                SnackBar(
-                  content: Text(l10n.snapPageShareLinkCopiedMessage),
-                ),
-              );
-              SemanticsService.sendAnnouncement(
-                View.of(navigationKey.currentContext!),
-                l10n.snapPageShareLinkCopiedMessage,
-                Directionality.of(navigationKey.currentContext!),
-              );
-              Clipboard.setData(ClipboardData(text: snapStoreUrl));
-            },
+        YaruIconButton(
+          icon: Icon(
+            YaruIcons.share,
+            semanticLabel: l10n.snapPageShareSemanticLabel,
           ),
+          onPressed: () {
+            final navigationKey = ref.watch(materialAppNavigatorKeyProvider);
+            final snapStoreUrl = '$snapStoreBaseUrl/${snapData.name}';
+
+            ScaffoldMessenger.of(navigationKey.currentContext!).showSnackBar(
+              SnackBar(
+                content: Text(l10n.snapPageShareLinkCopiedMessage),
+              ),
+            );
+            SemanticsService.sendAnnouncement(
+              View.of(navigationKey.currentContext!),
+              l10n.snapPageShareLinkCopiedMessage,
+              Directionality.of(navigationKey.currentContext!),
+            );
+            Clipboard.setData(ClipboardData(text: snapStoreUrl));
+          },
+        ),
         YaruIconButton(
           icon: Icon(
             YaruIcons.flag,

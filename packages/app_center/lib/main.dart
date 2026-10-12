@@ -3,8 +3,10 @@ import 'dart:io';
 
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/config.dart';
+import 'package:app_center/drivers/drivers.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
+import 'package:app_center/mapping/mapping.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/ratings/ratings.dart';
@@ -71,6 +73,33 @@ Future<void> main(List<String> args) async {
     dispose: (service) => service.dispose(),
   );
   registerService(
+    () => DebPackageAdapter(
+      appstream: getService<AppstreamService>(),
+      packageKit: getService<PackageKitService>(),
+    ),
+  );
+  registerService(() => SnapPackageAdapter(snapd: getService<SnapdService>()));
+  registerService(
+    () => PackageMappingService(
+      adapters: [
+        getService<DebPackageAdapter>(),
+        getService<SnapPackageAdapter>(),
+      ],
+    ),
+  );
+  registerService(
+    () => PackageRuntimeStateService(
+      adapters: [
+        getService<DebPackageAdapter>(),
+        getService<SnapPackageAdapter>(),
+      ],
+    ),
+  );
+  registerService(
+    DriversService.new,
+    dispose: (service) => service.dispose(),
+  );
+  registerService(
     ErrorStreamController.new,
     dispose: (controller) => controller.close(),
   );
@@ -82,6 +111,8 @@ Future<void> main(List<String> args) async {
       await YaruWindowTitleBar.ensureInitialized();
       runApp(
         ProviderScope(
+          // Don't retry failed providers.
+          retry: (_, _) => null,
           observers: [ErrorObserver()],
           child: const StoreApp(),
         ),

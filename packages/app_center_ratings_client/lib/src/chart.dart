@@ -6,7 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'chart.freezed.dart';
 
 @freezed
-class ChartData with _$ChartData {
+abstract class ChartData with _$ChartData {
   const factory ChartData({
     required double rawRating,
     required Rating rating,

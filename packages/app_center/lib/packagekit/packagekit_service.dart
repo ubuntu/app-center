@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io' as io;
 
 import 'package:app_center/packagekit/logger.dart';
+import 'package:collection/collection.dart';
 import 'package:dbus/dbus.dart';
 import 'package:file/file.dart';
 import 'package:file/local.dart';
@@ -13,17 +14,114 @@ import 'package:xdg_desktop_portal/xdg_desktop_portal.dart';
 
 export 'package:packagekit/packagekit.dart' show PackageKitTransaction;
 
+const _packageKitBusName = 'org.freedesktop.PackageKit';
+
 typedef PackageKitPackageInfo = PackageKitPackageEvent;
 typedef PackageKitServiceError = PackageKitErrorCodeEvent;
 typedef PackageKitPackageDetails = PackageKitDetailsEvent;
 
+/// A [PackageKitServiceError] tagged with the internal transaction id that
+/// produced it.
+typedef PackageKitTaggedError = ({int id, PackageKitServiceError error});
+
 class PackageKitTransactionError implements Exception {
-  PackageKitTransactionError(this.message);
+  PackageKitTransactionError(this.message, {this.exit});
   final String message;
+
+  /// The exit reason, if known. Distinguishes a user-initiated cancellation
+  /// ([PackageKitExit.cancelled]) from a genuine failure.
+  final PackageKitExit? exit;
 
   @override
   String toString() => 'PackageKitTransactionError: $message';
 }
+
+/// Thrown when a transaction is cancelled by the user (e.g. by dismissing
+/// the polkit dialog). Callers should treat this as a no-op, not an error.
+class PackageKitTransactionCancelled extends PackageKitTransactionError {
+  PackageKitTransactionCancelled(super.message);
+}
+
+/* PackageKit reports a dismissed polkit dialog as ErrorCode(notAuthorized)
+   followed by Finished(exit=failed) — there is no cancelled exit code for it
+   (pk-transaction.c: pk_transaction_authorize_actions_cb). Both user-driven
+   codes must be treated as cancellations everywhere, so callers never
+   surface a dialog for an action the user declined. */
+bool _isUserCancellation(PackageKitError code) =>
+    code == PackageKitError.notAuthorized ||
+    code == PackageKitError.transactionCancelled;
+
+enum PackageKitMutationKind { install, remove, update, installLocal }
+
+enum PackageKitMutationOutcome { success, failed, cancelled }
+
+/// Lifecycle snapshot of one package-mutating transaction.
+@immutable
+class PackageKitMutation {
+  const PackageKitMutation({
+    required this.transactionId,
+    required this.kind,
+    required this.packageIds,
+    this.percentage,
+    this.outcome,
+  });
+
+  final int transactionId;
+  final PackageKitMutationKind kind;
+  final List<PackageKitPackageId> packageIds;
+  // 0..100, or null while unknown.
+  final int? percentage;
+  final PackageKitMutationOutcome? outcome;
+
+  bool get isTerminal => outcome != null;
+
+  bool affects(String packageName) =>
+      packageIds.any((id) => id.name == packageName);
+
+  PackageKitMutation _copyWith({
+    int? percentage,
+    PackageKitMutationOutcome? outcome,
+  }) => PackageKitMutation(
+    transactionId: transactionId,
+    kind: kind,
+    packageIds: packageIds,
+    percentage: percentage ?? this.percentage,
+    outcome: outcome ?? this.outcome,
+  );
+
+  @override
+  bool operator ==(Object other) =>
+      other is PackageKitMutation &&
+      other.transactionId == transactionId &&
+      other.kind == kind &&
+      const ListEquality<PackageKitPackageId>().equals(
+        other.packageIds,
+        packageIds,
+      ) &&
+      other.percentage == percentage &&
+      other.outcome == outcome;
+
+  @override
+  int get hashCode => Object.hash(
+    transactionId,
+    kind,
+    Object.hashAll(packageIds),
+    percentage,
+    outcome,
+  );
+
+  @override
+  String toString() =>
+      'PackageKitMutation($transactionId, $kind, $packageIds, '
+      '$percentage, $outcome)';
+}
+
+typedef _MutationSpec = ({
+  PackageKitMutationKind kind,
+  List<PackageKitPackageId> packageIds,
+});
+
+const _maxRetainedMutations = 20;
 
 class PackageKitService {
   PackageKitService({
@@ -34,7 +132,13 @@ class PackageKitService {
     @visibleForTesting this._runtimeDir,
   }) : _client = client ?? getService<PackageKitClient>(),
        _dbus = dbus ?? DBusClient.system(),
-       _fs = fs ?? const LocalFileSystem();
+       _fs = fs ?? const LocalFileSystem() {
+    _nameOwnerSubscription = _dbus.nameOwnerChanged.listen((event) {
+      if (event.name == _packageKitBusName && event.newOwner == null) {
+        _isAvailable = false;
+      }
+    });
+  }
 
   final PackageKitClient _client;
   final DBusClient _dbus;
@@ -43,14 +147,41 @@ class PackageKitService {
   final String? _runtimeDir;
   XdgDesktopPortalClient? _desktopPortalClient;
   io.Directory? _mountPoint;
+  late final StreamSubscription<DBusNameOwnerChangedEvent>
+  _nameOwnerSubscription;
 
   bool get isAvailable => _isAvailable;
   bool _isAvailable = false;
 
+  /// Errors from every transaction, without attribution to a specific
+  /// transaction. Prefer [errorsFor] when the caller knows its transaction id.
   Stream<PackageKitServiceError> get errorStream =>
-      _errorStreamController.stream;
-  final StreamController<PackageKitServiceError> _errorStreamController =
+      taggedErrorStream.map((tagged) => tagged.error);
+
+  /// Errors from every transaction, tagged with the internal transaction id
+  /// that produced them.
+  Stream<PackageKitTaggedError> get taggedErrorStream =>
+      _taggedErrorStreamController.stream;
+  final StreamController<PackageKitTaggedError> _taggedErrorStreamController =
       StreamController.broadcast();
+
+  /// Errors produced by the transaction identified by [id].
+  Stream<PackageKitServiceError> errorsFor(int id) => taggedErrorStream
+      .where((tagged) => tagged.id == id)
+      .map((tagged) => tagged.error);
+
+  /// The last error reported by the transaction identified by [id], if any.
+  /// Unlike [errorsFor], safe to call after the transaction has finished.
+  ///
+  /// Entries are never removed (same as [_restartRequired]) - bounded by the
+  /// number of transactions created in a session.
+  PackageKitServiceError? lastErrorFor(int id) => _lastErrors[id];
+  final Map<int, PackageKitServiceError> _lastErrors = {};
+
+  /// Whether the transaction identified by [id] required a restart to take
+  /// effect. Only meaningful after the transaction has finished.
+  bool requiresRestartFor(int id) => _restartRequired[id] ?? false;
+  final Map<int, bool> _restartRequired = {};
 
   // Keep track of active transactions.
   // TODO: Implement `GetTransactionList` in packagekit.dart instead.
@@ -62,6 +193,33 @@ class PackageKitService {
   // The respective methods will return a transaction ID, similar to how methods
   // in the snap client return change IDs.
   PackageKitTransaction? getTransaction(int id) => _transactions[id];
+
+  /// Lifecycle events of install/remove/update transactions, including batch
+  /// transactions started elsewhere in App Center.
+  Stream<PackageKitMutation> get mutationEvents => _mutationController.stream;
+  final StreamController<PackageKitMutation> _mutationController =
+      StreamController.broadcast();
+  final Map<int, PackageKitMutation> _mutations = {};
+
+  /// Latest state of a mutation; terminal results are retained for a while.
+  PackageKitMutation? mutation(int id) => _mutations[id];
+
+  List<PackageKitMutation> get activeMutations =>
+      _mutations.values.where((m) => !m.isTerminal).toList();
+
+  void _publishMutation(PackageKitMutation mutation) {
+    final previous = _mutations[mutation.transactionId];
+    if (previous == mutation || (previous?.isTerminal ?? false)) return;
+    _mutations[mutation.transactionId] = mutation;
+    if (mutation.isTerminal) {
+      final terminal = _mutations.values.where((m) => m.isTerminal).toList();
+      final excess = terminal.length - _maxRetainedMutations;
+      for (final old in terminal.take(excess > 0 ? excess : 0)) {
+        _mutations.remove(old.transactionId);
+      }
+    }
+    _mutationController.add(mutation);
+  }
 
   /// Explicitly activates the PackageKit service in case it is not running.
   /// Prevents AppArmor denials when trying to call a well-known method while
@@ -79,7 +237,7 @@ class PackageKitService {
     await object.callMethod(
       'org.freedesktop.DBus',
       'StartServiceByName',
-      const [DBusString('org.freedesktop.PackageKit'), DBusUint32(0)],
+      const [DBusString(_packageKitBusName), DBusUint32(0)],
     );
     try {
       await _client.connect();
@@ -100,34 +258,96 @@ class PackageKitService {
     Future<void> Function(PackageKitTransaction transaction)? action,
     void Function(PackageKitEvent event)? listener,
     void Function()? onDone,
+    _MutationSpec? mutation,
   }) async {
+    await activateService();
     final transaction = await _client.createTransaction();
     final id = _nextId++;
     _transactions[id] = transaction;
 
+    var tracked = mutation == null
+        ? null
+        : PackageKitMutation(
+            transactionId: id,
+            kind: mutation.kind,
+            packageIds: List.unmodifiable(mutation.packageIds),
+          );
+    var cancelledByUser = false;
+    void publish(PackageKitMutation Function(PackageKitMutation m) update) {
+      if (tracked == null) return;
+      tracked = update(tracked!);
+      _publishMutation(tracked!);
+    }
+
+    if (tracked != null) _publishMutation(tracked!);
+
+    final progressSubscription = tracked == null
+        ? null
+        : transaction.propertiesChanged.listen((changed) {
+            if (!changed.contains('Percentage')) return;
+            final percentage = transaction.percentage;
+            // PackageKit reports 101 while progress is unknown.
+            if (percentage <= 100) {
+              publish((m) => m._copyWith(percentage: percentage));
+            }
+          });
+
     late final StreamSubscription<PackageKitEvent> subscription;
     subscription = transaction.events.listen((event) {
       listener?.call(event);
+      if (event is PackageKitFinishedEvent) {
+        publish(
+          (m) => m._copyWith(
+            outcome: event.exit == PackageKitExit.success
+                ? PackageKitMutationOutcome.success
+                : event.exit == PackageKitExit.cancelled || cancelledByUser
+                ? PackageKitMutationOutcome.cancelled
+                : PackageKitMutationOutcome.failed,
+          ),
+        );
+      } else if (event is PackageKitDestroyEvent) {
+        publish(
+          (m) => m.isTerminal
+              ? m
+              : m._copyWith(outcome: PackageKitMutationOutcome.failed),
+        );
+      }
       if (event is PackageKitFinishedEvent || event is PackageKitDestroyEvent) {
         _transactions.remove(id);
         subscription.cancel();
+        progressSubscription?.cancel();
         try {
           onDone?.call();
         } on Exception catch (e) {
           log.warning('onDone callback threw during transaction cleanup: $e');
         }
       } else if (event is PackageKitErrorCodeEvent) {
-        _errorStreamController.add(event);
-        log.error(
-          'Received PackageKitErrorCodeEvent (${event.code}): ${event.details}',
-        );
+        if (_isUserCancellation(event.code)) {
+          cancelledByUser = true;
+          log.info(
+            'Transaction cancelled by user (${event.code}): ${event.details}',
+          );
+        } else {
+          _lastErrors[id] = event;
+          _taggedErrorStreamController.add((id: id, error: event));
+          log.error(
+            'Received PackageKitErrorCodeEvent (${event.code}): ${event.details}',
+          );
+        }
+      } else if (event is PackageKitRequireRestartEvent) {
+        if (event.type != PackageKitRestart.none &&
+            event.type != PackageKitRestart.unknown) {
+          _restartRequired[id] = true;
+        }
       }
     });
     try {
       await action?.call(transaction);
     } on Exception {
       await subscription.cancel();
+      await progressSubscription?.cancel();
       _transactions.remove(id);
+      publish((m) => m._copyWith(outcome: PackageKitMutationOutcome.failed));
       try {
         onDone?.call();
       } on Exception catch (e) {
@@ -139,25 +359,39 @@ class PackageKitService {
   }
 
   /// Waits until the transaction specified by the internal `id` has finished.
-  /// Throws a [PackageKitTransactionError] if the transaction fails or is
-  /// destroyed before finishing.
+  /// Throws a [PackageKitTransactionCancelled] if the transaction was
+  /// cancelled by the user — explicitly, or by dismissing the polkit dialog,
+  /// which the daemon reports as a failed exit with a `notAuthorized` error
+  /// code. Throws a [PackageKitTransactionError] for any other failure or if
+  /// the transaction is destroyed before finishing.
   Future<void> waitTransaction(int id) async {
     if (!_transactions.keys.contains(id)) {
       throw PackageKitTransactionError('Transaction $id not found');
     }
 
+    var cancelledByUser = false;
     final completer = Completer();
     final subscription = _transactions[id]!.events.listen(
       (event) {
         if (event is PackageKitFinishedEvent) {
           if (event.exit == PackageKitExit.success) {
             completer.complete();
+          } else if (event.exit == PackageKitExit.cancelled ||
+              cancelledByUser) {
+            completer.completeError(
+              PackageKitTransactionCancelled('Transaction $id was cancelled'),
+            );
           } else {
             completer.completeError(
               PackageKitTransactionError(
                 'Transaction $id finished with exit code: ${event.exit}',
+                exit: event.exit,
               ),
             );
+          }
+        } else if (event is PackageKitErrorCodeEvent) {
+          if (_isUserCancellation(event.code)) {
+            cancelledByUser = true;
           }
         } else if (event is PackageKitDestroyEvent) {
           completer.completeError(
@@ -188,6 +422,10 @@ class PackageKitService {
   Future<int> install(PackageKitPackageId packageId) async =>
       _createTransaction(
         action: (transaction) => transaction.installPackages([packageId]),
+        mutation: (
+          kind: PackageKitMutationKind.install,
+          packageIds: [packageId],
+        ),
       );
 
   /// Creates a transaction that installs all of the given packages by
@@ -195,7 +433,38 @@ class PackageKitService {
   Future<int> installAll(Iterable<PackageKitPackageId> packageId) async =>
       _createTransaction(
         action: (transaction) => transaction.installPackages(packageId),
+        mutation: (
+          kind: PackageKitMutationKind.install,
+          packageIds: packageId.toList(),
+        ),
       );
+
+  /// Returns packages an install would add or replace, without installing them.
+  Future<List<PackageKitPackageInfo>> simulateInstall(
+    Iterable<PackageKitPackageId> packageIds,
+  ) async {
+    if (packageIds.isEmpty) return [];
+
+    final packages = <PackageKitPackageInfo>[];
+    await _createTransaction(
+      action: (transaction) => transaction.installPackages(
+        packageIds,
+        transactionFlags: {PackageKitTransactionFlag.simulate},
+      ),
+      listener: (event) {
+        if (event is PackageKitPackageEvent &&
+            {
+              PackageKitInfo.installing,
+              PackageKitInfo.updating,
+              PackageKitInfo.downgrading,
+              PackageKitInfo.reinstalling,
+            }.contains(event.info)) {
+          packages.add(event);
+        }
+      },
+    ).then(waitTransaction);
+    return packages;
+  }
 
   /// Creates a transaction that installs the local package given by `path` and
   /// returns the transaction ID.
@@ -206,6 +475,7 @@ class PackageKitService {
       return await _createTransaction(
         action: (transaction) => transaction.installFiles([resolvedPath]),
         onDone: tempCopy != null ? () => _deleteTempCopy(tempCopy) : null,
+        mutation: (kind: PackageKitMutationKind.installLocal, packageIds: []),
       );
     } on Exception catch (_) {
       if (tempCopy != null) await _deleteTempCopy(tempCopy);
@@ -232,10 +502,31 @@ class PackageKitService {
   // TODO: Decide how to handle dependencies. Autoremove? Ask the user?
   Future<int> remove(PackageKitPackageId packageId) async => _createTransaction(
     action: (transaction) => transaction.removePackages([packageId]),
+    mutation: (kind: PackageKitMutationKind.remove, packageIds: [packageId]),
   );
+
+  /// Creates a transaction that removes all of the given packages by
+  /// `packageId` and returns the transaction ID.
+  Future<int> removeAll(Iterable<PackageKitPackageId> packageIds) async =>
+      _createTransaction(
+        action: (transaction) => transaction.removePackages(packageIds),
+        mutation: (
+          kind: PackageKitMutationKind.remove,
+          packageIds: packageIds.toList(),
+        ),
+      );
 
   Future<int> update(PackageKitPackageId packageId) async => _createTransaction(
     action: (transaction) => transaction.updatePackages([packageId]),
+    mutation: (kind: PackageKitMutationKind.update, packageIds: [packageId]),
+  );
+
+  /// Creates a transaction that updates all of the given packages by
+  /// `packageId` and returns the transaction ID.
+  Future<int> updateAllPackages(
+    Iterable<PackageKitPackageId> packageIds,
+  ) async => _createTransaction(
+    action: (transaction) => transaction.updatePackages(packageIds),
   );
 
   static Future<String> _getNativeArchitecture() async {
@@ -388,7 +679,11 @@ class PackageKitService {
     await _createTransaction(
       action: (transaction) => transaction.getUpdates(),
       listener: (event) {
-        if (event is PackageKitPackageEvent) {
+        /* Skip blocked (e.g. phased) updates — they are not installable
+           candidates and attempting to update them fails with
+           PackageKitError.packageNotFound. */
+        if (event is PackageKitPackageEvent &&
+            event.info != PackageKitInfo.blocked) {
           updates.add(event);
         }
       },
@@ -440,6 +735,10 @@ class PackageKitService {
   Future<void> updateAll(Iterable<PackageKitPackageId> packageIds) =>
       _createTransaction(
         action: (transaction) => transaction.updatePackages(packageIds),
+        mutation: (
+          kind: PackageKitMutationKind.update,
+          packageIds: packageIds.toList(),
+        ),
       ).then(waitTransaction);
 
   /// Returns all installed packages on the system.
@@ -459,9 +758,11 @@ class PackageKitService {
   }
 
   Future<void> dispose() async {
+    await _nameOwnerSubscription.cancel();
     await _dbus.close();
     await _client.close();
-    await _errorStreamController.close();
+    await _taggedErrorStreamController.close();
+    await _mutationController.close();
     await _desktopPortalClient?.close();
   }
 }

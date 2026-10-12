@@ -13,8 +13,10 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 part 'deb_model.freezed.dart';
 part 'deb_model.g.dart';
 
+enum DebTransactionKind { install, update, remove }
+
 @freezed
-class DebData extends AppMetadata with _$DebData {
+abstract class DebData extends AppMetadata with _$DebData {
   factory DebData({
     required String id,
     required AppstreamComponent component,
@@ -23,6 +25,8 @@ class DebData extends AppMetadata with _$DebData {
     PackageKitPackageEvent? packageInfo,
     PackageKitDetailsEvent? details,
     int? activeTransactionId,
+    DebTransactionKind? activeTransactionKind,
+    PackageKitPackageId? updatePackageId,
     PackageKitServiceError? error,
   }) = _DebData;
 
@@ -78,7 +82,7 @@ class DebModel extends _$DebModel {
     await packageKit.activateService();
 
     final packageInfo = await _getPackageInfo(component);
-    final hasUpdate = await _getUpdates(packageInfo!);
+    final updatePackageId = await _getUpdate(packageInfo!);
     final details = (await packageKit.getDetails([
       packageInfo.packageId,
     ]))[packageInfo.packageId.name];
@@ -91,29 +95,38 @@ class DebModel extends _$DebModel {
       component: component,
       packageInfo: packageInfo,
       details: details,
-      hasUpdate: hasUpdate,
+      hasUpdate: updatePackageId != null,
+      updatePackageId: updatePackageId,
       errorStream: errorListener,
     );
   }
 
-  Future<void> installDeb() {
-    assert(state.valueOrNull?.packageInfo != null);
+  Future<PackageKitMutationOutcome> installDeb() {
+    assert(state.value?.packageInfo != null);
     return _packageKitAction(
+      DebTransactionKind.install,
       () => packageKit.install(state.value!.packageInfo!.packageId),
     );
   }
 
-  Future<void> removeDeb() {
-    assert(state.valueOrNull?.packageInfo != null);
+  Future<PackageKitMutationOutcome> removeDeb() {
+    assert(state.value?.packageInfo != null);
     return _packageKitAction(
+      DebTransactionKind.remove,
       () => packageKit.remove(state.value!.packageInfo!.packageId),
     );
   }
 
-  Future<void> updateDeb() {
-    assert(state.valueOrNull?.packageInfo != null);
+  /// Updates to [updateId], or submits the installed package ID if omitted.
+  Future<PackageKitMutationOutcome> updateDeb({
+    PackageKitPackageId? updateId,
+  }) {
+    assert(state.value?.packageInfo != null);
     return _packageKitAction(
-      () => packageKit.update(state.value!.packageInfo!.packageId),
+      DebTransactionKind.update,
+      () => packageKit.update(
+        updateId ?? state.value!.packageInfo!.packageId,
+      ),
     );
   }
 
@@ -121,7 +134,10 @@ class DebModel extends _$DebModel {
     if (state.value?.activeTransactionId == null) return;
     await packageKit.cancelTransaction(state.value!.activeTransactionId!);
     state = AsyncValue.data(
-      state.value!.copyWith(activeTransactionId: null),
+      state.value!.copyWith(
+        activeTransactionId: null,
+        activeTransactionKind: null,
+      ),
     );
   }
 
@@ -130,6 +146,7 @@ class DebModel extends _$DebModel {
       state.value!.copyWith(
         error: error,
         activeTransactionId: null,
+        activeTransactionKind: null,
       ),
     );
   }
@@ -142,7 +159,9 @@ class DebModel extends _$DebModel {
     return results[packageName];
   }
 
-  Future<bool> _getUpdates(PackageKitPackageEvent packageInfo) async {
+  Future<PackageKitPackageId?> _getUpdate(
+    PackageKitPackageEvent packageInfo,
+  ) async {
     final detailsEvent = await packageKit.getUpdateDetails(
       packageInfo.packageId,
     );
@@ -150,26 +169,69 @@ class DebModel extends _$DebModel {
     final updates = detailsEvent?.updates.where(
       (pid) => pid != packageInfo.packageId,
     );
-    var hasUpdate = false;
+    if (updates == null || updates.isEmpty) return null;
 
-    for (final packageUpdate in updates ?? <PackageKitPackageId>[]) {
+    /* getUpdateDetails doesn't flag blocked (e.g. phased) updates, so
+       cross-check against the installable updates from GetUpdates. */
+    final installableNames = (await packageKit.getUpdates())
+        .map((u) => u.packageId.name)
+        .toSet();
+
+    for (final packageUpdate in updates) {
       final packageName = packageUpdate.name;
+      if (!installableNames.contains(packageName)) continue;
       final results = await packageKit.resolve([
         packageName,
       ], installedOnly: true);
-      hasUpdate = results[packageName]?.info == PackageKitInfo.installed;
-      break;
+      return results[packageName]?.info == PackageKitInfo.installed
+          ? packageUpdate
+          : null;
     }
 
-    return hasUpdate;
+    return null;
   }
 
-  Future<void> _packageKitAction(Future<int> Function() action) async {
+  Future<PackageKitMutationOutcome> _packageKitAction(
+    DebTransactionKind kind,
+    Future<int> Function() action,
+  ) async {
     final transactionId = await action.call();
     state = AsyncValue.data(
-      state.value!.copyWith(activeTransactionId: transactionId),
+      state.value!.copyWith(
+        activeTransactionId: transactionId,
+        activeTransactionKind: kind,
+      ),
     );
-    await packageKit.waitTransaction(transactionId);
+    var outcome = PackageKitMutationOutcome.failed;
+    try {
+      await packageKit.waitTransaction(transactionId);
+      outcome = PackageKitMutationOutcome.success;
+    } on PackageKitTransactionCancelled {
+      // User cancelled (e.g. dismissed the polkit dialog) — not an error.
+      outcome = PackageKitMutationOutcome.cancelled;
+      _clearActiveTransaction();
+    } on Exception catch (e) {
+      /* Report via the same path as PackageKitServiceError events so the
+         page shows the error and clears the stuck transaction state. */
+      await _onError(
+        PackageKitServiceError(
+          code: PackageKitError.internalError,
+          details: e.toString(),
+        ),
+      );
+    }
+    /* On success keep activeTransactionId set until the rebuild finishes, so
+       the page doesn't flash the stale install/uninstall state meanwhile. */
     ref.invalidateSelf();
+    return outcome;
+  }
+
+  void _clearActiveTransaction() {
+    state = AsyncValue.data(
+      state.value!.copyWith(
+        activeTransactionId: null,
+        activeTransactionKind: null,
+      ),
+    );
   }
 }

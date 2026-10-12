@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:app_center/snapd/snapd.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
@@ -62,7 +61,7 @@ void main() {
         (_, __) {},
       );
       await container.read(snapModelProvider(snapName).future);
-      final snapData = subscription.read().valueOrNull;
+      final snapData = subscription.read().value;
 
       expect(snapData?.name, equals(snapName));
       expect(snapData?.localSnap, isNotNull);
@@ -93,7 +92,7 @@ void main() {
         (_, __) {},
       );
       await container.read(snapModelProvider(snapName).future);
-      final snapData = subscription.read().valueOrNull;
+      final snapData = subscription.read().value;
 
       expect(snapData?.storeSnap, isNull);
       expect(snapData?.localSnap, localSnap);
@@ -112,7 +111,7 @@ void main() {
         (_, __) {},
       );
       await container.read(snapModelProvider(snapName).future);
-      final snapData = subscription.read().valueOrNull;
+      final snapData = subscription.read().value;
       expect(snapData?.activeChangeId, equals('active change'));
 
       verify(
@@ -151,6 +150,23 @@ void main() {
           .read(snapModelProvider('testsnap').notifier)
           .selectChannel('latest/edge');
       await container.read(snapModelProvider('testsnap').notifier).install();
+
+      verify(
+        service.install(
+          'testsnap',
+          channel: 'latest/edge',
+          classic: true,
+        ),
+      ).called(1);
+    });
+
+    test('explicit channel ignores the selected channel', () async {
+      final container = createContainer();
+      final service = registerMockSnapdService(storeSnap: storeSnap);
+      await container.read(snapModelProvider('testsnap').future);
+      await container
+          .read(snapModelProvider('testsnap').notifier)
+          .install(channel: 'latest/edge');
 
       verify(
         service.install(
@@ -206,6 +222,29 @@ void main() {
         ),
       ).called(1);
     });
+
+    test('explicit channel ignores the selected channel', () async {
+      final container = createContainer();
+      final service = registerMockSnapdService(
+        localSnap: localSnap,
+        storeSnap: storeSnap,
+      );
+      await container.read(snapModelProvider('testsnap').future);
+      await container
+          .read(snapModelProvider('testsnap').notifier)
+          .selectChannel('latest/stable');
+      await container
+          .read(snapModelProvider('testsnap').notifier)
+          .refresh(channel: 'latest/edge');
+
+      verify(
+        service.refresh(
+          'testsnap',
+          channel: 'latest/edge',
+          classic: true,
+        ),
+      ).called(1);
+    });
   });
 
   test('remove', () async {
@@ -218,6 +257,38 @@ void main() {
     await container.read(snapModelProvider('testsnap').notifier).remove();
 
     verify(service.remove('testsnap')).called(1);
+  });
+
+  test('keeps the change active until the refreshed state is ready', () async {
+    final container = createContainer();
+    final service = registerMockSnapdService(
+      localSnap: localSnap,
+      storeSnap: storeSnap,
+    );
+    container.listen(snapModelProvider('testsnap'), (_, __) {});
+    await container.read(snapModelProvider('testsnap').future);
+
+    final refreshGetSnap = Completer<Snap>();
+    when(service.getSnap(any)).thenAnswer((_) => refreshGetSnap.future);
+
+    await container.read(snapModelProvider('testsnap').notifier).remove();
+    // Let the rebuild reach the pending getSnap().
+    await Future<void>.delayed(Duration.zero);
+
+    // Stale data must not be shown without an active change.
+    final current = container.read(snapModelProvider('testsnap')).value!;
+    expect(current.localSnap, isNotNull);
+    expect(current.activeChangeId, equals('id'));
+
+    refreshGetSnap.completeError(
+      SnapdException(message: 'snap not installed', kind: 'snap-not-found'),
+    );
+    final refreshed = await container.read(
+      snapModelProvider('testsnap').future,
+    );
+
+    expect(refreshed.localSnap, isNull);
+    expect(refreshed.activeChangeId, isNull);
   });
 
   test('cancel active change', () async {

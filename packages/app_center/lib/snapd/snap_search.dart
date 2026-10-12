@@ -1,5 +1,6 @@
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:meta/meta.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -39,10 +40,11 @@ final snapSearchProvider =
       searchParameters,
     ) async* {
       final snapd = getService<SnapdService>();
+      final queryLower = (searchParameters.query ?? '').toLowerCase();
       if (searchParameters.category == SnapCategoryEnum.ubuntuDesktop) {
         yield* snapd.getStoreSnaps(
           searchParameters.category!.featuredSnapNames
-                  ?.where((name) => name.contains(searchParameters.query ?? ''))
+                  ?.where((name) => name.toLowerCase().contains(queryLower))
                   .toList() ??
               [],
         );
@@ -54,7 +56,7 @@ final snapSearchProvider =
           searchParameters.category == SnapCategoryEnum.gameContentCreation) {
         yield* snapd.getStoreSnaps(
           searchParameters.category!.featuredSnapNames
-                  ?.where((name) => name.contains(searchParameters.query ?? ''))
+                  ?.where((name) => name.toLowerCase().contains(queryLower))
                   .toList() ??
               [],
         );

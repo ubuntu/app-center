@@ -27,7 +27,7 @@
     "snapCategoryServerAndCloud": "Servidor y nube",
     "aboutPageLabel": "Acerca de",
     "snapPageSummaryLabel": "Resumen",
-    "appstreamSearchGreylist": "aplicación;aplicaciones;app;paquete;paquetes;programa;programas;software;herramienta;herramientas",
+    "appstreamSearchGreylist": "aplicación;aplicaciones;app;paquete;paquetes;programa;programas;programática;software;suite;herramienta;herramientas",
     "snapCategoryScience": "Ciencia",
     "snapCategoryEntertainment": "Entretenimiento",
     "snapActionInstallLabel": "Instalar",
@@ -39,7 +39,7 @@
     "packageFormatSnapLabel": "Paquetes snap",
     "snapCategoryGames": "Juegos",
     "snapActionInstallingLabel": "Instalando",
-    "searchFieldSearchHint": "Buscar las aplicaciones",
+    "searchFieldSearchHint": "Buscar aplicaciones",
     "snapCategoryFeatured": "Destacado",
     "managePageSearchFieldSearchHint": "Buscar aplicaciones instaladas",
     "snapActionCancelLabel": "Cancelar",
@@ -60,18 +60,18 @@
     },
     "explorePageCategoriesLabel": "Categorías",
     "snapCategoryDefaultButtonLabel": "Descubrir más",
-    "managePageShowDetailsLabel": "Mostrar los detalles",
+    "managePageShowDetailsLabel": "Mostrar detalles",
     "snapPageDownloadSizeLabel": "Tamaño de la descarga",
-    "snapCategoryProductivityButtonLabel": "Descubre la colección de productividad",
+    "snapCategoryProductivityButtonLabel": "Descubra la colección de productividad",
     "snapPagePublishedLabel": "Última actualización",
-    "aboutPageLearnMoreLabel": "Leer más",
+    "aboutPageLearnMoreLabel": "Conocer más",
     "snapRatingsBandNeutral": "Neutral",
     "appstreamUrlTypeTranslate": "Traducciones",
     "searchPageNoResultsHint": "Pruebe a utilizar palabras clave diferentes o más generales",
     "snapRatingsBandGood": "Bien",
     "snapCategoryFeaturedSlogan": "«Snaps» destacados",
     "snapSortOrderInstalledDateAsc": "Lo menos reciente",
-    "snapCategoryProductivitySlogan": "Tacha una cosa de tu lista de tareas pendientes",
+    "snapCategoryProductivitySlogan": "Tache una cosa de su lista de tareas pendientes",
     "appstreamUrlTypeDonation": "Donar",
     "snapRatingsBandVeryGood": "Muy bien",
     "snapActionRemoveLabel": "Desinstalar",
@@ -185,7 +185,7 @@
     "allGamesButtonLabel": "Todos los juegos",
     "appCenterLabel": "Centro de aplicaciones",
     "snapPageShareLinkCopiedMessage": "Se copió el enlace en el portapapeles",
-    "gamesPageBundles": "Paquetes de aplicaciones",
+    "gamesPageBundles": "Conjuntos de aplicaciones",
     "snapCategoryGameEmulatorsSlogan": "Emuladores",
     "snapCategoryGnomeGames": "Juegos de GNOME",
     "snapCategoryGnomeGamesSlogan": "Compilación de juegos de GNOME",
@@ -243,8 +243,8 @@
     "localDebWarningTitle": "Potencialmente inseguro",
     "localDebLearnMore": "Aprenda más información sobre paquetes de terceros",
     "localDebDialogMessage": "Este paquete es provisto por un tercero y puede amenazar su sistema y sus datos personales.",
-    "localDebDialogConfirmation": "¿Estás seguro de que quieres instalarlo?",
-    "localDebWarningBody": "Este paquete es proporcionado por un tercero. La instalación de paquetes desde fuera del App Center puede aumentar el riesgo para su sistema y sus datos personales. Asegúrese de confiar en la fuente antes de continuar.",
+    "localDebDialogConfirmation": "¿Confirma que quiere instalarlo?",
+    "localDebWarningBody": "Un tercero brinda este paquete. Instalar paquetes que no procedan del Centro de aplicaciones puede aumentar el riesgo para el sistema y sus datos personales. Cerciórese de que la fuente es de confianza antes de continuar.",
     "managePageDebUpdatesMessage": "Las actualizaciones de los paquetes de Debian son gestionadas por el actualizador de software.",
     "snapActionInstalledLabel": "Instalado",
     "snapdExceptionRunningApps": "No hemos podido actualizar {snapName} porque se está ejecutando actualmente.",
@@ -255,16 +255,16 @@
             }
         }
     },
-    "errorViewCheckStatusLabel": "Comprobar el estado",
+    "errorViewCheckStatusLabel": "Comprobar estado",
     "errorViewNetworkErrorTitle": "Conectar a internet",
-    "errorViewNetworkErrorAction": "Compruebe tu conexión y vuelve a intentarlo.",
-    "errorViewServerErrorDescription": "Lo sentimos, estamos experimentando problemas con el App Center.",
-    "errorViewServerErrorAction": "Comprueba si hay actualizaciones o inténtalo más tarde.",
+    "errorViewNetworkErrorAction": "Compruebe su conexión y vuelva a intentarlo.",
+    "errorViewServerErrorDescription": "Estamos experimentando problemas con el Centro de aplicaciones.",
+    "errorViewServerErrorAction": "Compruebe si hay actualizaciones o inténtelo más tarde.",
     "errorViewUnknownErrorTitle": "Algo salió mal",
-    "errorViewUnknownErrorAction": "Puedes reintentarlo ahora, comprobar el estado de las actualizaciones o volver a intentarlo más tarde.",
-    "errorViewNetworkErrorDescription": "No podemos cargar contenidos en el App Center sin conexión a Internet.",
+    "errorViewUnknownErrorAction": "Puede reintentarlo ahora, comprobar el estado de las actualizaciones o volver a intentarlo más tarde.",
+    "errorViewNetworkErrorDescription": "No se pueden cargar contenidos en el Centro de aplicaciones sin conexión a Internet.",
     "errorViewUnknownErrorDescription": "Lo sentimos, pero no estamos seguros de cuál es el error.",
-    "managePageNoInternet": "No se puede acceder al servidor, compruebe su conexión a Internet o inténtelo más tarde.",
+    "managePageNoInternet": "No se puede acceder al servidor; compruebe su conexión a Internet o inténtelo más tarde.",
     "managePageOwnUpdateDescription": "Al salir de la aplicación, esta se actualizará automáticamente.",
     "managePageOwnUpdateDescriptionSoon": "El centro de aplicaciones se actualizará automáticamente en {time}.",
     "@managePageOwnUpdateDescriptionSoon": {
@@ -275,7 +275,7 @@
         }
     },
     "managePageOwnUpdateQuitButton": "Salir para actualizar",
-    "managePageOwnUpdateAvailable": "Actualización disponible para el centro de aplicaciones",
+    "managePageOwnUpdateAvailable": "Actualización disponible para el Centro de aplicaciones",
     "managePageQuitToUpdate": "Cerrar para actualizar",
     "managePageUpdatesFailed": "{n, plural, =1{Una actualización fallida} other{{n} actualizaciones fallidas}}",
     "@managePageUpdatesFailed": {
@@ -288,7 +288,7 @@
     "managePageUpdatesFailedBody": "No pudimos actualizar estas aplicaciones porque se están ejecutando actualmente.\n\n{snapList}\nCuando cierre las aplicaciones, se actualizarán automáticamente.",
     "managePageTitle": "Gestionar snaps instalados",
     "snapCategoryArtAndDesignButtonLabel": "Empezar a crear",
-    "snapCategoryArtAndDesignSlogan": "Desde tu primer boceto hasta el toque final, explora aplicaciones para arte y diseño.",
+    "snapCategoryArtAndDesignSlogan": "Desde su primer boceto hasta el toque final, descubra aplicaciones para el arte y el diseño.",
     "managePageInstallingLabel": "Instalando ({n})",
     "@managePageInstallingLabel": {
         "placeholders": {
@@ -297,9 +297,9 @@
             }
         }
     },
-    "managePageDocumentationLinkLabel": "Aprenda a administrar paquetes Debian en la documentación.",
-    "debPageDocumentationLinkLabel": "Aprenda a administrar paquetes Debian",
-    "snapPageGalleryNextSemanticLabel": "Siguiente imagen",
+    "managePageDocumentationLinkLabel": "Aprenda a gestionar los paquetes de Debian en la documentación.",
+    "debPageDocumentationLinkLabel": "Conozca cómo gestionar paquetes de Debian",
+    "snapPageGalleryNextSemanticLabel": "Imagen siguiente",
     "snapPageGalleryPreviousSemanticLabel": "Imagen anterior",
     "snapPageGalleryImageSemanticLabel": "Imagen {n}",
     "@snapPageGalleryImageSemanticLabel": {
@@ -343,10 +343,10 @@
             }
         }
     },
-    "debPageShareLinkCopiedMessage": "Enlace copiado al portapapeles",
+    "debPageShareLinkCopiedMessage": "Enlace copiado en el portapapeles",
     "debPageShareSemanticLabel": "Copiar enlace",
     "codecPageTitle": "Faltan códecs multimedia",
-    "codecPageDescription": "Necesita instalar los siguientes códecs para manejar ciertos formatos de audio y vídeo:",
+    "codecPageDescription": "Necesita instalar los códecs siguientes para manejar ciertos formatos de audio y vídeo:",
     "codecProprietaryDisclaimer": "Algunos de los códecs recomendados podrían ser privativos.",
     "codecInstallAllButton": "Instalar los códecs recomendados",
     "snapActionRevertLabel": "Revertir actualización",
@@ -372,7 +372,7 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "No está disponible ninguna anterior revisión local para revertir.",
+    "snapRevertNoPreviousRevisionMessage": "No hay ninguna revisión local anterior a la que se pueda volver.",
     "managePagePackageTypeLabel": "Tipo de paquete",
     "managePagePackageTypeAll": "Todo",
     "managePagePackageTypeSnap": "Snap",
@@ -394,8 +394,71 @@
     },
     "appUrlTypeHomepage": "Sitio web del desarrollador",
     "appPublishedUnknown": "Desconocido",
-    "appConfinementStrict": "Confinada",
+    "appConfinementStrict": "En entorno aislado",
     "appConfinementStrictTooltip": "Esta aplicación tiene acceso limitado a sus recursos. Puede controlar sus permisos en la aplicación Configuración.",
     "appConfinementClassicTooltip": "Esta aplicación usa el confinamiento clásico, lo que le otorga acceso completo a sus recursos. Esto es habitual en aplicaciones de desarrollo.",
-    "appConfinementUnrestrictedTooltip": "Esta aplicación tiene acceso completo a sus recursos."
+    "appConfinementUnrestrictedTooltip": "Esta aplicación tiene acceso completo a sus recursos.",
+    "snapActionSwitchChannelTitle": "Cambiar canal para {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "addonsPageLabel": "Complementos",
+    "addonsPageAdditionalDriversTitle": "Controladores adicionales",
+    "addonsPageAdditionalDriversDescription": "Optimice el funcionamiento de tarjetas gráficas y otros componentes físicos",
+    "driversPageDescription": "Los controladores privativos incluyen código cerrado que el equipo de desarrollo de Ubuntu no puede revisar ni mejorar. La seguridad y demás actualizaciones dependen exclusivamente de la proveedora del controlador.",
+    "driversPageSectionUpdateAvailable": "Actualización disponible",
+    "driversPageSectionUnsupported": "No hay ningún controlador disponible",
+    "driversPageNoPackagesMessage": "Ningún paquete provee controladores para este dispositivo",
+    "driversPageDeviceClassNetwork": "Red",
+    "driversPageDeviceClassCamera": "Cámara",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Almacenamiento",
+    "driversPageDeviceClassAudio": "Audio",
+    "driversPageDeviceClassOther": "Otros",
+    "driversPageBranchProduction": "Producción",
+    "driversPageBranchLts": "Servicio técnico a largo plazo",
+    "driversPageBranchNewFeature": "Funcionalidades nuevas",
+    "driversPageVersionLabel": "Versión {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Se necesita reiniciar",
+    "driversPageRestartRequiredMessage": "Reinicie el equipo para terminar de aplicar las modificaciones a los controladores.",
+    "driversPageErrorLabel": "Error",
+    "driversPageRetryLabel": "Reintentar",
+    "driversPageNoDriversFoundMessage": "Se usan los controladores incorporados. No se encontraron más controladores.",
+    "driversPageUnavailableTitle": "Gestión de controladores no disponible",
+    "driversPageUnsupportedMessage": "El servicio de gestión de controladores no está disponible. Cerciórese de que snapd esté actualizado y ubuntu-drivers-common se haya instalado.",
+    "driversPageSwitchBranchLabel": "Cambiar de rama",
+    "driversPageSwitchBranchTitle": "Cambiar de rama",
+    "driversPageSwitchLabel": "Cambiar",
+    "driversPageSwitchingBranchLabel": "Cambiando de rama",
+    "driversPageUninstallTitle": "Desinstalar controlador",
+    "driversPageUninstallAcknowledgeLabel": "Entiendo el riesgo",
+    "driversPageSwitchBranchLessStableWarningMessage": "Manténgase en la rama actual para evitar problemas en este dispositivo.",
+    "driversPageSwitchBranchLessStableWarningTitle": "Esta rama es menos estable",
+    "driversPageUninstallWarningTitle": "Desinstalar controladores puede causar problemas",
+    "driversPageSwitchBranchProductionDescription": "Equilibra funcionalidades y estabilidad",
+    "driversPageUninstallWarningMessage": "Podría tener dificultades para reinstalar los controladores, especialmente si corresponden a vídeo o a la red.",
+    "driversPageSwitchBranchLtsDescription": "Máxima estabilidad para entornos de alta exigencia",
+    "driversPageSwitchBranchNewFeatureDescription": "Preliminar; menos estable",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (recomendado)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSectionAvailable": "Disponibles",
+    "driversPageSectionInstalled": "Instalados",
+    "driversPageDeviceClassGraphics": "Gráficos"
 }

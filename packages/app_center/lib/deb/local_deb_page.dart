@@ -6,13 +6,12 @@ import 'package:app_center/error/error.dart';
 import 'package:app_center/extensions/string_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
+import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yaru/yaru.dart';
 
 class LocalDebPage extends ConsumerWidget {
@@ -49,13 +48,18 @@ class _LocalDebPage extends StatelessWidget {
         banner: YaruInfoBox(
           title: Text(l10n.localDebWarningTitle),
           yaruInfoType: YaruInfoType.warning,
-          child: Html(
-            data:
-                '${l10n.localDebWarningBody} <a href="$localDebInfoUrl">${l10n.localDebLearnMore}</a>',
-            style: {
-              'body': Style(margin: Margins.zero, padding: HtmlPaddings.zero),
-            },
-            onLinkTap: (url, attributes, element) => launchUrlString(url!),
+          child: Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(text: '${l10n.localDebWarningBody} '),
+                WidgetSpan(
+                  child: HyperlinkText(
+                    text: l10n.localDebLearnMore,
+                    link: localDebInfoUrl,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

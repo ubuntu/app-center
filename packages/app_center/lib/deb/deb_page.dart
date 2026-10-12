@@ -4,17 +4,13 @@ import 'package:app_center/apps/app_page.dart';
 import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/deb/deb_model.dart';
-import 'package:app_center/deb/deb_providers.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/current_desktops_provider.dart';
-import 'package:app_center/store/store_app.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru/yaru.dart';
@@ -35,14 +31,15 @@ class DebPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final debModel = ref.watch(debModelProvider(id));
 
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => debModel.whenOrNull(
-        data: (data) {
-          if (data.error == null) return;
-          showError(context, data.error!);
-        },
-      ),
-    );
+    // `ref.listen` fires on state changes rather than on every build, so an
+    // error is surfaced once when it arrives instead of again on every rebuild
+    // that a later action causes. Comparing against the previous value keeps a
+    // state change that leaves the error untouched from showing it twice.
+    ref.listen(debModelProvider(id), (previous, next) {
+      final error = next.value?.error;
+      if (error == null || error == previous?.value?.error) return;
+      showError(context, error);
+    });
 
     return debModel.when(
       data: (data) => ResponsiveLayoutBuilder(
@@ -67,43 +64,11 @@ class _DebView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final layout = ResponsiveLayout.of(context);
-    final l10n = AppLocalizations.of(context);
     final currentDesktops = ref.watch(currentDesktopsProvider);
     final isCompulsory = debModel.isCompulsoryFor(currentDesktops);
 
     return AppPage(
-      titleBar: AppTitleBar.fromDeb(
-        debModel,
-        actions: debModel.component.website != null
-            ? YaruIconButton(
-                icon: Icon(
-                  YaruIcons.share,
-                  semanticLabel: l10n.debPageShareSemanticLabel,
-                ),
-                onPressed: () {
-                  final navigationKey = ref.watch(
-                    materialAppNavigatorKeyProvider,
-                  );
-
-                  ScaffoldMessenger.of(
-                    navigationKey.currentContext!,
-                  ).showSnackBar(
-                    SnackBar(
-                      content: Text(l10n.snapPageShareLinkCopiedMessage),
-                    ),
-                  );
-                  SemanticsService.sendAnnouncement(
-                    View.of(navigationKey.currentContext!),
-                    l10n.snapPageShareLinkCopiedMessage,
-                    Directionality.of(navigationKey.currentContext!),
-                  );
-                  Clipboard.setData(
-                    ClipboardData(text: debModel.component.website!),
-                  );
-                },
-              )
-            : null,
-      ),
+      titleBar: AppTitleBar.fromDeb(debModel),
       actionBar: Wrap(
         runSpacing: kSpacing,
         spacing: kSpacing,
@@ -157,6 +122,9 @@ class _DebActionButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final progress = ref.watch(
+      packageKitTransactionProgressProvider(debModel.activeTransactionId),
+    );
 
     final primaryAction = debModel.hasUpdate
         ? DebAction.update
@@ -178,13 +146,7 @@ class _DebActionButtons extends ConsumerWidget {
     if (debModel.activeTransactionId != null) {
       return ActiveChangeStatus(
         onCancelPressed: DebAction.cancel.callback(ref, debModel),
-        progress:
-            (ref
-                    .watch(transactionProvider(debModel.activeTransactionId!))
-                    .valueOrNull
-                    ?.percentage ??
-                0) /
-            100.0,
+        progress: progress ?? 0.0,
       );
     }
 

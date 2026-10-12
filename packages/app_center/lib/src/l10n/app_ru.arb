@@ -108,7 +108,7 @@
         }
     },
     "snapCategoryGamesSlogan": "Всё для геймеров",
-    "snapActionSwitchChannelLabel": "Переключить канал",
+    "snapActionSwitchChannelLabel": "Сменить канал",
     "appstreamUrlTypeFaq": "ЧаВо",
     "snapConfinementStrict": "Строгий",
     "aboutPageContributeLabel": "Поучаствовать или сообщить о проблеме",
@@ -250,10 +250,10 @@
     "errorViewCheckStatusLabel": "Проверить состояние",
     "errorViewNetworkErrorTitle": "Подключитесь к Интернету",
     "errorViewNetworkErrorAction": "Проверьте соединение и повторите попытку.",
-    "errorViewServerErrorAction": "Проверьте состояние служб для сведения или повторите попытку позже.",
+    "errorViewServerErrorAction": "Проверьте состояние сервиса или повторите попытку позже.",
     "errorViewUnknownErrorTitle": "Что-то пошло не так",
     "errorViewUnknownErrorDescription": "Нам жаль, но мы не уверены, в чем заключается проблема.",
-    "errorViewUnknownErrorAction": "Вы можете повторить попытку сейчас, проверить состояние служб для сведения или повторить попытку позже.",
+    "errorViewUnknownErrorAction": "Вы можете повторить попытку сейчас, проверить состояние сервиса или зайти позже.",
     "snapdExceptionRunningApps": "Мы не смогли обновить приложение {snapName}, так как оно сейчас запущено.",
     "@snapdExceptionRunningApps": {
         "placeholders": {
@@ -263,7 +263,7 @@
         }
     },
     "errorViewNetworkErrorDescription": "Мы не можем загрузить каталог Центра приложений без подключения к Интернету.",
-    "errorViewServerErrorDescription": "Мы сожалеем, но в настоящее время у нас возникли проблемы с Центром приложений.",
+    "errorViewServerErrorDescription": "Сожалеем, но в настоящее время у нас возникли проблемы с Центром приложений.",
     "managePageNoInternet": "Не удалось подключиться к серверу. Проверьте подключение к Интернету или повторите попытку позже.",
     "managePageOwnUpdateDescriptionSoon": "Центр приложений будет автоматически обновлён через {time}.",
     "@managePageOwnUpdateDescriptionSoon": {
@@ -288,7 +288,7 @@
     "managePageUpdatesFailedBody": "Мы не смогли обновить эти приложения, так как они в данный момент запущены.\n\n{snapList}\nКогда Вы закроете их, обновление произойдёт автоматически.",
     "managePageTitle": "Управление установленными Snap",
     "snapCategoryArtAndDesignButtonLabel": "Начать творить",
-    "snapCategoryArtAndDesignSlogan": "От первого наброска до финального штриха — исследуйте приложения для искусства и дизайна.",
+    "snapCategoryArtAndDesignSlogan": "От эскиза до шедевра — приложения для искусства и дизайна.",
     "managePageInstallingLabel": "Идёт установка ({n})",
     "@managePageInstallingLabel": {
         "placeholders": {
@@ -397,5 +397,79 @@
     "appMoreActionsSemanticLabel": "Другие действия",
     "appConfinementStrictTooltip": "Это приложение имеет ограниченный доступ к ресурсам. Управлять его разрешениями можно в приложении «Настройки».",
     "appConfinementClassicTooltip": "Это приложение использует классическую изоляцию и имеет полный доступ к ресурсам. Такой режим часто используется в приложениях для разработки.",
-    "appConfinementUnrestrictedTooltip": "Это приложение имеет полный доступ к ресурсам."
+    "appConfinementUnrestrictedTooltip": "Это приложение имеет полный доступ к ресурсам.",
+    "snapActionSwitchChannelTitle": "Сменить канал {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "addonsPageLabel": "Дополнения",
+    "addonsPageAdditionalDriversTitle": "Дополнительные драйверы",
+    "addonsPageAdditionalDriversDescription": "Добавление улучшенной поддержки видеокарт и другого оборудования",
+    "driversPageDescription": "Проприетарные драйверы содержат закрытый код, который разработчики Ubuntu не могут проанализировать или усовершенствовать. Обновления, связанные с безопасностью и другими аспектами, зависят от поставщика драйвера.",
+    "driversPageSectionUpdateAvailable": "Доступно обновление",
+    "driversPageSectionAvailable": "Доступные",
+    "driversPageSectionInstalled": "Установленные",
+    "driversPageSectionUnsupported": "Нет доступных драйверов",
+    "driversPageNoPackagesMessage": "Ни один пакет не содержит драйверов для этого устройства",
+    "driversPageDeviceClassGraphics": "Графика",
+    "driversPageDeviceClassNetwork": "Сеть",
+    "driversPageDeviceClassCamera": "Камера",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Хранилище",
+    "driversPageDeviceClassAudio": "Аудио",
+    "driversPageDeviceClassOther": "Другое",
+    "driversPageBranchProduction": "Промышленная среда",
+    "driversPageBranchLts": "Долгосрочная поддержка",
+    "driversPageBranchNewFeature": "Новые функции",
+    "driversPageVersionLabel": "Версия {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Требуется перезагрузка",
+    "driversPageRestartRequiredMessage": "Перезагрузите компьютер, чтобы завершить применение изменений в драйверах.",
+    "driversPageErrorLabel": "Ошибка",
+    "driversPageRetryLabel": "Повторить",
+    "driversPageNoDriversFoundMessage": "Используются встроенные драйверы. Дополнительных драйверов не обнаружено.",
+    "driversPageUnavailableTitle": "Управление драйверами недоступно",
+    "driversPageUnsupportedMessage": "Служба управления драйверами недоступна. Убедитесь, что snapd обновлен до последней версии и установлен пакет ubuntu-drivers-common.",
+    "driversPageSwitchBranchLabel": "Сменить ветку",
+    "driversPageSwitchBranchTitle": "Смена ветки",
+    "driversPageSwitchBranchProductionDescription": "Сочетает функционал и стабильность",
+    "driversPageSwitchBranchLtsDescription": "Максимальная стабильность для важных рабочих нагрузок",
+    "driversPageSwitchBranchNewFeatureDescription": "Предварительная версия, менее стабильная",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (рекомендуется)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "Эта ветка менее стабильна",
+    "driversPageSwitchBranchLessStableWarningMessage": "Оставайтесь на текущей ветке, чтобы избежать проблем с этим устройством.",
+    "driversPageSwitchLabel": "Сменить",
+    "driversPageSwitchingBranchLabel": "Выполняется смена ветки",
+    "driversPageUninstallTitle": "Удалить драйвер",
+    "driversPageUninstallWarningTitle": "Удаление драйверов может привести к возникновению проблем",
+    "driversPageUninstallWarningMessage": "Возможно, Вы не сможете легко переустановить драйверы, особенно если речь идёт о драйверах графики или сети.",
+    "driversPageUninstallAcknowledgeLabel": "Я осознаю риск",
+    "appDetailsAdditionalInfoLabel": "Дополнительные сведения",
+    "appDetailsPackageFormatLabel": "Формат пакета",
+    "appDetailsCategoryLabel": "Категория",
+    "appDetailsInstallDateLabel": "Дата установки",
+    "appDetailsNotInstalled": "Не установлено",
+    "appDetailsNotAvailable": "Недоступно",
+    "addonsPageMediaSupportTitle": "Поддержка мультимедиа",
+    "addonsPageMediaSupportDescription": "Установка дополнительного ПО для поддержки большего числа форматов мультимедиа",
+    "mediaSupportPageDescription": "В Ubuntu по умолчанию предустановлены некоторые кодеки с открытым исходным кодом. Для воспроизведения и редактирования определённых форматов музыки и видео может потребоваться установка дополнительного ПО.",
+    "mediaSupportPageAdditionalMediaTitle": "Дополнительная поддержка мультимедиа",
+    "mediaSupportPageInstallButton": "Установить"
 }

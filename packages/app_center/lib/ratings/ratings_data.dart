@@ -6,7 +6,7 @@ part 'ratings_data.freezed.dart';
 part 'ratings_data.g.dart';
 
 @freezed
-class RatingsData with _$RatingsData {
+abstract class RatingsData with _$RatingsData {
   const factory RatingsData({
     required String snapId,
     required int snapRevision,

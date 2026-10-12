@@ -388,6 +388,26 @@ void main() {
     },
   );
 
+  testWidgets('share is offered without a website', (tester) async {
+    // The share link is the snapcraft.io page, which every snap has, so the
+    // button must not depend on the snap declaring a website.
+    final snap = createSnap(name: 'nosite', id: '4');
+    registerMockSnapdService(localSnap: snap, storeSnap: snap);
+    final snapLauncher = createMockSnapLauncher(isLaunchable: true);
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          launchProvider.overrideWith((ref, arg) => snapLauncher),
+        ],
+        child: const SnapPage(snapName: 'nosite'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byIcon(YaruIcons.share), findsOneWidget);
+  });
+
   testWidgets('switch channel appears in dropdown', (tester) async {
     registerMockSnapdService(
       storeSnap: storeSnap,

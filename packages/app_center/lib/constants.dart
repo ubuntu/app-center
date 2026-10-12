@@ -3,6 +3,7 @@ import 'package:yaru/icons.dart';
 
 const kAppName = 'App Center';
 const kSnapName = 'snap-store';
+const kFirmwareUpdaterSnapName = 'firmware-updater';
 const kGitHubRepo = 'ubuntu/app-center';
 
 // TODO: add proper neutral colors to yaru

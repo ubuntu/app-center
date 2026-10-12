@@ -14,12 +14,20 @@ class CurrentlyInstallingModel extends _$CurrentlyInstallingModel {
     state = {...state, snapName: snap};
     late final ProviderSubscription<AsyncValue<SnapData>> subscription;
     subscription = ref.listen(snapModelProvider(snapName), (_, snapModel) {
-      if (snapModel.valueOrNull?.activeChangeId == null) {
-        state = {...state}..remove(snapName);
+      if (snapModel.value?.activeChangeId == null) {
+        remove(snapName);
         subscription.close();
       } else if (snapModel.hasValue && state.containsKey(snapName)) {
         state = {...state}..[snapName] = snapModel.value!;
       }
     });
+  }
+
+  /// Removes the snap from the currently installing list.
+  void remove(String snapName) {
+    // No-op when absent: the snap model listener can fire inside another
+    // provider's build, where state must not change.
+    if (!state.containsKey(snapName)) return;
+    state = {...state}..remove(snapName);
   }
 }

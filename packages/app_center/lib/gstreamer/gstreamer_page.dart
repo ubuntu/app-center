@@ -175,7 +175,7 @@ class _TransactionSpinner extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final transaction = ref
         .watch(transactionProvider(activeTransactionId))
-        .valueOrNull;
+        .value;
 
     return Row(
       children: [

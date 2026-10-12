@@ -43,8 +43,7 @@ void main() {
             name: 'running apps',
             exception: SnapdException(
               kind: 'error',
-              message:
-                  'cannot refresh "testsnap": snap "testsnap" has running apps (testapp)',
+              message: 'cannot refresh "testsnap": snap "testsnap" has running apps (testapp)',
             ),
             expectedTitle: (l10n) => l10n.managePageUpdatesFailed(1),
             expectedBody: (l10n) => l10n.snapdExceptionRunningApps('testsnap'),

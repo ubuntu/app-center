@@ -6,7 +6,7 @@ import 'package:app_center/manage/logger.dart';
 import 'package:app_center/manage/manage_app_data.dart';
 import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/packagekit/packagekit.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
@@ -42,17 +42,18 @@ final appSortOrderProvider = StateProvider<AppSortOrder>(
 @riverpod
 Future<List<ManageAppData>> appUpdates(Ref ref) async {
   final snapUpdates = await ref.watch(snapUpdatesModelProvider.future);
-  final debUpdates = await ref.watch(localDebUpdatesModelProvider.future);
-  // snapUpdates contains refresh *candidates* from the store, whose `version`
-  // field is the update's version, not the currently installed one. Pair each
-  // candidate with its locally installed snap to get the real current version.
   final localSnaps = await ref.watch(localSnapsProvider.future);
+  final debUpdates = await ref.watch(localDebUpdatesModelProvider.future);
 
-  final snapApps = snapUpdates.snaps.map((candidate) {
-    final localSnap = localSnaps.getSnap(candidate.name);
+  // `snapUpdatesModelProvider` lists the refresh candidates from the store, so
+  // each of those carries the version on offer, not the one installed. Pair it
+  // with the local snap so the tile can show installed → available. Using the
+  // store snap for both sides prints the new version twice.
+  final snapApps = snapUpdates.snaps.map((storeSnap) {
+    final installed = localSnaps.getSnap(storeSnap.name);
     return ManageAppData.snap(
-      snap: localSnap ?? candidate,
-      updateVersion: candidate.version,
+      snap: installed ?? storeSnap,
+      updateVersion: storeSnap.version,
     );
   });
 
@@ -100,7 +101,6 @@ class InstalledApps extends _$InstalledApps {
 
     void refreshFunction(_, __) => _applyFilters();
     ref.listen(localSnapFilterProvider, refreshFunction);
-    ref.listen(localDebFilterProvider, refreshFunction);
     ref.listen(showLocalSystemAppsProvider, refreshFunction);
     ref.listen(appSortOrderProvider, refreshFunction);
     ref.listen(packageTypeFilterProvider, refreshFunction);

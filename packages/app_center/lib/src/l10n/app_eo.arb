@@ -397,5 +397,68 @@
     "appMoreActionsSemanticLabel": "Pliaj agoj",
     "appConfinementStrictTooltip": "Jen programo kun limigitaj atingorajtoj al via komputilo. Vi povas ŝanĝi ĝiajn rajtojn per la programo Agordoj.",
     "appConfinementUnrestrictedTooltip": "Jen programo rajtanta senlime atingi vian komputilon.",
-    "appConfinementClassicTooltip": "Jen programo klasike izolita kaj rajtanta senlime atingi vian komputilon. Tio oftas por programoj pri programado."
+    "appConfinementClassicTooltip": "Jen programo klasike izolita kaj rajtanta senlime atingi vian komputilon. Tio oftas por programoj pri programado.",
+    "snapActionSwitchChannelTitle": "Ŝanĝi kanalon por {appName}",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageDeviceClassGraphics": "Grafiko",
+    "driversPageDeviceClassNetwork": "Reto",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageErrorLabel": "Eraro",
+    "driversPageRetryLabel": "Reprovi",
+    "driversPageUninstallTitle": "Malinstali pelilon",
+    "driversPageUninstallWarningTitle": "Malinstali pelilojn povas kaŭzi problemojn",
+    "driversPageUninstallWarningMessage": "Reinstali zorgilon eble estas malfacile, speciale pri grafiko aŭ reto.",
+    "driversPageUninstallAcknowledgeLabel": "Mi komprenas la riskon",
+    "driversPageSectionAvailable": "Disponebla",
+    "driversPageSectionInstalled": "Instalita",
+    "driversPageSectionUnsupported": "Neniu pelilo disponebla",
+    "addonsPageAdditionalDriversTitle": "Pliaj peliloj",
+    "driversPageDeviceClassAudio": "Sono",
+    "driversPageDeviceClassCamera": "Kamerao",
+    "driversPageDeviceClassStorage": "Konservejo",
+    "driversPageDeviceClassOther": "Alia",
+    "driversPageBranchNewFeature": "Novaj funkcioj",
+    "driversPageVersionLabel": "Versio {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Deviga restarto",
+    "driversPageBranchLts": "Longdaŭra subteno",
+    "driversPageRestartRequiredMessage": "Restartigu vian komputilon por fini la aplikadon de ŝanĝoj al peliloj.",
+    "driversPageNoDriversFoundMessage": "Uzante apriorajn zorgilojn. Neniu plia zorgilo troviĝis.",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (rekomendata)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLabel": "Ŝanĝi branĉon",
+    "driversPageSwitchBranchTitle": "Ŝanĝi branĉon",
+    "driversPageSwitchBranchLessStableWarningTitle": "Jen malpli stabila branĉo",
+    "driversPageSwitchLabel": "Ŝanĝi",
+    "driversPageSwitchingBranchLabel": "Ŝanĝante branĉon",
+    "driversPageSwitchBranchLtsDescription": "Maksimuma stabileco por gravaj ŝarĝoj",
+    "driversPageSwitchBranchProductionDescription": "Ekvilibro inter funkcioj kaj stabileco",
+    "driversPageSwitchBranchLessStableWarningMessage": "Restu ĉe aktuala branĉo por malhelpi problemojn pri ĉi tiu aparato.",
+    "addonsPageLabel": "Aldonaĵoj",
+    "driversPageNoPackagesMessage": "Neniu pako provizas pelilojn por ĉi tiu aparato",
+    "driversPageSectionUpdateAvailable": "Ĝisdatigo estas disponebla",
+    "driversPageUnavailableTitle": "Administrado de peliloj ne disponeblas",
+    "driversPageUnsupportedMessage": "La servo por administri zorgilojn ne estas disponebla. Certigu, ke snapd estas ĝisdata kaj ubuntu-drivers-common estas instalita.",
+    "addonsPageAdditionalDriversDescription": "Plibonigi subtenon por grafikkartoj kaj aliaj aparatoj",
+    "driversPageDescription": "Nelibera zorgilo havas privatan kodon ne revizieblan nek plibonigebla de la programistoj de Ubuntu. La vendisto de la zorgilo respondecas pri sekurigaj kaj aliaj ĝisdatigoj.",
+    "driversPageBranchProduction": "Produktado",
+    "driversPageSwitchBranchNewFeatureDescription": "Beta-versio malpli stabila"
 }

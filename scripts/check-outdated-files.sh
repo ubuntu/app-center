@@ -1,8 +1,8 @@
 #!/bin/bash
 
 if [ -n "$(git status --porcelain)" ]; then
-  git diff -- ':!**/pubspec.lock'
-  outdated=$(git ls-files --modified -- ':!**/pubspec.lock')
+  git diff -- ':!pubspec.lock' ':!**/pubspec.lock'
+  outdated=$(git ls-files --modified -- ':!pubspec.lock' ':!**/pubspec.lock')
   for f in $outdated; do
     echo "::warning ::$f may be outdated"
   done

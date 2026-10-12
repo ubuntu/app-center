@@ -1,6 +1,6 @@
 import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/snapd/snapd.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';

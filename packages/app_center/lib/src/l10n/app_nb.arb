@@ -1,1 +1,38 @@
-{}
+{
+    "sectionExpandSemanticLabel": "Utvid {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "Kollaps {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "explorePageCategoriesLabel": "Kategorier",
+    "managePageOwnUpdateAvailable": "App Center oppdatering tilgjengelig",
+    "managePageCheckForUpdates": "Sjekk etter oppdateringer",
+    "managePageCheckingForUpdates": "Sjekker for oppdateringer",
+    "managePageNoInternet": "Kan ikke nå server, kontroller internettilkoblingen eller prøv igjen senere.",
+    "managePageInstallingLabel": "Installerer ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageShowDetailsLabel": "Vis detaljer",
+    "managePageShowSystemSnapsLabel": "Vis system-snaps",
+    "managePagePackageTypeAll": "Alle",
+    "managePagePackageTypeSnap": "Snap",
+    "managePageUpdateAllLabel": "Oppdater alle",
+    "managePageDocumentationLinkLabel": "Lær hvordan å håndtere Debianpakker i dokumentasjonen.",
+    "productivityPageLabel": "Produktivitet"
+}

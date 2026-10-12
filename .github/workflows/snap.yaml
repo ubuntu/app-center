@@ -6,18 +6,66 @@ on:
       - main
   pull_request:
   workflow_dispatch:
+    inputs:
+      platforms:
+        description: 'Platforms to build the snap for'
+        type: choice
+        default: all
+        options:
+          - all
+          - amd64
+          - arm64
 
 jobs:
-  snap:
-    runs-on: ubuntu-22.04
+  matrix:
+    runs-on: ubuntu-24.04
+    outputs:
+      include: ${{ steps.set.outputs.include }}
     steps:
-      - uses: actions/checkout@v4
+      - id: set
+        shell: bash --noprofile --norc -euo pipefail {0}
+        env:
+          EVENT: ${{ github.event_name }}
+          PLATFORMS: ${{ inputs.platforms }}
+        run: |
+          if [[ "$EVENT" == workflow_dispatch ]]; then
+            platforms="${PLATFORMS:-all}"
+          else
+            # push/PR events only build amd64
+            platforms=amd64
+          fi
+          case "$platforms" in
+            all)
+              include='[{"platform":"amd64","runs-on":"ubuntu-24.04"},{"platform":"arm64","runs-on":"ubuntu-24.04-arm"}]'
+              ;;
+            amd64)
+              include='[{"platform":"amd64","runs-on":"ubuntu-24.04"}]'
+              ;;
+            arm64)
+              include='[{"platform":"arm64","runs-on":"ubuntu-24.04-arm"}]'
+              ;;
+            *)
+              echo "Unknown platforms value: $platforms" >&2
+              exit 1
+              ;;
+          esac
+          echo "include=$include" >> "$GITHUB_OUTPUT"
+
+  snap:
+    needs: matrix
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.matrix.outputs.include) }}
+    runs-on: ${{ matrix.runs-on }}
+    steps:
+      - uses: actions/checkout@v7
         with:
-          submodules: recursive
+          submodules: recursive      
       - uses: snapcore/action-build@v1
         id: snapcraft
       - uses: actions/upload-artifact@v4
         if: github.event_name == 'workflow_dispatch'
         with:
-          name: 'snap'
+          name: 'snap-${{ matrix.platform }}'
           path: ${{steps.snapcraft.outputs.snap}}
