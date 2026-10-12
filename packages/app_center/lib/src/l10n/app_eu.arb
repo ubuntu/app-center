@@ -459,7 +459,7 @@
     "driversPageUninstallWarningMessage": "Baliteke kontrolatzaileak errazki berrinstalatu ahal ez izatea, batez ere grafikoekin edo sarearekin lotuta badaude.",
     "driversPageUninstallAcknowledgeLabel": "Ulertzen dut arriskua",
     "appDetailsAdditionalInfoLabel": "Informazio gehigarria",
-    "appDetailsPackageFormatLabel": "Pakete formatua",
+    "appDetailsPackageFormatLabel": "Pakete-formatua",
     "appDetailsCategoryLabel": "Kategoria",
     "appDetailsInstallDateLabel": "Instalazio-data",
     "appDetailsNotInstalled": "Instalatu gabe",
@@ -470,5 +470,137 @@
     "addonsPageFirmwareDescription": "Eguneratu hardwarea errendimendua eta segurtasuna hobetzeko",
     "mediaSupportPageDescription": "Ubuntuk defektuz kode irekiko zenbait kodek dakartza berekin. Baina musika eta bideo formatu jakin batzuk erreproduzitu eta editatzeko software gehigarria instalatu beharko duzu.",
     "mediaSupportPageAdditionalMediaTitle": "Euskarrien sostengu gehigarria",
-    "mediaSupportPageInstallButton": "Instalatu"
+    "mediaSupportPageInstallButton": "Instalatu",
+    "managePageOpenAppSemanticLabel": "Ireki {appName}",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "Eguneratu {appName}",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppRestartRequiredSemanticLabel": "Eguneratu {appName}, berrabiarazi beharra dago osatzeko",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "Desinstalatu {appName}",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "Utzi {appName} aplikazioaren {action} bertan behera",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "Tamaina: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "{channel} kanala, {version} bertsioa",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "{channel} kanala, {version} bertsiotik {updateVersion}(e)ra",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "{version} bertsioa",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "{version} bertsiotik {updateVersion}(e)ra",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledSizeLabel": "Instalatutako tamaina",
+    "appDetailsChoosePackageFormatAction": "Aukeratu pakete-formatua…",
+    "appDetailsChoosePackageFormatTitle": "Aukeratu pakete-formatua",
+    "appDetailsPackageSourceLabel": "Jatorria",
+    "appDetailsVerifiedPublisherSemanticLabel": "Egiaztatutako argitaratzailea",
+    "appDetailsStarredPublisherSemanticLabel": "Izardun argitaratzailea",
+    "appDetailsPackageSourceSnapStore": "Snap biltegia",
+    "appDetailsPackageSourceUbuntuArchive": "Ubunturen artxiboa",
+    "appDetailsInstalledAsFormat": "Dagoeneko instalatua {format} formatuan",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "{first} eta {second} instalatuta daude",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Hainbat pakete-formatutan instalatua",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Desinstala ezazu beste pakete-formatu batean instalatu baino lehen. Aplikazioaren datuak ez dira formatuen artean partekatzen.} =2{Desinstala itzazu biak beste pakete-formatu batera aldatzeko. Aplikazioaren datuak ez dira formatuen artean partekatzen.} other{Desinstala itzazu beste pakete-formatu batera aldatzeko. Aplikazioaren datuak ez dira formatuen artean partekatzen.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "appDetailsPackageFormatsLearnMore": "Pakete-formatuei buruzko informazio gehiago"
 }
