@@ -490,11 +490,119 @@
             }
         }
     },
-    "managePageUpdateAppRestartRequiredSemanticLabel": "Zaktualizuj {appName}; do zakończenia wymagane jest ponowne uruchomienie.",
+    "managePageUpdateAppRestartRequiredSemanticLabel": "Zaktualizuj {appName}; do zakończenia wymagane jest ponowne uruchomienie",
     "@managePageUpdateAppRestartRequiredSemanticLabel": {
         "placeholders": {
             "appName": {
                 "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "Odinstaluj {appName}",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "Anuluj {action} dla {appName}",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "Rozmiar: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "Kanał {channel}, wersja {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "Kanał {channel}, wersja {version} do {updateVersion}",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "Wersja {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "Wersja {version} do {updateVersion}",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledSizeLabel": "Rozmiar po zainstalowaniu",
+    "appDetailsChoosePackageFormatAction": "Wybierz format pakietu…",
+    "appDetailsChoosePackageFormatTitle": "Wybierz format pakietu",
+    "appDetailsPackageSourceLabel": "Źródło",
+    "appDetailsVerifiedPublisherSemanticLabel": "Zweryfikowany wydawca",
+    "appDetailsStarredPublisherSemanticLabel": "Ulubiony wydawca",
+    "appDetailsPackageSourceSnapStore": "Snap Store",
+    "appDetailsPackageSourceUbuntuArchive": "Archiwum Ubuntu",
+    "appDetailsInstalledAsFormat": "Już zainstalowano jako {format}",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "{first} i {second} są zainstalowane",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Zainstalowane jako różne formaty pakietów",
+    "appDetailsPackageFormatsLearnMore": "Dowiedz się więcej o formatach pakietów",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Odinstaluj go przed zainstalowaniem innego formatu pakietu. Dane programów nie są współdzielone między formatami.} =2{Odinstaluj oba, aby przełączyć się na inny format. Dane programów nie są współdzielone między formatami.} other{Odinstaluj je, aby przełączyć się na inny format. Dane programów nie są współdzielone między formatami.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
             }
         }
     }
