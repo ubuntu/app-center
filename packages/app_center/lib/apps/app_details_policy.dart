@@ -474,6 +474,13 @@ class _Composer {
                 label: target.label,
                 isInstalled: target.isInstalled,
                 version: FieldState.fromNullable(target.candidate?.version),
+                size:
+                    target.candidate?.size ??
+                    FieldState<ByteSize>.unavailable(),
+                releaseDate:
+                    target.candidate?.releaseDate ??
+                    FieldState<DateTime>.unavailable(),
+                confinement: target.candidate?.confinement,
                 action: target.isInstalled
                     ? _uninstall(key, snapshot)
                     : _install(key, snapshot, target),

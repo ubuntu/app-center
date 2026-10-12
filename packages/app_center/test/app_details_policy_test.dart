@@ -580,6 +580,14 @@ void main() {
       expect(beta.command?.targetId, 'latest/beta');
     });
 
+    test('targets carry the release of their channel', () {
+      final beta = _compose(snap: _snap()).state.targets.single.options.last;
+      expect(beta.label, 'latest/beta');
+      expect(beta.version.valueOrNull, '4.0-beta');
+      expect(beta.size.valueOrNull?.bytes, 70);
+      expect(beta.confinement, AppConfinement.classic);
+    });
+
     test('uninstall target shares the main uninstall action', () {
       final state = _compose(deb: _deb(_installed)).state;
       expect(

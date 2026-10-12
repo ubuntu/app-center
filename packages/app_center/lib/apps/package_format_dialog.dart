@@ -8,10 +8,14 @@ import 'package:app_center/constants.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
+import 'package:app_center/widgets/channel_dropdown.dart';
 import 'package:app_center/widgets/hyperlink_text.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru/yaru.dart';
+
+const _kChannelDropdownWidth = 220.0;
 
 Future<void> showPackageFormatDialog(
   BuildContext context,
@@ -111,11 +115,18 @@ class _HorizontalScrollViewState extends State<_HorizontalScrollView> {
   );
 }
 
-class _FormatTable extends ConsumerWidget {
+class _FormatTable extends ConsumerStatefulWidget {
   const _FormatTable({required this.entry, required this.state});
 
   final AppDetailsEntry entry;
   final AppDetailsViewState state;
+
+  @override
+  ConsumerState<_FormatTable> createState() => _FormatTableState();
+}
+
+class _FormatTableState extends ConsumerState<_FormatTable> {
+  final _selectedChannels = <String, String>{};
 
   Widget _cell(Widget child) =>
       Padding(padding: const EdgeInsets.all(kSpacing), child: child);
@@ -132,16 +143,16 @@ class _FormatTable extends ConsumerWidget {
   Widget _action(
     AppLocalizations l10n,
     AppDetailsModel model,
-    FormatOption option,
+    String sourceId,
+    ActionDescriptor? action,
   ) {
-    final operation = state.operation;
-    if (operation != null && operation.sourceId == option.sourceId) {
+    final operation = widget.state.operation;
+    if (operation != null && operation.sourceId == sourceId) {
       return OutlinedButton(
         onPressed: null,
         child: Text(operation.kind.localize(l10n)),
       );
     }
-    final action = option.action;
     if (action == null) return const SizedBox.shrink();
     return OutlinedButton(
       onPressed: action.enabled
@@ -151,11 +162,36 @@ class _FormatTable extends ConsumerWidget {
     );
   }
 
+  Widget _channel(FormatOption option, List<TargetOption> channels) {
+    if (option.format != PackageFormat.snap || channels.length < 2) {
+      return _text(option.channel);
+    }
+    final selected = _selectedChannels[option.sourceId] ?? option.channel;
+    return _cell(
+      ChannelDropdown(
+        width: _kChannelDropdownWidth,
+        channels: [
+          for (final channel in channels)
+            ChannelDropdownItem(
+              name: channel.label,
+              version: channel.version.valueOrNull,
+              releasedAt: channel.releaseDate.valueOrNull,
+            ),
+        ],
+        selected: selected,
+        label: selected ?? kMissingValue,
+        onSelected: (value) =>
+            setState(() => _selectedChannels[option.sourceId] = value),
+      ),
+    );
+  }
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final model = ref.read(appDetailsModelProvider(entry).notifier);
+    final state = widget.state;
+    final model = ref.read(appDetailsModelProvider(widget.entry).notifier);
 
     return Table(
       defaultColumnWidth: const IntrinsicColumnWidth(),
@@ -178,64 +214,98 @@ class _FormatTable extends ConsumerWidget {
           ],
         ),
         for (final option in state.formats)
-          TableRow(
-            key: ValueKey(option.sourceId),
+          _row(context, l10n, theme, model, option),
+      ],
+    );
+  }
+
+  TableRow _row(
+    BuildContext context,
+    AppLocalizations l10n,
+    ThemeData theme,
+    AppDetailsModel model,
+    FormatOption option,
+  ) {
+    final channels =
+        widget.state.targets
+            .firstWhereOrNull((group) => group.sourceId == option.sourceId)
+            ?.options ??
+        const <TargetOption>[];
+    final selected = _selectedChannels[option.sourceId];
+    // Rows show the default release until another channel is picked.
+    final target = selected == null || selected == option.channel
+        ? null
+        : channels.firstWhereOrNull((channel) => channel.label == selected);
+    final version = (target?.version ?? option.version).valueOrNull;
+    final confinement = target != null
+        ? target.confinement
+        : option.confinement.valueOrNull;
+    final releaseDate = (target?.releaseDate ?? option.releaseDate).valueOrNull;
+    final size = (target?.size ?? option.size).valueOrNull;
+
+    return TableRow(
+      key: ValueKey(option.sourceId),
+      children: [
+        _cell(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              _cell(
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      option.format.localize(l10n),
-                      style: const TextStyle(fontWeight: FontWeight.w500),
-                    ),
-                    if (option.installState == InstallState.installed)
-                      Text(
-                        l10n.snapActionInstalledLabel,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.success,
-                        ),
-                      ),
-                  ],
-                ),
+              Text(
+                option.format.localize(l10n),
+                style: const TextStyle(fontWeight: FontWeight.w500),
               ),
-              _cell(_PublisherLabel(option.publisher.valueOrNull)),
-              _text(switch (option.format) {
-                PackageFormat.snap => l10n.appDetailsPackageSourceSnapStore,
-                PackageFormat.deb => l10n.appDetailsPackageSourceUbuntuArchive,
-              }),
-              _text(option.channel),
-              _cell(
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 150),
-                  child: Tooltip(
-                    message: option.version.valueOrNull ?? '',
-                    child: Text(
-                      option.version.valueOrNull ?? kMissingValue,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+              if (option.installState == InstallState.installed)
+                Text(
+                  l10n.snapActionInstalledLabel,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.success,
                   ),
                 ),
-              ),
-              _cell(
-                switch (option.confinement.valueOrNull) {
-                  final confinement? => ConfinementLabel(confinement),
-                  null => const Text(kMissingValue),
-                },
-              ),
-              _text(switch (option.releaseDate.valueOrNull) {
-                final date? => formatAppDate(date),
-                null => null,
-              }),
-              _text(switch (option.size.valueOrNull) {
-                final size? => context.formatByteSize(size.bytes),
-                null => null,
-              }),
-              _cell(_action(l10n, model, option)),
             ],
           ),
+        ),
+        _cell(_PublisherLabel(option.publisher.valueOrNull)),
+        _text(switch (option.format) {
+          PackageFormat.snap => l10n.appDetailsPackageSourceSnapStore,
+          PackageFormat.deb => l10n.appDetailsPackageSourceUbuntuArchive,
+        }),
+        _channel(option, channels),
+        _cell(
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 150),
+            child: Tooltip(
+              message: version ?? '',
+              child: Text(
+                version ?? kMissingValue,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+        ),
+        _cell(
+          switch (confinement) {
+            final confinement? => ConfinementLabel(confinement),
+            null => const Text(kMissingValue),
+          },
+        ),
+        _text(switch (releaseDate) {
+          final date? => formatAppDate(date),
+          null => null,
+        }),
+        _text(switch (size) {
+          final size? => context.formatByteSize(size.bytes),
+          null => null,
+        }),
+        _cell(
+          _action(
+            l10n,
+            model,
+            option.sourceId,
+            target != null ? target.action : option.action,
+          ),
+        ),
       ],
     );
   }
