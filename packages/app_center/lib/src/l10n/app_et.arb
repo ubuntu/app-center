@@ -480,5 +480,137 @@
     "appDetailsNotInstalled": "Pole paigaldatud",
     "appDetailsNotAvailable": "Pole saadaval",
     "addonsPageFirmwareTitle": "Püsivara",
-    "addonsPageFirmwareDescription": "Parema jõudluse ja turvalisuse nimel saad püsivara uuendada"
+    "addonsPageFirmwareDescription": "Parema jõudluse ja turvalisuse nimel saad püsivara uuendada",
+    "managePageOpenAppSemanticLabel": "Ava rakendus {appName}",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "Uuenda rakendust {appName}",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "Eemalda rakendus {appName}",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "Maht: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "kanal: {channel}, versioon {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "Versioon: {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "Versioon: {version} → {updateVersion}",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledSizeLabel": "Paigaldatud maht",
+    "appDetailsChoosePackageFormatAction": "Vali paketi vorming…",
+    "appDetailsChoosePackageFormatTitle": "Vali paketi vorming",
+    "appDetailsPackageSourceLabel": "Allikas",
+    "appDetailsVerifiedPublisherSemanticLabel": "Kontrollitud avaldaja",
+    "appDetailsStarredPublisherSemanticLabel": "Tärniga märgitud avaldaja",
+    "appDetailsPackageSourceSnapStore": "Snap-pakettide rakendustepood",
+    "appDetailsPackageSourceUbuntuArchive": "Ubuntu arhiiv",
+    "appDetailsInstalledAsFormat": "Juba on paigaldatud vormingus: {format}",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "Paigaldatud vormingud: {first} ja {second}",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Paigaldatud mitme paketina",
+    "appDetailsPackageFormatsLearnMore": "Loe lisaks pakettide vormingute kohta",
+    "managePageUpdateAppRestartRequiredSemanticLabel": "Uuenda rakendust {appName}, lõpetamiseks on vajalik uuesti käivitamine",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "{appName} - katkesta tegevus: {action}",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "kanal: {channel}, versioon {version} → {updateVersion}",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Enne muu paketivormingu kasutamist, eemalda selles vormingus pakett. Rakenduse andmeid ei jagata vormingute vahel.} =2{Enne muude paketivormingute kasutamist, eemalda mõlemad antud vormingutes paketid. Rakenduste andmeid ei jagata vormingute vahel.} other{Enne muu paketivormingu kasutamist, eemalda need paketid. Rakenduste andmeid ei jagata vormingute vahel.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    }
 }
