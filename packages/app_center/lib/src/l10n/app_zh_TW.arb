@@ -405,5 +405,73 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "appDetailsAdditionalInfoLabel": "其他資訊",
+    "appDetailsPackageFormatLabel": "軟體包格式",
+    "appDetailsCategoryLabel": "類別",
+    "appDetailsInstallDateLabel": "安裝日期",
+    "appDetailsNotInstalled": "尚未安裝",
+    "appDetailsNotAvailable": "暫無",
+    "addonsPageLabel": "附加元件",
+    "addonsPageAdditionalDriversDescription": "加強對顯示卡及其他硬體的支援",
+    "addonsPageAdditionalDriversTitle": "額外的驅動程式",
+    "addonsPageMediaSupportTitle": "媒體支援",
+    "addonsPageMediaSupportDescription": "安裝額外的軟體以支援更多媒體格式",
+    "addonsPageFirmwareTitle": "韌體",
+    "addonsPageFirmwareDescription": "更新硬體以提升效能與安全性",
+    "mediaSupportPageDescription": "Ubuntu 預設已內建了一些開源解碼器。若要播放或編輯某些音樂及影片格式，您可能需要安裝額外的軟體。",
+    "mediaSupportPageAdditionalMediaTitle": "額外的媒體支援",
+    "mediaSupportPageInstallButton": "安裝",
+    "driversPageDescription": "專有驅動程式包含私有程式碼，Ubuntu 開發人員無法審查或改進。安全性及其他更新皆取決於驅動程式供應商。",
+    "driversPageSectionUpdateAvailable": "有更新可用",
+    "driversPageSectionAvailable": "可用的",
+    "driversPageSectionInstalled": "已安裝",
+    "driversPageSectionUnsupported": "沒有可用的驅動程式",
+    "driversPageNoPackagesMessage": "沒有軟體包提供此裝置的驅動程式",
+    "driversPageDeviceClassGraphics": "圖形",
+    "driversPageDeviceClassNetwork": "網路",
+    "driversPageDeviceClassCamera": "相機",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "儲存",
+    "driversPageDeviceClassAudio": "音訊",
+    "driversPageDeviceClassOther": "其他",
+    "driversPageBranchProduction": "製作",
+    "driversPageBranchLts": "長期支援",
+    "driversPageBranchNewFeature": "新功能",
+    "driversPageVersionLabel": "版本 {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "需要重啟",
+    "driversPageRestartRequiredMessage": "請重新啟動電腦，以完成驅動程式變更的套用。",
+    "driversPageErrorLabel": "錯誤",
+    "driversPageRetryLabel": "重試",
+    "driversPageNoDriversFoundMessage": "使用內建驅動程式。未找到其他驅動程式。",
+    "driversPageUnavailableTitle": "驅動程式管理不可用",
+    "driversPageUnsupportedMessage": "驅動程式管理服務無法使用。請確認 snapd 已更新至最新版本，並已安裝 ubuntu-drivers-common。",
+    "driversPageSwitchBranchLabel": "切換分支",
+    "driversPageSwitchBranchTitle": "切換分支",
+    "driversPageSwitchBranchProductionDescription": "兼顧功能與穩定性",
+    "driversPageSwitchBranchLtsDescription": "為關鍵工作負載提供最高穩定性",
+    "driversPageSwitchBranchNewFeatureDescription": "預覽，穩定性較低",
+    "driversPageSwitchBranchRecommendedLabel": "{branch}（建議）",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "這個分支的穩定性較低",
+    "driversPageSwitchBranchLessStableWarningMessage": "請維持在目前分支，以避免此裝置出現問題。",
+    "driversPageSwitchLabel": "切換",
+    "driversPageSwitchingBranchLabel": "切換分支",
+    "driversPageUninstallTitle": "解除安裝驅動程式",
+    "driversPageUninstallWarningTitle": "解除安裝驅動程式可能會導致問題",
+    "driversPageUninstallWarningMessage": "您可能無法輕易重新安裝驅動程式，尤其是與顯示卡或網路相關的驅動程式。",
+    "driversPageUninstallAcknowledgeLabel": "我明白其中的風險"
 }
