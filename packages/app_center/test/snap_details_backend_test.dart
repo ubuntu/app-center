@@ -409,6 +409,31 @@ void main() {
       );
     });
 
+    test('snapd errors are reported to the error dialog', () async {
+      // ignore: close_sinks
+      final errors = registerMockErrorStreamControllerService();
+      final service = registerMockSnapdService(storeSnap: _storeSnap);
+      final error = SnapdException(message: 'offline', kind: 'network-timeout');
+      when(
+        service.install(
+          any,
+          channel: anyNamed('channel'),
+          classic: anyNamed('classic'),
+        ),
+      ).thenThrow(error);
+      final container = createContainer();
+
+      expect(
+        await execute(
+          container,
+          OperationKind.install,
+          targetId: 'latest/stable',
+        ),
+        OperationOutcome.failed,
+      );
+      verify(errors.add(error)).called(1);
+    });
+
     test('failed change is a failure', () async {
       final service = registerMockSnapdService(storeSnap: _storeSnap);
       when(service.watchChange(any)).thenAnswer(
