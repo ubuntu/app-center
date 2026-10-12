@@ -88,28 +88,29 @@ class AppCard extends StatelessWidget {
       '$summary.',
     ].nonNulls.join(' ');
 
-    return MergeSemantics(
-      child: Semantics(
-        button: true,
-        label: cardLabel,
-        child: YaruBanner(
-          padding: const EdgeInsets.all(kCardSpacing),
-          onTap: onTap,
-          child: Flex(
-            direction: compact ? Axis.vertical : Axis.horizontal,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              iconWidget ?? AppIcon(iconUrl: iconUrl),
-              const SizedBox(width: kCardSpacing, height: kCardSpacing),
-              Expanded(
-                child: _AppCardBody(
-                  title: title,
-                  summary: summary,
-                  footer: footer,
-                ),
+    return Semantics(
+      label: cardLabel,
+      button: onTap != null,
+      onTap: onTap,
+      child: YaruBanner(
+        padding: const EdgeInsets.all(kCardSpacing),
+        onTap: onTap,
+        child: Flex(
+          direction: compact ? Axis.vertical : Axis.horizontal,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ExcludeSemantics(
+              child: iconWidget ?? AppIcon(iconUrl: iconUrl),
+            ),
+            const SizedBox(width: kCardSpacing, height: kCardSpacing),
+            Expanded(
+              child: _AppCardBody(
+                title: title,
+                summary: summary,
+                footer: footer,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
