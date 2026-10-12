@@ -473,5 +473,29 @@
     "appDetailsNotInstalled": "Nie zainstalowano",
     "appDetailsNotAvailable": "Niedostępne",
     "addonsPageFirmwareDescription": "Zaktualizuj sprzęt, aby poprawić wydajność i bezpieczeństwo",
-    "addonsPageFirmwareTitle": "Oprogramowanie sprzętowe"
+    "addonsPageFirmwareTitle": "Oprogramowanie sprzętowe",
+    "managePageOpenAppSemanticLabel": "Otwórz {appName}",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "Zaktualizuj {appName}",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppRestartRequiredSemanticLabel": "Zaktualizuj {appName}; do zakończenia wymagane jest ponowne uruchomienie.",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }
