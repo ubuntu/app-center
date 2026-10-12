@@ -77,7 +77,7 @@
     "snapActionRemoveLabel": "Malinstali",
     "appstreamUrlTypeHelp": "Helpo",
     "snapCategoryPersonalisation": "Tajlorado",
-    "aboutPagePublishLabel": "Eldoni ĉe Snap Store",
+    "aboutPagePublishLabel": "Eldoni ĉe Snap-Vendejo",
     "aboutPageContributorTitle": "Dezajnita kaj programita de:",
     "managePageInstalledAndUpdatedLabel": "Instalitaj programoj",
     "appstreamUrlTypeHomepage": "Retejo",
@@ -154,7 +154,7 @@
         }
     },
     "snapSortOrderDownloadSizeAsc": "Laŭ grando (de malgranda ĝis granda)",
-    "unknownPublisher": "Nekonata eldonejo",
+    "unknownPublisher": "Nekonata eldonanto",
     "snapCategoryUbuntuDesktopSlogan": "Startigu vian labortablon",
     "snapActionUpdatingLabel": "Ĝisdatigante",
     "searchPageRelevanceLabel": "Rilateco",
@@ -205,7 +205,7 @@
     "installAll": "Instali ĉiujn",
     "snapPageShareLinkCopiedMessage": "Ligilo kopiita al tondujo",
     "snapReportSelectReportReasonLabel": "Elektu kialon por raporti ĉi tiun programon",
-    "snapReportOptionStoreViolation": "Malobservo de la uzokondiĉoj de Snap Store",
+    "snapReportOptionStoreViolation": "Malobservo de la uzokondiĉoj de Snap-Vendejo",
     "externalResourcesDisclaimer": "Notu: jen eksteraj ilaĵoj ne posedataj nek distribuataj de Canonical.",
     "gamesPageBundles": "Programfaskoj",
     "snapCategoryKdeGamesSlogan": "Ludoj por KDE",
@@ -460,5 +460,150 @@
     "addonsPageAdditionalDriversDescription": "Plibonigi subtenon por grafikkartoj kaj aliaj aparatoj",
     "driversPageDescription": "Nelibera zorgilo havas privatan kodon ne revizieblan nek plibonigebla de la programistoj de Ubuntu. La vendisto de la zorgilo respondecas pri sekurigaj kaj aliaj ĝisdatigoj.",
     "driversPageBranchProduction": "Produktado",
-    "driversPageSwitchBranchNewFeatureDescription": "Beta-versio malpli stabila"
+    "driversPageSwitchBranchNewFeatureDescription": "Beta-versio malpli stabila",
+    "managePageOpenAppSemanticLabel": "Malfermi {appName}",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "Ĝisdatigi {appName}",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "Malinstali {appName}",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "Grando: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "kanalo {channel}, versio {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "kanalo {channel}, versio de {version} al {updateVersion}",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "Versio {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "Versio de {version} al {updateVersion}",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsAdditionalInfoLabel": "Pliaj informoj",
+    "appDetailsCategoryLabel": "Kategorio",
+    "appDetailsInstallDateLabel": "Dato de instalo",
+    "appDetailsInstalledSizeLabel": "Grando de instalo",
+    "appDetailsNotInstalled": "Ne instalita",
+    "appDetailsNotAvailable": "Ne havebla",
+    "appDetailsPackageSourceLabel": "Fonto",
+    "mediaSupportPageInstallButton": "Instali",
+    "appDetailsPackageSourceUbuntuArchive": "Ubuntu-arĥivo",
+    "appDetailsInstalledAsFormat": "Jam instalita kiel {format}",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsPackageSourceSnapStore": "Snap-Vendejo",
+    "appDetailsInstalledAsTwoFormats": "Kaj {first} kaj {second} estas instalitaj",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Instalita kiel pluraj pakformoj",
+    "appDetailsPackageFormatLabel": "Pakformo",
+    "appDetailsChoosePackageFormatAction": "Elektu pakformon…",
+    "appDetailsChoosePackageFormatTitle": "Elektu pakformon",
+    "appDetailsVerifiedPublisherSemanticLabel": "Konfirmita eldonanto",
+    "appDetailsStarredPublisherSemanticLabel": "Elstara eldonanto",
+    "addonsPageFirmwareTitle": "Mikroprogramoj",
+    "appDetailsPackageFormatsLearnMore": "Lerni pli pri pakformoj",
+    "addonsPageMediaSupportTitle": "Subteno de aŭdvidaĵoj",
+    "addonsPageMediaSupportDescription": "Instali pliajn programojn por subteni pliajn aŭdvidajn dosierformojn",
+    "addonsPageFirmwareDescription": "Ĝisdatigi aparatajn mikroprogramojn por pliigi rendimenton kaj sekurecon",
+    "managePageUpdateAppRestartRequiredSemanticLabel": "Ĝisdatigi {appName} (postulas restarton por efektivigi)",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "Nuligi je {action} pri {appName}",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaSupportPageAdditionalMediaTitle": "Subteno de pliaj aŭdvidaĵoj",
+    "mediaSupportPageDescription": "Ubuntu instaliĝas apriore kun kelkaj malfermitkodaj programoj por aŭdvidaĵoj. Eble pliaj programoj necesas por spekti aŭ modifi kelkajn aŭdvidajn dosierformojn.",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Malinstalu ĝin antaŭ ol reinstali ĝin aliforme. Programaj datenoj ne estas komunaj inter formoj.} =2{Malinstalu ambaŭ por ŝanĝi al alia formo. Programaj datenoj ne estas komunaj inter formoj.} other{Malinstalu ilin por ŝanĝi al alia formo. Programaj datenoj ne estas komunaj inter formoj.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    }
 }
