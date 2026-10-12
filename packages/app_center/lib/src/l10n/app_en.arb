@@ -224,6 +224,8 @@
     "appDetailsChoosePackageFormatAction": "Choose package format…",
     "appDetailsChoosePackageFormatTitle": "Choose package format",
     "appDetailsPackageSourceLabel": "Source",
+    "appDetailsVerifiedPublisherSemanticLabel": "Verified publisher",
+    "appDetailsStarredPublisherSemanticLabel": "Starred publisher",
     "appDetailsPackageSourceSnapStore": "Snap Store",
     "appDetailsPackageSourceUbuntuArchive": "Ubuntu archive",
     "appDetailsInstalledAsFormat": "Already installed as {format}",

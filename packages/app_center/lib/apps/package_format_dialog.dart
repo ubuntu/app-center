@@ -274,6 +274,9 @@ class _PublisherLabel extends StatelessWidget {
               padding: const EdgeInsetsDirectional.only(start: 4),
               child: Icon(
                 verified ? Icons.verified : Icons.stars,
+                semanticLabel: verified
+                    ? l10n.appDetailsVerifiedPublisherSemanticLabel
+                    : l10n.appDetailsStarredPublisherSemanticLabel,
                 size: 14,
                 color: MediaQuery.highContrastOf(context)
                     ? theme.hintColor
