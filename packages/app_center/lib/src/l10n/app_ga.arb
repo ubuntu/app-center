@@ -480,5 +480,137 @@
     "driversPageUninstallWarningMessage": "B’fhéidir nach mbeidh tú in ann na tiománaithe a athshuiteáil go héasca, go háirithe má bhaineann siad le grafaicí nó leis an líonra.",
     "driversPageUninstallAcknowledgeLabel": "Tuigim an riosca",
     "addonsPageFirmwareTitle": "Dochtearraí",
-    "addonsPageFirmwareDescription": "Nuashonraigh crua-earraí le haghaidh feidhmíocht agus slándáil níos fearr"
+    "addonsPageFirmwareDescription": "Nuashonraigh crua-earraí le haghaidh feidhmíocht agus slándáil níos fearr",
+    "managePageOpenAppSemanticLabel": "Oscail {appName}",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "Nuashonraigh {appName}",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppRestartRequiredSemanticLabel": "Nuashonraigh {appName}; teastaíonn atosú chun é a chríochnú",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "Díshuiteáil {appName}",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "Cealaigh {action} do {appName}",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "Cainéal {channel}, leagan {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "Cainéal {channel}, leagan {version} go {updateVersion}",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "Leagan {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "Leagan {version} go {updateVersion}",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledSizeLabel": "Méid suiteáilte",
+    "appDetailsChoosePackageFormatAction": "Roghnaigh formáid an phacáiste…",
+    "appDetailsChoosePackageFormatTitle": "Roghnaigh formáid an phacáiste",
+    "appDetailsPackageSourceLabel": "Foinse",
+    "appDetailsVerifiedPublisherSemanticLabel": "Foilsitheoir fíoraithe",
+    "appDetailsStarredPublisherSemanticLabel": "Foilsitheoir le réalta",
+    "appDetailsPackageSourceSnapStore": "Siopa Snap",
+    "appDetailsPackageSourceUbuntuArchive": "Cartlann Ubuntu",
+    "appDetailsInstalledAsFormat": "Suiteáilte cheana féin mar {format}",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "Tá {first} agus {second} araon suiteáilte",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Suiteáilte i bhfoirmeacha ilphacáiste",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Díshuiteáil é sula suiteálann tú formáid phacáiste dhifriúil. Ní roinntear sonraí aipeanna idir formáidí.} =2{Díshuiteáil an dá cheann chun aistriú go formáid dhifriúil. Ní roinntear sonraí aipeanna idir formáidí.} other{Díshuiteáil iad chun aistriú go formáid dhifriúil. Ní roinntear sonraí aipeanna idir formáidí.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "appDetailsPackageFormatsLearnMore": "Faigh tuilleadh eolais faoi fhormáidí pacáiste",
+    "managePageInstalledSizeSemanticLabel": "Méid: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    }
 }
