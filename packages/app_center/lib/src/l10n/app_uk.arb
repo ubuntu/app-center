@@ -473,5 +473,137 @@
     "appDetailsNotInstalled": "Не встановлено",
     "appDetailsNotAvailable": "Не доступно",
     "addonsPageFirmwareTitle": "Прошивка",
-    "addonsPageFirmwareDescription": "Оновіть апаратне забезпечення для поліпшення швидкодії та безпеки"
+    "addonsPageFirmwareDescription": "Оновіть апаратне забезпечення для поліпшення швидкодії та безпеки",
+    "managePageOpenAppSemanticLabel": "Відкрити {appName}",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "Оновити {appName}",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppRestartRequiredSemanticLabel": "Оновлення {appName}, для завершення потрібно перезапустити програму",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "Видалити {appName}",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "Скасувати {action} для {appName}",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "Розмір: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "{channel} канал, версія {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "{channel} канал, версія {version} до {updateVersion}",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "Версія {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "Версія {version} до {updateVersion}",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledSizeLabel": "Розмір встановлення",
+    "appDetailsChoosePackageFormatAction": "Виберіть формат пакета…",
+    "appDetailsChoosePackageFormatTitle": "Виберіть формат пакета",
+    "appDetailsPackageSourceLabel": "Джерело",
+    "appDetailsVerifiedPublisherSemanticLabel": "Перевірений видавець",
+    "appDetailsStarredPublisherSemanticLabel": "Видавець, відзначений зірочкою",
+    "appDetailsPackageSourceSnapStore": "Магазин Snap",
+    "appDetailsPackageSourceUbuntuArchive": "Архів Ubuntu",
+    "appDetailsInstalledAsFormat": "Вже встановлено як {format}",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "{first} і {second} обидва встановлені",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Встановлюється у вигляді декількох форматів пакетів",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Видаліть його перед встановленням іншого формату пакета. Дані застосунку не передаються між форматами.} =2{Видаліть обидва, щоб перейти на інший формат. Дані застосунку не передаються між форматами.} other{Видаліть їх, щоб перейти на інший формат. Дані застосунку не передаються між форматами.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "appDetailsPackageFormatsLearnMore": "Дізнайтеся більше про формати пакета"
 }
