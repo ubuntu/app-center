@@ -434,7 +434,7 @@
         }
     },
     "driversPageRestartRequiredTitle": "Vyžaduje sa reštart",
-    "driversPageRestartRequiredMessage": "Reštartujte počítač na dokončenie inštalácie ovládačov.",
+    "driversPageRestartRequiredMessage": "Reštartujte počítač, aby sa prejavili zmeny v ovládačoch.",
     "driversPageErrorLabel": "Chyba",
     "driversPageRetryLabel": "Skúsiť znova",
     "driversPageNoDriversFoundMessage": "Používajú sa zabudované ovládače. Nenašli sa žiadne ďalšie ovládače.",
