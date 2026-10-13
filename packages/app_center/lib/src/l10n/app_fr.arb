@@ -413,7 +413,7 @@
     "driversPageSectionUpdateAvailable": "Mise à jour disponible",
     "driversPageSectionAvailable": "Disponible",
     "driversPageSectionInstalled": "Installé",
-    "driversPageSectionUnsupported": "Pas de pilote disponible",
+    "driversPageSectionUnsupported": "Pas de pilotes disponibles",
     "driversPageDeviceClassNetwork": "Réseau(x)",
     "driversPageDeviceClassCamera": "Caméra",
     "driversPageDeviceClassUsb": "USB",
