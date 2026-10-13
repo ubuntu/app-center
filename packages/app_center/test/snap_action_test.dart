@@ -68,5 +68,31 @@ void main() {
       final callback = SnapAction.revert.callback(snapData, model);
       expect(callback, isNull);
     });
+
+    test('update callback is null without a store snap', () async {
+      final container = createContainer();
+      registerMockSnapdService(localSnap: createSnap(name: 'test'));
+      final model = container.read(snapModelProvider('test').notifier);
+      final snapData = SnapData(
+        name: 'test',
+        localSnap: createSnap(name: 'test'),
+        storeSnap: null,
+      );
+
+      expect(SnapAction.update.callback(snapData, model), isNull);
+    });
+
+    test('update callback is available with a store snap', () async {
+      final container = createContainer();
+      registerMockSnapdService(storeSnap: createSnap(name: 'test'));
+      final model = container.read(snapModelProvider('test').notifier);
+      final snapData = SnapData(
+        name: 'test',
+        localSnap: null,
+        storeSnap: createSnap(name: 'test'),
+      );
+
+      expect(SnapAction.update.callback(snapData, model), isNotNull);
+    });
   });
 }
