@@ -33,7 +33,7 @@
     "snapActionInstallLabel": "Installér",
     "snapPageLicenseLabel": "Licens",
     "snapCategoryPhotoAndVideo": "Foto og video",
-    "snapPageConfinementLabel": "Isolering",
+    "snapPageConfinementLabel": "Tilladelser",
     "snapCategoryMusicAndAudio": "Musik og lyd",
     "aboutPageGitHubLabel": "Find os på GitHub",
     "packageFormatSnapLabel": "Snap-pakker",
@@ -41,7 +41,7 @@
     "snapActionInstallingLabel": "Installerer",
     "searchFieldSearchHint": "Søg efter programmer",
     "snapCategoryFeatured": "Udvalgte",
-    "managePageSearchFieldSearchHint": "Søg i dine installerede programmer",
+    "managePageSearchFieldSearchHint": "Søg i dine installerede Apps",
     "snapActionCancelLabel": "Annullér",
     "snapPagePublisherLabel": "Udgiver",
     "snapPageDescriptionLabel": "Beskrivelse",
@@ -59,12 +59,12 @@
     },
     "snapPageDeveloperWebsiteLabel": "Udviklerwebsted",
     "snapPageDownloadSizeLabel": "Downloadstørrelse",
-    "snapPagePublishedLabel": "Udgivet",
+    "snapPagePublishedLabel": "Senest opdateret",
     "snapPageShareLinkCopiedMessage": "Link kopieret til udklipsholder",
     "explorePageCategoriesLabel": "Kategorier",
     "managePageCheckingForUpdates": "Kontrollerer, om der er opdateringer",
     "managePageDescription": "Led efter opdateringer, opdatér dine programmer, og håndtér status for alle dine programmer.",
-    "managePageInstalledAndUpdatedLabel": "Installeret og opdateret",
+    "managePageInstalledAndUpdatedLabel": "Installererede Apps",
     "managePageNoUpdatesAvailableDescription": "Der er ingen tilgængelige opdateringer. Alle dine programmer er opdateret.",
     "managePageShowDetailsLabel": "Vis detaljer",
     "managePageShowSystemSnapsLabel": "Vis systemsnapper",
@@ -78,8 +78,8 @@
         }
     },
     "managePageUpdatesAvailable": "Opdateringer er tilgængelige ({n})",
-    "gamesPageTitle": "Populære",
-    "gamesPageTop": "Populære spil",
+    "gamesPageTitle": "Spil",
+    "gamesPageTop": "Top Rangeret",
     "gamesPageFeatured": "Fremhævede titler",
     "gamesPageBundles": "Programpakker",
     "unknownPublisher": "Ukendt udgiver",
@@ -294,6 +294,116 @@
         "placeholders": {
             "n": {
                 "type": "int"
+            }
+        }
+    },
+    "snapPageGalleryNextSemanticLabel": "Næste billede",
+    "snapPageGalleryPreviousSemanticLabel": "forrige billede",
+    "snapPageShareSemanticLabel": "Kopier link",
+    "snapPageReportSemanticLabel": "Raport",
+    "sectionExpandSemanticLabel": "Udvid {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "managePagePackageTypeLabel": "Pakke type",
+    "managePagePackageTypeAll": "Alle",
+    "managePagePackageTypeSnap": "Snap",
+    "managePageOpenAppSemanticLabel": "Åben {appName}",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "Opdater {appName}",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppRestartRequiredSemanticLabel": "Opdater {appName}, genstart påkrævet for at fuldføre",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "Afinstaller {appName}",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "Annuller {action} af {appName}",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "Størrelse: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "{channel} kanal, version {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "{channel} kanal, version {version} til {updateVersion}",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "Version {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "Version {version} til {updateVersion}",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
             }
         }
     }
