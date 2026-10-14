@@ -206,6 +206,10 @@ abstract class TargetOption with _$TargetOption {
     required String label,
     required bool isInstalled,
     required FieldState<String> version,
+    @Default(FieldState<ByteSize>.unavailable()) FieldState<ByteSize> size,
+    @Default(FieldState<DateTime>.unavailable())
+    FieldState<DateTime> releaseDate,
+    AppConfinement? confinement,
     ActionDescriptor? action,
   }) = _TargetOption;
 }

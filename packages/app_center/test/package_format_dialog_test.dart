@@ -26,6 +26,7 @@ void main() {
     WidgetTester tester, {
     required PackageSourceSnapshot snap,
     required PackageSourceSnapshot deb,
+    bool hasDeb = true,
   }) async {
     await tester.pumpWidget(
       ProviderScope(
@@ -36,7 +37,7 @@ void main() {
           }),
           appDetailsIdentityProvider(
             _entry,
-          ).overrideWith((ref) async => createResolvedIdentity()),
+          ).overrideWith((ref) async => createResolvedIdentity(deb: hasDeb)),
           appDetailsRatingsProvider(
             'testsnap',
           ).overrideWith((ref) => const AsyncData(null)),
@@ -119,6 +120,23 @@ void main() {
     expect(backend.executed, isEmpty);
   });
 
+  testWidgets('does not warn when the only format is installed', (
+    tester,
+  ) async {
+    await pumpDialog(
+      tester,
+      snap: createSourceSnapshot(
+        testSnapKey,
+        installState: InstallState.installed,
+      ),
+      deb: createSourceSnapshot(testDebKey),
+      hasDeb: false,
+    );
+
+    expect(find.text(tester.l10n.snapActionRemoveLabel), findsOneWidget);
+    expect(find.byType(YaruInfoBox), findsNothing);
+  });
+
   testWidgets('warns when several formats are installed', (tester) async {
     await pumpDialog(
       tester,
@@ -147,5 +165,75 @@ void main() {
       findsOneWidget,
     );
     expect(find.text(l10n.snapActionRemoveLabel), findsNWidgets(2));
+  });
+
+  Future<void> selectChannel(
+    WidgetTester tester,
+    String from,
+    String to,
+  ) async {
+    await tester.ensureVisible(find.text(from));
+    await tester.tap(find.text(from));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(to).last);
+    await tester.pumpAndSettle();
+  }
+
+  testWidgets('installs the snap from the picked channel', (tester) async {
+    await pumpDialog(
+      tester,
+      snap: createSourceSnapshot(testSnapKey),
+      deb: createSourceSnapshot(testDebKey),
+    );
+    final l10n = tester.l10n;
+
+    expect(find.text('4.0-beta'), findsNothing);
+    await selectChannel(tester, 'latest/stable', 'latest/beta');
+    expect(find.text('4.0-beta'), findsOneWidget);
+    expect(find.text('2.0'), findsNothing);
+
+    final install = find
+        .widgetWithText(OutlinedButton, l10n.snapActionInstallLabel)
+        .first;
+    await tester.ensureVisible(install);
+    await tester.tap(install);
+    await tester.pump();
+
+    final (key, command) = backend.executed.single;
+    expect(key, testSnapKey);
+    expect(command.kind, OperationKind.install);
+    expect(command.targetId, 'latest/beta');
+  });
+
+  testWidgets('switches the channel of an installed snap', (tester) async {
+    await pumpDialog(
+      tester,
+      snap: createSourceSnapshot(
+        testSnapKey,
+        installState: InstallState.installed,
+      ),
+      deb: createSourceSnapshot(testDebKey),
+    );
+    final l10n = tester.l10n;
+
+    expect(find.text(l10n.snapActionRemoveLabel), findsOneWidget);
+    await selectChannel(tester, 'latest/stable', 'latest/beta');
+    expect(find.text(l10n.snapActionRemoveLabel), findsNothing);
+    await selectChannel(tester, 'latest/beta', 'latest/stable');
+    expect(find.text(l10n.snapActionRemoveLabel), findsOneWidget);
+    await selectChannel(tester, 'latest/stable', 'latest/beta');
+
+    final switchChannel = find.widgetWithText(
+      OutlinedButton,
+      l10n.snapActionSwitchChannelLabel,
+    );
+    await tester.ensureVisible(switchChannel);
+    await tester.tap(switchChannel);
+    await tester.pump();
+
+    final (key, command) = backend.executed.single;
+    expect(key, testSnapKey);
+    expect(command.kind, OperationKind.switchChannel);
+    expect(command.targetId, 'latest/beta');
   });
 }

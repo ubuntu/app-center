@@ -220,7 +220,7 @@ class _ActionBar extends ConsumerWidget {
             onPressed: run(uninstall),
             child: Text(l10n.snapActionRemoveLabel),
           ),
-        if (state.formats.length > 1)
+        if (state.formats.isNotEmpty)
           YaruPopupMenuButton<void>(
             showArrow: false,
             semanticLabel: l10n.appMoreActionsSemanticLabel,
