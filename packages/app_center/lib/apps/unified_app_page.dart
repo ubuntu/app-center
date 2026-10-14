@@ -1,19 +1,19 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:app_center/apps/app_details_entry.dart';
+import 'package:app_center/apps/app_details_labels.dart';
 import 'package:app_center/apps/app_details_model.dart';
 import 'package:app_center/apps/app_details_state.dart';
 import 'package:app_center/apps/app_page.dart';
 import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/apps/apps_utils.dart';
+import 'package:app_center/apps/package_format_dialog.dart';
 import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/extensions/string_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
-import 'package:app_center/mapping/package_source_descriptor.dart';
 import 'package:app_center/ratings/ratings_l10n.dart';
 import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:app_center/widgets/shimmer_placeholder.dart';
@@ -24,7 +24,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:yaru/yaru.dart';
 
@@ -81,9 +80,9 @@ class _UnifiedAppView extends StatelessWidget {
 
     return AppPage(
       titleBar: AppTitleBar(
-        iconUrl: icon?.mapOrNull(network: (icon) => icon.url),
-        iconWidget: icon?.mapOrNull(
-          file: (icon) => Image.file(File(icon.path), width: 96, height: 96),
+        iconUrl: icon?.mapOrNull(
+          network: (icon) => icon.url,
+          file: (icon) => icon.path,
         ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,15 +99,7 @@ class _UnifiedAppView extends StatelessWidget {
             ),
             if (categories.isNotEmpty) ...[
               const SizedBox(height: 8),
-              Wrap(
-                children: [
-                  for (final (index, category) in categories.indexed) ...[
-                    if (index > 0) const Text(', '),
-                    // Category pages are not wired up yet.
-                    HyperlinkText(text: category, onTap: () {}),
-                  ],
-                ],
-              ),
+              Text(categories.join(', ')),
             ],
           ],
         ),
@@ -150,8 +141,6 @@ List<String> _categoryLabels(
     if (category != AppCategory.featured) category.localize(l10n),
 ];
 
-String _formatDate(DateTime date) => DateFormat.yMMMd().format(date);
-
 class _Description extends StatelessWidget {
   const _Description({required this.description});
 
@@ -172,29 +161,6 @@ class _Description extends StatelessWidget {
     RichContentType.plain => SelectableText(description.text),
   };
 }
-
-String _actionLabel(AppLocalizations l10n, ActionKind kind) => switch (kind) {
-  ActionKind.install => l10n.snapActionInstallLabel,
-  ActionKind.update => l10n.snapActionUpdateLabel,
-  ActionKind.open => l10n.snapActionOpenLabel,
-  ActionKind.uninstall => l10n.snapActionRemoveLabel,
-  ActionKind.switchChannel => l10n.snapActionSwitchChannelLabel,
-  ActionKind.cancel => l10n.snapActionCancelLabel,
-};
-
-String _operationLabel(AppLocalizations l10n, OperationKind kind) =>
-    switch (kind) {
-      OperationKind.install => l10n.snapActionInstallingLabel,
-      OperationKind.update => l10n.snapActionUpdatingLabel,
-      OperationKind.remove => l10n.snapActionRemovingLabel,
-      OperationKind.switchChannel => l10n.snapActionSwitchChannelLabel,
-    };
-
-String _formatLabel(AppLocalizations l10n, PackageFormat format) =>
-    switch (format) {
-      PackageFormat.snap => l10n.managePagePackageTypeSnap,
-      PackageFormat.deb => l10n.managePagePackageTypeDeb,
-    };
 
 class _ActionBar extends ConsumerWidget {
   const _ActionBar({required this.entry, required this.state});
@@ -218,11 +184,6 @@ class _ActionBar extends ConsumerWidget {
               action.kind != ActionKind.cancel,
         )
         .toList();
-    final otherFormats = [
-      for (final group in state.targets)
-        if (group.format != state.activePackage.format)
-          if (_formatAction(group) case final action?) (group.format, action),
-    ];
 
     VoidCallback? run(ActionDescriptor action) =>
         action.enabled ? () => unawaited(model.execute(action.id)) : null;
@@ -235,7 +196,7 @@ class _ActionBar extends ConsumerWidget {
         if (operation != null)
           ActiveChangeStatus(
             key: ValueKey(operation.id),
-            actionLabel: _operationLabel(l10n, operation.kind),
+            actionLabel: operation.kind.localize(l10n),
             progress: operation.progress,
             onCancelPressed: operation.canCancel
                 ? () => unawaited(model.cancel(operation.id))
@@ -245,64 +206,41 @@ class _ActionBar extends ConsumerWidget {
           YaruSplitButton(
             onPressed: run(primary),
             child: Text(
-              _actionLabel(l10n, primary.kind),
+              primary.kind.localize(l10n),
               overflow: TextOverflow.ellipsis,
             ),
           ),
         for (final action in otherActions)
           OutlinedButton(
             onPressed: run(action),
-            child: Text(_actionLabel(l10n, action.kind)),
+            child: Text(action.kind.localize(l10n)),
           ),
         if (uninstall != null)
           OutlinedButton(
             onPressed: run(uninstall),
             child: Text(l10n.snapActionRemoveLabel),
           ),
-        if (otherFormats.isNotEmpty)
+        if (state.formats.length > 1)
           YaruPopupMenuButton<void>(
             showArrow: false,
             semanticLabel: l10n.appMoreActionsSemanticLabel,
             childPadding: const EdgeInsets.symmetric(horizontal: 2),
-            itemBuilder: (context) => [
-              for (final (format, action) in otherFormats)
-                _menuItem(
-                  '${_actionLabel(l10n, action.kind)} '
-                  '${_formatLabel(l10n, format)}',
-                  enabled: action.enabled,
-                  onTap: run(action),
+            itemBuilder: (_) => [
+              PopupMenuItem<void>(
+                onTap: () => unawaited(showPackageFormatDialog(context, entry)),
+                child: IntrinsicWidth(
+                  child: ListTile(
+                    mouseCursor: SystemMouseCursors.click,
+                    title: Text(l10n.appDetailsChoosePackageFormatAction),
+                  ),
                 ),
+              ),
             ],
             child: const Icon(YaruIcons.view_more),
           ),
       ],
     );
   }
-
-  /// Uninstalls the installed target, otherwise installs the default one.
-  ActionDescriptor? _formatAction(TargetGroup group) {
-    // No channel picker yet, so a Snap installs from latest/stable.
-    final option =
-        group.options.firstWhereOrNull((o) => o.isInstalled) ??
-        group.options.firstWhereOrNull((o) => o.label == 'latest/stable') ??
-        group.options.firstWhereOrNull((o) => o.action?.enabled ?? false);
-    return option?.action;
-  }
-
-  PopupMenuItem<void> _menuItem(
-    String label, {
-    VoidCallback? onTap,
-    bool enabled = true,
-  }) => PopupMenuItem<void>(
-    enabled: enabled,
-    onTap: onTap,
-    child: IntrinsicWidth(
-      child: ListTile(
-        mouseCursor: SystemMouseCursors.click,
-        title: Text(label),
-      ),
-    ),
-  );
 }
 
 class _InfoBar extends StatelessWidget {
@@ -331,20 +269,7 @@ class _InfoBar extends StatelessWidget {
         if (confinement != null)
           _InfoItem(
             label: Text(l10n.snapPageConfinementLabel),
-            value: Tooltip(
-              constraints: const BoxConstraints(maxWidth: 200),
-              message: confinement.localizeTooltip(l10n) ?? '',
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (confinement == AppConfinement.strict) ...const [
-                    Icon(YaruIcons.shield, size: 12),
-                    SizedBox(width: 2),
-                  ],
-                  Text(confinement.localize(l10n)),
-                ],
-              ),
-            ),
+            value: ConfinementLabel(confinement),
           ),
         _InfoItem(
           label: Text(l10n.snapPageVersionLabel),
@@ -359,18 +284,17 @@ class _InfoBar extends StatelessWidget {
         ),
         _InfoItem(
           label: Text(
-            size?.kind == SizeKind.installed
-                ? l10n.snapPageSizeLabel
+            active.installState == InstallState.installed
+                ? l10n.appDetailsInstalledSizeLabel
                 : l10n.snapPageDownloadSizeLabel,
           ),
-          value: Text(size == null ? '' : context.formatByteSize(size.bytes)),
+          value: Text(
+            size == null ? kMissingValue : context.formatByteSize(size.bytes),
+          ),
         ),
         _InfoItem(
           label: Text(l10n.appDetailsPackageFormatLabel),
-          value: Text(switch (active.format) {
-            PackageFormat.snap => l10n.managePagePackageTypeSnap,
-            PackageFormat.deb => l10n.managePagePackageTypeDeb,
-          }),
+          value: Text(active.format.localize(l10n)),
         ),
       ],
     );
@@ -476,7 +400,7 @@ class _AdditionalInfo extends StatelessWidget {
               l10n.snapPagePublishedLabel,
               releaseDate == null
                   ? l10n.appPublishedUnknown
-                  : _formatDate(releaseDate),
+                  : formatAppDate(releaseDate),
             ),
             item(
               l10n.snapPageLicenseLabel,
@@ -489,7 +413,7 @@ class _AdditionalInfo extends StatelessWidget {
             item(
               l10n.appDetailsInstallDateLabel,
               installDate != null
-                  ? _formatDate(installDate)
+                  ? formatAppDate(installDate)
                   : active.installState == InstallState.installed
                   ? notAvailable
                   : l10n.appDetailsNotInstalled,

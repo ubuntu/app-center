@@ -66,6 +66,7 @@ enum DisabledReason {
   appRunning,
   targetUnavailable,
   installStateUnknown,
+  otherFormatInstalled,
 }
 
 enum OperationKind { install, update, switchChannel, remove }
@@ -218,6 +219,24 @@ abstract class TargetGroup with _$TargetGroup {
   }) = _TargetGroup;
 }
 
+/// The release one package format would provide, for comparing formats.
+@freezed
+abstract class FormatOption with _$FormatOption {
+  const factory FormatOption({
+    required String sourceId,
+    required PackageFormat format,
+    required InstallState installState,
+    required FieldState<Publisher> publisher,
+    required FieldState<String> version,
+    required FieldState<AppConfinement> confinement,
+    required FieldState<ByteSize> size,
+    required FieldState<DateTime> releaseDate,
+    String? channel,
+    // Uninstalls the installed release, otherwise installs the default one.
+    ActionDescriptor? action,
+  }) = _FormatOption;
+}
+
 @freezed
 abstract class OperationView with _$OperationView {
   const factory OperationView({
@@ -253,6 +272,7 @@ abstract class AppDetailsViewState with _$AppDetailsViewState {
     required FooterSection footer,
     required ActionsSection actions,
     @Default([]) List<TargetGroup> targets,
+    @Default([]) List<FormatOption> formats,
     OperationView? operation,
     @Default([]) List<AppDetailsIssue> issues,
   }) = _AppDetailsViewState;

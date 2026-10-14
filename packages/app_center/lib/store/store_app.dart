@@ -13,7 +13,7 @@ import 'package:app_center/media_support/media_support.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/search/search.dart';
-import 'package:app_center/snapd/snapd.dart';
+import 'package:app_center/snapd/snap_page.dart';
 import 'package:app_center/store/store_navigator.dart';
 import 'package:app_center/store/store_observer.dart';
 import 'package:app_center/store/store_pages.dart';
@@ -181,8 +181,14 @@ class _StoreAppHome extends ConsumerWidget {
       } else if (value is PackageKitTransactionCancelled) {
         // User cancelled (e.g. dismissed the polkit dialog) — not an error.
         return;
-      } else if (value is PackageKitTransactionError ||
-          value is PackageKitServiceError) {
+      } else if (value is PackageKitServiceError) {
+        // Same dialog as the old deb page.
+        showErrorDialog(
+          context: context,
+          title: 'PackageKit error: ${value.code}',
+          message: value.details,
+        );
+      } else if (value is PackageKitTransactionError) {
         _showError(context, value);
       }
     });

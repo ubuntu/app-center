@@ -1,7 +1,7 @@
 {
     "snapPageLinksLabel": "Odkazy",
     "snapPageVersionLabel": "Verzia",
-    "packageFormatDebLabel": "Debian balíky",
+    "packageFormatDebLabel": "Balíky Debian",
     "snapCategoryBooksAndReference": "Knihy a referencie",
     "snapCategoryProductivity": "Produktivita",
     "snapCategoryUtilities": "Nástroje",
@@ -17,7 +17,7 @@
     "snapActionUpdateLabel": "Aktualizovať",
     "searchPageSortByLabel": "Zoradiť",
     "snapPageGalleryLabel": "Galéria",
-    "searchFieldDebSection": "Debian balíky",
+    "searchFieldDebSection": "Balíky Debian",
     "snapActionOpenLabel": "Otvoriť",
     "snapCategoryDevelopment": "Vývoj",
     "snapCategoryHealthAndFitness": "Zdravie a kondícia",
@@ -36,7 +36,7 @@
     "snapPageConfinementLabel": "Oprávnenia",
     "snapCategoryMusicAndAudio": "Hudba a zvuk",
     "aboutPageGitHubLabel": "Nájdete nás na GitHube",
-    "packageFormatSnapLabel": "Snap balíky",
+    "packageFormatSnapLabel": "Balíky Snap",
     "snapCategoryGames": "Hry",
     "snapActionInstallingLabel": "Inštaluje sa",
     "searchFieldSearchHint": "Hľadať aplikácie",
@@ -46,7 +46,7 @@
     "snapPagePublisherLabel": "Vydavateľ",
     "snapPageDescriptionLabel": "Popis",
     "explorePageLabel": "Preskúmať",
-    "searchFieldSnapSection": "Snap balíky",
+    "searchFieldSnapSection": "Balíky Snap",
     "snapCategoryDevicesAndIot": "Zariadenia a IoT",
     "managePageCheckForUpdates": "Skontrolovať aktualizácie",
     "managePageUpdateAllLabel": "Aktualizovať všetko",
@@ -277,7 +277,7 @@
         }
     },
     "managePageQuitToUpdate": "Ukončite kvôli aktualizácii",
-    "managePageUpdatesFailed": "Zlyhanie {n, plural, =1{jednej aktualizácie} few{{n} aktualizácií} other{{n} aktualizácií}}",
+    "managePageUpdatesFailed": "Zlyhala {n, plural, =1{1 aktualizácia} few{{n} aktualizácie} other{{n} aktualizácií}}",
     "@managePageUpdatesFailed": {
         "placeholders": {
             "n": {
@@ -434,7 +434,7 @@
         }
     },
     "driversPageRestartRequiredTitle": "Vyžaduje sa reštart",
-    "driversPageRestartRequiredMessage": "Reštartujte počítač na dokončenie aplikácie zmien ovládačov.",
+    "driversPageRestartRequiredMessage": "Reštartujte počítač na dokončenie inštalácie ovládačov.",
     "driversPageErrorLabel": "Chyba",
     "driversPageRetryLabel": "Skúsiť znova",
     "driversPageNoDriversFoundMessage": "Používajú sa zabudované ovládače. Nenašli sa žiadne ďalšie ovládače.",
@@ -471,7 +471,139 @@
     "appDetailsCategoryLabel": "Kategória",
     "appDetailsInstallDateLabel": "Dátum inštalácie",
     "appDetailsNotInstalled": "Nenainštalované",
-    "appDetailsNotAvailable": "Nedostupný",
+    "appDetailsNotAvailable": "Nedostupné",
     "addonsPageFirmwareTitle": "Firmvér",
-    "addonsPageFirmwareDescription": "Aktualizujte hardvér pre lepší výkon a bezpečnosť"
+    "addonsPageFirmwareDescription": "Aktualizujte hardvér pre lepší výkon a bezpečnosť",
+    "managePageOpenAppSemanticLabel": "Otvoriť {appName}",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "Aktualizovať {appName}",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppRestartRequiredSemanticLabel": "Aktualizovať {appName}, vyžaduje sa reštart",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "Odinštalovať {appName}",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "Zrušiť {action} pre {appName}",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "Veľkosť: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "kanál {channel}, verzia {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "kanál {channel}, verzia {version} na {updateVersion}",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "Verzia {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "Verzia {version} na {updateVersion}",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledSizeLabel": "Nainštalovaná veľkosť",
+    "appDetailsChoosePackageFormatAction": "Vybrať formát balíka…",
+    "appDetailsChoosePackageFormatTitle": "Vybrať formát balíka",
+    "appDetailsPackageSourceLabel": "Zdroj",
+    "appDetailsVerifiedPublisherSemanticLabel": "Overený vydavateľ",
+    "appDetailsStarredPublisherSemanticLabel": "Obľúbený vydavateľ",
+    "appDetailsPackageSourceSnapStore": "Snap Store",
+    "appDetailsPackageSourceUbuntuArchive": "Archív Ubuntu",
+    "appDetailsInstalledAsFormat": "Už nainštalované ako {format}",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "{first} a {second} sú obe nainštalované",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Nainštalované vo viacerých formátoch balíkov",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Pred inštaláciou iného formátu balíka ho odinštalujte. Údaje aplikácie sa medzi formátmi nezdieľajú.} =2{Pred prepnutím na iný formát odinštalujte oba. Údaje aplikácie sa medzi formátmi nezdieľajú.} other{Pred prepnutím na iný formát ich odinštalujte. Údaje aplikácie sa medzi formátmi nezdieľajú.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "appDetailsPackageFormatsLearnMore": "Zistiť viac o formátoch balíkov"
 }

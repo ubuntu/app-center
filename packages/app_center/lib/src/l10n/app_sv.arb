@@ -471,5 +471,139 @@
     "appDetailsPackageFormatLabel": "Paketformat",
     "appDetailsCategoryLabel": "Kategori",
     "appDetailsInstallDateLabel": "Installationsdatum",
-    "appDetailsNotInstalled": "Inte installerat"
+    "appDetailsNotInstalled": "Inte installerat",
+    "addonsPageFirmwareTitle": "Fast programvara",
+    "addonsPageFirmwareDescription": "Uppdatera hårdvaran för bättre prestanda och säkerhet",
+    "managePageOpenAppSemanticLabel": "Öppna {appName}",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "Uppdatera {appName}",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppRestartRequiredSemanticLabel": "Uppdatera {appName}, omstart krävs för att slutföra",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "Avinstallera {appName}",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "Avbryt {action} för {appName}",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "Storlek: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "{channel} kanal, version {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "{channel} kanal, version {version} till {updateVersion}",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "Version {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "Version {version} till {updateVersion}",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledSizeLabel": "Installerad storlek",
+    "appDetailsChoosePackageFormatAction": "Välj paketformat…",
+    "appDetailsChoosePackageFormatTitle": "Välj paketformat",
+    "appDetailsPackageSourceLabel": "Källa",
+    "appDetailsVerifiedPublisherSemanticLabel": "Verifierad utgivare",
+    "appDetailsStarredPublisherSemanticLabel": "Stjärnmärkt utgivare",
+    "appDetailsPackageSourceSnapStore": "Snap Store",
+    "appDetailsPackageSourceUbuntuArchive": "Ubuntu arkiv",
+    "appDetailsInstalledAsFormat": "Redan installerad som {format}",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "{first} och {second} är båda installerade",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Installerat som flera paketformat",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Avinstallera det innan du installerar ett annat paketformat. Appdata delas inte mellan format.} =2{Avinstallera båda för att växla till ett annat format. Appdata delas inte mellan format.} other{Avinstallera dem för att växla till ett annat format. Appdata delas inte mellan format.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "appDetailsPackageFormatsLearnMore": "Läs mer om paketformat"
 }
