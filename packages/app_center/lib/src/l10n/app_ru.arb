@@ -473,5 +473,137 @@
     "mediaSupportPageAdditionalMediaTitle": "Дополнительная поддержка мультимедиа",
     "mediaSupportPageInstallButton": "Установить",
     "addonsPageFirmwareTitle": "Прошивка",
-    "addonsPageFirmwareDescription": "Обновление ПО оборудования для повышения производительности и безопасности"
+    "addonsPageFirmwareDescription": "Обновление ПО оборудования для повышения производительности и безопасности",
+    "managePageOpenAppSemanticLabel": "Открыть {appName}",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "Обновить {appName}",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppRestartRequiredSemanticLabel": "Обновление {appName}, для завершения требуется перезапуск",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "Удалить {appName}",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "Отменить действие {action} {appName}",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "Размер: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "Канал {channel}, версия {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "Канал {channel}, версия с {version} на {updateVersion}",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "Версия {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "Версия {version} на {updateVersion}",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledSizeLabel": "Размер на диске",
+    "appDetailsChoosePackageFormatAction": "Выбрать формат пакета…",
+    "appDetailsChoosePackageFormatTitle": "Выбор формата пакета",
+    "appDetailsPackageSourceLabel": "Источник",
+    "appDetailsVerifiedPublisherSemanticLabel": "Проверенный издатель",
+    "appDetailsStarredPublisherSemanticLabel": "Издатель со звёздочкой",
+    "appDetailsPackageSourceSnapStore": "Snap Store",
+    "appDetailsPackageSourceUbuntuArchive": "Архив Ubuntu",
+    "appDetailsInstalledAsFormat": "Уже установлено в виде {format}",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "{first} и {second} установлены",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Установлено в нескольких форматах",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Удалите его перед установкой пакета другого формата. Данные приложения не используются совместно между форматами.} =2{Удалите оба, чтобы переключиться на другой формат. Данные приложения не используются совместно между форматами.} other{Удалите их, чтобы переключиться на другой формат. Данные приложения не используются совместно между форматами.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "appDetailsPackageFormatsLearnMore": "Подробнее о форматах пакетов"
 }

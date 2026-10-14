@@ -468,5 +468,108 @@
     "appDetailsNotInstalled": "Non installada",
     "appDetailsNotAvailable": "Non disponibla",
     "mediaSupportPageDescription": "Ubuntu inclutz per defaut qualques còdecs de logicial liure. Benlèu vos caldrà installar de logicials suplementaris per legir e modificar certans formats de musica e de vidèo.",
-    "mediaSupportPageInstallButton": "Installar"
+    "mediaSupportPageInstallButton": "Installar",
+    "managePageOpenAppSemanticLabel": "Dobrir {appName}",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "Actualizar {appName}",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppRestartRequiredSemanticLabel": "Actualizar {appName} e reamodar l’ordenador per finalizar",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "Desinstallar {appName}",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "Anullar {action} per {appName}",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "Talha: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "Canal {channel}, version {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "Version {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledSizeLabel": "Talha installada",
+    "appDetailsChoosePackageFormatAction": "Causir lo format de paquet…",
+    "appDetailsChoosePackageFormatTitle": "Causissètz lo format de paquet",
+    "appDetailsPackageSourceLabel": "Font",
+    "appDetailsVerifiedPublisherSemanticLabel": "Editor verificat",
+    "appDetailsPackageSourceSnapStore": "Botiga Snap",
+    "appDetailsPackageSourceUbuntuArchive": "Archius Ubuntu",
+    "appDetailsInstalledAsFormat": "Ja installada coma {format}",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "{first} e {second} son totes dos installats",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Installat dins mantun format de paquet",
+    "appDetailsPackageFormatsLearnMore": "Ne saber mai tocant los formats de paquet",
+    "addonsPageMediaSupportTitle": "Presa en carga multimèdia",
+    "addonsPageMediaSupportDescription": "Installar de logicials suplementaris per prendre en carga mai de formats multimèdia",
+    "addonsPageFirmwareTitle": "Micrologicial",
+    "addonsPageFirmwareDescription": "Metre a jorn lo material informatic per melhorar las performanças e la seguretat",
+    "mediaSupportPageAdditionalMediaTitle": "Presa en carga multimèdia addicionala"
 }
