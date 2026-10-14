@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_center/error/error.dart';
 import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/snapd/snap_model.dart';
@@ -160,6 +161,76 @@ void main() {
       await refreshing;
     },
   );
+
+  test('update all reports the snaps that failed inside the change', () async {
+    // ignore: close_sinks
+    final errorStream = registerMockErrorStreamControllerService();
+    final testSnap = refreshableSnaps.first;
+    final service = registerMockSnapdService(
+      localSnap: testSnap,
+      storeSnap: testSnap,
+      refreshableSnaps: refreshableSnaps,
+      installedSnaps: refreshableSnaps,
+    );
+    // The request succeeds and the change runs. Two of its snaps fail inside
+    // it, which only shows up in the finished change.
+    when(service.getChange('id')).thenAnswer(
+      (_) async => SnapdChange(
+        id: 'id',
+        ready: true,
+        status: 'Error',
+        snapNames: ['one', 'two', 'three'],
+        err:
+            'cannot perform the following tasks:\n'
+            '- Download snap "one" (12) from channel "latest/stable" (boom)\n'
+            '- Run pre-refresh hook of "three" snap if present (exit status 1)',
+      ),
+    );
+
+    final container = createContainer();
+    await container.read(snapUpdatesModelProvider.future);
+    await container.read(snapUpdatesModelProvider.notifier).refreshAll();
+
+    final reported =
+        verify(errorStream.add(captureAny)).captured.single
+            as ConsolidatedSnapdException;
+    expect(reported.errors.keys, unorderedEquals(['one', 'three']));
+  });
+
+  test('update all does not report an aborted change as a failure', () async {
+    // ignore: close_sinks
+    final errorStream = registerMockErrorStreamControllerService();
+    final testSnap = refreshableSnaps.first;
+    final service = registerMockSnapdService(
+      localSnap: testSnap,
+      storeSnap: testSnap,
+      refreshableSnaps: refreshableSnaps,
+      installedSnaps: refreshableSnaps,
+    );
+    when(service.getChange('id')).thenAnswer(
+      (_) async => SnapdChange(
+        id: 'id',
+        ready: true,
+        snapNames: ['testsnap3'],
+        err: 'cannot perform the following tasks:\n- Download snap "testsnap3"',
+      ),
+    );
+    final change = Completer<void>();
+    when(service.waitChange(any)).thenAnswer((_) => change.future);
+
+    final container = createContainer();
+    await container.read(snapUpdatesModelProvider.future);
+    final refreshing = container
+        .read(snapUpdatesModelProvider.notifier)
+        .refreshAll();
+    await pumpEventQueue();
+
+    await container.read(snapUpdatesModelProvider.notifier).cancelRefreshAll();
+    change.complete();
+    await refreshing;
+
+    verifyNever(errorStream.add(any));
+  });
 
   test('a failed cancel of update all can be retried', () async {
     registerMockErrorStreamControllerService();

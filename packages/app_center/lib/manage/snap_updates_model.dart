@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_center/constants.dart';
+import 'package:app_center/error/error.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:collection/collection.dart';
@@ -88,6 +89,10 @@ Future<List<Snap>> refreshInhibitSnaps(Ref ref) async {
 class SnapUpdatesModel extends _$SnapUpdatesModel {
   late final _snapd = getService<SnapdService>();
 
+  /// Set when the user aborts the change, so that the error snapd records for
+  /// an aborted change is not shown back to them as a failure.
+  bool _abortRequested = false;
+
   @override
   Future<SnapListState> build() async {
     final result = fetchRefreshableSnaps();
@@ -154,6 +159,7 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
       if (refreshableSnapNames.isEmpty) {
         return;
       }
+      _abortRequested = false;
       final refreshing = ref.read(currentlyRefreshAllSnapsProvider.notifier);
       refreshing.state = (changeId: null, snapNames: refreshableSnapNames);
 
@@ -175,6 +181,25 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
             : refreshableSnapNames,
       );
       await _snapd.waitChange(changeId);
+
+      // Waiting only tells us the change is over, not how it went. A snap that
+      // fails inside it does not fail the request, so its error has to be read
+      // from the finished change.
+      final finished = await _snapd
+          .getChange(changeId)
+          .then<SnapdChange?>((change) => change)
+          .catchError((_) => null, test: (e) => e is SnapdException);
+      final err = finished?.err;
+      if (err != null && !_abortRequested) {
+        final errors = _errorsBySnap(err, finished!.snapNames);
+        ref.read(errorStreamControllerProvider).add(
+          switch (errors.length) {
+            0 => SnapdException(message: err),
+            1 => errors.values.first,
+            _ => ConsolidatedSnapdException(errors),
+          },
+        );
+      }
     } on SnapdException catch (e) {
       if (e.kind != 'auth-cancelled') {
         ref.read(errorStreamControllerProvider).add(e);
@@ -196,11 +221,31 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
     final changeId = ref.read(currentlyRefreshAllSnapsProvider).changeId;
     if (changeId == null) return;
 
+    _abortRequested = true;
     try {
       await _snapd.abortChange(changeId);
     } on SnapdException catch (e) {
       ref.read(errorStreamControllerProvider).add(e);
     }
+  }
+
+  /// Splits the error of a finished change by snap. snapd reports one line per
+  /// failed task and names the snap in quotes, which is enough to show them in
+  /// the same per-snap form as when each snap was refreshed on its own.
+  static Map<String, SnapdException> _errorsBySnap(
+    String err,
+    List<String> snapNames,
+  ) {
+    final errors = <String, SnapdException>{};
+    for (final line in err.split('\n')) {
+      final snapName = snapNames.firstWhereOrNull(
+        (name) => line.contains('"$name"'),
+      );
+      if (snapName != null) {
+        errors[snapName] = SnapdException(message: line.trim());
+      }
+    }
+    return errors;
   }
 }
 
