@@ -32,12 +32,17 @@ abstract class SnapListState with _$SnapListState {
   }
 }
 
-final currentlyRefreshAllSnapsProvider = StateProvider<List<String>>((_) => []);
+/// A bulk refresh started by [SnapUpdatesModel.refreshAll].
+///
+/// `snapNames` is filled as soon as the refresh starts, so the affected snaps
+/// are locked while snapd asks for authorisation. `changeId` follows once snapd
+/// has accepted the request, and `snapNames` is then narrowed to the snaps that
+/// snapd actually put in the change.
+typedef RefreshAllSnaps = ({String? changeId, List<String> snapNames});
 
-/// Id of the single snapd change that [SnapUpdatesModel.refreshAll] starts, so
-/// that [SnapUpdatesModel.cancelRefreshAll] has something to abort. Null when
-/// no bulk refresh is in progress.
-final refreshAllSnapsChangeIdProvider = StateProvider<String?>((_) => null);
+final currentlyRefreshAllSnapsProvider = StateProvider<RefreshAllSnaps>(
+  (_) => (changeId: null, snapNames: const []),
+);
 final isSilentlyCheckingUpdatesProvider = StateProvider<bool>((_) => false);
 
 @Riverpod(keepAlive: true)
@@ -149,34 +154,48 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
       if (refreshableSnapNames.isEmpty) {
         return;
       }
-      ref.read(currentlyRefreshAllSnapsProvider.notifier).state =
-          refreshableSnapNames;
+      final refreshing = ref.read(currentlyRefreshAllSnapsProvider.notifier);
+      refreshing.state = (changeId: null, snapNames: refreshableSnapNames);
 
       // An empty list asks snapd to refresh everything it can. Which snaps
       // are inhibited because their app is running, or held, is local state
       // that snapd tracks and skips on its own. The list in state comes from
       // the store and cannot see any of it, so snapd is the one to decide.
       final changeId = await _snapd.refreshMany([]);
-      ref.read(refreshAllSnapsChangeIdProvider.notifier).state = changeId;
+      // Only used to narrow the list. If snapd cannot say, the store list is a
+      // safe superset and the refresh itself carries on regardless.
+      final snapNamesInChange = await _snapd
+          .getChange(changeId)
+          .then((change) => change.snapNames)
+          .catchError((_) => <String>[], test: (e) => e is SnapdException);
+      refreshing.state = (
+        changeId: changeId,
+        snapNames: snapNamesInChange.isNotEmpty
+            ? snapNamesInChange
+            : refreshableSnapNames,
+      );
       await _snapd.waitChange(changeId);
     } on SnapdException catch (e) {
       if (e.kind != 'auth-cancelled') {
         ref.read(errorStreamControllerProvider).add(e);
       }
     } finally {
-      ref.read(refreshAllSnapsChangeIdProvider.notifier).state = null;
-      ref.read(currentlyRefreshAllSnapsProvider.notifier).state = [];
+      ref.read(currentlyRefreshAllSnapsProvider.notifier).state = (
+        changeId: null,
+        snapNames: const [],
+      );
       ref.invalidateSelf();
       ref.invalidate(localSnapsProvider);
     }
   }
 
-  /// Aborts the change started by [refreshAll].
+  /// Aborts the change started by [refreshAll]. The state is cleared by
+  /// [refreshAll] once the aborted change finishes, so a failed attempt leaves
+  /// the change id in place and can be retried.
   Future<void> cancelRefreshAll() async {
-    final changeId = ref.read(refreshAllSnapsChangeIdProvider);
+    final changeId = ref.read(currentlyRefreshAllSnapsProvider).changeId;
     if (changeId == null) return;
 
-    ref.read(refreshAllSnapsChangeIdProvider.notifier).state = null;
     try {
       await _snapd.abortChange(changeId);
     } on SnapdException catch (e) {

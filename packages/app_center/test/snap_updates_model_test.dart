@@ -94,6 +94,103 @@ void main() {
     await refreshing;
   });
 
+  test('update all exposes the change and the snaps snapd put in it', () async {
+    final testSnap = refreshableSnaps.first;
+    final service = registerMockSnapdService(
+      localSnap: testSnap,
+      storeSnap: testSnap,
+      refreshableSnaps: refreshableSnaps,
+      installedSnaps: refreshableSnaps,
+    );
+    when(service.getChange('id')).thenAnswer(
+      (_) async => SnapdChange(id: 'id', snapNames: ['testsnap3']),
+    );
+    final change = Completer<void>();
+    when(service.waitChange(any)).thenAnswer((_) => change.future);
+
+    final container = createContainer();
+    await container.read(snapUpdatesModelProvider.future);
+    final refreshing = container
+        .read(snapUpdatesModelProvider.notifier)
+        .refreshAll();
+    await pumpEventQueue();
+
+    final running = container.read(currentlyRefreshAllSnapsProvider);
+    expect(running.changeId, equals('id'));
+    expect(running.snapNames, equals(['testsnap3']));
+
+    change.complete();
+    await refreshing;
+
+    final done = container.read(currentlyRefreshAllSnapsProvider);
+    expect(done.changeId, isNull);
+    expect(done.snapNames, isEmpty);
+  });
+
+  test(
+    'update all falls back to the store list when snapd names no snaps',
+    () async {
+      final testSnap = refreshableSnaps.first;
+      final service = registerMockSnapdService(
+        localSnap: testSnap,
+        storeSnap: testSnap,
+        refreshableSnaps: refreshableSnaps,
+        installedSnaps: refreshableSnaps,
+      );
+      // getChange is async, so a failure arrives in the future rather than as a
+      // synchronous throw.
+      when(
+        service.getChange('id'),
+      ).thenAnswer((_) async => throw SnapdException(message: 'gone'));
+      final change = Completer<void>();
+      when(service.waitChange(any)).thenAnswer((_) => change.future);
+
+      final container = createContainer();
+      await container.read(snapUpdatesModelProvider.future);
+      final refreshing = container
+          .read(snapUpdatesModelProvider.notifier)
+          .refreshAll();
+      await pumpEventQueue();
+
+      final running = container.read(currentlyRefreshAllSnapsProvider);
+      expect(running.changeId, equals('id'));
+      expect(running.snapNames, equals(['testsnap3']));
+
+      change.complete();
+      await refreshing;
+    },
+  );
+
+  test('a failed cancel of update all can be retried', () async {
+    registerMockErrorStreamControllerService();
+    final testSnap = refreshableSnaps.first;
+    final service = registerMockSnapdService(
+      localSnap: testSnap,
+      storeSnap: testSnap,
+      refreshableSnaps: refreshableSnaps,
+      installedSnaps: refreshableSnaps,
+    );
+    final change = Completer<void>();
+    when(service.waitChange(any)).thenAnswer((_) => change.future);
+    when(service.abortChange(any)).thenThrow(SnapdException(message: 'busy'));
+
+    final container = createContainer();
+    await container.read(snapUpdatesModelProvider.future);
+    final refreshing = container
+        .read(snapUpdatesModelProvider.notifier)
+        .refreshAll();
+    await pumpEventQueue();
+
+    final model = container.read(snapUpdatesModelProvider.notifier);
+    await model.cancelRefreshAll();
+    expect(container.read(currentlyRefreshAllSnapsProvider).changeId, 'id');
+    await model.cancelRefreshAll();
+    verify(service.abortChange('id')).called(2);
+
+    change.complete();
+    await refreshing;
+  });
+
   group('localVersion', () {
     test('returns installed version when snap is installed', () async {
       final localSnap = createSnap(name: 'testsnap', version: '1.0.0');
