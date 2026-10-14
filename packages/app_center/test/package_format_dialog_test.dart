@@ -26,6 +26,7 @@ void main() {
     WidgetTester tester, {
     required PackageSourceSnapshot snap,
     required PackageSourceSnapshot deb,
+    bool hasDeb = true,
   }) async {
     await tester.pumpWidget(
       ProviderScope(
@@ -36,7 +37,7 @@ void main() {
           }),
           appDetailsIdentityProvider(
             _entry,
-          ).overrideWith((ref) async => createResolvedIdentity()),
+          ).overrideWith((ref) async => createResolvedIdentity(deb: hasDeb)),
           appDetailsRatingsProvider(
             'testsnap',
           ).overrideWith((ref) => const AsyncData(null)),
@@ -117,6 +118,23 @@ void main() {
     await tester.tap(install);
     await tester.pump();
     expect(backend.executed, isEmpty);
+  });
+
+  testWidgets('does not warn when the only format is installed', (
+    tester,
+  ) async {
+    await pumpDialog(
+      tester,
+      snap: createSourceSnapshot(
+        testSnapKey,
+        installState: InstallState.installed,
+      ),
+      deb: createSourceSnapshot(testDebKey),
+      hasDeb: false,
+    );
+
+    expect(find.text(tester.l10n.snapActionRemoveLabel), findsOneWidget);
+    expect(find.byType(YaruInfoBox), findsNothing);
   });
 
   testWidgets('warns when several formats are installed', (tester) async {

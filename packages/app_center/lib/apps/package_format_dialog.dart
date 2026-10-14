@@ -51,7 +51,7 @@ class PackageFormatDialog extends ConsumerWidget {
         if (state == null)
           const Center(child: YaruCircularProgressIndicator())
         else ...[
-          if (installed.isNotEmpty) ...[
+          if (installed.isNotEmpty && state.formats.length > 1) ...[
             YaruInfoBox(
               yaruInfoType: YaruInfoType.warning,
               title: Text(switch (installed) {
