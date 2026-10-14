@@ -82,6 +82,9 @@ class _LocalDebPage extends StatelessWidget {
           const SizedBox(height: kPagePadding),
           MarkdownBody(
             selectable: true,
+            builders: {
+              'a': HyperlinkTextMarkdown(),
+            },
             data: debData.details.description.escapedMarkdown(),
           ),
         ],
