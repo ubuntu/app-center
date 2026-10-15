@@ -22,6 +22,7 @@ AppDetailsComposition _compose({
   List<TrackedOperation> operations = const [],
   AsyncValue<RatingsSummary?>? ratings,
   Set<IssueId> acknowledged = const {},
+  bool identityPending = false,
 }) => _policy.compose(
   AppDetailsPolicyInput(
     identity:
@@ -35,6 +36,7 @@ AppDetailsComposition _compose({
     operations: operations,
     ratings: ratings,
     acknowledgedIssues: acknowledged,
+    identityPending: identityPending,
   ),
 );
 
@@ -456,6 +458,27 @@ void main() {
       ).state.actions;
       expect(actions.primary?.kind, ActionKind.update);
       expect(kinds(actions), [ActionKind.open, ActionKind.uninstall]);
+    });
+
+    test('pending identity disables installing only', () {
+      final install = _compose(
+        snap: _snap(),
+        identityPending: true,
+      ).state.actions.primary!;
+      expect(install.kind, ActionKind.install);
+      expect(install.disabledReason, DisabledReason.installStateUnknown);
+
+      final state = _compose(
+        snap: installedSnap(withUpdate: true),
+        identityPending: true,
+      ).state;
+      expect(state.actions.primary?.kind, ActionKind.update);
+      expect(state.actions.primary?.enabled, isTrue);
+      expect(state.actions.secondary.single.enabled, isTrue);
+      final switchChannel = state.targets.single.options
+          .map((option) => option.action)
+          .firstWhere((action) => action?.kind == ActionKind.switchChannel);
+      expect(switchChannel?.enabled, isTrue);
     });
 
     test('update binds the installed channel and exact candidate', () {

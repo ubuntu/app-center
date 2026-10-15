@@ -171,6 +171,9 @@ MockSnapdService registerMockSnapdService({
 }) {
   final service = MockSnapdService();
   when(service.defaultFileSystem).thenReturn(MemoryFileSystem());
+  when(service.cachedStoreSnap(any)).thenReturn(null);
+  when(service.cachedLocalSnap(any)).thenReturn(null);
+  when(service.isLocalSnapCached(any)).thenReturn(false);
   when(
     service.getStoreSnaps(any),
   ).thenAnswer((_) => Stream.value([if (storeSnap != null) storeSnap]));
@@ -437,6 +440,7 @@ MockAppstreamService createMockAppstreamService({
     for (final c in allComponents)
       if (c.package != null) c.package!: c,
   });
+  when(appstream.tryGetFromId(any)).thenReturn(null);
 
   registerMockService<AppstreamService>(appstream);
   addTearDown(unregisterService<AppstreamService>);

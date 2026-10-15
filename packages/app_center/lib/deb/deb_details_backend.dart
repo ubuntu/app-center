@@ -32,10 +32,9 @@ Stream<List<PackageKitMutation>> packageKitMutations(Ref ref) async* {
 
 @riverpod
 Future<ImageRef?> debIcon(Ref ref, String componentId) async {
-  final component = await ref.watch(
-    debModelProvider(componentId).selectAsync((data) => data.component),
-  );
-  final icon = await component.iconAsync;
+  final appstream = getService<AppstreamService>();
+  await appstream.init();
+  final icon = await appstream.getFromId(componentId).iconAsync;
   if (icon == null) return null;
   final uri = Uri.tryParse(icon);
   return uri != null && (uri.scheme == 'http' || uri.scheme == 'https')
@@ -103,6 +102,22 @@ AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
       ? null
       : ref.watch(debPackageDetailsProvider(updateId));
   final desktops = ref.watch(currentDesktopsProvider);
+
+  if (!model.hasValue && !model.hasError) {
+    final component = getService<AppstreamService>().tryGetFromId(componentId);
+    if (component != null) {
+      // ignore: invalid_use_of_internal_member
+      return const AsyncLoading<PackageSourceSnapshot>().copyWithPrevious(
+        AsyncData(
+          debSnapshotFromComponent(
+            componentId,
+            component,
+            icon: _fieldFromAsync(icon),
+          ),
+        ),
+      );
+    }
+  }
 
   return mapAsyncValue(
     model,
@@ -196,42 +211,12 @@ PackageSourceSnapshot debSnapshotFromData(
       : _mutationKind(mutation.kind);
   final percentage = (ownMutation ?? mutation)?.percentage;
 
-  String? nonEmpty(String value) => value.isEmpty ? null : value;
-
-  return PackageSourceSnapshot(
-    key: SourceKey(format: PackageFormat.deb, id: data.id),
+  return debSnapshotFromComponent(data.id, component, icon: icon).copyWith(
     installState: data.packageInfo == null
         ? InstallState.unknown
         : installed
         ? InstallState.installed
         : InstallState.notInstalled,
-    appName: FieldState.fromNullable(nonEmpty(component.getLocalizedName())),
-    icon: icon,
-    summary: FieldState.fromNullable(
-      nonEmpty(component.getLocalizedSummary()),
-    ),
-    description: FieldState.fromNullable(
-      nonEmpty(component.getLocalizedDescription()) == null
-          ? null
-          : RichContent(
-              text: component.getLocalizedDescription(),
-              type: RichContentType.html,
-            ),
-    ),
-    screenshots: FieldState.value(component.screenshotUrls),
-    publisher: FieldState.fromNullable(
-      nonEmpty(component.getLocalizedDeveloperName()) == null
-          ? null
-          : Publisher(name: component.getLocalizedDeveloperName()),
-    ),
-    categories: FieldState.value(appCategoriesFromFreedesktop(component)),
-    confinement: const FieldState.value(AppConfinement.unrestricted),
-    license: FieldState.fromNullable(component.projectLicense),
-    links: FieldState.value(data.links ?? const {}),
-    ageRating: FieldState.fromNullable(_ageRating(component)),
-    languages: component.languages.isEmpty
-        ? FieldState<List<String>>.unavailable()
-        : FieldState.value(component.languages.map((l) => l.locale).toList()),
     installed: installedRelease,
     installCandidate: installCandidate,
     updateCandidate: updateCandidate,
@@ -259,6 +244,60 @@ PackageSourceSnapshot debSnapshotFromData(
           ),
   );
 }
+
+/// AppStream metadata of a Deb, without any PackageKit state.
+@visibleForTesting
+PackageSourceSnapshot debSnapshotFromComponent(
+  String id,
+  AppstreamComponent component, {
+  FieldState<ImageRef> icon = const FieldState<ImageRef>.unavailable(),
+}) {
+  String? nonEmpty(String value) => value.isEmpty ? null : value;
+
+  return PackageSourceSnapshot(
+    key: SourceKey(format: PackageFormat.deb, id: id),
+    installState: InstallState.unknown,
+    appName: FieldState.fromNullable(nonEmpty(component.getLocalizedName())),
+    icon: icon,
+    summary: FieldState.fromNullable(
+      nonEmpty(component.getLocalizedSummary()),
+    ),
+    description: FieldState.fromNullable(
+      nonEmpty(component.getLocalizedDescription()) == null
+          ? null
+          : RichContent(
+              text: component.getLocalizedDescription(),
+              type: RichContentType.html,
+            ),
+    ),
+    screenshots: FieldState.value(component.screenshotUrls),
+    publisher: FieldState.fromNullable(
+      nonEmpty(component.getLocalizedDeveloperName()) == null
+          ? null
+          : Publisher(name: component.getLocalizedDeveloperName()),
+    ),
+    categories: FieldState.value(appCategoriesFromFreedesktop(component)),
+    confinement: const FieldState.value(AppConfinement.unrestricted),
+    license: FieldState.fromNullable(component.projectLicense),
+    links: FieldState.value(_links(component)),
+    ageRating: FieldState.fromNullable(_ageRating(component)),
+    languages: component.languages.isEmpty
+        ? FieldState<List<String>>.unavailable()
+        : FieldState.value(component.languages.map((l) => l.locale).toList()),
+  );
+}
+
+// Mirrors DebData.links, which needs a loaded DebData.
+Map<AppLink, String> _links(AppstreamComponent component) => Map.fromEntries(
+  component.urls
+      .where(
+        (url) => const [
+          AppstreamUrlType.contact,
+          AppstreamUrlType.homepage,
+        ].contains(url.type),
+      )
+      .map((url) => MapEntry(AppLink.fromAppstream(url.type), url.url)),
+);
 
 OperationKind _ownOperationKind(
   DebTransactionKind? kind, {

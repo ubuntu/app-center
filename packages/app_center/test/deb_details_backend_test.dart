@@ -208,6 +208,43 @@ void main() {
       );
       expect(snapshot.activeOperation, isNull);
     });
+
+    test('component alone has metadata but unknown install state', () {
+      final snapshot = debSnapshotFromComponent('org.test.app', _component);
+
+      expect(snapshot.key, testDebKey);
+      expect(snapshot.installState, InstallState.unknown);
+      expect(snapshot.appName.valueOrNull, 'Test App');
+      expect(snapshot.links.valueOrNull, isEmpty);
+      expect(snapshot.targets, isEmpty);
+      expect(debSnapshotFromData(_data(withPackage: false)), snapshot);
+    });
+  });
+
+  group('provider', () {
+    test('shows AppStream metadata while PackageKit loads', () {
+      final appstream = createMockAppstreamService(component: _component);
+      when(appstream.tryGetFromId('org.test.app')).thenReturn(_component);
+      createMockPackageKitService();
+      final container = createContainer();
+      container.listen(debSourceSnapshotProvider('org.test.app'), (_, _) {});
+
+      final value = container.read(debSourceSnapshotProvider('org.test.app'));
+      expect(value.isLoading, isTrue);
+      expect(value.value?.appName.valueOrNull, 'Test App');
+      expect(value.value?.installState, InstallState.unknown);
+    });
+
+    test('is plain loading without AppStream metadata', () {
+      createMockAppstreamService(component: _component);
+      createMockPackageKitService();
+      final container = createContainer();
+      container.listen(debSourceSnapshotProvider('org.test.app'), (_, _) {});
+
+      final value = container.read(debSourceSnapshotProvider('org.test.app'));
+      expect(value.isLoading, isTrue);
+      expect(value.hasValue, isFalse);
+    });
   });
 
   group('install size', () {

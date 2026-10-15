@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_center/apps/app_details_entry.dart';
 import 'package:app_center/apps/app_details_model.dart';
 import 'package:app_center/apps/app_details_state.dart';
@@ -99,6 +101,114 @@ void main() {
       container.read(appDetailsModelProvider(const AppDetailsEntry.snap(''))),
       isA<AsyncError<AppDetailsViewState>>(),
     );
+  });
+
+  group('before the identity resolves', () {
+    late Completer<ResolvedAppIdentity> lookup;
+
+    setUp(() => lookup = Completer());
+
+    ProviderContainer createPending() => createContainer(
+      overrides: [
+        packageDetailsBackendsProvider.overrideWithValue({
+          PackageFormat.snap: backend,
+          PackageFormat.deb: backend,
+        }),
+        appDetailsIdentityProvider(_entry).overrideWith((ref) => lookup.future),
+        appDetailsRatingsProvider(
+          'testsnap',
+        ).overrideWith((ref) => const AsyncData(null)),
+      ],
+    );
+
+    test('publishes the entry source', () {
+      container = createPending();
+      setSnapshot(testSnapKey, createSourceSnapshot(testSnapKey));
+      open();
+
+      expect(view().activePackage.sourceId, testSnapKey.value);
+      expect(view().app.name.valueOrNull, 'Snap App');
+    });
+
+    test('stays loading without source data', () {
+      container = createPending();
+      open();
+      expect(async().isLoading, isTrue);
+    });
+
+    test('disables installing until counterparts are known', () async {
+      container = createPending();
+      setSnapshot(testSnapKey, createSourceSnapshot(testSnapKey));
+      open();
+      expect(
+        view().actions.primary?.disabledReason,
+        DisabledReason.installStateUnknown,
+      );
+
+      lookup.complete(createResolvedIdentity(deb: false));
+      await settle();
+      expect(view().actions.primary?.kind, ActionKind.install);
+      expect(view().actions.primary?.enabled, isTrue);
+    });
+
+    test('keeps actions of an installed source', () {
+      container = createPending();
+      setSnapshot(
+        testSnapKey,
+        createSourceSnapshot(
+          testSnapKey,
+          installState: _installed,
+          withUpdate: true,
+        ),
+      );
+      open();
+
+      expect(view().actions.primary?.kind, ActionKind.update);
+      expect(view().actions.primary?.enabled, isTrue);
+    });
+
+    test('adds counterparts once resolved', () async {
+      container = createPending();
+      setSnapshot(testSnapKey, createSourceSnapshot(testSnapKey));
+      setSnapshot(
+        testDebKey,
+        createSourceSnapshot(testDebKey, installState: _installed),
+      );
+      open();
+      expect(view().activePackage.format, PackageFormat.snap);
+
+      lookup.complete(createResolvedIdentity());
+      await settle();
+      expect(view().activePackage.format, PackageFormat.deb);
+    });
+  });
+
+  test('loaded data equal to the cached data does not notify', () async {
+    container = create(identity: createResolvedIdentity(deb: false));
+    final cached = createSourceSnapshot(testSnapKey);
+    container.read(fakeSnapshotProvider(testSnapKey).notifier).state =
+        // ignore: invalid_use_of_internal_member
+        const AsyncLoading<PackageSourceSnapshot>().copyWithPrevious(
+          AsyncData(cached),
+        );
+    var notifications = 0;
+    container.listen(
+      appDetailsModelProvider(_entry),
+      (_, _) => notifications++,
+    );
+    await settle();
+    notifications = 0;
+
+    setSnapshot(testSnapKey, cached);
+    await settle();
+    expect(notifications, 0);
+
+    setSnapshot(
+      testSnapKey,
+      createSourceSnapshot(testSnapKey, installState: _installed),
+    );
+    await settle();
+    expect(notifications, 1);
   });
 
   group('not found', () {
