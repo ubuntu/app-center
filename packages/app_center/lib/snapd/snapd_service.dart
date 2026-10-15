@@ -15,7 +15,8 @@ class LocalRevisionInfo {
   final bool active;
 }
 
-class SnapdService extends SnapdClient with SnapdCache, SnapdWatcher {
+class SnapdService extends SnapdClient
+    with SnapdCache, SnapdWatcher, SnapdMemoryCache {
   Future<void> waitChange(String changeId) =>
       watchChange(changeId).firstWhere((change) => change.ready);
 

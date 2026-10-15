@@ -42,12 +42,14 @@ class AppDetailsModel extends _$AppDetailsModel {
     }
 
     final resolved = ref.watch(appDetailsIdentityProvider(entry));
-    final identity = resolved.value;
-    if (identity == null) {
-      return resolved.hasError
-          ? AsyncError(resolved.error!, resolved.stackTrace ?? StackTrace.empty)
-          : const AsyncLoading();
+    if (resolved.hasError && !resolved.hasValue) {
+      return AsyncError(
+        resolved.error!,
+        resolved.stackTrace ?? StackTrace.empty,
+      );
     }
+    final identity = resolved.value ?? entry.provisionalIdentity;
+    final identityPending = !resolved.hasValue && entry is! IdentityEntry;
     _identity = identity;
     final keys = identity.sourceKeys;
     if (keys.isEmpty) {
@@ -87,6 +89,7 @@ class AppDetailsModel extends _$AppDetailsModel {
         ratings: ratings,
         acknowledgedIssues: _acknowledged,
         checkingUninstall: checkingUninstall,
+        identityPending: identityPending,
       ),
     );
     _composition = composition;

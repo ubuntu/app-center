@@ -35,6 +35,7 @@ class AppDetailsPolicyInput {
     this.ratings,
     this.acknowledgedIssues = const {},
     this.checkingUninstall = false,
+    this.identityPending = false,
   });
 
   final ResolvedAppIdentity identity;
@@ -45,6 +46,8 @@ class AppDetailsPolicyInput {
   final Set<IssueId> acknowledgedIssues;
   // Whether an uninstall is being checked for dependents.
   final bool checkingUninstall;
+  // Counterpart sources are not known yet, nor whether they are installed.
+  final bool identityPending;
 }
 
 class AppDetailsComposition {
@@ -357,6 +360,8 @@ class _Composer {
         ),
         disabledReason: switch (snapshot.installState) {
           _ when _busy => DisabledReason.busy,
+          _ when input.identityPending && !installed =>
+            DisabledReason.installStateUnknown,
           InstallState.unknown => DisabledReason.installStateUnknown,
           InstallState.notInstalled when _isOtherFormatInstalled(key) =>
             DisabledReason.otherFormatInstalled,

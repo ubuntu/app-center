@@ -265,6 +265,63 @@ void main() {
       expect(value.error, isA<PackageSourceNotFound>());
       expect(value.value?.installState, InstallState.notInstalled);
     });
+
+    group('while loading', () {
+      AsyncValue<PackageSourceSnapshot> open(ProviderContainer container) {
+        container.listen(snapSourceSnapshotProvider('testsnap'), (_, _) {});
+        return container.read(snapSourceSnapshotProvider('testsnap'));
+      }
+
+      test('is plain loading without cached snaps', () {
+        registerMockSnapdService(storeSnap: _storeSnap);
+        final value = open(createContainer());
+
+        expect(value.isLoading, isTrue);
+        expect(value.hasValue, isFalse);
+      });
+
+      test('shows a cached store snap with unknown install state', () async {
+        final service = registerMockSnapdService(storeSnap: _storeSnap);
+        when(service.cachedStoreSnap('testsnap')).thenReturn(_storeSnap);
+        final container = createContainer();
+        final value = open(container);
+
+        expect(value.isLoading, isTrue);
+        expect(value.value?.appName.valueOrNull, 'Test Snap');
+        expect(value.value?.installState, InstallState.unknown);
+
+        await settle();
+        final loaded = container.read(snapSourceSnapshotProvider('testsnap'));
+        expect(loaded.isLoading, isFalse);
+        expect(loaded.value?.installState, InstallState.notInstalled);
+        expect(
+          loaded.value,
+          value.value!.copyWith(installState: InstallState.notInstalled),
+        );
+      });
+
+      test('uses cached local state', () {
+        final local = _localSnap();
+        final service = registerMockSnapdService(
+          storeSnap: _storeSnap,
+          localSnap: local,
+        );
+        when(service.cachedStoreSnap('testsnap')).thenReturn(_storeSnap);
+        when(service.cachedLocalSnap('testsnap')).thenReturn(local);
+        when(service.isLocalSnapCached('testsnap')).thenReturn(true);
+        final value = open(
+          createContainer(
+            overrides: [
+              launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
+            ],
+          ),
+        );
+
+        expect(value.isLoading, isTrue);
+        expect(value.value?.installState, InstallState.installed);
+        expect(value.value?.installed?.candidateId, 'rev:1');
+      });
+    });
   });
 
   group('commands', () {
