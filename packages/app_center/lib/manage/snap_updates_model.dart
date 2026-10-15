@@ -163,10 +163,10 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
       final refreshing = ref.read(currentlyRefreshAllSnapsProvider.notifier);
       refreshing.state = (changeId: null, snapNames: refreshableSnapNames);
 
-      // An empty list asks snapd to refresh everything it can. Which snaps
-      // are inhibited because their app is running, or held, is local state
-      // that snapd tracks and skips on its own. The list in state comes from
-      // the store and cannot see any of it, so snapd is the one to decide.
+      // An empty list asks snapd to refresh everything it can. Held snaps and
+      // snaps with running apps are local state that the store list cannot
+      // see, so snapd is the one to decide. It leaves them out of the change
+      // without reporting them, though, so they do not show up as errors.
       final changeId = await _snapd.refreshMany([]);
       // Only used to narrow the list. If snapd cannot say, the store list is a
       // safe superset and the refresh itself carries on regardless.
@@ -191,7 +191,7 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
           .catchError((_) => null, test: (e) => e is SnapdException);
       final err = finished?.err;
       if (err != null && !_abortRequested) {
-        final errors = _errorsBySnap(err, finished!.snapNames);
+        final errors = _errorsBySnap(err);
         ref.read(errorStreamControllerProvider).add(
           switch (errors.length) {
             0 => SnapdException(message: err),
@@ -229,23 +229,23 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
     }
   }
 
-  /// Splits the error of a finished change by snap. snapd reports one line per
-  /// failed task and names the snap in quotes, which is enough to show them in
-  /// the same per-snap form as when each snap was refreshed on its own.
-  static Map<String, SnapdException> _errorsBySnap(
-    String err,
-    List<String> snapNames,
-  ) {
-    final errors = <String, SnapdException>{};
-    for (final line in err.split('\n')) {
-      final snapName = snapNames.firstWhereOrNull(
-        (name) => line.contains('"$name"'),
-      );
-      if (snapName != null) {
-        errors[snapName] = SnapdException(message: line.trim());
-      }
+  /// Splits the error of a finished change by snap, so it can be shown in the
+  /// same per-snap form as when each snap was refreshed on its own. snapd
+  /// reports one `- ` line per failed task, and task summaries name their snap
+  /// in quotes. If any task line does not name one, nothing is split, so that
+  /// the caller shows the whole message rather than drop part of it.
+  static Map<String, SnapdException> _errorsBySnap(String err) {
+    final messages = <String, List<String>>{};
+    for (final line in err.split('\n').map((l) => l.trim())) {
+      if (!line.startsWith('- ')) continue;
+      final snapName = RegExp('"([^"]+)"').firstMatch(line)?.group(1);
+      if (snapName == null) return {};
+      (messages[snapName] ??= []).add(line.substring(2));
     }
-    return errors;
+    return messages.map(
+      (snapName, lines) =>
+          MapEntry(snapName, SnapdException(message: lines.join('\n'))),
+    );
   }
 }
 

@@ -197,6 +197,56 @@ void main() {
     expect(reported.errors.keys, unorderedEquals(['one', 'three']));
   });
 
+  Future<Object> reportedErrorFor(String err) async {
+    // ignore: close_sinks
+    final errorStream = registerMockErrorStreamControllerService();
+    final testSnap = refreshableSnaps.first;
+    final service = registerMockSnapdService(
+      localSnap: testSnap,
+      storeSnap: testSnap,
+      refreshableSnaps: refreshableSnaps,
+      installedSnaps: refreshableSnaps,
+    );
+    when(service.getChange('id')).thenAnswer(
+      (_) async => SnapdChange(
+        id: 'id',
+        ready: true,
+        snapNames: ['one'],
+        err: err,
+      ),
+    );
+
+    final container = createContainer();
+    await container.read(snapUpdatesModelProvider.future);
+    await container.read(snapUpdatesModelProvider.notifier).refreshAll();
+
+    return verify(errorStream.add(captureAny)).captured.single as Object;
+  }
+
+  test('update all reports a failing snap that is not in snap-names', () async {
+    final reported = await reportedErrorFor(
+      'cannot perform the following tasks:\n'
+      '- Download snap "one" (12) from channel "latest/stable" (boom)\n'
+      '- Mount snap "core24" (900) (no space left)',
+    );
+
+    expect(
+      (reported as ConsolidatedSnapdException).errors.keys,
+      unorderedEquals(['one', 'core24']),
+    );
+  });
+
+  test('update all shows the whole error when a task names no snap', () async {
+    const err =
+        'cannot perform the following tasks:\n'
+        '- Download snap "one" (12) from channel "latest/stable" (boom)\n'
+        '- Something went wrong (no snap here)';
+    final reported = await reportedErrorFor(err);
+
+    expect(reported, isNot(isA<ConsolidatedSnapdException>()));
+    expect((reported as SnapdException).message, equals(err));
+  });
+
   test('update all does not report an aborted change as a failure', () async {
     // ignore: close_sinks
     final errorStream = registerMockErrorStreamControllerService();
