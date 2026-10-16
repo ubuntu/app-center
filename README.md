@@ -11,7 +11,11 @@
 [weblate-image]: https://hosted.weblate.org/widget/ubuntu-desktop-translations/app-center/svg-badge.svg
 [weblate-url]: https://hosted.weblate.org/projects/ubuntu-desktop-translations/app-center/
 
+[snap-image]: https://snapcraft.io/snap-store/badge.svg
+[snap-url]: https://snapcraft.io/snap-store
 
+
+[![snap-store][snap-image]][snap-url]
 [![Code quality][actions-image]][actions-url]
 [![License][license-image]](LICENSE)
 [![Code coverage][codecov-image]][codecov-url]
