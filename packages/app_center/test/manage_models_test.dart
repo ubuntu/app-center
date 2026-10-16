@@ -997,4 +997,80 @@ void main() {
       expect(installed.map((a) => a.name).toList(), ['With Date', 'No Date']);
     });
   });
+
+  group('addSnapToList', () {
+    tearDown(resetAllServices);
+
+    test(
+      'adds a freshly updated snap back to the installed apps list',
+      () async {
+        registerMockSnapdService(
+          installedSnaps: [
+            createSnap(
+              id: 'firefox-store-id',
+              name: 'firefox',
+              title: 'Firefox',
+              version: '1.0',
+            ),
+            createSnap(
+              id: 'thunderbird-store-id',
+              name: 'thunderbird',
+              title: 'Thunderbird',
+              version: '1.0',
+            ),
+          ],
+          refreshableSnaps: [
+            createSnap(id: 'firefox-store-id', name: 'firefox', version: '2.0'),
+          ],
+        );
+        createMockAppstreamService();
+        createMockPackageKitService();
+
+        final container = createContainer(
+          overrides: [showLocalSystemAppsProvider.overrideWith((ref) => true)],
+        );
+
+        // Firefox is refreshable, so only thunderbird is in the installed list.
+        var apps = await container.read(installedAppsProvider.future);
+        expect(apps.map((app) => app.id), ['thunderbird-store-id']);
+
+        // Simulate the patch performed by `SnapModel.refresh` after completing.
+        container
+            .read(installedAppsProvider.notifier)
+            .addSnapToList(
+              createSnap(
+                id: 'firefox-store-id',
+                name: 'firefox',
+                title: 'Firefox',
+                version: '2.0',
+              ),
+            );
+
+        apps = container.read(installedAppsProvider).value!;
+        expect(apps.map((app) => app.name), ['Firefox', 'Thunderbird']);
+        expect(
+          apps.map((app) => app.whenOrNull(snap: (snap, _) => snap.version)),
+          ['2.0', '1.0'],
+        );
+      },
+    );
+
+    test('does nothing while the installed apps list is still loading', () {
+      registerMockSnapdService(installedSnaps: []);
+      createMockAppstreamService();
+      createMockPackageKitService();
+
+      final container = createContainer(
+        overrides: [showLocalSystemAppsProvider.overrideWith((ref) => true)],
+      );
+
+      // Don't await the future, so the provider is still loading.
+      final notifier = container.read(installedAppsProvider.notifier);
+      notifier.addSnapToList(
+        createSnap(id: 'firefox-store-id', name: 'firefox', title: 'Firefox'),
+      );
+
+      expect(container.read(installedAppsProvider).value, isNull);
+    });
+  });
 }
