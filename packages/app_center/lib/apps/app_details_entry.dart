@@ -221,4 +221,11 @@ AppDetailsIdentityResolver appDetailsIdentityResolver(Ref ref) =>
 Future<ResolvedAppIdentity> appDetailsIdentity(
   Ref ref,
   AppDetailsEntry entry,
-) => ref.watch(appDetailsIdentityResolverProvider).resolve(entry);
+) async {
+  final resolved = await ref
+      .watch(appDetailsIdentityResolverProvider)
+      .resolve(entry);
+  // Failed lookups are retried on the next open.
+  if (ref.mounted && !resolved.discoveryFailed) ref.keepAlive();
+  return resolved;
+}

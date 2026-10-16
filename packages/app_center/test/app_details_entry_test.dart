@@ -5,6 +5,7 @@ import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/mapping/mapping.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/snapd/snap_data.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
@@ -17,8 +18,10 @@ class _FakeAdapter implements PackageFormatAdapter {
   final PackageFormat format;
   final List<PackageSourceDescriptor> descriptors;
   final bool fail;
+  int lookups = 0;
 
   PackageSourceDescriptor? _find(bool Function(PackageSourceDescriptor) test) {
+    lookups++;
     if (fail) throw Exception('lookup failed');
     for (final descriptor in descriptors) {
       if (test(descriptor)) return descriptor;
@@ -71,8 +74,9 @@ AppDetailsIdentityResolver _resolver({
   List<PackageSourceDescriptor> debs = const [_debDescriptor],
   bool snapFails = false,
   bool debFails = false,
+  _FakeAdapter? snapAdapter,
 }) {
-  final snapAdapter = _FakeAdapter(
+  snapAdapter ??= _FakeAdapter(
     PackageFormat.snap,
     snaps,
     fail: snapFails,
@@ -251,5 +255,79 @@ void main() {
       appDetailsIdentityProvider(const AppDetailsEntry.snap('testsnap')).future,
     );
     expect(resolved.sourceKeys, [testSnapKey, testDebKey]);
+  });
+
+  group('provider cache', () {
+    const entry = AppDetailsEntry.snap('testsnap');
+
+    Future<void> open(ProviderContainer container) async {
+      final subscription = container.listen(
+        appDetailsIdentityProvider(entry),
+        (_, _) {},
+      );
+      await container.read(appDetailsIdentityProvider(entry).future);
+      subscription.close();
+      await settle();
+    }
+
+    test('keeps a successful lookup after the page closes', () async {
+      final snaps = _FakeAdapter(PackageFormat.snap, [_snapDescriptor]);
+      final container = createContainer(
+        overrides: [
+          appDetailsIdentityResolverProvider.overrideWithValue(
+            _resolver(snapAdapter: snaps),
+          ),
+        ],
+      );
+
+      await open(container);
+      final lookups = snaps.lookups;
+      await open(container);
+
+      expect(snaps.lookups, lookups);
+      expect(
+        container.read(appDetailsIdentityProvider(entry)).value?.sourceKeys,
+        [testSnapKey, testDebKey],
+      );
+    });
+
+    test('retries a failed lookup on the next open', () async {
+      final snaps = _FakeAdapter(
+        PackageFormat.snap,
+        [_snapDescriptor],
+        fail: true,
+      );
+      final container = createContainer(
+        overrides: [
+          appDetailsIdentityResolverProvider.overrideWithValue(
+            _resolver(snapAdapter: snaps),
+          ),
+        ],
+      );
+
+      await open(container);
+      final lookups = snaps.lookups;
+      await open(container);
+
+      expect(snaps.lookups, greaterThan(lookups));
+    });
+
+    test('invalidating looks up again', () async {
+      final snaps = _FakeAdapter(PackageFormat.snap, [_snapDescriptor]);
+      final container = createContainer(
+        overrides: [
+          appDetailsIdentityResolverProvider.overrideWithValue(
+            _resolver(snapAdapter: snaps),
+          ),
+        ],
+      );
+
+      await open(container);
+      final lookups = snaps.lookups;
+      container.invalidate(appDetailsIdentityProvider(entry));
+      await open(container);
+
+      expect(snaps.lookups, greaterThan(lookups));
+    });
   });
 }
