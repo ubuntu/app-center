@@ -451,5 +451,100 @@
     "appDetailsCategoryLabel": "Kateqoriya",
     "appDetailsInstallDateLabel": "Quraşdırılma tarixi",
     "appDetailsNotInstalled": "Quraşdırılmayıb",
-    "addonsPageMediaSupportTitle": "Media dəstəyi"
+    "addonsPageMediaSupportTitle": "Media dəstəyi",
+    "managePageOpenAppSemanticLabel": "{appName} tətbiqini aç",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "{appName} tətbiqini yenilə",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "{appName} tətbiqini sil",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "{appName} üçün {action} əməliyyatını ləğv et",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "Ölçü: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "Versiya {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "{version} versiyadan {updateVersion} versiyaya",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsNotAvailable": "Mövcud deyil",
+    "appDetailsChoosePackageFormatAction": "Paket formatı seç…",
+    "appDetailsChoosePackageFormatTitle": "Paket formatı seç",
+    "appDetailsPackageSourceLabel": "Mənbə",
+    "appDetailsVerifiedPublisherSemanticLabel": "Təsdiqlənmiş naşir",
+    "appDetailsStarredPublisherSemanticLabel": "Ulduzlanmış naşir",
+    "appDetailsPackageSourceSnapStore": "Snap Mağazası",
+    "appDetailsPackageSourceUbuntuArchive": "Ubuntu arxivi",
+    "appDetailsInstalledAsFormat": "Artıq {format} kimi quraşdırılıb",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "{first} və {second} quraşdırıldı",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Çoxsaylı paket formatlarında quraşdırılır",
+    "appDetailsPackageFormatsLearnMore": "Paket formatları haqqında daha çox öyrən",
+    "addonsPageFirmwareTitle": "Mikroproqram",
+    "addonsPageFirmwareDescription": "Daha yaxşı performans və təhlükəsizlik üçün avadanlığı yeniləyin",
+    "mediaSupportPageAdditionalMediaTitle": "Əlavə media dəstəyi",
+    "mediaSupportPageInstallButton": "Quraşdır"
 }

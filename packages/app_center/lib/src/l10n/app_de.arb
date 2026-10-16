@@ -473,5 +473,136 @@
     "mediaSupportPageAdditionalMediaTitle": "Zusätzliche Medienunterstützung",
     "mediaSupportPageInstallButton": "Installieren",
     "addonsPageFirmwareTitle": "Firmware",
-    "addonsPageFirmwareDescription": "Aktualisieren Sie die Hardware für bessere Leistung und Sicherheit"
+    "addonsPageFirmwareDescription": "Aktualisieren Sie die Hardware für bessere Leistung und Sicherheit",
+    "managePageOpenAppSemanticLabel": "{appName} öffnen",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "{appName} aktualisieren",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppRestartRequiredSemanticLabel": "{appName} aktualisieren, zum Abschluss ist ein Neustart erforderlich",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "{appName} deinstallieren",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "{action} für {appName} abbrechen",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "Größe: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "Kanal {channel}, Version {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "Kanal {channel}, Version {version} auf {updateVersion}",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "Version {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "Version {version} auf {updateVersion}",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledSizeLabel": "Installierte Größe",
+    "appDetailsChoosePackageFormatAction": "Paketformat auswählen …",
+    "appDetailsChoosePackageFormatTitle": "Paketformat auswählen",
+    "appDetailsPackageSourceLabel": "Quelle",
+    "appDetailsVerifiedPublisherSemanticLabel": "Verifizierter Herausgeber",
+    "appDetailsPackageSourceSnapStore": "Snap Store",
+    "appDetailsPackageSourceUbuntuArchive": "Ubuntu-Archiv",
+    "appDetailsInstalledAsFormat": "Bereits als {format} installiert",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "{first} und {second} sind beide installiert",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "In verschiedenen Paketformaten installiert",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Deinstallieren Sie es, bevor Sie ein anderes Paketformat installieren. App-Daten werden nicht zwischen den Formaten übertragen.} =2{Deinstallieren Sie beide, um zu einem anderen Format zu wechseln. App-Daten werden nicht zwischen den Formaten übertragen.} other{Deinstallieren Sie beide, um zu einem anderen Format zu wechseln. App-Daten werden nicht zwischen den Formaten übertragen.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "appDetailsPackageFormatsLearnMore": "Erfahren Sie mehr über Paketformate"
 }

@@ -421,13 +421,13 @@
     "driversPageDeviceClassOther": "Autre(s) type(s)",
     "driversPageBranchLts": "Support à long terme",
     "driversPageBranchNewFeature": "Nouveautés",
-    "driversPageRestartRequiredTitle": "Redémarrage nécessaire",
+    "driversPageRestartRequiredTitle": "Redémarrage requis",
     "driversPageRestartRequiredMessage": "Redémarrez votre ordinateur pour terminer l'application des changements de pilote.",
     "driversPageErrorLabel": "Erreur",
-    "driversPageRetryLabel": "Essayer à nouveau",
+    "driversPageRetryLabel": "Réessayer",
     "driversPageNoDriversFoundMessage": "Utilise les pilotes intégrés. Aucun pilote supplémentaire trouvé.",
     "driversPageUnavailableTitle": "Gestion du pilote non disponible",
-    "driversPageUnsupportedMessage": "Le service de gestion du pilote n'est pas disponible. Assurez-vous que snapd est mis à jour et que ubuntu-drivers-common est installé.",
+    "driversPageUnsupportedMessage": "Le service de gestion du pilote n'est pas disponible. Assurez-vous que Snapd est à jour et que ubuntu-drivers-common est installé.",
     "driversPageSwitchBranchLtsDescription": "Stabilité maximale lors de charges de travail critiques",
     "driversPageSwitchBranchNewFeatureDescription": "Pré-version, moins stable",
     "addonsPageMediaSupportTitle": "Prise en charge des médias",
@@ -604,6 +604,6 @@
         }
     },
     "appDetailsPackageFormatsLearnMore": "En savoir plus sur les formats de paquets",
-    "appDetailsInstalledSizeLabel": "Taille à prévoir",
+    "appDetailsInstalledSizeLabel": "Taille installée",
     "appDetailsInstalledAsMultipleFormats": "Installé comme plusieurs formats de paquets"
 }
