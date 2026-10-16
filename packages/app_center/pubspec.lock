@@ -1308,10 +1308,10 @@ packages:
     dependency: "direct main"
     description:
       name: ubuntu_localizations
-      sha256: a2cdc05d00caf65025fbdca18d13cfe6ed47f55f0804c0ed0e38bf3d4daa3021
+      sha256: ce27a25aed582a674adae27db4c8329ffac7b8a9a00eb0e10572e43bd40910c3
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.2+3"
+    version: "0.5.2+5"
   ubuntu_logger:
     dependency: "direct main"
     description:
