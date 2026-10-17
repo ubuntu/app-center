@@ -1,7 +1,13 @@
 import 'package:app_center/l10n.dart';
+import 'package:app_center/manage/app_providers.dart';
+import 'package:app_center/manage/local_deb_providers.dart';
+import 'package:app_center/manage/local_snap_providers.dart';
+import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+import 'package:snapd/snapd.dart';
 import 'package:yaru/yaru.dart';
 
 import 'test_utils.dart';
@@ -94,5 +100,86 @@ void main() {
 
       expect(SnapAction.update.callback(snapData, model), isNotNull);
     });
+
+    test(
+      'update callback refreshes the snap and moves it from the updates list '
+      'to the installed list',
+      () async {
+        final localSnap = createSnap(
+          name: 'test',
+          version: '1.0',
+          revision: 1,
+          trackingChannel: 'latest/stable',
+          apps: [const SnapApp(name: 'test')],
+        );
+        final storeSnap = createSnap(
+          name: 'test',
+          version: '2.0',
+          revision: 2,
+          channels: {
+            'latest/stable': SnapChannel(
+              confinement: SnapConfinement.strict,
+              size: 1337,
+              releasedAt: DateTime(1970),
+              version: '2.0',
+            ),
+          },
+        );
+        final service = registerMockSnapdService(
+          localSnap: localSnap,
+          storeSnap: storeSnap,
+          installedSnaps: [localSnap],
+          refreshableSnaps: [storeSnap],
+        );
+
+        final container = createContainer(
+          overrides: [
+            localDebsProvider.overrideWith((ref) async => []),
+            showLocalSystemAppsProvider.overrideWith((ref) => true),
+          ],
+        );
+
+        container.listen(installedAppsProvider, (_, __) {});
+        container.listen(filteredLocalSnapsProvider, (_, __) {});
+
+        final updates = await container.read(snapUpdatesModelProvider.future);
+        expect(updates.snaps.snapNames, contains('test'));
+        final installedBefore = await container.read(
+          installedAppsProvider.future,
+        );
+        expect(installedBefore.map((a) => a.name), isNot(contains('test')));
+
+        final model = container.read(snapModelProvider('test').notifier);
+        final snapData = await container.read(snapModelProvider('test').future);
+        expect(snapData.hasUpdate, isTrue);
+
+        final callback = SnapAction.update.callback(snapData, model);
+        expect(callback, isNotNull);
+        callback!();
+
+        await settle();
+
+        verify(
+          service.refresh(
+            'test',
+            channel: anyNamed('channel'),
+            classic: anyNamed('classic'),
+          ),
+        ).called(1);
+
+        expect(
+          container.read(snapUpdatesModelProvider).value!.snaps.snapNames,
+          isNot(contains('test')),
+        );
+        expect(
+          container.read(installedAppsProvider).value!.map((a) => a.name),
+          contains('test'),
+        );
+        expect(
+          container.read(filteredLocalSnapsProvider).value!.snaps.snapNames,
+          contains('test'),
+        );
+      },
+    );
   });
 }
