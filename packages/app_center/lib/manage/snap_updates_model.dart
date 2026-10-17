@@ -93,6 +93,8 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
   /// an aborted change is not shown back to them as a failure.
   bool _abortRequested = false;
 
+  static final _snapNamePattern = RegExp('snap "([^"]+)"|"([^"]+)" snap');
+
   @override
   Future<SnapListState> build() async {
     final result = fetchRefreshableSnaps();
@@ -166,7 +168,9 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
       // An empty list asks snapd to refresh everything it can. Held snaps and
       // snaps with running apps are local state that the store list cannot
       // see, so snapd is the one to decide. It leaves them out of the change
-      // without reporting them, though, so they do not show up as errors.
+      // without reporting them, though, so they do not show up as errors. That
+      // includes this app, which is running while the user clicks Update All
+      // and so stays with its own update flow.
       final changeId = await _snapd.refreshMany([]);
       // Only used to narrow the list. If snapd cannot say, the store list is a
       // safe superset and the refresh itself carries on regardless.
@@ -225,22 +229,32 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
     try {
       await _snapd.abortChange(changeId);
     } on SnapdException catch (e) {
+      // The change carries on, so a failure of its own must still be shown.
+      _abortRequested = false;
       ref.read(errorStreamControllerProvider).add(e);
     }
   }
 
   /// Splits the error of a finished change by snap, so it can be shown in the
   /// same per-snap form as when each snap was refreshed on its own. snapd
-  /// reports one `- ` line per failed task, and task summaries name their snap
-  /// in quotes. If any task line does not name one, nothing is split, so that
-  /// the caller shows the whole message rather than drop part of it.
+  /// starts each failed task with a `- ` line, and the error of a task can run
+  /// on over the lines that follow it. Task summaries name their snap as
+  /// `snap "name"` or `"name" snap`. If any task does not name one, nothing is
+  /// split, so that the caller shows the whole message rather than drop part
+  /// of it.
   static Map<String, SnapdException> _errorsBySnap(String err) {
     final messages = <String, List<String>>{};
-    for (final line in err.split('\n').map((l) => l.trim())) {
-      if (!line.startsWith('- ')) continue;
-      final snapName = RegExp('"([^"]+)"').firstMatch(line)?.group(1);
-      if (snapName == null) return {};
-      (messages[snapName] ??= []).add(line.substring(2));
+    List<String>? task;
+    for (final line in err.split('\n')) {
+      if (line.startsWith('- ')) {
+        final match = _snapNamePattern.firstMatch(line);
+        final snapName = match?.group(1) ?? match?.group(2);
+        if (snapName == null) return {};
+        task = messages[snapName] ??= [];
+        task.add(line.substring(2));
+      } else if (line.trim().isNotEmpty) {
+        task?.add(line);
+      }
     }
     return messages.map(
       (snapName, lines) =>

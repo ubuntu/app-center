@@ -236,6 +236,38 @@ void main() {
     );
   });
 
+  test('update all keeps the lines a task error runs on over', () async {
+    final reported = await reportedErrorFor(
+      'cannot perform the following tasks:\n'
+      '- Run post-refresh hook of "one" snap if present (run hook "post-refresh": \n'
+      '-----\n'
+      'cannot write config\n'
+      '-----)\n'
+      '- Download snap "two" (12) from channel "latest/stable" (boom)',
+    );
+
+    final errors = (reported as ConsolidatedSnapdException).errors;
+    expect(errors.keys, unorderedEquals(['one', 'two']));
+    expect(
+      (errors['one']! as SnapdException).message,
+      contains('cannot write config'),
+    );
+  });
+
+  test('update all finds the snap after other quoted names', () async {
+    final reported = await reportedErrorFor(
+      'cannot perform the following tasks:\n'
+      '- Run service command "restart" for services ["svc"] of snap "one" '
+      '(boom)\n'
+      '- Download snap "two" (12) from channel "latest/stable" (boom)',
+    );
+
+    expect(
+      (reported as ConsolidatedSnapdException).errors.keys,
+      unorderedEquals(['one', 'two']),
+    );
+  });
+
   test('update all shows the whole error when a task names no snap', () async {
     const err =
         'cannot perform the following tasks:\n'
@@ -310,6 +342,100 @@ void main() {
 
     change.complete();
     await refreshing;
+  });
+
+  test('update all still reports a failure after a failed cancel', () async {
+    // ignore: close_sinks
+    final errorStream = registerMockErrorStreamControllerService();
+    final testSnap = refreshableSnaps.first;
+    final service = registerMockSnapdService(
+      localSnap: testSnap,
+      storeSnap: testSnap,
+      refreshableSnaps: refreshableSnaps,
+      installedSnaps: refreshableSnaps,
+    );
+    final abortError = SnapdException(message: 'busy');
+    when(service.abortChange(any)).thenThrow(abortError);
+    when(service.getChange('id')).thenAnswer(
+      (_) async => SnapdChange(
+        id: 'id',
+        ready: true,
+        snapNames: ['testsnap3'],
+        err:
+            'cannot perform the following tasks:\n'
+            '- Download snap "testsnap3" (12) from channel "latest/stable" '
+            '(boom)',
+      ),
+    );
+    final change = Completer<void>();
+    when(service.waitChange(any)).thenAnswer((_) => change.future);
+
+    final container = createContainer();
+    await container.read(snapUpdatesModelProvider.future);
+    final refreshing = container
+        .read(snapUpdatesModelProvider.notifier)
+        .refreshAll();
+    await pumpEventQueue();
+
+    await container.read(snapUpdatesModelProvider.notifier).cancelRefreshAll();
+    change.complete();
+    await refreshing;
+
+    final reported = verify(errorStream.add(captureAny)).captured;
+    expect(reported, hasLength(2));
+    expect(reported.first, same(abortError));
+    expect((reported.last as SnapdException).message, contains('boom'));
+  });
+
+  test('the snap model follows the change of update all', () async {
+    // ignore: close_sinks
+    final errorStream = registerMockErrorStreamControllerService();
+    final testSnap = refreshableSnaps.first;
+    final service = registerMockSnapdService(
+      localSnap: testSnap,
+      storeSnap: testSnap,
+      refreshableSnaps: refreshableSnaps,
+      installedSnaps: refreshableSnaps,
+    );
+    when(service.getChange('id')).thenAnswer(
+      (_) async => SnapdChange(
+        id: 'id',
+        ready: true,
+        snapNames: ['testsnap3'],
+        err: 'cannot perform the following tasks:\n- Download snap "testsnap3"',
+      ),
+    );
+    final change = Completer<void>();
+    when(service.waitChange(any)).thenAnswer((_) => change.future);
+
+    final container = createContainer();
+    // Watched, as it is by the snap page, so that the model stays active.
+    container.listen(snapModelProvider('testsnap3'), (_, _) {});
+    await container.read(snapModelProvider('testsnap3').future);
+    await container.read(snapUpdatesModelProvider.future);
+    final refreshing = container
+        .read(snapUpdatesModelProvider.notifier)
+        .refreshAll();
+    await pumpEventQueue();
+
+    expect(
+      container.read(snapModelProvider('testsnap3')).value?.activeChangeId,
+      equals('id'),
+    );
+
+    // Cancelling from the snap page aborts the whole change, quietly.
+    await container.read(snapModelProvider('testsnap3').notifier).cancel();
+    verify(service.abortChange('id')).called(1);
+
+    change.complete();
+    await refreshing;
+    await pumpEventQueue();
+
+    verifyNever(errorStream.add(any));
+    expect(
+      container.read(snapModelProvider('testsnap3')).value?.activeChangeId,
+      isNull,
+    );
   });
 
   group('localVersion', () {
