@@ -549,5 +549,7 @@
     "addonsPageMediaSupportTitle": "Suport per a elements multimèdia",
     "addonsPageMediaSupportDescription": "Instal·la programari addicional per tenir compatibilitat amb més formats multimèdia",
     "addonsPageFirmwareTitle": "Microprogramari",
-    "addonsPageFirmwareDescription": "Actualitzeu el maquinari per obtenir un millor rendiment i seguretat"
+    "addonsPageFirmwareDescription": "Actualitzeu el maquinari per obtenir un millor rendiment i seguretat",
+    "mediaSupportPageDescription": "L'Ubuntu ja inclou alguns còdecs de codi obert per defecte. És possible que hagueu d'instal·lar programari addicional per reproduir i editar certs formats de música i vídeo.",
+    "mediaSupportPageAdditionalMediaTitle": "Suport addicional per a elements multimèdia"
 }
