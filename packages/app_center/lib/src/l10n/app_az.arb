@@ -546,5 +546,49 @@
     "addonsPageFirmwareTitle": "Mikroproqram",
     "addonsPageFirmwareDescription": "Daha yaxşı performans və təhlükəsizlik üçün avadanlığı yeniləyin",
     "mediaSupportPageAdditionalMediaTitle": "Əlavə media dəstəyi",
-    "mediaSupportPageInstallButton": "Quraşdır"
+    "mediaSupportPageInstallButton": "Quraşdır",
+    "managePageUpdateAppRestartRequiredSemanticLabel": "{appName} tətbiqini yeniləyin. Tamamlamaq üçün yenidən başladın",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "{channel} kanalı, versiya {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "{channel} kanalı, {version} versiyadan {updateVersion} versiyaya",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledSizeLabel": "Quraşdırılmış ölçü",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Fərqli paket formatını quraşdırmazdan əvvəl onu sistemdən silin. Tətbiq datası formatlar arasında paylaşılmır.} =2{Fərqli formata keçmək üçün hər ikisini sistemdən silin. Tətbiq datası formatlar arasında paylaşılmır.} other{Fərqli formata keçmək üçün onları sistemdən silin. Tətbiq datası formatlar arasında paylaşılmır.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "addonsPageMediaSupportDescription": "Daha çox media formatını dəstəkləmək üçün əlavə proqram təminatı quraşdırın",
+    "mediaSupportPageDescription": "Ubuntu varsayılan olaraq bəzi açıq mənbə kodekləri ilə göndərir. Müəyyən musiqi və video formatlarını oxutmaq və redaktə etmək üçün əlavə proqram təminatı quraşdırmalı ola bilərsiniz."
 }
