@@ -50,9 +50,10 @@ enum SnapAction {
         snapData?.storeSnap != null
             ? () => showChannelSwitchDialog(context!, snapData!.name)
             : null,
-      SnapAction.update => snapData?.storeSnap != null 
-        ? () => model.refresh(removeFromList: true) 
-        : null,
+      SnapAction.update =>
+        snapData?.storeSnap != null
+            ? () => model.refresh(removeFromList: true)
+            : null,
     };
   }
 }
