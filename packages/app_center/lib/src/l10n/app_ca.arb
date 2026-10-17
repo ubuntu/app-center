@@ -404,5 +404,150 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "managePageOpenAppSemanticLabel": "Obre {appName}",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "Actualitza {appName}",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppRestartRequiredSemanticLabel": "Actualitza {appName}; caldrà reiniciar per acabar el procés",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "Desinstal·la {appName}",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "Cancel·la {action} per {appName}",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "Mida: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "canal {channel}, versió {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "Canal {channel}, de versió {version} a {updateVersion}",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "Versió {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "De versió {version} a {updateVersion}",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsAdditionalInfoLabel": "Informació addicional",
+    "appDetailsPackageFormatLabel": "Format del paquet",
+    "appDetailsCategoryLabel": "Categoria",
+    "appDetailsInstallDateLabel": "Data d'instal·lació",
+    "appDetailsInstalledSizeLabel": "Mida instal·lada",
+    "appDetailsNotInstalled": "No està instal·lat",
+    "appDetailsNotAvailable": "No disponible",
+    "appDetailsChoosePackageFormatAction": "Trieu el format del paquet…",
+    "appDetailsChoosePackageFormatTitle": "Trieu el format del paquet",
+    "appDetailsPackageSourceLabel": "Font",
+    "appDetailsVerifiedPublisherSemanticLabel": "Editor verificat",
+    "appDetailsStarredPublisherSemanticLabel": "Editor destacat",
+    "appDetailsPackageSourceSnapStore": "Botiga de Snap",
+    "appDetailsPackageSourceUbuntuArchive": "Arxiu de l'Ubuntu",
+    "appDetailsInstalledAsFormat": "Ja està instal·lat com a {format}",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "{first} i {second} estan ambdós instal·lats",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Instal·lat com a múltiples formats de paquet",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Desinstal·leu-lo abans d'instal·lar un format de paquet diferent. Les dades de l'aplicació no es comparteixen entre formats.} =2{Desinstal·leu-los ambdós per canviar a un format diferent. Les dades de l'aplicació no es comparteixen entre formats.} other{Desinstal·leu-los per canviar a un format diferent. Les dades de l'aplicació no es comparteixen entre formats.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "appDetailsPackageFormatsLearnMore": "Més informació sobre els formats de paquet",
+    "addonsPageLabel": "Complements",
+    "addonsPageAdditionalDriversTitle": "Controladors addicionals",
+    "addonsPageAdditionalDriversDescription": "Afegeix un millor suport per a targetes gràfiques i altre maquinari",
+    "addonsPageMediaSupportTitle": "Suport per a elements multimèdia",
+    "addonsPageMediaSupportDescription": "Instal·la programari addicional per tenir compatibilitat amb més formats multimèdia",
+    "addonsPageFirmwareTitle": "Microprogramari",
+    "addonsPageFirmwareDescription": "Actualitzeu el maquinari per obtenir un millor rendiment i seguretat"
 }
