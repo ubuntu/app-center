@@ -19,6 +19,20 @@ class SnapModel extends _$SnapModel {
 
   @override
   Future<SnapData> build(String snapName) async {
+    // Update All refreshes its snaps in a single change of its own rather than
+    // through this model, so it is mirrored here for every view that reads the
+    // active change of this snap.
+    ref.listen(currentlyRefreshAllSnapsProvider, (previous, next) {
+      if (_refreshAllChangeId(next) case final changeId?) {
+        _updateChangeId(changeId);
+      } else if (previous?.changeId case final previousId?
+          when state.value?.activeChangeId == previousId) {
+        // Rebuild rather than clear, as in _listenUntilDone, so that the page
+        // does not flash the stale pre-update state.
+        ref.invalidateSelf();
+      }
+    });
+
     Snap? localSnap;
     try {
       localSnap = await _snapd.getSnap(snapName);
@@ -63,7 +77,10 @@ class SnapModel extends _$SnapModel {
       name: snapName,
       localSnap: localSnap,
       storeSnap: storeSnap,
-      activeChangeId: activeChangeId,
+      // Read again here, since Update All may have started while this built.
+      activeChangeId:
+          activeChangeId ??
+          _refreshAllChangeId(ref.read(currentlyRefreshAllSnapsProvider)),
       selectedChannel: SnapData.defaultSelectedChannel(
         localSnap,
         storeSnap,
@@ -119,6 +136,12 @@ class SnapModel extends _$SnapModel {
     final changeIdToAbort = state.value?.activeChangeId;
     if (changeIdToAbort == null) {
       return;
+    }
+    if (changeIdToAbort ==
+        ref.read(currentlyRefreshAllSnapsProvider).changeId) {
+      // The change of Update All can only be aborted as a whole, and only the
+      // updates model knows not to report the aborted change as a failure.
+      return ref.read(snapUpdatesModelProvider.notifier).cancelRefreshAll();
     }
     final changeId = (await _snapd.abortChange(changeIdToAbort)).id;
     _updateChangeId(changeId);
@@ -209,6 +232,10 @@ class SnapModel extends _$SnapModel {
     final data = state.value!;
     state = AsyncData(data.copyWith(selectedChannel: channel));
   }
+
+  /// The change of Update All, if this snap is in it.
+  String? _refreshAllChangeId(RefreshAllSnaps refreshAll) =>
+      refreshAll.snapNames.contains(snapName) ? refreshAll.changeId : null;
 
   void _updateChangeId(String changeId) {
     final data = state.value;

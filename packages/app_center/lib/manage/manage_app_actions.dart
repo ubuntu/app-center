@@ -93,6 +93,7 @@ class ManageAppActions extends ConsumerWidget {
         // A single change can only be aborted as a whole.
         onCancelPressed: () =>
             ref.read(snapUpdatesModelProvider.notifier).cancelRefreshAll(),
+        appName: app.name,
       );
     }
 
