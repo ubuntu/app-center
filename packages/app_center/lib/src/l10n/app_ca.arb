@@ -404,5 +404,205 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "managePageOpenAppSemanticLabel": "Obre {appName}",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "Actualitza {appName}",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppRestartRequiredSemanticLabel": "Actualitza {appName}; caldrà reiniciar per acabar el procés",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "Desinstal·la {appName}",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "Cancel·la {action} per {appName}",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "Mida: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "canal {channel}, versió {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "Canal {channel}, de versió {version} a {updateVersion}",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "Versió {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "De versió {version} a {updateVersion}",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsAdditionalInfoLabel": "Informació addicional",
+    "appDetailsPackageFormatLabel": "Format del paquet",
+    "appDetailsCategoryLabel": "Categoria",
+    "appDetailsInstallDateLabel": "Data d'instal·lació",
+    "appDetailsInstalledSizeLabel": "Mida instal·lada",
+    "appDetailsNotInstalled": "No està instal·lat",
+    "appDetailsNotAvailable": "No disponible",
+    "appDetailsChoosePackageFormatAction": "Trieu el format del paquet…",
+    "appDetailsChoosePackageFormatTitle": "Trieu el format del paquet",
+    "appDetailsPackageSourceLabel": "Font",
+    "appDetailsVerifiedPublisherSemanticLabel": "Editor verificat",
+    "appDetailsStarredPublisherSemanticLabel": "Editor destacat",
+    "appDetailsPackageSourceSnapStore": "Botiga de Snap",
+    "appDetailsPackageSourceUbuntuArchive": "Arxiu de l'Ubuntu",
+    "appDetailsInstalledAsFormat": "Ja està instal·lat com a {format}",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "{first} i {second} estan ambdós instal·lats",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Instal·lat com a múltiples formats de paquet",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Desinstal·leu-lo abans d'instal·lar un format de paquet diferent. Les dades de l'aplicació no es comparteixen entre formats.} =2{Desinstal·leu-los ambdós per canviar a un format diferent. Les dades de l'aplicació no es comparteixen entre formats.} other{Desinstal·leu-los per canviar a un format diferent. Les dades de l'aplicació no es comparteixen entre formats.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "appDetailsPackageFormatsLearnMore": "Més informació sobre els formats de paquet",
+    "addonsPageLabel": "Complements",
+    "addonsPageAdditionalDriversTitle": "Controladors addicionals",
+    "addonsPageAdditionalDriversDescription": "Afegeix un millor suport per a targetes gràfiques i altre maquinari",
+    "addonsPageMediaSupportTitle": "Suport per a elements multimèdia",
+    "addonsPageMediaSupportDescription": "Instal·la programari addicional per tenir compatibilitat amb més formats multimèdia",
+    "addonsPageFirmwareTitle": "Microprogramari",
+    "addonsPageFirmwareDescription": "Actualitzeu el maquinari per obtenir un millor rendiment i seguretat",
+    "mediaSupportPageDescription": "L'Ubuntu ja inclou alguns còdecs de codi obert per defecte. És possible que hagueu d'instal·lar programari addicional per reproduir i editar certs formats de música i vídeo.",
+    "mediaSupportPageAdditionalMediaTitle": "Suport addicional per a elements multimèdia",
+    "mediaSupportPageInstallButton": "Instal·la",
+    "driversPageDescription": "Els controladors de dispositiu privatius contenen codi tancat que l'equip de desenvolupament de l'Ubuntu no pot ni revisar ni millorar. La seguretat i altres actualitzacions depenen exclusivament del proveïdor del controlador.",
+    "driversPageSectionUpdateAvailable": "Hi ha una actualització disponible",
+    "driversPageSectionAvailable": "Disponible",
+    "driversPageSectionInstalled": "Instal·lat",
+    "driversPageSectionUnsupported": "No hi ha cap controlador disponible",
+    "driversPageNoPackagesMessage": "No hi ha cap paquet que proporcioni els controladors per a aquest dispositiu",
+    "driversPageDeviceClassGraphics": "Gràfics",
+    "driversPageDeviceClassNetwork": "Xarxa",
+    "driversPageDeviceClassCamera": "Càmera",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Emmagatzematge",
+    "driversPageDeviceClassAudio": "Àudio",
+    "driversPageDeviceClassOther": "Altres",
+    "driversPageBranchProduction": "Producció",
+    "driversPageBranchLts": "Suport a llarg termini",
+    "driversPageBranchNewFeature": "Noves característiques",
+    "driversPageVersionLabel": "Versió {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Cal reiniciar",
+    "driversPageRestartRequiredMessage": "Reinicieu l'ordinador per acabar d'aplicar les modificacions dels controladors.",
+    "driversPageErrorLabel": "S'ha produït un error",
+    "driversPageRetryLabel": "Torna a intentar",
+    "driversPageNoDriversFoundMessage": "S'està utilitzant els controladors integrats. No s'ha pogut trobar controladors addicionals.",
+    "driversPageUnavailableTitle": "La gestió de controladors no està disponible",
+    "driversPageUnsupportedMessage": "El servei de gestió de controladors no està disponible. Assegureu-vos que l'snapd està actualitzat i el paquet ubuntu-drivers-common està instal·lat.",
+    "driversPageSwitchBranchLabel": "Canvia de branca",
+    "driversPageSwitchBranchTitle": "Canvia de branca",
+    "driversPageSwitchBranchProductionDescription": "Equilibra funcionalitat i estabilitat",
+    "driversPageSwitchBranchLtsDescription": "Màxima estabilitat per a càrregues de treball crítiques",
+    "driversPageSwitchBranchNewFeatureDescription": "Previsualització, menys estable",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (recomanat)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "Aquesta branca és menys estable",
+    "driversPageSwitchBranchLessStableWarningMessage": "Manteniu-vos en la branca actual per evitar problemes amb aquest dispositiu.",
+    "driversPageSwitchLabel": "Canvia",
+    "driversPageSwitchingBranchLabel": "S'està canviant de branca",
+    "driversPageUninstallTitle": "Desinstal·la el controlador",
+    "driversPageUninstallWarningTitle": "La desinstal·lació de controladors pot causar problemes",
+    "driversPageUninstallWarningMessage": "Podria ser complicat reinstal·lar els controladors, especialment si estan relacionats amb la targeta gràfica o a la xarxa.",
+    "driversPageUninstallAcknowledgeLabel": "Entenc el risc"
 }
