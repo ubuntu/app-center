@@ -362,13 +362,7 @@ void main() {
     );
 
     await tester.tap(find.text(tester.l10n.managePageUpdateAllLabel));
-    verify(
-      snapd.refresh(
-        refreshableSnaps.first.name,
-        channel: anyNamed('channel'),
-        classic: anyNamed('classic'),
-      ),
-    ).called(1);
+    verify(snapd.refreshMany([])).called(1);
   });
 
   testWidgets('refresh individual snap', (tester) async {
@@ -427,7 +421,9 @@ void main() {
         launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
         showLocalSystemAppsProvider.overrideWith((ref) => true),
         activeChangeProvider.overrideWithBuild((_, _) => mockChange),
-        currentlyRefreshAllSnapsProvider.overrideWith((_) => [snapName]),
+        currentlyRefreshAllSnapsProvider.overrideWith(
+          (_) => (changeId: mockChange.id, snapNames: [snapName]),
+        ),
       ],
     );
 
@@ -470,7 +466,9 @@ void main() {
           ...debProviderOverrides,
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
           activeChangeProvider.overrideWithBuild((_, _) => mockChange),
-          currentlyRefreshAllSnapsProvider.overrideWith((_) => ['name']),
+          currentlyRefreshAllSnapsProvider.overrideWith(
+            (_) => (changeId: mockChange.id, snapNames: ['name']),
+          ),
         ],
         child: const ManagePage(),
       ),
@@ -480,6 +478,60 @@ void main() {
     final cancelButton = find.buttonWithText(tester.l10n.snapActionCancelLabel);
     expect(cancelButton, findsOneWidget);
     expect(cancelButton, isEnabled);
+  });
+
+  testWidgets('snap tiles follow update all', (tester) async {
+    final mockChange = SnapdChange(
+      id: 'bulk',
+      spawnTime: DateTime(1970),
+      kind: 'refresh-snap',
+      tasks: [
+        const SnapdTask(id: '', progress: SnapdTaskProgress(done: 1, total: 2)),
+      ],
+    );
+    // The snap's own model has no change of its own, so whatever the tile
+    // shows can only come from the Update All refresh.
+    final snapName = refreshableSnaps.first.name;
+    final container = createContainer(
+      overrides: [
+        ...debProviderOverrides,
+        launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+        activeChangeProvider.overrideWithBuild((_, _) => mockChange),
+        currentlyRefreshAllSnapsProvider.overrideWith(
+          (_) => (changeId: mockChange.id, snapNames: [snapName]),
+        ),
+      ],
+    );
+
+    await tester.pumpApp(
+      (_) => UncontrolledProviderScope(
+        container: container,
+        child: const ManagePage(),
+      ),
+    );
+    await container.read(snapModelProvider(snapName).future);
+    await tester.pump();
+
+    final testTile = find.snapTile('Snap with an update');
+    expect(
+      find.descendant(of: testTile, matching: find.byType(ActiveChangeStatus)),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(
+        of: testTile,
+        matching: find.text(tester.l10n.snapActionUpdateLabel),
+      ),
+      findsNothing,
+    );
+
+    await tester.tap(
+      find.descendant(
+        of: testTile,
+        matching: find.text(tester.l10n.snapActionCancelLabel),
+      ),
+    );
+    verify(snapd.abortChange(mockChange.id)).called(1);
   });
 
   testWidgets('show app center update available', (tester) async {
@@ -909,13 +961,7 @@ void main() {
     await tester.pump();
 
     // Verify snap refresh was called
-    verify(
-      snapd.refresh(
-        refreshableSnaps.first.name,
-        channel: anyNamed('channel'),
-        classic: anyNamed('classic'),
-      ),
-    ).called(1);
+    verify(snapd.refreshMany([])).called(1);
 
     // Verify deb update was called
     verify(mockPackageKit.update(any)).called(1);

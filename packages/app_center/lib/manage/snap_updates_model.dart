@@ -33,7 +33,17 @@ abstract class SnapListState with _$SnapListState {
   }
 }
 
-final currentlyRefreshAllSnapsProvider = StateProvider<List<String>>((_) => []);
+/// A bulk refresh started by [SnapUpdatesModel.refreshAll].
+///
+/// `snapNames` is filled as soon as the refresh starts, so the affected snaps
+/// are locked while snapd asks for authorisation. `changeId` follows once snapd
+/// has accepted the request, and `snapNames` is then narrowed to the snaps that
+/// snapd actually put in the change.
+typedef RefreshAllSnaps = ({String? changeId, List<String> snapNames});
+
+final currentlyRefreshAllSnapsProvider = StateProvider<RefreshAllSnaps>(
+  (_) => (changeId: null, snapNames: const []),
+);
 final isSilentlyCheckingUpdatesProvider = StateProvider<bool>((_) => false);
 
 @Riverpod(keepAlive: true)
@@ -78,6 +88,12 @@ Future<List<Snap>> refreshInhibitSnaps(Ref ref) async {
 @Riverpod(keepAlive: true)
 class SnapUpdatesModel extends _$SnapUpdatesModel {
   late final _snapd = getService<SnapdService>();
+
+  /// Set when the user aborts the change, so that the error snapd records for
+  /// an aborted change is not shown back to them as a failure.
+  bool _abortRequested = false;
+
+  static final _snapNamePattern = RegExp('snap "([^"]+)"|"([^"]+)" snap');
 
   @override
   Future<SnapListState> build() async {
@@ -139,80 +155,111 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
     if (!state.hasValue) {
       return;
     }
-    final errors = <String, Exception>{};
     try {
-      // TODO: Should we call each and rely on the error messages from snapd?
       final refreshableSnapNames =
-          state.value?.snaps
-              .where((s) => s.refreshInhibit == null)
-              .map((s) => s.name)
-              .toList() ??
-          [];
+          state.value?.snaps.map((s) => s.name).toList() ?? [];
       if (refreshableSnapNames.isEmpty) {
         return;
       }
-      ref.read(currentlyRefreshAllSnapsProvider.notifier).state =
-          refreshableSnapNames.toList();
+      _abortRequested = false;
+      final refreshing = ref.read(currentlyRefreshAllSnapsProvider.notifier);
+      refreshing.state = (changeId: null, snapNames: refreshableSnapNames);
 
-      Future<void> refreshSnap(String snapName) async {
-        // snapModel watches this provider, so ref.read would assert a cycle.
-        final refreshFuture = ref.container
-            .read(snapModelProvider(snapName).notifier)
-            .refresh();
-        try {
-          final completedSuccessfully = await refreshFuture;
-          if (completedSuccessfully) {
-            removeFromList(snapName);
-          }
-        } on Exception catch (e) {
-          if (e is SnapdException && e.kind == 'auth-cancelled') {
-            rethrow;
-          }
-          errors[snapName] = e;
-        }
+      // An empty list asks snapd to refresh everything it can. Held snaps and
+      // snaps with running apps are local state that the store list cannot
+      // see, so snapd is the one to decide. It leaves them out of the change
+      // without reporting them, though, so they do not show up as errors. That
+      // includes this app, which is running while the user clicks Update All
+      // and so stays with its own update flow.
+      final changeId = await _snapd.refreshMany([]);
+      // Only used to narrow the list. If snapd cannot say, the store list is a
+      // safe superset and the refresh itself carries on regardless.
+      final snapNamesInChange = await _snapd
+          .getChange(changeId)
+          .then((change) => change.snapNames)
+          .catchError((_) => <String>[], test: (e) => e is SnapdException);
+      refreshing.state = (
+        changeId: changeId,
+        snapNames: snapNamesInChange.isNotEmpty
+            ? snapNamesInChange
+            : refreshableSnapNames,
+      );
+      await _snapd.waitChange(changeId);
+
+      // Waiting only tells us the change is over, not how it went. A snap that
+      // fails inside it does not fail the request, so its error has to be read
+      // from the finished change.
+      final finished = await _snapd
+          .getChange(changeId)
+          .then<SnapdChange?>((change) => change)
+          .catchError((_) => null, test: (e) => e is SnapdException);
+      final err = finished?.err;
+      if (err != null && !_abortRequested) {
+        final errors = _errorsBySnap(err);
+        ref.read(errorStreamControllerProvider).add(
+          switch (errors.length) {
+            0 => SnapdException(message: err),
+            1 => errors.values.first,
+            _ => ConsolidatedSnapdException(errors),
+          },
+        );
       }
-
-      // Refresh the first snap first so that we only ask for the password once.
-      final firstSnap = refreshableSnapNames.removeAt(0);
-      await refreshSnap(firstSnap);
-
-      final refreshFutures = refreshableSnapNames.map(refreshSnap);
-      await Future.wait(refreshFutures);
     } on SnapdException catch (e) {
       if (e.kind != 'auth-cancelled') {
         ref.read(errorStreamControllerProvider).add(e);
       }
     } finally {
-      ref.read(currentlyRefreshAllSnapsProvider.notifier).state = [];
-      if (errors.isNotEmpty) {
-        ref
-            .read(errorStreamControllerProvider)
-            .add(
-              errors.length == 1
-                  ? errors.values.first
-                  : ConsolidatedSnapdException(errors),
-            );
-      }
+      ref.read(currentlyRefreshAllSnapsProvider.notifier).state = (
+        changeId: null,
+        snapNames: const [],
+      );
       ref.invalidateSelf();
       ref.invalidate(localSnapsProvider);
     }
   }
 
+  /// Aborts the change started by [refreshAll]. The state is cleared by
+  /// [refreshAll] once the aborted change finishes, so a failed attempt leaves
+  /// the change id in place and can be retried.
   Future<void> cancelRefreshAll() async {
-    final snapNames = ref.read(currentlyRefreshAllSnapsProvider);
-    if (snapNames.isEmpty) return;
+    final changeId = ref.read(currentlyRefreshAllSnapsProvider).changeId;
+    if (changeId == null) return;
 
+    _abortRequested = true;
     try {
-      final cancelFutures = snapNames.map(
-        (snapName) =>
-            ref.container.read(snapModelProvider(snapName).notifier).cancel(),
-      );
-      await Future.wait(cancelFutures);
+      await _snapd.abortChange(changeId);
     } on SnapdException catch (e) {
+      // The change carries on, so a failure of its own must still be shown.
+      _abortRequested = false;
       ref.read(errorStreamControllerProvider).add(e);
-    } finally {
-      ref.read(currentlyRefreshAllSnapsProvider.notifier).state = [];
     }
+  }
+
+  /// Splits the error of a finished change by snap, so it can be shown in the
+  /// same per-snap form as when each snap was refreshed on its own. snapd
+  /// starts each failed task with a `- ` line, and the error of a task can run
+  /// on over the lines that follow it. Task summaries name their snap as
+  /// `snap "name"` or `"name" snap`. If any task does not name one, nothing is
+  /// split, so that the caller shows the whole message rather than drop part
+  /// of it.
+  static Map<String, SnapdException> _errorsBySnap(String err) {
+    final messages = <String, List<String>>{};
+    List<String>? task;
+    for (final line in err.split('\n')) {
+      if (line.startsWith('- ')) {
+        final match = _snapNamePattern.firstMatch(line);
+        final snapName = match?.group(1) ?? match?.group(2);
+        if (snapName == null) return {};
+        task = messages[snapName] ??= [];
+        task.add(line.substring(2));
+      } else if (line.trim().isNotEmpty) {
+        task?.add(line);
+      }
+    }
+    return messages.map(
+      (snapName, lines) =>
+          MapEntry(snapName, SnapdException(message: lines.join('\n'))),
+    );
   }
 }
 

@@ -6,6 +6,7 @@ import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/manage/local_deb_updates_model.dart';
 import 'package:app_center/manage/manage_app_data.dart';
 import 'package:app_center/manage/quit_to_update_notice.dart';
+import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/current_desktops_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
@@ -80,6 +81,22 @@ class ManageAppActions extends ConsumerWidget {
         ? null
         : ref.watch(launchProvider(snapData.localSnap!));
     final canOpen = snapLauncher?.isLaunchable ?? false;
+    // Update All runs as one snapd change rather than through each SnapModel,
+    // so the tile has to look for it here to show progress and to stop the
+    // user from starting a competing refresh of the same snap.
+    final refreshAll = ref.watch(currentlyRefreshAllSnapsProvider);
+    if (refreshAll.snapNames.contains(snap.name)) {
+      final change = ref.watch(activeChangeProvider(refreshAll.changeId));
+      return ActiveChangeStatus(
+        actionLabel: change?.localize(l10n),
+        progress: change?.progress ?? 0,
+        // A single change can only be aborted as a whole.
+        onCancelPressed: () =>
+            ref.read(snapUpdatesModelProvider.notifier).cancelRefreshAll(),
+        appName: app.name,
+      );
+    }
+
     final hasActiveChange = snapData.activeChangeId != null;
     if (hasActiveChange) {
       return ActiveChangeStatus(

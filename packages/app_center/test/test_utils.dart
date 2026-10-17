@@ -235,6 +235,9 @@ MockSnapdService registerMockSnapdService({
     service.abortChange(any),
   ).thenAnswer((_) async => SnapdChange(id: '', spawnTime: DateTime.now()));
   when(
+    service.getChange(any),
+  ).thenAnswer((_) async => SnapdChange(id: 'id', spawnTime: DateTime(1970)));
+  when(
     service.installMany(
       any,
     ),
