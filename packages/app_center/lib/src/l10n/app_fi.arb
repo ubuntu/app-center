@@ -405,5 +405,197 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "managePageOpenAppSemanticLabel": "Avaa {appName}",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "Päivitä {appName}",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "Poista {appName}",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "Koko: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "Versio {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsPackageFormatLabel": "Pakettimuoto",
+    "appDetailsInstallDateLabel": "Asennuspäivä",
+    "appDetailsInstalledSizeLabel": "Asennuksen koko",
+    "appDetailsNotInstalled": "Ei asennettu",
+    "appDetailsNotAvailable": "Ei saatavilla",
+    "appDetailsChoosePackageFormatAction": "Valitse pakettimuoto…",
+    "appDetailsChoosePackageFormatTitle": "Valitse pakettimuoto",
+    "appDetailsPackageSourceLabel": "Lähde",
+    "appDetailsVerifiedPublisherSemanticLabel": "Vahvistettu julkaisija",
+    "appDetailsPackageSourceSnapStore": "Snap-kauppa",
+    "appDetailsPackageSourceUbuntuArchive": "Ubuntu-arkisto",
+    "appDetailsPackageFormatsLearnMore": "Lue lisää pakettimuodoista",
+    "addonsPageLabel": "Lisäosat",
+    "addonsPageAdditionalDriversTitle": "Lisäajurit",
+    "addonsPageAdditionalDriversDescription": "Lisää parempi tuki näytönohjaimelle ja muulle laitteistolle",
+    "addonsPageMediaSupportTitle": "Mediatuki",
+    "addonsPageFirmwareTitle": "Laiteohjelmisto",
+    "mediaSupportPageInstallButton": "Asenna",
+    "driversPageSectionUpdateAvailable": "Päivitys saatavilla",
+    "driversPageSectionAvailable": "Saatavilla",
+    "driversPageSectionInstalled": "Asennettu",
+    "driversPageSectionUnsupported": "Ajureita ei ole saatavilla",
+    "driversPageDeviceClassGraphics": "Grafiikka",
+    "driversPageDeviceClassNetwork": "Verkko",
+    "driversPageDeviceClassCamera": "Kamera",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Tallennustila",
+    "driversPageDeviceClassAudio": "Ääni",
+    "driversPageDeviceClassOther": "Muu",
+    "driversPageBranchNewFeature": "Uudet ominaisuudet",
+    "driversPageVersionLabel": "Versio {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Uudelleenkäynnistys vaaditaan",
+    "driversPageErrorLabel": "Virhe",
+    "driversPageRetryLabel": "Yritä uudelleen",
+    "driversPageSwitchBranchLabel": "Vaihda haaraa",
+    "driversPageSwitchBranchTitle": "Vaihda haaraa",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (suositeltu)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "Tämä haara on vähemmän vakaa",
+    "driversPageSwitchLabel": "Vaihda",
+    "driversPageSwitchingBranchLabel": "Vaihdetaan haaraa",
+    "driversPageUninstallTitle": "Poista ajuri",
+    "driversPageUninstallAcknowledgeLabel": "Ymmärrän riskin",
+    "managePageChannelVersionSemanticLabel": "Kanava {channel}, versio {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsAdditionalInfoLabel": "Lisätiedot",
+    "appDetailsCategoryLabel": "Luokka",
+    "mediaSupportPageAdditionalMediaTitle": "Median lisätuki",
+    "driversPageNoPackagesMessage": "Yksikään paketti ei tarjoa ajureita tälle laitteelle",
+    "driversPageBranchLts": "Pitkäaikaistuki",
+    "driversPageRestartRequiredMessage": "Käynnistä tietokone uudelleen, jotta ajurimuutokset tulevat voimaan.",
+    "driversPageNoDriversFoundMessage": "Käytetään sisäänrakennettuja ajureita. Lisäajureita ei löytynyt.",
+    "driversPageSwitchBranchLessStableWarningMessage": "Pysy nykyisessä haarassa estääksesi ongelmat tämän laitteen kanssa.",
+    "driversPageUninstallWarningTitle": "Ajureiden poistaminen voi aiheuttaa ongelmia",
+    "managePageUpdateAppRestartRequiredSemanticLabel": "Päivitä {appName}, uudelleenkäynnistys vaaditaan viimeistelyyn",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "Peru toiminto {action} sovellukselle {appName}",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "Versio {version} versioon {updateVersion}",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsStarredPublisherSemanticLabel": "Tähtijulkaisija",
+    "appDetailsInstalledAsFormat": "Asennettu jo {format}-muodossa",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "Molemmat {first} ja {second} on asennettu",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Asennettu useana eri pakettimuotona",
+    "addonsPageMediaSupportDescription": "Asenna lisäohjelmistoja saadaksesi entistä paremmin tuen eri mediamuodoille",
+    "addonsPageFirmwareDescription": "Päivitä laitteisto saadaksesi paremman suorituskyvyn ja tietoturvan",
+    "mediaSupportPageDescription": "Ubuntu sisältää oletusarvoisesti joitain avoimen lähdekoodin koodekkeja. Joidenkin tiettyjen musiikki- ja videomuotojen toistaminen saattaa vaatia lisäohjelmistojen asentamista.",
+    "driversPageDescription": "Suljetut ajurit sisältävät omisteista koodia, jota Ubuntu-kehittäjät eivät voi katselmoida tai parantaa. Päivitykset, mukaan lukien tietoturvapäivitykset, ovat riippuvaisia ajurin valmistajasta.",
+    "driversPageBranchProduction": "Tuotanto",
+    "driversPageSwitchBranchProductionDescription": "Tasapainottaa ominaisuuksia ja vakautta",
+    "driversPageSwitchBranchLtsDescription": "Paras mahdollinen vakaus kriittisiä työkuormia varten",
+    "driversPageSwitchBranchNewFeatureDescription": "Esijulkaisu, vähemmän vakaa",
+    "managePageChannelVersionUpdateSemanticLabel": "Kanava {channel}, versio {version} versioon {updateVersion}",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageUnavailableTitle": "Ajurihallinta ei ole käytettävissä",
+    "driversPageUnsupportedMessage": "Ajurihallintapalvelu ei ole käytettävissä. Varmista, että snapd on ajan tasalla, ja ubuntu-drivers-common on asennettu.",
+    "driversPageUninstallWarningMessage": "Ajurin asentaminen uudelleen ei välttämättä onnistu helposti, erityisesti jos kyse on näytönohjaimen tai verkkolaitteen ajurista."
 }
