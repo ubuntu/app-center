@@ -277,7 +277,7 @@
         }
     },
     "managePageQuitToUpdate": "Ukončite kvôli aktualizácii",
-    "managePageUpdatesFailed": "Zlyhala {n, plural, =1{1 aktualizácia} few{{n} aktualizácie} other{{n} aktualizácií}}",
+    "managePageUpdatesFailed": "{n, plural, =1{Zlyhala 1 aktualizácia} few{Zlyhali {n} aktualizácie} other{Zlyhalo {n} aktualizácií}}",
     "@managePageUpdatesFailed": {
         "placeholders": {
             "n": {
@@ -392,7 +392,7 @@
     "appPublishedUnknown": "Neznáme",
     "managePagePackageTypeSnap": "Snap",
     "managePagePackageTypeDeb": "Deb",
-    "managePagePackageTypeLabel": "Balíky",
+    "managePagePackageTypeLabel": "Typ balíka",
     "managePagePackageTypeAll": "Všetky",
     "appMoreActionsSemanticLabel": "Ďalšie akcie",
     "appConfinementStrictTooltip": "Táto aplikácia má obmedzený prístup k vašim zdrojom. Jej oprávnenia môžete ovládať v aplikácii Nastavenia.",
