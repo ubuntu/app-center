@@ -94,6 +94,15 @@ Future<PackageKitPackageInfo?> debQuickPackageInfo(
   return (await getService<PackageKitService>().resolve([name]))[name];
 }
 
+PackageKitPackageInfo? _quickPackageInfo(Ref ref, String componentId) {
+  final component = getService<AppstreamService>().tryGetFromId(componentId);
+  if (component == null) return null;
+  final name = component.package ?? componentId;
+  final packageKit = getService<PackageKitService>();
+  if (packageKit.isPackageCached(name)) return packageKit.cachedPackage(name);
+  return ref.watch(debQuickPackageInfoProvider(componentId)).value;
+}
+
 @riverpod
 AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
   Ref ref,
@@ -103,9 +112,7 @@ AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
   final mutations = ref.watch(packageKitMutationsProvider).value ?? const [];
   final icon = ref.watch(debIconProvider(componentId));
   final loading = !model.hasValue && !model.hasError;
-  final quickInfo = loading
-      ? ref.watch(debQuickPackageInfoProvider(componentId)).value
-      : null;
+  final quickInfo = loading ? _quickPackageInfo(ref, componentId) : null;
   final data = model.value;
   final packageInfo = data?.packageInfo ?? quickInfo;
   final candidateId =

@@ -259,6 +259,26 @@ void main() {
       expect(value.value?.updateCandidate, isNull);
     });
 
+    test('uses a remembered install state without asking PackageKit', () {
+      final appstream = createMockAppstreamService(component: _component);
+      when(appstream.tryGetFromId('org.test.app')).thenReturn(_component);
+      final packageKit = createMockPackageKitService();
+      when(packageKit.isPackageCached('test-app')).thenReturn(true);
+      when(packageKit.cachedPackage('test-app')).thenReturn(
+        const PackageKitPackageEvent(
+          info: PackageKitInfo.installed,
+          packageId: _installedId,
+          summary: 'summary',
+        ),
+      );
+      final container = createContainer();
+      container.listen(debSourceSnapshotProvider('org.test.app'), (_, _) {});
+
+      final value = container.read(debSourceSnapshotProvider('org.test.app'));
+      expect(value.isLoading, isTrue);
+      expect(value.value?.installState, InstallState.installed);
+    });
+
     test('is plain loading without AppStream metadata', () {
       createMockAppstreamService(component: _component);
       createMockPackageKitService();

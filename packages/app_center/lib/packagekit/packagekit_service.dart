@@ -207,9 +207,22 @@ class PackageKitService {
   List<PackageKitMutation> get activeMutations =>
       _mutations.values.where((m) => !m.isTerminal).toList();
 
+  /// Package last reported for [name] by [resolve] or [getInstalledPackages];
+  /// null if [resolve] found nothing. See [isPackageCached].
+  PackageKitPackageInfo? cachedPackage(String name) => _knownPackages[name];
+
+  bool isPackageCached(String name) => _knownPackages.containsKey(name);
+
+  final Map<String, PackageKitPackageInfo?> _knownPackages = {};
+  // Bumped on every mutation so queries started before it are not recorded.
+  int _knownPackagesGeneration = 0;
+
   void _publishMutation(PackageKitMutation mutation) {
     final previous = _mutations[mutation.transactionId];
     if (previous == mutation || (previous?.isTerminal ?? false)) return;
+    // Any mutation can change other packages too, e.g. dependencies.
+    _knownPackages.clear();
+    _knownPackagesGeneration++;
     _mutations[mutation.transactionId] = mutation;
     if (mutation.isTerminal) {
       final terminal = _mutations.values.where((m) => m.isTerminal).toList();
@@ -646,18 +659,24 @@ class PackageKitService {
     final results = {
       for (final name in names) name: null as PackageKitPackageInfo?,
     };
+    final generation = _knownPackagesGeneration;
 
     await _createTransaction(
       action: (transaction) => transaction.resolve(names),
       listener: (event) {
         if (event is PackageKitPackageEvent &&
             possibleArchs.contains(event.packageId.arch) &&
-            (!installedOnly || event.info == PackageKitInfo.installed)) {
+            (!installedOnly || event.info == PackageKitInfo.installed) &&
+            // Newer available versions of installed packages are also listed.
+            results[event.packageId.name]?.info != PackageKitInfo.installed) {
           results[event.packageId.name] = event;
         }
       },
     ).then(waitTransaction);
 
+    if (!installedOnly && generation == _knownPackagesGeneration) {
+      _knownPackages.addAll(results);
+    }
     return results;
   }
 
@@ -748,7 +767,14 @@ class PackageKitService {
       ).then(waitTransaction);
 
   /// Returns all installed packages on the system.
-  Future<List<PackageKitPackageInfo>> getInstalledPackages() async {
+  Future<List<PackageKitPackageInfo>> getInstalledPackages({
+    @visibleForTesting String? architecture,
+  }) async {
+    final possibleArchs = [
+      architecture ?? await _getNativeArchitecture(),
+      'all',
+    ];
+    final generation = _knownPackagesGeneration;
     final packages = <PackageKitPackageInfo>[];
     await _createTransaction(
       action: (transaction) => transaction.getPackages(
@@ -760,6 +786,13 @@ class PackageKitService {
         }
       },
     ).then(waitTransaction);
+    if (generation == _knownPackagesGeneration) {
+      for (final package in packages) {
+        if (possibleArchs.contains(package.packageId.arch)) {
+          _knownPackages[package.packageId.name] = package;
+        }
+      }
+    }
     return packages;
   }
 
