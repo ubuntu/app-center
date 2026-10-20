@@ -329,5 +329,36 @@ void main() {
 
       expect(snaps.lookups, greaterThan(lookups));
     });
+
+    test('shares a lookup with the other format', () async {
+      final container = createContainer(
+        overrides: [
+          appDetailsIdentityResolverProvider.overrideWithValue(_resolver()),
+        ],
+      );
+
+      await open(container);
+      final known = container.read(knownAppIdentitiesProvider);
+      final resolved = container.read(appDetailsIdentityProvider(entry)).value;
+      expect(known[testSnapKey], resolved);
+      expect(known[testDebKey], resolved);
+      expect(
+        const AppDetailsEntry.debComponent('org.test.app').sourceKey,
+        testDebKey,
+      );
+    });
+
+    test('does not share failed lookups', () async {
+      final container = createContainer(
+        overrides: [
+          appDetailsIdentityResolverProvider.overrideWithValue(
+            _resolver(debFails: true),
+          ),
+        ],
+      );
+
+      await open(container);
+      expect(container.read(knownAppIdentitiesProvider), isEmpty);
+    });
   });
 }

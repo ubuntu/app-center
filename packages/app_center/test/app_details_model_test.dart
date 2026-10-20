@@ -139,6 +139,22 @@ void main() {
       expect(async().isLoading, isTrue);
     });
 
+    test('uses a lookup made from the other format', () {
+      container = createPending();
+      container.read(knownAppIdentitiesProvider)[testSnapKey] =
+          createResolvedIdentity();
+      setSnapshot(testSnapKey, createSourceSnapshot(testSnapKey));
+      setSnapshot(testDebKey, createSourceSnapshot(testDebKey));
+      open();
+
+      expect(view().formats.map((f) => f.format), [
+        PackageFormat.snap,
+        PackageFormat.deb,
+      ]);
+      expect(view().actions.primary?.kind, ActionKind.install);
+      expect(view().actions.primary?.enabled, isTrue);
+    });
+
     test('stays loading until counterparts are known', () async {
       container = createPending();
       setSnapshot(testSnapKey, createSourceSnapshot(testSnapKey));

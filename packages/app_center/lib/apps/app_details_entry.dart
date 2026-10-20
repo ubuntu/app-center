@@ -47,6 +47,10 @@ sealed class AppDetailsEntry with _$AppDetailsEntry {
         ResolvedAppIdentity(identity: singleSourceIdentity(_debSource(id))),
     identity: (identity) => ResolvedAppIdentity(identity: identity),
   );
+
+  /// Key of the source the entry names, if it names a single one.
+  SourceKey? get sourceKey =>
+      this is IdentityEntry ? null : provisionalIdentity.sourceKeys.firstOrNull;
 }
 
 PackageSourceDescriptor _snapSource(String name) => PackageSourceDescriptor(
@@ -222,10 +226,21 @@ Future<ResolvedAppIdentity> appDetailsIdentity(
   Ref ref,
   AppDetailsEntry entry,
 ) async {
+  final known = ref.read(knownAppIdentitiesProvider);
   final resolved = await ref
       .watch(appDetailsIdentityResolverProvider)
       .resolve(entry);
   // Failed lookups are retried on the next open.
-  if (ref.mounted && !resolved.discoveryFailed) ref.keepAlive();
+  if (!resolved.discoveryFailed) {
+    for (final key in resolved.sourceKeys) {
+      known[key] = resolved;
+    }
+    if (ref.mounted) ref.keepAlive();
+  }
   return resolved;
 }
+
+/// Successful lookups by every source they include, so an app opened from
+/// one format reuses the lookup made from the other.
+@Riverpod(keepAlive: true)
+Map<SourceKey, ResolvedAppIdentity> knownAppIdentities(Ref ref) => {};

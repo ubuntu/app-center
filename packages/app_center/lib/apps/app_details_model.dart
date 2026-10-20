@@ -47,8 +47,12 @@ class AppDetailsModel extends _$AppDetailsModel {
         resolved.stackTrace ?? StackTrace.empty,
       );
     }
-    final identity = resolved.value ?? entry.provisionalIdentity;
-    final identityPending = !resolved.hasValue && entry is! IdentityEntry;
+    final known = resolved.hasValue
+        ? null
+        : ref.read(knownAppIdentitiesProvider)[entry.sourceKey];
+    final identity = resolved.value ?? known ?? entry.provisionalIdentity;
+    final identityPending =
+        !resolved.hasValue && known == null && entry is! IdentityEntry;
     _identity = identity;
     final keys = identity.sourceKeys;
     if (keys.isEmpty) {
