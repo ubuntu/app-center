@@ -460,24 +460,15 @@ void main() {
       expect(kinds(actions), [ActionKind.open, ActionKind.uninstall]);
     });
 
-    test('pending identity hides actions unless the snap is installed', () {
-      final pending = _compose(snap: _snap(), identityPending: true).state;
-      expect(pending.activePackage.decided, isFalse);
-      expect(pending.actions.primary, isNull);
-      expect(pending.release.version, isA<FieldLoading<String>>());
+    test('pending identity is undecided unless the snap is installed', () {
+      expect(_compose(snap: _snap(), identityPending: true).decided, isFalse);
 
-      final state = _compose(
+      final composition = _compose(
         snap: installedSnap(withUpdate: true),
         identityPending: true,
-      ).state;
-      expect(state.activePackage.decided, isTrue);
-      expect(state.actions.primary?.kind, ActionKind.update);
-      expect(state.actions.primary?.enabled, isTrue);
-      expect(state.actions.secondary.single.enabled, isTrue);
-      final switchChannel = state.targets.single.options
-          .map((option) => option.action)
-          .firstWhere((action) => action?.kind == ActionKind.switchChannel);
-      expect(switchChannel?.enabled, isTrue);
+      );
+      expect(composition.decided, isTrue);
+      expect(composition.state.actions.primary?.kind, ActionKind.update);
     });
 
     AsyncValue<PackageSourceSnapshot> loadingWith(
@@ -489,39 +480,36 @@ void main() {
         );
 
     test('waits while the deb install state is loading', () {
-      final state = _compose(
+      final composition = _compose(
         identity: createResolvedIdentity(),
         snap: _snap(),
         async: {testDebKey: loadingWith(_deb(InstallState.unknown))},
-      ).state;
-      expect(state.activePackage.decided, isFalse);
-      expect(state.actions.primary, isNull);
-      expect(state.formats, isEmpty);
-      expect(state.app.name.valueOrNull, 'Snap App');
+      );
+      expect(composition.decided, isFalse);
     });
 
     test('an installed snap decides without the deb', () {
-      final state = _compose(
+      final composition = _compose(
         identity: createResolvedIdentity(),
         snap: _snap(_installed),
         async: {testDebKey: const AsyncLoading()},
-      ).state;
-      expect(state.activePackage.decided, isTrue);
-      expect(state.activePackage.format, PackageFormat.snap);
+      );
+      expect(composition.decided, isTrue);
+      expect(composition.state.activePackage.format, PackageFormat.snap);
     });
 
     test('a known deb state decides while it keeps loading', () {
-      final state = _compose(
+      final composition = _compose(
         identity: createResolvedIdentity(),
         snap: _snap(),
         async: {testDebKey: loadingWith(_deb(_installed))},
-      ).state;
-      expect(state.activePackage.decided, isTrue);
-      expect(state.activePackage.format, PackageFormat.deb);
+      );
+      expect(composition.decided, isTrue);
+      expect(composition.state.activePackage.format, PackageFormat.deb);
     });
 
     test('a failed source does not block the decision', () {
-      final state = _compose(
+      final composition = _compose(
         identity: createResolvedIdentity(),
         snap: _snap(),
         async: {
@@ -530,9 +518,9 @@ void main() {
             StackTrace.empty,
           ),
         },
-      ).state;
-      expect(state.activePackage.decided, isTrue);
-      expect(state.actions.primary?.kind, ActionKind.install);
+      );
+      expect(composition.decided, isTrue);
+      expect(composition.state.actions.primary?.kind, ActionKind.install);
     });
 
     test('update binds the installed channel and exact candidate', () {

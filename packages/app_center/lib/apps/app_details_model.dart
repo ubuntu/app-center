@@ -34,6 +34,7 @@ class AppDetailsModel extends _$AppDetailsModel {
 
   @override
   AsyncValue<AppDetailsViewState> build(AppDetailsEntry entry) {
+    final previous = _composition;
     _composition = null;
     if (!entry.isValid) {
       return AsyncError(InvalidAppDetailsEntry(entry), StackTrace.current);
@@ -88,6 +89,15 @@ class AppDetailsModel extends _$AppDetailsModel {
         identityPending: identityPending,
       ),
     );
+    if (!composition.decided) {
+      // Keep the last page instead of one whose active package may switch.
+      final last = stateOrNull;
+      if (previous != null && last != null && last.hasValue) {
+        _composition = previous;
+        return last;
+      }
+      return const AsyncLoading();
+    }
     _composition = composition;
     return AsyncData(composition.state);
   }

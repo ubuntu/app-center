@@ -121,9 +121,12 @@ void main() {
       ],
     );
 
-    test('publishes the entry source', () {
+    test('publishes an installed snap right away', () {
       container = createPending();
-      setSnapshot(testSnapKey, createSourceSnapshot(testSnapKey));
+      setSnapshot(
+        testSnapKey,
+        createSourceSnapshot(testSnapKey, installState: _installed),
+      );
       open();
 
       expect(view().activePackage.sourceId, testSnapKey.value);
@@ -136,16 +139,14 @@ void main() {
       expect(async().isLoading, isTrue);
     });
 
-    test('shows no actions until counterparts are known', () async {
+    test('stays loading until counterparts are known', () async {
       container = createPending();
       setSnapshot(testSnapKey, createSourceSnapshot(testSnapKey));
       open();
-      expect(view().activePackage.decided, isFalse);
-      expect(view().actions.primary, isNull);
+      expect(async().isLoading, isTrue);
 
       lookup.complete(createResolvedIdentity(deb: false));
       await settle();
-      expect(view().activePackage.decided, isTrue);
       expect(view().actions.primary?.kind, ActionKind.install);
       expect(view().actions.primary?.enabled, isTrue);
     });
@@ -173,19 +174,20 @@ void main() {
         testDebKey,
         createSourceSnapshot(testDebKey, installState: _installed),
       );
-      final decided = <PackageFormat>[];
+      final shown = <PackageFormat>[];
       subscription = container.listen(appDetailsModelProvider(_entry), (
         _,
         next,
       ) {
-        final active = next.value?.activePackage;
-        if (active != null && active.decided) decided.add(active.format);
+        if (next.value case final state?) {
+          shown.add(state.activePackage.format);
+        }
       }, fireImmediately: true);
-      expect(view().activePackage.decided, isFalse);
+      expect(async().isLoading, isTrue);
 
       lookup.complete(createResolvedIdentity());
       await settle();
-      expect(decided.toSet(), {PackageFormat.deb});
+      expect(shown.toSet(), {PackageFormat.deb});
     });
   });
 

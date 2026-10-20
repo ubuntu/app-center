@@ -154,8 +154,6 @@ abstract class ActivePackageSection with _$ActivePackageSection {
     // Channel of the displayed release; may differ from the installed one.
     String? channel,
     String? installedChannel,
-    // False while a source that could still win is loading.
-    @Default(true) bool decided,
   }) = _ActivePackageSection;
 }
 

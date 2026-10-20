@@ -226,9 +226,15 @@ class PackageKitService {
   /// the daemon is inactive.
   /// See https://github.com/ubuntu/app-center/issues/1215
   /// and https://forum.snapcraft.io/t/apparmor-denial-in-new-snap-store-despite-connected-packagekit-control-interface/35290
-  Future<void> activateService() async {
-    if (_isAvailable) return;
+  Future<void> activateService() {
+    if (_isAvailable) return Future.value();
+    // Concurrent callers share one activation.
+    return _activation ??= _activate().whenComplete(() => _activation = null);
+  }
 
+  Future<void>? _activation;
+
+  Future<void> _activate() async {
     final object = DBusRemoteObject(
       _dbus,
       name: 'org.freedesktop.DBus',

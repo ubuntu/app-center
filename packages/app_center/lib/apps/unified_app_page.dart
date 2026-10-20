@@ -8,35 +8,19 @@ import 'package:app_center/apps/app_page.dart';
 import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/apps/package_format_dialog.dart';
-import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/extensions/string_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
-import 'package:app_center/ratings/ratings_l10n.dart';
 import 'package:app_center/widgets/hyperlink_text.dart';
-import 'package:app_center/widgets/shimmer_placeholder.dart';
 import 'package:app_center/widgets/widgets.dart';
-import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:yaru/yaru.dart';
-
-Widget _shimmer(BuildContext context, Widget child) {
-  final isLightTheme = Theme.of(context).brightness == Brightness.light;
-  return Shimmer.fromColors(
-    baseColor: isLightTheme ? kShimmerBaseLight : kShimmerBaseDark,
-    highlightColor: isLightTheme
-        ? kShimmerHighLightLight
-        : kShimmerHighLightDark,
-    child: ShimmerPlaceholder(child: child),
-  );
-}
 
 /// Placeholder unified details page, laid out like the snap page.
 class UnifiedAppPage extends ConsumerWidget {
@@ -199,16 +183,6 @@ class _ActionBar extends ConsumerWidget {
     VoidCallback? run(ActionDescriptor action) =>
         action.enabled ? () => unawaited(model.execute(action.id)) : null;
 
-    if (!state.activePackage.decided && operation == null) {
-      return _shimmer(
-        context,
-        OutlinedButton(
-          onPressed: null,
-          child: Text(l10n.snapActionInstallLabel),
-        ),
-      );
-    }
-
     return Wrap(
       runSpacing: kSpacing,
       spacing: kSpacing,
@@ -286,7 +260,6 @@ class _InfoBar extends StatelessWidget {
       spacing: kPagePadding,
       runSpacing: 32,
       children: [
-        ?_ratingsItem(context, l10n),
         if (confinement != null)
           _InfoItem(
             label: Text(l10n.snapPageConfinementLabel),
@@ -294,16 +267,14 @@ class _InfoBar extends StatelessWidget {
           ),
         _InfoItem(
           label: Text(l10n.snapPageVersionLabel),
-          value: active.decided
-              ? Tooltip(
-                  message: displayedVersion,
-                  child: Text(
-                    displayedVersion,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                )
-              : _shimmer(context, const Text('0.0.0')),
+          value: Tooltip(
+            message: displayedVersion,
+            child: Text(
+              displayedVersion,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
         ),
         _InfoItem(
           label: Text(
@@ -311,43 +282,15 @@ class _InfoBar extends StatelessWidget {
                 ? l10n.appDetailsInstalledSizeLabel
                 : l10n.snapPageDownloadSizeLabel,
           ),
-          value: active.decided
-              ? Text(
-                  size == null
-                      ? kMissingValue
-                      : context.formatByteSize(size.bytes),
-                )
-              : _shimmer(context, Text(context.formatByteSize(0))),
+          value: Text(
+            size == null ? kMissingValue : context.formatByteSize(size.bytes),
+          ),
         ),
         _InfoItem(
           label: Text(l10n.appDetailsPackageFormatLabel),
-          value: active.decided
-              ? Text(active.format.localize(l10n))
-              : _shimmer(context, Text(active.format.localize(l10n))),
+          value: Text(active.format.localize(l10n)),
         ),
       ],
-    );
-  }
-
-  Widget? _ratingsItem(BuildContext context, AppLocalizations l10n) {
-    return state.app.ratings.mapOrNull(
-      loading: (_) => _InfoItem(
-        label: _shimmer(
-          context,
-          Text(RatingsBand.insufficientVotes.localize(l10n)),
-        ),
-        value: _shimmer(context, Text(l10n.snapRatingsVotes(0))),
-      ),
-      value: (field) => _InfoItem(
-        label: Text(
-          field.value.band.localize(l10n),
-          style: TextStyle(
-            color: field.value.band.getColor(context),
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        value: Text(l10n.snapRatingsVotes(field.value.totalVotes)),
-      ),
     );
   }
 }

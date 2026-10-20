@@ -52,11 +52,14 @@ class AppDetailsComposition {
     required this.state,
     required this.bindings,
     required this.operationIssues,
+    this.decided = true,
   });
 
   final AppDetailsViewState state;
   final Map<ActionId, ActionBinding> bindings;
   final Map<IssueId, OperationId> operationIssues;
+  // False while a loading source could still change the active package.
+  final bool decided;
 }
 
 /// Pure rules turning source snapshots and operations into page state.
@@ -126,8 +129,6 @@ class _Composer {
 
   AppDetailsComposition compose() {
     final (activeKey, reason) = _selectActive();
-    if (!_decided) return _undecided(activeKey, reason);
-
     final active = _async(activeKey);
     final snapshot = active?.value;
     final installState = _installState(activeKey);
@@ -193,46 +194,7 @@ class _Composer {
       state: state.copyWith(issues: issues),
       bindings: Map.unmodifiable(bindings),
       operationIssues: operationIssues,
-    );
-  }
-
-  /// App-wide metadata only, without package details or actions.
-  AppDetailsComposition _undecided(SourceKey key, ActiveReason reason) {
-    final (issues, operationIssues) = _issues();
-    return AppDetailsComposition(
-      state: AppDetailsViewState(
-        app: _appSection(),
-        activePackage: ActivePackageSection(
-          sourceId: key.value,
-          format: key.format,
-          installState: InstallState.unknown,
-          reason: reason,
-          publisher: const FieldState.loading(),
-          categories: const FieldState.loading(),
-          confinement: const FieldState.loading(),
-          decided: false,
-        ),
-        release: const ReleaseSection(
-          version: FieldState.loading(),
-          size: FieldState.loading(),
-          releaseDate: FieldState.loading(),
-        ),
-        footer: const FooterSection(
-          publisher: FieldState.loading(),
-          lastUpdated: FieldState.loading(),
-          license: FieldState.loading(),
-          ageRating: FieldState.loading(),
-          languages: FieldState.loading(),
-          links: FieldState.loading(),
-          terms: FieldState.loading(),
-          installDate: FieldState.loading(),
-        ),
-        actions: const ActionsSection(),
-        operation: _operation(),
-        issues: issues,
-      ),
-      bindings: Map.unmodifiable(bindings),
-      operationIssues: operationIssues,
+      decided: _decided,
     );
   }
 
