@@ -54,6 +54,8 @@ class SnapPackageAdapter implements PackageFormatAdapter {
 
   @override
   Future<PackageSourceDescriptor?> findByPackageName(String packageName) async {
+    final cached = _snapdService.cachedStoreSnap(packageName);
+    if (cached != null) return _descriptorForSnap(cached);
     final snaps = await _find(
       () => _snapdService.find(
         name: packageName,

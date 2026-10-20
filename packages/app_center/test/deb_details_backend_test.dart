@@ -235,6 +235,30 @@ void main() {
       expect(value.value?.installState, InstallState.unknown);
     });
 
+    test('shows the install state before update details arrive', () async {
+      final appstream = createMockAppstreamService(component: _component);
+      when(appstream.tryGetFromId('org.test.app')).thenReturn(_component);
+      final packageKit = createMockPackageKitService(
+        packageInfo: const PackageKitPackageEvent(
+          info: PackageKitInfo.installed,
+          packageId: _installedId,
+          summary: 'summary',
+        ),
+      );
+      when(
+        packageKit.getUpdateDetails(any),
+      ).thenAnswer((_) => Completer<PackageKitUpdateDetailEvent?>().future);
+      final container = createContainer();
+      container.listen(debSourceSnapshotProvider('org.test.app'), (_, _) {});
+      await settle();
+
+      final value = container.read(debSourceSnapshotProvider('org.test.app'));
+      expect(value.isLoading, isTrue);
+      expect(value.value?.installState, InstallState.installed);
+      expect(value.value?.installed?.version, '1.0-1');
+      expect(value.value?.updateCandidate, isNull);
+    });
+
     test('is plain loading without AppStream metadata', () {
       createMockAppstreamService(component: _component);
       createMockPackageKitService();
