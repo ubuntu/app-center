@@ -89,7 +89,12 @@ AsyncValue<PackageSourceSnapshot> snapSourceSnapshot(
 PackageSourceSnapshot? _seedSnapshot(Ref ref, String snapName) {
   final snapd = getService<SnapdService>();
   final store = snapd.cachedStoreSnap(snapName);
-  final local = snapd.cachedLocalSnap(snapName);
+  // A local snapd query answers long before the store lookup in the model.
+  final localState = snapd.isLocalSnapCached(snapName)
+      ? null
+      : ref.watch(snapLocalStateProvider(snapName));
+  final localKnown = localState == null || localState.hasValue;
+  final local = localState?.value ?? snapd.cachedLocalSnap(snapName);
   if (store == null && local == null) return null;
   final snapshot = snapSnapshotFromData(
     SnapData(
@@ -100,8 +105,8 @@ PackageSourceSnapshot? _seedSnapshot(Ref ref, String snapName) {
     ),
     canLaunch: local != null && ref.watch(launchProvider(local)).isLaunchable,
   );
-  // Without cached local state, a missing local snap may still be installed.
-  return snapd.isLocalSnapCached(snapName)
+  // Without local state, a missing local snap may still be installed.
+  return localKnown
       ? snapshot
       : snapshot.copyWith(installState: InstallState.unknown);
 }

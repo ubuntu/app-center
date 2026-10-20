@@ -72,6 +72,12 @@ Future<void> main(List<String> args) async {
     PackageKitService.new,
     dispose: (service) => service.dispose(),
   );
+  // Start PackageKit now so the first deb lookup doesn't wait for it.
+  unawaited(
+    getService<PackageKitService>().activateService().catchError(
+      (Object e) => log.warning('Could not start PackageKit: $e'),
+    ),
+  );
   registerService(
     () => DebPackageAdapter(
       appstream: getService<AppstreamService>(),

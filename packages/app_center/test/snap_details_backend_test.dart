@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_center/apps/app_details_state.dart';
 import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/apps/package_details_backend.dart';
@@ -320,6 +322,21 @@ void main() {
         expect(value.isLoading, isTrue);
         expect(value.value?.installState, InstallState.installed);
         expect(value.value?.installed?.candidateId, 'rev:1');
+      });
+
+      test('reads local state before the store lookup finishes', () async {
+        final service = registerMockSnapdService(storeSnap: _storeSnap);
+        when(service.cachedStoreSnap('testsnap')).thenReturn(_storeSnap);
+        when(
+          service.find(name: anyNamed('name')),
+        ).thenAnswer((_) => Completer<List<Snap>>().future);
+        final container = createContainer();
+        open(container);
+        await settle();
+
+        final value = container.read(snapSourceSnapshotProvider('testsnap'));
+        expect(value.isLoading, isTrue);
+        expect(value.value?.installState, InstallState.notInstalled);
       });
     });
   });
