@@ -43,7 +43,7 @@ class AppDetailsPolicyInput {
   // Null when no ratings are known for the app-metadata owner.
   final AsyncValue<RatingsSummary?>? ratings;
   final Set<IssueId> acknowledgedIssues;
-  // Counterpart sources are not known yet, nor whether they are installed.
+  // Counterpart sources are not known yet.
   final bool identityPending;
 }
 
@@ -107,8 +107,27 @@ class _Composer {
     (other) => other != key && _installState(other) == InstallState.installed,
   );
 
+  // Whether a later snapshot can no longer change the active package.
+  bool get _decided {
+    if (operations.any((op) => op.isInstallIntent)) return true;
+    if (_installState(snapKey) == InstallState.installed) return true;
+    if (input.identityPending) return false;
+    if (snapKey == null || debKey == null) return true;
+    return _settled(snapKey!) && _settled(debKey!);
+  }
+
+  // Failed sources count as settled so they cannot block the page.
+  bool _settled(SourceKey key) {
+    final source = _async(key);
+    return source == null ||
+        !source.isLoading ||
+        _installState(key) != InstallState.unknown;
+  }
+
   AppDetailsComposition compose() {
     final (activeKey, reason) = _selectActive();
+    if (!_decided) return _undecided(activeKey, reason);
+
     final active = _async(activeKey);
     final snapshot = active?.value;
     final installState = _installState(activeKey);
@@ -172,6 +191,46 @@ class _Composer {
     final (issues, operationIssues) = _issues();
     return AppDetailsComposition(
       state: state.copyWith(issues: issues),
+      bindings: Map.unmodifiable(bindings),
+      operationIssues: operationIssues,
+    );
+  }
+
+  /// App-wide metadata only, without package details or actions.
+  AppDetailsComposition _undecided(SourceKey key, ActiveReason reason) {
+    final (issues, operationIssues) = _issues();
+    return AppDetailsComposition(
+      state: AppDetailsViewState(
+        app: _appSection(),
+        activePackage: ActivePackageSection(
+          sourceId: key.value,
+          format: key.format,
+          installState: InstallState.unknown,
+          reason: reason,
+          publisher: const FieldState.loading(),
+          categories: const FieldState.loading(),
+          confinement: const FieldState.loading(),
+          decided: false,
+        ),
+        release: const ReleaseSection(
+          version: FieldState.loading(),
+          size: FieldState.loading(),
+          releaseDate: FieldState.loading(),
+        ),
+        footer: const FooterSection(
+          publisher: FieldState.loading(),
+          lastUpdated: FieldState.loading(),
+          license: FieldState.loading(),
+          ageRating: FieldState.loading(),
+          languages: FieldState.loading(),
+          links: FieldState.loading(),
+          terms: FieldState.loading(),
+          installDate: FieldState.loading(),
+        ),
+        actions: const ActionsSection(),
+        operation: _operation(),
+        issues: issues,
+      ),
       bindings: Map.unmodifiable(bindings),
       operationIssues: operationIssues,
     );
@@ -357,8 +416,6 @@ class _Composer {
         ),
         disabledReason: switch (snapshot.installState) {
           _ when _busy => DisabledReason.busy,
-          _ when input.identityPending && !installed =>
-            DisabledReason.installStateUnknown,
           InstallState.unknown => DisabledReason.installStateUnknown,
           InstallState.notInstalled when _isOtherFormatInstalled(key) =>
             DisabledReason.otherFormatInstalled,

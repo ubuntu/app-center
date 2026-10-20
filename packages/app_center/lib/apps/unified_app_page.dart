@@ -27,6 +27,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:yaru/yaru.dart';
 
+Widget _shimmer(BuildContext context, Widget child) {
+  final isLightTheme = Theme.of(context).brightness == Brightness.light;
+  return Shimmer.fromColors(
+    baseColor: isLightTheme ? kShimmerBaseLight : kShimmerBaseDark,
+    highlightColor: isLightTheme
+        ? kShimmerHighLightLight
+        : kShimmerHighLightDark,
+    child: ShimmerPlaceholder(child: child),
+  );
+}
+
 /// Placeholder unified details page, laid out like the snap page.
 class UnifiedAppPage extends ConsumerWidget {
   const UnifiedAppPage({required this.entry, super.key});
@@ -188,6 +199,16 @@ class _ActionBar extends ConsumerWidget {
     VoidCallback? run(ActionDescriptor action) =>
         action.enabled ? () => unawaited(model.execute(action.id)) : null;
 
+    if (!state.activePackage.decided && operation == null) {
+      return _shimmer(
+        context,
+        OutlinedButton(
+          onPressed: null,
+          child: Text(l10n.snapActionInstallLabel),
+        ),
+      );
+    }
+
     return Wrap(
       runSpacing: kSpacing,
       spacing: kSpacing,
@@ -273,14 +294,16 @@ class _InfoBar extends StatelessWidget {
           ),
         _InfoItem(
           label: Text(l10n.snapPageVersionLabel),
-          value: Tooltip(
-            message: displayedVersion,
-            child: Text(
-              displayedVersion,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
+          value: active.decided
+              ? Tooltip(
+                  message: displayedVersion,
+                  child: Text(
+                    displayedVersion,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                )
+              : _shimmer(context, const Text('0.0.0')),
         ),
         _InfoItem(
           label: Text(
@@ -288,32 +311,32 @@ class _InfoBar extends StatelessWidget {
                 ? l10n.appDetailsInstalledSizeLabel
                 : l10n.snapPageDownloadSizeLabel,
           ),
-          value: Text(
-            size == null ? kMissingValue : context.formatByteSize(size.bytes),
-          ),
+          value: active.decided
+              ? Text(
+                  size == null
+                      ? kMissingValue
+                      : context.formatByteSize(size.bytes),
+                )
+              : _shimmer(context, Text(context.formatByteSize(0))),
         ),
         _InfoItem(
           label: Text(l10n.appDetailsPackageFormatLabel),
-          value: Text(active.format.localize(l10n)),
+          value: active.decided
+              ? Text(active.format.localize(l10n))
+              : _shimmer(context, Text(active.format.localize(l10n))),
         ),
       ],
     );
   }
 
   Widget? _ratingsItem(BuildContext context, AppLocalizations l10n) {
-    final isLightTheme = Theme.of(context).brightness == Brightness.light;
-    Widget shimmer(Widget child) => Shimmer.fromColors(
-      baseColor: isLightTheme ? kShimmerBaseLight : kShimmerBaseDark,
-      highlightColor: isLightTheme
-          ? kShimmerHighLightLight
-          : kShimmerHighLightDark,
-      child: ShimmerPlaceholder(child: child),
-    );
-
     return state.app.ratings.mapOrNull(
       loading: (_) => _InfoItem(
-        label: shimmer(Text(RatingsBand.insufficientVotes.localize(l10n))),
-        value: shimmer(Text(l10n.snapRatingsVotes(0))),
+        label: _shimmer(
+          context,
+          Text(RatingsBand.insufficientVotes.localize(l10n)),
+        ),
+        value: _shimmer(context, Text(l10n.snapRatingsVotes(0))),
       ),
       value: (field) => _InfoItem(
         label: Text(

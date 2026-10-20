@@ -82,6 +82,18 @@ Future<ByteSize?> debInstallSize(
   return bytes > 0 ? ByteSize(bytes: bytes, kind: SizeKind.download) : null;
 }
 
+/// Install state from one `resolve`, ahead of the full deb model.
+@riverpod
+Future<PackageKitPackageInfo?> debQuickPackageInfo(
+  Ref ref,
+  String componentId,
+) async {
+  final component = getService<AppstreamService>().tryGetFromId(componentId);
+  if (component == null) return null;
+  final name = component.package ?? componentId;
+  return (await getService<PackageKitService>().resolve([name]))[name];
+}
+
 @riverpod
 AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
   Ref ref,
@@ -90,10 +102,16 @@ AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
   final model = ref.watch(debModelProvider(componentId));
   final mutations = ref.watch(packageKitMutationsProvider).value ?? const [];
   final icon = ref.watch(debIconProvider(componentId));
+  final loading = !model.hasValue && !model.hasError;
+  final quickInfo = loading
+      ? ref.watch(debQuickPackageInfoProvider(componentId)).value
+      : null;
   final data = model.value;
-  final candidateId = data == null || data.isInstalled
+  final packageInfo = data?.packageInfo ?? quickInfo;
+  final candidateId =
+      packageInfo == null || packageInfo.info == PackageKitInfo.installed
       ? null
-      : data.packageInfo?.packageId;
+      : packageInfo.packageId;
   final installSize = candidateId == null
       ? null
       : ref.watch(debInstallSizeProvider(candidateId));
@@ -103,17 +121,29 @@ AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
       : ref.watch(debPackageDetailsProvider(updateId));
   final desktops = ref.watch(currentDesktopsProvider);
 
-  if (!model.hasValue && !model.hasError) {
+  if (loading) {
     final component = getService<AppstreamService>().tryGetFromId(componentId);
     if (component != null) {
       // ignore: invalid_use_of_internal_member
       return const AsyncLoading<PackageSourceSnapshot>().copyWithPrevious(
         AsyncData(
-          debSnapshotFromComponent(
-            componentId,
-            component,
-            icon: _fieldFromAsync(icon),
-          ),
+          quickInfo == null
+              ? debSnapshotFromComponent(
+                  componentId,
+                  component,
+                  icon: _fieldFromAsync(icon),
+                )
+              : debSnapshotFromPackageInfo(
+                  componentId,
+                  component,
+                  quickInfo,
+                  mutations: mutations,
+                  icon: _fieldFromAsync(icon),
+                  installSize: installSize == null
+                      ? FieldState<ByteSize>.unavailable()
+                      : _fieldFromAsync(installSize),
+                  currentDesktops: desktops,
+                ),
         ),
       );
     }
@@ -156,10 +186,57 @@ PackageSourceSnapshot debSnapshotFromData(
   FieldState<ByteSize> installSize = const FieldState<ByteSize>.unavailable(),
   FieldState<ByteSize> updateSize = const FieldState<ByteSize>.unavailable(),
   List<String> currentDesktops = const [],
+}) => _debSnapshot(
+  id: data.id,
+  component: data.component,
+  packageInfo: data.packageInfo,
+  details: data.details,
+  updatePackageId: data.updatePackageId,
+  activeTransactionId: data.activeTransactionId,
+  activeTransactionKind: data.activeTransactionKind,
+  mutations: mutations,
+  icon: icon,
+  installSize: installSize,
+  updateSize: updateSize,
+  currentDesktops: currentDesktops,
+);
+
+/// Install state from a single `resolve`, before update and size details.
+@visibleForTesting
+PackageSourceSnapshot debSnapshotFromPackageInfo(
+  String id,
+  AppstreamComponent component,
+  PackageKitPackageInfo? packageInfo, {
+  List<PackageKitMutation> mutations = const [],
+  FieldState<ImageRef> icon = const FieldState<ImageRef>.unavailable(),
+  FieldState<ByteSize> installSize = const FieldState<ByteSize>.unavailable(),
+  List<String> currentDesktops = const [],
+}) => _debSnapshot(
+  id: id,
+  component: component,
+  packageInfo: packageInfo,
+  mutations: mutations,
+  icon: icon,
+  installSize: installSize,
+  currentDesktops: currentDesktops,
+);
+
+PackageSourceSnapshot _debSnapshot({
+  required String id,
+  required AppstreamComponent component,
+  required PackageKitPackageInfo? packageInfo,
+  required List<PackageKitMutation> mutations,
+  required FieldState<ImageRef> icon,
+  required FieldState<ByteSize> installSize,
+  required List<String> currentDesktops,
+  PackageKitDetailsEvent? details,
+  PackageKitPackageId? updatePackageId,
+  int? activeTransactionId,
+  DebTransactionKind? activeTransactionKind,
+  FieldState<ByteSize> updateSize = const FieldState<ByteSize>.unavailable(),
 }) {
-  final component = data.component;
-  final packageId = data.packageInfo?.packageId;
-  final installed = data.isInstalled;
+  final packageId = packageInfo?.packageId;
+  final installed = packageInfo?.info == PackageKitInfo.installed;
 
   PackageRelease? release(
     PackageKitPackageId? id, {
@@ -183,7 +260,7 @@ PackageSourceSnapshot debSnapshotFromData(
           packageId,
           // Only the package itself, not the dependencies it pulled in.
           size: FieldState.fromNullable(
-            _size(data.details, SizeKind.installed),
+            _size(details, SizeKind.installed),
           ),
         )
       : null;
@@ -191,7 +268,7 @@ PackageSourceSnapshot debSnapshotFromData(
       ? null
       : release(packageId, size: installSize);
   final updateCandidate = installed
-      ? release(data.updatePackageId, size: updateSize)
+      ? release(updatePackageId, size: updateSize)
       : null;
 
   final packageName = packageId?.name ?? component.package;
@@ -200,19 +277,19 @@ PackageSourceSnapshot debSnapshotFromData(
       : mutations.firstWhereOrNull(
           (m) => !m.isTerminal && m.affects(packageName),
         );
-  final ownTransaction = data.activeTransactionId;
+  final ownTransaction = activeTransactionId;
   final ownMutation = mutations.firstWhereOrNull(
     (m) => m.transactionId == ownTransaction,
   );
   final kind = ownTransaction != null
-      ? _ownOperationKind(data.activeTransactionKind, installed: installed)
+      ? _ownOperationKind(activeTransactionKind, installed: installed)
       : mutation == null
       ? null
       : _mutationKind(mutation.kind);
   final percentage = (ownMutation ?? mutation)?.percentage;
 
-  return debSnapshotFromComponent(data.id, component, icon: icon).copyWith(
-    installState: data.packageInfo == null
+  return debSnapshotFromComponent(id, component, icon: icon).copyWith(
+    installState: packageInfo == null
         ? InstallState.unknown
         : installed
         ? InstallState.installed

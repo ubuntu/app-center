@@ -136,17 +136,16 @@ void main() {
       expect(async().isLoading, isTrue);
     });
 
-    test('disables installing until counterparts are known', () async {
+    test('shows no actions until counterparts are known', () async {
       container = createPending();
       setSnapshot(testSnapKey, createSourceSnapshot(testSnapKey));
       open();
-      expect(
-        view().actions.primary?.disabledReason,
-        DisabledReason.installStateUnknown,
-      );
+      expect(view().activePackage.decided, isFalse);
+      expect(view().actions.primary, isNull);
 
       lookup.complete(createResolvedIdentity(deb: false));
       await settle();
+      expect(view().activePackage.decided, isTrue);
       expect(view().actions.primary?.kind, ActionKind.install);
       expect(view().actions.primary?.enabled, isTrue);
     });
@@ -167,19 +166,26 @@ void main() {
       expect(view().actions.primary?.enabled, isTrue);
     });
 
-    test('adds counterparts once resolved', () async {
+    test('never shows the snap before an installed deb', () async {
       container = createPending();
       setSnapshot(testSnapKey, createSourceSnapshot(testSnapKey));
       setSnapshot(
         testDebKey,
         createSourceSnapshot(testDebKey, installState: _installed),
       );
-      open();
-      expect(view().activePackage.format, PackageFormat.snap);
+      final decided = <PackageFormat>[];
+      subscription = container.listen(appDetailsModelProvider(_entry), (
+        _,
+        next,
+      ) {
+        final active = next.value?.activePackage;
+        if (active != null && active.decided) decided.add(active.format);
+      }, fireImmediately: true);
+      expect(view().activePackage.decided, isFalse);
 
       lookup.complete(createResolvedIdentity());
       await settle();
-      expect(view().activePackage.format, PackageFormat.deb);
+      expect(decided.toSet(), {PackageFormat.deb});
     });
   });
 
