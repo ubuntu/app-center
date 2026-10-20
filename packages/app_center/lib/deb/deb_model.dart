@@ -166,6 +166,7 @@ class DebModel extends _$DebModel {
   Future<PackageKitPackageId?> _getUpdate(
     PackageKitPackageEvent packageInfo,
   ) async {
+    if (packageInfo.info != PackageKitInfo.installed) return null;
     final detailsEvent = await packageKit.getUpdateDetails(
       packageInfo.packageId,
     );
