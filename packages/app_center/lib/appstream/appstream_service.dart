@@ -3,6 +3,7 @@ import 'dart:collection';
 
 import 'package:app_center/appstream/appstream_utils.dart';
 import 'package:app_center/appstream/logger.dart';
+import 'package:app_center/appstream/resilient_appstream_pool.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/mapping/identifier_normalization.dart';
 import 'package:appstream/appstream.dart';
@@ -140,7 +141,7 @@ class _ScoredComponent {
 class AppstreamService {
   // TODO: cache AppstreamPool
   AppstreamService({@visibleForTesting AppstreamPool? pool})
-    : _pool = pool ?? AppstreamPool(),
+    : _pool = pool ?? ResilientAppstreamPool(),
       _l10n = _loadL10n() {
     PlatformDispatcher.instance.onLocaleChanged = () async {
       await _loader;
