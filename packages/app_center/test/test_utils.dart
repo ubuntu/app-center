@@ -470,6 +470,8 @@ MockPackageKitService createMockPackageKitService({
 }) {
   final packageKit = MockPackageKitService();
   when(packageKit.activateService()).thenAnswer((_) async {});
+  when(packageKit.isPackageCached(any)).thenReturn(false);
+  when(packageKit.cachedPackage(any)).thenReturn(null);
 
   when(
     packageKit.resolve(any, installedOnly: anyNamed('installedOnly')),
