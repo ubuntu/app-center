@@ -57,6 +57,7 @@ parts:
     stage-packages:
       - to arm64:
           - fonts-noto-cjk
+          - fonts-noto-core
 
   packagekit-session-installer:
     source: ./packagekit-session-installer
