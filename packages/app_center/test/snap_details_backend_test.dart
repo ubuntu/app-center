@@ -338,6 +338,27 @@ void main() {
         expect(value.isLoading, isTrue);
         expect(value.value?.installState, InstallState.notInstalled);
       });
+
+      test('prefers fresh local state over a cached one', () async {
+        final service = registerMockSnapdService(storeSnap: _storeSnap);
+        when(service.cachedStoreSnap('testsnap')).thenReturn(_storeSnap);
+        when(service.cachedLocalSnap('testsnap')).thenReturn(_localSnap());
+        when(service.isLocalSnapCached('testsnap')).thenReturn(true);
+        when(
+          service.find(name: anyNamed('name')),
+        ).thenAnswer((_) => Completer<List<Snap>>().future);
+        final container = createContainer(
+          overrides: [
+            launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
+          ],
+        );
+
+        expect(open(container).value?.installState, InstallState.installed);
+        await settle();
+
+        final value = container.read(snapSourceSnapshotProvider('testsnap'));
+        expect(value.value?.installState, InstallState.notInstalled);
+      });
     });
   });
 

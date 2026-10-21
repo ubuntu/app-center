@@ -546,6 +546,10 @@ class PackageKitService {
     Iterable<PackageKitPackageId> packageIds,
   ) async => _createTransaction(
     action: (transaction) => transaction.updatePackages(packageIds),
+    mutation: (
+      kind: PackageKitMutationKind.update,
+      packageIds: packageIds.toList(),
+    ),
   );
 
   static Future<String> _getNativeArchitecture() async {
@@ -649,9 +653,29 @@ class PackageKitService {
     List<String> names, {
     bool installedOnly = false,
     @visibleForTesting String? architecture,
-  }) async {
-    if (names.isEmpty) return {};
+  }) {
+    if (names.isEmpty) return Future.value({});
+    // Identical requests already running share one transaction.
+    final key = '$installedOnly|$architecture|${names.join(',')}';
+    final pending = _pendingResolves[key] ??=
+        _resolve(
+          names,
+          installedOnly: installedOnly,
+          architecture: architecture,
+        ).whenComplete(() {
+          _pendingResolves.remove(key);
+        });
+    return pending.then(Map.of);
+  }
 
+  final _pendingResolves =
+      <String, Future<Map<String, PackageKitPackageInfo?>>>{};
+
+  Future<Map<String, PackageKitPackageInfo?>> _resolve(
+    List<String> names, {
+    required bool installedOnly,
+    required String? architecture,
+  }) async {
     final possibleArchs = [
       architecture ?? await _getNativeArchitecture(),
       'all',

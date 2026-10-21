@@ -155,6 +155,26 @@ void main() {
       expect(view().actions.primary?.enabled, isTrue);
     });
 
+    test('keeps known sources when the lookup fails', () async {
+      container = createPending();
+      container.read(knownAppIdentitiesProvider)[testSnapKey] =
+          createResolvedIdentity();
+      setSnapshot(testSnapKey, createSourceSnapshot(testSnapKey));
+      setSnapshot(testDebKey, createSourceSnapshot(testDebKey));
+      open();
+
+      lookup.complete(
+        createResolvedIdentity(deb: false, discoveryFailed: true),
+      );
+      await settle();
+
+      expect(view().formats.map((f) => f.format), [
+        PackageFormat.snap,
+        PackageFormat.deb,
+      ]);
+      expect(view().issues.map((i) => i.scope), contains(IssueScope.discovery));
+    });
+
     test('stays loading until counterparts are known', () async {
       container = createPending();
       setSnapshot(testSnapKey, createSourceSnapshot(testSnapKey));

@@ -77,6 +77,8 @@ class DebModel extends _$DebModel {
   @override
   Future<DebData> build(String id) async {
     final appstream = getService<AppstreamService>();
+    // Pages can open before startup has finished loading AppStream.
+    await appstream.init();
     final component = appstream.getFromId(id);
 
     await packageKit.activateService();

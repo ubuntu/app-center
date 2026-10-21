@@ -47,10 +47,12 @@ class AppDetailsModel extends _$AppDetailsModel {
         resolved.stackTrace ?? StackTrace.empty,
       );
     }
-    final known = resolved.hasValue
-        ? null
-        : ref.read(knownAppIdentitiesProvider)[entry.sourceKey];
-    final identity = resolved.value ?? known ?? entry.provisionalIdentity;
+    final known = ref.read(knownAppIdentitiesProvider)[entry.sourceKey];
+    final result = resolved.value;
+    // A failed lookup is no proof that previously found sources are gone.
+    final identity = result != null && result.discoveryFailed && known != null
+        ? known.copyWith(discoveryFailed: true)
+        : result ?? known ?? entry.provisionalIdentity;
     final identityPending =
         !resolved.hasValue && known == null && entry is! IdentityEntry;
     _identity = identity;
