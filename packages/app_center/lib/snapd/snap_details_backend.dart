@@ -90,11 +90,11 @@ PackageSourceSnapshot? _seedSnapshot(Ref ref, String snapName) {
   final snapd = getService<SnapdService>();
   final store = snapd.cachedStoreSnap(snapName);
   // A local snapd query answers long before the store lookup in the model.
-  final localState = snapd.isLocalSnapCached(snapName)
-      ? null
-      : ref.watch(snapLocalStateProvider(snapName));
-  final localKnown = localState == null || localState.hasValue;
-  final local = localState?.value ?? snapd.cachedLocalSnap(snapName);
+  final localState = ref.watch(snapLocalStateProvider(snapName));
+  final localKnown = localState.hasValue || snapd.isLocalSnapCached(snapName);
+  final local = localState.hasValue
+      ? localState.value
+      : snapd.cachedLocalSnap(snapName);
   if (store == null && local == null) return null;
   final snapshot = snapSnapshotFromData(
     SnapData(

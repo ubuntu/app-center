@@ -638,6 +638,28 @@ void main() {
       );
       expect(packageKit.isPackageCached('foo'), isFalse);
     });
+
+    test('identical requests share one transaction', () async {
+      final client = createMockPackageKitClient(
+        transaction: createMockPackageKitTransaction(
+          events: const [installedFoo],
+        ),
+      );
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: client,
+        fs: MemoryFileSystem.test(),
+      );
+      await packageKit.activateService();
+
+      final results = await Future.wait([
+        packageKit.resolve(['foo'], architecture: 'amd64'),
+        packageKit.resolve(['foo'], architecture: 'amd64'),
+      ]);
+
+      expect(results.map((r) => r['foo']), [installedFoo, installedFoo]);
+      verify(client.createTransaction()).called(1);
+    });
   });
 
   test('get details of local package', () async {
@@ -1246,6 +1268,21 @@ void main() {
 
       expect(events.first.kind, PackageKitMutationKind.update);
       expect(events.first.affects('bar'), isTrue);
+      expect(events.last.outcome, PackageKitMutationOutcome.success);
+    });
+
+    test('tracks updates started without waiting', () async {
+      final packageKit = createService(createMockPackageKitTransaction());
+      final events = <PackageKitMutation>[];
+      packageKit.mutationEvents.listen(events.add);
+
+      await packageKit.waitTransaction(
+        await packageKit.updateAllPackages([foo, bar]),
+      );
+      await pumpEventQueue();
+
+      expect(events.first.kind, PackageKitMutationKind.update);
+      expect(events.first.affects('foo'), isTrue);
       expect(events.last.outcome, PackageKitMutationOutcome.success);
     });
 

@@ -42,6 +42,17 @@ void main() {
     expect(provider.read().value!.packageInfo, equals(packageInfo));
   });
 
+  test('waits for AppStream to finish loading', () async {
+    createMockPackageKitService(packageInfo: packageInfo);
+    final appstream = createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    container.listen(debModelProvider('testdeb'), (_, __) {});
+
+    await container.read(debModelProvider('testdeb').future);
+
+    verifyInOrder([appstream.init(), appstream.getFromId('testdeb')]);
+  });
+
   test('skips the update check for a package that is not installed', () async {
     final packageKit = createMockPackageKitService(packageInfo: packageInfo);
     createMockAppstreamService(component: component);
