@@ -71,7 +71,9 @@ class AppDetailsModel extends _$AppDetailsModel {
     };
     final operations = ref.watch(packageOperationCoordinatorProvider);
     final checkingUninstall = ref.watch(uninstallCheckProvider);
-    if (snapshots.isNotEmpty &&
+    // The lookup may still find a counterpart that exists.
+    if (!identityPending &&
+        snapshots.isNotEmpty &&
         snapshots.values.every((s) => s.error is PackageSourceNotFound)) {
       return AsyncError(AppNotFound(entry), StackTrace.current);
     }

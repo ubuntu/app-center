@@ -53,6 +53,20 @@ class _FakeAdapter implements PackageFormatAdapter {
       const PackageRuntimeState(isInstalled: false);
 }
 
+class _PendingResolver extends AppDetailsIdentityResolver {
+  _PendingResolver(this.result)
+    : super(
+        snapAdapter: _FakeAdapter(PackageFormat.snap, const []),
+        debAdapter: _FakeAdapter(PackageFormat.deb, const []),
+        mappingService: PackageMappingService(adapters: const []),
+      );
+
+  final Future<ResolvedAppIdentity> result;
+
+  @override
+  Future<ResolvedAppIdentity> resolve(AppDetailsEntry entry) => result;
+}
+
 const _snapDescriptor = PackageSourceDescriptor(
   format: PackageFormat.snap,
   packageId: 'testsnap',
@@ -358,6 +372,23 @@ void main() {
       );
 
       await open(container);
+      expect(container.read(knownAppIdentitiesProvider), isEmpty);
+    });
+
+    test('ignores lookups abandoned before they finish', () async {
+      final lookup = Completer<ResolvedAppIdentity>();
+      final container = createContainer(
+        overrides: [
+          appDetailsIdentityResolverProvider.overrideWithValue(
+            _PendingResolver(lookup.future),
+          ),
+        ],
+      );
+      container.listen(appDetailsIdentityProvider(entry), (_, _) {}).close();
+      await settle();
+
+      lookup.complete(createResolvedIdentity());
+      await settle();
       expect(container.read(knownAppIdentitiesProvider), isEmpty);
     });
   });

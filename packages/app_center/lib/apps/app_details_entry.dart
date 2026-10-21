@@ -226,16 +226,17 @@ Future<ResolvedAppIdentity> appDetailsIdentity(
   Ref ref,
   AppDetailsEntry entry,
 ) async {
-  final known = ref.read(knownAppIdentitiesProvider);
   final resolved = await ref
       .watch(appDetailsIdentityResolverProvider)
       .resolve(entry);
-  // Failed lookups are retried on the next open.
-  if (!resolved.discoveryFailed) {
+  // Failed lookups are retried on the next open, and abandoned ones must not
+  // replace a newer result.
+  if (!resolved.discoveryFailed && ref.mounted) {
+    final known = ref.read(knownAppIdentitiesProvider);
     for (final key in resolved.sourceKeys) {
       known[key] = resolved;
     }
-    if (ref.mounted) ref.keepAlive();
+    ref.keepAlive();
   }
   return resolved;
 }
