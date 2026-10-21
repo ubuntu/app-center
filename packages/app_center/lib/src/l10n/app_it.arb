@@ -534,5 +534,83 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "Canale {channel}, dalla versione {version} alla {updateVersion}",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "Dalla versione {version} alla {updateVersion}",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsStarredPublisherSemanticLabel": "Editore in evidenza",
+    "appDetailsPackageSourceSnapStore": "Snap Store",
+    "appDetailsPackageSourceUbuntuArchive": "Archivio di Ubuntu",
+    "appDetailsInstalledAsFormat": "Già installato nel formato {format}",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "{first} e {second} sono entrambi installati",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Installato in più formati di pacchetto",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Disinstallalo prima di installare un formato di pacchetto diverso. I dati dell'applicazione non sono condivisi tra i formati.} =2{Disinstalla entrambi per passare ad un formato diverso. I dati dell'applicazione non sono condivisi tra i formati.} other{Disinstallali per passare ad un formato diverso. I dati dell'applicazione non sono condivisi tra i formati.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "appDetailsPackageFormatsLearnMore": "Ulteriori informazioni sui formati dei pacchetti",
+    "addonsPageFirmwareDescription": "Aggiorna l'hardware per migliorare le prestazioni e la sicurezza",
+    "driversPageDeviceClassGraphics": "Grafica",
+    "driversPageDeviceClassNetwork": "Rete",
+    "driversPageDeviceClassCamera": "Fotocamera",
+    "driversPageDeviceClassStorage": "Archiviazione",
+    "driversPageBranchProduction": "Produzione",
+    "driversPageUnavailableTitle": "Gestione driver non disponibile",
+    "driversPageUnsupportedMessage": "Il servizio di gestione del driver non è disponibile. Assicurati che snapd sia aggiornato e che ubuntu-drivers-common sia installato.",
+    "driversPageSwitchBranchLabel": "Cambia branch",
+    "driversPageSwitchBranchTitle": "Cambia branch",
+    "driversPageSwitchBranchProductionDescription": "Bilancia funzionalità e stabilità",
+    "driversPageSwitchBranchLtsDescription": "Stabilità massima per carichi di lavoro critici",
+    "driversPageSwitchBranchNewFeatureDescription": "Anteprima, meno stabile",
+    "driversPageSwitchBranchLessStableWarningTitle": "Questo branch è meno stabile",
+    "driversPageSwitchBranchLessStableWarningMessage": "Rimani nel branch corrente per prevenire problemi con questo dispositivo.",
+    "driversPageSwitchLabel": "Cambia",
+    "driversPageSwitchingBranchLabel": "Cambio di branch in corso",
+    "driversPageUninstallTitle": "Disinstalla il driver",
+    "driversPageUninstallWarningTitle": "La rimozione dei driver può causare problemi",
+    "driversPageUninstallWarningMessage": "Potresti non riuscire a reinstallare facilmente i driver, in particolar modo quelli relativi alla grafica e alla rete.",
+    "driversPageUninstallAcknowledgeLabel": "Capisco il rischio"
 }
