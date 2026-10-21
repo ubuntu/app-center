@@ -175,6 +175,18 @@ void main() {
       expect(view().issues.map((i) => i.scope), contains(IssueScope.discovery));
     });
 
+    test('does not report a missing app before the lookup finishes', () async {
+      container = createPending();
+      container.read(fakeSnapshotProvider(testSnapKey).notifier).state =
+          AsyncError(PackageSourceNotFound(testSnapKey), StackTrace.empty);
+      open();
+      expect(async().error, isNot(isA<AppNotFound>()));
+
+      lookup.complete(createResolvedIdentity(deb: false));
+      await settle();
+      expect(async().error, isA<AppNotFound>());
+    });
+
     test('stays loading until counterparts are known', () async {
       container = createPending();
       setSnapshot(testSnapKey, createSourceSnapshot(testSnapKey));

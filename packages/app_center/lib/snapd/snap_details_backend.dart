@@ -91,7 +91,6 @@ PackageSourceSnapshot? _seedSnapshot(Ref ref, String snapName) {
   final store = snapd.cachedStoreSnap(snapName);
   // A local snapd query answers long before the store lookup in the model.
   final localState = ref.watch(snapLocalStateProvider(snapName));
-  final localKnown = localState.hasValue || snapd.isLocalSnapCached(snapName);
   final local = localState.hasValue
       ? localState.value
       : snapd.cachedLocalSnap(snapName);
@@ -105,8 +104,8 @@ PackageSourceSnapshot? _seedSnapshot(Ref ref, String snapName) {
     ),
     canLaunch: local != null && ref.watch(launchProvider(local)).isLaunchable,
   );
-  // Without local state, a missing local snap may still be installed.
-  return localKnown
+  // A cached local snap may have been removed since, so it can't decide.
+  return localState.hasValue
       ? snapshot
       : snapshot.copyWith(installState: InstallState.unknown);
 }
