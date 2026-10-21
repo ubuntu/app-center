@@ -410,6 +410,8 @@ extension StoreAppThemeX on ThemeData {
   }
 }
 
+const hebrewFont = 'Noto Sans Hebrew';
+
 List<String> _fontFallbackFor(Locale locale) {
   const simplifiedChinese = 'Noto Sans CJK SC';
   const traditionalChinese = 'Noto Sans CJK TC';
@@ -419,7 +421,7 @@ List<String> _fontFallbackFor(Locale locale) {
 
   return switch ((locale.languageCode, locale.scriptCode, locale.countryCode)) {
     ('he', _, _) => const [
-      'Noto Sans Hebrew',
+      hebrewFont,
       simplifiedChinese,
       traditionalChinese,
       hongKongChinese,
