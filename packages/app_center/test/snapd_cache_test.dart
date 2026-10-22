@@ -303,23 +303,32 @@ void main() {
       expect(snapd.cachedStoreSnap('firefox'), refreshed);
     });
 
+    test('remembers lookups by name separately from listings', () async {
+      final snapd = _MemorySnapd()..found = [storeSnap];
+      await snapd.find(query: 'fire');
+      expect(snapd.cachedSnapByName('firefox'), isNull);
+
+      await snapd.find(name: 'firefox');
+      expect(snapd.cachedSnapByName('firefox'), storeSnap);
+    });
+
     test('records an installed snap', () async {
       final snapd = _MemorySnapd()..installed = localSnap;
-      expect(snapd.isLocalSnapCached('firefox'), isFalse);
+      expect(snapd.cachedLocalSnap('firefox'), isNull);
 
       await snapd.getSnap('firefox');
-      expect(snapd.isLocalSnapCached('firefox'), isTrue);
       expect(snapd.cachedLocalSnap('firefox'), localSnap);
     });
 
-    test('records a snap that is not installed', () async {
-      final snapd = _MemorySnapd();
+    test('forgets a snap that is no longer installed', () async {
+      final snapd = _MemorySnapd()..installed = localSnap;
+      await snapd.getSnap('firefox');
 
+      snapd.installed = null;
       await expectLater(
         snapd.getSnap('firefox'),
         throwsA(isA<SnapdException>()),
       );
-      expect(snapd.isLocalSnapCached('firefox'), isTrue);
       expect(snapd.cachedLocalSnap('firefox'), isNull);
     });
 
@@ -332,7 +341,7 @@ void main() {
 
       await snapd.getSnaps(filter: SnapsFilter.all);
       expect(snapd.cachedLocalSnap('firefox'), localSnap);
-      expect(snapd.isLocalSnapCached('other'), isFalse);
+      expect(snapd.cachedLocalSnap('other'), isNull);
     });
   });
 }

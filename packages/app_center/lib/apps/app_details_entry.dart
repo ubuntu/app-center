@@ -229,19 +229,18 @@ Future<ResolvedAppIdentity> appDetailsIdentity(
   final resolved = await ref
       .watch(appDetailsIdentityResolverProvider)
       .resolve(entry);
-  // Failed lookups are retried on the next open, and abandoned ones must not
-  // replace a newer result.
+  // Failed lookups aren't shared, and abandoned ones must not replace a newer
+  // result. The lookup still runs again on every open.
   if (!resolved.discoveryFailed && ref.mounted) {
     final known = ref.read(knownAppIdentitiesProvider);
     for (final key in resolved.sourceKeys) {
       known[key] = resolved;
     }
-    ref.keepAlive();
   }
   return resolved;
 }
 
-/// Successful lookups by every source they include, so an app opened from
-/// one format reuses the lookup made from the other.
+/// Last successful lookup by every source it includes, shown while a page's
+/// own lookup runs, including for an app opened from its other format.
 @Riverpod(keepAlive: true)
 Map<SourceKey, ResolvedAppIdentity> knownAppIdentities(Ref ref) => {};

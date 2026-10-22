@@ -239,6 +239,24 @@ void main() {
     });
   });
 
+  test('rejects actions while the active package may change', () async {
+    final view = await start(
+      snap: createSourceSnapshot(testSnapKey),
+      deb: createSourceSnapshot(testDebKey),
+    );
+    final install = view.actions.primary!;
+
+    container.read(fakeSnapshotProvider(testDebKey).notifier).state =
+        const AsyncLoading();
+    await settle();
+
+    expect(
+      await model().execute(install.id),
+      const CommandReceipt.rejected(CommandRejection.busy),
+    );
+    expect(backend.executed, isEmpty);
+  });
+
   test('loaded data equal to the cached data does not notify', () async {
     container = create(identity: createResolvedIdentity(deb: false));
     final cached = createSourceSnapshot(testSnapKey);

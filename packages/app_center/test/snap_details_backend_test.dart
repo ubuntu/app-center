@@ -310,7 +310,6 @@ void main() {
         );
         when(service.cachedStoreSnap('testsnap')).thenReturn(_storeSnap);
         when(service.cachedLocalSnap('testsnap')).thenReturn(local);
-        when(service.isLocalSnapCached('testsnap')).thenReturn(true);
         when(
           service.find(name: anyNamed('name')),
         ).thenAnswer((_) => Completer<List<Snap>>().future);
@@ -353,7 +352,6 @@ void main() {
         final service = registerMockSnapdService(storeSnap: _storeSnap);
         when(service.cachedStoreSnap('testsnap')).thenReturn(_storeSnap);
         when(service.cachedLocalSnap('testsnap')).thenReturn(_localSnap());
-        when(service.isLocalSnapCached('testsnap')).thenReturn(true);
         when(
           service.find(name: anyNamed('name')),
         ).thenAnswer((_) => Completer<List<Snap>>().future);

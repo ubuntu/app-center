@@ -223,6 +223,7 @@ class PackageKitService {
     // Any mutation can change other packages too, e.g. dependencies.
     _knownPackages.clear();
     _knownPackagesGeneration++;
+    _pendingResolves.clear();
     _mutations[mutation.transactionId] = mutation;
     if (mutation.isTerminal) {
       final terminal = _mutations.values.where((m) => m.isTerminal).toList();
@@ -657,14 +658,27 @@ class PackageKitService {
     if (names.isEmpty) return Future.value({});
     // Identical requests already running share one transaction.
     final key = '$installedOnly|$architecture|${names.join(',')}';
-    final pending = _pendingResolves[key] ??=
-        _resolve(
-          names,
-          installedOnly: installedOnly,
-          architecture: architecture,
-        ).whenComplete(() {
-          _pendingResolves.remove(key);
-        });
+    var pending = _pendingResolves[key];
+    if (pending == null) {
+      final started = _resolve(
+        names,
+        installedOnly: installedOnly,
+        architecture: architecture,
+      );
+      pending = _pendingResolves[key] = started;
+      unawaited(
+        started
+            .then<void>(
+              (_) {},
+              onError: (_) {},
+            )
+            .whenComplete(() {
+              if (identical(_pendingResolves[key], started)) {
+                _pendingResolves.remove(key);
+              }
+            }),
+      );
+    }
     return pending.then(Map.of);
   }
 

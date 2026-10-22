@@ -518,6 +518,27 @@ void main() {
       expect(results.map((r) => r['foo']), [installedFoo, installedFoo]);
       verify(client.createTransaction()).called(1);
     });
+
+    test('requests after a package change start a new transaction', () async {
+      final client = createMockPackageKitClient();
+      when(client.createTransaction()).thenAnswer(
+        (_) async =>
+            createMockPackageKitTransaction(events: const [installedFoo]),
+      );
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: client,
+        fs: MemoryFileSystem.test(),
+      );
+      await packageKit.activateService();
+
+      final before = packageKit.resolve(['foo'], architecture: 'amd64');
+      await packageKit.remove(installedFoo.packageId);
+      final after = packageKit.resolve(['foo'], architecture: 'amd64');
+      await Future.wait([before, after]);
+
+      verify(client.createTransaction()).called(3);
+    });
   });
 
   test('get details of local package', () async {

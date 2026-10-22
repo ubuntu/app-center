@@ -94,13 +94,20 @@ Future<PackageKitPackageInfo?> debQuickPackageInfo(
   return (await getService<PackageKitService>().resolve([name]))[name];
 }
 
-PackageKitPackageInfo? _quickPackageInfo(Ref ref, String componentId) {
+/// Fresh `resolve` result, or failing that a cached one that can't decide.
+({PackageKitPackageInfo? info, bool fresh})? _quickPackageInfo(
+  Ref ref,
+  String componentId,
+) {
   final component = getService<AppstreamService>().tryGetFromId(componentId);
   if (component == null) return null;
+  final quick = ref.watch(debQuickPackageInfoProvider(componentId));
+  if (quick.hasValue) return (info: quick.value, fresh: true);
   final name = component.package ?? componentId;
   final packageKit = getService<PackageKitService>();
-  if (packageKit.isPackageCached(name)) return packageKit.cachedPackage(name);
-  return ref.watch(debQuickPackageInfoProvider(componentId)).value;
+  return packageKit.isPackageCached(name)
+      ? (info: packageKit.cachedPackage(name), fresh: false)
+      : null;
 }
 
 @riverpod
@@ -112,13 +119,12 @@ AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
   final mutations = ref.watch(packageKitMutationsProvider).value ?? const [];
   final icon = ref.watch(debIconProvider(componentId));
   final loading = !model.hasValue && !model.hasError;
-  final quickInfo = loading ? _quickPackageInfo(ref, componentId) : null;
+  final quick = loading ? _quickPackageInfo(ref, componentId) : null;
   final data = model.value;
-  final packageInfo = data?.packageInfo ?? quickInfo;
-  final candidateId =
-      packageInfo == null || packageInfo.info == PackageKitInfo.installed
+  // Simulating the install waits for the model so it doesn't delay it.
+  final candidateId = data == null || data.isInstalled
       ? null
-      : packageInfo.packageId;
+      : data.packageInfo?.packageId;
   final installSize = candidateId == null
       ? null
       : ref.watch(debInstallSizeProvider(candidateId));
@@ -131,26 +137,27 @@ AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
   if (loading) {
     final component = getService<AppstreamService>().tryGetFromId(componentId);
     if (component != null) {
+      final snapshot = quick == null
+          ? debSnapshotFromComponent(
+              componentId,
+              component,
+              icon: _fieldFromAsync(icon),
+            )
+          : debSnapshotFromPackageInfo(
+              componentId,
+              component,
+              quick.info,
+              mutations: mutations,
+              icon: _fieldFromAsync(icon),
+              currentDesktops: desktops,
+            );
+      // A cached state may predate changes made outside the app.
       // ignore: invalid_use_of_internal_member
       return const AsyncLoading<PackageSourceSnapshot>().copyWithPrevious(
         AsyncData(
-          quickInfo == null
-              ? debSnapshotFromComponent(
-                  componentId,
-                  component,
-                  icon: _fieldFromAsync(icon),
-                )
-              : debSnapshotFromPackageInfo(
-                  componentId,
-                  component,
-                  quickInfo,
-                  mutations: mutations,
-                  icon: _fieldFromAsync(icon),
-                  installSize: installSize == null
-                      ? FieldState<ByteSize>.unavailable()
-                      : _fieldFromAsync(installSize),
-                  currentDesktops: desktops,
-                ),
+          quick == null || quick.fresh
+              ? snapshot
+              : snapshot.copyWith(installState: InstallState.unknown),
         ),
       );
     }
@@ -216,7 +223,6 @@ PackageSourceSnapshot debSnapshotFromPackageInfo(
   PackageKitPackageInfo? packageInfo, {
   List<PackageKitMutation> mutations = const [],
   FieldState<ImageRef> icon = const FieldState<ImageRef>.unavailable(),
-  FieldState<ByteSize> installSize = const FieldState<ByteSize>.unavailable(),
   List<String> currentDesktops = const [],
 }) => _debSnapshot(
   id: id,
@@ -224,7 +230,7 @@ PackageSourceSnapshot debSnapshotFromPackageInfo(
   packageInfo: packageInfo,
   mutations: mutations,
   icon: icon,
-  installSize: installSize,
+  installSize: const FieldState<ByteSize>.unavailable(),
   currentDesktops: currentDesktops,
 );
 
