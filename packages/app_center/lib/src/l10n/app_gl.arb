@@ -449,5 +449,150 @@
     "driversPageUninstallTitle": "Desinstalar o controlador",
     "driversPageUninstallWarningTitle": "Desinstalar controladores pode causar problemas",
     "driversPageUninstallWarningMessage": "Pode que non poidas reinstalar facilmente os controladores, especialmente se están relacionados coa gráfica ou coa rede.",
-    "driversPageUninstallAcknowledgeLabel": "Comprendo o risco"
+    "driversPageUninstallAcknowledgeLabel": "Comprendo o risco",
+    "managePageOpenAppSemanticLabel": "Abrir {appName}",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "Actualizar {appName}",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppRestartRequiredSemanticLabel": "Actualizar {appName}, precísase reiniciar para completar",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "Desinstalar {appName}",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "Cancelar {action} para {appName}",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "Tamaño: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "Canle {channel}, versión {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "Canle {channel}, versión {version} a {updateVersion}",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "Versión {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "Versión {version} a {updateVersion}",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsAdditionalInfoLabel": "Información adicional",
+    "appDetailsPackageFormatLabel": "Formato do paquete",
+    "appDetailsCategoryLabel": "Categoría",
+    "appDetailsInstallDateLabel": "Data de instalación",
+    "appDetailsInstalledSizeLabel": "Tamaño da instalación",
+    "appDetailsNotInstalled": "Non instalado",
+    "appDetailsNotAvailable": "Non dispoñíbel",
+    "appDetailsChoosePackageFormatAction": "Escoller o formato do paquete…",
+    "appDetailsChoosePackageFormatTitle": "Escolle o formato do paquete",
+    "appDetailsPackageSourceLabel": "Fonte",
+    "appDetailsVerifiedPublisherSemanticLabel": "Editor verificado",
+    "appDetailsStarredPublisherSemanticLabel": "Editor destacado",
+    "appDetailsPackageSourceSnapStore": "Tenda Snap",
+    "appDetailsPackageSourceUbuntuArchive": "Archivo de Ubuntu",
+    "appDetailsInstalledAsFormat": "Xa instalado como {format}",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "{first} e {second} están ambos instalados",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Instalado en varios formatos de paquete",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Desinstálao antes de instalar un formato de paquete diferente. Os datos da aplicación non se comparten entre formatos.} =2{Desinstálaos para cambiar a un formato diferente. Os datos da aplicación non se comparten entre formatos.} other{Desinstálaos para cambiar a un formato diferente. Os datos da aplicación non se comparten entre formatos.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "appDetailsPackageFormatsLearnMore": "Máis información sobre os formatos de paquete",
+    "addonsPageMediaSupportTitle": "Soporte multimedia",
+    "addonsPageMediaSupportDescription": "Instala software adicional para admitir máis formatos multimedia",
+    "addonsPageFirmwareTitle": "Firmware",
+    "addonsPageFirmwareDescription": "Actualiza o hardware para obter un mellor rendemento e seguridade",
+    "mediaSupportPageDescription": "Ubuntu inclúe de serie algúns códecs de código aberto. É posíbel que necesites instalar software adicional para reproducir e editar determinados formatos de música e vídeo.",
+    "mediaSupportPageAdditionalMediaTitle": "Soporte multimedia adicional",
+    "mediaSupportPageInstallButton": "Instalar"
 }

@@ -186,7 +186,7 @@
     "aboutPageGitHubLabel": "Bizi GitHub-da tapın",
     "aboutPagePublishLabel": "Snap Mağazasında yayımlayın",
     "aboutPageLearnMoreLabel": "Daha çox öyrən",
-    "appUrlTypeContact": "{publisher} ilə əlaqə saxlayın",
+    "appUrlTypeContact": "{publisher} ilə əlaqə saxla",
     "@appUrlTypeContact": {
         "placeholders": {
             "publisher": {
@@ -590,5 +590,5 @@
         }
     },
     "addonsPageMediaSupportDescription": "Daha çox media formatını dəstəkləmək üçün əlavə proqram təminatı quraşdırın",
-    "mediaSupportPageDescription": "Ubuntu varsayılan olaraq bəzi açıq mənbə kodekləri ilə göndərir. Müəyyən musiqi və video formatlarını oxutmaq və redaktə etmək üçün əlavə proqram təminatı quraşdırmalı ola bilərsiniz."
+    "mediaSupportPageDescription": "Ubuntu varsayılan olaraq bəzi açıq mənbəli kodeklərlə gəlir. Müəyyən musiqi və video formatlarını oxutmaq və redaktə etmək üçün əlavə proqram təminatı quraşdırmalı ola bilərsiniz."
 }

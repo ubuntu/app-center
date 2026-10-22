@@ -404,5 +404,134 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "managePageOpenAppSemanticLabel": "{appName} نى ئاچ",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "{appName} نى يېڭىلا",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppRestartRequiredSemanticLabel": "{appName} نى يېڭىلاشتا، قايتا قوزغىتىلسا ئاندىن تاماملىنىدۇ",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "{appName} نى سۆك",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "{appName} نىڭ {action} دىن ۋاز كەچ",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "چوڭلۇقى: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "{channel} قانال، نەشرى {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "{channel} قانال، {version} نەشرى {updateVersion} غا يېڭىلىنىدۇ",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "نەشرى {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "{version} نەشرىنى {updateVersion} غا يېڭىلايدۇ",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsAdditionalInfoLabel": "قوشۇمچە ئۇچۇر",
+    "appDetailsPackageFormatLabel": "بوغچا پىچىمى",
+    "appDetailsCategoryLabel": "تۈر",
+    "appDetailsInstallDateLabel": "ئورنىتىلغان چېسلا",
+    "appDetailsInstalledSizeLabel": "ئورنىتىلغان چوڭلۇقى",
+    "appDetailsNotInstalled": "ئورنىتىلمىغان",
+    "appDetailsNotAvailable": "ئىشلەتكىلى بولمايدۇ",
+    "appDetailsChoosePackageFormatAction": "بوغچا پىچىمى تاللىنىدۇ…",
+    "appDetailsChoosePackageFormatTitle": "بوغچا پىچىمى تاللىنىدۇ",
+    "appDetailsPackageSourceLabel": "مەنبە",
+    "appDetailsVerifiedPublisherSemanticLabel": "دەلىللەنگەن تارقاتقۇچى",
+    "appDetailsStarredPublisherSemanticLabel": "يۇلتۇزلۇق تارقاتقۇچى",
+    "appDetailsPackageSourceSnapStore": "Snap دۇكىنى",
+    "appDetailsPackageSourceUbuntuArchive": "Ubuntu ئارخىپى",
+    "appDetailsInstalledAsFormat": "ئاللىبۇرۇن {format} پىچىمىدا ئورنىتىلغان",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "{first} ۋە {second} ھەر ئىككىسى ئورنىتىلدى",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "كۆپ بوغچا پىچىمىدا ئورنىتىلغان"
 }
