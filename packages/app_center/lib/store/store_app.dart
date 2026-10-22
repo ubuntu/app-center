@@ -356,7 +356,9 @@ extension StoreAppThemeX on ThemeData {
 
     final base = copyWith(
       textTheme: textTheme.apply(fontFamilyFallback: fontFallback),
-      primaryTextTheme: primaryTextTheme.apply(fontFamilyFallback: fontFallback),
+      primaryTextTheme: primaryTextTheme.apply(
+        fontFamilyFallback: fontFallback,
+      ),
 
       appBarTheme: appBarTheme.copyWith(
         toolbarTextStyle: withFallback(appBarTheme.toolbarTextStyle),

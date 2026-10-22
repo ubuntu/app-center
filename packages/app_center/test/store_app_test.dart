@@ -31,7 +31,10 @@ void main() {
       final fallback = theme.textTheme.bodyMedium!.fontFamilyFallback!;
       expect(fallback.first, 'Noto Sans Hebrew');
       expect(theme.appBarTheme.titleTextStyle!.fontFamilyFallback, fallback);
-      expect(theme.inputDecorationTheme.labelStyle!.fontFamilyFallback, fallback);
+      expect(
+        theme.inputDecorationTheme.labelStyle!.fontFamilyFallback,
+        fallback,
+      );
     });
 
     test('prefers the active CJK locale', () {
