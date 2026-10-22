@@ -259,10 +259,16 @@ void main() {
       expect(value.value?.updateCandidate, isNull);
     });
 
-    test('uses a remembered install state without asking PackageKit', () {
+    test('shows a remembered install state without deciding on it', () async {
       final appstream = createMockAppstreamService(component: _component);
       when(appstream.tryGetFromId('org.test.app')).thenReturn(_component);
-      final packageKit = createMockPackageKitService();
+      final packageKit = createMockPackageKitService(
+        packageInfo: const PackageKitPackageEvent(
+          info: PackageKitInfo.available,
+          packageId: _installedId,
+          summary: 'summary',
+        ),
+      );
       when(packageKit.isPackageCached('test-app')).thenReturn(true);
       when(packageKit.cachedPackage('test-app')).thenReturn(
         const PackageKitPackageEvent(
@@ -271,12 +277,19 @@ void main() {
           summary: 'summary',
         ),
       );
+      when(
+        packageKit.getUpdateDetails(any),
+      ).thenAnswer((_) => Completer<PackageKitUpdateDetailEvent?>().future);
       final container = createContainer();
       container.listen(debSourceSnapshotProvider('org.test.app'), (_, _) {});
 
-      final value = container.read(debSourceSnapshotProvider('org.test.app'));
-      expect(value.isLoading, isTrue);
-      expect(value.value?.installState, InstallState.installed);
+      final cached = container.read(debSourceSnapshotProvider('org.test.app'));
+      expect(cached.value?.installed?.version, '1.0-1');
+      expect(cached.value?.installState, InstallState.unknown);
+
+      await settle();
+      final fresh = container.read(debSourceSnapshotProvider('org.test.app'));
+      expect(fresh.value?.installState, InstallState.notInstalled);
     });
 
     test('is plain loading without AppStream metadata', () {

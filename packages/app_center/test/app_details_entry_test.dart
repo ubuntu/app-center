@@ -284,7 +284,7 @@ void main() {
       await settle();
     }
 
-    test('keeps a successful lookup after the page closes', () async {
+    test('looks up again on every open but keeps sharing the result', () async {
       final snaps = _FakeAdapter(PackageFormat.snap, [_snapDescriptor]);
       final container = createContainer(
         overrides: [
@@ -298,9 +298,9 @@ void main() {
       final lookups = snaps.lookups;
       await open(container);
 
-      expect(snaps.lookups, lookups);
+      expect(snaps.lookups, greaterThan(lookups));
       expect(
-        container.read(appDetailsIdentityProvider(entry)).value?.sourceKeys,
+        container.read(knownAppIdentitiesProvider)[testSnapKey]?.sourceKeys,
         [testSnapKey, testDebKey],
       );
     });
@@ -353,9 +353,8 @@ void main() {
 
       await open(container);
       final known = container.read(knownAppIdentitiesProvider);
-      final resolved = container.read(appDetailsIdentityProvider(entry)).value;
-      expect(known[testSnapKey], resolved);
-      expect(known[testDebKey], resolved);
+      expect(known[testSnapKey]?.sourceKeys, [testSnapKey, testDebKey]);
+      expect(known[testDebKey], known[testSnapKey]);
       expect(
         const AppDetailsEntry.debComponent('org.test.app').sourceKey,
         testDebKey,

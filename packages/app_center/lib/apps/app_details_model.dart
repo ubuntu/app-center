@@ -32,12 +32,15 @@ class AppDetailsModel extends _$AppDetailsModel {
 
   AppDetailsComposition? _composition;
   ResolvedAppIdentity? _identity;
+  // The shown page is kept while the active package may still change.
+  var _undecided = false;
   final _acknowledged = <IssueId>{};
 
   @override
   AsyncValue<AppDetailsViewState> build(AppDetailsEntry entry) {
     final previous = _composition;
     _composition = null;
+    _undecided = false;
     if (!entry.isValid) {
       return AsyncError(InvalidAppDetailsEntry(entry), StackTrace.current);
     }
@@ -106,6 +109,7 @@ class AppDetailsModel extends _$AppDetailsModel {
       final last = stateOrNull;
       if (previous != null && last != null && last.hasValue) {
         _composition = previous;
+        _undecided = true;
         return last;
       }
       return const AsyncLoading();
@@ -126,6 +130,9 @@ class AppDetailsModel extends _$AppDetailsModel {
     // Reading state flushes pending rebuilds, so bindings reflect the latest
     // backend capabilities rather than what was rendered.
     state;
+    if (_undecided) {
+      return const CommandReceipt.rejected(CommandRejection.busy);
+    }
     final binding = _composition?.bindings[actionId];
     if (binding == null) {
       return const CommandReceipt.rejected(CommandRejection.staleAction);
