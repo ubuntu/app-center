@@ -321,6 +321,47 @@ void main() {
       expect(info!.packageId.arch, equals('amd64'));
     });
 
+    test('installed only ignores a later available result', () async {
+      const installed = PackageKitPackageEvent(
+        info: PackageKitInfo.installed,
+        packageId: PackageKitPackageId(
+          name: 'foo',
+          version: '1.0',
+          arch: 'amd64',
+        ),
+        summary: 'installed',
+      );
+      const available = PackageKitPackageEvent(
+        info: PackageKitInfo.available,
+        packageId: PackageKitPackageId(
+          name: 'foo',
+          version: '1.1',
+          arch: 'amd64',
+        ),
+        summary: 'available',
+      );
+      final mockTransaction = createMockPackageKitTransaction(
+        events: [installed, available],
+      );
+      final mockClient = createMockPackageKitClient(
+        transaction: mockTransaction,
+      );
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: mockClient,
+        fs: MemoryFileSystem.test(),
+      );
+      await packageKit.activateService();
+
+      final info = (await packageKit.resolve(
+        ['foo'],
+        installedOnly: true,
+        architecture: 'amd64',
+      ))['foo'];
+
+      expect(info, equals(installed));
+    });
+
     test('architecture \'all\'', () async {
       final mockTransaction = createMockPackageKitTransaction(
         events: const [

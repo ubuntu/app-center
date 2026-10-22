@@ -73,6 +73,9 @@ void main() {
       find.text(tester.l10n.localDebInstalledVersion('1.0')),
       findsOneWidget,
     );
+    verify(
+      packageKit.resolve(['testdeb'], installedOnly: true),
+    ).called(1);
   });
 
   for (final installedVersion in ['0.9', '1.1']) {
