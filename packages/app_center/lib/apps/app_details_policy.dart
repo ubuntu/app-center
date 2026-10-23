@@ -6,27 +6,6 @@ import 'package:app_center/mapping/package_source_descriptor.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// The ViewModel-private binding of an [ActionId] to its fixed target.
-class ActionBinding {
-  const ActionBinding({
-    required this.source,
-    required this.kind,
-    required this.targetLabel,
-    this.command,
-    this.operationId,
-    this.targetCandidate,
-    this.disabledReason,
-  });
-
-  final SourceKey source;
-  final ActionKind kind;
-  final String targetLabel;
-  final PackageCommand? command;
-  final OperationId? operationId;
-  final PackageRelease? targetCandidate;
-  final DisabledReason? disabledReason;
-}
-
 class AppDetailsPolicyInput {
   const AppDetailsPolicyInput({
     required this.identity,
@@ -47,19 +26,15 @@ class AppDetailsPolicyInput {
   final bool identityPending;
 }
 
+/// The composed page state; bindings and issues travel inside [state].
 class AppDetailsComposition {
-  const AppDetailsComposition({
-    required this.state,
-    required this.bindings,
-    required this.operationIssues,
-    this.decided = true,
-  });
+  const AppDetailsComposition(this.state);
 
   final AppDetailsViewState state;
-  final Map<ActionId, ActionBinding> bindings;
-  final Map<IssueId, OperationId> operationIssues;
-  // False while a loading source could still change the active package.
-  final bool decided;
+
+  Map<ActionId, ActionBinding> get bindings => state.bindings;
+  Map<IssueId, OperationId> get operationIssues => state.operationIssues;
+  bool get decided => state.decided;
 }
 
 /// Pure rules turning source snapshots and operations into page state.
@@ -191,10 +166,14 @@ class _Composer {
 
     final (issues, operationIssues) = _issues();
     return AppDetailsComposition(
-      state: state.copyWith(issues: issues),
-      bindings: Map.unmodifiable(bindings),
-      operationIssues: operationIssues,
-      decided: _decided,
+      state.copyWith(
+        issues: issues,
+        decided: _decided,
+        identity: input.identity,
+        bindings: bindings,
+        operationIssues: operationIssues,
+        acknowledgedIssues: input.acknowledgedIssues,
+      ),
     );
   }
 

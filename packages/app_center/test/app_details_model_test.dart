@@ -125,24 +125,25 @@ void main() {
       container = createPending();
       setSnapshot(
         testSnapKey,
-        createSourceSnapshot(testSnapKey, installState: _installed),
+        createSourceSnapshot(
+          testSnapKey,
+          installState: _installed,
+          withUpdate: true,
+        ),
       );
       open();
 
       expect(view().activePackage.sourceId, testSnapKey.value);
       expect(view().app.name.valueOrNull, 'Snap App');
-    });
-
-    test('stays loading without source data', () {
-      container = createPending();
-      open();
-      expect(async().isLoading, isTrue);
+      expect(view().actions.primary?.kind, ActionKind.update);
+      expect(view().actions.primary?.enabled, isTrue);
     });
 
     test('uses a lookup made from the other format', () {
       container = createPending();
-      container.read(knownAppIdentitiesProvider)[testSnapKey] =
-          createResolvedIdentity();
+      container
+          .read(knownAppIdentitiesProvider.notifier)
+          .record(createResolvedIdentity());
       setSnapshot(testSnapKey, createSourceSnapshot(testSnapKey));
       setSnapshot(testDebKey, createSourceSnapshot(testDebKey));
       open();
@@ -157,8 +158,9 @@ void main() {
 
     test('keeps known sources when the lookup fails', () async {
       container = createPending();
-      container.read(knownAppIdentitiesProvider)[testSnapKey] =
-          createResolvedIdentity();
+      container
+          .read(knownAppIdentitiesProvider.notifier)
+          .record(createResolvedIdentity());
       setSnapshot(testSnapKey, createSourceSnapshot(testSnapKey));
       setSnapshot(testDebKey, createSourceSnapshot(testDebKey));
       open();
@@ -187,69 +189,59 @@ void main() {
       expect(async().error, isA<AppNotFound>());
     });
 
-    test('stays loading until counterparts are known', () async {
+    test('holds actions until counterparts are known', () async {
       container = createPending();
       setSnapshot(testSnapKey, createSourceSnapshot(testSnapKey));
       open();
-      expect(async().isLoading, isTrue);
+      expect(view().app.name.valueOrNull, 'Snap App');
+      expect(view().decided, isFalse);
 
       lookup.complete(createResolvedIdentity(deb: false));
       await settle();
+      expect(view().decided, isTrue);
       expect(view().actions.primary?.kind, ActionKind.install);
       expect(view().actions.primary?.enabled, isTrue);
     });
 
-    test('keeps actions of an installed source', () {
-      container = createPending();
-      setSnapshot(
-        testSnapKey,
-        createSourceSnapshot(
-          testSnapKey,
-          installState: _installed,
-          withUpdate: true,
-        ),
-      );
-      open();
-
-      expect(view().actions.primary?.kind, ActionKind.update);
-      expect(view().actions.primary?.enabled, isTrue);
-    });
-
-    test('never shows the snap before an installed deb', () async {
+    test('decides on an installed deb found by the lookup', () async {
       container = createPending();
       setSnapshot(testSnapKey, createSourceSnapshot(testSnapKey));
       setSnapshot(
         testDebKey,
         createSourceSnapshot(testDebKey, installState: _installed),
       );
-      final shown = <PackageFormat>[];
+      final shown = <(PackageFormat, bool)>[];
       subscription = container.listen(appDetailsModelProvider(_entry), (
         _,
         next,
       ) {
         if (next.value case final state?) {
-          shown.add(state.activePackage.format);
+          shown.add((state.activePackage.format, state.decided));
         }
       }, fireImmediately: true);
-      expect(async().isLoading, isTrue);
 
       lookup.complete(createResolvedIdentity());
       await settle();
-      expect(shown.toSet(), {PackageFormat.deb});
+      expect(shown.first, (PackageFormat.snap, false));
+      expect(shown.last, (PackageFormat.deb, true));
+      expect(shown.where((s) => s.$2).map((s) => s.$1).toSet(), {
+        PackageFormat.deb,
+      });
     });
   });
 
   test('rejects actions while the active package may change', () async {
-    final view = await start(
+    final shown = await start(
       snap: createSourceSnapshot(testSnapKey),
       deb: createSourceSnapshot(testDebKey),
     );
-    final install = view.actions.primary!;
+    final install = shown.actions.primary!;
 
     container.read(fakeSnapshotProvider(testDebKey).notifier).state =
         const AsyncLoading();
     await settle();
 
+    expect(view().decided, isFalse);
     expect(
       await model().execute(install.id),
       const CommandReceipt.rejected(CommandRejection.busy),

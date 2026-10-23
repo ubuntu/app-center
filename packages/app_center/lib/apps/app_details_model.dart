@@ -28,17 +28,9 @@ AsyncValue<RatingsSummary?> appDetailsRatings(Ref ref, String snapName) =>
 class AppDetailsModel extends _$AppDetailsModel {
   static const _policy = AppDetailsPolicy();
 
-  AppDetailsComposition? _composition;
-  ResolvedAppIdentity? _identity;
-  // The shown page is kept while the active package may still change.
-  var _undecided = false;
-  final _acknowledged = <IssueId>{};
-
   @override
   AsyncValue<AppDetailsViewState> build(AppDetailsEntry entry) {
-    final previous = _composition;
-    _composition = null;
-    _undecided = false;
+    final last = stateOrNull?.value;
     if (!entry.isValid) {
       return AsyncError(InvalidAppDetailsEntry(entry), StackTrace.current);
     }
@@ -58,7 +50,6 @@ class AppDetailsModel extends _$AppDetailsModel {
         : result ?? known ?? entry.provisionalIdentity;
     final identityPending =
         !resolved.hasValue && known == null && entry is! IdentityEntry;
-    _identity = identity;
     final keys = identity.sourceKeys;
     if (keys.isEmpty) {
       return AsyncError(InvalidAppDetailsEntry(entry), StackTrace.current);
@@ -86,7 +77,7 @@ class AppDetailsModel extends _$AppDetailsModel {
 
     // Publish nothing until every source reports, to avoid a default flash.
     final settled = snapshots.values.every((s) => s.hasValue || s.hasError);
-    if (!settled && !(stateOrNull?.hasValue ?? false)) {
+    if (!settled && last == null) {
       return const AsyncLoading();
     }
 
@@ -96,21 +87,10 @@ class AppDetailsModel extends _$AppDetailsModel {
         snapshots: snapshots,
         operations: operations,
         ratings: ratings,
-        acknowledgedIssues: _acknowledged,
+        acknowledgedIssues: last?.acknowledgedIssues ?? const {},
         identityPending: identityPending,
       ),
     );
-    if (!composition.decided) {
-      // Keep the last page instead of one whose active package may switch.
-      final last = stateOrNull;
-      if (previous != null && last != null && last.hasValue) {
-        _composition = previous;
-        _undecided = true;
-        return last;
-      }
-      return const AsyncLoading();
-    }
-    _composition = composition;
     return AsyncData(composition.state);
   }
 
@@ -118,11 +98,11 @@ class AppDetailsModel extends _$AppDetailsModel {
   Future<CommandReceipt> execute(ActionId actionId) async {
     // Reading state flushes pending rebuilds, so bindings reflect the latest
     // backend capabilities rather than what was rendered.
-    state;
-    if (_undecided) {
+    final view = state.value;
+    if (view != null && !view.decided) {
       return const CommandReceipt.rejected(CommandRejection.busy);
     }
-    final binding = _composition?.bindings[actionId];
+    final binding = view?.bindings[actionId];
     if (binding == null) {
       return const CommandReceipt.rejected(CommandRejection.staleAction);
     }
@@ -175,7 +155,7 @@ class AppDetailsModel extends _$AppDetailsModel {
 
   /// Re-reads authoritative state of every idle source.
   Future<void> refresh() async {
-    final identity = _identity;
+    final identity = state.value?.identity;
     if (identity == null) {
       ref.invalidate(appDetailsIdentityProvider(entry));
       return;
@@ -193,12 +173,12 @@ class AppDetailsModel extends _$AppDetailsModel {
     if (value == 'discovery') {
       ref.invalidate(appDetailsIdentityProvider(entry));
     } else if (value == 'ratings') {
-      final snapKey = _identity?.sourceKeys.firstWhereOrNull(
+      final snapKey = state.value?.identity?.sourceKeys.firstWhereOrNull(
         (key) => key.format == PackageFormat.snap,
       );
       if (snapKey != null) ref.invalidate(ratingsModelProvider(snapKey.id));
     } else if (value.startsWith('source:')) {
-      final key = _identity?.sourceKeys.firstWhereOrNull(
+      final key = state.value?.identity?.sourceKeys.firstWhereOrNull(
         (key) => 'source:${key.value}' == value,
       );
       if (key != null) await _reconcile(key);
@@ -206,14 +186,20 @@ class AppDetailsModel extends _$AppDetailsModel {
   }
 
   void acknowledge(IssueId issueId) {
-    final operationId = _composition?.operationIssues[issueId];
+    final view = state.value;
+    if (view == null) return;
+    final operationId = view.operationIssues[issueId];
     if (operationId != null) {
       ref
           .read(packageOperationCoordinatorProvider.notifier)
           .acknowledge(operationId);
       return;
     }
-    if (_acknowledged.add(issueId)) ref.invalidateSelf();
+    if (view.acknowledgedIssues.contains(issueId)) return;
+    state = AsyncData(
+      view.copyWith(acknowledgedIssues: {...view.acknowledgedIssues, issueId}),
+    );
+    ref.invalidateSelf();
   }
 
   Future<void> _reconcile(SourceKey key) async {
@@ -227,7 +213,8 @@ class AppDetailsModel extends _$AppDetailsModel {
 
   Set<String> _lockKeys() => {
     for (final source
-        in _identity?.identity.sources ?? const <PackageSourceDescriptor>[])
+        in state.value?.identity?.identity.sources ??
+            const <PackageSourceDescriptor>[])
       if (SourceKey.fromDescriptor(source) case final key?) ...[
         key.value,
         if (source.format == PackageFormat.deb)
