@@ -8,18 +8,23 @@ import 'package:app_center/apps/app_page.dart';
 import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/apps/package_format_dialog.dart';
+import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/extensions/string_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
+import 'package:app_center/ratings/ratings_l10n.dart';
 import 'package:app_center/widgets/hyperlink_text.dart';
+import 'package:app_center/widgets/shimmer_placeholder.dart';
 import 'package:app_center/widgets/widgets.dart';
+import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:yaru/yaru.dart';
 
 /// Placeholder unified details page, laid out like the snap page.
@@ -260,6 +265,7 @@ class _InfoBar extends StatelessWidget {
       spacing: kPagePadding,
       runSpacing: 32,
       children: [
+        ?_ratingsItem(context, l10n),
         if (confinement != null)
           _InfoItem(
             label: Text(l10n.snapPageConfinementLabel),
@@ -291,6 +297,34 @@ class _InfoBar extends StatelessWidget {
           value: Text(active.format.localize(l10n)),
         ),
       ],
+    );
+  }
+
+  Widget? _ratingsItem(BuildContext context, AppLocalizations l10n) {
+    final isLightTheme = Theme.of(context).brightness == Brightness.light;
+    Widget shimmer(Widget child) => Shimmer.fromColors(
+      baseColor: isLightTheme ? kShimmerBaseLight : kShimmerBaseDark,
+      highlightColor: isLightTheme
+          ? kShimmerHighLightLight
+          : kShimmerHighLightDark,
+      child: ShimmerPlaceholder(child: child),
+    );
+
+    return state.app.ratings.mapOrNull(
+      loading: (_) => _InfoItem(
+        label: shimmer(Text(RatingsBand.insufficientVotes.localize(l10n))),
+        value: shimmer(Text(l10n.snapRatingsVotes(0))),
+      ),
+      value: (field) => _InfoItem(
+        label: Text(
+          field.value.band.localize(l10n),
+          style: TextStyle(
+            color: field.value.band.getColor(context),
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        value: Text(l10n.snapRatingsVotes(field.value.totalVotes)),
+      ),
     );
   }
 }

@@ -302,37 +302,6 @@ void main() {
         );
       });
 
-      test('uses cached local state until snapd confirms it', () async {
-        final local = _localSnap();
-        final service = registerMockSnapdService(
-          storeSnap: _storeSnap,
-          localSnap: local,
-        );
-        when(service.cachedStoreSnap('testsnap')).thenReturn(_storeSnap);
-        when(service.cachedLocalSnap('testsnap')).thenReturn(local);
-        when(
-          service.find(name: anyNamed('name')),
-        ).thenAnswer((_) => Completer<List<Snap>>().future);
-        final container = createContainer(
-          overrides: [
-            launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
-          ],
-        );
-        final value = open(container);
-
-        expect(value.value?.installed?.candidateId, 'rev:1');
-        expect(value.value?.installState, InstallState.unknown);
-
-        await settle();
-        expect(
-          container
-              .read(snapSourceSnapshotProvider('testsnap'))
-              .value
-              ?.installState,
-          InstallState.installed,
-        );
-      });
-
       test('reads local state before the store lookup finishes', () async {
         final service = registerMockSnapdService(storeSnap: _storeSnap);
         when(service.cachedStoreSnap('testsnap')).thenReturn(_storeSnap);
@@ -348,7 +317,7 @@ void main() {
         expect(value.value?.installState, InstallState.notInstalled);
       });
 
-      test('prefers fresh local state over a cached one', () async {
+      test('shows cached local state until snapd confirms it', () async {
         final service = registerMockSnapdService(storeSnap: _storeSnap);
         when(service.cachedStoreSnap('testsnap')).thenReturn(_storeSnap);
         when(service.cachedLocalSnap('testsnap')).thenReturn(_localSnap());
@@ -361,7 +330,9 @@ void main() {
           ],
         );
 
-        expect(open(container).value?.installState, InstallState.unknown);
+        final cached = open(container);
+        expect(cached.value?.installed?.candidateId, 'rev:1');
+        expect(cached.value?.installState, InstallState.unknown);
         await settle();
 
         final value = container.read(snapSourceSnapshotProvider('testsnap'));
