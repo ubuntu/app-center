@@ -19,7 +19,11 @@ abstract class LocalDebData extends AppMetadata with _$LocalDebData {
 
   LocalDebData._();
 
-  bool get isInstalled => packageInfo?.info == PackageKitInfo.installed;
+  String? get installedVersion => packageInfo?.info == PackageKitInfo.installed
+      ? packageInfo?.packageId.version
+      : null;
+
+  bool get isInstalled => installedVersion == details.packageId.version;
 
   @override
   AppConfinement? get confinement => AppConfinement.fromDeb();
@@ -56,7 +60,9 @@ class LocalDebModel extends _$LocalDebModel {
       throw Exception('Failed to get package details');
     }
     final packageName = details.packageId.name;
-    final results = await packageKit.resolve([packageName]);
+    final results = await packageKit.resolve([
+      packageName,
+    ], installedOnly: true);
     final packageInfo = results[packageName];
     return LocalDebData(path: path, details: details, packageInfo: packageInfo);
   }
