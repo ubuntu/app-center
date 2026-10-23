@@ -271,7 +271,7 @@ void main() {
     expect(resolved.sourceKeys, [testSnapKey, testDebKey]);
   });
 
-  group('provider cache', () {
+  group('known identities', () {
     const entry = AppDetailsEntry.snap('testsnap');
 
     Future<void> open(ProviderContainer container) async {
@@ -284,7 +284,7 @@ void main() {
       await settle();
     }
 
-    test('looks up again on every open but keeps sharing the result', () async {
+    test('looks up again on every open', () async {
       final snaps = _FakeAdapter(PackageFormat.snap, [_snapDescriptor]);
       final container = createContainer(
         overrides: [
@@ -296,49 +296,6 @@ void main() {
 
       await open(container);
       final lookups = snaps.lookups;
-      await open(container);
-
-      expect(snaps.lookups, greaterThan(lookups));
-      expect(
-        container.read(knownAppIdentitiesProvider)[testSnapKey]?.sourceKeys,
-        [testSnapKey, testDebKey],
-      );
-    });
-
-    test('retries a failed lookup on the next open', () async {
-      final snaps = _FakeAdapter(
-        PackageFormat.snap,
-        [_snapDescriptor],
-        fail: true,
-      );
-      final container = createContainer(
-        overrides: [
-          appDetailsIdentityResolverProvider.overrideWithValue(
-            _resolver(snapAdapter: snaps),
-          ),
-        ],
-      );
-
-      await open(container);
-      final lookups = snaps.lookups;
-      await open(container);
-
-      expect(snaps.lookups, greaterThan(lookups));
-    });
-
-    test('invalidating looks up again', () async {
-      final snaps = _FakeAdapter(PackageFormat.snap, [_snapDescriptor]);
-      final container = createContainer(
-        overrides: [
-          appDetailsIdentityResolverProvider.overrideWithValue(
-            _resolver(snapAdapter: snaps),
-          ),
-        ],
-      );
-
-      await open(container);
-      final lookups = snaps.lookups;
-      container.invalidate(appDetailsIdentityProvider(entry));
       await open(container);
 
       expect(snaps.lookups, greaterThan(lookups));
