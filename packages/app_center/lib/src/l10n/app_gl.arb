@@ -198,7 +198,7 @@
             }
         }
     },
-    "managePageUpdatedWeeksAgo": "Actualizado fai {n, plural, =1{{n} semana} other{{n} semanas}}",
+    "managePageUpdatedWeeksAgo": "Actualizado hai {n, plural, =1{{n} semana} other{{n} semanas}}",
     "@managePageUpdatedWeeksAgo": {
         "placeholders": {
             "n": {
@@ -206,7 +206,7 @@
             }
         }
     },
-    "managePageUpdatedMonthsAgo": "Actualizado fai {n, plural, =1{{n} mes} other{{n} meses}}",
+    "managePageUpdatedMonthsAgo": "Actualizado hai {n, plural, =1{{n} mes} other{{n} meses}}",
     "@managePageUpdatedMonthsAgo": {
         "placeholders": {
             "n": {
@@ -214,7 +214,7 @@
             }
         }
     },
-    "managePageUpdatedYearsAgo": "Actualizado fai {n, plural, =1{{n} ano} other{{n} anos}}",
+    "managePageUpdatedYearsAgo": "Actualizado hai {n, plural, =1{{n} ano} other{{n} anos}}",
     "@managePageUpdatedYearsAgo": {
         "placeholders": {
             "n": {
@@ -230,7 +230,7 @@
             }
         }
     },
-    "managePageUpdatesFailedBody": "Non puidemos actualizar estas aplicacións porque están en execución.\n\n{snapList}\nCando peches as aplicacións, actualizaranse automaticamente.",
+    "managePageUpdatesFailedBody": "Non puidemos actualizar estas aplicacións porque están en execución agora mesmo.\n\n{snapList}\nCando peches as aplicacións, estas actualizaranse automaticamente.",
     "managePageDocumentationLinkLabel": "Aprenda a xestionar paquetes Debian na documentación.",
     "productivityPageLabel": "Produtividade",
     "developmentPageLabel": "Desenvolvemento",
@@ -248,7 +248,7 @@
     "snapCategoryDevicesAndIot": "Dispositivos e IoT",
     "snapCategoryEducation": "Educación",
     "snapCategoryEntertainment": "Entretemento",
-    "snapCategoryFeatured": "Destacados",
+    "snapCategoryFeatured": "Destacado",
     "snapCategoryFeaturedSlogan": "Snaps destacados",
     "snapCategoryFinance": "Finanzas",
     "snapCategoryGames": "Xogos",
@@ -272,7 +272,7 @@
     "snapCategoryPhotoAndVideo": "Foto e vídeo",
     "snapCategoryProductivity": "Produtividade",
     "snapCategoryProductivityButtonLabel": "Descubre a colección de produtividade",
-    "snapCategoryProductivitySlogan": "Tacha unha cousa da túa lista de tarefas pendentes",
+    "snapCategoryProductivitySlogan": "Risca unha cousa da túa lista de tarefas pendentes",
     "snapCategoryScience": "Ciencias",
     "snapCategorySecurity": "Seguranza",
     "snapCategoryServerAndCloud": "Servidor e nube",
