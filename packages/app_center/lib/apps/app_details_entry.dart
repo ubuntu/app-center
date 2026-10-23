@@ -232,10 +232,7 @@ Future<ResolvedAppIdentity> appDetailsIdentity(
   // Failed lookups aren't shared, and abandoned ones must not replace a newer
   // result. The lookup still runs again on every open.
   if (!resolved.discoveryFailed && ref.mounted) {
-    final known = ref.read(knownAppIdentitiesProvider);
-    for (final key in resolved.sourceKeys) {
-      known[key] = resolved;
-    }
+    ref.read(knownAppIdentitiesProvider.notifier).record(resolved);
   }
   return resolved;
 }
@@ -243,4 +240,14 @@ Future<ResolvedAppIdentity> appDetailsIdentity(
 /// Last successful lookup by every source it includes, shown while a page's
 /// own lookup runs, including for an app opened from its other format.
 @Riverpod(keepAlive: true)
-Map<SourceKey, ResolvedAppIdentity> knownAppIdentities(Ref ref) => {};
+class KnownAppIdentities extends _$KnownAppIdentities {
+  @override
+  Map<SourceKey, ResolvedAppIdentity> build() => const {};
+
+  void record(ResolvedAppIdentity identity) {
+    state = Map.unmodifiable({
+      ...state,
+      for (final key in identity.sourceKeys) key: identity,
+    });
+  }
+}
