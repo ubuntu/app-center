@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_center/apps/app_details_state.dart';
 import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/apps/package_details_backend.dart';
@@ -264,6 +266,78 @@ void main() {
       final value = container.read(snapSourceSnapshotProvider('testsnap'));
       expect(value.error, isA<PackageSourceNotFound>());
       expect(value.value?.installState, InstallState.notInstalled);
+    });
+
+    group('while loading', () {
+      AsyncValue<PackageSourceSnapshot> open(ProviderContainer container) {
+        container.listen(snapSourceSnapshotProvider('testsnap'), (_, _) {});
+        return container.read(snapSourceSnapshotProvider('testsnap'));
+      }
+
+      test('is plain loading without cached snaps', () {
+        registerMockSnapdService(storeSnap: _storeSnap);
+        final value = open(createContainer());
+
+        expect(value.isLoading, isTrue);
+        expect(value.hasValue, isFalse);
+      });
+
+      test('shows a cached store snap with unknown install state', () async {
+        final service = registerMockSnapdService(storeSnap: _storeSnap);
+        when(service.cachedStoreSnap('testsnap')).thenReturn(_storeSnap);
+        final container = createContainer();
+        final value = open(container);
+
+        expect(value.isLoading, isTrue);
+        expect(value.value?.appName.valueOrNull, 'Test Snap');
+        expect(value.value?.installState, InstallState.unknown);
+
+        await settle();
+        final loaded = container.read(snapSourceSnapshotProvider('testsnap'));
+        expect(loaded.isLoading, isFalse);
+        expect(loaded.value?.installState, InstallState.notInstalled);
+        expect(
+          loaded.value,
+          value.value!.copyWith(installState: InstallState.notInstalled),
+        );
+      });
+
+      test('reads local state before the store lookup finishes', () async {
+        final service = registerMockSnapdService(storeSnap: _storeSnap);
+        when(service.cachedStoreSnap('testsnap')).thenReturn(_storeSnap);
+        when(
+          service.find(name: anyNamed('name')),
+        ).thenAnswer((_) => Completer<List<Snap>>().future);
+        final container = createContainer();
+        open(container);
+        await settle();
+
+        final value = container.read(snapSourceSnapshotProvider('testsnap'));
+        expect(value.isLoading, isTrue);
+        expect(value.value?.installState, InstallState.notInstalled);
+      });
+
+      test('shows cached local state until snapd confirms it', () async {
+        final service = registerMockSnapdService(storeSnap: _storeSnap);
+        when(service.cachedStoreSnap('testsnap')).thenReturn(_storeSnap);
+        when(service.cachedLocalSnap('testsnap')).thenReturn(_localSnap());
+        when(
+          service.find(name: anyNamed('name')),
+        ).thenAnswer((_) => Completer<List<Snap>>().future);
+        final container = createContainer(
+          overrides: [
+            launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
+          ],
+        );
+
+        final cached = open(container);
+        expect(cached.value?.installed?.candidateId, 'rev:1');
+        expect(cached.value?.installState, InstallState.unknown);
+        await settle();
+
+        final value = container.read(snapSourceSnapshotProvider('testsnap'));
+        expect(value.value?.installState, InstallState.notInstalled);
+      });
     });
   });
 

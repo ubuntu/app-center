@@ -42,6 +42,29 @@ void main() {
     expect(provider.read().value!.packageInfo, equals(packageInfo));
   });
 
+  test('waits for AppStream to finish loading', () async {
+    createMockPackageKitService(packageInfo: packageInfo);
+    final appstream = createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    container.listen(debModelProvider('testdeb'), (_, __) {});
+
+    await container.read(debModelProvider('testdeb').future);
+
+    verifyInOrder([appstream.init(), appstream.getFromId('testdeb')]);
+  });
+
+  test('skips the update check for a package that is not installed', () async {
+    final packageKit = createMockPackageKitService(packageInfo: packageInfo);
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    container.listen(debModelProvider('testdeb'), (_, __) {});
+
+    final data = await container.read(debModelProvider('testdeb').future);
+
+    expect(data.hasUpdate, isFalse);
+    verifyNever(packageKit.getUpdateDetails(any));
+  });
+
   test('install', () async {
     final packageKit = createMockPackageKitService(
       packageInfo: packageInfo,
@@ -99,10 +122,15 @@ void main() {
 
   test('hasUpdate when an installable update exists', () async {
     const updateId = PackageKitPackageId(name: 'testdeb', version: '2.0');
+    const installed = PackageKitPackageInfo(
+      info: PackageKitInfo.installed,
+      packageId: PackageKitPackageId(name: 'testdeb', version: '1.0'),
+      summary: 'summary',
+    );
     final packageKit = createMockPackageKitService(
-      packageInfo: packageInfo,
+      packageInfo: installed,
       packageUpdates: PackageKitUpdateDetailEvent(
-        packageId: packageInfo.packageId,
+        packageId: installed.packageId,
         updates: [updateId],
       ),
       availableUpdates: [
@@ -112,14 +140,7 @@ void main() {
           summary: 'update',
         ),
       ],
-      resolveMap: {
-        'testdeb-package': packageInfo,
-        'testdeb': const PackageKitPackageInfo(
-          info: PackageKitInfo.installed,
-          packageId: PackageKitPackageId(name: 'testdeb', version: '1.0'),
-          summary: 'summary',
-        ),
-      },
+      resolveMap: {'testdeb-package': installed, 'testdeb': installed},
     );
     createMockAppstreamService(component: component);
     final container = ProviderContainer();
@@ -151,10 +172,15 @@ void main() {
        an update listed only in getUpdateDetails must not mark the deb as
        updatable. */
     const updateId = PackageKitPackageId(name: 'testdeb', version: '2.0');
-    createMockPackageKitService(
-      packageInfo: packageInfo,
+    const installed = PackageKitPackageInfo(
+      info: PackageKitInfo.installed,
+      packageId: PackageKitPackageId(name: 'testdeb', version: '1.0'),
+      summary: 'summary',
+    );
+    final packageKit = createMockPackageKitService(
+      packageInfo: installed,
       packageUpdates: PackageKitUpdateDetailEvent(
-        packageId: packageInfo.packageId,
+        packageId: installed.packageId,
         updates: [updateId],
       ),
       availableUpdates: [],
@@ -172,6 +198,7 @@ void main() {
       container.read(debModelProvider('testdeb')).value!.hasUpdate,
       isFalse,
     );
+    verify(packageKit.getUpdateDetails(installed.packageId)).called(1);
   });
 
   test('remove', () async {

@@ -19,31 +19,32 @@ class SnapModel extends _$SnapModel {
 
   @override
   Future<SnapData> build(String snapName) async {
-    Snap? localSnap;
-    try {
-      localSnap = await _snapd.getSnap(snapName);
-    } on SnapdException catch (e) {
-      switch (e.kind) {
-        // Since the snap is just not installed when 'snap-not-found is thrown
-        // we can ignore this exception.
-        case 'snap-not-found':
-        // When kind is null it is most likely a problem with the internet
-        // connection.
-        case 'network-timeout':
-        case null:
-          break;
-        default:
-          rethrow;
-      }
-    }
+    final snapd = _snapd;
+    final local = _getLocalSnap(snapName);
+    final store = Future.sync(
+      () => ref.watch(storeSnapProvider(snapName).future),
+    );
+    final changes = Future.sync(() => snapd.getChanges(name: snapName));
+    final hasPrevious = Future.sync(() => snapd.hasPreviousRevision(snapName));
+    // Wait for all requests first so none of their errors goes unhandled.
+    await Future.wait(
+      [
+        local,
+        store,
+        changes,
+        hasPrevious,
+      ].map((f) => f.then((_) {}, onError: (_) {})),
+    );
 
-    final storeSnap = await ref
-        .watch(storeSnapProvider(snapName).future)
-        .onError((_, __) => null, test: (_) => localSnap != null);
+    final localSnap = await local;
+    final storeSnap = await store.onError(
+      (_, __) => null,
+      test: (_) => localSnap != null,
+    );
 
-    final activeChangeId = (await _snapd.getChanges(
-      name: snapName,
-    )).firstWhereOrNull((change) => !change.ready)?.id;
+    final activeChangeId = (await changes)
+        .firstWhereOrNull((change) => !change.ready)
+        ?.id;
     if (activeChangeId != null) {
       unawaited(_listenUntilDone(activeChangeId, ref));
     }
@@ -57,7 +58,7 @@ class SnapModel extends _$SnapModel {
     final hasUpdate = ref.watch(hasUpdateProvider(snapName));
 
     // Determine if a previous local revision exists to enable revert
-    final hasPrev = await _snapd.hasPreviousRevision(snapName);
+    final hasPrev = await hasPrevious;
 
     return SnapData(
       name: snapName,
@@ -71,6 +72,25 @@ class SnapModel extends _$SnapModel {
       hasUpdate: hasUpdate,
       hasPreviousLocalRevision: hasPrev,
     );
+  }
+
+  Future<Snap?> _getLocalSnap(String snapName) async {
+    try {
+      return await _snapd.getSnap(snapName);
+    } on SnapdException catch (e) {
+      switch (e.kind) {
+        // Since the snap is just not installed when 'snap-not-found is thrown
+        // we can ignore this exception.
+        case 'snap-not-found':
+        // When kind is null it is most likely a problem with the internet
+        // connection.
+        case 'network-timeout':
+        case null:
+          return null;
+        default:
+          rethrow;
+      }
+    }
   }
 
   /// Installs the snap from [channel], or from the selected channel.

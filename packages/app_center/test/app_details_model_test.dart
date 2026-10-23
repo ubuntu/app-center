@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_center/apps/app_details_entry.dart';
 import 'package:app_center/apps/app_details_model.dart';
 import 'package:app_center/apps/app_details_state.dart';
@@ -99,6 +101,180 @@ void main() {
       container.read(appDetailsModelProvider(const AppDetailsEntry.snap(''))),
       isA<AsyncError<AppDetailsViewState>>(),
     );
+  });
+
+  group('before the identity resolves', () {
+    late Completer<ResolvedAppIdentity> lookup;
+
+    setUp(() => lookup = Completer());
+
+    ProviderContainer createPending() => createContainer(
+      overrides: [
+        packageDetailsBackendsProvider.overrideWithValue({
+          PackageFormat.snap: backend,
+          PackageFormat.deb: backend,
+        }),
+        appDetailsIdentityProvider(_entry).overrideWith((ref) => lookup.future),
+        appDetailsRatingsProvider(
+          'testsnap',
+        ).overrideWith((ref) => const AsyncData(null)),
+      ],
+    );
+
+    test('publishes an installed snap right away', () {
+      container = createPending();
+      setSnapshot(
+        testSnapKey,
+        createSourceSnapshot(
+          testSnapKey,
+          installState: _installed,
+          withUpdate: true,
+        ),
+      );
+      open();
+
+      expect(view().activePackage.sourceId, testSnapKey.value);
+      expect(view().app.name.valueOrNull, 'Snap App');
+      expect(view().actions.primary?.kind, ActionKind.update);
+      expect(view().actions.primary?.enabled, isTrue);
+    });
+
+    test('uses a lookup made from the other format', () {
+      container = createPending();
+      container
+          .read(knownAppIdentitiesProvider.notifier)
+          .record(createResolvedIdentity());
+      setSnapshot(testSnapKey, createSourceSnapshot(testSnapKey));
+      setSnapshot(testDebKey, createSourceSnapshot(testDebKey));
+      open();
+
+      expect(view().formats.map((f) => f.format), [
+        PackageFormat.snap,
+        PackageFormat.deb,
+      ]);
+      expect(view().actions.primary?.kind, ActionKind.install);
+      expect(view().actions.primary?.enabled, isTrue);
+    });
+
+    test('keeps known sources when the lookup fails', () async {
+      container = createPending();
+      container
+          .read(knownAppIdentitiesProvider.notifier)
+          .record(createResolvedIdentity());
+      setSnapshot(testSnapKey, createSourceSnapshot(testSnapKey));
+      setSnapshot(testDebKey, createSourceSnapshot(testDebKey));
+      open();
+
+      lookup.complete(
+        createResolvedIdentity(deb: false, discoveryFailed: true),
+      );
+      await settle();
+
+      expect(view().formats.map((f) => f.format), [
+        PackageFormat.snap,
+        PackageFormat.deb,
+      ]);
+      expect(view().issues.map((i) => i.scope), contains(IssueScope.discovery));
+    });
+
+    test('does not report a missing app before the lookup finishes', () async {
+      container = createPending();
+      container.read(fakeSnapshotProvider(testSnapKey).notifier).state =
+          AsyncError(PackageSourceNotFound(testSnapKey), StackTrace.empty);
+      open();
+      expect(async().error, isNot(isA<AppNotFound>()));
+
+      lookup.complete(createResolvedIdentity(deb: false));
+      await settle();
+      expect(async().error, isA<AppNotFound>());
+    });
+
+    test('holds actions until counterparts are known', () async {
+      container = createPending();
+      setSnapshot(testSnapKey, createSourceSnapshot(testSnapKey));
+      open();
+      expect(view().app.name.valueOrNull, 'Snap App');
+      expect(view().decided, isFalse);
+
+      lookup.complete(createResolvedIdentity(deb: false));
+      await settle();
+      expect(view().decided, isTrue);
+      expect(view().actions.primary?.kind, ActionKind.install);
+      expect(view().actions.primary?.enabled, isTrue);
+    });
+
+    test('decides on an installed deb found by the lookup', () async {
+      container = createPending();
+      setSnapshot(testSnapKey, createSourceSnapshot(testSnapKey));
+      setSnapshot(
+        testDebKey,
+        createSourceSnapshot(testDebKey, installState: _installed),
+      );
+      final shown = <(PackageFormat, bool)>[];
+      subscription = container.listen(appDetailsModelProvider(_entry), (
+        _,
+        next,
+      ) {
+        if (next.value case final state?) {
+          shown.add((state.activePackage.format, state.decided));
+        }
+      }, fireImmediately: true);
+
+      lookup.complete(createResolvedIdentity());
+      await settle();
+      expect(shown.first, (PackageFormat.snap, false));
+      expect(shown.last, (PackageFormat.deb, true));
+      expect(shown.where((s) => s.$2).map((s) => s.$1).toSet(), {
+        PackageFormat.deb,
+      });
+    });
+  });
+
+  test('rejects actions while the active package may change', () async {
+    final shown = await start(
+      snap: createSourceSnapshot(testSnapKey),
+      deb: createSourceSnapshot(testDebKey),
+    );
+    final install = shown.actions.primary!;
+
+    container.read(fakeSnapshotProvider(testDebKey).notifier).state =
+        const AsyncLoading();
+    await settle();
+
+    expect(view().decided, isFalse);
+    expect(
+      await model().execute(install.id),
+      const CommandReceipt.rejected(CommandRejection.busy),
+    );
+    expect(backend.executed, isEmpty);
+  });
+
+  test('loaded data equal to the cached data does not notify', () async {
+    container = create(identity: createResolvedIdentity(deb: false));
+    final cached = createSourceSnapshot(testSnapKey);
+    container.read(fakeSnapshotProvider(testSnapKey).notifier).state =
+        // ignore: invalid_use_of_internal_member
+        const AsyncLoading<PackageSourceSnapshot>().copyWithPrevious(
+          AsyncData(cached),
+        );
+    var notifications = 0;
+    container.listen(
+      appDetailsModelProvider(_entry),
+      (_, _) => notifications++,
+    );
+    await settle();
+    notifications = 0;
+
+    setSnapshot(testSnapKey, cached);
+    await settle();
+    expect(notifications, 0);
+
+    setSnapshot(
+      testSnapKey,
+      createSourceSnapshot(testSnapKey, installState: _installed),
+    );
+    await settle();
+    expect(notifications, 1);
   });
 
   group('not found', () {

@@ -6,27 +6,6 @@ import 'package:app_center/mapping/package_source_descriptor.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// The ViewModel-private binding of an [ActionId] to its fixed target.
-class ActionBinding {
-  const ActionBinding({
-    required this.source,
-    required this.kind,
-    required this.targetLabel,
-    this.command,
-    this.operationId,
-    this.targetCandidate,
-    this.disabledReason,
-  });
-
-  final SourceKey source;
-  final ActionKind kind;
-  final String targetLabel;
-  final PackageCommand? command;
-  final OperationId? operationId;
-  final PackageRelease? targetCandidate;
-  final DisabledReason? disabledReason;
-}
-
 class AppDetailsPolicyInput {
   const AppDetailsPolicyInput({
     required this.identity,
@@ -34,6 +13,7 @@ class AppDetailsPolicyInput {
     this.operations = const [],
     this.ratings,
     this.acknowledgedIssues = const {},
+    this.identityPending = false,
   });
 
   final ResolvedAppIdentity identity;
@@ -42,18 +22,19 @@ class AppDetailsPolicyInput {
   // Null when no ratings are known for the app-metadata owner.
   final AsyncValue<RatingsSummary?>? ratings;
   final Set<IssueId> acknowledgedIssues;
+  // Counterpart sources are not known yet.
+  final bool identityPending;
 }
 
+/// The composed page state; bindings and issues travel inside [state].
 class AppDetailsComposition {
-  const AppDetailsComposition({
-    required this.state,
-    required this.bindings,
-    required this.operationIssues,
-  });
+  const AppDetailsComposition(this.state);
 
   final AppDetailsViewState state;
-  final Map<ActionId, ActionBinding> bindings;
-  final Map<IssueId, OperationId> operationIssues;
+
+  Map<ActionId, ActionBinding> get bindings => state.bindings;
+  Map<IssueId, OperationId> get operationIssues => state.operationIssues;
+  bool get decided => state.decided;
 }
 
 /// Pure rules turning source snapshots and operations into page state.
@@ -103,6 +84,23 @@ class _Composer {
   bool _isOtherFormatInstalled(SourceKey key) => keys.any(
     (other) => other != key && _installState(other) == InstallState.installed,
   );
+
+  // Whether a later snapshot can no longer change the active package.
+  bool get _decided {
+    if (operations.any((op) => op.isInstallIntent)) return true;
+    if (_installState(snapKey) == InstallState.installed) return true;
+    if (input.identityPending) return false;
+    if (snapKey == null || debKey == null) return true;
+    return _settled(snapKey!) && _settled(debKey!);
+  }
+
+  // Failed sources count as settled so they cannot block the page.
+  bool _settled(SourceKey key) {
+    final source = _async(key);
+    return source == null ||
+        !source.isLoading ||
+        _installState(key) != InstallState.unknown;
+  }
 
   AppDetailsComposition compose() {
     final (activeKey, reason) = _selectActive();
@@ -168,9 +166,14 @@ class _Composer {
 
     final (issues, operationIssues) = _issues();
     return AppDetailsComposition(
-      state: state.copyWith(issues: issues),
-      bindings: Map.unmodifiable(bindings),
-      operationIssues: operationIssues,
+      state.copyWith(
+        issues: issues,
+        decided: _decided,
+        identity: input.identity,
+        bindings: bindings,
+        operationIssues: operationIssues,
+        acknowledgedIssues: input.acknowledgedIssues,
+      ),
     );
   }
 

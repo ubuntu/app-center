@@ -461,6 +461,125 @@ void main() {
       ], architecture: 'all'))['foo'];
       expect(info!.packageId.arch, equals('all'));
     });
+
+    const installedFoo = PackageKitPackageEvent(
+      info: PackageKitInfo.installed,
+      packageId: PackageKitPackageId(
+        name: 'foo',
+        version: '1.0',
+        arch: 'amd64',
+      ),
+      summary: 'summary',
+    );
+    const newerFoo = PackageKitPackageEvent(
+      info: PackageKitInfo.available,
+      packageId: PackageKitPackageId(
+        name: 'foo',
+        version: '1.1',
+        arch: 'amd64',
+      ),
+      summary: 'summary',
+    );
+
+    test('prefers the installed version over a newer one', () async {
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: createMockPackageKitClient(
+          transaction: createMockPackageKitTransaction(
+            events: const [installedFoo, newerFoo, newerFoo],
+          ),
+        ),
+        fs: MemoryFileSystem.test(),
+      );
+      final info = (await packageKit.resolve([
+        'foo',
+      ], architecture: 'amd64'))['foo'];
+      expect(info, installedFoo);
+    });
+
+    test('remembers results until a package changes', () async {
+      final client = createMockPackageKitClient();
+      when(client.createTransaction()).thenAnswer(
+        (_) async =>
+            createMockPackageKitTransaction(events: const [installedFoo]),
+      );
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: client,
+        fs: MemoryFileSystem.test(),
+      );
+      expect(packageKit.isPackageCached('foo'), isFalse);
+
+      await packageKit.resolve(['foo', 'bar'], architecture: 'amd64');
+      expect(packageKit.cachedPackage('foo'), installedFoo);
+      expect(packageKit.isPackageCached('bar'), isTrue);
+      expect(packageKit.cachedPackage('bar'), isNull);
+
+      await packageKit.waitTransaction(
+        await packageKit.remove(installedFoo.packageId),
+      );
+      expect(packageKit.isPackageCached('foo'), isFalse);
+      expect(packageKit.isPackageCached('bar'), isFalse);
+    });
+
+    test('installed-only results are not remembered', () async {
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: createMockPackageKitClient(
+          transaction: createMockPackageKitTransaction(),
+        ),
+        fs: MemoryFileSystem.test(),
+      );
+      await packageKit.resolve(
+        ['foo'],
+        installedOnly: true,
+        architecture: 'amd64',
+      );
+      expect(packageKit.isPackageCached('foo'), isFalse);
+    });
+
+    test('identical requests share one transaction', () async {
+      final client = createMockPackageKitClient(
+        transaction: createMockPackageKitTransaction(
+          events: const [installedFoo],
+        ),
+      );
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: client,
+        fs: MemoryFileSystem.test(),
+      );
+      await packageKit.activateService();
+
+      final results = await Future.wait([
+        packageKit.resolve(['foo'], architecture: 'amd64'),
+        packageKit.resolve(['foo'], architecture: 'amd64'),
+      ]);
+
+      expect(results.map((r) => r['foo']), [installedFoo, installedFoo]);
+      verify(client.createTransaction()).called(1);
+    });
+
+    test('requests after a package change start a new transaction', () async {
+      final client = createMockPackageKitClient();
+      when(client.createTransaction()).thenAnswer(
+        (_) async =>
+            createMockPackageKitTransaction(events: const [installedFoo]),
+      );
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: client,
+        fs: MemoryFileSystem.test(),
+      );
+      await packageKit.activateService();
+
+      final before = packageKit.resolve(['foo'], architecture: 'amd64');
+      await packageKit.remove(installedFoo.packageId);
+      final after = packageKit.resolve(['foo'], architecture: 'amd64');
+      await Future.wait([before, after]);
+
+      verify(client.createTransaction()).called(3);
+    });
   });
 
   test('get details of local package', () async {
@@ -806,13 +925,17 @@ void main() {
     );
     await packageKit.activateService();
 
-    final packages = await packageKit.getInstalledPackages();
+    final packages = await packageKit.getInstalledPackages(
+      architecture: 'amd64',
+    );
     verify(
       mockTransaction.getPackages(filter: {PackageKitFilter.installed}),
     ).called(1);
     expect(packages, contains(fooPackage));
     expect(packages, contains(barPackage));
     expect(packages.length, equals(2));
+    expect(packageKit.cachedPackage('foo'), fooPackage);
+    expect(packageKit.cachedPackage('bar'), barPackage);
   });
 
   group('portal path resolution', () {
@@ -1065,6 +1188,21 @@ void main() {
 
       expect(events.first.kind, PackageKitMutationKind.update);
       expect(events.first.affects('bar'), isTrue);
+      expect(events.last.outcome, PackageKitMutationOutcome.success);
+    });
+
+    test('tracks updates started without waiting', () async {
+      final packageKit = createService(createMockPackageKitTransaction());
+      final events = <PackageKitMutation>[];
+      packageKit.mutationEvents.listen(events.add);
+
+      await packageKit.waitTransaction(
+        await packageKit.updateAllPackages([foo, bar]),
+      );
+      await pumpEventQueue();
+
+      expect(events.first.kind, PackageKitMutationKind.update);
+      expect(events.first.affects('foo'), isTrue);
       expect(events.last.outcome, PackageKitMutationOutcome.success);
     });
 

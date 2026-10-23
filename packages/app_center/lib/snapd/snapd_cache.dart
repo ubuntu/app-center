@@ -110,6 +110,72 @@ mixin SnapdCache on SnapdClient {
   }
 }
 
+/// Last snaps seen from snapd, readable synchronously. Only for showing
+/// something while fresh data loads; never authoritative.
+mixin SnapdMemoryCache on SnapdClient {
+  final _storeSnaps = <String, Snap>{};
+  // Listings may omit fields, so only lookups by name are kept here.
+  final _snapsByName = <String, Snap>{};
+  final _localSnaps = <String, Snap>{};
+
+  Snap? cachedStoreSnap(String name) => _storeSnaps[name];
+
+  /// The snap last returned by a lookup by its exact name.
+  Snap? cachedSnapByName(String name) => _snapsByName[name];
+
+  Snap? cachedLocalSnap(String name) => _localSnaps[name];
+
+  @override
+  Future<List<Snap>> find({
+    String? query,
+    String? name,
+    String? commonId,
+    String? category,
+    @Deprecated('Replaced with category') String? section,
+    SnapFindFilter? filter,
+    SnapFindScope? scope,
+  }) async {
+    final snaps = await super.find(
+      query: query,
+      name: name,
+      commonId: commonId,
+      category: category,
+      // ignore: deprecated_member_use
+      section: section,
+      filter: filter,
+      scope: scope,
+    );
+    for (final snap in snaps) {
+      // Listings may omit channels; keep a richer entry over them.
+      if (snap.channels.isNotEmpty ||
+          (_storeSnaps[snap.name]?.channels.isEmpty ?? true)) {
+        _storeSnaps[snap.name] = snap;
+      }
+      if (name != null && snap.name == name) _snapsByName[name] = snap;
+    }
+    return snaps;
+  }
+
+  @override
+  Future<Snap> getSnap(String name) async {
+    try {
+      return _localSnaps[name] = await super.getSnap(name);
+    } on SnapdException catch (e) {
+      if (e.kind == 'snap-not-found') _localSnaps.remove(name);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<Snap>> getSnaps({SnapsFilter? filter}) async {
+    final snaps = await super.getSnaps(filter: filter);
+    for (final snap in snaps) {
+      if (snap.status == SnapStatus.active) _localSnaps[snap.name] = snap;
+    }
+    return snaps;
+  }
+}
+
 @Riverpod(keepAlive: true)
 class StoreSnap extends _$StoreSnap {
   @override
