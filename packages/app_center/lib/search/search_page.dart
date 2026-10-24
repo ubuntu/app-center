@@ -217,7 +217,7 @@ class _DebSearchResults extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final results = ref.watch(appstreamSearchProvider(query ?? ''));
+    final results = ref.watch(appstreamSearchWithLoadingProvider(query ?? ''));
     return results.when(
       data: (data) => data.isNotEmpty
           ? ResponsiveLayoutScrollView(
@@ -250,7 +250,8 @@ class _DebSearchResults extends ConsumerWidget {
             ),
       error: (error, stack) => ErrorView(
         error: error,
-        onRetry: () => ref.invalidate(appstreamSearchProvider(query ?? '')),
+        onRetry: () =>
+            ref.invalidate(appstreamSearchWithLoadingProvider(query ?? '')),
       ),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
