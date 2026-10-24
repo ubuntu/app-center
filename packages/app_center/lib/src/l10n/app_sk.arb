@@ -71,7 +71,7 @@
     "snapRatingsBandGood": "Dobré",
     "snapCategoryFeaturedSlogan": "Odporúčané aplikácie",
     "snapSortOrderInstalledDateAsc": "Najstaršie",
-    "snapCategoryProductivitySlogan": "Urobte ďalší krok k efektívnejšej práci",
+    "snapCategoryProductivitySlogan": "Odškrtnite si jednu vec zo zoznamu úloh",
     "appstreamUrlTypeDonation": "Darovať",
     "snapRatingsBandVeryGood": "Výborné",
     "snapActionRemoveLabel": "Odinštalovať",
@@ -82,7 +82,7 @@
     "managePageInstalledAndUpdatedLabel": "Nainštalované aplikácie",
     "appstreamUrlTypeHomepage": "Domovská stránka",
     "managePageCheckingForUpdates": "Kontrolujú sa aktualizácie",
-    "managePageUpdatedDaysAgo": "Upravené pred {n, plural, =1{{n} dňom} few{{n} dňami} other{{n} dňami}}",
+    "managePageUpdatedDaysAgo": "Aktualizované pred {n, plural, =1{{n} dňom} few{{n} dňami} other{{n} dňami}}",
     "@managePageUpdatedDaysAgo": {
         "placeholders": {
             "n": {
@@ -213,7 +213,7 @@
     "snapReportOptionStoreViolation": "Porušenie zmluvných podmienok obchodu Snap Store",
     "snapCategoryGnomeGamesSlogan": "Súprava hier GNOME",
     "externalResourcesDisclaimer": "Poznámka: Všetky tieto nástroje sú externé. Spoločnosť Canonical ich nevlastní ani nedistribuuje.",
-    "managePageUpdatedMonthsAgo": "Upravené pred {n, plural, =1{{n} mesiacom} few{{n} mesiacmi} other{{n} mesiacmi}}",
+    "managePageUpdatedMonthsAgo": "Aktualizované pred {n, plural, =1{{n} mesiacom} few{{n} mesiacmi} other{{n} mesiacmi}}",
     "@managePageUpdatedMonthsAgo": {
         "placeholders": {
             "n": {
@@ -221,7 +221,7 @@
             }
         }
     },
-    "managePageUpdatedYearsAgo": "Upravené pred {n, plural, =1{{n} rokom} few{{n} rokmi} other{{n} rokmi}}",
+    "managePageUpdatedYearsAgo": "Aktualizované pred {n, plural, =1{{n} rokom} few{{n} rokmi} other{{n} rokmi}}",
     "@managePageUpdatedYearsAgo": {
         "placeholders": {
             "n": {
@@ -229,7 +229,7 @@
             }
         }
     },
-    "managePageUpdatedWeeksAgo": "Upravené pred {n, plural, =1{{n} týždňom} few{{n} týždňami} other{{n} týždňami}}",
+    "managePageUpdatedWeeksAgo": "Aktualizované pred {n, plural, =1{{n} týždňom} few{{n} týždňami} other{{n} týždňami}}",
     "@managePageUpdatedWeeksAgo": {
         "placeholders": {
             "n": {
