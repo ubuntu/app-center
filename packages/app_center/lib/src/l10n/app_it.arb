@@ -612,5 +612,14 @@
     "driversPageUninstallTitle": "Disinstalla il driver",
     "driversPageUninstallWarningTitle": "La rimozione dei driver può causare problemi",
     "driversPageUninstallWarningMessage": "Potresti non riuscire a reinstallare facilmente i driver, in particolar modo quelli relativi alla grafica e alla rete.",
-    "driversPageUninstallAcknowledgeLabel": "Capisco il rischio"
+    "driversPageUninstallAcknowledgeLabel": "Capisco il rischio",
+    "localDebInstalledVersion": "Versione installata: {version}",
+    "@localDebInstalledVersion": {
+        "description": "The version already installed when viewing a local Debian package file.",
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    }
 }
