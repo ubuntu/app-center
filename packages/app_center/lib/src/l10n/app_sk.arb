@@ -71,7 +71,7 @@
     "snapRatingsBandGood": "Dobré",
     "snapCategoryFeaturedSlogan": "Odporúčané aplikácie",
     "snapSortOrderInstalledDateAsc": "Najstaršie",
-    "snapCategoryProductivitySlogan": "Urobte prvý krok k efektívnejšej práci",
+    "snapCategoryProductivitySlogan": "Urobte ďalší krok k efektívnejšej práci",
     "appstreamUrlTypeDonation": "Darovať",
     "snapRatingsBandVeryGood": "Výborné",
     "snapActionRemoveLabel": "Odinštalovať",
@@ -605,5 +605,14 @@
             }
         }
     },
-    "appDetailsPackageFormatsLearnMore": "Zistiť viac o formátoch balíkov"
+    "appDetailsPackageFormatsLearnMore": "Zistiť viac o formátoch balíkov",
+    "localDebInstalledVersion": "Nainštalovaná verzia: {version}",
+    "@localDebInstalledVersion": {
+        "description": "The version already installed when viewing a local Debian package file.",
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    }
 }
