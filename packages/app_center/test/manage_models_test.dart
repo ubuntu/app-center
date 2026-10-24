@@ -1055,6 +1055,53 @@ void main() {
       },
     );
 
+    test(
+      'replaces an already installed snap instead of duplicating it',
+      () async {
+        registerMockSnapdService(
+          installedSnaps: [
+            createSnap(
+              id: 'firefox-store-id',
+              name: 'firefox',
+              title: 'Firefox',
+              version: '1.0',
+            ),
+          ],
+        );
+        createMockAppstreamService();
+        createMockPackageKitService();
+
+        final container = createContainer(
+          overrides: [showLocalSystemAppsProvider.overrideWith((ref) => true)],
+        );
+
+        // Firefox is not refreshable, so it is already in the installed list.
+        var apps = await container.read(installedAppsProvider.future);
+        expect(apps.map((app) => app.id), ['firefox-store-id']);
+
+        // Simulate a channel switch, which appends the refreshed snapshot
+        // even though the stale entry is still in the list.
+        container
+            .read(installedAppsProvider.notifier)
+            .addSnapToList(
+              createSnap(
+                id: 'firefox-store-id',
+                name: 'firefox',
+                title: 'Firefox',
+                version: '2.0',
+              ),
+            );
+
+        apps = container.read(installedAppsProvider).value!;
+        expect(apps.map((app) => app.id), ['firefox-store-id']);
+        expect(apps.map((app) => app.name), ['Firefox']);
+        expect(
+          apps.map((app) => app.whenOrNull(snap: (snap, _) => snap.version)),
+          ['2.0'],
+        );
+      },
+    );
+
     test('does nothing while the installed apps list is still loading', () {
       registerMockSnapdService(installedSnaps: []);
       createMockAppstreamService();

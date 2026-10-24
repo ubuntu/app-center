@@ -185,7 +185,12 @@ class InstalledApps extends _$InstalledApps {
   /// Adds a freshly updated snap to the installed list without reloading.
   void addSnapToList(Snap snap) {
     if (!state.hasValue) return;
-    _allApps = [..._allApps, ManageAppData.snap(snap: snap)];
+    _allApps = [
+      ..._allApps.where(
+        (app) => app is! ManageSnapData || app.snap.name != snap.name,
+      ),
+      ManageAppData.snap(snap: snap),
+    ];
     _applyFilters();
   }
 
