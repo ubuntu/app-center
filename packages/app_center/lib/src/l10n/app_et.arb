@@ -612,5 +612,14 @@
                 "type": "int"
             }
         }
+    },
+    "localDebInstalledVersion": "Paigaldatud versioon: {version}",
+    "@localDebInstalledVersion": {
+        "description": "The version already installed when viewing a local Debian package file.",
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
     }
 }

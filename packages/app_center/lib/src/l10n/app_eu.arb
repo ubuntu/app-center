@@ -602,5 +602,14 @@
             }
         }
     },
-    "appDetailsPackageFormatsLearnMore": "Pakete-formatuei buruzko informazio gehiago"
+    "appDetailsPackageFormatsLearnMore": "Pakete-formatuei buruzko informazio gehiago",
+    "localDebInstalledVersion": "Instalatutako bertsioa: {version}",
+    "@localDebInstalledVersion": {
+        "description": "The version already installed when viewing a local Debian package file.",
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    }
 }
