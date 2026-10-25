@@ -255,7 +255,7 @@
     "snapSortOrderDownloadSizeDesc": "Boyut (En büyükten en küçüğe)",
     "snapSortOrderInstalledSizeAsc": "Boyut (En küçükten en büyüğe)",
     "snapSortOrderInstalledSizeDesc": "Boyut (En büyükten en küçüğe)",
-    "snapSortOrderInstalledDateAsc": "En son güncellenen",
+    "snapSortOrderInstalledDateAsc": "En eski güncellenen",
     "snapSortOrderInstalledDateDesc": "En son güncellenen",
     "snapSortOrderRelevance": "Alakalı",
     "snapRatingsBandVeryGood": "Çok iyi",
