@@ -8,6 +8,7 @@ import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 part 'app_providers.g.dart';
@@ -179,6 +180,18 @@ class InstalledApps extends _$InstalledApps {
     if (debInfo.activeTransactionId == null) return;
     await _packageKit.cancelTransaction(debInfo.activeTransactionId!);
     _updateDebTransactionId(debId, null);
+  }
+
+  /// Adds a freshly updated snap to the installed list without reloading.
+  void addSnapToList(Snap snap) {
+    if (!state.hasValue) return;
+    _allApps = [
+      ..._allApps.where(
+        (app) => app is! ManageSnapData || app.snap.name != snap.name,
+      ),
+      ManageAppData.snap(snap: snap),
+    ];
+    _applyFilters();
   }
 
   /// Removes a deb from [_allApps] and re-applies filters.
