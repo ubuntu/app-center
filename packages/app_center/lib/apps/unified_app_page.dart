@@ -193,33 +193,41 @@ class _ActionBar extends ConsumerWidget {
       spacing: kSpacing,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        if (operation != null)
-          ActiveChangeStatus(
-            key: ValueKey(operation.id),
-            actionLabel: operation.kind.localize(l10n),
-            progress: operation.progress,
-            onCancelPressed: operation.canCancel
-                ? () => unawaited(model.cancel(operation.id))
-                : null,
+        // Actions may still target another package.
+        if (!state.decided)
+          const SizedBox.square(
+            dimension: kLoaderMediumHeight,
+            child: YaruCircularProgressIndicator(),
           )
-        else if (primary != null)
-          YaruSplitButton(
-            onPressed: run(primary),
-            child: Text(
-              primary.kind.localize(l10n),
-              overflow: TextOverflow.ellipsis,
+        else ...[
+          if (operation != null)
+            ActiveChangeStatus(
+              key: ValueKey(operation.id),
+              actionLabel: operation.kind.localize(l10n),
+              progress: operation.progress,
+              onCancelPressed: operation.canCancel
+                  ? () => unawaited(model.cancel(operation.id))
+                  : null,
+            )
+          else if (primary != null)
+            YaruSplitButton(
+              onPressed: run(primary),
+              child: Text(
+                primary.kind.localize(l10n),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-          ),
-        for (final action in otherActions)
-          OutlinedButton(
-            onPressed: run(action),
-            child: Text(action.kind.localize(l10n)),
-          ),
-        if (uninstall != null)
-          OutlinedButton(
-            onPressed: run(uninstall),
-            child: Text(l10n.snapActionRemoveLabel),
-          ),
+          for (final action in otherActions)
+            OutlinedButton(
+              onPressed: run(action),
+              child: Text(action.kind.localize(l10n)),
+            ),
+          if (uninstall != null)
+            OutlinedButton(
+              onPressed: run(uninstall),
+              child: Text(l10n.snapActionRemoveLabel),
+            ),
+        ],
         if (state.formats.isNotEmpty)
           YaruPopupMenuButton<void>(
             showArrow: false,

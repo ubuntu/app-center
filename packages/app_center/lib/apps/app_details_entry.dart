@@ -38,7 +38,32 @@ sealed class AppDetailsEntry with _$AppDetailsEntry {
       (source) => SourceKey.fromDescriptor(source) != null,
     ),
   );
+
+  /// Identity of the entry's own source, used until lookup completes.
+  ResolvedAppIdentity get provisionalIdentity => when(
+    snap: (name) =>
+        ResolvedAppIdentity(identity: singleSourceIdentity(_snapSource(name))),
+    debComponent: (id) =>
+        ResolvedAppIdentity(identity: singleSourceIdentity(_debSource(id))),
+    identity: (identity) => ResolvedAppIdentity(identity: identity),
+  );
+
+  /// Key of the source the entry names, if it names a single one.
+  SourceKey? get sourceKey =>
+      this is IdentityEntry ? null : provisionalIdentity.sourceKeys.firstOrNull;
 }
+
+PackageSourceDescriptor _snapSource(String name) => PackageSourceDescriptor(
+  format: PackageFormat.snap,
+  packageId: name,
+  packageName: name,
+);
+
+PackageSourceDescriptor _debSource(String id) => PackageSourceDescriptor(
+  format: PackageFormat.deb,
+  packageId: id,
+  commonIds: [id],
+);
 
 /// Canonical key of one package source, in its backend's own namespace.
 ///
@@ -121,19 +146,11 @@ class AppDetailsIdentityResolver {
     return entry.when(
       identity: (identity) async => ResolvedAppIdentity(identity: identity),
       snap: (name) => _resolve(
-        PackageSourceDescriptor(
-          format: PackageFormat.snap,
-          packageId: name,
-          packageName: name,
-        ),
+        _snapSource(name),
         () => _snapAdapter.findByPackageName(name),
       ),
       debComponent: (id) => _resolve(
-        PackageSourceDescriptor(
-          format: PackageFormat.deb,
-          packageId: id,
-          commonIds: [id],
-        ),
+        _debSource(id),
         () => _debAdapter.findByCommonId(id),
       ),
     );
@@ -208,4 +225,29 @@ AppDetailsIdentityResolver appDetailsIdentityResolver(Ref ref) =>
 Future<ResolvedAppIdentity> appDetailsIdentity(
   Ref ref,
   AppDetailsEntry entry,
-) => ref.watch(appDetailsIdentityResolverProvider).resolve(entry);
+) async {
+  final resolved = await ref
+      .watch(appDetailsIdentityResolverProvider)
+      .resolve(entry);
+  // Failed lookups aren't shared, and abandoned ones must not replace a newer
+  // result. The lookup still runs again on every open.
+  if (!resolved.discoveryFailed && ref.mounted) {
+    ref.read(knownAppIdentitiesProvider.notifier).record(resolved);
+  }
+  return resolved;
+}
+
+/// Last successful lookup by every source it includes, shown while a page's
+/// own lookup runs, including for an app opened from its other format.
+@Riverpod(keepAlive: true)
+class KnownAppIdentities extends _$KnownAppIdentities {
+  @override
+  Map<SourceKey, ResolvedAppIdentity> build() => const {};
+
+  void record(ResolvedAppIdentity identity) {
+    state = Map.unmodifiable({
+      ...state,
+      for (final key in identity.sourceKeys) key: identity,
+    });
+  }
+}

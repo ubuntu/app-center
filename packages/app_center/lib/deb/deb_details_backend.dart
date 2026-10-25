@@ -32,10 +32,9 @@ Stream<List<PackageKitMutation>> packageKitMutations(Ref ref) async* {
 
 @riverpod
 Future<ImageRef?> debIcon(Ref ref, String componentId) async {
-  final component = await ref.watch(
-    debModelProvider(componentId).selectAsync((data) => data.component),
-  );
-  final icon = await component.iconAsync;
+  final appstream = getService<AppstreamService>();
+  await appstream.init();
+  final icon = await appstream.getFromId(componentId).iconAsync;
   if (icon == null) return null;
   final uri = Uri.tryParse(icon);
   return uri != null && (uri.scheme == 'http' || uri.scheme == 'https')
@@ -83,6 +82,34 @@ Future<ByteSize?> debInstallSize(
   return bytes > 0 ? ByteSize(bytes: bytes, kind: SizeKind.download) : null;
 }
 
+/// Install state from one `resolve`, ahead of the full deb model.
+@riverpod
+Future<PackageKitPackageInfo?> debQuickPackageInfo(
+  Ref ref,
+  String componentId,
+) async {
+  final component = getService<AppstreamService>().tryGetFromId(componentId);
+  if (component == null) return null;
+  final name = component.package ?? componentId;
+  return (await getService<PackageKitService>().resolve([name]))[name];
+}
+
+/// Fresh `resolve` result, or failing that a cached one that can't decide.
+({PackageKitPackageInfo? info, bool fresh})? _quickPackageInfo(
+  Ref ref,
+  String componentId,
+) {
+  final component = getService<AppstreamService>().tryGetFromId(componentId);
+  if (component == null) return null;
+  final quick = ref.watch(debQuickPackageInfoProvider(componentId));
+  if (quick.hasValue) return (info: quick.value, fresh: true);
+  final name = component.package ?? componentId;
+  final packageKit = getService<PackageKitService>();
+  return packageKit.isPackageCached(name)
+      ? (info: packageKit.cachedPackage(name), fresh: false)
+      : null;
+}
+
 @riverpod
 AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
   Ref ref,
@@ -91,7 +118,10 @@ AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
   final model = ref.watch(debModelProvider(componentId));
   final mutations = ref.watch(packageKitMutationsProvider).value ?? const [];
   final icon = ref.watch(debIconProvider(componentId));
+  final loading = !model.hasValue && !model.hasError;
+  final quick = loading ? _quickPackageInfo(ref, componentId) : null;
   final data = model.value;
+  // Simulating the install waits for the model so it doesn't delay it.
   final candidateId = data == null || data.isInstalled
       ? null
       : data.packageInfo?.packageId;
@@ -103,6 +133,35 @@ AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
       ? null
       : ref.watch(debPackageDetailsProvider(updateId));
   final desktops = ref.watch(currentDesktopsProvider);
+
+  if (loading) {
+    final component = getService<AppstreamService>().tryGetFromId(componentId);
+    if (component != null) {
+      final snapshot = quick == null
+          ? debSnapshotFromComponent(
+              componentId,
+              component,
+              icon: _fieldFromAsync(icon),
+            )
+          : debSnapshotFromPackageInfo(
+              componentId,
+              component,
+              quick.info,
+              mutations: mutations,
+              icon: _fieldFromAsync(icon),
+              currentDesktops: desktops,
+            );
+      // A cached state may predate changes made outside the app.
+      // ignore: invalid_use_of_internal_member
+      return const AsyncLoading<PackageSourceSnapshot>().copyWithPrevious(
+        AsyncData(
+          quick == null || quick.fresh
+              ? snapshot
+              : snapshot.copyWith(installState: InstallState.unknown),
+        ),
+      );
+    }
+  }
 
   return mapAsyncValue(
     model,
@@ -141,10 +200,56 @@ PackageSourceSnapshot debSnapshotFromData(
   FieldState<ByteSize> installSize = const FieldState<ByteSize>.unavailable(),
   FieldState<ByteSize> updateSize = const FieldState<ByteSize>.unavailable(),
   List<String> currentDesktops = const [],
+}) => _debSnapshot(
+  id: data.id,
+  component: data.component,
+  packageInfo: data.packageInfo,
+  details: data.details,
+  updatePackageId: data.updatePackageId,
+  activeTransactionId: data.activeTransactionId,
+  activeTransactionKind: data.activeTransactionKind,
+  mutations: mutations,
+  icon: icon,
+  installSize: installSize,
+  updateSize: updateSize,
+  currentDesktops: currentDesktops,
+);
+
+/// Install state from a single `resolve`, before update and size details.
+@visibleForTesting
+PackageSourceSnapshot debSnapshotFromPackageInfo(
+  String id,
+  AppstreamComponent component,
+  PackageKitPackageInfo? packageInfo, {
+  List<PackageKitMutation> mutations = const [],
+  FieldState<ImageRef> icon = const FieldState<ImageRef>.unavailable(),
+  List<String> currentDesktops = const [],
+}) => _debSnapshot(
+  id: id,
+  component: component,
+  packageInfo: packageInfo,
+  mutations: mutations,
+  icon: icon,
+  installSize: const FieldState<ByteSize>.unavailable(),
+  currentDesktops: currentDesktops,
+);
+
+PackageSourceSnapshot _debSnapshot({
+  required String id,
+  required AppstreamComponent component,
+  required PackageKitPackageInfo? packageInfo,
+  required List<PackageKitMutation> mutations,
+  required FieldState<ImageRef> icon,
+  required FieldState<ByteSize> installSize,
+  required List<String> currentDesktops,
+  PackageKitDetailsEvent? details,
+  PackageKitPackageId? updatePackageId,
+  int? activeTransactionId,
+  DebTransactionKind? activeTransactionKind,
+  FieldState<ByteSize> updateSize = const FieldState<ByteSize>.unavailable(),
 }) {
-  final component = data.component;
-  final packageId = data.packageInfo?.packageId;
-  final installed = data.isInstalled;
+  final packageId = packageInfo?.packageId;
+  final installed = packageInfo?.info == PackageKitInfo.installed;
 
   PackageRelease? release(
     PackageKitPackageId? id, {
@@ -168,7 +273,7 @@ PackageSourceSnapshot debSnapshotFromData(
           packageId,
           // Only the package itself, not the dependencies it pulled in.
           size: FieldState.fromNullable(
-            _size(data.details, SizeKind.installed),
+            _size(details, SizeKind.installed),
           ),
         )
       : null;
@@ -176,7 +281,7 @@ PackageSourceSnapshot debSnapshotFromData(
       ? null
       : release(packageId, size: installSize);
   final updateCandidate = installed
-      ? release(data.updatePackageId, size: updateSize)
+      ? release(updatePackageId, size: updateSize)
       : null;
 
   final packageName = packageId?.name ?? component.package;
@@ -185,53 +290,23 @@ PackageSourceSnapshot debSnapshotFromData(
       : mutations.firstWhereOrNull(
           (m) => !m.isTerminal && m.affects(packageName),
         );
-  final ownTransaction = data.activeTransactionId;
+  final ownTransaction = activeTransactionId;
   final ownMutation = mutations.firstWhereOrNull(
     (m) => m.transactionId == ownTransaction,
   );
   final kind = ownTransaction != null
-      ? _ownOperationKind(data.activeTransactionKind, installed: installed)
+      ? _ownOperationKind(activeTransactionKind, installed: installed)
       : mutation == null
       ? null
       : _mutationKind(mutation.kind);
   final percentage = (ownMutation ?? mutation)?.percentage;
 
-  String? nonEmpty(String value) => value.isEmpty ? null : value;
-
-  return PackageSourceSnapshot(
-    key: SourceKey(format: PackageFormat.deb, id: data.id),
-    installState: data.packageInfo == null
+  return debSnapshotFromComponent(id, component, icon: icon).copyWith(
+    installState: packageInfo == null
         ? InstallState.unknown
         : installed
         ? InstallState.installed
         : InstallState.notInstalled,
-    appName: FieldState.fromNullable(nonEmpty(component.getLocalizedName())),
-    icon: icon,
-    summary: FieldState.fromNullable(
-      nonEmpty(component.getLocalizedSummary()),
-    ),
-    description: FieldState.fromNullable(
-      nonEmpty(component.getLocalizedDescription()) == null
-          ? null
-          : RichContent(
-              text: component.getLocalizedDescription(),
-              type: RichContentType.html,
-            ),
-    ),
-    screenshots: FieldState.value(component.screenshotUrls),
-    publisher: FieldState.fromNullable(
-      nonEmpty(component.getLocalizedDeveloperName()) == null
-          ? null
-          : Publisher(name: component.getLocalizedDeveloperName()),
-    ),
-    categories: FieldState.value(appCategoriesFromFreedesktop(component)),
-    confinement: const FieldState.value(AppConfinement.unrestricted),
-    license: FieldState.fromNullable(component.projectLicense),
-    links: FieldState.value(data.links ?? const {}),
-    ageRating: FieldState.fromNullable(_ageRating(component)),
-    languages: component.languages.isEmpty
-        ? FieldState<List<String>>.unavailable()
-        : FieldState.value(component.languages.map((l) => l.locale).toList()),
     installed: installedRelease,
     installCandidate: installCandidate,
     updateCandidate: updateCandidate,
@@ -259,6 +334,60 @@ PackageSourceSnapshot debSnapshotFromData(
           ),
   );
 }
+
+/// AppStream metadata of a Deb, without any PackageKit state.
+@visibleForTesting
+PackageSourceSnapshot debSnapshotFromComponent(
+  String id,
+  AppstreamComponent component, {
+  FieldState<ImageRef> icon = const FieldState<ImageRef>.unavailable(),
+}) {
+  String? nonEmpty(String value) => value.isEmpty ? null : value;
+
+  return PackageSourceSnapshot(
+    key: SourceKey(format: PackageFormat.deb, id: id),
+    installState: InstallState.unknown,
+    appName: FieldState.fromNullable(nonEmpty(component.getLocalizedName())),
+    icon: icon,
+    summary: FieldState.fromNullable(
+      nonEmpty(component.getLocalizedSummary()),
+    ),
+    description: FieldState.fromNullable(
+      nonEmpty(component.getLocalizedDescription()) == null
+          ? null
+          : RichContent(
+              text: component.getLocalizedDescription(),
+              type: RichContentType.html,
+            ),
+    ),
+    screenshots: FieldState.value(component.screenshotUrls),
+    publisher: FieldState.fromNullable(
+      nonEmpty(component.getLocalizedDeveloperName()) == null
+          ? null
+          : Publisher(name: component.getLocalizedDeveloperName()),
+    ),
+    categories: FieldState.value(appCategoriesFromFreedesktop(component)),
+    confinement: const FieldState.value(AppConfinement.unrestricted),
+    license: FieldState.fromNullable(component.projectLicense),
+    links: FieldState.value(_links(component)),
+    ageRating: FieldState.fromNullable(_ageRating(component)),
+    languages: component.languages.isEmpty
+        ? FieldState<List<String>>.unavailable()
+        : FieldState.value(component.languages.map((l) => l.locale).toList()),
+  );
+}
+
+// Mirrors DebData.links, which needs a loaded DebData.
+Map<AppLink, String> _links(AppstreamComponent component) => Map.fromEntries(
+  component.urls
+      .where(
+        (url) => const [
+          AppstreamUrlType.contact,
+          AppstreamUrlType.homepage,
+        ].contains(url.type),
+      )
+      .map((url) => MapEntry(AppLink.fromAppstream(url.type), url.url)),
+);
 
 OperationKind _ownOperationKind(
   DebTransactionKind? kind, {

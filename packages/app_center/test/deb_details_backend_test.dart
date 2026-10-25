@@ -208,6 +208,100 @@ void main() {
       );
       expect(snapshot.activeOperation, isNull);
     });
+
+    test('component alone has metadata but unknown install state', () {
+      final snapshot = debSnapshotFromComponent('org.test.app', _component);
+
+      expect(snapshot.key, testDebKey);
+      expect(snapshot.installState, InstallState.unknown);
+      expect(snapshot.appName.valueOrNull, 'Test App');
+      expect(snapshot.links.valueOrNull, isEmpty);
+      expect(snapshot.targets, isEmpty);
+      expect(debSnapshotFromData(_data(withPackage: false)), snapshot);
+    });
+  });
+
+  group('provider', () {
+    test('shows AppStream metadata while PackageKit loads', () {
+      final appstream = createMockAppstreamService(component: _component);
+      when(appstream.tryGetFromId('org.test.app')).thenReturn(_component);
+      createMockPackageKitService();
+      final container = createContainer();
+      container.listen(debSourceSnapshotProvider('org.test.app'), (_, _) {});
+
+      final value = container.read(debSourceSnapshotProvider('org.test.app'));
+      expect(value.isLoading, isTrue);
+      expect(value.value?.appName.valueOrNull, 'Test App');
+      expect(value.value?.installState, InstallState.unknown);
+    });
+
+    test('shows the install state before update details arrive', () async {
+      final appstream = createMockAppstreamService(component: _component);
+      when(appstream.tryGetFromId('org.test.app')).thenReturn(_component);
+      final packageKit = createMockPackageKitService(
+        packageInfo: const PackageKitPackageEvent(
+          info: PackageKitInfo.installed,
+          packageId: _installedId,
+          summary: 'summary',
+        ),
+      );
+      when(
+        packageKit.getUpdateDetails(any),
+      ).thenAnswer((_) => Completer<PackageKitUpdateDetailEvent?>().future);
+      final container = createContainer();
+      container.listen(debSourceSnapshotProvider('org.test.app'), (_, _) {});
+      await settle();
+
+      final value = container.read(debSourceSnapshotProvider('org.test.app'));
+      expect(value.isLoading, isTrue);
+      expect(value.value?.installState, InstallState.installed);
+      expect(value.value?.installed?.version, '1.0-1');
+      expect(value.value?.updateCandidate, isNull);
+    });
+
+    test('shows a remembered install state without deciding on it', () async {
+      final appstream = createMockAppstreamService(component: _component);
+      when(appstream.tryGetFromId('org.test.app')).thenReturn(_component);
+      final packageKit = createMockPackageKitService(
+        packageInfo: const PackageKitPackageEvent(
+          info: PackageKitInfo.available,
+          packageId: _installedId,
+          summary: 'summary',
+        ),
+      );
+      when(packageKit.isPackageCached('test-app')).thenReturn(true);
+      when(packageKit.cachedPackage('test-app')).thenReturn(
+        const PackageKitPackageEvent(
+          info: PackageKitInfo.installed,
+          packageId: _installedId,
+          summary: 'summary',
+        ),
+      );
+      when(
+        packageKit.getUpdateDetails(any),
+      ).thenAnswer((_) => Completer<PackageKitUpdateDetailEvent?>().future);
+      final container = createContainer();
+      container.listen(debSourceSnapshotProvider('org.test.app'), (_, _) {});
+
+      final cached = container.read(debSourceSnapshotProvider('org.test.app'));
+      expect(cached.value?.installed?.version, '1.0-1');
+      expect(cached.value?.installState, InstallState.unknown);
+
+      await settle();
+      final fresh = container.read(debSourceSnapshotProvider('org.test.app'));
+      expect(fresh.value?.installState, InstallState.notInstalled);
+    });
+
+    test('is plain loading without AppStream metadata', () {
+      createMockAppstreamService(component: _component);
+      createMockPackageKitService();
+      final container = createContainer();
+      container.listen(debSourceSnapshotProvider('org.test.app'), (_, _) {});
+
+      final value = container.read(debSourceSnapshotProvider('org.test.app'));
+      expect(value.isLoading, isTrue);
+      expect(value.hasValue, isFalse);
+    });
   });
 
   group('install size', () {
