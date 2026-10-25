@@ -331,9 +331,9 @@ class _MaybeBackButton extends ConsumerWidget {
 
 extension StoreAppThemeX on ThemeData {
   ThemeData customize({required Locale locale, bool highContrast = false}) {
-    final cjkFallback = _cjkFallbackFor(locale);
+    final fontFallback = _fontFallbackFor(locale);
     TextStyle? withFallback(TextStyle? style) =>
-        style?.apply(fontFamilyFallback: cjkFallback);
+        style?.apply(fontFamilyFallback: fontFallback);
     InputDecorationThemeData withInputFallback(
       InputDecorationThemeData theme,
     ) => theme.copyWith(
@@ -355,8 +355,10 @@ extension StoreAppThemeX on ThemeData {
           );
 
     final base = copyWith(
-      textTheme: textTheme.apply(fontFamilyFallback: cjkFallback),
-      primaryTextTheme: primaryTextTheme.apply(fontFamilyFallback: cjkFallback),
+      textTheme: textTheme.apply(fontFamilyFallback: fontFallback),
+      primaryTextTheme: primaryTextTheme.apply(
+        fontFamilyFallback: fontFallback,
+      ),
 
       appBarTheme: appBarTheme.copyWith(
         toolbarTextStyle: withFallback(appBarTheme.toolbarTextStyle),
@@ -410,7 +412,8 @@ extension StoreAppThemeX on ThemeData {
   }
 }
 
-List<String> _cjkFallbackFor(Locale locale) {
+List<String> _fontFallbackFor(Locale locale) {
+  const hebrewFont = 'Noto Sans Hebrew';
   const simplifiedChinese = 'Noto Sans CJK SC';
   const traditionalChinese = 'Noto Sans CJK TC';
   const hongKongChinese = 'Noto Sans CJK HK';
@@ -418,6 +421,14 @@ List<String> _cjkFallbackFor(Locale locale) {
   const korean = 'Noto Sans CJK KR';
 
   return switch ((locale.languageCode, locale.scriptCode, locale.countryCode)) {
+    ('he', _, _) => const [
+      hebrewFont,
+      simplifiedChinese,
+      traditionalChinese,
+      hongKongChinese,
+      japanese,
+      korean,
+    ],
     ('ja', _, _) => const [
       japanese,
       simplifiedChinese,

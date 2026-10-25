@@ -81,3 +81,9 @@ flutter:
   generate: true
   assets:
     - assets/
+  fonts:
+    - family: Noto Sans Hebrew
+      fonts:
+        - asset: assets/fonts/NotoSansHebrew-Regular.ttf
+        - asset: assets/fonts/NotoSansHebrew-Bold.ttf
+          weight: 700

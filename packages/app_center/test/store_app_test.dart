@@ -26,6 +26,17 @@ void main() {
   tearDown(resetAllServices);
 
   group('font fallbacks', () {
+    test('prefers a bundled Hebrew font for the Hebrew locale', () {
+      final theme = yaruLight.customize(locale: const Locale('he', 'IL'));
+      final fallback = theme.textTheme.bodyMedium!.fontFamilyFallback!;
+      expect(fallback.first, 'Noto Sans Hebrew');
+      expect(theme.appBarTheme.titleTextStyle!.fontFamilyFallback, fallback);
+      expect(
+        theme.inputDecorationTheme.labelStyle!.fontFamilyFallback,
+        fallback,
+      );
+    });
+
     test('prefers the active CJK locale', () {
       for (final testCase in [
         (locale: const Locale('ja'), expected: 'Noto Sans CJK JP'),
