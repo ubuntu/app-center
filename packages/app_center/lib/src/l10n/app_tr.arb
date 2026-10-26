@@ -361,5 +361,29 @@
     "codecPageTitle": "Eksik medya kodekleri",
     "codecPageDescription": "Bazı video ve ses formatlarını işlemek için aşağıdaki kodekleri yüklemeniz gerekmektedir:",
     "codecInstallAllButton": "Önerilen kodekleri yükle",
-    "managePagePackageTypeLabel": "Paket tipi"
+    "managePagePackageTypeLabel": "Paket tipi",
+    "managePageInstalledSizeSemanticLabel": "Boyut: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "Sürüm {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "{appName} uygulamasını kaldır",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }
