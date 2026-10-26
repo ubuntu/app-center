@@ -409,7 +409,7 @@
     "driversPageUninstallAcknowledgeLabel": "Je comprends les risques",
     "addonsPageLabel": "Extensions",
     "addonsPageAdditionalDriversDescription": "Ajout d'un meilleur support pour les cartes graphiques et autres matériels",
-    "driversPageDescription": "Les pilotes propriétaires contiennent un code privé que les développeurs Ubuntu ne peuvent ni examiner, ni améliorer. Sécurité et autres mises à jour dépendent donc du fournisseur du pilote.",
+    "driversPageDescription": "Les pilotes propriétaires contiennent du code privé que les développeurs Ubuntu ne peuvent ni examiner, ni améliorer. Sécurité et autres mises à jour dépendent donc du fournisseur du pilote.",
     "driversPageSectionUpdateAvailable": "Mise à jour disponible",
     "driversPageSectionAvailable": "Disponible",
     "driversPageSectionInstalled": "Installé",
@@ -605,5 +605,14 @@
     },
     "appDetailsPackageFormatsLearnMore": "En savoir plus sur les formats de paquets",
     "appDetailsInstalledSizeLabel": "Taille installée",
-    "appDetailsInstalledAsMultipleFormats": "Installé comme plusieurs formats de paquets"
+    "appDetailsInstalledAsMultipleFormats": "Installé comme plusieurs formats de paquets",
+    "localDebInstalledVersion": "Version installée : {version}",
+    "@localDebInstalledVersion": {
+        "description": "The version already installed when viewing a local Debian package file.",
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    }
 }
