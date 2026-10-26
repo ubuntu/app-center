@@ -82,6 +82,26 @@ void main() {
     expect(find.text(l10n.appDetailsPackageFormatsLearnMore), findsOneWidget);
   });
 
+  testWidgets('explains the publisher badge', (tester) async {
+    await pumpDialog(
+      tester,
+      snap: createSourceSnapshot(testSnapKey).copyWith(
+        publisher: const FieldState.value(
+          Publisher(
+            name: 'Snap Publisher',
+            validation: PublisherValidation.verified,
+          ),
+        ),
+      ),
+      deb: createSourceSnapshot(testDebKey),
+    );
+
+    expect(
+      find.byTooltip(tester.l10n.appDetailsVerifiedPublisherTooltip),
+      findsOneWidget,
+    );
+  });
+
   testWidgets('blocks installing another format while one is installed', (
     tester,
   ) async {

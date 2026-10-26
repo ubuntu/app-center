@@ -321,6 +321,8 @@
     "appDetailsPackageSourceLabel": "Source",
     "appDetailsVerifiedPublisherSemanticLabel": "Verified publisher",
     "appDetailsStarredPublisherSemanticLabel": "Starred publisher",
+    "appDetailsVerifiedPublisherTooltip": "Verified publisher: a trusted organization verified by Canonical to publish genuine, well-maintained snaps.",
+    "appDetailsStarredPublisherTooltip": "Starred publisher: a trusted community member recognized by Canonical for publishing high-quality snaps.",
     "appDetailsPackageSourceSnapStore": "Snap Store",
     "appDetailsPackageSourceUbuntuArchive": "Ubuntu archive",
     "appDetailsInstalledAsFormat": "Already installed as {format}",
