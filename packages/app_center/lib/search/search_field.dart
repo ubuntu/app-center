@@ -156,8 +156,15 @@ class _SearchFieldState extends ConsumerState<SearchField> {
         AutoCompleteSearchOption(query: final query) => widget.onSearch(query),
       },
       fieldViewBuilder: (context, controller, node, onFieldSubmitted) {
+        // Every page builds its own search field, so several instances can
+        // be alive at once (e.g. a route pushed on top of another, or during
+        // page transitions). Only the field on the current route attaches the
+        // shared focus node, so that the Ctrl+F shortcut always targets the
+        // visible search field.
         return Focus(
-          focusNode: widget.searchFocus,
+          focusNode: (ModalRoute.isCurrentOf(context) ?? true)
+              ? widget.searchFocus
+              : null,
           child: Consumer(
             builder: (context, ref, child) {
               ref.listen(queryProvider, (prev, next) {
