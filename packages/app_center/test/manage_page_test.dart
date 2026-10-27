@@ -549,6 +549,63 @@ void main() {
     },
   );
 
+  testWidgets(
+    'quit to update label does not push action buttons out of the tile',
+    (tester) async {
+      await resetAllServices();
+      // A snap whose refresh is inhibited because it's running, listed in the
+      // installed section next to its Open and Remove buttons.
+      registerMockSnapdService(
+        localSnap: refreshableOpenApp,
+        storeSnap: refreshableOpenApp,
+        installedSnaps: [refreshableOpenApp],
+        refreshableSnaps: [],
+      );
+
+      final container = createContainer(
+        overrides: [
+          ...debProviderOverrides,
+          launchProvider.overrideWith(
+            (_, __) => createMockSnapLauncher(isLaunchable: true),
+          ),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+        ],
+      );
+
+      await tester.pumpApp(
+        (_) => UncontrolledProviderScope(
+          container: container,
+          child: const ManagePage(),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+
+      final tile = find.snapTile(refreshableOpenApp.titleOrName);
+      expect(
+        find.descendant(of: tile, matching: find.byType(QuitToUpdateNotice)),
+        findsOneWidget,
+      );
+      // A RenderFlex overflow would be reported as an exception.
+      expect(tester.takeException(), isNull);
+
+      final tileRect = tester.getRect(tile);
+      for (final label in [
+        tester.l10n.snapActionOpenLabel,
+        tester.l10n.snapActionRemoveLabel,
+      ]) {
+        final button = find.descendant(
+          of: tile,
+          matching: find.widgetWithText(OutlinedButton, label),
+        );
+        expect(button, findsOneWidget);
+        final buttonRect = tester.getRect(button);
+        expect(buttonRect.left, greaterThanOrEqualTo(tileRect.left));
+        expect(buttonRect.right, lessThanOrEqualTo(tileRect.right));
+      }
+    },
+  );
+
   testWidgets('list deb updates on manage page', (tester) async {
     await resetAllServices();
     registerMockSnapdService(installedSnaps: []);
