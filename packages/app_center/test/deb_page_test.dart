@@ -74,6 +74,36 @@ void main() {
     );
   });
 
+  testWidgets('unsigned source error dialog', (tester) async {
+    createMockPackageKitService(
+      packageInfo: packageInfo,
+      errorStream: Stream.value(
+        const PackageKitServiceError(
+          code: PackageKitError.cannotInstallRepositoryUnsigned,
+          details: 'The following packages cannot be authenticated: testdeb',
+        ),
+      ),
+    );
+    createMockAppstreamService(component: component);
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        child: const DebPage(id: 'testdeb'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text(tester.l10n.errorViewUntrustedSourceTitle),
+      findsOneWidget,
+    );
+    expect(
+      find.text(tester.l10n.errorViewUntrustedSourceDescription),
+      findsOneWidget,
+    );
+    expect(find.textContaining('PackageKit error'), findsNothing);
+  });
+
   testWidgets('error dialog is not repeated on a later state change', (
     tester,
   ) async {

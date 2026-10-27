@@ -348,7 +348,10 @@ MockPackageKitTransaction createMockPackageKitTransaction({
     transaction.getDetails(any),
   ).thenAnswer((_) async => unawaited(emitEvents()));
   when(
-    transaction.updatePackages(any),
+    transaction.updatePackages(
+      any,
+      transactionFlags: anyNamed('transactionFlags'),
+    ),
   ).thenAnswer((_) async => unawaited(emitEvents()));
   when(
     transaction.getPackages(filter: anyNamed('filter')),

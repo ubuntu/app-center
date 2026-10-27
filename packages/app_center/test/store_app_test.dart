@@ -341,6 +341,60 @@ void main() {
           findsOneWidget,
         );
       });
+
+      for (final testCase in [
+        (
+          name: 'unsigned-source PackageKit error',
+          error: const PackageKitServiceError(
+            code: PackageKitError.cannotInstallRepositoryUnsigned,
+            details: 'The following packages cannot be authenticated: foo',
+          ),
+        ),
+        (
+          name: 'PackageKit transaction that needs untrusted packages',
+          error: PackageKitTransactionError(
+            'Transaction 1 finished with exit code: needUntrusted',
+            exit: PackageKitExit.needUntrusted,
+          ),
+        ),
+      ]) {
+        testWidgets('${testCase.name} shows the untrusted source dialog', (
+          tester,
+        ) async {
+          registerMockSnapdService();
+          registerMockService<GtkApplicationNotifier>(
+            createMockGtkApplicationNotifier(),
+          );
+          registerMockDriversService();
+          await tester.pumpApp(
+            (_) => ProviderScope(
+              overrides: [
+                errorStreamProvider.overrideWith(
+                  (ref) => Stream.value(testCase.error),
+                ),
+              ],
+              child: const StoreApp(),
+            ),
+          );
+          await tester.pump();
+
+          final dialog = find.byType(AlertDialog);
+          expect(
+            find.descendant(
+              of: dialog,
+              matching: find.text(tester.l10n.errorViewUntrustedSourceTitle),
+            ),
+            findsOneWidget,
+          );
+          expect(
+            find.descendant(
+              of: dialog,
+              matching: find.textContaining('PackageKit error'),
+            ),
+            findsNothing,
+          );
+        });
+      }
     });
   });
 

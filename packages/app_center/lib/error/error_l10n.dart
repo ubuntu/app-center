@@ -1,4 +1,6 @@
 import 'package:app_center/l10n.dart';
+import 'package:app_center/packagekit/packagekit.dart';
+import 'package:packagekit/packagekit.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru/widgets.dart';
 
@@ -11,6 +13,12 @@ sealed class ErrorMessage {
   const ErrorMessage();
 
   factory ErrorMessage.fromObject(Object? e) {
+    if ((e is PackageKitTransactionError &&
+            e.exit == PackageKitExit.needUntrusted) ||
+        (e is PackageKitServiceError &&
+            _unsignedSourceErrors.contains(e.code))) {
+      return ErrorMessageUntrustedSource();
+    }
     if (e is! SnapdException) return ErrorMessageUnknown();
     if (e is ConsolidatedSnapdException) return ErrorMessage.fromMap(e.errors);
 
@@ -33,6 +41,11 @@ sealed class ErrorMessage {
     );
     return ErrorMessageConsolidated(errorMessages);
   }
+
+  static const _unsignedSourceErrors = {
+    PackageKitError.cannotInstallRepositoryUnsigned,
+    PackageKitError.cannotUpdateRepositoryUnsigned,
+  };
 
   static final _patternMaps =
       <({RegExp pattern, ErrorMessage Function(Match) message})>[
@@ -58,6 +71,7 @@ sealed class ErrorMessage {
     ErrorMessageRunningApps(snap: final snap) => l10n.snapdExceptionRunningApps(
       snap,
     ),
+    ErrorMessageUntrustedSource() => l10n.errorViewUntrustedSourceDescription,
     _ => l10n.errorViewUnknownErrorDescription,
   };
 
@@ -67,6 +81,7 @@ sealed class ErrorMessage {
     ErrorMessageConsolidated() => l10n.managePageUpdatesFailed(
       (this as ErrorMessageConsolidated).errors.length,
     ),
+    ErrorMessageUntrustedSource() => l10n.errorViewUntrustedSourceTitle,
     _ => l10n.errorViewUnknownErrorTitle,
   };
 
@@ -79,7 +94,7 @@ sealed class ErrorMessage {
   List<ErrorAction> get actions => switch (this) {
     ErrorMessageNetwork() => [ErrorAction.retry],
     ErrorMessageTooManyRequests() => [ErrorAction.checkStatus],
-    ErrorMessageRunningApps() => [],
+    ErrorMessageRunningApps() || ErrorMessageUntrustedSource() => [],
     _ => [ErrorAction.retry, ErrorAction.checkStatus],
   };
 
@@ -87,7 +102,8 @@ sealed class ErrorMessage {
     ErrorMessageNetwork() => YaruInfoType.danger,
     ErrorMessageTooManyRequests() => YaruInfoType.danger,
     ErrorMessageRunningApps() ||
-    ErrorMessageConsolidated() => YaruInfoType.warning,
+    ErrorMessageConsolidated() ||
+    ErrorMessageUntrustedSource() => YaruInfoType.warning,
     _ => YaruInfoType.danger,
   };
 }
@@ -100,6 +116,8 @@ class ErrorMessageRunningApps extends ErrorMessage {
   const ErrorMessageRunningApps(this.snap);
   final String snap;
 }
+
+class ErrorMessageUntrustedSource extends ErrorMessage {}
 
 class ErrorMessageUnknown extends ErrorMessage {}
 

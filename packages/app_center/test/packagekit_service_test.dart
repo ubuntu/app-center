@@ -773,7 +773,92 @@ void main() {
       const PackageKitPackageId(name: 'bar', version: '2.0'),
     ];
     await packageKit.updateAll(packages);
-    verify(mockTransaction.updatePackages(packages)).called(1);
+    verify(
+      mockTransaction.updatePackages(
+        packages,
+        transactionFlags: {PackageKitTransactionFlag.onlyTrusted},
+      ),
+    ).called(1);
+  });
+
+  test('update', () async {
+    final mockTransaction = createMockPackageKitTransaction();
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    const packageId = PackageKitPackageId(name: 'foo', version: '1.0');
+    final id = await packageKit.update(packageId);
+    await packageKit.waitTransaction(id);
+    verify(
+      mockTransaction.updatePackages(
+        [packageId],
+        transactionFlags: {PackageKitTransactionFlag.onlyTrusted},
+      ),
+    ).called(1);
+  });
+
+  test('updateAllPackages', () async {
+    final mockTransaction = createMockPackageKitTransaction();
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    final packages = [
+      const PackageKitPackageId(name: 'foo', version: '1.0'),
+      const PackageKitPackageId(name: 'bar', version: '2.0'),
+    ];
+    final id = await packageKit.updateAllPackages(packages);
+    await packageKit.waitTransaction(id);
+    verify(
+      mockTransaction.updatePackages(
+        packages,
+        transactionFlags: {PackageKitTransactionFlag.onlyTrusted},
+      ),
+    ).called(1);
+  });
+
+  test('update from an unsigned source finishes with needUntrusted', () async {
+    const error = PackageKitErrorCodeEvent(
+      code: PackageKitError.cannotInstallRepositoryUnsigned,
+      details: 'The following packages cannot be authenticated: foo',
+    );
+    final mockTransaction = createMockPackageKitTransaction(
+      events: [error],
+      exit: PackageKitExit.needUntrusted,
+    );
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    final id = await packageKit.update(
+      const PackageKitPackageId(name: 'foo', version: '1.0'),
+    );
+    await expectLater(
+      packageKit.waitTransaction(id),
+      throwsA(
+        isA<PackageKitTransactionError>()
+            .having((e) => e.exit, 'exit', PackageKitExit.needUntrusted)
+            .having(
+              (e) => e is PackageKitTransactionCancelled,
+              'isCancelled',
+              isFalse,
+            ),
+      ),
+    );
+    expect(packageKit.lastErrorFor(id), equals(error));
   });
 
   test('getInstalledPackages', () async {
