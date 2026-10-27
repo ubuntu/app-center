@@ -23,8 +23,8 @@ enum ManageTilePosition { first, middle, last, single }
 ///
 /// [showOnlyUpdate] controls whether the tile shows update-only actions (for
 /// the updates section) or full actions like open/remove (for the installed
-/// section). [hasFixedSize] gives the trailing action buttons a fixed width,
-/// used when tiles appear in the "currently installing" section.
+/// section). [hasFixedSize] gives the trailing action buttons a fixed minimum
+/// width, so that they line up across the tiles of the installed section.
 class ManageAppTile extends ConsumerWidget {
   const ManageAppTile({
     required this.app,
@@ -217,8 +217,16 @@ class ManageAppTile extends ConsumerWidget {
               ),
           ],
         ),
+        // The fixed width keeps the action buttons aligned across tiles, but
+        // it is only a minimum: extra content such as the "quit to update"
+        // notice must not push the buttons out of the tile.
         trailing: hasFixedSize
-            ? SizedBox(width: 220, child: actionButtons)
+            ? IntrinsicWidth(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: 220),
+                  child: actionButtons,
+                ),
+              )
             : IntrinsicWidth(child: actionButtons),
       ),
     );
