@@ -80,6 +80,8 @@ class _ActiveChangeText extends StatelessWidget {
         SizedBox.square(
           dimension: kLoaderHeight,
           child: YaruCircularProgressIndicator(
+            // Yaru only sets up the indeterminate animation in initState.
+            key: ValueKey(progress == null),
             value: progress,
             strokeWidth: 2,
           ),
