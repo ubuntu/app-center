@@ -8,6 +8,7 @@ import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/search/search_field.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store_app.dart';
+import 'package:app_center/store/store_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -375,6 +376,53 @@ void main() {
 
       expect(focusNode.hasFocus, isTrue);
     });
+
+    testWidgets(
+      'focuses the visible search field when Control+F is pressed on a '
+      'pushed page',
+      (tester) async {
+        registerMockService<GtkApplicationNotifier>(
+          createMockGtkApplicationNotifier(),
+        );
+        registerMockService<RatingsService>(registerMockRatingsService());
+        registerMockSnapdService();
+        registerMockDriversService();
+        await tester.pumpApp(
+          (_) => const ProviderScope(
+            child: StoreApp(),
+          ),
+        );
+        await tester.pump();
+
+        // Push a page on top of the initial one. The initial page (and its
+        // search field) stays alive below it.
+        unawaited(
+          Navigator.of(
+            tester.element(find.byType(SearchField)),
+          ).pushNamed(StoreRoutes.manage),
+        );
+        await tester.pump();
+        await tester.pump(const Duration(seconds: 1));
+        expect(
+          find.byType(SearchField, skipOffstage: false),
+          findsNWidgets(2),
+        );
+
+        await tester.sendKeyDownEvent(LogicalKeyboardKey.controlLeft);
+        await tester.sendKeyDownEvent(LogicalKeyboardKey.keyF);
+        await tester.sendKeyUpEvent(LogicalKeyboardKey.keyF);
+        await tester.sendKeyUpEvent(LogicalKeyboardKey.controlLeft);
+        await tester.pump(const Duration(milliseconds: 100));
+
+        final visibleTextField = tester.widget<TextField>(
+          find.descendant(
+            of: find.byType(SearchField),
+            matching: find.byType(TextField),
+          ),
+        );
+        expect(visibleTextField.focusNode!.hasPrimaryFocus, isTrue);
+      },
+    );
 
     testWidgets('requests app exit when Control+Q is pressed', (tester) async {
       registerMockService<GtkApplicationNotifier>(
