@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_center/constants.dart';
 import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/manage/local_deb_updates_model.dart';
@@ -404,6 +406,47 @@ void main() {
     verifyNever(snapd.refresh(any));
     await tester.tap(find.text(tester.l10n.snapActionUpdateLabel).first);
     verify(snapd.refresh(any, channel: anyNamed('channel'))).called(1);
+  });
+
+  testWidgets('shows a spinner while the page data reloads', (tester) async {
+    final container = createContainer(
+      overrides: [
+        ...debProviderOverrides,
+        launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+        showLocalSystemAppsProvider.overrideWith((ref) => true),
+      ],
+    );
+
+    await tester.pumpApp(
+      (_) => UncontrolledProviderScope(
+        container: container,
+        child: const ManagePage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final checkButton = find.widgetWithText(
+      OutlinedButton,
+      tester.l10n.managePageCheckForUpdates,
+    );
+    final spinner = find.descendant(
+      of: checkButton,
+      matching: find.byType(YaruCircularProgressIndicator),
+    );
+    expect(spinner, findsNothing);
+
+    final snaps = Completer<List<Snap>>();
+    when(snapd.getSnaps()).thenAnswer((_) => snaps.future);
+    container.invalidate(localSnapsProvider);
+    await tester.pump();
+
+    expect(spinner, findsOneWidget);
+    expect(find.snapTile('Test Snap'), findsOneWidget);
+
+    snaps.complete(nonRefreshableSnaps + refreshableSnaps);
+    await tester.pumpAndSettle();
+
+    expect(spinner, findsNothing);
   });
 
   testWidgets('refreshing all', (tester) async {

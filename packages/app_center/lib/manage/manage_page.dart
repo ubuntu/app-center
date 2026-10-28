@@ -242,6 +242,11 @@ class _ActionButtons extends ConsumerWidget {
     final isSilentlyCheckingUpdates =
         isSilentlyCheckingSnapUpdates || isSilentlyCheckingDebUpdates;
 
+    final isRefreshing =
+        isSilentlyCheckingUpdates ||
+        isLoading ||
+        ref.watch(installedAppsProvider.select((value) => value.isLoading));
+
     return Wrap(
       spacing: 10,
       runSpacing: 10,
@@ -267,7 +272,7 @@ class _ActionButtons extends ConsumerWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                isSilentlyCheckingUpdates
+                isRefreshing
                     ? const _SmallLoadingIndicator()
                     : const Icon(YaruIcons.sync),
                 const SizedBox(width: 8),
