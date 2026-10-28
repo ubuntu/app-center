@@ -214,10 +214,12 @@ class DebModel extends _$DebModel {
       /* Report via the same path as PackageKitServiceError events so the
          page shows the error and clears the stuck transaction state. */
       await _onError(
-        PackageKitServiceError(
-          code: PackageKitError.internalError,
-          details: e.toString(),
-        ),
+        // Reusing the error already reported keeps the page to one dialog.
+        packageKit.lastErrorFor(transactionId) ??
+            PackageKitServiceError(
+              code: PackageKitError.internalError,
+              details: e.toString(),
+            ),
       );
     }
     /* On success keep activeTransactionId set until the rebuild finishes, so
