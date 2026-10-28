@@ -382,6 +382,40 @@ void main() {
       expect(focusNode.hasFocus, isTrue);
     });
 
+    testWidgets('Control+F focuses the search field of a detail page', (
+      tester,
+    ) async {
+      registerMockService<GtkApplicationNotifier>(
+        createMockGtkApplicationNotifier(),
+      );
+      registerMockService<RatingsService>(registerMockRatingsService());
+      registerMockSnapdService();
+      registerMockDriversService();
+      await tester.pumpWidget(const ProviderScope(child: StoreApp()));
+      final pagesNavigator = tester.state<NavigatorState>(
+        find.descendant(
+          of: find.byType(YaruMasterDetailPage),
+          matching: find.byType(Navigator),
+        ),
+      );
+      unawaited(pagesNavigator.pushNamed(StoreRoutes.manage));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.controlLeft);
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.keyF);
+      await tester.sendKeyUpEvent(LogicalKeyboardKey.keyF);
+      await tester.sendKeyUpEvent(LogicalKeyboardKey.controlLeft);
+      await tester.pump(const Duration(milliseconds: 100));
+
+      final focusedContext = FocusManager.instance.primaryFocus!.context!;
+      expect(
+        focusedContext.findAncestorWidgetOfExactType<SearchField>(),
+        isNotNull,
+      );
+      expect(ModalRoute.isCurrentOf(focusedContext), isTrue);
+    });
+
     testWidgets('requests app exit when Control+Q is pressed', (tester) async {
       registerMockService<GtkApplicationNotifier>(
         createMockGtkApplicationNotifier(),
