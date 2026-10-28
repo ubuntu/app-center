@@ -234,6 +234,62 @@ void main() {
     });
   });
 
+  group('manageBusy provider', () {
+    tearDown(resetAllServices);
+
+    test('is false when nothing is running', () async {
+      registerMockSnapdService();
+      final container = createContainer(
+        overrides: [
+          localDebsProvider.overrideWith((ref) async => [defaultDebWithUpdate]),
+        ],
+      );
+      await container.read(localDebUpdatesModelProvider.future);
+
+      expect(container.read(manageBusyProvider), isFalse);
+    });
+
+    test('is true while updating all snaps', () async {
+      registerMockSnapdService();
+      final container = createContainer(
+        overrides: [
+          localDebsProvider.overrideWith((ref) async => []),
+          currentlyRefreshAllSnapsProvider.overrideWith((_) => ['firefox']),
+        ],
+      );
+
+      expect(container.read(manageBusyProvider), isTrue);
+    });
+
+    test('is true while updating all debs', () async {
+      registerMockSnapdService();
+      final container = createContainer(
+        overrides: [
+          localDebsProvider.overrideWith((ref) async => []),
+          currentlyUpdatingAllDebsProvider.overrideWith((_) => ['inkscape']),
+        ],
+      );
+
+      expect(container.read(manageBusyProvider), isTrue);
+    });
+
+    test('is true while a deb transaction is active', () async {
+      registerMockSnapdService();
+      final container = createContainer(
+        overrides: [
+          localDebsProvider.overrideWith(
+            (ref) async => [
+              defaultDebWithUpdate.copyWith(activeTransactionId: 1),
+            ],
+          ),
+        ],
+      );
+      await container.read(localDebUpdatesModelProvider.future);
+
+      expect(container.read(manageBusyProvider), isTrue);
+    });
+  });
+
   group('appUpdates provider', () {
     tearDown(resetAllServices);
 

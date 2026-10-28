@@ -2,15 +2,19 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:app_center/error/error_l10n.dart';
+import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/search/search_field.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store_app.dart';
+import 'package:app_center/store/store_pages.dart';
+import 'package:app_center/store/store_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gtk/gtk.dart';
 import 'package:mockito/mockito.dart';
@@ -20,6 +24,7 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 
 import 'test_utils.dart';
+import 'test_utils.mocks.dart';
 
 void main() {
   final binding = TestAppBinding();
@@ -405,6 +410,82 @@ void main() {
         binding.requestedExitCode,
         0,
       );
+    });
+
+    group('refresh', () {
+      Future<(MockSnapdService, ProviderContainer)> pumpStoreApp(
+        WidgetTester tester, {
+        List<Override> overrides = const [],
+        bool showManage = true,
+      }) async {
+        registerMockService<GtkApplicationNotifier>(
+          createMockGtkApplicationNotifier(),
+        );
+        registerMockService<RatingsService>(registerMockRatingsService());
+        final snapd = registerMockSnapdService();
+        registerMockDriversService();
+        final container = createContainer(overrides: overrides);
+
+        await tester.pumpApp(
+          (_) => UncontrolledProviderScope(
+            container: container,
+            child: const StoreApp(),
+          ),
+        );
+        if (showManage) {
+          container.read(yaruPageControllerProvider).index = container
+              .read(storePagesProvider)
+              .indexWhere((page) => page.route == StoreRoutes.manage);
+        }
+        await tester.pump(const Duration(milliseconds: 500));
+        clearInteractions(snapd);
+        return (snapd, container);
+      }
+
+      for (final keys in [
+        [LogicalKeyboardKey.f5],
+        [LogicalKeyboardKey.controlLeft, LogicalKeyboardKey.keyR],
+      ]) {
+        testWidgets('${keys.last.keyLabel} refetches the Manage page data', (
+          tester,
+        ) async {
+          final (snapd, _) = await pumpStoreApp(tester);
+
+          for (final key in keys) {
+            await tester.sendKeyDownEvent(key);
+          }
+          for (final key in keys.reversed) {
+            await tester.sendKeyUpEvent(key);
+          }
+          await tester.pump();
+
+          verify(snapd.find(filter: SnapFindFilter.refresh)).called(1);
+          verify(snapd.getSnaps()).called(1);
+        });
+      }
+
+      testWidgets('F5 does nothing outside the Manage page', (tester) async {
+        final (snapd, _) = await pumpStoreApp(tester, showManage: false);
+
+        await tester.sendKeyEvent(LogicalKeyboardKey.f5);
+        await tester.pump();
+
+        verifyNever(snapd.find(filter: SnapFindFilter.refresh));
+      });
+
+      testWidgets('F5 is ignored while updating all', (tester) async {
+        final (snapd, _) = await pumpStoreApp(
+          tester,
+          overrides: [
+            currentlyRefreshAllSnapsProvider.overrideWith((_) => ['firefox']),
+          ],
+        );
+
+        await tester.sendKeyEvent(LogicalKeyboardKey.f5);
+        await tester.pump();
+
+        verifyNever(snapd.find(filter: SnapFindFilter.refresh));
+      });
     });
   });
 }

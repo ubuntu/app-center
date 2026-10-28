@@ -8,6 +8,7 @@ import 'package:app_center/manage/manage.dart';
 import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/search/search.dart';
 import 'package:app_center/snapd/snapd.dart';
+import 'package:app_center/store/store_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -67,6 +68,7 @@ final displayedCategories = [
 ];
 
 typedef StorePage = ({
+  String? route,
   Widget Function(BuildContext context, bool selected) tileBuilder,
   Widget Function(BuildContext context, YaruWindowTitleBar title) pageBuilder,
 });
@@ -74,6 +76,7 @@ typedef StorePage = ({
 /// Builds the list of top-level navigation tabs.
 List<StorePage> buildStorePages() => [
   (
+    route: StoreRoutes.explore,
     tileBuilder: (context, selected) => _NavigationTile(
       leading: Icon(ExplorePage.icon(selected)),
       title: Text(ExplorePage.label(context)),
@@ -85,6 +88,7 @@ List<StorePage> buildStorePages() => [
   ),
   for (final category in displayedCategories)
     (
+      route: null,
       tileBuilder: (context, selected) => _NavigationTile(
         leading: Icon(category.icon(selected)),
         title: Text(category.localize(AppLocalizations.of(context))),
@@ -95,6 +99,7 @@ List<StorePage> buildStorePages() => [
       ),
     ),
   (
+    route: null,
     tileBuilder: (context, selected) => _NavigationTile(
       leading: Icon(GamesPage.icon(selected)),
       title: Text(GamesPage.label(context)),
@@ -105,10 +110,12 @@ List<StorePage> buildStorePages() => [
     ),
   ),
   (
+    route: null,
     tileBuilder: (context, selected) => const Spacer(),
     pageBuilder: (_, title) => const SizedBox.shrink(),
   ),
   (
+    route: StoreRoutes.manage,
     tileBuilder: (context, selected) => _NavigationTile(
       leading: Icon(ManagePage.icon(selected)),
       title: Text(ManagePage.label(context)),
@@ -133,6 +140,7 @@ List<StorePage> buildStorePages() => [
     ),
   ),
   (
+    route: null,
     tileBuilder: (context, selected) => _NavigationTile(
       leading: Icon(AddonsPage.icon(selected)),
       title: Text(AddonsPage.label(context)),
@@ -146,6 +154,7 @@ List<StorePage> buildStorePages() => [
     ),
   ),
   (
+    route: null,
     tileBuilder: (context, selected) => _NavigationTile(
       leading: Icon(AboutPage.icon(selected)),
       title: Text(AboutPage.label(context)),

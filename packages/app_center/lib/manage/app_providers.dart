@@ -6,6 +6,7 @@ import 'package:app_center/manage/logger.dart';
 import 'package:app_center/manage/manage_app_data.dart';
 import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/packagekit/packagekit.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -36,6 +37,26 @@ final packageTypeFilterProvider = StateProvider<PackageTypeFilter>(
 final appSortOrderProvider = StateProvider<AppSortOrder>(
   (_) => AppSortOrder.alphabeticalAsc,
 );
+
+/// Whether an operation is running that rebuilding the Manage data would break.
+@riverpod
+bool manageBusy(Ref ref) {
+  final debUpdates = ref.watch(localDebUpdatesModelProvider).value ?? const [];
+  return ref.watch(currentlyRefreshAllSnapsProvider).isNotEmpty ||
+      ref.watch(currentlyUpdatingAllDebsProvider).isNotEmpty ||
+      debUpdates.any((deb) => deb.activeTransactionId != null);
+}
+
+/// Refetches the snapd and PackageKit data behind the Manage page.
+void refreshManageData(WidgetRef ref) {
+  if (ref.read(manageBusyProvider)) return;
+  ref
+    ..invalidate(snapUpdatesModelProvider)
+    ..invalidate(localSnapsProvider)
+    ..invalidate(refreshInhibitSnapsProvider)
+    ..invalidate(installedPackagesProvider)
+    ..invalidate(debsWithUpdatesProvider);
+}
 
 /// Combines snap and deb updates into a single sorted list of apps with
 /// pending updates, used to populate the "Updates" section of the manage page.

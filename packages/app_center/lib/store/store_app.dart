@@ -8,6 +8,7 @@ import 'package:app_center/games/games.dart';
 import 'package:app_center/gstreamer/gstreamer.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
+import 'package:app_center/manage/app_providers.dart';
 import 'package:app_center/manage/manage_page.dart';
 import 'package:app_center/media_support/media_support.dart';
 import 'package:app_center/packagekit/packagekit.dart';
@@ -53,6 +54,24 @@ class _StoreAppState extends ConsumerState<StoreApp>
 
   NavigatorState get _navigator => _navigatorKey.currentState!;
 
+  String? _visibleRoutePath() {
+    final routeName = ref.read(routeNameProvider);
+    if (routeName != null && routeName != '/') {
+      return Uri.parse(routeName).path;
+    }
+    final pages = ref.read(storePagesProvider);
+    final index = ref.read(yaruPageControllerProvider).index;
+    // YaruMasterDetailPage shows tab 0 while the index is still -1.
+    return pages[index.clamp(0, pages.length - 1)].route;
+  }
+
+  void _refreshVisiblePage() {
+    switch (_visibleRoutePath()) {
+      case StoreRoutes.manage:
+        refreshManageData(ref);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -92,6 +111,9 @@ class _StoreAppState extends ConsumerState<StoreApp>
             ServicesBinding.instance.exitApplication(AppExitType.cancelable),
           );
         },
+        const SingleActivator(LogicalKeyboardKey.keyR, control: true):
+            _refreshVisiblePage,
+        const SingleActivator(LogicalKeyboardKey.f5): _refreshVisiblePage,
       },
       child: YaruTheme(
         builder: (context, yaru, child) => MaterialApp(
