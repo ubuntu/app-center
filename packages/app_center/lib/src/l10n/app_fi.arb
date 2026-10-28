@@ -597,5 +597,14 @@
     },
     "driversPageUnavailableTitle": "Ajurihallinta ei ole käytettävissä",
     "driversPageUnsupportedMessage": "Ajurihallintapalvelu ei ole käytettävissä. Varmista, että snapd on ajan tasalla, ja ubuntu-drivers-common on asennettu.",
-    "driversPageUninstallWarningMessage": "Ajurin asentaminen uudelleen ei välttämättä onnistu helposti, erityisesti jos kyse on näytönohjaimen tai verkkolaitteen ajurista."
+    "driversPageUninstallWarningMessage": "Ajurin asentaminen uudelleen ei välttämättä onnistu helposti, erityisesti jos kyse on näytönohjaimen tai verkkolaitteen ajurista.",
+    "localDebInstalledVersion": "Asennettu versio: {version}",
+    "@localDebInstalledVersion": {
+        "description": "The version already installed when viewing a local Debian package file.",
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    }
 }
