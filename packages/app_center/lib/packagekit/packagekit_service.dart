@@ -16,6 +16,9 @@ export 'package:packagekit/packagekit.dart' show PackageKitTransaction;
 
 const _packageKitBusName = 'org.freedesktop.PackageKit';
 
+// Without it PackageKit authorizes updates as package-install-untrusted.
+const _onlyTrusted = {PackageKitTransactionFlag.onlyTrusted};
+
 typedef PackageKitPackageInfo = PackageKitPackageEvent;
 typedef PackageKitServiceError = PackageKitErrorCodeEvent;
 typedef PackageKitPackageDetails = PackageKitDetailsEvent;
@@ -517,7 +520,8 @@ class PackageKitService {
       );
 
   Future<int> update(PackageKitPackageId packageId) async => _createTransaction(
-    action: (transaction) => transaction.updatePackages([packageId]),
+    action: (transaction) =>
+        transaction.updatePackages([packageId], transactionFlags: _onlyTrusted),
     mutation: (kind: PackageKitMutationKind.update, packageIds: [packageId]),
   );
 
@@ -526,7 +530,8 @@ class PackageKitService {
   Future<int> updateAllPackages(
     Iterable<PackageKitPackageId> packageIds,
   ) async => _createTransaction(
-    action: (transaction) => transaction.updatePackages(packageIds),
+    action: (transaction) =>
+        transaction.updatePackages(packageIds, transactionFlags: _onlyTrusted),
   );
 
   static Future<String> _getNativeArchitecture() async {
@@ -734,7 +739,10 @@ class PackageKitService {
   /// Updates all of the given packages in a single transaction.
   Future<void> updateAll(Iterable<PackageKitPackageId> packageIds) =>
       _createTransaction(
-        action: (transaction) => transaction.updatePackages(packageIds),
+        action: (transaction) => transaction.updatePackages(
+          packageIds,
+          transactionFlags: _onlyTrusted,
+        ),
         mutation: (
           kind: PackageKitMutationKind.update,
           packageIds: packageIds.toList(),

@@ -182,6 +182,10 @@ class _StoreAppHome extends ConsumerWidget {
         // User cancelled (e.g. dismissed the polkit dialog) — not an error.
         return;
       } else if (value is PackageKitServiceError) {
+        if (ErrorMessage.fromObject(value) is ErrorMessageUntrustedSource) {
+          _showError(context, value);
+          return;
+        }
         // Same dialog as the old deb page.
         showErrorDialog(
           context: context,

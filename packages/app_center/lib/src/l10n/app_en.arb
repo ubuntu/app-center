@@ -533,6 +533,8 @@
     "errorViewUnknownErrorTitle": "Something went wrong",
     "errorViewUnknownErrorDescription": "We're sorry, but we’re not sure what the error is.",
     "errorViewUnknownErrorAction": "You can retry now, check the status for updates, or try again later.",
+    "errorViewUntrustedSourceTitle": "Update couldn't be verified",
+    "errorViewUntrustedSourceDescription": "This update comes from a software source that isn't signed, so it wasn't installed.",
     "codecPageTitle": "Missing media codecs",
     "codecPageDescription": "You need to install the following codecs for handling certain video and audio formats:",
     "codecProprietaryDisclaimer": "Some of the recommended codecs could be proprietary.",
