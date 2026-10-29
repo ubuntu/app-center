@@ -39,12 +39,12 @@ dependencies:
   jwt_decode: ^0.3.1
   meta: ^1.15.0
   package_info_plus: ^8.0.2
-  packagekit: ^0.2.7
+  packagekit: ^0.2.8
   path: ^1.9.0
   riverpod_annotation: ^4.0.7
   shimmer: ^3.0.0
   snapcraft_launcher: ^0.1.0
-  snapd: ^0.7.6
+  snapd: ^0.7.8
   snowball_stemmer: ^0.1.0
   ubuntu_localizations: ^0.5.2+5
   ubuntu_logger: ^0.2.1
@@ -52,10 +52,10 @@ dependencies:
   ubuntu_test: ^0.2.3
   ubuntu_widgets: ^0.8.0
   url_launcher: ^6.3.0
-  xdg_desktop_portal: ^0.1.14
+  xdg_desktop_portal: ^0.1.15
   xdg_directories: ^1.0.4
   yaru: ^11.0.0
-  yaru_test: ^0.3.2
+  yaru_test: ^0.3.5
   yaru_window: ^0.2.1+1
 
 dev_dependencies:
@@ -73,11 +73,9 @@ dev_dependencies:
   ubuntu_lints: ^0.4.2
 
 dependency_overrides:
-  # xdg_desktop_portal 0.1.14 and packagekit 0.2.7 still require dbus ^0.7.
+  # snapcraft_launcher 0.1.0 still requires dbus ^0.7.8.
   dbus: ^0.8.0
-  # snapd 0.7.7 still requires freezed_annotation ^2.4.1.
-  freezed_annotation: ^3.1.0
-  # ubuntu_widgets 0.8.1 and yaru_test 0.3.4 still cap yaru below 11.
+  # ubuntu_widgets 0.8.1 still caps yaru below 11.
   yaru: ^11.0.0
 
 flutter:
