@@ -472,5 +472,146 @@
     "driversPageUninstallWarningMessage": "შეიძლება, დრაივერების თავიდან დაყენება ისეთი იოლი არ იყოს. განსაკუთრებით, თუ ეს გრაფიკას, ან ქსელს ეხება.",
     "driversPageUnsupportedMessage": "დრაივერის მართვის სერვისი ხელმისაწვდომი არაა. დარწმუნდით, რომ snapd განახლებულია და ubuntu-drivers-common დაყენებულია.",
     "driversPageDescription": "დახურული კოდის დრაივერებს აქვთ პირადი კოდი, რომლის გადახედვა, ან გაუმჯობესება Ubuntu-ს პროგრამისტებს არ შეუძლიათ. უსაფრთხოება და სხვა განახლებები დრაივერის მომწოდებელზეა დამოკიდებული.",
-    "mediaSupportPageDescription": "Ubuntu-ს, ნაგულისხმევად, ზოგიერთი ღია კოდის მქონე კოდეკი მოჰყვება. ზოგიერთი მუსიკისა და ვიდეოს ფორმატების დასაკრავად, ან ჩასასწორებლად, შეიძლება, დამატებითი პროგრამების დაყენება დაგჭირდეთ."
+    "mediaSupportPageDescription": "Ubuntu-ს, ნაგულისხმევად, ზოგიერთი ღია კოდის მქონე კოდეკი მოჰყვება. ზოგიერთი მუსიკისა და ვიდეოს ფორმატების დასაკრავად, ან ჩასასწორებლად, შეიძლება, დამატებითი პროგრამების დაყენება დაგჭირდეთ.",
+    "managePageOpenAppSemanticLabel": "{appName}-ის გახსნა",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "{appName}-ის განახლება",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppRestartRequiredSemanticLabel": "{appName}-ის განახლებას დასასრულებლად გადატვირთვა სჭირდება",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "{appName}-ის წაშლა",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "{action}-ის გაუქმება {appName}-ისთვის",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "ზომა: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "არხი {channel}, ვერსია {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "არხი {channel}, ვერსია {version}-დან {updateVersion}-მდე",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "ვერსია {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "ვერსია {version}-დან {updateVersion}-მდე",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledSizeLabel": "დაყენებული ზომა",
+    "appDetailsChoosePackageFormatAction": "აირჩიეთ პაკეტის ფორმატი…",
+    "appDetailsChoosePackageFormatTitle": "პაკეტის ფორმატის არჩევა",
+    "appDetailsPackageSourceLabel": "წყარო",
+    "appDetailsVerifiedPublisherSemanticLabel": "გადამოწმებული გამომცემელი",
+    "appDetailsStarredPublisherSemanticLabel": "ვარსკვლავიანი გამომცემელი",
+    "appDetailsPackageSourceSnapStore": "Snap-ის მაღაზია",
+    "appDetailsPackageSourceUbuntuArchive": "Ubuntu-ის არქივი",
+    "appDetailsInstalledAsFormat": "უკვე დაყენებულია, როგორც {format}",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "{first} და {second} ორივე დაყენებულია",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "დაყენებულია პაკეტის ერთზე მეტი ფორმატით",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{წაშალეთ, სანამ დააყენებთ სხვა პაკეტის ფორმატს. აპლიკაციის ფორმატები სხვადასხვა ფორმატებს შორის გაზიარებული არაა.}=2{წაშალეთ ორივე სხვა ფორმატზე გადართვამდე. აპის მონაცემები ფორმატებს შორის გაზიარებული არაა.} other{წაშალეთ ისინი სვა ფორმატზე გადართვამდე. აპლიკაციის მონაცემები ფორმატებს შორის გაზიარებული არაა.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "appDetailsPackageFormatsLearnMore": "დაწვრილებით პაკეტის ფორმატების შესახებ",
+    "localDebInstalledVersion": "დაყენებულია ვერსია: {version}",
+    "@localDebInstalledVersion": {
+        "description": "The version already installed when viewing a local Debian package file.",
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    }
 }
