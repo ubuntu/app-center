@@ -38,12 +38,16 @@ final appSortOrderProvider = StateProvider<AppSortOrder>(
   (_) => AppSortOrder.alphabeticalAsc,
 );
 
+/// IDs of debs currently being removed from the installed apps list.
+final removingDebsProvider = StateProvider<Set<String>>((_) => const {});
+
 /// Whether an operation is running that rebuilding the Manage data would break.
 @riverpod
 bool manageBusy(Ref ref) {
   final debUpdates = ref.watch(localDebUpdatesModelProvider).value ?? const [];
   return ref.watch(currentlyRefreshAllSnapsProvider).isNotEmpty ||
       ref.watch(currentlyUpdatingAllDebsProvider).isNotEmpty ||
+      ref.watch(removingDebsProvider).isNotEmpty ||
       debUpdates.any((deb) => deb.activeTransactionId != null);
 }
 
@@ -177,18 +181,21 @@ class InstalledApps extends _$InstalledApps {
     if (!state.hasValue) return;
     final app = _allApps.firstWhere((a) => a.id == debId);
     final debInfo = (app as ManageDebData).debInfo;
-    final transactionId = await _packageKit.remove(
-      debInfo.packageInfo.packageId,
-    );
-    log.info('Remove transaction started: $transactionId for $debId');
-    _updateDebTransactionId(debId, transactionId);
+    // Read up front so the marker is cleared even if this notifier is disposed.
+    final removing = ref.read(removingDebsProvider.notifier)
+      ..update((ids) => {...ids, debId});
+    int? transactionId;
     try {
+      transactionId = await _packageKit.remove(debInfo.packageInfo.packageId);
+      log.info('Remove transaction started: $transactionId for $debId');
+      _updateDebTransactionId(debId, transactionId);
       await _packageKit.waitTransaction(transactionId);
       log.info('Remove transaction completed: $transactionId for $debId');
       _removeDebFromList(debId);
     } finally {
+      removing.update((ids) => {...ids}..remove(debId));
       // Always clear the transaction state, even if cancelled or failed
-      _updateDebTransactionId(debId, null);
+      if (transactionId != null) _updateDebTransactionId(debId, null);
     }
   }
 

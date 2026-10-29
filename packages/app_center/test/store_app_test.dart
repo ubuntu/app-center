@@ -521,6 +521,42 @@ void main() {
 
         verifyNever(snapd.find(filter: SnapFindFilter.refresh));
       });
+
+      testWidgets('F5 does nothing on a search opened from Manage', (
+        tester,
+      ) async {
+        final (snapd, container) = await pumpStoreApp(tester);
+        final pagesNavigator = tester.state<NavigatorState>(
+          find.descendant(
+            of: find.byType(YaruMasterDetailPage),
+            matching: find.byType(Navigator),
+          ),
+        );
+        for (final query in ['a', 'b']) {
+          final name = StoreRoutes.namedSearch(query: query);
+          // Same navigation as pushAndRemoveSearch, without the real page.
+          unawaited(
+            pagesNavigator.pushAndRemoveUntil(
+              MaterialPageRoute<void>(
+                settings: RouteSettings(name: name),
+                builder: (_) => Text(name),
+              ),
+              (route) => !StoreRoutes.isSearch(route.settings),
+            ),
+          );
+          await tester.pump();
+          await tester.pump(const Duration(milliseconds: 500));
+        }
+
+        await tester.sendKeyEvent(LogicalKeyboardKey.f5);
+        await tester.pump();
+
+        expect(
+          container.read(routeNameProvider),
+          StoreRoutes.namedSearch(query: 'b'),
+        );
+        verifyNever(snapd.find(filter: SnapFindFilter.refresh));
+      });
     });
   });
 

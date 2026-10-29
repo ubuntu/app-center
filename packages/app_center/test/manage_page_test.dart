@@ -875,6 +875,50 @@ void main() {
     expect(removeButton, findsOneWidget);
   });
 
+  testWidgets('deb actions are disabled while the page data reloads', (
+    tester,
+  ) async {
+    final container = createContainer(
+      overrides: [
+        launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+        showLocalSystemAppsProvider.overrideWith((ref) => true),
+        localDebsProvider.overrideWith((ref) async => [defaultInstalledDeb]),
+        localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
+        currentDesktopsProvider.overrideWithValue(['GNOME']),
+      ],
+    );
+    await tester.pumpApp(
+      (_) => UncontrolledProviderScope(
+        container: container,
+        child: const ManagePage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final removeButton = find.descendant(
+      of: find.snapTile('GIMP'),
+      matching: find.buttonWithText(tester.l10n.snapActionRemoveLabel),
+    );
+    await tester.scrollUntilVisible(
+      removeButton,
+      kMinInteractiveDimension / 2,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(removeButton, isEnabled);
+
+    final snaps = Completer<List<Snap>>();
+    when(snapd.getSnaps()).thenAnswer((_) => snaps.future);
+    container.invalidate(localSnapsProvider);
+    await tester.pump();
+
+    expect(removeButton, isDisabled);
+
+    snaps.complete(nonRefreshableSnaps + refreshableSnaps);
+    await tester.pumpAndSettle();
+
+    expect(removeButton, isEnabled);
+  });
+
   testWidgets('deb uninstall in progress labels cancel button', (
     tester,
   ) async {

@@ -219,6 +219,11 @@ class ManageAppActions extends ConsumerWidget {
       );
     }
 
+    // A reload replaces the lists and would drop a transaction started now.
+    final isReloading =
+        ref.watch(appUpdatesProvider.select((value) => value.isLoading)) ||
+        ref.watch(installedAppsProvider.select((value) => value.isLoading));
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -226,16 +231,21 @@ class ManageAppActions extends ConsumerWidget {
           _AccessibleActionButton(
             label: l10n.snapActionUpdateLabel,
             semanticLabel: l10n.managePageUpdateAppSemanticLabel(app.name),
-            onPressed: () => ref
-                .read(localDebUpdatesModelProvider.notifier)
-                .updateDeb(debInfo.id),
+            onPressed: isReloading
+                ? null
+                : () => ref
+                      .read(localDebUpdatesModelProvider.notifier)
+                      .updateDeb(debInfo.id),
           ),
         if (!showOnlyUpdate && !isCompulsory)
           _AccessibleActionButton(
             label: l10n.snapActionRemoveLabel,
             semanticLabel: l10n.managePageRemoveAppSemanticLabel(app.name),
-            onPressed: () =>
-                ref.read(installedAppsProvider.notifier).removeDeb(debInfo.id),
+            onPressed: isReloading
+                ? null
+                : () => ref
+                      .read(installedAppsProvider.notifier)
+                      .removeDeb(debInfo.id),
           ),
       ],
     );
