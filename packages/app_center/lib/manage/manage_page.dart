@@ -34,10 +34,7 @@ class ManagePage extends ConsumerWidget {
     if (appUpdatesModel.hasError) {
       return ErrorView(
         error: appUpdatesModel.error,
-        onRetry: () {
-          ref.invalidate(appUpdatesProvider);
-          ref.invalidate(installedAppsProvider);
-        },
+        onRetry: () => refreshManageData(ref),
       );
     }
 
@@ -110,6 +107,7 @@ class ManagePage extends ConsumerWidget {
         ),
 
         appUpdatesModel.when(
+          skipLoadingOnReload: true,
           data: (updates) {
             return SliverList.builder(
               itemCount: updates.length,
@@ -183,6 +181,7 @@ class ManagePage extends ConsumerWidget {
           builder: (context, ref, child) {
             final installedAppsModel = ref.watch(installedAppsProvider);
             return installedAppsModel.when(
+              skipLoadingOnReload: true,
               data: (apps) => SliverList.builder(
                 itemCount: apps.length,
                 itemBuilder: (context, index) => ManageAppTile(
@@ -243,6 +242,11 @@ class _ActionButtons extends ConsumerWidget {
     final isSilentlyCheckingUpdates =
         isSilentlyCheckingSnapUpdates || isSilentlyCheckingDebUpdates;
 
+    final isRefreshing =
+        isSilentlyCheckingUpdates ||
+        isLoading ||
+        ref.watch(installedAppsProvider.select((value) => value.isLoading));
+
     return Wrap(
       spacing: 10,
       runSpacing: 10,
@@ -268,7 +272,7 @@ class _ActionButtons extends ConsumerWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                isSilentlyCheckingUpdates
+                isRefreshing
                     ? const _SmallLoadingIndicator()
                     : const Icon(YaruIcons.sync),
                 const SizedBox(width: 8),

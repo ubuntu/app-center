@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_center/appstream/appstream_utils.dart';
 import 'package:app_center/manage/app_providers.dart';
 import 'package:app_center/manage/local_deb_providers.dart';
@@ -231,6 +233,38 @@ void main() {
           .removeFromList('inkscape');
       updates = container.read(localDebUpdatesModelProvider).value!;
       expect(updates, isEmpty);
+    });
+  });
+
+  group('manageBusy provider', () {
+    tearDown(resetAllServices);
+
+    test('is true while updating all debs', () async {
+      registerMockSnapdService();
+      final container = createContainer(
+        overrides: [
+          localDebsProvider.overrideWith((ref) async => []),
+          currentlyUpdatingAllDebsProvider.overrideWith((_) => ['inkscape']),
+        ],
+      );
+
+      expect(container.read(manageBusyProvider), isTrue);
+    });
+
+    test('is true while a deb transaction is active', () async {
+      registerMockSnapdService();
+      final container = createContainer(
+        overrides: [
+          localDebsProvider.overrideWith(
+            (ref) async => [
+              defaultDebWithUpdate.copyWith(activeTransactionId: 1),
+            ],
+          ),
+        ],
+      );
+      await container.read(localDebUpdatesModelProvider.future);
+
+      expect(container.read(manageBusyProvider), isTrue);
     });
   });
 
@@ -698,6 +732,32 @@ void main() {
       // Verify deb was removed from list
       installed = container.read(installedAppsProvider).value!;
       expect(installed, isEmpty);
+    });
+
+    test('removeDeb marks the Manage data busy until it finishes', () async {
+      registerMockSnapdService(installedSnaps: []);
+      final transaction = Completer<void>();
+      createMockPackageKitService(waitTransaction: transaction.future);
+
+      final container = createContainer(
+        overrides: [
+          localDebsProvider.overrideWith((ref) async => [defaultInstalledDeb]),
+          localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+        ],
+      );
+      await container.read(installedAppsProvider.future);
+      container.listen(installedAppsProvider, (_, _) {});
+
+      final removal = container
+          .read(installedAppsProvider.notifier)
+          .removeDeb('gimp');
+      await pumpEventQueue();
+      expect(container.read(manageBusyProvider), isTrue);
+
+      transaction.complete();
+      await removal;
+      expect(container.read(manageBusyProvider), isFalse);
     });
 
     test('package type filter - deb only', () async {

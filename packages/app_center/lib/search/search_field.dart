@@ -53,10 +53,19 @@ class SearchField extends ConsumerStatefulWidget {
 
 class _SearchFieldState extends ConsumerState<SearchField> {
   bool _optionsAvailable = false;
+  final _inactiveFocus = FocusNode();
+
+  @override
+  void dispose() {
+    _inactiveFocus.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    // Each route builds a SearchField; only the visible one owns searchFocus.
+    final isOnTop = ModalRoute.isCurrentOf(context) ?? false;
     return RawAutocomplete<AutoCompleteOption>(
       optionsBuilder: (query) async {
         ref.read(queryProvider.notifier).state = query.text;
@@ -157,7 +166,7 @@ class _SearchFieldState extends ConsumerState<SearchField> {
       },
       fieldViewBuilder: (context, controller, node, onFieldSubmitted) {
         return Focus(
-          focusNode: widget.searchFocus,
+          focusNode: isOnTop ? widget.searchFocus : _inactiveFocus,
           child: Consumer(
             builder: (context, ref, child) {
               ref.listen(queryProvider, (prev, next) {
