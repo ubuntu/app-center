@@ -839,10 +839,10 @@ packages:
     dependency: "direct main"
     description:
       name: packagekit
-      sha256: "63a8bfa152fdd94a02f724b5ff66735c3e969d70e0029b5df2d7ea858ec02db1"
+      sha256: "7c8e3b0dc66e22f586b3305ad496e9de00b18f69ef21cc169515ee7d5f386d3a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.7"
+    version: "0.2.8"
   password_strength:
     dependency: transitive
     description:
@@ -1132,10 +1132,10 @@ packages:
     dependency: "direct main"
     description:
       name: snapd
-      sha256: d4ee856494b8433d98971b9995b42172e75698330f3921f235f3e7b9830ea3da
+      sha256: "2dffb987422d62494f160f464bf20cce680f195efb856eb4af988f82e5afa814"
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.6"
+    version: "0.7.8"
   snowball_stemmer:
     dependency: "direct main"
     description:
@@ -1516,10 +1516,10 @@ packages:
     dependency: "direct main"
     description:
       name: xdg_desktop_portal
-      sha256: "4fae74b6ed63a449d4c796a74265cebdd912c390336dedc06d705142f3b939d7"
+      sha256: b1e1b3893cea6c98272c8222dd6983eb5276736231f70c5ee2f54217434d7311
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.14"
+    version: "0.1.15"
   xdg_directories:
     dependency: "direct main"
     description:
@@ -1556,10 +1556,10 @@ packages:
     dependency: "direct main"
     description:
       name: yaru_test
-      sha256: "114132354ea73c379e97a9c880836ae984578d006129ea09517d9bb608b2a33b"
+      sha256: "1dcf6b185ad9facc27a3d19c76f7e0520de4edb216f5391a9c8f655b293731b2"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.4"
+    version: "0.3.5"
   yaru_window:
     dependency: "direct main"
     description:
