@@ -1340,10 +1340,10 @@ packages:
     dependency: "direct main"
     description:
       name: ubuntu_widgets
-      sha256: "7eaa3bcfde7197c8ae18e4546339316fa95d445e3fa8e1fdb2d3c2ea569a5d38"
+      sha256: ec247d89dc4f14de357662b24b32d17c22ef95c14cd827fbf65d988347a9fae1
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.1"
+    version: "0.8.2"
   url_launcher:
     dependency: "direct main"
     description:
