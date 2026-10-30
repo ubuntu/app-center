@@ -341,6 +341,47 @@ void main() {
           findsOneWidget,
         );
       });
+
+      testWidgets('PackageKit setup failure explains how to finish it', (
+        tester,
+      ) async {
+        const error = PackageKitServiceError(
+          code: PackageKitError.packageFailedToInstall,
+          details:
+              'Error while installing package: old foo package postinst '
+              'maintainer script failed with exit status 1',
+        );
+        registerMockSnapdService();
+        registerMockService<GtkApplicationNotifier>(
+          createMockGtkApplicationNotifier(),
+        );
+        registerMockDriversService();
+        await tester.pumpApp(
+          (_) => ProviderScope(
+            overrides: [
+              errorStreamProvider.overrideWith((ref) => Stream.value(error)),
+            ],
+            child: const StoreApp(),
+          ),
+        );
+        await tester.pump();
+
+        final dialog = find.byType(AlertDialog);
+        expect(
+          find.descendant(
+            of: dialog,
+            matching: find.text(tester.l10n.debSetupFailedTitle('foo')),
+          ),
+          findsOneWidget,
+        );
+        expect(
+          find.descendant(
+            of: dialog,
+            matching: find.text('sudo apt install foo'),
+          ),
+          findsOneWidget,
+        );
+      });
     });
   });
 

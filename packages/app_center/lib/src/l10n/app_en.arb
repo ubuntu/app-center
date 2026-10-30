@@ -598,5 +598,16 @@
     "driversPageUninstallTitle": "Uninstall driver",
     "driversPageUninstallWarningTitle": "Uninstalling drivers can cause issues",
     "driversPageUninstallWarningMessage": "You might not be able to easily reinstall the drivers, particularly if related to graphics or network.",
-    "driversPageUninstallAcknowledgeLabel": "I understand the risk"
+    "driversPageUninstallAcknowledgeLabel": "I understand the risk",
+    "debSetupFailedTitle": "Couldn't finish setting up {packageName}",
+    "@debSetupFailedTitle": {
+        "placeholders": {
+            "packageName": {
+                "type": "String"
+            }
+        }
+    },
+    "debSetupFailedBody": "This often happens when a package needs to ask questions during setup. App Center can't show these questions yet.",
+    "debSetupFailedTerminalHint": "To finish the setup, run this command in the Terminal:",
+    "debSetupFailedDetailsLabel": "Technical details"
 }

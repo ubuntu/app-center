@@ -1,5 +1,6 @@
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
+import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/material.dart';
 import 'package:snapd/snapd.dart';
@@ -66,6 +67,73 @@ Future<T?> showYaruInfoDialog<T>({
     child: child,
   ),
 );
+
+/// Shows a PackageKit [error], explaining failed setup scripts.
+Future<void> showPackageKitErrorDialog(
+  BuildContext context,
+  PackageKitServiceError error,
+) {
+  final packageName = packageWithFailedSetup(error);
+  if (packageName == null) {
+    return showErrorDialog(
+      context: context,
+      title: 'PackageKit error: ${error.code}',
+      message: error.details,
+    );
+  }
+  return showYaruInfoDialog(
+    context: context,
+    type: YaruInfoType.danger,
+    actions: [
+      DialogAction(
+        value: null,
+        label: UbuntuLocalizations.of(context).okLabel,
+      ),
+    ],
+    child: _PackageSetupFailedContent(
+      packageName: packageName,
+      details: error.details,
+    ),
+  );
+}
+
+class _PackageSetupFailedContent extends StatelessWidget {
+  const _PackageSetupFailedContent({
+    required this.packageName,
+    required this.details,
+  });
+
+  final String packageName;
+  final String details;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.debSetupFailedTitle(packageName),
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        const SizedBox(height: kSpacingSmall),
+        Text(l10n.debSetupFailedBody),
+        const SizedBox(height: kSpacing),
+        Text(l10n.debSetupFailedTerminalHint),
+        const SizedBox(height: kSpacingSmall),
+        SelectableText('sudo apt install $packageName'),
+        const SizedBox(height: kSpacing),
+        YaruExpandable(
+          header: Text(l10n.debSetupFailedDetailsLabel),
+          expandButtonPosition: YaruExpandableButtonPosition.start,
+          usePadding: true,
+          child: SelectableText(details),
+        ),
+      ],
+    );
+  }
+}
 
 class _Dialog<T> extends StatelessWidget {
   const _Dialog({
