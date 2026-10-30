@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:app_center/appstream/appstream_utils.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -133,5 +135,20 @@ void main() {
         expect(component.remoteIconUrl, equals(testCase.want));
       });
     }
+  });
+
+  group('translationKeys', () {
+    test('language and country', () {
+      expect(translationKeys(const Locale('de', 'DE')), ['de_DE', 'de', 'C']);
+    });
+
+    test('language only', () {
+      expect(translationKeys(const Locale('de')), ['de', 'C']);
+    });
+
+    test('undetermined locale', () {
+      // No keys means an unknown locale; the service keeps every translation.
+      expect(translationKeys(const Locale('und')), isEmpty);
+    });
   });
 }
