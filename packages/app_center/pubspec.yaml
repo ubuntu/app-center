@@ -50,7 +50,7 @@ dependencies:
   ubuntu_logger: ^0.2.1
   ubuntu_service: ^0.4.0
   ubuntu_test: ^0.2.3
-  ubuntu_widgets: ^0.8.0
+  ubuntu_widgets: ^0.8.2
   url_launcher: ^6.3.0
   xdg_desktop_portal: ^0.1.15
   xdg_directories: ^1.0.4
@@ -75,8 +75,6 @@ dev_dependencies:
 dependency_overrides:
   # snapcraft_launcher 0.1.0 still requires dbus ^0.7.8.
   dbus: ^0.8.0
-  # ubuntu_widgets 0.8.1 still caps yaru below 11.
-  yaru: ^11.0.0
 
 flutter:
   uses-material-design: true
