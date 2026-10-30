@@ -66,6 +66,7 @@ static void my_application_activate(GApplication* application) {
                    "after-paint", G_CALLBACK(schedule_trim_heap), self);
 
   g_autoptr(FlDartProject) project = fl_dart_project_new();
+  // Skia, as Impeller used about 30 MiB more GPU memory at idle (Intel/Mesa).
   fl_dart_project_set_enable_impeller(project, FALSE);
   fl_dart_project_set_dart_entrypoint_arguments(
       project, self->dart_entrypoint_arguments);
