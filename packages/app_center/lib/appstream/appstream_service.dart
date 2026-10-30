@@ -174,8 +174,9 @@ class _ComponentsByPackage
 class AppstreamService {
   // TODO: cache AppstreamPool
   AppstreamService({@visibleForTesting AppstreamPool? pool})
-    : _pool = pool ?? AppstreamPool(),
+    : _pool = pool ?? _createPool(),
       _l10n = _loadL10n() {
+    // The pool has only startup-locale text, so a new locale falls back to `C`.
     PlatformDispatcher.instance.onLocaleChanged = () async {
       await _loader;
       _populateCache();
@@ -183,6 +184,22 @@ class AppstreamService {
   }
 
   final AppstreamPool _pool;
+
+  // Catalogs hold hundreds of locales; keep only the ones the app can show.
+  static AppstreamPool _createPool() {
+    final keys = translationKeys(PlatformDispatcher.instance.locale);
+    return AppstreamPool(
+      locales: keys.isEmpty ? null : keys,
+      // languages and contentRatings stay: the deb details model reads them.
+      omit: const {
+        AppstreamDetail.cachedIcons,
+        AppstreamDetail.releaseNotes,
+        AppstreamDetail.screenshotCaptions,
+        AppstreamDetail.screenshotThumbnails,
+      },
+    );
+  }
+
   late final Future<void> _loader = _pool.load().then((_) {
     _populateCache();
     _initialized = true;
