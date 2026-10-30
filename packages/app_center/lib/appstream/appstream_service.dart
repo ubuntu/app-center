@@ -13,7 +13,8 @@ import 'package:snowball_stemmer/snowball_stemmer.dart';
 @immutable
 class _CachedComponent {
   const _CachedComponent(
-    this.component,
+    this.index,
+    this.rawId,
     this.id,
     this.name,
     this.keywords,
@@ -25,6 +26,7 @@ class _CachedComponent {
   );
 
   factory _CachedComponent.fromAppstream(
+    int index,
     AppstreamComponent component,
     Map<String, String> sharedWords,
   ) {
@@ -56,7 +58,8 @@ class _CachedComponent {
     );
 
     return _CachedComponent(
-      component,
+      index,
+      component.id,
       id,
       name,
       keywords,
@@ -68,7 +71,9 @@ class _CachedComponent {
     );
   }
 
-  final AppstreamComponent component;
+  // Holds the pool position, not the component, so the cache keeps no objects.
+  final int index;
+  final String rawId;
   final String id;
   final String name;
   final List<String> keywords;
@@ -113,10 +118,10 @@ class _CachedComponent {
 
   @override
   bool operator ==(Object other) =>
-      other is _CachedComponent && component.id == other.component.id;
+      other is _CachedComponent && rawId == other.rawId;
 
   @override
-  int get hashCode => component.id.hashCode;
+  int get hashCode => rawId.hashCode;
 }
 
 enum _MatchScore {
@@ -137,9 +142,33 @@ enum _MatchScore {
 }
 
 class _ScoredComponent {
-  const _ScoredComponent(this.score, this.component);
+  const _ScoredComponent(this.score, this.index);
   final int score;
-  final AppstreamComponent component;
+  final int index;
+}
+
+/// Components by package name, read from the pool when asked for.
+class _ComponentsByPackage
+    extends UnmodifiableMapBase<String, AppstreamComponent> {
+  _ComponentsByPackage(this._positions, this._components);
+
+  final Map<String, int> _positions;
+  final List<AppstreamComponent> _components;
+
+  @override
+  AppstreamComponent? operator [](Object? key) {
+    final position = _positions[key];
+    return position == null ? null : _components[position];
+  }
+
+  @override
+  bool containsKey(Object? key) => _positions.containsKey(key);
+
+  @override
+  Iterable<String> get keys => _positions.keys;
+
+  @override
+  int get length => _positions.length;
 }
 
 class AppstreamService {
@@ -160,10 +189,12 @@ class AppstreamService {
   });
   bool _initialized = false;
   final HashSet<_CachedComponent> _cache = HashSet<_CachedComponent>();
-  final _componentsById = <String, AppstreamComponent>{};
-  final _componentsByDesktopId = <String, AppstreamComponent>{};
-  final _componentsByAlias = <String, AppstreamComponent>{};
-  final _componentsByPackage = <String, AppstreamComponent>{};
+  // Pool positions, not components: maps of components would pin them all.
+  final _componentsById = <String, int>{};
+  final _componentsByDesktopId = <String, int>{};
+  final _componentsByAlias = <String, int>{};
+  final _componentsByPackage = <String, int>{};
+  var _components = const <AppstreamComponent>[];
 
   bool get initialized => _initialized;
 
@@ -171,7 +202,7 @@ class AppstreamService {
   int get cacheSize => _cache.length;
 
   Map<String, AppstreamComponent> getComponentsByPackage() =>
-      Map.unmodifiable(_componentsByPackage);
+      _ComponentsByPackage(Map.unmodifiable(_componentsByPackage), _components);
 
   Future<void> init() async => _loader;
 
@@ -187,40 +218,51 @@ class AppstreamService {
     _componentsByAlias.clear();
     _componentsByPackage.clear();
 
+    _components = _pool.components;
     final sharedWords = <String, String>{};
-    for (final component in _pool.components) {
-      _cache.add(_CachedComponent.fromAppstream(component, sharedWords));
-      _index(_componentsById, component.id, component);
+    // Duplicates compare keys by position, so no component is decoded twice.
+    final keys = <String>[];
+    var position = 0;
+    // A pass decodes each component afresh and keeps none of them.
+    for (final component in _components) {
+      keys.add(_componentKey(component));
+      _cache.add(
+        _CachedComponent.fromAppstream(position, component, sharedWords),
+      );
+      _index(_componentsById, component.id, position, keys);
       for (final launchable
           in component.launchables.whereType<AppstreamLaunchableDesktopId>()) {
         _index(
           _componentsByDesktopId,
           normalizeDesktopId(launchable.desktopId),
-          component,
+          position,
+          keys,
         );
       }
       for (final provide
           in component.provides.whereType<AppstreamProvidesId>()) {
-        _index(_componentsByAlias, provide.id, component);
+        _index(_componentsByAlias, provide.id, position, keys);
       }
       final packageName = component.getPackage();
       if (packageName.isNotEmpty) {
-        _index(_componentsByPackage, packageName, component);
+        _index(_componentsByPackage, packageName, position, keys);
       }
+      position++;
     }
   }
 
   void _index(
-    Map<String, AppstreamComponent> index,
+    Map<String, int> index,
     String key,
-    AppstreamComponent component,
+    int position,
+    List<String> componentKeys,
   ) {
     final normalizedKey = key.trim().toLowerCase();
     if (normalizedKey.isEmpty) return;
     final current = index[normalizedKey];
     if (current == null ||
-        _componentKey(component).compareTo(_componentKey(current)) < 0) {
-      index[normalizedKey] = component;
+        componentKeys[position].compareTo(componentKeys[current]) < 0) {
+      index[normalizedKey] = position;
     }
   }
 
@@ -246,24 +288,27 @@ class AppstreamService {
 
   List<String> get _greyList => _l10n.appstreamSearchGreylist.split(';');
 
+  AppstreamComponent? _componentAt(int? position) =>
+      position == null ? null : _components[position];
+
   Future<AppstreamComponent?> findById(String id) async {
     await init();
-    return _componentsById[id.trim().toLowerCase()];
+    return _componentAt(_componentsById[id.trim().toLowerCase()]);
   }
 
   Future<AppstreamComponent?> findByDesktopId(String desktopId) async {
     await init();
-    return _componentsByDesktopId[normalizeDesktopId(desktopId)];
+    return _componentAt(_componentsByDesktopId[normalizeDesktopId(desktopId)]);
   }
 
   Future<AppstreamComponent?> findByAlias(String alias) async {
     await init();
-    return _componentsByAlias[alias.trim().toLowerCase()];
+    return _componentAt(_componentsByAlias[alias.trim().toLowerCase()]);
   }
 
   Future<AppstreamComponent?> findByPackageName(String packageName) async {
     await init();
-    return _componentsByPackage[packageName.trim().toLowerCase()];
+    return _componentAt(_componentsByPackage[packageName.trim().toLowerCase()]);
   }
 
   static final stemmersMap = <String, Algorithm>{
@@ -335,7 +380,7 @@ class AppstreamService {
     if (tokens.isEmpty) {
       if (search.length <= 1) {
         // Search query too broad, matching everything
-        return _pool.components;
+        return _components;
       } else {
         // No valid search tokens
         return [];
@@ -345,11 +390,11 @@ class AppstreamService {
     for (final entry in _cache) {
       final score = entry.match(tokens);
       if (score > 0) {
-        scored.add(_ScoredComponent(score, entry.component));
+        scored.add(_ScoredComponent(score, entry.index));
       }
     }
     scored.sort((a, b) => b.score.compareTo(a.score));
-    return scored.map((e) => e.component).toList();
+    return [for (final entry in scored) _components[entry.index]];
   }
 
   AppstreamComponent getFromId(String id) {
@@ -357,8 +402,8 @@ class AppstreamService {
     // the same ID in the pool, since we're loading the metadata from multiple
     // sources. The reverse index chooses the deterministic preferred entry.
     // TODO: Remove duplicate appstream components.
-    final component = _componentsById[id.trim().toLowerCase()];
-    assert(component != null, 'Component not found');
-    return component!;
+    final position = _componentsById[id.trim().toLowerCase()];
+    assert(position != null, 'Component not found');
+    return _components[position!];
   }
 }
