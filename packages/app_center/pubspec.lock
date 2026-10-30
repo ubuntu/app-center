@@ -29,18 +29,18 @@ packages:
     dependency: transitive
     description:
       name: animated_vector
-      sha256: f1beb10e6fcfd8bd15abb788e20345def786d1c7391d7c1426bb2a1f2adf2132
+      sha256: "44c09df5b11a8416c49dfd7433cc08714308addda61acdd8b97ea87a7d8e8f76"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.2"
+    version: "0.2.3"
   animated_vector_annotations:
     dependency: transitive
     description:
       name: animated_vector_annotations
-      sha256: "07c1ea603a2096f7eb6f1c2b8f16c3c330c680843ea78b7782a3217c3c53f979"
+      sha256: c1bf348882940b64d7b86b8fc09572310a5dc28091cdde8436156844ca15a30d
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.2"
+    version: "0.3.0"
   app_center_ratings_client:
     dependency: "direct main"
     description:
@@ -268,10 +268,10 @@ packages:
     dependency: "direct main"
     description:
       name: dbus
-      sha256: "0ce9b0a839e6dee59a37a623d2fc26a35bbbe6404213e419b0d6411023d62645"
+      sha256: f7db8504e715b835f5ebe5fe74604ccd961d504c73389a5d8e81bafc2e2f3612
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.14"
+    version: "0.8.0"
   diacritic:
     dependency: transitive
     description:
@@ -522,10 +522,10 @@ packages:
     dependency: "direct main"
     description:
       name: gsettings
-      sha256: "1b0ce661f5436d2db1e51f3c4295a49849f03d304003a7ba177d01e3a858249c"
+      sha256: "5e3e299b871a16d142691aa91595a4d73bab7a7fa65d53db0bf2c576959aaefc"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.8"
+    version: "0.2.9"
   gtk:
     dependency: "direct main"
     description:
@@ -602,10 +602,10 @@ packages:
     dependency: transitive
     description:
       name: image
-      sha256: f9881ff4998044947ec38d098bc7c8316ae1186fa786eddffdb867b9bc94dfce
+      sha256: a1e7f4951e538a568e14b856702afc9ae1d2f4b202daced8d22c1b9cd211ce89
       url: "https://pub.dev"
     source: hosted
-    version: "4.8.0"
+    version: "4.10.1"
   image_size_getter:
     dependency: transitive
     description:
@@ -839,10 +839,10 @@ packages:
     dependency: "direct main"
     description:
       name: packagekit
-      sha256: "63a8bfa152fdd94a02f724b5ff66735c3e969d70e0029b5df2d7ea858ec02db1"
+      sha256: "7c8e3b0dc66e22f586b3305ad496e9de00b18f69ef21cc169515ee7d5f386d3a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.7"
+    version: "0.2.8"
   password_strength:
     dependency: transitive
     description:
@@ -927,10 +927,10 @@ packages:
     dependency: transitive
     description:
       name: platform
-      sha256: "5d6b1b0036a5f331ebc77c850ebc8506cbc1e9416c27e59b439f917a902a4984"
+      sha256: a36d119c13416516a7b5913fbe8af8531e11633d784c550b2125f76c758524ec
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.6"
+    version: "3.2.0"
   platform_linux:
     dependency: transitive
     description:
@@ -1132,10 +1132,10 @@ packages:
     dependency: "direct main"
     description:
       name: snapd
-      sha256: d4ee856494b8433d98971b9995b42172e75698330f3921f235f3e7b9830ea3da
+      sha256: "2dffb987422d62494f160f464bf20cce680f195efb856eb4af988f82e5afa814"
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.6"
+    version: "0.7.8"
   snowball_stemmer:
     dependency: "direct main"
     description:
@@ -1340,10 +1340,10 @@ packages:
     dependency: "direct main"
     description:
       name: ubuntu_widgets
-      sha256: "7eaa3bcfde7197c8ae18e4546339316fa95d445e3fa8e1fdb2d3c2ea569a5d38"
+      sha256: ec247d89dc4f14de357662b24b32d17c22ef95c14cd827fbf65d988347a9fae1
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.1"
+    version: "0.8.2"
   url_launcher:
     dependency: "direct main"
     description:
@@ -1516,10 +1516,10 @@ packages:
     dependency: "direct main"
     description:
       name: xdg_desktop_portal
-      sha256: "4fae74b6ed63a449d4c796a74265cebdd912c390336dedc06d705142f3b939d7"
+      sha256: b1e1b3893cea6c98272c8222dd6983eb5276736231f70c5ee2f54217434d7311
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.14"
+    version: "0.1.15"
   xdg_directories:
     dependency: "direct main"
     description:
@@ -1548,18 +1548,18 @@ packages:
     dependency: "direct main"
     description:
       name: yaru
-      sha256: "95e801c52dfda458bcb772baee6b2575c711fd951616a24910d6d30e70f5fb0d"
+      sha256: b4f3167b9f138ffd20998bfa36d003dcf5e7979cf2652e4a01835dec66361e33
       url: "https://pub.dev"
     source: hosted
-    version: "10.2.0"
+    version: "11.0.0"
   yaru_test:
     dependency: "direct main"
     description:
       name: yaru_test
-      sha256: "114132354ea73c379e97a9c880836ae984578d006129ea09517d9bb608b2a33b"
+      sha256: "1dcf6b185ad9facc27a3d19c76f7e0520de4edb216f5391a9c8f655b293731b2"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.4"
+    version: "0.3.5"
   yaru_window:
     dependency: "direct main"
     description:
