@@ -24,31 +24,36 @@ class _CachedComponent {
     this.mediaTypes,
   );
 
-  factory _CachedComponent.fromAppstream(AppstreamComponent component) {
+  factory _CachedComponent.fromAppstream(
+    AppstreamComponent component,
+    Map<String, String> sharedWords,
+  ) {
     final id = component.getId();
     final name = component.getLocalizedName().toLowerCase();
     const origin = '';
     final package = component.getPackage();
     final mediaTypes = component.getLocalizedMediaTypes();
 
-    final keywords = component
-        .getLocalizedKeywords()
-        .map((e) => e.toLowerCase())
-        .toList();
+    // One copy of each word for all components; match() only tests membership.
+    List<String> words(Iterable<String> all) => {
+      for (final word in all) sharedWords[word] ??= word,
+    }.toList(growable: false);
+
+    final keywords = words(
+      component.getLocalizedKeywords().map((e) => e.toLowerCase()),
+    );
 
     final nonWordCharacters = RegExp('\\W');
 
-    final summary = component
-        .getLocalizedSummary()
-        .toLowerCase()
-        .split(nonWordCharacters)
-        .toList();
+    final summary = words(
+      component.getLocalizedSummary().toLowerCase().split(nonWordCharacters),
+    );
 
-    final description = component
-        .getLocalizedDescription()
-        .toLowerCase()
-        .split(nonWordCharacters)
-        .toList();
+    final description = words(
+      component.getLocalizedDescription().toLowerCase().split(
+        nonWordCharacters,
+      ),
+    );
 
     return _CachedComponent(
       component,
@@ -182,8 +187,9 @@ class AppstreamService {
     _componentsByAlias.clear();
     _componentsByPackage.clear();
 
+    final sharedWords = <String, String>{};
     for (final component in _pool.components) {
-      _cache.add(_CachedComponent.fromAppstream(component));
+      _cache.add(_CachedComponent.fromAppstream(component, sharedWords));
       _index(_componentsById, component.id, component);
       for (final launchable
           in component.launchables.whereType<AppstreamLaunchableDesktopId>()) {
