@@ -221,9 +221,9 @@ class _ActionButtons extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final appUpdatesModel = ref.watch(appUpdatesProvider);
-    final isRefreshingAll = ref
-        .watch(currentlyRefreshAllSnapsProvider)
-        .isNotEmpty;
+    final isRefreshingAll = ref.watch(
+      currentlyRefreshAllSnapsProvider.select((r) => r.snapNames.isNotEmpty),
+    );
     final isUpdatingAllDebs = ref
         .watch(currentlyUpdatingAllDebsProvider)
         .isNotEmpty;
