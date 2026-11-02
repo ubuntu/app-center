@@ -200,34 +200,41 @@ void main() {
     ).called(1);
   });
 
-  test('error stream', () async {
-    createMockPackageKitService(
-      packageInfo: packageInfo,
-      errorStream: Stream.value(
-        const PackageKitServiceError(
-          code: PackageKitError.noNetwork,
-          details: 'error details',
-        ),
-      ),
+  test('ignores errors from other transactions', () async {
+    const otherError = PackageKitServiceError(
+      code: PackageKitError.noNetwork,
+      details: 'error details',
     );
+    final tagged = StreamController<PackageKitTaggedError>.broadcast();
+    addTearDown(tagged.close);
+    final packageKit = createMockPackageKitService(
+      packageInfo: packageInfo,
+      transactionId: 42,
+    );
+    when(packageKit.taggedErrorStream).thenAnswer((_) => tagged.stream);
+    final wait = Completer<void>();
+    when(packageKit.waitTransaction(42)).thenAnswer((_) => wait.future);
     createMockAppstreamService(component: component);
     final container = ProviderContainer();
     final provider = container.listen(debModelProvider('testdeb'), (_, __) {});
+    await container.read(debModelProvider('testdeb').future);
 
-    await expectLater(
-      container.read(debModelProvider('testdeb').future),
-      completes,
-    );
+    tagged.add((id: 7, error: otherError));
+    await Future<void>.delayed(Duration.zero);
+    expect(provider.read().value!.error, isNull);
 
-    expect(provider.read().value?.error, isNotNull);
-    expect(
-      provider.read().value!.error!.code,
-      equals(PackageKitError.noNetwork),
-    );
-    expect(
-      provider.read().value!.error!.details,
-      equals('error details'),
-    );
+    final install = container
+        .read(debModelProvider('testdeb').notifier)
+        .installDeb();
+    await Future<void>.delayed(Duration.zero);
+    tagged.add((id: 7, error: otherError));
+    await Future<void>.delayed(Duration.zero);
+
+    expect(provider.read().value!.error, isNull);
+    expect(provider.read().value!.activeTransactionId, equals(42));
+
+    wait.complete();
+    await install;
   });
 
   test('cancelled transaction is not reported as an error', () async {

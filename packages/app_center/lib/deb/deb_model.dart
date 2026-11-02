@@ -87,7 +87,11 @@ class DebModel extends _$DebModel {
       packageInfo.packageId,
     ]))[packageInfo.packageId.name];
 
-    final errorListener = packageKit.errorStream.listen(_onError);
+    // Every open deb page listens; each reports only its own transaction.
+    final errorListener = packageKit.taggedErrorStream
+        .where((tagged) => tagged.id == state.value?.activeTransactionId)
+        .map((tagged) => tagged.error)
+        .listen(_onError);
     ref.onDispose(errorListener.cancel);
 
     return DebData(
