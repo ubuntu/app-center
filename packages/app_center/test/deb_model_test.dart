@@ -237,6 +237,44 @@ void main() {
     await install;
   });
 
+  test('update follows a rerun for an unsigned source', () async {
+    const error = PackageKitServiceError(
+      code: PackageKitError.noNetwork,
+      details: 'error details',
+    );
+    final packageKit = createMockPackageKitService(
+      packageInfo: packageInfo,
+      transactionId: 42,
+    );
+    when(packageKit.lastErrorFor(43)).thenReturn(error);
+    when(packageKit.waitUpdate(42, onRerun: anyNamed('onRerun'))).thenAnswer((
+      invocation,
+    ) async {
+      (invocation.namedArguments[#onRerun] as void Function(int))(43);
+      throw PackageKitTransactionError(
+        'Transaction 43 finished with exit code: failed',
+        exit: PackageKitExit.failed,
+      );
+    });
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    final states = <DebData>[];
+    container.listen(debModelProvider('testdeb'), (_, next) {
+      if (next.hasValue) states.add(next.value!);
+    });
+    await container.read(debModelProvider('testdeb').future);
+
+    final outcome = await container
+        .read(debModelProvider('testdeb').notifier)
+        .updateDeb();
+
+    expect(outcome, equals(PackageKitMutationOutcome.failed));
+    expect(states.any((s) => s.activeTransactionId == 43), isTrue);
+    final reported = states.map((s) => s.error).nonNulls;
+    expect(reported, isNotEmpty);
+    expect(reported, everyElement(equals(error)));
+  });
+
   test('cancelled transaction is not reported as an error', () async {
     final packageKit = createMockPackageKitService(
       packageInfo: packageInfo,

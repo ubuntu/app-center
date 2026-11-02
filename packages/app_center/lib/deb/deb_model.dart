@@ -199,7 +199,7 @@ class DebModel extends _$DebModel {
     DebTransactionKind kind,
     Future<int> Function() action,
   ) async {
-    final transactionId = await action.call();
+    var transactionId = await action.call();
     state = AsyncValue.data(
       state.value!.copyWith(
         activeTransactionId: transactionId,
@@ -208,7 +208,19 @@ class DebModel extends _$DebModel {
     );
     var outcome = PackageKitMutationOutcome.failed;
     try {
-      await packageKit.waitTransaction(transactionId);
+      if (kind == DebTransactionKind.update) {
+        await packageKit.waitUpdate(
+          transactionId,
+          onRerun: (id) {
+            transactionId = id;
+            state = AsyncValue.data(
+              state.value!.copyWith(activeTransactionId: id),
+            );
+          },
+        );
+      } else {
+        await packageKit.waitTransaction(transactionId);
+      }
       outcome = PackageKitMutationOutcome.success;
     } on PackageKitTransactionCancelled {
       // User cancelled (e.g. dismissed the polkit dialog) — not an error.

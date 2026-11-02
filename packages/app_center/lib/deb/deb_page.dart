@@ -20,23 +20,12 @@ class DebPage extends ConsumerWidget {
 
   final String id;
 
-  Future<void> showError(BuildContext context, PackageKitServiceError e) {
-    final message = ErrorMessage.fromObject(e);
-    if (message is ErrorMessageUntrustedSource) {
-      final l10n = AppLocalizations.of(context);
-      return showErrorDialog(
+  Future<void> showError(BuildContext context, PackageKitServiceError e) =>
+      showErrorDialog(
         context: context,
-        title: message.title(l10n),
-        message: message.body(l10n),
-        type: message.type,
+        title: 'PackageKit error: ${e.code}',
+        message: e.details,
       );
-    }
-    return showErrorDialog(
-      context: context,
-      title: 'PackageKit error: ${e.code}',
-      message: e.details,
-    );
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

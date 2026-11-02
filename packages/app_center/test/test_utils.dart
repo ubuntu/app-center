@@ -532,6 +532,13 @@ MockPackageKitService createMockPackageKitService({
   when(
     packageKit.waitTransaction(any),
   ).thenAnswer((_) async => waitTransaction);
+  // Lets tests that stub waitTransaction drive updates as well.
+  when(
+    packageKit.waitUpdate(any, onRerun: anyNamed('onRerun')),
+  ).thenAnswer(
+    (invocation) =>
+        packageKit.waitTransaction(invocation.positionalArguments.first as int),
+  );
   when(packageKit.getUpdates()).thenAnswer((_) async => availableUpdates ?? []);
   when(
     packageKit.getInstalledPackages(),
