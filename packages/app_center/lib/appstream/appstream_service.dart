@@ -146,13 +146,7 @@ class AppstreamService {
   // TODO: cache AppstreamPool
   AppstreamService({@visibleForTesting AppstreamPool? pool})
     : _pool = pool ?? _createPool(),
-      _l10n = _loadL10n() {
-    // The pool has only startup-locale text, so a new locale falls back to `C`.
-    PlatformDispatcher.instance.onLocaleChanged = () async {
-      await _loader;
-      _populateCache();
-    };
-  }
+      _l10n = _loadL10n();
 
   final AppstreamPool _pool;
 
