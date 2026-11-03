@@ -461,7 +461,7 @@
     "driversPageSwitchBranchLessStableWarningMessage": "Demoratz sus la branca actuala per evitar de problèmas amb aqueste aparelh.",
     "driversPageUninstallWarningTitle": "Desinstallar los pilòts pòt provocar de problèmas",
     "driversPageUninstallWarningMessage": "Benlèu vos serà pas aisit de tornar installar los pilòts, sustot se concernisson la carta grafica o la ret.",
-    "appDetailsAdditionalInfoLabel": "Complement d'informacion",
+    "appDetailsAdditionalInfoLabel": "Complement d’informacion",
     "appDetailsPackageFormatLabel": "Format de paquet",
     "appDetailsCategoryLabel": "Categoria",
     "appDetailsInstallDateLabel": "Data d’installacion",
@@ -571,5 +571,48 @@
     "addonsPageMediaSupportDescription": "Installar de logicials suplementaris per prendre en carga mai de formats multimèdia",
     "addonsPageFirmwareTitle": "Micrologicial",
     "addonsPageFirmwareDescription": "Metre a jorn lo material informatic per melhorar las performanças e la seguretat",
-    "mediaSupportPageAdditionalMediaTitle": "Presa en carga multimèdia addicionala"
+    "mediaSupportPageAdditionalMediaTitle": "Presa en carga multimèdia addicionala",
+    "managePageChannelVersionUpdateSemanticLabel": "Canal {channel}, de version {version} a {updateVersion}",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "De version {version} a {updateVersion}",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsStarredPublisherSemanticLabel": "Tria de l’editor",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Desinstallatz-lo abans d’installar un autre format de paquet. Las donadas de l’aplicacion son pas partejadas entre los formats.} =2{Desinstallatz-los totes dos per passar a un autre format. Las donadas de l’aplicacion son pas partejadas entre los formats.} other{Desinstallatz-los per passar a un autre format. Las donadas de l’aplicacion son pas partejadas entre los formats.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "localDebInstalledVersion": "Version installada : {version}",
+    "@localDebInstalledVersion": {
+        "description": "The version already installed when viewing a local Debian package file.",
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    }
 }

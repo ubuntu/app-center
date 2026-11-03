@@ -605,5 +605,14 @@
             }
         }
     },
-    "appDetailsPackageFormatsLearnMore": "Zjistěte více o formátech balíčků"
+    "appDetailsPackageFormatsLearnMore": "Zjistěte více o formátech balíčků",
+    "localDebInstalledVersion": "Nainstalovaná verze: {version}",
+    "@localDebInstalledVersion": {
+        "description": "The version already installed when viewing a local Debian package file.",
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    }
 }
