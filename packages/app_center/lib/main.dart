@@ -62,9 +62,6 @@ Future<void> main(List<String> args) async {
   registerService(() => GtkApplicationNotifier(args));
 
   final appstream = AppstreamService();
-  // Explicitly ignore the future to continue while appstream is reading the
-  // metadata from the disk.
-  unawaited(appstream.init());
   registerServiceInstance(appstream);
 
   registerService(PackageKitClient.new);
@@ -109,6 +106,8 @@ Future<void> main(List<String> args) async {
   await runZonedGuarded(
     () async {
       await YaruWindowTitleBar.ensureInitialized();
+      PaintingBinding.instance.imageCache.maximumSizeBytes = 15 << 20;
+      PaintingBinding.instance.imageCache.maximumSize = 100;
       runApp(
         ProviderScope(
           // Don't retry failed providers.

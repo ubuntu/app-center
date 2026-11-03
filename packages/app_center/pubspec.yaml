@@ -73,6 +73,8 @@ dev_dependencies:
   ubuntu_lints: ^0.4.2
 
 dependency_overrides:
+  appstream:
+    path: ../../../appstream.dart
   # snapd 0.7.7 still requires freezed_annotation ^2.4.1.
   freezed_annotation: ^3.1.0
 
