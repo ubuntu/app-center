@@ -2,7 +2,6 @@
 
 #include <flutter_linux/flutter_linux.h>
 #include <handy.h>
-#include <malloc.h>
 
 #include "flutter/generated_plugin_registrant.h"
 
@@ -16,27 +15,9 @@
 struct _MyApplication {
   GtkApplication parent_instance;
   char** dart_entrypoint_arguments;
-  guint trim_heap_source_id;
 };
 
 G_DEFINE_TYPE(MyApplication, my_application, GTK_TYPE_APPLICATION)
-
-// Freed image buffers stay resident in glibc's heap; this gives them back.
-static gboolean trim_heap(gpointer user_data) {
-  MyApplication* self = MY_APPLICATION(user_data);
-  self->trim_heap_source_id = 0;
-  malloc_trim(0);
-  return G_SOURCE_REMOVE;
-}
-
-static void schedule_trim_heap(GdkFrameClock* frame_clock,
-                               MyApplication* self) {
-  // Armed once, not reset per frame, so constant redraws can't postpone it.
-  if (self->trim_heap_source_id == 0) {
-    // 10 s lets a page finish loading its images, so one trim covers them.
-    self->trim_heap_source_id = g_timeout_add_seconds(10, trim_heap, self);
-  }
-}
 
 // Implements GApplication::activate.
 static void my_application_activate(GApplication* application) {
@@ -62,11 +43,8 @@ static void my_application_activate(GApplication* application) {
 
   gtk_window_set_default_size(window, 1280 + 52, 800 + 52);
   gtk_widget_show(GTK_WIDGET(window));
-  g_signal_connect(gtk_widget_get_frame_clock(GTK_WIDGET(window)),
-                   "after-paint", G_CALLBACK(schedule_trim_heap), self);
 
   g_autoptr(FlDartProject) project = fl_dart_project_new();
-  fl_dart_project_set_enable_impeller(project, FALSE);
   fl_dart_project_set_dart_entrypoint_arguments(
       project, self->dart_entrypoint_arguments);
 
@@ -120,7 +98,6 @@ static gint my_application_command_line(GApplication* application,
 static void my_application_dispose(GObject* object) {
   MyApplication* self = MY_APPLICATION(object);
   g_clear_pointer(&self->dart_entrypoint_arguments, g_strfreev);
-  g_clear_handle_id(&self->trim_heap_source_id, g_source_remove);
   G_OBJECT_CLASS(my_application_parent_class)->dispose(object);
 }
 

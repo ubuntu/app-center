@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:collection';
-import 'dart:ffi';
-import 'dart:io';
 
 import 'package:app_center/appstream/appstream_utils.dart';
 import 'package:app_center/appstream/logger.dart';
@@ -176,7 +174,6 @@ class AppstreamService {
   late final Future<void> _loader = _pool.load().then((_) {
     _populateCache();
     _initialized = true;
-    _trimHeap();
   });
   bool _initialized = false;
   final HashSet<_CachedComponent> _cache = HashSet<_CachedComponent>();
@@ -246,18 +243,6 @@ class AppstreamService {
         _componentKey(component).compareTo(_componentKey(current)) < 0) {
       index[normalizedKey] = component;
     }
-  }
-
-  static void _trimHeap() {
-    if (kIsWeb || !Platform.isLinux) return;
-    try {
-      final libc = DynamicLibrary.process();
-      final mallocTrim = libc
-          .lookupFunction<Void Function(Int32), void Function(int)>(
-            'malloc_trim',
-          );
-      mallocTrim(0);
-    } on Object catch (_) {}
   }
 
   String _componentKey(AppstreamComponent component) =>
