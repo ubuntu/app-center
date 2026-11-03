@@ -72,6 +72,12 @@ dev_dependencies:
   riverpod_generator: ^4.0.9
   ubuntu_lints: ^0.4.2
 
+dependency_overrides:
+  appstream:
+    git:
+      url: https://github.com/canonical/appstream.dart.git
+      ref: 8e036920739f7850fafd6c0736d254211716526d
+
 flutter:
   uses-material-design: true
   generate: true
