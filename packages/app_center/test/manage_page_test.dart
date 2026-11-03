@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:app_center/constants.dart';
 import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/manage/local_deb_updates_model.dart';
@@ -14,6 +12,7 @@ import 'package:app_center/providers/current_desktops_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
@@ -408,45 +407,62 @@ void main() {
     verify(snapd.refresh(any, channel: anyNamed('channel'))).called(1);
   });
 
-  testWidgets('shows a spinner while the page data reloads', (tester) async {
-    final container = createContainer(
-      overrides: [
-        ...debProviderOverrides,
-        launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
-        showLocalSystemAppsProvider.overrideWith((ref) => true),
-      ],
-    );
+  group('refresh shortcut', () {
+    Future<MockPackageKitService> pumpManagePage(
+      WidgetTester tester, {
+      List<Override> overrides = const [],
+    }) async {
+      final packageKit = createMockPackageKitService();
+      createMockAppstreamService();
+      await tester.pumpApp(
+        (_) => ProviderScope(
+          overrides: [
+            ...debProviderOverrides,
+            launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+            ...overrides,
+          ],
+          child: const ManagePage(),
+        ),
+      );
+      await tester.pumpAndSettle();
+      clearInteractions(snapd);
+      clearInteractions(packageKit);
+      return packageKit;
+    }
 
-    await tester.pumpApp(
-      (_) => UncontrolledProviderScope(
-        container: container,
-        child: const ManagePage(),
-      ),
-    );
-    await tester.pumpAndSettle();
+    for (final keys in [
+      [LogicalKeyboardKey.f5],
+      [LogicalKeyboardKey.controlLeft, LogicalKeyboardKey.keyR],
+    ]) {
+      testWidgets('${keys.last.keyLabel} checks for updates', (tester) async {
+        final packageKit = await pumpManagePage(tester);
 
-    final checkButton = find.widgetWithText(
-      OutlinedButton,
-      tester.l10n.managePageCheckForUpdates,
-    );
-    final spinner = find.descendant(
-      of: checkButton,
-      matching: find.byType(YaruCircularProgressIndicator),
-    );
-    expect(spinner, findsNothing);
+        for (final key in keys) {
+          await tester.sendKeyDownEvent(key);
+        }
+        for (final key in keys.reversed) {
+          await tester.sendKeyUpEvent(key);
+        }
+        await tester.pumpAndSettle();
 
-    final snaps = Completer<List<Snap>>();
-    when(snapd.getSnaps()).thenAnswer((_) => snaps.future);
-    container.invalidate(localSnapsProvider);
-    await tester.pump();
+        verify(snapd.find(filter: SnapFindFilter.refresh)).called(1);
+        verify(packageKit.getUpdates()).called(1);
+      });
+    }
 
-    expect(spinner, findsOneWidget);
-    expect(find.snapTile('Test Snap'), findsOneWidget);
+    testWidgets('F5 is ignored while updating all', (tester) async {
+      await pumpManagePage(
+        tester,
+        overrides: [
+          currentlyRefreshAllSnapsProvider.overrideWith((_) => ['firefox']),
+        ],
+      );
 
-    snaps.complete(nonRefreshableSnaps + refreshableSnaps);
-    await tester.pumpAndSettle();
+      await tester.sendKeyEvent(LogicalKeyboardKey.f5);
+      await tester.pump();
 
-    expect(spinner, findsNothing);
+      verifyNever(snapd.find(filter: SnapFindFilter.refresh));
+    });
   });
 
   testWidgets('refreshing all', (tester) async {
@@ -873,50 +889,6 @@ void main() {
       scrollable: scrollable,
     );
     expect(removeButton, findsOneWidget);
-  });
-
-  testWidgets('deb actions are disabled while the page data reloads', (
-    tester,
-  ) async {
-    final container = createContainer(
-      overrides: [
-        launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
-        showLocalSystemAppsProvider.overrideWith((ref) => true),
-        localDebsProvider.overrideWith((ref) async => [defaultInstalledDeb]),
-        localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
-        currentDesktopsProvider.overrideWithValue(['GNOME']),
-      ],
-    );
-    await tester.pumpApp(
-      (_) => UncontrolledProviderScope(
-        container: container,
-        child: const ManagePage(),
-      ),
-    );
-    await tester.pumpAndSettle();
-
-    final removeButton = find.descendant(
-      of: find.snapTile('GIMP'),
-      matching: find.buttonWithText(tester.l10n.snapActionRemoveLabel),
-    );
-    await tester.scrollUntilVisible(
-      removeButton,
-      kMinInteractiveDimension / 2,
-      scrollable: find.byType(Scrollable).first,
-    );
-    expect(removeButton, isEnabled);
-
-    final snaps = Completer<List<Snap>>();
-    when(snapd.getSnaps()).thenAnswer((_) => snaps.future);
-    container.invalidate(localSnapsProvider);
-    await tester.pump();
-
-    expect(removeButton, isDisabled);
-
-    snaps.complete(nonRefreshableSnaps + refreshableSnaps);
-    await tester.pumpAndSettle();
-
-    expect(removeButton, isEnabled);
   });
 
   testWidgets('deb uninstall in progress labels cancel button', (

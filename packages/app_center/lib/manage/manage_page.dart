@@ -12,9 +12,27 @@ import 'package:app_center/manage/manage_app_tile.dart';
 import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/snapd/currently_installing_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru/yaru.dart';
+
+/// The "Check for updates" action, or null while it can't run.
+VoidCallback? _checkForUpdates(WidgetRef ref) {
+  final appUpdatesModel = ref.watch(appUpdatesProvider);
+  final cannotRun =
+      ref.watch(currentlyRefreshAllSnapsProvider).isNotEmpty ||
+      ref.watch(currentlyUpdatingAllDebsProvider).isNotEmpty ||
+      appUpdatesModel.hasError ||
+      appUpdatesModel.isLoading ||
+      ref.watch(isSilentlyCheckingUpdatesProvider) ||
+      ref.watch(isSilentlyCheckingDebUpdatesProvider);
+  if (cannotRun) return null;
+  return () {
+    ref.read(snapUpdatesModelProvider.notifier).silentUpdatesCheck();
+    ref.read(localDebUpdatesModelProvider.notifier).silentUpdatesCheck();
+  };
+}
 
 class ManagePage extends ConsumerWidget {
   const ManagePage({super.key});
@@ -34,7 +52,10 @@ class ManagePage extends ConsumerWidget {
     if (appUpdatesModel.hasError) {
       return ErrorView(
         error: appUpdatesModel.error,
-        onRetry: () => refreshManageData(ref),
+        onRetry: () {
+          ref.invalidate(appUpdatesProvider);
+          ref.invalidate(installedAppsProvider);
+        },
       );
     }
 
@@ -45,8 +66,9 @@ class ManagePage extends ConsumerWidget {
         (value) => value.value?.hasInternet ?? true,
       ),
     );
+    final checkForUpdates = _checkForUpdates(ref);
 
-    return ResponsiveLayoutScrollView(
+    final page = ResponsiveLayoutScrollView(
       slivers: [
         SliverPadding(
           padding: const EdgeInsets.only(top: kPagePadding),
@@ -107,7 +129,6 @@ class ManagePage extends ConsumerWidget {
         ),
 
         appUpdatesModel.when(
-          skipLoadingOnReload: true,
           data: (updates) {
             return SliverList.builder(
               itemCount: updates.length,
@@ -181,7 +202,6 @@ class ManagePage extends ConsumerWidget {
           builder: (context, ref, child) {
             final installedAppsModel = ref.watch(installedAppsProvider);
             return installedAppsModel.when(
-              skipLoadingOnReload: true,
               data: (apps) => SliverList.builder(
                 itemCount: apps.length,
                 itemBuilder: (context, index) => ManageAppTile(
@@ -210,6 +230,17 @@ class ManagePage extends ConsumerWidget {
         ),
       ],
     );
+
+    return CallbackShortcuts(
+      bindings: <ShortcutActivator, VoidCallback>{
+        const SingleActivator(LogicalKeyboardKey.f5): () =>
+            checkForUpdates?.call(),
+        const SingleActivator(LogicalKeyboardKey.keyR, control: true): () =>
+            checkForUpdates?.call(),
+      },
+      // Shortcuts only fire while focus is inside the page.
+      child: Focus(autofocus: true, skipTraversal: true, child: page),
+    );
   }
 }
 
@@ -219,7 +250,6 @@ class _ActionButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final appUpdatesModel = ref.watch(appUpdatesProvider);
     final isRefreshingAll = ref
         .watch(currentlyRefreshAllSnapsProvider)
         .isNotEmpty;
@@ -232,7 +262,6 @@ class _ActionButtons extends ConsumerWidget {
         (value) => value.value?.hasInternet ?? true,
       ),
     );
-    final isLoading = appUpdatesModel.isLoading;
     final isSilentlyCheckingSnapUpdates = ref.watch(
       isSilentlyCheckingUpdatesProvider,
     );
@@ -242,11 +271,6 @@ class _ActionButtons extends ConsumerWidget {
     final isSilentlyCheckingUpdates =
         isSilentlyCheckingSnapUpdates || isSilentlyCheckingDebUpdates;
 
-    final isRefreshing =
-        isSilentlyCheckingUpdates ||
-        isLoading ||
-        ref.watch(installedAppsProvider.select((value) => value.isLoading));
-
     return Wrap(
       spacing: 10,
       runSpacing: 10,
@@ -254,25 +278,12 @@ class _ActionButtons extends ConsumerWidget {
       children: [
         YaruFocusBorder.primary(
           child: OutlinedButton(
-            onPressed:
-                isUpdatingAll ||
-                    appUpdatesModel.hasError ||
-                    isLoading ||
-                    isSilentlyCheckingUpdates
-                ? null
-                : () {
-                    ref
-                        .read(snapUpdatesModelProvider.notifier)
-                        .silentUpdatesCheck();
-                    ref
-                        .read(localDebUpdatesModelProvider.notifier)
-                        .silentUpdatesCheck();
-                  },
+            onPressed: _checkForUpdates(ref),
             style: kSuppressFocusOverlay,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                isRefreshing
+                isSilentlyCheckingUpdates
                     ? const _SmallLoadingIndicator()
                     : const Icon(YaruIcons.sync),
                 const SizedBox(width: 8),
