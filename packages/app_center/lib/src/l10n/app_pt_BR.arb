@@ -510,10 +510,10 @@
     "appDetailsNotAvailable": "Não disponível",
     "appDetailsChoosePackageFormatAction": "Escolha o formato do pacote…",
     "appDetailsChoosePackageFormatTitle": "Escolha o formato do pacote",
-    "appDetailsPackageSourceLabel": "Destino",
+    "appDetailsPackageSourceLabel": "Origem",
     "appDetailsVerifiedPublisherSemanticLabel": "Editor verificado",
     "appDetailsStarredPublisherSemanticLabel": "Editor em destaque",
-    "appDetailsPackageSourceSnapStore": "Snap Loja",
+    "appDetailsPackageSourceSnapStore": "Snap Store",
     "appDetailsPackageSourceUbuntuArchive": "Arquivo Ubuntu",
     "appDetailsInstalledAsFormat": "Já instalado como {format}",
     "@appDetailsInstalledAsFormat": {
@@ -534,7 +534,7 @@
             }
         }
     },
-    "appDetailsInstalledAsMultipleFormats": "Instalado como formatos de múltiplo pacote",
+    "appDetailsInstalledAsMultipleFormats": "Instalado em múltiplos formatos de pacote",
     "appDetailsUninstallToChangeFormat": "{count, plural, =1{Desinstale-o antes de instalar um formato de pacote diferente. Os dados do aplicativo não são compartilhados entre formatos.} =2{Desinstale ambos para mudar para um formato diferente. Os dados do aplicativo não são compartilhados entre formatos.} other{Desinstale-os para alternar para um formato diferente. Os dados do aplicativo não são compartilhados entre formatos.}}",
     "@appDetailsUninstallToChangeFormat": {
         "placeholders": {
@@ -594,8 +594,8 @@
     "driversPageNoDriversFoundMessage": "Usando drivers integrados. Nenhum driver adicional encontrado.",
     "driversPageUnavailableTitle": "Gestão de driver indisponível",
     "driversPageUnsupportedMessage": "O serviço de gerenciamento de driver não está disponível. Certifique-se de que o snapd esteja atualizado e que o ubuntu-drivers-common esteja instalado.",
-    "driversPageSwitchBranchLabel": "Alterar o ramo",
-    "driversPageSwitchBranchTitle": "Alterar o ramo",
+    "driversPageSwitchBranchLabel": "Alternar branch",
+    "driversPageSwitchBranchTitle": "Alternar branch",
     "driversPageSwitchBranchProductionDescription": "Equilíbrio entre características e estabilidade",
     "driversPageSwitchBranchLtsDescription": "Máxima estabilidade para cargas de trabalho críticas",
     "driversPageSwitchBranchNewFeatureDescription": "Prévia, menos estável",
