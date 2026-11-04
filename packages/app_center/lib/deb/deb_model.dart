@@ -84,14 +84,11 @@ class DebModel extends _$DebModel {
     await packageKit.activateService();
 
     final packageInfo = await _getPackageInfo(component);
-    final results = await Future.wait<Object?>([
+    final (updatePackageId, allDetails) = await (
       _getUpdate(packageInfo!),
       packageKit.getDetails([packageInfo.packageId]),
-    ]);
-    final updatePackageId = results[0] as PackageKitPackageId?;
-    final details =
-        (results[1]!
-            as Map<String, PackageKitDetailsEvent>)[packageInfo.packageId.name];
+    ).wait;
+    final details = allDetails[packageInfo.packageId.name];
 
     final errorListener = packageKit.errorStream.listen(_onError);
     ref.onDispose(errorListener.cancel);
