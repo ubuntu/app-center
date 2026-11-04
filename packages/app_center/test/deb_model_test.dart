@@ -200,34 +200,79 @@ void main() {
     ).called(1);
   });
 
-  test('error stream', () async {
-    createMockPackageKitService(
-      packageInfo: packageInfo,
-      errorStream: Stream.value(
-        const PackageKitServiceError(
-          code: PackageKitError.noNetwork,
-          details: 'error details',
-        ),
-      ),
+  test('ignores errors from other transactions', () async {
+    const otherError = PackageKitServiceError(
+      code: PackageKitError.noNetwork,
+      details: 'error details',
     );
+    final tagged = StreamController<PackageKitTaggedError>.broadcast();
+    addTearDown(tagged.close);
+    final packageKit = createMockPackageKitService(
+      packageInfo: packageInfo,
+      transactionId: 42,
+    );
+    when(packageKit.taggedErrorStream).thenAnswer((_) => tagged.stream);
+    final wait = Completer<void>();
+    when(packageKit.waitTransaction(42)).thenAnswer((_) => wait.future);
     createMockAppstreamService(component: component);
     final container = ProviderContainer();
     final provider = container.listen(debModelProvider('testdeb'), (_, __) {});
+    await container.read(debModelProvider('testdeb').future);
 
-    await expectLater(
-      container.read(debModelProvider('testdeb').future),
-      completes,
-    );
+    tagged.add((id: 7, error: otherError));
+    await Future<void>.delayed(Duration.zero);
+    expect(provider.read().value!.error, isNull);
 
-    expect(provider.read().value?.error, isNotNull);
-    expect(
-      provider.read().value!.error!.code,
-      equals(PackageKitError.noNetwork),
+    final install = container
+        .read(debModelProvider('testdeb').notifier)
+        .installDeb();
+    await Future<void>.delayed(Duration.zero);
+    tagged.add((id: 7, error: otherError));
+    await Future<void>.delayed(Duration.zero);
+
+    expect(provider.read().value!.error, isNull);
+    expect(provider.read().value!.activeTransactionId, equals(42));
+
+    wait.complete();
+    await install;
+  });
+
+  test('update follows a rerun for an unsigned source', () async {
+    const error = PackageKitServiceError(
+      code: PackageKitError.noNetwork,
+      details: 'error details',
     );
-    expect(
-      provider.read().value!.error!.details,
-      equals('error details'),
+    final packageKit = createMockPackageKitService(
+      packageInfo: packageInfo,
+      transactionId: 42,
     );
+    when(packageKit.lastErrorFor(43)).thenReturn(error);
+    when(packageKit.waitUpdate(42, onRerun: anyNamed('onRerun'))).thenAnswer((
+      invocation,
+    ) async {
+      (invocation.namedArguments[#onRerun] as void Function(int))(43);
+      throw PackageKitTransactionError(
+        'Transaction 43 finished with exit code: failed',
+        exit: PackageKitExit.failed,
+      );
+    });
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    final states = <DebData>[];
+    container.listen(debModelProvider('testdeb'), (_, next) {
+      if (next.hasValue) states.add(next.value!);
+    });
+    await container.read(debModelProvider('testdeb').future);
+
+    final outcome = await container
+        .read(debModelProvider('testdeb').notifier)
+        .updateDeb();
+
+    expect(outcome, equals(PackageKitMutationOutcome.failed));
+    expect(states.any((s) => s.activeTransactionId == 43), isTrue);
+    final reported = states.map((s) => s.error).nonNulls;
+    expect(reported, isNotEmpty);
+    expect(reported, everyElement(equals(error)));
   });
 
   test('cancelled transaction is not reported as an error', () async {
@@ -344,6 +389,49 @@ void main() {
     );
     final errorState = states.firstWhere((s) => s.error != null);
     expect(errorState.error!.code, equals(PackageKitError.internalError));
+  });
+
+  test('failed transaction keeps the error it already reported', () async {
+    const error = PackageKitServiceError(
+      code: PackageKitError.cannotInstallRepositoryUnsigned,
+      details: 'The following packages cannot be authenticated: testdeb',
+    );
+    final errors = StreamController<PackageKitServiceError>.broadcast();
+    addTearDown(errors.close);
+    final packageKit = createMockPackageKitService(
+      packageInfo: packageInfo,
+      transactionId: 42,
+      errorStream: errors.stream,
+      lastError: error,
+    );
+    when(packageKit.waitTransaction(any)).thenAnswer((_) async {
+      errors.add(error);
+      throw PackageKitTransactionError(
+        'Transaction 42 finished with exit code: needUntrusted',
+        exit: PackageKitExit.needUntrusted,
+      );
+    });
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    final states = <DebData>[];
+    container.listen(debModelProvider('testdeb'), (_, next) {
+      if (next.hasValue) states.add(next.value!);
+    });
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
+    );
+
+    await container.read(debModelProvider('testdeb').notifier).updateDeb();
+
+    final reported = states.map((s) => s.error).nonNulls;
+    expect(reported, isNotEmpty);
+    expect(reported, everyElement(equals(error)));
+    expect(
+      states.any((s) => s.error != null && s.activeTransactionId == null),
+      isTrue,
+    );
   });
 
   test('successful transaction clears transaction without error', () async {

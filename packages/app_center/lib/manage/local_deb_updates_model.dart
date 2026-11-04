@@ -107,7 +107,10 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
     log.info('Update transaction started: $transactionId for $debId');
     _updateTransactionId(debId, transactionId);
     try {
-      await _packageKit.waitTransaction(transactionId);
+      await _packageKit.waitUpdate(
+        transactionId,
+        onRerun: (id) => _updateTransactionId(debId, id),
+      );
       log.info('Update transaction completed: $transactionId for $debId');
       removeFromList(debId);
       // Add the updated deb to the installed apps list (with update cleared)

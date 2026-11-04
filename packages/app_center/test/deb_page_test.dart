@@ -8,6 +8,7 @@ import 'package:app_center/providers/current_desktops_provider.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:ubuntu_test/ubuntu_test.dart';
 import 'package:yaru/yaru.dart';
@@ -49,6 +50,44 @@ void main() {
   });
 
   testWidgets('error dialog', (tester) async {
+    final packageKit = createMockPackageKitService(
+      packageInfo: packageInfo,
+      lastError: const PackageKitServiceError(
+        code: PackageKitError.internalError,
+        details: 'internal error',
+      ),
+    );
+    when(packageKit.waitTransaction(any)).thenAnswer(
+      (_) async => throw PackageKitTransactionError(
+        'Transaction 0 finished with exit code: failed',
+        exit: PackageKitExit.failed,
+      ),
+    );
+    createMockAppstreamService(component: component);
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        child: const DebPage(id: 'testdeb'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(DebPage)),
+    );
+    await container.read(debModelProvider('testdeb').notifier).installDeb();
+    await tester.pumpAndSettle();
+
+    expect(find.text('internal error'), findsOneWidget);
+    expect(
+      find.text('PackageKit error: ${PackageKitError.internalError}'),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets("another transaction's error doesn't open a dialog", (
+    tester,
+  ) async {
     createMockPackageKitService(
       packageInfo: packageInfo,
       errorStream: Stream.value(
@@ -67,22 +106,30 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('internal error'), findsOneWidget);
-    expect(
-      find.text('PackageKit error: ${PackageKitError.internalError}'),
-      findsOneWidget,
-    );
+    expect(find.text('internal error'), findsNothing);
   });
 
   testWidgets('error dialog is not repeated on a later state change', (
     tester,
   ) async {
+    const error = PackageKitServiceError(
+      code: PackageKitError.internalError,
+      details: 'internal error',
+    );
     final errors = StreamController<PackageKitServiceError>.broadcast();
     addTearDown(errors.close);
-    createMockPackageKitService(
+    final packageKit = createMockPackageKitService(
       packageInfo: packageInfo,
       errorStream: errors.stream,
+      lastError: error,
     );
+    when(packageKit.waitTransaction(any)).thenAnswer((_) async {
+      errors.add(error);
+      throw PackageKitTransactionError(
+        'Transaction 0 finished with exit code: failed',
+        exit: PackageKitExit.failed,
+      );
+    });
     createMockAppstreamService(component: component);
 
     await tester.pumpApp(
@@ -92,17 +139,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    errors.add(
-      const PackageKitServiceError(
-        code: PackageKitError.internalError,
-        details: 'internal error',
-      ),
-    );
-    await tester.pumpAndSettle();
-    expect(find.text('internal error'), findsOneWidget);
-
-    // Starting another action changes the state while the error is still in
-    // it. That must not put a second dialog on top of the first.
+    // The error event, failed finish and refresh all carry the same error.
     final container = ProviderScope.containerOf(
       tester.element(find.byType(DebPage)),
     );

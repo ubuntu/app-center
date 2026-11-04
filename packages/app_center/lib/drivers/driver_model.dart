@@ -167,7 +167,7 @@ class DriverModel extends _$DriverModel {
     ref.read(driversBusyProvider.notifier).state = true;
     final keepAliveLink = ref.keepAlive();
     try {
-      final transactionId = await action();
+      var transactionId = await action();
       state = AsyncData(
         state.value!.copyWith(
           activeTransactionId: transactionId,
@@ -177,7 +177,19 @@ class DriverModel extends _$DriverModel {
       );
 
       try {
-        await _packageKit.waitTransaction(transactionId);
+        if (kind == DriverActionKind.update) {
+          await _packageKit.waitUpdate(
+            transactionId,
+            onRerun: (id) {
+              transactionId = id;
+              state = AsyncData(
+                state.value!.copyWith(activeTransactionId: id),
+              );
+            },
+          );
+        } else {
+          await _packageKit.waitTransaction(transactionId);
+        }
         final requiresRestart = _packageKit.requiresRestartFor(transactionId);
         state = AsyncData(
           state.value!.copyWith(
