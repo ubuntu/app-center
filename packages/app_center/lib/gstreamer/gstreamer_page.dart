@@ -22,7 +22,7 @@ class GStreamerPage extends ConsumerWidget {
       builder: (context) => Padding(
         padding:
             const EdgeInsets.symmetric(vertical: kPagePadding) +
-            ResponsiveLayout.of(context).padding,
+            ResponsiveLayout.paddingOf(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

@@ -32,7 +32,7 @@ class SearchPage extends StatelessWidget {
           Padding(
             padding:
                 const EdgeInsets.symmetric(vertical: kPagePadding) +
-                ResponsiveLayout.of(context).padding,
+                ResponsiveLayout.paddingOf(context),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -232,7 +232,7 @@ class _DebSearchResults extends ConsumerWidget {
               ],
             )
           : Padding(
-              padding: ResponsiveLayout.of(context).padding,
+              padding: ResponsiveLayout.paddingOf(context),
               child: Column(
                 children: [
                   const Spacer(),
@@ -293,7 +293,7 @@ class _SnapSearchResults extends ConsumerWidget {
               ],
             )
           : Padding(
-              padding: ResponsiveLayout.of(context).padding,
+              padding: ResponsiveLayout.paddingOf(context),
               child: Column(
                 children: [
                   const Spacer(),
