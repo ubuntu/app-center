@@ -223,8 +223,7 @@ void main() {
 
   group('provider', () {
     test('shows AppStream metadata while PackageKit loads', () {
-      final appstream = createMockAppstreamService(component: _component);
-      when(appstream.tryGetFromId('org.test.app')).thenReturn(_component);
+      createMockAppstreamService(component: _component);
       createMockPackageKitService();
       final container = createContainer();
       container.listen(debSourceSnapshotProvider('org.test.app'), (_, _) {});
@@ -236,8 +235,7 @@ void main() {
     });
 
     test('shows the install state before update details arrive', () async {
-      final appstream = createMockAppstreamService(component: _component);
-      when(appstream.tryGetFromId('org.test.app')).thenReturn(_component);
+      createMockAppstreamService(component: _component);
       final packageKit = createMockPackageKitService(
         packageInfo: const PackageKitPackageEvent(
           info: PackageKitInfo.installed,
@@ -260,8 +258,7 @@ void main() {
     });
 
     test('shows a remembered install state without deciding on it', () async {
-      final appstream = createMockAppstreamService(component: _component);
-      when(appstream.tryGetFromId('org.test.app')).thenReturn(_component);
+      createMockAppstreamService(component: _component);
       final packageKit = createMockPackageKitService(
         packageInfo: const PackageKitPackageEvent(
           info: PackageKitInfo.available,
@@ -293,7 +290,7 @@ void main() {
     });
 
     test('is plain loading without AppStream metadata', () {
-      createMockAppstreamService(component: _component);
+      createMockAppstreamService();
       createMockPackageKitService();
       final container = createContainer();
       container.listen(debSourceSnapshotProvider('org.test.app'), (_, _) {});

@@ -444,7 +444,10 @@ MockAppstreamService createMockAppstreamService({
     for (final c in allComponents)
       if (c.package != null) c.package!: c,
   });
-  when(appstream.tryGetFromId(any)).thenReturn(null);
+  when(appstream.tryGetFromId(any)).thenAnswer((invocation) {
+    final id = invocation.positionalArguments.first as String;
+    return allComponents.firstWhereOrNull((c) => c.id == id);
+  });
 
   registerMockService<AppstreamService>(appstream);
   addTearDown(unregisterService<AppstreamService>);

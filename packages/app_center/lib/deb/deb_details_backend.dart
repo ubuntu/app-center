@@ -99,9 +99,8 @@ Future<PackageKitPackageInfo?> debQuickPackageInfo(
 ({PackageKitPackageInfo? info, bool fresh})? _quickPackageInfo(
   Ref ref,
   String componentId,
+  AppstreamComponent component,
 ) {
-  final component = getService<AppstreamService>().tryGetFromId(componentId);
-  if (component == null) return null;
   final quick = ref.watch(debQuickPackageInfoProvider(componentId));
   if (quick.hasValue) return (info: quick.value, fresh: true);
   final name = component.package ?? componentId;
@@ -120,7 +119,12 @@ AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
   final mutations = ref.watch(packageKitMutationsProvider).value ?? const [];
   final icon = ref.watch(debIconProvider(componentId));
   final loading = !model.hasValue && !model.hasError;
-  final quick = loading ? _quickPackageInfo(ref, componentId) : null;
+  final component = loading
+      ? getService<AppstreamService>().tryGetFromId(componentId)
+      : null;
+  final quick = component == null
+      ? null
+      : _quickPackageInfo(ref, componentId, component);
   final data = model.value;
   // Simulating the install waits for the model so it doesn't delay it.
   final candidateId = data == null || data.isInstalled
@@ -136,7 +140,6 @@ AsyncValue<PackageSourceSnapshot> debSourceSnapshot(
   final desktops = ref.watch(currentDesktopsProvider);
 
   if (loading) {
-    final component = getService<AppstreamService>().tryGetFromId(componentId);
     if (component != null) {
       final snapshot = quick == null
           ? debSnapshotFromComponent(

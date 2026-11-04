@@ -172,6 +172,10 @@ void main() {
         ),
         isNull,
       );
+      expect(
+        const AppDetailsEntry.debComponent('org.test.app').sourceKey,
+        testDebKey,
+      );
     });
   });
 
@@ -312,10 +316,6 @@ void main() {
       final known = container.read(knownAppIdentitiesProvider);
       expect(known[testSnapKey]?.sourceKeys, [testSnapKey, testDebKey]);
       expect(known[testDebKey], known[testSnapKey]);
-      expect(
-        const AppDetailsEntry.debComponent('org.test.app').sourceKey,
-        testDebKey,
-      );
     });
 
     test('does not share failed lookups', () async {

@@ -107,8 +107,6 @@ class AppDetailsModel extends _$AppDetailsModel {
     ActionId actionId, {
     Future<bool> Function(List<String> dependents)? confirmUninstall,
   }) async {
-    // Reading state flushes pending rebuilds, so bindings reflect the latest
-    // backend capabilities rather than what was rendered.
     final view = state.value;
     if (view != null && !view.decided) {
       return const CommandReceipt.rejected(CommandRejection.busy);
