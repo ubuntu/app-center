@@ -7,43 +7,34 @@ class StoreObserver extends NavigatorObserver {
   StoreObserver(this.ref);
 
   final WidgetRef ref;
-  // didRemove's previousRoute isn't always the top page, so track pages here.
-  final _pages = <Route<dynamic>>[];
 
   @override
   void didPop(Route<void> route, Route<void>? previousRoute) {
-    if (!_pages.remove(route)) return;
-    final top = _pages.lastOrNull;
-    final query = top != null ? StoreRoutes.queryOf(top.settings) : null;
+    final query = previousRoute != null
+        ? StoreRoutes.queryOf(previousRoute.settings)
+        : null;
     ref.read(queryProvider.notifier).state = query ?? '';
-    _publishTopPage();
+    _updateRouteNameProvider(previousRoute);
   }
 
   @override
   void didPush(Route<void> route, Route<void>? previousRoute) {
-    if (route is! PageRoute) return;
-    _pages.add(route);
-    _publishTopPage();
+    _updateRouteNameProvider(route);
   }
 
   @override
   void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    if (_pages.remove(route)) _publishTopPage();
+    _updateRouteNameProvider(previousRoute);
   }
 
   @override
   void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
-    final index = oldRoute == null ? -1 : _pages.indexOf(oldRoute);
-    if (index != -1) _pages.removeAt(index);
-    if (newRoute is PageRoute) {
-      _pages.insert(index == -1 ? _pages.length : index, newRoute);
-    }
-    _publishTopPage();
+    _updateRouteNameProvider(newRoute);
   }
 
-  void _publishTopPage() {
+  void _updateRouteNameProvider(Route<dynamic>? route) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final routeName = _pages.lastOrNull?.settings.name;
+      final routeName = route?.settings.name;
       ref.read(routeNameProvider.notifier).state = routeName;
     });
   }

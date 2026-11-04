@@ -525,30 +525,6 @@ void main() {
       expect(find.text('dialog'), findsOneWidget);
       expect(find.text('test page'), findsOneWidget);
     });
-
-    testWidgets('works after a repeated search', (tester) async {
-      final pagesNavigator = await pumpStoreApp(tester);
-      for (final query in ['a', 'b']) {
-        final name = StoreRoutes.namedSearch(query: query);
-        // Same navigation as pushAndRemoveSearch, without the real page.
-        unawaited(
-          pagesNavigator.pushAndRemoveUntil(
-            MaterialPageRoute<void>(
-              settings: RouteSettings(name: name),
-              builder: (_) => Text(name),
-            ),
-            (route) => !StoreRoutes.isSearch(route.settings),
-          ),
-        );
-        await tester.pump();
-        await tester.pump(const Duration(milliseconds: 500));
-      }
-      final searchPage = find.text(StoreRoutes.namedSearch(query: 'b'));
-
-      await click(tester, searchPage, buttons: kBackMouseButton);
-
-      expect(searchPage, findsNothing);
-    });
   });
 }
 
