@@ -15,6 +15,11 @@ final commandLineProvider = Provider.autoDispose((ref) {
   return app.commandLine;
 });
 
+final unifiedDetailsEnabledProvider = Provider.autoDispose(
+  (ref) =>
+      ref.watch(commandLineProvider)?.contains('--unified-details') ?? false,
+);
+
 final initialRouteProvider = Provider.autoDispose((ref) {
   return _parseRoute(ref.watch(commandLineProvider));
 });
@@ -29,6 +34,11 @@ String? _parseRoute(List<String>? args) {
   parser.addOption('snap', valueHelp: 'name', help: 'Show snap details');
   parser.addOption('search', valueHelp: 'query', help: 'Search for snaps');
   parser.addFlag('updates', negatable: false, help: 'Show manage page');
+  parser.addFlag(
+    'unified-details',
+    negatable: false,
+    help: 'Use unified details pages for snaps and Debian packages',
+  );
   parser.addMultiOption(
     'gst',
     splitCommas: false,

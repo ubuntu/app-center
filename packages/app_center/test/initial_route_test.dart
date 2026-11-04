@@ -45,6 +45,34 @@ void main() {
     verify(listener(null, StoreRoutes.namedSnap(name: 'bar'))).called(1);
   });
 
+  test('unified details flag is disabled by default', () {
+    final container = ProviderContainer(
+      overrides: [
+        commandLineProvider.overrideWith((ref) => ['--snap', 'bar']),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    expect(container.read(unifiedDetailsEnabledProvider), isFalse);
+  });
+
+  test('unified details flag is enabled when passed', () {
+    final container = ProviderContainer(
+      overrides: [
+        commandLineProvider.overrideWith(
+          (ref) => ['--unified-details', '--snap', 'bar'],
+        ),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    expect(container.read(unifiedDetailsEnabledProvider), isTrue);
+    expect(
+      container.read(initialRouteProvider),
+      StoreRoutes.namedSnap(name: 'bar'),
+    );
+  });
+
   test('snap url', () {
     final container = ProviderContainer(
       overrides: [
