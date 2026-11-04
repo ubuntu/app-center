@@ -8,6 +8,8 @@ import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/search/search_field.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store_app.dart';
+import 'package:app_center/store/store_routes.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -376,6 +378,40 @@ void main() {
       expect(focusNode.hasFocus, isTrue);
     });
 
+    testWidgets('Control+F focuses the search field of a detail page', (
+      tester,
+    ) async {
+      registerMockService<GtkApplicationNotifier>(
+        createMockGtkApplicationNotifier(),
+      );
+      registerMockService<RatingsService>(registerMockRatingsService());
+      registerMockSnapdService();
+      registerMockDriversService();
+      await tester.pumpWidget(const ProviderScope(child: StoreApp()));
+      final pagesNavigator = tester.state<NavigatorState>(
+        find.descendant(
+          of: find.byType(YaruMasterDetailPage),
+          matching: find.byType(Navigator),
+        ),
+      );
+      unawaited(pagesNavigator.pushNamed(StoreRoutes.manage));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.controlLeft);
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.keyF);
+      await tester.sendKeyUpEvent(LogicalKeyboardKey.keyF);
+      await tester.sendKeyUpEvent(LogicalKeyboardKey.controlLeft);
+      await tester.pump(const Duration(milliseconds: 100));
+
+      final focusedContext = FocusManager.instance.primaryFocus!.context!;
+      expect(
+        focusedContext.findAncestorWidgetOfExactType<SearchField>(),
+        isNotNull,
+      );
+      expect(ModalRoute.isCurrentOf(focusedContext), isTrue);
+    });
+
     testWidgets('requests app exit when Control+Q is pressed', (tester) async {
       registerMockService<GtkApplicationNotifier>(
         createMockGtkApplicationNotifier(),
@@ -405,6 +441,89 @@ void main() {
         binding.requestedExitCode,
         0,
       );
+    });
+  });
+
+  group('mouse back button', () {
+    Future<NavigatorState> pumpStoreApp(WidgetTester tester) async {
+      registerMockService<GtkApplicationNotifier>(
+        createMockGtkApplicationNotifier(),
+      );
+      registerMockService<RatingsService>(registerMockRatingsService());
+      registerMockSnapdService();
+      registerMockDriversService();
+
+      // No outer MaterialApp, so showDialog targets the app's root navigator.
+      await tester.pumpWidget(const ProviderScope(child: StoreApp()));
+      return tester.state<NavigatorState>(
+        find.descendant(
+          of: find.byType(YaruMasterDetailPage),
+          matching: find.byType(Navigator),
+        ),
+      );
+    }
+
+    Future<void> pumpWithTestPage(WidgetTester tester) async {
+      final pagesNavigator = await pumpStoreApp(tester);
+      unawaited(
+        pagesNavigator.push(
+          MaterialPageRoute<void>(
+            settings: const RouteSettings(name: '/test'),
+            builder: (_) => const Text('test page'),
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+    }
+
+    Future<void> click(
+      WidgetTester tester,
+      Finder target, {
+      required int buttons,
+    }) async {
+      final gesture = await tester.createGesture(
+        kind: PointerDeviceKind.mouse,
+        buttons: buttons,
+      );
+      await gesture.down(tester.getCenter(target));
+      await gesture.up();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+    }
+
+    testWidgets('pops the current page', (tester) async {
+      await pumpWithTestPage(tester);
+      expect(find.text('test page'), findsOneWidget);
+
+      await click(tester, find.text('test page'), buttons: kBackMouseButton);
+
+      expect(find.text('test page'), findsNothing);
+    });
+
+    testWidgets('ignores other mouse buttons', (tester) async {
+      await pumpWithTestPage(tester);
+
+      await click(tester, find.text('test page'), buttons: kPrimaryButton);
+
+      expect(find.text('test page'), findsOneWidget);
+    });
+
+    testWidgets('is ignored while a dialog is open', (tester) async {
+      await pumpWithTestPage(tester);
+      unawaited(
+        showDialog<void>(
+          context: tester.element(find.text('test page')),
+          builder: (_) => const AlertDialog(content: Text('dialog')),
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+
+      await click(tester, find.text('dialog'), buttons: kBackMouseButton);
+
+      expect(find.text('dialog'), findsOneWidget);
+      expect(find.text('test page'), findsOneWidget);
     });
   });
 }

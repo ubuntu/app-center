@@ -12,6 +12,7 @@ import 'package:app_center/providers/current_desktops_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
@@ -404,6 +405,64 @@ void main() {
     verifyNever(snapd.refresh(any));
     await tester.tap(find.text(tester.l10n.snapActionUpdateLabel).first);
     verify(snapd.refresh(any, channel: anyNamed('channel'))).called(1);
+  });
+
+  group('refresh shortcut', () {
+    Future<MockPackageKitService> pumpManagePage(
+      WidgetTester tester, {
+      List<Override> overrides = const [],
+    }) async {
+      final packageKit = createMockPackageKitService();
+      createMockAppstreamService();
+      await tester.pumpApp(
+        (_) => ProviderScope(
+          overrides: [
+            ...debProviderOverrides,
+            launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+            ...overrides,
+          ],
+          child: const ManagePage(),
+        ),
+      );
+      await tester.pumpAndSettle();
+      clearInteractions(snapd);
+      clearInteractions(packageKit);
+      return packageKit;
+    }
+
+    for (final keys in [
+      [LogicalKeyboardKey.f5],
+      [LogicalKeyboardKey.controlLeft, LogicalKeyboardKey.keyR],
+    ]) {
+      testWidgets('${keys.last.keyLabel} checks for updates', (tester) async {
+        final packageKit = await pumpManagePage(tester);
+
+        for (final key in keys) {
+          await tester.sendKeyDownEvent(key);
+        }
+        for (final key in keys.reversed) {
+          await tester.sendKeyUpEvent(key);
+        }
+        await tester.pumpAndSettle();
+
+        verify(snapd.find(filter: SnapFindFilter.refresh)).called(1);
+        verify(packageKit.getUpdates()).called(1);
+      });
+    }
+
+    testWidgets('F5 is ignored while updating all', (tester) async {
+      await pumpManagePage(
+        tester,
+        overrides: [
+          currentlyRefreshAllSnapsProvider.overrideWith((_) => ['firefox']),
+        ],
+      );
+
+      await tester.sendKeyEvent(LogicalKeyboardKey.f5);
+      await tester.pump();
+
+      verifyNever(snapd.find(filter: SnapFindFilter.refresh));
+    });
   });
 
   testWidgets('refreshing all', (tester) async {

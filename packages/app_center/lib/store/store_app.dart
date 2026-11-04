@@ -20,6 +20,7 @@ import 'package:app_center/store/store_pages.dart';
 import 'package:app_center/store/store_providers.dart';
 import 'package:app_center/store/store_routes.dart';
 import 'package:app_center/widgets/widgets.dart';
+import 'package:flutter/gestures.dart' show kBackMouseButton;
 import 'package:flutter/material.dart' hide AboutDialog, showAboutDialog;
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,6 +39,11 @@ final yaruPageControllerProvider = Provider(
 
 final routeNameProvider = StateProvider<String?>((ref) => null);
 
+final canGoBackProvider = Provider<bool>((ref) {
+  final routeName = ref.watch(routeNameProvider);
+  return routeName != null && routeName != '/';
+});
+
 class StoreApp extends ConsumerStatefulWidget {
   const StoreApp({super.key});
 
@@ -52,6 +58,16 @@ class _StoreAppState extends ConsumerState<StoreApp>
   late Locale _locale;
 
   NavigatorState get _navigator => _navigatorKey.currentState!;
+
+  void _handlePointerDown(PointerDownEvent event) {
+    if (event.buttons & kBackMouseButton == 0) return;
+    final rootNavigator = ref
+        .read(materialAppNavigatorKeyProvider)
+        .currentState;
+    if (rootNavigator?.canPop() ?? false) return;
+    if (!ref.read(canGoBackProvider)) return;
+    _navigator.maybePop();
+  }
 
   @override
   void initState() {
@@ -81,46 +97,49 @@ class _StoreAppState extends ConsumerState<StoreApp>
       next.whenData((route) => _navigator.pushNamed(route));
     });
 
-    return CallbackShortcuts(
-      bindings: <ShortcutActivator, VoidCallback>{
-        const SingleActivator(LogicalKeyboardKey.keyF, control: true): () {
-          searchFocus.requestFocus();
-          searchFocus.nextFocus();
+    return Listener(
+      onPointerDown: _handlePointerDown,
+      child: CallbackShortcuts(
+        bindings: <ShortcutActivator, VoidCallback>{
+          const SingleActivator(LogicalKeyboardKey.keyF, control: true): () {
+            searchFocus.requestFocus();
+            searchFocus.nextFocus();
+          },
+          const SingleActivator(LogicalKeyboardKey.keyQ, control: true): () {
+            unawaited(
+              ServicesBinding.instance.exitApplication(AppExitType.cancelable),
+            );
+          },
         },
-        const SingleActivator(LogicalKeyboardKey.keyQ, control: true): () {
-          unawaited(
-            ServicesBinding.instance.exitApplication(AppExitType.cancelable),
-          );
-        },
-      },
-      child: YaruTheme(
-        builder: (context, yaru, child) => MaterialApp(
-          theme: yaru.theme.customize(locale: _locale),
-          darkTheme: yaru.darkTheme.customize(locale: _locale),
-          highContrastTheme: yaruHighContrastLight.customize(
-            highContrast: true,
-            locale: _locale,
-          ),
-          highContrastDarkTheme: yaruHighContrastDark.customize(
-            highContrast: true,
-            locale: _locale,
-          ),
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: localizationsDelegates,
-          navigatorKey: ref.watch(materialAppNavigatorKeyProvider),
-          supportedLocales: supportedLocales,
-          scrollBehavior: const MaterialScrollBehavior().copyWith(
-            dragDevices: {
-              PointerDeviceKind.mouse,
-              PointerDeviceKind.touch,
-              PointerDeviceKind.stylus,
-              PointerDeviceKind.unknown,
-              PointerDeviceKind.trackpad,
-            },
-          ),
-          home: _StoreAppHome(
-            navigatorKey: _navigatorKey,
-            searchFocus: searchFocus,
+        child: YaruTheme(
+          builder: (context, yaru, child) => MaterialApp(
+            theme: yaru.theme.customize(locale: _locale),
+            darkTheme: yaru.darkTheme.customize(locale: _locale),
+            highContrastTheme: yaruHighContrastLight.customize(
+              highContrast: true,
+              locale: _locale,
+            ),
+            highContrastDarkTheme: yaruHighContrastDark.customize(
+              highContrast: true,
+              locale: _locale,
+            ),
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: localizationsDelegates,
+            navigatorKey: ref.watch(materialAppNavigatorKeyProvider),
+            supportedLocales: supportedLocales,
+            scrollBehavior: const MaterialScrollBehavior().copyWith(
+              dragDevices: {
+                PointerDeviceKind.mouse,
+                PointerDeviceKind.touch,
+                PointerDeviceKind.stylus,
+                PointerDeviceKind.unknown,
+                PointerDeviceKind.trackpad,
+              },
+            ),
+            home: _StoreAppHome(
+              navigatorKey: _navigatorKey,
+              searchFocus: searchFocus,
+            ),
           ),
         ),
       ),
@@ -318,8 +337,7 @@ class _MaybeBackButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final routeName = ref.watch(routeNameProvider);
-    final canPop = routeName != null && routeName != '/';
+    final canPop = ref.watch(canGoBackProvider);
     return canPop
         ? YaruBackButton(
             style: YaruBackButtonStyle.rounded,
