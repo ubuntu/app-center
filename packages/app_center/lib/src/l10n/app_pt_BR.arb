@@ -212,7 +212,7 @@
             }
         }
     },
-    "managePageUpdatedMonthsAgo": "Atualizado há {n, plural, =1{{n} mês} other{{n} meses}} atrás",
+    "managePageUpdatedMonthsAgo": "Atualizado há {n, plural, =1{{n} mês} other{{n} meses}}atrás",
     "@managePageUpdatedMonthsAgo": {
         "placeholders": {
             "n": {
@@ -290,7 +290,7 @@
     "managePageUpdatesFailedBody": "Não conseguimos atualizar esses aplicativos porque eles estão em execução no momento.\n\n{snapList}\nQuando você fechar os aplicativos, eles serão atualizados automaticamente.",
     "managePageQuitToUpdate": "Sair para atualizar",
     "managePageDocumentationLinkLabel": "Saiba como gerenciar pacotes Debian na documentação.",
-    "managePageInstallingLabel": "Instalando ({n})",
+    "managePageInstallingLabel": "Instalando({n})",
     "@managePageInstallingLabel": {
         "placeholders": {
             "n": {
@@ -405,5 +405,214 @@
     },
     "managePagePackageTypeDeb": "Deb",
     "appUrlTypeUnknown": "Link",
-    "appConfinementStrict": "Em ambiente isolado"
+    "appConfinementStrict": "Em ambiente isolado",
+    "managePageOpenAppSemanticLabel": "Abrir {appName}",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "Atualizar {appName}",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppRestartRequiredSemanticLabel": "Atualizar {appName}, reinicialização necessária para concluir",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "Desinstalar {appName}",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "Cancelar {action} para {appName}",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "Tamanho: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "Canal {channel} , versão {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "Canal {channel}, versão {version} para {updateVersion}",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "Versão {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "Versão {version} para {updateVersion}",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsAdditionalInfoLabel": "Informações adicionais",
+    "appDetailsPackageFormatLabel": "Formato do pacote",
+    "appDetailsCategoryLabel": "Categoria",
+    "appDetailsInstallDateLabel": "Data de instalação",
+    "appDetailsInstalledSizeLabel": "Tamanho instalado",
+    "appDetailsNotInstalled": "Não instalado",
+    "appDetailsNotAvailable": "Não disponível",
+    "appDetailsChoosePackageFormatAction": "Escolha o formato do pacote…",
+    "appDetailsChoosePackageFormatTitle": "Escolha o formato do pacote",
+    "appDetailsPackageSourceLabel": "Origem",
+    "appDetailsVerifiedPublisherSemanticLabel": "Editor verificado",
+    "appDetailsStarredPublisherSemanticLabel": "Editor em destaque",
+    "appDetailsPackageSourceSnapStore": "Snap Store",
+    "appDetailsPackageSourceUbuntuArchive": "Arquivo Ubuntu",
+    "appDetailsInstalledAsFormat": "Já instalado como {format}",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "Ambos {first} e {second} estão instalados",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Instalado em múltiplos formatos de pacote",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Desinstale-o antes de instalar um formato de pacote diferente. Os dados do aplicativo não são compartilhados entre formatos.} =2{Desinstale ambos para mudar para um formato diferente. Os dados do aplicativo não são compartilhados entre formatos.} other{Desinstale-os para alternar para um formato diferente. Os dados do aplicativo não são compartilhados entre formatos.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "appDetailsPackageFormatsLearnMore": "Saiba mais sobre formatos de pacotes",
+    "localDebInstalledVersion": "Versão instalada: {version}",
+    "@localDebInstalledVersion": {
+        "description": "The version already installed when viewing a local Debian package file.",
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "addonsPageLabel": "Complementos",
+    "addonsPageAdditionalDriversTitle": "Drivers adicionais",
+    "addonsPageAdditionalDriversDescription": "Adicione melhor suporte para placas gráficas e outros hardwares",
+    "addonsPageMediaSupportTitle": "Suporte de mídia",
+    "addonsPageMediaSupportDescription": "Instale software adicional para suportar mais formatos de mídia",
+    "addonsPageFirmwareTitle": "Firmware",
+    "addonsPageFirmwareDescription": "Atualize o hardware para melhor desempenho e segurança",
+    "mediaSupportPageDescription": "O Ubuntu vem com alguns codecs de código aberto por padrão. Talvez seja necessário instalar software adicional para reproduzir e editar determinados formatos de música e vídeo.",
+    "mediaSupportPageAdditionalMediaTitle": "Suporte de mídia adicional",
+    "mediaSupportPageInstallButton": "Instalar",
+    "driversPageDescription": "Drivers proprietários possuem código privado que os desenvolvedores do Ubuntu não podem revisar ou melhorar. A segurança e outras atualizações dependem do fornecedor do driver.",
+    "driversPageSectionUpdateAvailable": "Atualização disponível",
+    "driversPageSectionAvailable": "Disponível",
+    "driversPageSectionInstalled": "Instalado",
+    "driversPageSectionUnsupported": "Nenhum driver disponível",
+    "driversPageNoPackagesMessage": "Nenhum pacote fornece drivers para este dispositivo",
+    "driversPageDeviceClassGraphics": "Gráficos",
+    "driversPageDeviceClassNetwork": "Rede",
+    "driversPageDeviceClassCamera": "Câmera",
+    "driversPageDeviceClassUsb": "USB",
+    "driversPageDeviceClassStorage": "Armazenamento",
+    "driversPageDeviceClassAudio": "Áudio",
+    "driversPageDeviceClassOther": "Outros",
+    "driversPageBranchProduction": "Produção",
+    "driversPageBranchLts": "Suporte de longo prazo",
+    "driversPageBranchNewFeature": "Novos recursos",
+    "driversPageVersionLabel": "Versão {version}",
+    "@driversPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageRestartRequiredTitle": "Reinicialização necessária",
+    "driversPageRestartRequiredMessage": "Reinicie o computador para terminar de aplicar as alterações do driver.",
+    "driversPageErrorLabel": "Erro",
+    "driversPageRetryLabel": "Repetir",
+    "driversPageNoDriversFoundMessage": "Usando drivers integrados. Nenhum driver adicional encontrado.",
+    "driversPageUnavailableTitle": "Gestão de driver indisponível",
+    "driversPageUnsupportedMessage": "O serviço de gerenciamento de driver não está disponível. Certifique-se de que o snapd esteja atualizado e que o ubuntu-drivers-common esteja instalado.",
+    "driversPageSwitchBranchLabel": "Alternar branch",
+    "driversPageSwitchBranchTitle": "Alternar branch",
+    "driversPageSwitchBranchProductionDescription": "Equilíbrio entre características e estabilidade",
+    "driversPageSwitchBranchLtsDescription": "Máxima estabilidade para cargas de trabalho críticas",
+    "driversPageSwitchBranchNewFeatureDescription": "Prévia, menos estável",
+    "driversPageSwitchBranchRecommendedLabel": "{branch} (recomendado)",
+    "@driversPageSwitchBranchRecommendedLabel": {
+        "placeholders": {
+            "branch": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageSwitchBranchLessStableWarningTitle": "Este ramo é menos estável",
+    "driversPageSwitchBranchLessStableWarningMessage": "Permaneça na ramificação atual para evitar problemas com este dispositivo.",
+    "driversPageSwitchLabel": "Trocar",
+    "driversPageSwitchingBranchLabel": "Trocar ramo",
+    "driversPageUninstallTitle": "Desinstalar driver",
+    "driversPageUninstallWarningTitle": "Desinstalar drivers pode causar problemas",
+    "driversPageUninstallWarningMessage": "Talvez você não consiga reinstalar os drivers facilmente, principalmente se estiverem relacionados a gráficos ou rede.",
+    "driversPageUninstallAcknowledgeLabel": "Eu compreendo os riscos"
 }
