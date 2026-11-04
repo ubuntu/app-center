@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:app_center/addons/addons.dart';
+import 'package:app_center/apps/app_details_entry.dart';
+import 'package:app_center/apps/unified_app_page.dart';
 import 'package:app_center/deb/deb.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/games/games.dart';
@@ -206,6 +208,7 @@ class _StoreAppHome extends ConsumerWidget {
         ),
       ),
     );
+    final unifiedDetailsEnabled = ref.watch(unifiedDetailsEnabledProvider);
 
     return Scaffold(
       body: YaruMasterDetailPage(
@@ -234,7 +237,13 @@ class _StoreAppHome extends ConsumerWidget {
             settings: settings,
             builder: (_) => YaruDetailPage(
               appBar: searchField,
-              body: DebPage(id: StoreRoutes.debOf(settings)!),
+              body: unifiedDetailsEnabled
+                  ? UnifiedAppPage(
+                      entry: AppDetailsEntry.debComponent(
+                        StoreRoutes.debOf(settings)!,
+                      ),
+                    )
+                  : DebPage(id: StoreRoutes.debOf(settings)!),
             ),
           ),
           StoreRoutes.localDeb => MaterialPageRoute(
@@ -248,7 +257,13 @@ class _StoreAppHome extends ConsumerWidget {
             settings: settings,
             builder: (_) => YaruDetailPage(
               appBar: searchField,
-              body: SnapPage(snapName: StoreRoutes.snapOf(settings)!),
+              body: unifiedDetailsEnabled
+                  ? UnifiedAppPage(
+                      entry: AppDetailsEntry.snap(
+                        StoreRoutes.snapOf(settings)!,
+                      ),
+                    )
+                  : SnapPage(snapName: StoreRoutes.snapOf(settings)!),
             ),
           ),
           StoreRoutes.search => MaterialPageRoute(
