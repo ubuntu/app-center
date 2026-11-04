@@ -319,9 +319,7 @@ class _PublisherLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
     final validation = publisher?.validation ?? PublisherValidation.none;
-    final verified = validation == PublisherValidation.verified;
     final name = publisher?.name ?? l10n.unknownPublisher;
 
     return ConstrainedBox(
@@ -342,18 +340,7 @@ class _PublisherLabel extends StatelessWidget {
           if (validation != PublisherValidation.none)
             Padding(
               padding: const EdgeInsetsDirectional.only(start: 4),
-              child: Icon(
-                verified ? Icons.verified : Icons.stars,
-                semanticLabel: verified
-                    ? l10n.appDetailsVerifiedPublisherSemanticLabel
-                    : l10n.appDetailsStarredPublisherSemanticLabel,
-                size: 14,
-                color: MediaQuery.highContrastOf(context)
-                    ? theme.hintColor
-                    : verified
-                    ? theme.colorScheme.success
-                    : theme.colorScheme.warning,
-              ),
+              child: PublisherBadge(validation, size: 14, focusable: true),
             ),
         ],
       ),

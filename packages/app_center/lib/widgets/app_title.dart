@@ -1,3 +1,5 @@
+import 'package:app_center/apps/app_details_labels.dart';
+import 'package:app_center/apps/app_details_state.dart';
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/deb/local_deb_model.dart';
 import 'package:app_center/games/games.dart';
@@ -66,6 +68,12 @@ class AppTitle extends StatelessWidget {
   final List<SnapCategory>? snapCategories;
   final bool large;
 
+  PublisherValidation get publisherValidation => verifiedPublisher
+      ? PublisherValidation.verified
+      : starredPublisher
+      ? PublisherValidation.starred
+      : PublisherValidation.none;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -77,10 +85,6 @@ class AppTitle extends StatelessWidget {
     final publisherTextStyle = large
         ? textTheme.bodyMedium!
         : textTheme.bodyMedium!;
-    final publisherIconColor = verifiedPublisher
-        ? theme.colorScheme.success
-        : theme.colorScheme.warning;
-    final isHighContrast = MediaQuery.highContrastOf(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,15 +109,14 @@ class AppTitle extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              if (verifiedPublisher || starredPublisher)
+              if (publisherValidation != PublisherValidation.none)
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
-                  child: Icon(
-                    verifiedPublisher ? Icons.verified : Icons.stars,
+                  child: PublisherBadge(
+                    publisherValidation,
                     size: publisherTextStyle.fontSize,
-                    color: isHighContrast
-                        ? theme.hintColor
-                        : publisherIconColor,
+                    // Only page titles; cards are already one focus target.
+                    focusable: large,
                   ),
                 ),
             ],
