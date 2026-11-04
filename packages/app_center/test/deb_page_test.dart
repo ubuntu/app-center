@@ -74,6 +74,41 @@ void main() {
     );
   });
 
+  testWidgets('setup script failure explains how to finish the setup', (
+    tester,
+  ) async {
+    const error = PackageKitServiceError(
+      code: PackageKitError.packageFailedToInstall,
+      details:
+          'Error while installing package: old testdeb package postinst '
+          'maintainer script failed with exit status 1',
+    );
+    createMockPackageKitService(
+      packageInfo: packageInfo,
+      errorStream: Stream.value(error),
+    );
+    createMockAppstreamService(component: component);
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        child: const DebPage(id: 'testdeb'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text(tester.l10n.debSetupFailedTitle('testdeb')),
+      findsOneWidget,
+    );
+    expect(find.text(tester.l10n.debSetupFailedBody), findsOneWidget);
+    expect(find.text('sudo apt install testdeb'), findsOneWidget);
+    expect(find.textContaining('PackageKit error'), findsNothing);
+
+    await tester.tap(find.text(tester.l10n.debSetupFailedDetailsLabel));
+    await tester.pumpAndSettle();
+    expect(find.text(error.details), findsOneWidget);
+  });
+
   testWidgets('error dialog is not repeated on a later state change', (
     tester,
   ) async {

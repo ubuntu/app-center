@@ -346,6 +346,49 @@ void main() {
     expect(errorState.error!.code, equals(PackageKitError.internalError));
   });
 
+  test('failed transaction keeps the error it already reported', () async {
+    const error = PackageKitServiceError(
+      code: PackageKitError.cannotInstallRepositoryUnsigned,
+      details: 'The following packages cannot be authenticated: testdeb',
+    );
+    final errors = StreamController<PackageKitServiceError>.broadcast();
+    addTearDown(errors.close);
+    final packageKit = createMockPackageKitService(
+      packageInfo: packageInfo,
+      transactionId: 42,
+      errorStream: errors.stream,
+      lastError: error,
+    );
+    when(packageKit.waitTransaction(any)).thenAnswer((_) async {
+      errors.add(error);
+      throw PackageKitTransactionError(
+        'Transaction 42 finished with exit code: needUntrusted',
+        exit: PackageKitExit.needUntrusted,
+      );
+    });
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    final states = <DebData>[];
+    container.listen(debModelProvider('testdeb'), (_, next) {
+      if (next.hasValue) states.add(next.value!);
+    });
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
+    );
+
+    await container.read(debModelProvider('testdeb').notifier).updateDeb();
+
+    final reported = states.map((s) => s.error).nonNulls;
+    expect(reported, isNotEmpty);
+    expect(reported, everyElement(equals(error)));
+    expect(
+      states.any((s) => s.error != null && s.activeTransactionId == null),
+      isTrue,
+    );
+  });
+
   test('successful transaction clears transaction without error', () async {
     createMockPackageKitService(
       packageInfo: packageInfo,

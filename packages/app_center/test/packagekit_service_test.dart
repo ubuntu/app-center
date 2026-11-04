@@ -1134,6 +1134,64 @@ void main() {
       expect(packageKit.activeMutations, isEmpty);
     });
   });
+
+  group('packageWithFailedSetup', () {
+    for (final testCase in [
+      (
+        name: 'postinst failed',
+        error: const PackageKitServiceError(
+          code: PackageKitError.packageFailedToInstall,
+          details:
+              'Error while installing package: old matlab-support package '
+              'postinst maintainer script failed with exit status 1',
+        ),
+        expected: 'matlab-support',
+      ),
+      (
+        name: 'preinst of a multi-arch package failed',
+        error: const PackageKitServiceError(
+          code: PackageKitError.packageFailedToInstall,
+          details:
+              'Error while installing package: new libfoo:amd64 package '
+              'preinst maintainer script failed with exit status 1',
+        ),
+        expected: 'libfoo:amd64',
+      ),
+      (
+        name: 'older dpkg wording',
+        error: const PackageKitServiceError(
+          code: PackageKitError.packageFailedToInstall,
+          details:
+              'Error while installing package: installed matlab-support '
+              'package post-installation script subprocess returned error '
+              'exit status 1',
+        ),
+        expected: 'matlab-support',
+      ),
+      (
+        name: 'file conflict is not a setup failure',
+        error: const PackageKitServiceError(
+          code: PackageKitError.packageFailedToInstall,
+          details:
+              "Error while installing package: trying to overwrite '/usr/bin/foo', "
+              'which is also in package bar 1.0',
+        ),
+        expected: null,
+      ),
+      (
+        name: 'other error codes are ignored',
+        error: const PackageKitServiceError(
+          code: PackageKitError.transactionError,
+          details: 'old foo package postinst maintainer script failed',
+        ),
+        expected: null,
+      ),
+    ]) {
+      test(testCase.name, () {
+        expect(packageWithFailedSetup(testCase.error), testCase.expected);
+      });
+    }
+  });
 }
 
 @GenerateMocks([DBusClient, XdgDocumentsPortal])

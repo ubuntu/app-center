@@ -51,6 +51,17 @@ bool _isUserCancellation(PackageKitError code) =>
     code == PackageKitError.notAuthorized ||
     code == PackageKitError.transactionCancelled;
 
+// e.g. "old foo package postinst maintainer script failed with exit status 1"
+final _failedSetupScript = RegExp(
+  r'(?:installed|new|old) (\S+) package \S+ (?:maintainer )?script',
+);
+
+/// The package whose maintainer script failed (often a debconf question).
+String? packageWithFailedSetup(PackageKitServiceError error) {
+  if (error.code != PackageKitError.packageFailedToInstall) return null;
+  return _failedSetupScript.firstMatch(error.details)?.group(1);
+}
+
 enum PackageKitMutationKind { install, remove, update, installLocal }
 
 enum PackageKitMutationOutcome { success, failed, cancelled }

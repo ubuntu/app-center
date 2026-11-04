@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:app_center/apps/app_page.dart';
 import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/appstream/appstream.dart';
@@ -20,13 +18,6 @@ class DebPage extends ConsumerWidget {
 
   final String id;
 
-  Future<void> showError(BuildContext context, PackageKitServiceError e) =>
-      showErrorDialog(
-        context: context,
-        title: 'PackageKit error: ${e.code}',
-        message: e.details,
-      );
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final debModel = ref.watch(debModelProvider(id));
@@ -38,7 +29,7 @@ class DebPage extends ConsumerWidget {
     ref.listen(debModelProvider(id), (previous, next) {
       final error = next.value?.error;
       if (error == null || error == previous?.value?.error) return;
-      showError(context, error);
+      showPackageKitErrorDialog(context, error);
     });
 
     return debModel.when(
