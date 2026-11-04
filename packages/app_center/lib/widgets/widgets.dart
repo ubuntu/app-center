@@ -7,5 +7,6 @@ export 'banner.dart';
 export 'category_snap_list.dart';
 export 'clickable.dart';
 export 'dialogs.dart';
+export 'markdown_description.dart';
 export 'screenshot_gallery.dart';
 export 'snap_grid.dart';

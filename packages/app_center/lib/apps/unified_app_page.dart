@@ -10,7 +10,6 @@ import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/apps/package_format_dialog.dart';
 import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
-import 'package:app_center/extensions/string_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
@@ -22,7 +21,6 @@ import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:yaru/yaru.dart';
@@ -148,10 +146,7 @@ class _Description extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => switch (description.type) {
-    RichContentType.markdown => MarkdownBody(
-      selectable: true,
-      data: description.text.escapedMarkdown(),
-    ),
+    RichContentType.markdown => MarkdownDescription(data: description.text),
     RichContentType.html => Html(
       data: description.text,
       style: {
