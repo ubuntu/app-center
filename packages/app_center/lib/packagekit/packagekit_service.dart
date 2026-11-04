@@ -16,6 +16,14 @@ export 'package:packagekit/packagekit.dart' show PackageKitTransaction;
 
 const _packageKitBusName = 'org.freedesktop.PackageKit';
 
+/* Packages from the archive are signed, so installs and updates ask the daemon
+   to accept trusted packages only. Without this flag PackageKit falls back to
+   the `package-install-untrusted` polkit action, which tells the user the
+   software is not from a trusted source and, being deliberately not retained,
+   asks for a password once per transaction. A local file is the one case where
+   an unsigned package is expected, so `installLocal` leaves the flag off. */
+const _onlyTrusted = {PackageKitTransactionFlag.onlyTrusted};
+
 typedef PackageKitPackageInfo = PackageKitPackageEvent;
 typedef PackageKitServiceError = PackageKitErrorCodeEvent;
 typedef PackageKitPackageDetails = PackageKitDetailsEvent;
@@ -421,7 +429,10 @@ class PackageKitService {
   /// returns the transaction ID.
   Future<int> install(PackageKitPackageId packageId) async =>
       _createTransaction(
-        action: (transaction) => transaction.installPackages([packageId]),
+        action: (transaction) => transaction.installPackages(
+          [packageId],
+          transactionFlags: _onlyTrusted,
+        ),
         mutation: (
           kind: PackageKitMutationKind.install,
           packageIds: [packageId],
@@ -432,7 +443,10 @@ class PackageKitService {
   /// `packageId` and returns the transaction ID.
   Future<int> installAll(Iterable<PackageKitPackageId> packageId) async =>
       _createTransaction(
-        action: (transaction) => transaction.installPackages(packageId),
+        action: (transaction) => transaction.installPackages(
+          packageId,
+          transactionFlags: _onlyTrusted,
+        ),
         mutation: (
           kind: PackageKitMutationKind.install,
           packageIds: packageId.toList(),
@@ -517,7 +531,8 @@ class PackageKitService {
       );
 
   Future<int> update(PackageKitPackageId packageId) async => _createTransaction(
-    action: (transaction) => transaction.updatePackages([packageId]),
+    action: (transaction) =>
+        transaction.updatePackages([packageId], transactionFlags: _onlyTrusted),
     mutation: (kind: PackageKitMutationKind.update, packageIds: [packageId]),
   );
 
@@ -526,7 +541,8 @@ class PackageKitService {
   Future<int> updateAllPackages(
     Iterable<PackageKitPackageId> packageIds,
   ) async => _createTransaction(
-    action: (transaction) => transaction.updatePackages(packageIds),
+    action: (transaction) =>
+        transaction.updatePackages(packageIds, transactionFlags: _onlyTrusted),
   );
 
   static Future<String> _getNativeArchitecture() async {
@@ -734,7 +750,10 @@ class PackageKitService {
   /// Updates all of the given packages in a single transaction.
   Future<void> updateAll(Iterable<PackageKitPackageId> packageIds) =>
       _createTransaction(
-        action: (transaction) => transaction.updatePackages(packageIds),
+        action: (transaction) => transaction.updatePackages(
+          packageIds,
+          transactionFlags: _onlyTrusted,
+        ),
         mutation: (
           kind: PackageKitMutationKind.update,
           packageIds: packageIds.toList(),
