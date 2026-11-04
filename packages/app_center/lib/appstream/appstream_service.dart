@@ -24,31 +24,36 @@ class _CachedComponent {
     this.mediaTypes,
   );
 
-  factory _CachedComponent.fromAppstream(AppstreamComponent component) {
+  factory _CachedComponent.fromAppstream(
+    AppstreamComponent component,
+    Map<String, String> sharedWords,
+  ) {
     final id = component.getId();
     final name = component.getLocalizedName().toLowerCase();
     const origin = '';
     final package = component.getPackage();
     final mediaTypes = component.getLocalizedMediaTypes();
 
-    final keywords = component
-        .getLocalizedKeywords()
-        .map((e) => e.toLowerCase())
-        .toList();
+    // One copy of each word for all components; match() only tests membership.
+    List<String> words(Iterable<String> all) => {
+      for (final word in all) sharedWords[word] ??= word,
+    }.toList(growable: false);
 
-    final nonWordCharacters = RegExp('\\W');
+    final keywords = words(
+      component.getLocalizedKeywords().map((e) => e.toLowerCase()),
+    );
 
-    final summary = component
-        .getLocalizedSummary()
-        .toLowerCase()
-        .split(nonWordCharacters)
-        .toList();
+    final nonWordCharacters = RegExp(r'\W');
 
-    final description = component
-        .getLocalizedDescription()
-        .toLowerCase()
-        .split(nonWordCharacters)
-        .toList();
+    final summary = words(
+      component.getLocalizedSummary().toLowerCase().split(nonWordCharacters),
+    );
+
+    final description = words(
+      component.getLocalizedDescription().toLowerCase().split(
+        nonWordCharacters,
+      ),
+    );
 
     return _CachedComponent(
       component,
@@ -140,15 +145,26 @@ class _ScoredComponent {
 class AppstreamService {
   // TODO: cache AppstreamPool
   AppstreamService({@visibleForTesting AppstreamPool? pool})
-    : _pool = pool ?? AppstreamPool(),
-      _l10n = _loadL10n() {
-    PlatformDispatcher.instance.onLocaleChanged = () async {
-      await _loader;
-      _populateCache();
-    };
-  }
+    : _pool = pool ?? _createPool(),
+      _l10n = _loadL10n();
 
   final AppstreamPool _pool;
+
+  // Catalogs hold hundreds of locales; keep only the ones the app can show.
+  static AppstreamPool _createPool() {
+    final keys = translationKeys(PlatformDispatcher.instance.locale);
+    return AppstreamPool(
+      locales: keys.isEmpty ? null : keys,
+      // languages and contentRatings stay: the deb details model reads them.
+      omit: const {
+        AppstreamDetail.cachedIcons,
+        AppstreamDetail.releaseNotes,
+        AppstreamDetail.screenshotCaptions,
+        AppstreamDetail.screenshotThumbnails,
+      },
+    );
+  }
+
   late final Future<void> _loader = _pool.load().then((_) {
     _populateCache();
     _initialized = true;
@@ -159,6 +175,7 @@ class AppstreamService {
   final _componentsByDesktopId = <String, AppstreamComponent>{};
   final _componentsByAlias = <String, AppstreamComponent>{};
   final _componentsByPackage = <String, AppstreamComponent>{};
+  var _components = const <AppstreamComponent>[];
 
   bool get initialized => _initialized;
 
@@ -182,8 +199,12 @@ class AppstreamService {
     _componentsByAlias.clear();
     _componentsByPackage.clear();
 
-    for (final component in _pool.components) {
-      _cache.add(_CachedComponent.fromAppstream(component));
+    _components = _pool.components;
+    final sharedWords = <String, String>{};
+    for (final component in _components) {
+      _cache.add(
+        _CachedComponent.fromAppstream(component, sharedWords),
+      );
       _index(_componentsById, component.id, component);
       for (final launchable
           in component.launchables.whereType<AppstreamLaunchableDesktopId>()) {
@@ -329,7 +350,7 @@ class AppstreamService {
     if (tokens.isEmpty) {
       if (search.length <= 1) {
         // Search query too broad, matching everything
-        return _pool.components;
+        return _components;
       } else {
         // No valid search tokens
         return [];
@@ -343,7 +364,7 @@ class AppstreamService {
       }
     }
     scored.sort((a, b) => b.score.compareTo(a.score));
-    return scored.map((e) => e.component).toList();
+    return [for (final entry in scored) entry.component];
   }
 
   AppstreamComponent getFromId(String id) {
