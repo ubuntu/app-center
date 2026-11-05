@@ -8,6 +8,8 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 part 'local_deb_model.freezed.dart';
 part 'local_deb_model.g.dart';
 
+enum LocalDebTransactionKind { install, remove }
+
 @freezed
 abstract class LocalDebData extends AppMetadata with _$LocalDebData {
   factory LocalDebData({
@@ -15,13 +17,17 @@ abstract class LocalDebData extends AppMetadata with _$LocalDebData {
     required PackageKitDetailsEvent details,
     PackageKitPackageInfo? packageInfo,
     int? activeTransactionId,
+    LocalDebTransactionKind? activeTransactionKind,
   }) = _LocalDebData;
 
   LocalDebData._();
 
-  String? get installedVersion => packageInfo?.info == PackageKitInfo.installed
-      ? packageInfo?.packageId.version
+  PackageKitPackageId? get installedPackageId =>
+      packageInfo?.info == PackageKitInfo.installed
+      ? packageInfo?.packageId
       : null;
+
+  String? get installedVersion => installedPackageId?.version;
 
   bool get isInstalled => installedVersion == details.packageId.version;
 
@@ -72,7 +78,25 @@ class LocalDebModel extends _$LocalDebModel {
     final packageKit = getService<PackageKitService>();
     final activeTransactionId = await packageKit.installLocal(path);
     state = AsyncValue.data(
-      state.value!.copyWith(activeTransactionId: activeTransactionId),
+      state.value!.copyWith(
+        activeTransactionId: activeTransactionId,
+        activeTransactionKind: LocalDebTransactionKind.install,
+      ),
+    );
+    await packageKit.waitTransaction(activeTransactionId);
+    ref.invalidateSelf();
+  }
+
+  Future<void> remove() async {
+    final packageId = state.value?.installedPackageId;
+    assert(packageId != null, 'remove() called without an installed package');
+    final packageKit = getService<PackageKitService>();
+    final activeTransactionId = await packageKit.remove(packageId!);
+    state = AsyncValue.data(
+      state.value!.copyWith(
+        activeTransactionId: activeTransactionId,
+        activeTransactionKind: LocalDebTransactionKind.remove,
+      ),
     );
     await packageKit.waitTransaction(activeTransactionId);
     ref.invalidateSelf();
@@ -85,7 +109,12 @@ class LocalDebModel extends _$LocalDebModel {
     );
     final packageKit = getService<PackageKitService>();
     await packageKit.cancelTransaction(state.value!.activeTransactionId!);
-    state = AsyncValue.data(state.value!.copyWith(activeTransactionId: null));
+    state = AsyncValue.data(
+      state.value!.copyWith(
+        activeTransactionId: null,
+        activeTransactionKind: null,
+      ),
+    );
   }
 
   Stream<PackageKitServiceError> get errorStream =>
