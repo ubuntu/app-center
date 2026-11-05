@@ -471,6 +471,25 @@ void main() {
       expect(composition.state.actions.primary?.kind, ActionKind.update);
     });
 
+    test('disables every action until the active package is decided', () {
+      final composition = _compose(snap: _snap(), identityPending: true);
+      final state = composition.state;
+      expect(composition.decided, isFalse);
+
+      final actions = [
+        ?state.actions.primary,
+        for (final group in state.targets)
+          for (final option in group.options) ?option.action,
+        for (final format in state.formats) ?format.action,
+      ];
+      expect(actions, isNotEmpty);
+      expect(actions.every((a) => !a.enabled), isTrue);
+      expect(
+        composition.bindings.values.map((b) => b.disabledReason).toSet(),
+        {DisabledReason.busy},
+      );
+    });
+
     AsyncValue<PackageSourceSnapshot> loadingWith(
       PackageSourceSnapshot snapshot,
     ) =>
