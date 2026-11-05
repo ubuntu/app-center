@@ -197,6 +197,7 @@ void main() {
       open();
       expect(view().app.name.valueOrNull, 'Snap App');
       expect(view().decided, isFalse);
+      expect(view().actions.primary?.enabled, isFalse);
 
       lookup.complete(createResolvedIdentity(deb: false));
       await settle();

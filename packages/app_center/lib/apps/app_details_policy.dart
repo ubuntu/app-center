@@ -293,6 +293,10 @@ class _Composer {
   }
 
   ActionDescriptor _bind(ActionBinding binding) {
+    // execute() refuses every command until the active package is decided.
+    final bound = binding.disabledReason == null && !_decided
+        ? binding.copyWith(disabledReason: DisabledReason.busy)
+        : binding;
     final command = binding.command;
     final id = ActionId(
       switch (binding.kind) {
@@ -310,12 +314,12 @@ class _Composer {
         ],
       }.join('|'),
     );
-    bindings[id] = binding;
+    bindings[id] = bound;
     return ActionDescriptor(
       id: id,
-      kind: binding.kind,
-      enabled: binding.disabledReason == null,
-      disabledReason: binding.disabledReason,
+      kind: bound.kind,
+      enabled: bound.disabledReason == null,
+      disabledReason: bound.disabledReason,
     );
   }
 

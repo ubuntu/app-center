@@ -233,25 +233,26 @@ class _ActionBar extends ConsumerWidget {
               onPressed: run(uninstall),
               child: Text(l10n.snapActionRemoveLabel),
             ),
-        ],
-        if (state.formats.isNotEmpty)
-          YaruPopupMenuButton<void>(
-            showArrow: false,
-            semanticLabel: l10n.appMoreActionsSemanticLabel,
-            childPadding: const EdgeInsets.symmetric(horizontal: 2),
-            itemBuilder: (_) => [
-              PopupMenuItem<void>(
-                onTap: () => unawaited(showPackageFormatDialog(context, entry)),
-                child: IntrinsicWidth(
-                  child: ListTile(
-                    mouseCursor: SystemMouseCursors.click,
-                    title: Text(l10n.appDetailsChoosePackageFormatAction),
+          if (state.formats.isNotEmpty)
+            YaruPopupMenuButton<void>(
+              showArrow: false,
+              semanticLabel: l10n.appMoreActionsSemanticLabel,
+              childPadding: const EdgeInsets.symmetric(horizontal: 2),
+              itemBuilder: (_) => [
+                PopupMenuItem<void>(
+                  onTap: () =>
+                      unawaited(showPackageFormatDialog(context, entry)),
+                  child: IntrinsicWidth(
+                    child: ListTile(
+                      mouseCursor: SystemMouseCursors.click,
+                      title: Text(l10n.appDetailsChoosePackageFormatAction),
+                    ),
                   ),
                 ),
-              ),
-            ],
-            child: const Icon(YaruIcons.view_more),
-          ),
+              ],
+              child: const Icon(YaruIcons.view_more),
+            ),
+        ],
       ],
     );
   }
