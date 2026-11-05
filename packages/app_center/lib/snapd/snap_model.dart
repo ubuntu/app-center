@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_center/manage/app_providers.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/snapd/currently_installing_model.dart';
@@ -145,14 +146,18 @@ class SnapModel extends _$SnapModel {
           SnapConfinement.classic,
     );
     _updateChangeId(changeId);
-    return _listenUntilDone(changeId, ref).then((completedSuccessfully) {
+    return _listenUntilDone(changeId, ref).then((completedSuccessfully) async {
       if (removeFromList && completedSuccessfully) {
+        final freshSnap = await _snapd.getSnap(snapData.name);
         ref
             .read(snapUpdatesModelProvider.notifier)
             .removeFromList(snapData.name);
-        ref
-            .read(filteredLocalSnapsProvider.notifier)
-            .addToList(snapData.localSnap!);
+        unawaited(
+          ref
+              .read(filteredLocalSnapsProvider.notifier)
+              .addToList(snapData.localSnap!),
+        );
+        ref.read(installedAppsProvider.notifier).addSnapToList(freshSnap);
       }
       return completedSuccessfully;
     });
