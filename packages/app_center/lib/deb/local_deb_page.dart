@@ -153,7 +153,14 @@ class _LocalDebActionButtons extends ConsumerWidget {
                     child: YaruCircularProgressIndicator(strokeWidth: 2),
                   ),
                   const SizedBox(width: 8),
-                  Flexible(child: Text(l10n.snapActionInstallingLabel)),
+                  Flexible(
+                    child: Text(
+                      debData.activeTransactionKind ==
+                              LocalDebTransactionKind.remove
+                          ? l10n.snapActionRemovingLabel
+                          : l10n.snapActionInstallingLabel,
+                    ),
+                  ),
                 ],
               )
             : Text(
@@ -171,6 +178,13 @@ class _LocalDebActionButtons extends ConsumerWidget {
       child: Text(l10n.snapActionCancelLabel),
     );
 
+    final uninstallButton = OutlinedButton(
+      onPressed: ref
+          .read(localDebModelProvider(path: debData.path).notifier)
+          .remove,
+      child: Text(l10n.snapActionRemoveLabel),
+    );
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -178,6 +192,9 @@ class _LocalDebActionButtons extends ConsumerWidget {
         if (debData.activeTransactionId != null) ...[
           const SizedBox(width: kSpacing),
           cancelButton,
+        ] else if (debData.installedVersion != null) ...[
+          const SizedBox(width: kSpacing),
+          uninstallButton,
         ],
       ],
     );
