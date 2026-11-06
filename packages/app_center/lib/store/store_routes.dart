@@ -9,6 +9,7 @@ abstract class StoreRoutes {
   static const manage = '/manage';
   static const search = '/search';
   static const externalTools = '/externalTools';
+  static const addons = '/addons';
   static const additionalDrivers = '/additionalDrivers';
   static const mediaSupport = '/mediaSupport';
   static const gstreamer = '/gstreamer';

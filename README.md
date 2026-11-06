@@ -23,6 +23,26 @@
 
 This is the code repository for **App Center**
 
+## Deep links
+
+App Center supports these navigation links:
+
+| URI | Destination |
+| --- | --- |
+| `snap://<snap-name>` | Details for the named snap (for example, `snap://firefox`) |
+| `appcenter://addons` | Add-ons |
+| `appcenter://addons/media-support` | Media Support |
+
+Open links with `xdg-open`, for example:
+
+```bash
+xdg-open 'snap://firefox'
+xdg-open 'appcenter://addons/media-support'
+```
+
+Links work on launch and while App Center is running, without starting an
+installation.
+
 ## Get involved
 
 This is an [open source](LICENSE) project and we warmly welcome community contributions, suggestions, and constructive feedback. If you're interested in contributing, please take a look at our [Contribution guidelines](CONTRIBUTING.md) first.
