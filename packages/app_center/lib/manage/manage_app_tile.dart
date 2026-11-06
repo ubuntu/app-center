@@ -230,8 +230,11 @@ class ManageAppTile extends ConsumerWidget {
     app.map(
       snap: (snapData) =>
           StoreNavigator.pushSnap(context, name: snapData.snap.name),
-      localDeb: (debData) =>
-          StoreNavigator.pushDeb(context, id: debData.debInfo.id),
+      localDeb: (debData) {
+        // The deb details page is driven by the Appstream component.
+        if (debData.debInfo.component == null) return;
+        StoreNavigator.pushDeb(context, id: debData.debInfo.id);
+      },
     );
   }
 }

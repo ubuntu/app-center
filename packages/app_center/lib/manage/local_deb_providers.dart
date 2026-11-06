@@ -17,6 +17,8 @@ part 'local_deb_providers.g.dart';
 ///
 /// Combines data from multiple sources:
 /// - [component]: Appstream metadata (name, icon, description)
+/// - [hasDesktopEntry]: Whether a package without Appstream metadata still
+///   ships a desktop entry (e.g. third-party debs)
 /// - [packageInfo]: PackageKit package info (version, architecture)
 /// - [details]: PackageKit details (size, description) - fetched separately
 /// - [updateVersion]: Available update version, if any
@@ -27,6 +29,7 @@ abstract class LocalDebInfo with _$LocalDebInfo {
     required String id,
     required PackageKitPackageEvent packageInfo,
     AppstreamComponent? component,
+    @Default(false) bool hasDesktopEntry,
     PackageKitPackageId? updatePackageId,
     PackageKitDetailsEvent? details,
     int? activeTransactionId,
@@ -79,6 +82,36 @@ Future<Map<String, AppstreamComponent>> componentsByPackage(Ref ref) async {
   return appstream.getComponentsByPackage();
 }
 
+// The apt backend prefixes the package ID data with `manual:` or `auto:`.
+bool _isManuallyInstalled(PackageKitPackageId id) =>
+    id.data.startsWith('manual:');
+
+bool _isDesktopEntry(String path) =>
+    path.startsWith('/usr/share/applications/') && path.endsWith('.desktop');
+
+/// Returns the names of manually installed packages that have no Appstream
+/// component but ship a desktop entry, e.g. third-party debs like Google Chrome.
+@riverpod
+Future<Set<String>> desktopAppPackages(Ref ref) async {
+  // Watch both before awaiting: callers that only `read` this provider let it
+  // dispose mid-flight, and `ref` can't be used after that.
+  final installedFuture = ref.watch(installedPackagesProvider.future);
+  final componentsFuture = ref.watch(componentsByPackageProvider.future);
+  final installed = await installedFuture;
+  final componentsByPkg = await componentsFuture;
+  final candidates = installed
+      .map((pkg) => pkg.packageId)
+      .where(
+        (id) =>
+            _isManuallyInstalled(id) && !componentsByPkg.containsKey(id.name),
+      );
+  final files = await getService<PackageKitService>().getFiles(candidates);
+  return {
+    for (final entry in files.entries)
+      if (entry.value.any(_isDesktopEntry)) entry.key,
+  };
+}
+
 /// Returns a map of package name -> update package ID.
 @riverpod
 Future<Map<String, PackageKitPackageId>> debsWithUpdates(Ref ref) async {
@@ -99,22 +132,29 @@ Future<Map<String, PackageKitDetailsEvent>> packageDetails(
   return packageKit.getDetails(packageIds);
 }
 
-/// Aggregates installed deb packages, filtered to only those with Appstream entries.
+/// Aggregates installed deb packages, filtered to those with Appstream entries
+/// or, for manually installed third-party debs, a desktop entry.
 ///
 /// Combines data from:
 /// 1. [installedPackagesProvider] - all installed packages
-/// 2. [componentsByPackageProvider] - filters to packages with Appstream entries
-/// 3. [debsWithUpdatesProvider] - update version info
-/// 4. [packageDetailsProvider] - size and description
+/// 2. [componentsByPackageProvider] - packages with Appstream entries
+/// 3. [desktopAppPackagesProvider] - packages without Appstream entries that
+///    ship a desktop entry
+/// 4. [debsWithUpdatesProvider] - update version info
+/// 5. [packageDetailsProvider] - size and description
 @riverpod
 Future<List<LocalDebInfo>> localDebs(Ref ref) async {
   final installed = await ref.watch(installedPackagesProvider.future);
   final componentsByPkg = await ref.watch(componentsByPackageProvider.future);
+  final desktopApps = await ref.watch(desktopAppPackagesProvider.future);
   final updatesMap = await ref.watch(debsWithUpdatesProvider.future);
 
-  // Filter to packages with Appstream entries
   final guiPackages = installed
-      .where((pkg) => componentsByPkg.containsKey(pkg.packageId.name))
+      .where(
+        (pkg) =>
+            componentsByPkg.containsKey(pkg.packageId.name) ||
+            desktopApps.contains(pkg.packageId.name),
+      )
       .toList();
 
   final packageIds = guiPackages.map((p) => p.packageId).toList();
@@ -127,6 +167,7 @@ Future<List<LocalDebInfo>> localDebs(Ref ref) async {
       id: component?.id ?? name,
       packageInfo: pkg,
       component: component,
+      hasDesktopEntry: desktopApps.contains(name),
       details: details[name],
       updatePackageId: updatesMap[name],
     );
