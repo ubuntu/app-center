@@ -5,6 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
+import 'test_utils.dart';
+
 class MockInitialRouteListener extends Mock {
   void call(String? previous, String? next);
 }
@@ -12,31 +14,9 @@ class MockInitialRouteListener extends Mock {
 void main() {
   tearDown(resetAllServices);
 
-  test('media support deep link', () {
-    final container = ProviderContainer(
-      overrides: [
-        commandLineProvider.overrideWith(
-          (ref) => ['appcenter://addons/media-support'],
-        ),
-      ],
-    );
-    addTearDown(container.dispose);
-
-    expect(container.read(initialRouteProvider), StoreRoutes.mediaSupport);
-  });
-
-  test('Add-ons deep link', () {
-    final container = ProviderContainer(
-      overrides: [
-        commandLineProvider.overrideWith((ref) => ['appcenter://addons']),
-      ],
-    );
-    addTearDown(container.dispose);
-
-    expect(container.read(initialRouteProvider), '/addons');
-  });
-
   for (final entry in {
+    'appcenter://addons': StoreRoutes.addons,
+    'appcenter://addons/media-support': StoreRoutes.mediaSupport,
     'appcenter://addons/': StoreRoutes.addons,
     'appcenter://addons?source=website#details': StoreRoutes.addons,
     'appcenter://addons/unknown': StoreRoutes.addons,
@@ -55,13 +35,11 @@ void main() {
     'appcenter://[': null,
   }.entries) {
     test('deep link ${entry.key}', () {
-      final container = ProviderContainer(
+      final container = createContainer(
         overrides: [
           commandLineProvider.overrideWith((ref) => [entry.key]),
         ],
       );
-      addTearDown(container.dispose);
-
       expect(container.read(initialRouteProvider), entry.value);
     });
   }
@@ -191,13 +169,11 @@ void main() {
 
   test('legacy codec request', () {
     const resource = 'H.265 decoder|gstreamer1(decoder-video/x-h265)()(64bit)';
-    final container = ProviderContainer(
+    final container = createContainer(
       overrides: [
         commandLineProvider.overrideWith((ref) => ['--gst', resource]),
       ],
     );
-    addTearDown(container.dispose);
-
     expect(
       container.read(initialRouteProvider),
       StoreRoutes.namedGStreamer(resources: [resource]),
