@@ -168,6 +168,70 @@ void main() {
       expect(debs.first.id, equals('gimp'));
     });
 
+    test('includes manually installed packages with a desktop entry', () async {
+      createMockAppstreamService(
+        components: [
+          createAppstreamComponent(
+            id: 'gimp',
+            name: 'GIMP',
+            packageName: 'gimp',
+          ),
+        ],
+      );
+      createMockPackageKitService(
+        installedPackages: [
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.installed,
+            packageId: PackageKitPackageId(
+              name: 'google-chrome-stable',
+              version: '157.0',
+              data: 'manual:google_llc-stable-main',
+            ),
+            summary: 'The web browser from Google',
+          ),
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.installed,
+            packageId: PackageKitPackageId(
+              name: 'apport-gtk',
+              version: '2.0',
+              data: 'auto:ubuntu-resolute-main',
+            ),
+            summary: 'Dependency with a desktop file',
+          ),
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.installed,
+            packageId: PackageKitPackageId(
+              name: 'tailscale',
+              version: '1.0',
+              data: 'manual:local',
+            ),
+            summary: 'No desktop file',
+          ),
+        ],
+        packageFiles: {
+          'google-chrome-stable': [
+            '/opt/google/chrome/chrome',
+            '/usr/share/applications/google-chrome.desktop',
+          ],
+          'apport-gtk': ['/usr/share/applications/apport-gtk.desktop'],
+          'tailscale': ['/usr/sbin/tailscaled'],
+        },
+      );
+
+      final container = createContainer();
+      final debs = await container.read(localDebsProvider.future);
+
+      expect(debs.map((d) => d.id), ['google-chrome-stable']);
+      final chrome = debs.single;
+      expect(chrome.component, isNull);
+      expect(chrome.hasDesktopEntry, isTrue);
+      expect(ManageAppData.localDeb(debInfo: chrome).isLaunchable, isTrue);
+      expect(
+        ManageAppData.localDeb(debInfo: chrome).name,
+        'google-chrome-stable',
+      );
+    });
+
     test('includes update info when available', () async {
       createMockAppstreamService(
         components: [
