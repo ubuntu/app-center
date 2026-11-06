@@ -110,20 +110,39 @@ mixin SnapdCache on SnapdClient {
   }
 }
 
-/// Last snaps seen from snapd, readable synchronously. Only for showing
-/// something while fresh data loads; never authoritative.
-mixin SnapdMemoryCache on SnapdClient {
-  final _storeSnaps = <String, Snap>{};
-  // Listings may omit fields, so only lookups by name are kept here.
-  final _snapsByName = <String, Snap>{};
-  final _localSnaps = <String, Snap>{};
+/// Snaps snapd returned to any caller in the app.
+sealed class SnapdResult {
+  const SnapdResult();
+}
 
-  Snap? cachedStoreSnap(String name) => _storeSnaps[name];
+final class FoundSnaps extends SnapdResult {
+  const FoundSnaps(this.snaps, {this.name});
 
-  /// The snap last returned by a lookup by its exact name.
-  Snap? cachedSnapByName(String name) => _snapsByName[name];
+  final List<Snap> snaps;
+  // Set for a lookup by exact name.
+  final String? name;
+}
 
-  Snap? cachedLocalSnap(String name) => _localSnaps[name];
+final class LocalSnap extends SnapdResult {
+  const LocalSnap(this.name, this.snap);
+
+  final String name;
+  // Null when the snap is not installed.
+  final Snap? snap;
+}
+
+final class InstalledSnaps extends SnapdResult {
+  const InstalledSnaps(this.snaps);
+
+  final List<Snap> snaps;
+}
+
+/// Reports what snapd returns, so it can be shown before a page's own
+/// requests finish.
+mixin SnapdResults on SnapdClient {
+  final _results = StreamController<SnapdResult>.broadcast();
+
+  Stream<SnapdResult> get snapResults => _results.stream;
 
   @override
   Future<List<Snap>> find({
@@ -145,23 +164,18 @@ mixin SnapdMemoryCache on SnapdClient {
       filter: filter,
       scope: scope,
     );
-    for (final snap in snaps) {
-      // Listings may omit channels; keep a richer entry over them.
-      if (snap.channels.isNotEmpty ||
-          (_storeSnaps[snap.name]?.channels.isEmpty ?? true)) {
-        _storeSnaps[snap.name] = snap;
-      }
-      if (name != null && snap.name == name) _snapsByName[name] = snap;
-    }
+    _results.add(FoundSnaps(snaps, name: name));
     return snaps;
   }
 
   @override
   Future<Snap> getSnap(String name) async {
     try {
-      return _localSnaps[name] = await super.getSnap(name);
+      final snap = await super.getSnap(name);
+      _results.add(LocalSnap(name, snap));
+      return snap;
     } on SnapdException catch (e) {
-      if (e.kind == 'snap-not-found') _localSnaps.remove(name);
+      if (e.kind == 'snap-not-found') _results.add(LocalSnap(name, null));
       rethrow;
     }
   }
@@ -169,9 +183,7 @@ mixin SnapdMemoryCache on SnapdClient {
   @override
   Future<List<Snap>> getSnaps({SnapsFilter? filter}) async {
     final snaps = await super.getSnaps(filter: filter);
-    for (final snap in snaps) {
-      if (snap.status == SnapStatus.active) _localSnaps[snap.name] = snap;
-    }
+    _results.add(InstalledSnaps(snaps));
     return snaps;
   }
 }

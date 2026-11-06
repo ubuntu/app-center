@@ -5,7 +5,9 @@ import 'package:app_center/mapping/package_mapping_service.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
 import 'package:app_center/mapping/snap_package_adapter.dart';
 import 'package:app_center/mapping/unified_app_identity.dart';
+import 'package:app_center/snapd/seen_snaps_model.dart';
 import 'package:app_center/snapd/snap_data.dart';
+import 'package:app_center/snapd/snapd_service.dart';
 import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -214,12 +216,18 @@ UnifiedAppIdentity singleSourceIdentity(PackageSourceDescriptor source) {
 }
 
 @Riverpod(keepAlive: true)
-AppDetailsIdentityResolver appDetailsIdentityResolver(Ref ref) =>
-    AppDetailsIdentityResolver(
-      snapAdapter: getService<SnapPackageAdapter>(),
-      debAdapter: getService<DebPackageAdapter>(),
-      mappingService: getService<PackageMappingService>(),
-    );
+AppDetailsIdentityResolver appDetailsIdentityResolver(Ref ref) {
+  final snapAdapter = SnapPackageAdapter(
+    snapd: getService<SnapdService>(),
+    seenByName: (name) => ref.read(seenSnapsModelProvider).byName[name],
+  );
+  final debAdapter = getService<DebPackageAdapter>();
+  return AppDetailsIdentityResolver(
+    snapAdapter: snapAdapter,
+    debAdapter: debAdapter,
+    mappingService: PackageMappingService(adapters: [debAdapter, snapAdapter]),
+  );
+}
 
 @riverpod
 Future<ResolvedAppIdentity> appDetailsIdentity(

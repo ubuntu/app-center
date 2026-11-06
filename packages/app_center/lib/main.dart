@@ -10,6 +10,7 @@ import 'package:app_center/mapping/mapping.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/ratings/ratings.dart';
+import 'package:app_center/snapd/seen_snaps_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
@@ -109,11 +110,16 @@ Future<void> main(List<String> args) async {
   await runZonedGuarded(
     () async {
       await YaruWindowTitleBar.ensureInitialized();
+      final container = ProviderContainer(
+        // Don't retry failed providers.
+        retry: (_, _) => null,
+        observers: [ErrorObserver()],
+      );
+      // Created up front so it sees what the first searches return.
+      container.read(seenSnapsModelProvider);
       runApp(
-        ProviderScope(
-          // Don't retry failed providers.
-          retry: (_, _) => null,
-          observers: [ErrorObserver()],
+        UncontrolledProviderScope(
+          container: container,
           child: const StoreApp(),
         ),
       );

@@ -178,7 +178,6 @@ void main() {
 
   test('Snap adapter returns null for missing snaps', () async {
     final snapd = MockSnapdService();
-    when(snapd.cachedSnapByName(any)).thenReturn(null);
     when(
       snapd.find(name: anyNamed('name'), scope: anyNamed('scope')),
     ).thenThrow(
@@ -191,17 +190,17 @@ void main() {
     );
   });
 
-  test('Snap adapter finds a cached snap by name without the store', () async {
+  test('Snap adapter finds a seen snap by name without the store', () async {
     final snapd = MockSnapdService();
     final snap = createSnap(
       name: 'vlc',
       commonIds: ['org.videolan.vlc'],
       apps: [],
     );
-    when(snapd.cachedSnapByName('vlc')).thenReturn(snap);
 
     final descriptor = await SnapPackageAdapter(
       snapd: snapd,
+      seenByName: (name) => name == 'vlc' ? snap : null,
     ).findByPackageName('vlc');
 
     expect(descriptor?.packageId, 'vlc');

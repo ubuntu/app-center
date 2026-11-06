@@ -7,9 +7,12 @@ import 'package:collection/collection.dart';
 import 'package:snapd/snapd.dart';
 
 class SnapPackageAdapter implements PackageFormatAdapter {
-  SnapPackageAdapter({required SnapdService snapd}) : _snapdService = snapd;
+  SnapPackageAdapter({required SnapdService snapd, this._seenByName})
+    : _snapdService = snapd;
 
   final SnapdService _snapdService;
+  // A snap from an earlier lookup by name, to skip the store.
+  final Snap? Function(String name)? _seenByName;
 
   @override
   PackageFormat get format => PackageFormat.snap;
@@ -54,8 +57,8 @@ class SnapPackageAdapter implements PackageFormatAdapter {
 
   @override
   Future<PackageSourceDescriptor?> findByPackageName(String packageName) async {
-    final cached = _snapdService.cachedSnapByName(packageName);
-    if (cached != null) return _descriptorForSnap(cached);
+    final seen = _seenByName?.call(packageName);
+    if (seen != null) return _descriptorForSnap(seen);
     final snaps = await _find(
       () => _snapdService.find(
         name: packageName,
