@@ -2,8 +2,10 @@ import 'package:app_center/apps/app_details_entry.dart';
 import 'package:app_center/apps/app_details_state.dart';
 import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/apps/package_details_backend.dart';
+import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
+import 'package:app_center/snapd/seen_snaps_model.dart';
 import 'package:app_center/snapd/snap_category_enum.dart';
 import 'package:app_center/snapd/snap_data.dart';
 import 'package:app_center/snapd/snap_launcher.dart';
@@ -12,6 +14,7 @@ import 'package:app_center/snapd/snapd_service.dart';
 import 'package:app_center/snapd/snapx.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_logger/ubuntu_logger.dart';
@@ -61,6 +64,14 @@ AsyncValue<PackageSourceSnapshot> snapSourceSnapshot(
       AsyncData(snapSnapshotWithoutStore(snapName, local.value)),
     );
   }
+  if (!model.hasValue) {
+    if (_seedSnapshot(ref, snapName) case final seed?) {
+      // ignore: invalid_use_of_internal_member
+      return const AsyncLoading<PackageSourceSnapshot>().copyWithPrevious(
+        AsyncData(seed),
+      );
+    }
+  }
 
   final data = model.value;
   final changeId = data?.activeChangeId;
@@ -74,6 +85,34 @@ AsyncValue<PackageSourceSnapshot> snapSourceSnapshot(
     model,
     (data) => snapSnapshotFromData(data, change: change, canLaunch: canLaunch),
   );
+}
+
+/// Snapshot from snaps snapd already returned elsewhere in the app.
+PackageSourceSnapshot? _seedSnapshot(Ref ref, String snapName) {
+  final store = ref.watch(
+    seenSnapsModelProvider.select((seen) => seen.store[snapName]),
+  );
+  // A local snapd query answers long before the store lookup in the model.
+  final localState = ref.watch(snapLocalStateProvider(snapName));
+  final local = localState.hasValue
+      ? localState.value
+      : ref.watch(
+          seenSnapsModelProvider.select((seen) => seen.local[snapName]),
+        );
+  if (store == null && local == null) return null;
+  final snapshot = snapSnapshotFromData(
+    SnapData(
+      name: snapName,
+      localSnap: local,
+      storeSnap: store,
+      hasUpdate: ref.watch(hasUpdateProvider(snapName)),
+    ),
+    canLaunch: local != null && ref.watch(launchProvider(local)).isLaunchable,
+  );
+  // A cached local snap may have been removed since, so it can't decide.
+  return localState.hasValue
+      ? snapshot
+      : snapshot.copyWith(installState: InstallState.unknown);
 }
 
 @visibleForTesting

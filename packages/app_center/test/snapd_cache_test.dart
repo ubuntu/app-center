@@ -278,7 +278,76 @@ void main() {
       verify(snapd.find(name: 'bar')).called(1);
     });
   });
+
+  group('results', () {
+    test('reports found snaps and the name looked up', () async {
+      final snapd = _ResultsSnapd()..found = [storeSnap];
+      final results = <SnapdResult>[];
+      snapd.snapResults.listen(results.add);
+
+      await snapd.find(query: 'fire');
+      await snapd.find(name: 'firefox');
+      await Future<void>.delayed(Duration.zero);
+
+      expect(results, [
+        isA<FoundSnaps>()
+            .having((r) => r.snaps, 'snaps', [storeSnap])
+            .having((r) => r.name, 'name', isNull),
+        isA<FoundSnaps>().having((r) => r.name, 'name', 'firefox'),
+      ]);
+    });
+
+    test('reports installed and missing snaps', () async {
+      final snapd = _ResultsSnapd()
+        ..installed = localSnap
+        ..installedSnaps = [localSnap];
+      final results = <SnapdResult>[];
+      snapd.snapResults.listen(results.add);
+
+      await snapd.getSnap('firefox');
+      snapd.installed = null;
+      await expectLater(
+        snapd.getSnap('firefox'),
+        throwsA(isA<SnapdException>()),
+      );
+      await snapd.getSnaps();
+      await Future<void>.delayed(Duration.zero);
+
+      expect(results, [
+        isA<LocalSnap>().having((r) => r.snap, 'snap', localSnap),
+        isA<LocalSnap>().having((r) => r.snap, 'snap', isNull),
+        isA<InstalledSnaps>().having((r) => r.snaps, 'snaps', [localSnap]),
+      ]);
+    });
+  });
 }
+
+class _FakeSnapdClient extends SnapdClient {
+  List<Snap> found = [];
+  Snap? installed;
+  List<Snap> installedSnaps = [];
+
+  @override
+  Future<List<Snap>> find({
+    String? query,
+    String? name,
+    String? commonId,
+    String? category,
+    @Deprecated('Replaced with category') String? section,
+    SnapFindFilter? filter,
+    SnapFindScope? scope,
+  }) async => found;
+
+  @override
+  Future<Snap> getSnap(String name) async =>
+      installed ??
+      (throw SnapdException(message: 'not installed', kind: 'snap-not-found'));
+
+  @override
+  Future<List<Snap>> getSnaps({SnapsFilter? filter}) async => installedSnaps;
+}
+
+class _ResultsSnapd extends _FakeSnapdClient with SnapdResults {}
 
 final localSnap = Snap.fromJson(const {
   'id': '3wdHCAVyZEmYsCMFDE9qt92UV8rC8Wdk',

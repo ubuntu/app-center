@@ -171,6 +171,7 @@ MockSnapdService registerMockSnapdService({
 }) {
   final service = MockSnapdService();
   when(service.defaultFileSystem).thenReturn(MemoryFileSystem());
+  when(service.snapResults).thenAnswer((_) => const Stream.empty());
   when(
     service.getStoreSnaps(any),
   ).thenAnswer((_) => Stream.value([if (storeSnap != null) storeSnap]));
@@ -437,6 +438,10 @@ MockAppstreamService createMockAppstreamService({
     for (final c in allComponents)
       if (c.package != null) c.package!: c,
   });
+  when(appstream.tryGetFromId(any)).thenAnswer((invocation) {
+    final id = invocation.positionalArguments.first as String;
+    return allComponents.firstWhereOrNull((c) => c.id == id);
+  });
 
   registerMockService<AppstreamService>(appstream);
   addTearDown(unregisterService<AppstreamService>);
@@ -461,6 +466,8 @@ MockPackageKitService createMockPackageKitService({
 }) {
   final packageKit = MockPackageKitService();
   when(packageKit.activateService()).thenAnswer((_) async {});
+  when(packageKit.isPackageCached(any)).thenReturn(false);
+  when(packageKit.cachedPackage(any)).thenReturn(null);
 
   when(
     packageKit.resolve(any, installedOnly: anyNamed('installedOnly')),

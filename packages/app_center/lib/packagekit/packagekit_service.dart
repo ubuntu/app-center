@@ -207,9 +207,23 @@ class PackageKitService {
   List<PackageKitMutation> get activeMutations =>
       _mutations.values.where((m) => !m.isTerminal).toList();
 
+  /// Package last reported for [name] by [resolve] or [getInstalledPackages];
+  /// null if [resolve] found nothing. See [isPackageCached].
+  PackageKitPackageInfo? cachedPackage(String name) => _knownPackages[name];
+
+  bool isPackageCached(String name) => _knownPackages.containsKey(name);
+
+  final Map<String, PackageKitPackageInfo?> _knownPackages = {};
+  // Bumped on every mutation so queries started before it are not recorded.
+  int _knownPackagesGeneration = 0;
+
   void _publishMutation(PackageKitMutation mutation) {
     final previous = _mutations[mutation.transactionId];
     if (previous == mutation || (previous?.isTerminal ?? false)) return;
+    // Any mutation can change other packages too, e.g. dependencies.
+    _knownPackages.clear();
+    _knownPackagesGeneration++;
+    _pendingResolves.clear();
     _mutations[mutation.transactionId] = mutation;
     if (mutation.isTerminal) {
       final terminal = _mutations.values.where((m) => m.isTerminal).toList();
@@ -226,9 +240,15 @@ class PackageKitService {
   /// the daemon is inactive.
   /// See https://github.com/ubuntu/app-center/issues/1215
   /// and https://forum.snapcraft.io/t/apparmor-denial-in-new-snap-store-despite-connected-packagekit-control-interface/35290
-  Future<void> activateService() async {
-    if (_isAvailable) return;
+  Future<void> activateService() {
+    if (_isAvailable) return Future.value();
+    // Concurrent callers share one activation.
+    return _activation ??= _activate().whenComplete(() => _activation = null);
+  }
 
+  Future<void>? _activation;
+
+  Future<void> _activate() async {
     final object = DBusRemoteObject(
       _dbus,
       name: 'org.freedesktop.DBus',
@@ -527,6 +547,10 @@ class PackageKitService {
     Iterable<PackageKitPackageId> packageIds,
   ) async => _createTransaction(
     action: (transaction) => transaction.updatePackages(packageIds),
+    mutation: (
+      kind: PackageKitMutationKind.update,
+      packageIds: packageIds.toList(),
+    ),
   );
 
   static Future<String> _getNativeArchitecture() async {
@@ -630,9 +654,42 @@ class PackageKitService {
     List<String> names, {
     bool installedOnly = false,
     @visibleForTesting String? architecture,
-  }) async {
-    if (names.isEmpty) return {};
+  }) {
+    if (names.isEmpty) return Future.value({});
+    // Identical requests already running share one transaction.
+    final key = '$installedOnly|$architecture|${names.join(',')}';
+    var pending = _pendingResolves[key];
+    if (pending == null) {
+      final started = _resolve(
+        names,
+        installedOnly: installedOnly,
+        architecture: architecture,
+      );
+      pending = _pendingResolves[key] = started;
+      unawaited(
+        started
+            .then<void>(
+              (_) {},
+              onError: (_) {},
+            )
+            .whenComplete(() {
+              if (identical(_pendingResolves[key], started)) {
+                _pendingResolves.remove(key);
+              }
+            }),
+      );
+    }
+    return pending.then(Map.of);
+  }
 
+  final _pendingResolves =
+      <String, Future<Map<String, PackageKitPackageInfo?>>>{};
+
+  Future<Map<String, PackageKitPackageInfo?>> _resolve(
+    List<String> names, {
+    required bool installedOnly,
+    required String? architecture,
+  }) async {
     final possibleArchs = [
       architecture ?? await _getNativeArchitecture(),
       'all',
@@ -640,18 +697,24 @@ class PackageKitService {
     final results = {
       for (final name in names) name: null as PackageKitPackageInfo?,
     };
+    final generation = _knownPackagesGeneration;
 
     await _createTransaction(
       action: (transaction) => transaction.resolve(names),
       listener: (event) {
         if (event is PackageKitPackageEvent &&
             possibleArchs.contains(event.packageId.arch) &&
-            (!installedOnly || event.info == PackageKitInfo.installed)) {
+            (!installedOnly || event.info == PackageKitInfo.installed) &&
+            // Newer available versions of installed packages are also listed.
+            results[event.packageId.name]?.info != PackageKitInfo.installed) {
           results[event.packageId.name] = event;
         }
       },
     ).then(waitTransaction);
 
+    if (!installedOnly && generation == _knownPackagesGeneration) {
+      _knownPackages.addAll(results);
+    }
     return results;
   }
 
@@ -742,7 +805,14 @@ class PackageKitService {
       ).then(waitTransaction);
 
   /// Returns all installed packages on the system.
-  Future<List<PackageKitPackageInfo>> getInstalledPackages() async {
+  Future<List<PackageKitPackageInfo>> getInstalledPackages({
+    @visibleForTesting String? architecture,
+  }) async {
+    final possibleArchs = [
+      architecture ?? await _getNativeArchitecture(),
+      'all',
+    ];
+    final generation = _knownPackagesGeneration;
     final packages = <PackageKitPackageInfo>[];
     await _createTransaction(
       action: (transaction) => transaction.getPackages(
@@ -754,6 +824,13 @@ class PackageKitService {
         }
       },
     ).then(waitTransaction);
+    if (generation == _knownPackagesGeneration) {
+      for (final package in packages) {
+        if (possibleArchs.contains(package.packageId.arch)) {
+          _knownPackages[package.packageId.name] = package;
+        }
+      }
+    }
     return packages;
   }
 
