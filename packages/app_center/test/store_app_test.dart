@@ -1,7 +1,11 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:app_center/addons/addons.dart';
 import 'package:app_center/error/error_l10n.dart';
+import 'package:app_center/explore/explore.dart';
+import 'package:app_center/manage/manage.dart';
+import 'package:app_center/media_support/media_support.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/ratings/ratings.dart';
@@ -22,10 +26,111 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 
 import 'test_utils.dart';
+import 'test_utils.mocks.dart';
 
 void main() {
   final binding = TestAppBinding();
   tearDown(resetAllServices);
+
+  group('App Center deep links', () {
+    late MockPackageKitService kit;
+
+    Future<GtkApplicationNotifier> pumpStoreApp(
+      WidgetTester tester, {
+      String? uri,
+    }) async {
+      final app = GtkApplicationNotifier(uri == null ? [] : [uri]);
+      registerServiceInstance(app);
+      addTearDown(app.dispose);
+      registerMockRatingsService();
+      registerMockSnapdService();
+      registerMockDriversService();
+      kit = createMockPackageKitService();
+
+      await tester.pumpWidget(const ProviderScope(child: StoreApp()));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      return app;
+    }
+
+    for (final entry in {
+      'appcenter://addons': AddonsPage,
+      'appcenter://addons/media-support': MediaSupportPage,
+    }.entries) {
+      testWidgets('opens ${entry.key} on launch', (tester) async {
+        await pumpStoreApp(tester, uri: entry.key);
+
+        expect(find.byType(entry.value), findsOneWidget);
+        verifyNever(kit.installAll(any));
+        verifyNever(kit.updateAllPackages(any));
+        verifyNever(kit.removeAll(any));
+
+        await tester.tap(find.byType(YaruBackButton));
+        await tester.pumpAndSettle();
+        expect(find.byType(ExplorePage), findsOneWidget);
+      });
+
+      testWidgets('opens ${entry.key} while running and preserves Back', (
+        tester,
+      ) async {
+        final app = await pumpStoreApp(tester);
+        await tester.tap(
+          find.widgetWithText(YaruMasterTile, tester.l10n.managePageLabel),
+        );
+        await tester.pumpAndSettle();
+        expect(find.byType(ManagePage), findsOneWidget);
+
+        app.notifyCommandLine([entry.key]);
+        await tester.pumpAndSettle();
+        expect(find.byType(entry.value), findsOneWidget);
+
+        app.notifyCommandLine(['appcenter://unknown']);
+        await tester.pumpAndSettle();
+        expect(find.byType(entry.value), findsOneWidget);
+
+        await tester.tap(find.byType(YaruBackButton));
+        await tester.pumpAndSettle();
+        expect(find.byType(ManagePage), findsOneWidget);
+
+        for (var request = 0; request < 2; request++) {
+          app.notifyCommandLine([entry.key]);
+          await tester.pumpAndSettle();
+          expect(find.byType(entry.value), findsOneWidget);
+
+          await tester.tap(find.byType(YaruBackButton));
+          await tester.pumpAndSettle();
+          expect(find.byType(ManagePage), findsOneWidget);
+        }
+      });
+    }
+
+    testWidgets('unknown host shows Home on launch', (tester) async {
+      await pumpStoreApp(tester, uri: 'appcenter://unknown');
+
+      expect(find.byType(ExplorePage), findsOneWidget);
+      expect(find.byType(YaruBackButton), findsNothing);
+    });
+
+    testWidgets('unknown Add-ons path opens Add-ons', (tester) async {
+      final app = await pumpStoreApp(tester);
+
+      app.notifyCommandLine(['appcenter://addons/unknown']);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(AddonsPage), findsOneWidget);
+    });
+
+    testWidgets('existing command-line options still navigate while running', (
+      tester,
+    ) async {
+      final app = await pumpStoreApp(tester);
+
+      app.notifyCommandLine(['--updates']);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(ManagePage), findsOneWidget);
+    });
+  });
 
   group('font fallbacks', () {
     test('prefers the active CJK locale', () {

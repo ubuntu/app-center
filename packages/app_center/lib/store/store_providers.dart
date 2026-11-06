@@ -25,8 +25,10 @@ final initialRouteProvider = Provider.autoDispose((ref) {
 });
 
 final routeStreamProvider = StreamProvider.autoDispose((ref) async* {
-  final args = _parseRoute(ref.watch(commandLineProvider));
-  if (args != null) yield args;
+  final route = _parseRoute(ref.watch(commandLineProvider));
+  // The initial request is handled by initialRouteProvider. Only forward new
+  // requests here so the initial page isn't pushed twice.
+  if (!ref.isFirstBuild && route != null) yield route;
 });
 
 String? _parseRoute(List<String>? args) {
@@ -47,6 +49,11 @@ String? _parseRoute(List<String>? args) {
   );
 
   try {
+    final argument = args?.firstOrNull;
+    if (argument?.toLowerCase().startsWith('appcenter:') ?? false) {
+      return _parseAppCenterRoute(Uri.parse(argument!));
+    }
+
     if (args?.firstOrNull?.startsWith(_kUrlPrefix) ?? false) {
       final snap = args!.first.split(_kUrlPrefix)[1];
       if (snap.isNotEmpty) {
@@ -84,4 +91,12 @@ String? _parseRoute(List<String>? args) {
   }
 
   return null;
+}
+
+String? _parseAppCenterRoute(Uri uri) {
+  if (uri.host != 'addons') return null;
+  return switch (uri.path) {
+    '/media-support' || '/media-support/' => StoreRoutes.mediaSupport,
+    _ => StoreRoutes.addons,
+  };
 }
