@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:app_center/apps/app_details_state.dart';
 import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/apps/package_details_backend.dart';
+import 'package:app_center/snapd/seen_snaps_model.dart';
 import 'package:app_center/snapd/snap_details_backend.dart';
 import 'package:app_center/snapd/snapd.dart';
+import 'package:app_center/snapd/snapd_cache.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -274,6 +276,9 @@ void main() {
         return container.read(snapSourceSnapshotProvider('testsnap'));
       }
 
+      void seen(ProviderContainer container, SnapdResult result) =>
+          container.read(seenSnapsModelProvider.notifier).record(result);
+
       test('is plain loading without cached snaps', () {
         registerMockSnapdService(storeSnap: _storeSnap);
         final value = open(createContainer());
@@ -283,9 +288,9 @@ void main() {
       });
 
       test('shows a cached store snap with unknown install state', () async {
-        final service = registerMockSnapdService(storeSnap: _storeSnap);
-        when(service.cachedStoreSnap('testsnap')).thenReturn(_storeSnap);
+        registerMockSnapdService(storeSnap: _storeSnap);
         final container = createContainer();
+        seen(container, FoundSnaps([_storeSnap]));
         final value = open(container);
 
         expect(value.isLoading, isTrue);
@@ -304,11 +309,11 @@ void main() {
 
       test('reads local state before the store lookup finishes', () async {
         final service = registerMockSnapdService(storeSnap: _storeSnap);
-        when(service.cachedStoreSnap('testsnap')).thenReturn(_storeSnap);
         when(
           service.find(name: anyNamed('name')),
         ).thenAnswer((_) => Completer<List<Snap>>().future);
         final container = createContainer();
+        seen(container, FoundSnaps([_storeSnap]));
         open(container);
         await settle();
 
@@ -319,8 +324,6 @@ void main() {
 
       test('shows cached local state until snapd confirms it', () async {
         final service = registerMockSnapdService(storeSnap: _storeSnap);
-        when(service.cachedStoreSnap('testsnap')).thenReturn(_storeSnap);
-        when(service.cachedLocalSnap('testsnap')).thenReturn(_localSnap());
         when(
           service.find(name: anyNamed('name')),
         ).thenAnswer((_) => Completer<List<Snap>>().future);
@@ -329,6 +332,8 @@ void main() {
             launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
           ],
         );
+        seen(container, FoundSnaps([_storeSnap]));
+        seen(container, LocalSnap('testsnap', _localSnap()));
 
         final cached = open(container);
         expect(cached.value?.installed?.candidateId, 'rev:1');

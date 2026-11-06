@@ -171,9 +171,7 @@ MockSnapdService registerMockSnapdService({
 }) {
   final service = MockSnapdService();
   when(service.defaultFileSystem).thenReturn(MemoryFileSystem());
-  when(service.cachedStoreSnap(any)).thenReturn(null);
-  when(service.cachedSnapByName(any)).thenReturn(null);
-  when(service.cachedLocalSnap(any)).thenReturn(null);
+  when(service.snapResults).thenAnswer((_) => const Stream.empty());
   when(
     service.getStoreSnaps(any),
   ).thenAnswer((_) => Stream.value([if (storeSnap != null) storeSnap]));

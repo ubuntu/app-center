@@ -5,6 +5,7 @@ import 'package:app_center/apps/package_details_backend.dart';
 import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
+import 'package:app_center/snapd/seen_snaps_model.dart';
 import 'package:app_center/snapd/snap_category_enum.dart';
 import 'package:app_center/snapd/snap_data.dart';
 import 'package:app_center/snapd/snap_launcher.dart';
@@ -13,6 +14,7 @@ import 'package:app_center/snapd/snapd_service.dart';
 import 'package:app_center/snapd/snapx.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_logger/ubuntu_logger.dart';
@@ -87,13 +89,16 @@ AsyncValue<PackageSourceSnapshot> snapSourceSnapshot(
 
 /// Snapshot from snaps snapd already returned elsewhere in the app.
 PackageSourceSnapshot? _seedSnapshot(Ref ref, String snapName) {
-  final snapd = getService<SnapdService>();
-  final store = snapd.cachedStoreSnap(snapName);
+  final store = ref.watch(
+    seenSnapsModelProvider.select((seen) => seen.store[snapName]),
+  );
   // A local snapd query answers long before the store lookup in the model.
   final localState = ref.watch(snapLocalStateProvider(snapName));
   final local = localState.hasValue
       ? localState.value
-      : snapd.cachedLocalSnap(snapName);
+      : ref.watch(
+          seenSnapsModelProvider.select((seen) => seen.local[snapName]),
+        );
   if (store == null && local == null) return null;
   final snapshot = snapSnapshotFromData(
     SnapData(
