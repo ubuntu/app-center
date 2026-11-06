@@ -5,6 +5,7 @@ import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
+import 'package:yaru/yaru.dart';
 
 class SnapReport extends StatefulWidget {
   const SnapReport({required this.name, required this.snapName, super.key});
@@ -258,7 +259,9 @@ class _SnapReportState extends State<SnapReport> {
                           const SizedBox(
                             width: 16,
                             height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
+                            child: YaruCircularProgressIndicator(
+                              strokeWidth: 2,
+                            ),
                           ),
                         ],
                       ],
