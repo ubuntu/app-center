@@ -471,5 +471,148 @@
     "addonsPageMediaSupportDescription": "További szoftverek telepítése a több médiaformátum támogatásához",
     "mediaSupportPageDescription": "Az Ubuntu alapértelmezetten néhány nyílt forráskódú kodekkel érkezik. Előfordulhat, hogy további szoftvereket kell telepítenie bizonyos zene- és videóformátumok lejátszásához és szerkesztéséhez.",
     "mediaSupportPageAdditionalMediaTitle": "További média támogatása",
-    "mediaSupportPageInstallButton": "Telepítés"
+    "mediaSupportPageInstallButton": "Telepítés",
+    "managePageOpenAppSemanticLabel": "{appName} megnyitása",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "{appName} frissítése",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppRestartRequiredSemanticLabel": "{appName} frissítése, újraindítás szükséges a befejezéshez",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "{appName} eltávolítása",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "{action} megszakítása a(z) {appName} alkalmazásnál",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "Méret: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "{channel} csatorna, verzió: {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "{channel} csatorna, verzió: {version} → {updateVersion}",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "Verzió: {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "Verzió: {version} → {updateVersion}",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledSizeLabel": "Telepített méret",
+    "appDetailsChoosePackageFormatAction": "Csomagformátum kiválasztása…",
+    "appDetailsChoosePackageFormatTitle": "Csomagformátum kiválasztása",
+    "appDetailsPackageSourceLabel": "Forrás",
+    "appDetailsVerifiedPublisherSemanticLabel": "Ellenőrzött kiadó",
+    "appDetailsStarredPublisherSemanticLabel": "Csillagozott kiadó",
+    "appDetailsPackageSourceSnapStore": "Snap alkalmazásbolt",
+    "appDetailsPackageSourceUbuntuArchive": "Ubuntu archívum",
+    "appDetailsInstalledAsFormat": "Már telepítve van {format} formátumként",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "{first} és {second} is telepítve van",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Többféle csomagformátumként telepítve",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Távolítsa el egy másik csomagformátum telepítése előtt. Az alkalmazás adatai nincsenek megosztva a formátumok között.} =2{Távolítsa el mindkettőt egy másik formátumra váltáshoz. Az alkalmazás adatai nincsenek megosztva a formátumok között.} other{Távolítsa el azokat egy másik formátumra váltáshoz. Az alkalmazás adatai nincsenek megosztva a formátumok között.}}",
+    "@appDetailsUninstallToChangeFormat": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "appDetailsPackageFormatsLearnMore": "Tudjon meg többet a csomagformátumokról",
+    "localDebInstalledVersion": "Telepített verzió: {version}",
+    "@localDebInstalledVersion": {
+        "description": "The version already installed when viewing a local Debian package file.",
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "addonsPageFirmwareTitle": "Belső vezérlőprogram",
+    "addonsPageFirmwareDescription": "Frissítse a hardvert a jobb teljesítmény és a biztonság érdekében"
 }
