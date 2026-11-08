@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:app_center/ratings/ratings.dart';
+import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:clock/clock.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'test_utils.dart';
@@ -90,6 +93,23 @@ void main() {
     pending.complete();
 
     await expectLater(vote, completes);
+  });
+
+  test('does not fail when disposed while the snap is loading', () async {
+    final changes = Completer<List<SnapdChange>>();
+    when(
+      getService<SnapdService>().getChanges(name: anyNamed('name')),
+    ).thenAnswer((_) => changes.future);
+    final errors = <Object>[];
+    final container = createContainer(observers: [_ErrorRecorder(errors)]);
+
+    // An app card leaving the screen before its snap loads.
+    container.listen(ratingsModelProvider(snap.name), (_, _) {}).close();
+    await settle();
+    changes.complete([]);
+    await settle();
+
+    expect(errors, isEmpty);
   });
 
   test('cast vote', () async {
@@ -178,4 +198,17 @@ void main() {
       ).called(1);
     });
   });
+}
+
+base class _ErrorRecorder extends ProviderObserver {
+  _ErrorRecorder(this.errors);
+
+  final List<Object> errors;
+
+  @override
+  void providerDidFail(
+    ProviderObserverContext context,
+    Object error,
+    StackTrace stackTrace,
+  ) => errors.add(error);
 }
