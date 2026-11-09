@@ -212,7 +212,7 @@
             }
         }
     },
-    "managePageUpdatedMonthsAgo": "Atualizado há {n, plural, =1{{n} mês} other{{n} meses}}atrás",
+    "managePageUpdatedMonthsAgo": "Atualizado há {n, plural, =1{{n} mês} other{{n} meses}}",
     "@managePageUpdatedMonthsAgo": {
         "placeholders": {
             "n": {
@@ -290,7 +290,7 @@
     "managePageUpdatesFailedBody": "Não conseguimos atualizar esses aplicativos porque eles estão em execução no momento.\n\n{snapList}\nQuando você fechar os aplicativos, eles serão atualizados automaticamente.",
     "managePageQuitToUpdate": "Sair para atualizar",
     "managePageDocumentationLinkLabel": "Saiba como gerenciar pacotes Debian na documentação.",
-    "managePageInstallingLabel": "Instalando({n})",
+    "managePageInstallingLabel": "Instalando ({n})",
     "@managePageInstallingLabel": {
         "placeholders": {
             "n": {

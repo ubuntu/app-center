@@ -2,7 +2,6 @@ import 'package:app_center/apps/app_page.dart';
 import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
-import 'package:app_center/extensions/string_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
@@ -17,7 +16,6 @@ import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru/yaru.dart';
@@ -92,10 +90,7 @@ class _SnapView extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineSmall,
           ),
           const SizedBox(height: kPagePadding),
-          MarkdownBody(
-            selectable: true,
-            data: snapData.snap.description.escapedMarkdown(),
-          ),
+          MarkdownDescription(data: snapData.snap.description),
         ],
       ),
     );
