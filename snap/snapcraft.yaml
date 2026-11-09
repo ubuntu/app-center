@@ -79,6 +79,7 @@ apps:
       - appstream-metadata
       - desktop
       - desktop-launch
+      - gsettings
       - network
       - snapd-control
       - packagekit-control
