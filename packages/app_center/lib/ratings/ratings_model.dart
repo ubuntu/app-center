@@ -5,6 +5,7 @@ import 'package:app_center/snapd/cache_file.dart';
 import 'package:app_center/snapd/snap_model.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:clock/clock.dart';
+import 'package:file/file.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
@@ -16,6 +17,9 @@ class RatingsModel extends _$RatingsModel {
 
   @override
   Future<RatingsData> build(String snapName) async {
+    // Read before the await: the provider can be disposed during it, and `ref`
+    // throws after that.
+    final fileSystem = ref.read(fileSystemProvider);
     final snapData = await ref.watch(snapModelProvider(snapName).future);
     final snapId = snapData.snap.id;
 
@@ -27,7 +31,7 @@ class RatingsModel extends _$RatingsModel {
     // revision the user has not run.
     final snapRevision = snapData.localSnap?.revision ?? snapData.snap.revision;
 
-    final cacheFile = _getCacheFile(snapId);
+    final cacheFile = _getCacheFile(snapId, fileSystem);
 
     RatingsData? cachedRatingsData;
     if (cacheFile.existsSync() && cacheFile.isValidSync()) {
@@ -75,7 +79,10 @@ class RatingsModel extends _$RatingsModel {
         );
         await _ratings.vote(vote);
         state = AsyncData(ratingsData.copyWith(voteStatus: voteStatus));
-        await _getCacheFile(ratingsData.snapId).deleteIfExists();
+        await _getCacheFile(
+          ratingsData.snapId,
+          ref.read(fileSystemProvider),
+        ).deleteIfExists();
         ref.invalidateSelf();
       } finally {
         keepAliveLink.close();
@@ -92,10 +99,10 @@ class RatingsModel extends _$RatingsModel {
     return null;
   }
 
-  CacheFile _getCacheFile(String snapId) {
+  CacheFile _getCacheFile(String snapId, FileSystem fileSystem) {
     return CacheFile.fromFileName(
       'ratings-$snapId',
-      fileSystem: ref.read(fileSystemProvider),
+      fileSystem: fileSystem,
       expiry: const Duration(days: 1),
     );
   }
