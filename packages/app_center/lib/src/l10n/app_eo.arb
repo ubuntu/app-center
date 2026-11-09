@@ -27,7 +27,7 @@
     "snapCategoryServerAndCloud": "Serviloj kaj nuboj",
     "aboutPageLabel": "Pri",
     "snapPageSummaryLabel": "Resumo",
-    "appstreamSearchGreylist": "programo;aplikaĵo;pako;apo;ilo;programaro;softvaro",
+    "appstreamSearchGreylist": "apo;aplikaĵo;pako;programo;ilo;programaro;softvaro",
     "snapCategoryScience": "Scienco",
     "snapCategoryEntertainment": "Distro",
     "snapActionInstallLabel": "Instali",
@@ -39,9 +39,9 @@
     "packageFormatSnapLabel": "Snap-pakoj",
     "snapCategoryGames": "Ludoj",
     "snapActionInstallingLabel": "Instalante",
-    "searchFieldSearchHint": "Serĉi programojn",
+    "searchFieldSearchHint": "Serĉi apojn",
     "snapCategoryFeatured": "Elstaraj",
-    "managePageSearchFieldSearchHint": "Serĉi instalitajn programojn",
+    "managePageSearchFieldSearchHint": "Serĉi instalitajn apojn",
     "snapActionCancelLabel": "Nuligi",
     "snapPagePublisherLabel": "Eldonejo",
     "snapPageDescriptionLabel": "Priskribo",
@@ -79,7 +79,7 @@
     "snapCategoryPersonalisation": "Tajlorado",
     "aboutPagePublishLabel": "Eldoni ĉe Snap-Vendejo",
     "aboutPageContributorTitle": "Dezajnita kaj programita de:",
-    "managePageInstalledAndUpdatedLabel": "Instalitaj programoj",
+    "managePageInstalledAndUpdatedLabel": "Instalitaj apoj",
     "appstreamUrlTypeHomepage": "Retejo",
     "managePageCheckingForUpdates": "Kontrolante ĝisdatigojn",
     "managePageUpdatedDaysAgo": "Ĝisdatigita antaŭ {n, plural, =1{{n} tago} other{{n} tagoj}}",
@@ -92,7 +92,7 @@
     },
     "snapRatingsBandInsufficientVotes": "Nesufiĉo da voĉoj",
     "snapRatingsBandVeryPoor": "Malbonega",
-    "managePageDescription": "Kontroli disponeblajn ĝisdatigojn, ĝisdatigi kaj administri viajn programojn.",
+    "managePageDescription": "Kontroli disponeblajn ĝisdatigojn, ĝisdatigi kaj administri viajn apojn.",
     "snapActionRemovingLabel": "Malinstalante",
     "snapSortOrderInstalledSizeDesc": "Laŭ grando (de granda ĝis malgranda)",
     "snapPageDeveloperWebsiteLabel": "Retejo de aŭtoro",
@@ -159,14 +159,14 @@
     "snapActionUpdatingLabel": "Ĝisdatigante",
     "searchPageRelevanceLabel": "Rilateco",
     "snapSortOrderAlphabeticalAsc": "Alfabete (de A ĝis Z)",
-    "managePageNoUpdatesAvailableDescription": "Neniu ĝisdatigo disponeblas. Viaj programoj estas ĝisdataj.",
+    "managePageNoUpdatesAvailableDescription": "Neniu ĝisdatigo disponeblas. Viaj apoj estas ĝisdataj.",
     "snapSortOrderRelevance": "Rilateco",
     "snapSortOrderDownloadSizeDesc": "Laŭ grando (de granda ĝis malgranda)",
     "appstreamUrlTypeBugtracker": "Cimspurilo",
     "managePageShowSystemSnapsLabel": "Montri sistemajn pakojn",
     "searchPageFilterByLabel": "Filtri laŭ",
     "snapSortOrderInstalledDateDesc": "De plej laste ĝis malplej laste ĝisdatigita",
-    "appCenterLabel": "Programcentro",
+    "appCenterLabel": "Apocentro",
     "gamesPageTitle": "Ludoj",
     "gamesPageFeatured": "Elstaraj ludoj",
     "gamesPageTop": "Plej bone taksitaj",
@@ -207,7 +207,7 @@
     "snapReportSelectReportReasonLabel": "Elektu kialon por raporti ĉi tiun programon",
     "snapReportOptionStoreViolation": "Malobservo de la uzokondiĉoj de Snap-Vendejo",
     "externalResourcesDisclaimer": "Notu: jen eksteraj ilaĵoj ne posedataj nek distribuataj de Canonical.",
-    "gamesPageBundles": "Programfaskoj",
+    "gamesPageBundles": "Apofaskoj",
     "snapCategoryKdeGamesSlogan": "Ludoj por KDE",
     "snapReportCancelButtonLabel": "Nuligi",
     "snapReportPrivacyAgreementCanonicalPrivacyNotice": "la Averton pri Privateco ",
@@ -244,13 +244,13 @@
     "localDebDialogConfirmation": "Ĉu vi certe volas instali ĝin?",
     "localDebLearnMore": "Lernu pli pri triapartiaj pakoj",
     "localDebDialogMessage": "Tiu pako estas disponigita de tria partio kaj povas minaci vian sistemon kaj personajn datenojn.",
-    "localDebWarningBody": "Tiu pako estas disponigita de tria partio. Instalado de pakoj ekster la Programcentro povas pliigi la riskon al via sistemo kaj personaj datenoj. Certigu, ke vi fidas la fonton antaŭ ol daŭrigi.",
+    "localDebWarningBody": "Tiu pako estas disponigita de tria partio. Instalado de pakoj ekster la Apocentro povas pliigi la riskon al via sistemo kaj personaj datenoj. Certigu, ke vi fidas la fonton antaŭ ol daŭrigi.",
     "managePageDebUpdatesMessage": "Ĝisdatigon de Debian-pakoj respondecas la Ĝisdatigilo de Programaroj.",
     "snapActionInstalledLabel": "Instalita",
     "errorViewNetworkErrorAction": "Kontrolu vian konekton kaj reprovu.",
     "errorViewCheckStatusLabel": "Kontroli staton",
     "errorViewNetworkErrorTitle": "Konekti al Interreto",
-    "errorViewNetworkErrorDescription": "Oni ne povas ŝargi enhavon en la Programcentro sen Interreta konekto.",
+    "errorViewNetworkErrorDescription": "Oni ne povas ŝargi enhavon en la Apocentro sen Interreta konekto.",
     "snapdExceptionRunningApps": "Ne eblis ĝisdatigi {snapName}, ĉar ĝi nun ruliĝas.",
     "@snapdExceptionRunningApps": {
         "placeholders": {
@@ -260,13 +260,13 @@
         }
     },
     "errorViewUnknownErrorTitle": "Io fiaskis",
-    "errorViewServerErrorDescription": "Bedaŭrinde, ni spertas problemojn pri la Programcentro.",
+    "errorViewServerErrorDescription": "Bedaŭrinde, ni spertas problemojn pri la Apocentro.",
     "errorViewServerErrorAction": "Kontrolu la staton pri ĝisdatigoj, aŭ reprovu poste.",
     "errorViewUnknownErrorDescription": "Bedaŭrinde, ni ne certas pri la eraro.",
     "errorViewUnknownErrorAction": "Vi povas reprovi nun, kontroli la staton pri ĝisdatigoj, aŭ reprovi poste.",
     "managePageNoInternet": "Ne eblas konekti al la servilo. Kontrolu vian Interretan konekton, aŭ reprovu poste.",
     "managePageOwnUpdateQuitButton": "Forlasi por ĝisdatigi",
-    "managePageOwnUpdateDescription": "Kiam vi forlasos la programon, ĝi ĝisdatiĝos aŭtomate.",
+    "managePageOwnUpdateDescription": "Kiam vi forlasos la apon, ĝi ĝisdatiĝos aŭtomate.",
     "managePageOwnUpdateDescriptionSoon": "La Programcentro aŭtomate ĝisdatiĝos post {time}.",
     "@managePageOwnUpdateDescriptionSoon": {
         "placeholders": {
@@ -275,7 +275,7 @@
             }
         }
     },
-    "managePageOwnUpdateAvailable": "Ĝisdatigo de la Programcentro disponeblas",
+    "managePageOwnUpdateAvailable": "Ĝisdatigo de la Apocentro disponeblas",
     "managePageQuitToUpdate": "Forlasi por ĝisdatigi",
     "managePageTitle": "Administri instalitajn Snap-pakojn",
     "managePageUpdatesFailed": "{n, plural, =1{Unu ĝisdatigo} other{{n} ĝisdatigoj}} malsukcesis",
@@ -286,9 +286,9 @@
             }
         }
     },
-    "managePageUpdatesFailedBody": "Ne eblis ĝisdatigi la jenajn programojn, ĉar ili estas rulata:\n\n{snapList}\nKiam la ĉi-supraj programoj ĉesos, ili aŭtomate ĝisdatiĝos.",
+    "managePageUpdatesFailedBody": "Ne eblis ĝisdatigi la jenajn apojn, ĉar ili estas rulata:\n\n{snapList}\nKiam la ĉi-supraj apoj ĉesos, ili aŭtomate ĝisdatiĝos.",
     "snapCategoryArtAndDesignButtonLabel": "Ekverku",
-    "snapCategoryArtAndDesignSlogan": "De la unua skizo ĝis la fina peniktuŝo, esploru programojn por arto kaj dezajno.",
+    "snapCategoryArtAndDesignSlogan": "De la unua skizo ĝis la fina peniktuŝo, esploru apojn por arto kaj dezajno.",
     "managePageInstallingLabel": "Instalante ({n})",
     "@managePageInstallingLabel": {
         "placeholders": {
@@ -382,7 +382,7 @@
         }
     },
     "appUrlTypeHomepage": "Retejo de aŭtoro",
-    "appUrlTypeUnknown": "Hiperligo",
+    "appUrlTypeUnknown": "Ligilo",
     "managePagePackageTypeLabel": "Speco de pako",
     "managePagePackageTypeAll": "Ĉia",
     "managePagePackageTypeSnap": "Snap",
@@ -395,9 +395,9 @@
     "appConfinementClassic": "Ne izolita",
     "appConfinementUnrestricted": "Ne izolita",
     "appMoreActionsSemanticLabel": "Pliaj agoj",
-    "appConfinementStrictTooltip": "Jen programo kun limigitaj atingorajtoj al via komputilo. Vi povas ŝanĝi ĝiajn rajtojn per la programo Agordoj.",
-    "appConfinementUnrestrictedTooltip": "Jen programo rajtanta senlime atingi vian komputilon.",
-    "appConfinementClassicTooltip": "Jen programo klasike izolita kaj rajtanta senlime atingi vian komputilon. Tio oftas por programoj pri programado.",
+    "appConfinementStrictTooltip": "Jen apo kun limigitaj atingorajtoj al via komputilo. Vi povas ŝanĝi ĝiajn rajtojn per la apo Agordoj.",
+    "appConfinementUnrestrictedTooltip": "Jen apo rajtanta senlime atingi vian komputilon.",
+    "appConfinementClassicTooltip": "Jen apo klasike izolita kaj rajtanta senlime atingi vian komputilon. Tio oftas por apoj pri programado.",
     "snapActionSwitchChannelTitle": "Ŝanĝi kanalon por {appName}",
     "@snapActionSwitchChannelTitle": {
         "placeholders": {
@@ -598,7 +598,7 @@
     },
     "mediaSupportPageAdditionalMediaTitle": "Subteno de pliaj aŭdvidaĵoj",
     "mediaSupportPageDescription": "Ubuntu instaliĝas apriore kun kelkaj malfermitkodaj programoj por aŭdvidaĵoj. Eble pliaj programoj necesas por spekti aŭ modifi kelkajn aŭdvidajn dosierformojn.",
-    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Malinstalu ĝin antaŭ ol reinstali ĝin aliforme. Programaj datenoj ne estas komunaj inter formoj.} =2{Malinstalu ambaŭ por ŝanĝi al alia formo. Programaj datenoj ne estas komunaj inter formoj.} other{Malinstalu ilin por ŝanĝi al alia formo. Programaj datenoj ne estas komunaj inter formoj.}}",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Malinstalu ĝin antaŭ ol reinstali ĝin aliforme. Apaj datenoj ne estas komunaj inter formoj.} =2{Malinstalu ambaŭ por ŝanĝi al alia formo. Apaj datenoj ne estas komunaj inter formoj.} other{Malinstalu ilin por ŝanĝi al alia formo. Apaj datenoj ne estas komunaj inter formoj.}}",
     "@appDetailsUninstallToChangeFormat": {
         "placeholders": {
             "count": {
