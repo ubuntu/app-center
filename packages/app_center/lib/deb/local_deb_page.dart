@@ -3,13 +3,11 @@ import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/constants.dart';
 import 'package:app_center/deb/local_deb_model.dart';
 import 'package:app_center/error/error.dart';
-import 'package:app_center/extensions/string_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru/yaru.dart';
@@ -82,10 +80,7 @@ class _LocalDebPage extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineSmall,
           ),
           const SizedBox(height: kPagePadding),
-          MarkdownBody(
-            selectable: true,
-            data: debData.details.description.escapedMarkdown(),
-          ),
+          MarkdownDescription(data: debData.details.description),
         ],
       ),
     );
