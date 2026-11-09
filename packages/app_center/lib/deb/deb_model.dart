@@ -113,7 +113,10 @@ class DebModel extends _$DebModel {
     assert(state.value?.packageInfo != null);
     return _packageKitAction(
       DebTransactionKind.remove,
-      () => packageKit.remove(state.value!.packageInfo!.packageId),
+      () => packageKit.remove(
+        state.value!.packageInfo!.packageId,
+        allowDeps: true,
+      ),
     );
   }
 

@@ -11,6 +11,7 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_test/yaru_test.dart';
 
 import 'test_utils.dart';
+import 'test_utils.mocks.dart';
 
 PackageKitPackageEvent _package(String name, PackageKitInfo info) =>
     PackageKitPackageEvent(
@@ -111,6 +112,46 @@ void main() {
     await tester.pumpApp((_) => const ProviderScope(child: MediaSupportPage()));
     await tester.pumpAndSettle();
     expect(find.button(tester.l10n.snapActionRemoveLabel), findsOneWidget);
+  });
+
+  group('uninstall with dependents', () {
+    Future<MockPackageKitService> open(WidgetTester tester) async {
+      final kit = createMockPackageKitService(
+        resolveMap: {
+          for (final name in mediaSupportPackages)
+            name: _package(name, PackageKitInfo.installed),
+        },
+        simulatedRemove: [_package('ubuntu-desktop', PackageKitInfo.removing)],
+      );
+      await tester.pumpApp(
+        (_) => const ProviderScope(child: MediaSupportPage()),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.button(tester.l10n.snapActionRemoveLabel));
+      await tester.pumpAndSettle();
+      return kit;
+    }
+
+    testWidgets('asks first and removes once confirmed', (tester) async {
+      final kit = await open(tester);
+
+      expect(find.text('ubuntu-desktop'), findsOneWidget);
+      verifyNever(kit.removeAll(any, allowDeps: anyNamed('allowDeps')));
+
+      await tester.tap(find.button(tester.l10n.snapActionRemoveLabel).last);
+      await tester.pumpAndSettle();
+
+      verify(kit.removeAll(any, allowDeps: true)).called(1);
+    });
+
+    testWidgets('does not remove when cancelled', (tester) async {
+      final kit = await open(tester);
+
+      await tester.tap(find.button(tester.l10n.snapActionCancelLabel));
+      await tester.pumpAndSettle();
+
+      verifyNever(kit.removeAll(any, allowDeps: anyNamed('allowDeps')));
+    });
   });
 
   testWidgets('shows active status and cancel while installing', (

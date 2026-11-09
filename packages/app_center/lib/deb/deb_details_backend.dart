@@ -6,6 +6,7 @@ import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
 import 'package:app_center/packagekit/packagekit.dart';
+import 'package:app_center/packagekit/packagekit_remove_dialog.dart';
 import 'package:app_center/providers/current_desktops_provider.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:appstream/appstream.dart';
@@ -396,4 +397,12 @@ class DebDetailsBackend implements PackageDetailsBackend {
   @override
   Future<void> open(Ref ref, SourceKey key) async =>
       throw const PackageBackendException('Opening debs is not supported');
+
+  @override
+  Future<List<String>> listDependents(Ref ref, SourceKey key) async {
+    final data = await ref.read(debModelProvider(key.id).future);
+    final packageId = data.packageInfo?.packageId;
+    if (packageId == null) return const [];
+    return packageKitRemovalDependents([packageId]);
+  }
 }

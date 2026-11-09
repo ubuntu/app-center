@@ -4,6 +4,8 @@ import 'package:app_center/apps/app_details_state.dart';
 import 'package:app_center/apps/package_details_backend.dart';
 import 'package:app_center/apps/package_operation_coordinator.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
+import 'package:app_center/providers/error_stream_provider.dart';
+import 'package:app_center/providers/uninstall_check_provider.dart';
 import 'package:app_center/ratings/ratings_model.dart';
 import 'package:collection/collection.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -59,6 +61,7 @@ class AppDetailsModel extends _$AppDetailsModel {
           key: ref.watch(backend.snapshot(key)),
     };
     final operations = ref.watch(packageOperationCoordinatorProvider);
+    final checkingUninstall = ref.watch(uninstallCheckProvider);
     if (snapshots.isNotEmpty &&
         snapshots.values.every((s) => s.error is PackageSourceNotFound)) {
       return AsyncError(AppNotFound(entry), StackTrace.current);
@@ -83,6 +86,7 @@ class AppDetailsModel extends _$AppDetailsModel {
         operations: operations,
         ratings: ratings,
         acknowledgedIssues: _acknowledged,
+        checkingUninstall: checkingUninstall,
       ),
     );
     _composition = composition;
@@ -90,7 +94,14 @@ class AppDetailsModel extends _$AppDetailsModel {
   }
 
   /// Runs the action rendered with [actionId], if it is still valid.
-  Future<CommandReceipt> execute(ActionId actionId) async {
+  ///
+  /// [confirmUninstall] is asked, with the names of other packages an uninstall
+  /// would also remove, when there are any; declining, or not providing it,
+  /// skips the uninstall.
+  Future<CommandReceipt> execute(
+    ActionId actionId, {
+    Future<bool> Function(List<String> dependents)? confirmUninstall,
+  }) async {
     // Reading state flushes pending rebuilds, so bindings reflect the latest
     // backend capabilities rather than what was rendered.
     state;
@@ -127,6 +138,33 @@ class AppDetailsModel extends _$AppDetailsModel {
       case ActionKind.update:
       case ActionKind.uninstall:
       case ActionKind.switchChannel:
+        if (binding.kind == ActionKind.uninstall) {
+          final check = ref.read(uninstallCheckProvider.notifier);
+          if (!check.begin()) {
+            return const CommandReceipt.rejected(CommandRejection.busy);
+          }
+          try {
+            final List<String> dependents;
+            try {
+              dependents =
+                  await ref
+                      .read(
+                        packageDetailsBackendsProvider,
+                      )[binding.source.format]
+                      ?.listDependents(ref, binding.source) ??
+                  const <String>[];
+            } on Exception catch (error) {
+              ref.read(errorStreamControllerProvider).add(error);
+              return const CommandReceipt.rejected(CommandRejection.failed);
+            }
+            if (dependents.isNotEmpty &&
+                !(await confirmUninstall?.call(dependents) ?? false)) {
+              return const CommandReceipt.completed();
+            }
+          } finally {
+            check.end();
+          }
+        }
         return coordinator.accept(
           OperationRequest(
             source: binding.source,

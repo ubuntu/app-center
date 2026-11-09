@@ -330,7 +330,11 @@ MockPackageKitTransaction createMockPackageKitTransaction({
     ),
   ).thenAnswer((_) async => unawaited(emitEvents()));
   when(
-    transaction.removePackages(any),
+    transaction.removePackages(
+      any,
+      transactionFlags: anyNamed('transactionFlags'),
+      allowDeps: anyNamed('allowDeps'),
+    ),
   ).thenAnswer((_) async => unawaited(emitEvents()));
   when(
     transaction.resolve(any),
@@ -457,6 +461,7 @@ MockPackageKitService createMockPackageKitService({
   Map<String, PackageKitDetailsEvent>? packageDetailsMany,
   List<PackageKitPackageEvent>? installedPackages,
   List<PackageKitPackageEvent>? simulatedInstall,
+  List<PackageKitPackageEvent>? simulatedRemove,
   PackageKitServiceError? lastError,
 }) {
   final packageKit = MockPackageKitService();
@@ -500,6 +505,9 @@ MockPackageKitService createMockPackageKitService({
   when(packageKit.simulateInstall(any)).thenAnswer(
     (_) async => simulatedInstall ?? [],
   );
+  when(packageKit.simulateRemove(any)).thenAnswer(
+    (_) async => simulatedRemove ?? [],
+  );
   when(packageKit.installLocal(any)).thenAnswer((_) async => transactionId);
   when(
     packageKit.getUpdateDetails(any),
@@ -509,8 +517,11 @@ MockPackageKitService createMockPackageKitService({
     packageKit.updateAllPackages(any),
   ).thenAnswer((_) async => transactionId);
   when(packageKit.whatProvides(any)).thenAnswer((_) async => packageEvents!);
-  when(packageKit.remove(any)).thenAnswer((_) async => transactionId);
-  when(packageKit.removeAll(any)).thenAnswer((_) async => transactionId);
+  when(packageKit.remove(any, allowDeps: anyNamed('allowDeps')))
+      .thenAnswer((_) async => transactionId);
+  when(
+    packageKit.removeAll(any, allowDeps: anyNamed('allowDeps')),
+  ).thenAnswer((_) async => transactionId);
   when(packageKit.errorStream).thenAnswer((_) => errorStream);
   when(
     packageKit.mutationEvents,
@@ -950,6 +961,18 @@ class FakePackageDetailsBackend implements PackageDetailsBackend {
 
   @override
   Future<void> open(Ref ref, SourceKey key) async => opened.add(key);
+
+  /// Dependents reported for an uninstall, per source.
+  final dependentsBySource = <SourceKey, List<String>>{};
+
+  /// Makes [listDependents] fail.
+  Exception? dependentsError;
+
+  @override
+  Future<List<String>> listDependents(Ref ref, SourceKey key) async {
+    if (dependentsError != null) throw dependentsError!;
+    return dependentsBySource[key] ?? const [];
+  }
 }
 
 /// Lets pending microtasks and zero-delay timers run.

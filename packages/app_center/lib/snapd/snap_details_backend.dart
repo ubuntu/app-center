@@ -351,4 +351,7 @@ class SnapDetailsBackend implements PackageDetailsBackend {
     }
     launcher.open();
   }
+
+  @override
+  Future<List<String>> listDependents(Ref ref, SourceKey key) async => const [];
 }

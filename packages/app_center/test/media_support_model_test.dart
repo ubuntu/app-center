@@ -141,7 +141,7 @@ void main() {
     verifyNever(kit.getDetails(any));
     await container.read(mediaSupportModelProvider.notifier).uninstall();
     final ids =
-        verify(kit.removeAll(captureAny)).captured.single
+        verify(kit.removeAll(captureAny, allowDeps: true)).captured.single
             as Iterable<PackageKitPackageId>;
     expect(ids.map((p) => p.name), [_addons, _aac]);
   });

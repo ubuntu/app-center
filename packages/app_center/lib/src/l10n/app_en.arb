@@ -377,6 +377,22 @@
       }
     },
     "snapRevertNoPreviousRevisionMessage": "No previous local revision is available to revert to.",
+    "uninstallDependentsTitle": "Uninstall {appName} and dependent packages?",
+    "@uninstallDependentsTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "uninstallDependentsMessage": "These packages depend on {appName} and will also be uninstalled:",
+    "@uninstallDependentsMessage": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
     "snapActionSwitchChannelLabel": "Switch channel",
     "snapActionSwitchChannelTitle": "Switch channel for {appName}",
     "@snapActionSwitchChannelTitle": {

@@ -259,6 +259,7 @@ class PackageKitService {
     void Function(PackageKitEvent event)? listener,
     void Function()? onDone,
     _MutationSpec? mutation,
+    bool publishErrors = true,
   }) async {
     await activateService();
     final transaction = await _client.createTransaction();
@@ -329,7 +330,9 @@ class PackageKitService {
           );
         } else {
           _lastErrors[id] = event;
-          _taggedErrorStreamController.add((id: id, error: event));
+          if (publishErrors) {
+            _taggedErrorStreamController.add((id: id, error: event));
+          }
           log.error(
             'Received PackageKitErrorCodeEvent (${event.code}): ${event.details}',
           );
@@ -499,22 +502,70 @@ class PackageKitService {
 
   /// Creates a transaction that removes the package given by `packageId` and
   /// returns the transaction ID.
-  // TODO: Decide how to handle dependencies. Autoremove? Ask the user?
-  Future<int> remove(PackageKitPackageId packageId) async => _createTransaction(
-    action: (transaction) => transaction.removePackages([packageId]),
+  ///
+  /// Packages that depend on it are only removed too if `allowDeps` is set,
+  /// which callers must do only once the user has confirmed (see
+  /// `confirmPackageKitRemoval`).
+  Future<int> remove(
+    PackageKitPackageId packageId, {
+    bool allowDeps = false,
+  }) async => _createTransaction(
+    action: (transaction) =>
+        transaction.removePackages([packageId], allowDeps: allowDeps),
     mutation: (kind: PackageKitMutationKind.remove, packageIds: [packageId]),
   );
 
   /// Creates a transaction that removes all of the given packages by
-  /// `packageId` and returns the transaction ID.
-  Future<int> removeAll(Iterable<PackageKitPackageId> packageIds) async =>
-      _createTransaction(
-        action: (transaction) => transaction.removePackages(packageIds),
-        mutation: (
-          kind: PackageKitMutationKind.remove,
-          packageIds: packageIds.toList(),
-        ),
-      );
+  /// `packageId` and returns the transaction ID. See [remove] for `allowDeps`.
+  Future<int> removeAll(
+    Iterable<PackageKitPackageId> packageIds, {
+    bool allowDeps = false,
+  }) async => _createTransaction(
+    action: (transaction) =>
+        transaction.removePackages(packageIds, allowDeps: allowDeps),
+    mutation: (
+      kind: PackageKitMutationKind.remove,
+      packageIds: packageIds.toList(),
+    ),
+  );
+
+  /// Returns the other packages that removing `packageIds` would also remove,
+  /// without removing anything.
+  Future<List<PackageKitPackageInfo>> simulateRemove(
+    Iterable<PackageKitPackageId> packageIds,
+  ) async {
+    if (packageIds.isEmpty) return [];
+
+    final requested = packageIds.map((id) => id.name).toSet();
+    final dependents = <PackageKitPackageInfo>[];
+    // Errors are not published on the shared error stream: the caller gets
+    // them as a thrown exception and reports them once.
+    final id = await _createTransaction(
+      action: (transaction) => transaction.removePackages(
+        packageIds,
+        allowDeps: true,
+        transactionFlags: {PackageKitTransactionFlag.simulate},
+      ),
+      listener: (event) {
+        if (event is PackageKitPackageEvent &&
+            event.info == PackageKitInfo.removing &&
+            !requested.contains(event.packageId.name)) {
+          dependents.add(event);
+        }
+      },
+      publishErrors: false,
+    );
+    try {
+      await waitTransaction(id);
+    } on PackageKitTransactionCancelled {
+      rethrow;
+    } on PackageKitTransactionError catch (error) {
+      final details = lastErrorFor(id)?.details;
+      if (details == null) rethrow;
+      throw PackageKitTransactionError(details, exit: error.exit);
+    }
+    return dependents;
+  }
 
   Future<int> update(PackageKitPackageId packageId) async => _createTransaction(
     action: (transaction) => transaction.updatePackages([packageId]),

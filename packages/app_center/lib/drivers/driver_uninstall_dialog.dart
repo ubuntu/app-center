@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:app_center/drivers/drivers.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
+import 'package:app_center/packagekit/packagekit_remove_dialog.dart';
+import 'package:app_center/providers/uninstall_check_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
@@ -29,9 +33,26 @@ class DriverUninstallDialog extends ConsumerStatefulWidget {
 class _DriverUninstallDialogState extends ConsumerState<DriverUninstallDialog> {
   bool _acknowledged = false;
 
+  Future<void> _uninstall(BuildContext context) async {
+    final provider = driverModelProvider(widget.sysPath);
+    final model = ref.read(provider.notifier);
+    final installed = ref.read(provider).value?.info.installedOption;
+    if (installed == null) return;
+    final navigator = Navigator.of(context);
+    final confirmed = await confirmPackageKitRemoval(
+      context,
+      appName: installed.packageName,
+      packageIds: installed.packageIds,
+    );
+    if (!confirmed) return;
+    unawaited(model.uninstall());
+    navigator.pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final checkingUninstall = ref.watch(uninstallCheckProvider);
 
     return SimpleDialog(
       contentPadding: kDialogContentPadding,
@@ -68,15 +89,8 @@ class _DriverUninstallDialogState extends ConsumerState<DriverUninstallDialog> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   PushButton.outlined(
-                    onPressed: _acknowledged
-                        ? () {
-                            ref
-                                .read(
-                                  driverModelProvider(widget.sysPath).notifier,
-                                )
-                                .uninstall();
-                            Navigator.of(context).pop();
-                          }
+                    onPressed: _acknowledged && !checkingUninstall
+                        ? () => unawaited(_uninstall(context))
                         : null,
                     child: Text(l10n.snapActionRemoveLabel),
                   ),

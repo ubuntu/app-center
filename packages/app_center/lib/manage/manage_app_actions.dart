@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_center/constants.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
@@ -7,7 +9,9 @@ import 'package:app_center/manage/local_deb_updates_model.dart';
 import 'package:app_center/manage/manage_app_data.dart';
 import 'package:app_center/manage/quit_to_update_notice.dart';
 import 'package:app_center/packagekit/packagekit.dart';
+import 'package:app_center/packagekit/packagekit_remove_dialog.dart';
 import 'package:app_center/providers/current_desktops_provider.dart';
+import 'package:app_center/providers/uninstall_check_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/active_change_content.dart';
 import 'package:flutter/material.dart';
@@ -234,11 +238,26 @@ class ManageAppActions extends ConsumerWidget {
           _AccessibleActionButton(
             label: l10n.snapActionRemoveLabel,
             semanticLabel: l10n.managePageRemoveAppSemanticLabel(app.name),
-            onPressed: () =>
-                ref.read(installedAppsProvider.notifier).removeDeb(debInfo.id),
+            onPressed: ref.watch(uninstallCheckProvider)
+                ? null
+                : () => unawaited(_removeDeb(context, ref, debInfo)),
           ),
       ],
     );
+  }
+
+  Future<void> _removeDeb(
+    BuildContext context,
+    WidgetRef ref,
+    LocalDebInfo debInfo,
+  ) async {
+    final notifier = ref.read(installedAppsProvider.notifier);
+    final confirmed = await confirmPackageKitRemoval(
+      context,
+      appName: app.name,
+      packageIds: [debInfo.packageInfo.packageId],
+    );
+    if (confirmed) await notifier.removeDeb(debInfo.id);
   }
 }
 

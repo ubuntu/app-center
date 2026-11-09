@@ -8,7 +8,9 @@ import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/packagekit/packagekit.dart';
+import 'package:app_center/packagekit/packagekit_remove_dialog.dart';
 import 'package:app_center/providers/current_desktops_provider.dart';
+import 'package:app_center/providers/uninstall_check_provider.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -177,11 +179,25 @@ class _DebUninstallButton extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
 
     return OutlinedButton(
-      onPressed: debModel.activeTransactionId == null
-          ? DebAction.remove.callback(ref, debModel)
+      onPressed:
+          debModel.activeTransactionId == null &&
+              !ref.watch(uninstallCheckProvider)
+          ? () => unawaited(_remove(context, ref))
           : null,
       child: Text(DebAction.remove.label(l10n)),
     );
+  }
+
+  Future<void> _remove(BuildContext context, WidgetRef ref) async {
+    final packageId = debModel.packageInfo?.packageId;
+    if (packageId == null) return;
+    final notifier = ref.read(debModelProvider(debModel.id).notifier);
+    final confirmed = await confirmPackageKitRemoval(
+      context,
+      appName: debModel.component.getLocalizedName(),
+      packageIds: [packageId],
+    );
+    if (confirmed) await notifier.removeDeb();
   }
 }
 
@@ -254,7 +270,8 @@ enum DebAction {
       cancel => provider.cancelTransaction,
       install => provider.installDeb,
       update => provider.updateDeb,
-      remove => provider.removeDeb,
+      // Removal must go through `confirmPackageKitRemoval` first.
+      remove => null,
     };
   }
 }

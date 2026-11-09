@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:app_center/constants.dart';
 import 'package:app_center/drivers/drivers.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/packagekit/packagekit.dart';
+import 'package:app_center/packagekit/packagekit_remove_dialog.dart';
+import 'package:app_center/providers/uninstall_check_provider.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -308,7 +312,13 @@ class _DriverDeviceActions extends ConsumerWidget {
           Text(l10n.driversPageErrorLabel),
           const SizedBox(width: kSpacing),
           OutlinedButton(
-            onPressed: _retryAction(model, state.info, canOperate),
+            onPressed: _retryAction(
+              context,
+              model,
+              state.info,
+              canOperate,
+              checkingUninstall: ref.watch(uninstallCheckProvider),
+            ),
             child: Text(l10n.driversPageRetryLabel),
           ),
         ],
@@ -424,10 +434,12 @@ String _busyLabelFor(AppLocalizations l10n, DriverDeviceState state) =>
     };
 
 VoidCallback? _retryAction(
+  BuildContext context,
   DriverModel model,
   DriverDeviceInfo info,
-  bool canOperate,
-) {
+  bool canOperate, {
+  required bool checkingUninstall,
+}) {
   if (!canOperate) return null;
   final installed = info.installedOption;
   if (installed == null) {
@@ -435,7 +447,21 @@ VoidCallback? _retryAction(
     return () => model.install(_recommendedOption(info).packageName);
   }
   if (installed.hasUpdate) return model.updateDriver;
-  return model.uninstall;
+  if (checkingUninstall) return null;
+  return () => unawaited(_confirmAndUninstall(context, model, installed));
+}
+
+Future<void> _confirmAndUninstall(
+  BuildContext context,
+  DriverModel model,
+  DriverBranchOption installed,
+) async {
+  final confirmed = await confirmPackageKitRemoval(
+    context,
+    appName: installed.packageName,
+    packageIds: installed.packageIds,
+  );
+  if (confirmed) await model.uninstall();
 }
 
 DriverBranchOption _recommendedOption(DriverDeviceInfo info) =>

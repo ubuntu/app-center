@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/media_support/media_support_model.dart';
+import 'package:app_center/packagekit/packagekit_remove_dialog.dart';
 import 'package:app_center/packagekit/packagekit_transaction_progress_provider.dart';
+import 'package:app_center/providers/uninstall_check_provider.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -60,6 +64,7 @@ class _MediaSupportActions extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final model = ref.read(mediaSupportModelProvider.notifier);
+    final checkingUninstall = ref.watch(uninstallCheckProvider);
 
     if (data.activeAction != null) {
       final progress = ref.watch(
@@ -90,7 +95,11 @@ class _MediaSupportActions extends ConsumerWidget {
           Text(l10n.driversPageErrorLabel),
           const SizedBox(width: kSpacing),
           OutlinedButton(
-            onPressed: model.retry,
+            onPressed: data.lastAction == MediaSupportAction.uninstall
+                ? checkingUninstall
+                      ? null
+                      : () => unawaited(_uninstall(context, model))
+                : model.retry,
             child: Text(l10n.driversPageRetryLabel),
           ),
         ],
@@ -110,8 +119,23 @@ class _MediaSupportActions extends ConsumerWidget {
       );
     }
     return OutlinedButton(
-      onPressed: model.uninstall,
+      onPressed: checkingUninstall
+          ? null
+          : () => unawaited(_uninstall(context, model)),
       child: Text(l10n.snapActionRemoveLabel),
     );
+  }
+
+  Future<void> _uninstall(
+    BuildContext context,
+    MediaSupportModel model,
+  ) async {
+    final confirmed = await confirmPackageKitRemoval(
+      context,
+      appName: AppLocalizations.of(context)
+          .mediaSupportPageAdditionalMediaTitle,
+      packageIds: data.installedIds,
+    );
+    if (confirmed) await model.uninstall();
   }
 }
