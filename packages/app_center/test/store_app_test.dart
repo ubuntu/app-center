@@ -35,6 +35,20 @@ void main() {
   group('App Center deep links', () {
     late MockPackageKitService kit;
 
+    setUp(() {
+      const channel = MethodChannel('window_manager');
+      binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        channel,
+        (_) async => null,
+      );
+      addTearDown(
+        () => binding.defaultBinaryMessenger.setMockMethodCallHandler(
+          channel,
+          null,
+        ),
+      );
+    });
+
     Future<GtkApplicationNotifier> pumpStoreApp(
       WidgetTester tester, {
       String? uri,

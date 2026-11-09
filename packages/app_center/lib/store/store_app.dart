@@ -28,7 +28,10 @@ import 'package:flutter/material.dart' hide AboutDialog, showAboutDialog;
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
+import 'package:gtk/gtk.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:window_manager/window_manager.dart';
 import 'package:yaru/yaru.dart';
 
 // Making a provider to provide navigatorKeyTwo
@@ -58,6 +61,7 @@ class _StoreAppState extends ConsumerState<StoreApp>
     with WidgetsBindingObserver {
   final _navigatorKey = GlobalKey<NavigatorState>();
   final searchFocus = FocusNode();
+  late final GtkApplicationNotifier _application;
   late Locale _locale;
 
   NavigatorState get _navigator => _navigatorKey.currentState!;
@@ -77,10 +81,18 @@ class _StoreAppState extends ConsumerState<StoreApp>
     super.initState();
     // Created up front so it sees what the first searches return.
     ref.read(seenSnapsModelProvider);
+    _application = getService<GtkApplicationNotifier>();
+    _application.addCommandLineListener(_presentWindow);
     WidgetsBinding.instance.addObserver(this);
     _locale = _resolveFontLocale(
       WidgetsBinding.instance.platformDispatcher.locales,
     );
+  }
+
+  void _presentWindow(List<String> args) {
+    // Request presentation for every launch, even when no route is requested.
+    // The desktop decides whether to grant focus or show an attention hint.
+    unawaited(windowManager.focus());
   }
 
   @override
@@ -91,6 +103,7 @@ class _StoreAppState extends ConsumerState<StoreApp>
 
   @override
   void dispose() {
+    _application.removeCommandLineListener(_presentWindow);
     WidgetsBinding.instance.removeObserver(this);
     searchFocus.dispose();
     super.dispose();
