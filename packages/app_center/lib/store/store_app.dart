@@ -15,6 +15,7 @@ import 'package:app_center/media_support/media_support.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/search/search.dart';
+import 'package:app_center/snapd/seen_snaps_model.dart';
 import 'package:app_center/snapd/snap_page.dart';
 import 'package:app_center/store/store_navigator.dart';
 import 'package:app_center/store/store_observer.dart';
@@ -74,6 +75,8 @@ class _StoreAppState extends ConsumerState<StoreApp>
   @override
   void initState() {
     super.initState();
+    // Created up front so it sees what the first searches return.
+    ref.read(seenSnapsModelProvider);
     WidgetsBinding.instance.addObserver(this);
     _locale = _resolveFontLocale(
       WidgetsBinding.instance.platformDispatcher.locales,
