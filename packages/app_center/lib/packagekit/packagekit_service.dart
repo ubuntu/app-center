@@ -16,6 +16,15 @@ export 'package:packagekit/packagekit.dart' show PackageKitTransaction;
 
 const _packageKitBusName = 'org.freedesktop.PackageKit';
 
+// Without it PackageKit authorizes updates as package-install-untrusted.
+const _onlyTrusted = {PackageKitTransactionFlag.onlyTrusted};
+
+// Bad or missing signatures also exit need-untrusted, but are never rerun.
+const _unsignedSourceErrors = {
+  PackageKitError.cannotInstallRepositoryUnsigned,
+  PackageKitError.cannotUpdateRepositoryUnsigned,
+};
+
 typedef PackageKitPackageInfo = PackageKitPackageEvent;
 typedef PackageKitServiceError = PackageKitErrorCodeEvent;
 typedef PackageKitPackageDetails = PackageKitDetailsEvent;
@@ -183,6 +192,9 @@ class PackageKitService {
   bool requiresRestartFor(int id) => _restartRequired[id] ?? false;
   final Map<int, bool> _restartRequired = {};
 
+  // Updates refused for an unsigned source, claimed by [waitUpdate].
+  final Map<int, Future<int> Function()> _untrustedReruns = {};
+
   // Keep track of active transactions.
   // TODO: Implement `GetTransactionList` in packagekit.dart instead.
   int _nextId = 0;
@@ -252,13 +264,15 @@ class PackageKitService {
   /// Creates a new `PackageKitTransaction` and invokes `action` on it, if
   /// provided. If a `listener` is provided it will receive the `PackageKitEvent`s
   /// from the transaction. [onDone] is called once the transaction finishes or
-  /// is destroyed (useful for cleanup).
+  /// is destroyed (useful for cleanup). [untrustedRerun] is [action] without
+  /// only-trusted, for [waitUpdate] to run if a source turns out unsigned.
   /// Returns an internal transaction id.
   Future<int> _createTransaction({
     Future<void> Function(PackageKitTransaction transaction)? action,
     void Function(PackageKitEvent event)? listener,
     void Function()? onDone,
     _MutationSpec? mutation,
+    Future<void> Function(PackageKitTransaction transaction)? untrustedRerun,
   }) async {
     await activateService();
     final transaction = await _client.createTransaction();
@@ -326,6 +340,13 @@ class PackageKitService {
           cancelledByUser = true;
           log.info(
             'Transaction cancelled by user (${event.code}): ${event.details}',
+          );
+        } else if (untrustedRerun != null &&
+            _unsignedSourceErrors.contains(event.code)) {
+          _untrustedReruns[id] = () =>
+              _createTransaction(action: untrustedRerun, mutation: mutation);
+          log.info(
+            'Transaction $id needs an unsigned source: ${event.details}',
           );
         } else {
           _lastErrors[id] = event;
@@ -410,6 +431,20 @@ class PackageKitService {
       },
     );
     await completer.future.whenComplete(subscription.cancel);
+  }
+
+  /// [waitTransaction] for updates: one refused for an unsigned source is rerun
+  /// without only-trusted, so polkit asks the user. [onRerun] gets the new id.
+  Future<void> waitUpdate(int id, {void Function(int id)? onRerun}) async {
+    try {
+      await waitTransaction(id);
+    } on PackageKitTransactionError catch (e) {
+      final rerun = _untrustedReruns.remove(id);
+      if (rerun == null || e.exit != PackageKitExit.needUntrusted) rethrow;
+      final rerunId = await rerun();
+      onRerun?.call(rerunId);
+      await waitTransaction(rerunId);
+    }
   }
 
   Future<void> cancelTransaction(int id) async {
@@ -516,8 +551,8 @@ class PackageKitService {
         ),
       );
 
-  Future<int> update(PackageKitPackageId packageId) async => _createTransaction(
-    action: (transaction) => transaction.updatePackages([packageId]),
+  Future<int> update(PackageKitPackageId packageId) async => _startUpdate(
+    [packageId],
     mutation: (kind: PackageKitMutationKind.update, packageIds: [packageId]),
   );
 
@@ -525,8 +560,16 @@ class PackageKitService {
   /// `packageId` and returns the transaction ID.
   Future<int> updateAllPackages(
     Iterable<PackageKitPackageId> packageIds,
-  ) async => _createTransaction(
-    action: (transaction) => transaction.updatePackages(packageIds),
+  ) async => _startUpdate(packageIds);
+
+  Future<int> _startUpdate(
+    Iterable<PackageKitPackageId> packageIds, {
+    _MutationSpec? mutation,
+  }) => _createTransaction(
+    action: (transaction) =>
+        transaction.updatePackages(packageIds, transactionFlags: _onlyTrusted),
+    untrustedRerun: (transaction) => transaction.updatePackages(packageIds),
+    mutation: mutation,
   );
 
   static Future<String> _getNativeArchitecture() async {
@@ -733,13 +776,13 @@ class PackageKitService {
 
   /// Updates all of the given packages in a single transaction.
   Future<void> updateAll(Iterable<PackageKitPackageId> packageIds) =>
-      _createTransaction(
-        action: (transaction) => transaction.updatePackages(packageIds),
+      _startUpdate(
+        packageIds,
         mutation: (
           kind: PackageKitMutationKind.update,
           packageIds: packageIds.toList(),
         ),
-      ).then(waitTransaction);
+      ).then(waitUpdate);
 
   /// Returns all installed packages on the system.
   Future<List<PackageKitPackageInfo>> getInstalledPackages() async {

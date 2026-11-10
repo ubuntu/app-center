@@ -1216,6 +1216,54 @@ void main() {
       },
     );
 
+    test('updateDriver reports the error of a rerun transaction', () async {
+      registerMockDriversService(devices: [_gpuDevice()]);
+      const packageKitError = PackageKitErrorCodeEvent(
+        code: PackageKitError.packageDownloadFailed,
+        details: 'network unreachable',
+      );
+      final packageKit = createMockPackageKitService(
+        transactionId: 12,
+        resolveMap: {
+          'nvidia-driver-550': PackageKitPackageEvent(
+            info: PackageKitInfo.installed,
+            packageId: const PackageKitPackageId(
+              name: 'nvidia-driver-550',
+              version: '550.1',
+            ),
+            summary: '',
+          ),
+        },
+        availableUpdates: [
+          PackageKitPackageEvent(
+            info: PackageKitInfo.normal,
+            packageId: const PackageKitPackageId(
+              name: 'nvidia-driver-550',
+              version: '550.2',
+            ),
+            summary: '',
+          ),
+        ],
+      );
+      when(packageKit.lastErrorFor(13)).thenReturn(packageKitError);
+      when(
+        packageKit.waitUpdate(12, onRerun: anyNamed('onRerun')),
+      ).thenAnswer((invocation) async {
+        (invocation.namedArguments[#onRerun] as void Function(int))(13);
+        throw PackageKitTransactionError('failed', exit: PackageKitExit.failed);
+      });
+      final container = createContainer();
+
+      await container.read(driverModelProvider(_gpuSysPath).future);
+      await container
+          .read(driverModelProvider(_gpuSysPath).notifier)
+          .updateDriver();
+
+      final state = container.read(driverModelProvider(_gpuSysPath)).value!;
+      expect(state.activeTransactionId, isNull);
+      expect(state.error, packageKitError);
+    });
+
     test(
       'updateDriver updates every package in the set that has an update',
       () async {

@@ -773,7 +773,140 @@ void main() {
       const PackageKitPackageId(name: 'bar', version: '2.0'),
     ];
     await packageKit.updateAll(packages);
-    verify(mockTransaction.updatePackages(packages)).called(1);
+    verify(
+      mockTransaction.updatePackages(
+        packages,
+        transactionFlags: {PackageKitTransactionFlag.onlyTrusted},
+      ),
+    ).called(1);
+  });
+
+  test('update', () async {
+    final mockTransaction = createMockPackageKitTransaction();
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    const packageId = PackageKitPackageId(name: 'foo', version: '1.0');
+    final id = await packageKit.update(packageId);
+    await packageKit.waitTransaction(id);
+    verify(
+      mockTransaction.updatePackages(
+        [packageId],
+        transactionFlags: {PackageKitTransactionFlag.onlyTrusted},
+      ),
+    ).called(1);
+  });
+
+  test('updateAllPackages', () async {
+    final mockTransaction = createMockPackageKitTransaction();
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    final packages = [
+      const PackageKitPackageId(name: 'foo', version: '1.0'),
+      const PackageKitPackageId(name: 'bar', version: '2.0'),
+    ];
+    final id = await packageKit.updateAllPackages(packages);
+    await packageKit.waitTransaction(id);
+    verify(
+      mockTransaction.updatePackages(
+        packages,
+        transactionFlags: {PackageKitTransactionFlag.onlyTrusted},
+      ),
+    ).called(1);
+  });
+
+  test('update refused for an unsigned source reruns untrusted', () async {
+    const unsigned = PackageKitErrorCodeEvent(
+      code: PackageKitError.cannotInstallRepositoryUnsigned,
+      details: 'The following packages cannot be authenticated: foo',
+    );
+    final refused = createMockPackageKitTransaction(
+      events: [unsigned],
+      exit: PackageKitExit.needUntrusted,
+    );
+    final rerun = createMockPackageKitTransaction();
+    final client = createMockPackageKitClient();
+    final transactions = [refused, rerun];
+    var callCount = 0;
+    when(
+      client.createTransaction(),
+    ).thenAnswer((_) async => transactions[callCount++]);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: client,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+    final errors = <PackageKitServiceError>[];
+    final subscription = packageKit.errorStream.listen(errors.add);
+    addTearDown(subscription.cancel);
+
+    const packageId = PackageKitPackageId(name: 'foo', version: '1.0');
+    final id = await packageKit.update(packageId);
+    final rerunIds = <int>[];
+    await packageKit.waitUpdate(id, onRerun: rerunIds.add);
+
+    verify(
+      refused.updatePackages(
+        [packageId],
+        transactionFlags: {PackageKitTransactionFlag.onlyTrusted},
+      ),
+    ).called(1);
+    verify(
+      rerun.updatePackages(
+        [packageId],
+        transactionFlags: <PackageKitTransactionFlag>{},
+      ),
+    ).called(1);
+    expect(rerunIds, hasLength(1));
+    expect(rerunIds.single, isNot(equals(id)));
+    expect(packageKit.lastErrorFor(id), isNull);
+    expect(errors, isEmpty);
+  });
+
+  test('update with a bad signature is not rerun', () async {
+    const badSignature = PackageKitErrorCodeEvent(
+      code: PackageKitError.badGpgSignature,
+      details: 'bad signature',
+    );
+    final mockTransaction = createMockPackageKitTransaction(
+      events: [badSignature],
+      exit: PackageKitExit.needUntrusted,
+    );
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    final id = await packageKit.update(
+      const PackageKitPackageId(name: 'foo', version: '1.0'),
+    );
+    await expectLater(
+      packageKit.waitUpdate(id),
+      throwsA(
+        isA<PackageKitTransactionError>().having(
+          (e) => e.exit,
+          'exit',
+          PackageKitExit.needUntrusted,
+        ),
+      ),
+    );
+    verify(mockClient.createTransaction()).called(1);
+    expect(packageKit.lastErrorFor(id), equals(badSignature));
   });
 
   test('getInstalledPackages', () async {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_center/appstream/appstream_utils.dart';
 import 'package:app_center/manage/app_providers.dart';
 import 'package:app_center/manage/local_deb_providers.dart';
@@ -502,6 +504,68 @@ void main() {
         isNull,
       );
     });
+
+    test(
+      'updateAll follows a rerun and stops if its prompt is dismissed',
+      () async {
+        registerMockSnapdService(installedSnaps: []);
+
+        final debUpdate2 = createLocalDebInfo(
+          id: 'blender',
+          name: 'Blender',
+          packageName: 'blender',
+          version: '3.0',
+          updatePackageId: const PackageKitPackageId(
+            name: 'blender',
+            version: '3.1',
+          ),
+        );
+
+        final mockPackageKit = createMockPackageKitService();
+        final prompt = Completer<void>();
+        when(
+          mockPackageKit.waitUpdate(any, onRerun: anyNamed('onRerun')),
+        ).thenAnswer((invocation) async {
+          (invocation.namedArguments[#onRerun] as void Function(int))(7);
+          await prompt.future;
+          throw PackageKitTransactionCancelled('Transaction 7 was cancelled');
+        });
+
+        // ignore: close_sinks
+        final errorStream = registerMockErrorStreamControllerService();
+
+        final container = createContainer(
+          overrides: [
+            localDebsProvider.overrideWith(
+              (ref) async => [defaultDebWithUpdate, debUpdate2],
+            ),
+          ],
+        );
+
+        await container.read(installedAppsProvider.future);
+        await container.read(localDebUpdatesModelProvider.future);
+
+        final updateAll = container
+            .read(localDebUpdatesModelProvider.notifier)
+            .updateAll();
+        await Future<void>.delayed(Duration.zero);
+
+        expect(
+          container
+              .read(localDebUpdatesModelProvider)
+              .value!
+              .firstWhere((d) => d.id == defaultDebWithUpdate.id)
+              .activeTransactionId,
+          equals(7),
+        );
+
+        prompt.complete();
+        await updateAll;
+
+        verify(mockPackageKit.update(any)).called(1);
+        verifyNever(errorStream.add(any));
+      },
+    );
 
     test('silentUpdatesCheck updates state when updates change', () async {
       registerMockSnapdService(installedSnaps: []);

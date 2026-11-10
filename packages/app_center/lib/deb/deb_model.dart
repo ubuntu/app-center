@@ -87,7 +87,11 @@ class DebModel extends _$DebModel {
       packageInfo.packageId,
     ]))[packageInfo.packageId.name];
 
-    final errorListener = packageKit.errorStream.listen(_onError);
+    // Every open deb page listens; each reports only its own transaction.
+    final errorListener = packageKit.taggedErrorStream
+        .where((tagged) => tagged.id == state.value?.activeTransactionId)
+        .map((tagged) => tagged.error)
+        .listen(_onError);
     ref.onDispose(errorListener.cancel);
 
     return DebData(
@@ -195,7 +199,7 @@ class DebModel extends _$DebModel {
     DebTransactionKind kind,
     Future<int> Function() action,
   ) async {
-    final transactionId = await action.call();
+    var transactionId = await action.call();
     state = AsyncValue.data(
       state.value!.copyWith(
         activeTransactionId: transactionId,
@@ -204,7 +208,19 @@ class DebModel extends _$DebModel {
     );
     var outcome = PackageKitMutationOutcome.failed;
     try {
-      await packageKit.waitTransaction(transactionId);
+      if (kind == DebTransactionKind.update) {
+        await packageKit.waitUpdate(
+          transactionId,
+          onRerun: (id) {
+            transactionId = id;
+            state = AsyncValue.data(
+              state.value!.copyWith(activeTransactionId: id),
+            );
+          },
+        );
+      } else {
+        await packageKit.waitTransaction(transactionId);
+      }
       outcome = PackageKitMutationOutcome.success;
     } on PackageKitTransactionCancelled {
       // User cancelled (e.g. dismissed the polkit dialog) — not an error.
@@ -214,10 +230,12 @@ class DebModel extends _$DebModel {
       /* Report via the same path as PackageKitServiceError events so the
          page shows the error and clears the stuck transaction state. */
       await _onError(
-        PackageKitServiceError(
-          code: PackageKitError.internalError,
-          details: e.toString(),
-        ),
+        // Reusing the error already reported keeps the page to one dialog.
+        packageKit.lastErrorFor(transactionId) ??
+            PackageKitServiceError(
+              code: PackageKitError.internalError,
+              details: e.toString(),
+            ),
       );
     }
     /* On success keep activeTransactionId set until the rebuild finishes, so

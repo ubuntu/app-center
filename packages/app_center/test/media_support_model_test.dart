@@ -166,6 +166,37 @@ void main() {
     expect(ids.map((p) => p.name), [_aac]);
   });
 
+  test('update tracks a rerun transaction', () async {
+    final kit = createMockPackageKitService(
+      transactionId: 5,
+      resolveMap: {
+        _addons: _event(_addons, PackageKitInfo.installed),
+        _aac: _event(_aac, PackageKitInfo.installed),
+      },
+      availableUpdates: [_event(_aac, PackageKitInfo.normal)],
+    );
+    final rerun = Completer<void>();
+    when(kit.waitUpdate(5, onRerun: anyNamed('onRerun'))).thenAnswer((
+      invocation,
+    ) async {
+      (invocation.namedArguments[#onRerun] as void Function(int))(6);
+      await rerun.future;
+    });
+    final container = createContainer();
+    await container.read(mediaSupportModelProvider.future);
+    final action = container
+        .read(mediaSupportModelProvider.notifier)
+        .updatePackages();
+    await pumpEventQueue();
+    expect(
+      container.read(mediaSupportModelProvider).value!.activeTransactionId,
+      6,
+    );
+    rerun.complete();
+    await action;
+    expect(container.read(mediaSupportModelProvider).value!.hasError, isFalse);
+  });
+
   test(
     'cancel waits for transaction to exit without reporting an error',
     () async {

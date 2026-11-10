@@ -160,7 +160,18 @@ class MediaSupportModel extends _$MediaSupportModel {
           hasError: false,
         ),
       );
-      await _packageKit.waitTransaction(id);
+      if (action == MediaSupportAction.update) {
+        await _packageKit.waitUpdate(
+          id,
+          onRerun: (rerunId) {
+            state = AsyncData(
+              state.value!.copyWith(activeTransactionId: rerunId),
+            );
+          },
+        );
+      } else {
+        await _packageKit.waitTransaction(id);
+      }
       final load = await _load();
       state = AsyncData(load);
     } on PackageKitTransactionCancelled catch (_) {
