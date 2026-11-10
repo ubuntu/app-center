@@ -50,17 +50,19 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
       final componentsByPkg = await ref.read(
         componentsByPackageProvider.future,
       );
+      final desktopApps = await ref.read(desktopAppPackagesProvider.future);
 
       // Build map of package name -> update package ID
       final newUpdatesMap = {
         for (final u in updatesMap) u.packageId.name: u.packageId,
       };
 
-      // Filter to packages with Appstream entries that have updates
+      // Filter to packages with Appstream or desktop entries that have updates
       final guiPackagesWithUpdates = installed
           .where(
             (pkg) =>
-                componentsByPkg.containsKey(pkg.packageId.name) &&
+                (componentsByPkg.containsKey(pkg.packageId.name) ||
+                    desktopApps.contains(pkg.packageId.name)) &&
                 newUpdatesMap.containsKey(pkg.packageId.name),
           )
           .toList();
@@ -79,6 +81,7 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
           id: component?.id ?? name,
           packageInfo: pkg,
           component: component,
+          hasDesktopEntry: desktopApps.contains(name),
           details: details[name],
           updatePackageId: newUpdatesMap[name],
         );

@@ -348,6 +348,9 @@ MockPackageKitTransaction createMockPackageKitTransaction({
     transaction.getDetails(any),
   ).thenAnswer((_) async => unawaited(emitEvents()));
   when(
+    transaction.getFiles(any),
+  ).thenAnswer((_) async => unawaited(emitEvents()));
+  when(
     transaction.updatePackages(any),
   ).thenAnswer((_) async => unawaited(emitEvents()));
   when(
@@ -457,6 +460,7 @@ MockPackageKitService createMockPackageKitService({
   Map<String, PackageKitDetailsEvent>? packageDetailsMany,
   List<PackageKitPackageEvent>? installedPackages,
   List<PackageKitPackageEvent>? simulatedInstall,
+  Map<String, List<String>>? packageFiles,
   PackageKitServiceError? lastError,
 }) {
   final packageKit = MockPackageKitService();
@@ -495,6 +499,15 @@ MockPackageKitService createMockPackageKitService({
     };
   });
   when(packageKit.getDetailsLocal(any)).thenAnswer((_) async => packageDetails);
+  when(packageKit.getFiles(any)).thenAnswer((invocation) async {
+    final packageIds =
+        invocation.positionalArguments.first as Iterable<PackageKitPackageId>;
+    return {
+      for (final id in packageIds)
+        if (packageFiles?.containsKey(id.name) ?? false)
+          id.name: packageFiles![id.name]!,
+    };
+  });
   when(packageKit.install(any)).thenAnswer((_) async => transactionId);
   when(packageKit.installAll(any)).thenAnswer((_) async => transactionId);
   when(packageKit.simulateInstall(any)).thenAnswer(

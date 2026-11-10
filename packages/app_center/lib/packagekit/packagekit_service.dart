@@ -731,6 +731,24 @@ class PackageKitService {
     return results;
   }
 
+  /// Returns the files shipped by each of the given packages, keyed by name.
+  Future<Map<String, List<String>>> getFiles(
+    Iterable<PackageKitPackageId> packageIds,
+  ) async {
+    if (packageIds.isEmpty) return {};
+
+    final results = <String, List<String>>{};
+    await _createTransaction(
+      action: (transaction) => transaction.getFiles(packageIds),
+      listener: (event) {
+        if (event is PackageKitFilesEvent) {
+          results[event.packageId.name] = event.fileList;
+        }
+      },
+    ).then(waitTransaction);
+    return results;
+  }
+
   /// Updates all of the given packages in a single transaction.
   Future<void> updateAll(Iterable<PackageKitPackageId> packageIds) =>
       _createTransaction(

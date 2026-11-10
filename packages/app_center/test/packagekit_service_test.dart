@@ -758,6 +758,48 @@ void main() {
     expect(details['bar'], equals(barDetails));
   });
 
+  test('getFiles', () async {
+    const fooId = PackageKitPackageId(name: 'foo', version: '1.0');
+    const barId = PackageKitPackageId(name: 'bar', version: '2.0');
+    final mockTransaction = createMockPackageKitTransaction(
+      events: [
+        PackageKitFilesEvent(
+          packageId: fooId,
+          fileList: ['/usr/share/applications/foo.desktop'],
+        ),
+        PackageKitFilesEvent(packageId: barId, fileList: ['/usr/bin/bar']),
+      ],
+    );
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    final files = await packageKit.getFiles([fooId, barId]);
+    verify(mockTransaction.getFiles([fooId, barId])).called(1);
+    expect(files, {
+      'foo': ['/usr/share/applications/foo.desktop'],
+      'bar': ['/usr/bin/bar'],
+    });
+  });
+
+  test('getFiles with no packages skips the transaction', () async {
+    final mockTransaction = createMockPackageKitTransaction();
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    expect(await packageKit.getFiles([]), isEmpty);
+    verifyNever(mockTransaction.getFiles(any));
+  });
+
   test('updateAll', () async {
     final mockTransaction = createMockPackageKitTransaction();
     final mockClient = createMockPackageKitClient(transaction: mockTransaction);

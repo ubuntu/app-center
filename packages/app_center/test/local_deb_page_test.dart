@@ -48,6 +48,7 @@ void main() {
     expect(find.text(tester.context.formatByteSize(42)), findsOneWidget);
     expect(find.text(tester.l10n.appUrlTypeHomepage), findsOneWidget);
     expect(find.button(tester.l10n.snapActionInstallLabel), findsOneWidget);
+    expect(find.button(tester.l10n.snapActionRemoveLabel), findsNothing);
   });
 
   testWidgets('installed package', (tester) async {
@@ -69,6 +70,7 @@ void main() {
     await tester.pump();
 
     expect(find.button(tester.l10n.snapActionInstalledLabel), isDisabled);
+    expect(find.button(tester.l10n.snapActionRemoveLabel), isEnabled);
     expect(
       find.text(tester.l10n.localDebInstalledVersion('1.0')),
       findsOneWidget,
@@ -76,6 +78,120 @@ void main() {
     verify(
       packageKit.resolve(['testdeb'], installedOnly: true),
     ).called(1);
+  });
+
+  testWidgets('uninstall', (tester) async {
+    final transactionCompleter = Completer();
+    final packageKit = createMockPackageKitService(
+      packageDetails: mockPackage,
+      packageInfo: const PackageKitPackageInfo(
+        info: PackageKitInfo.installed,
+        packageId: PackageKitPackageId(name: 'testdeb', version: '1.0'),
+        summary: 'summary',
+      ),
+      waitTransaction: transactionCompleter.future,
+    );
+
+    await tester.pumpApp(
+      (_) => const ProviderScope(
+        child: LocalDebPage(path: '/path/to/package.deb'),
+      ),
+    );
+    await tester.pump();
+
+    await tester.tapButton(tester.l10n.snapActionRemoveLabel);
+    await tester.pump();
+
+    final removed =
+        verify(packageKit.remove(captureAny)).captured.single
+            as PackageKitPackageId;
+    expect(removed.name, 'testdeb');
+    expect(removed.version, '1.0');
+    verifyNever(packageKit.installLocal(any));
+    expect(find.byType(YaruCircularProgressIndicator), findsOneWidget);
+    expect(find.text(tester.l10n.snapActionRemovingLabel), findsOneWidget);
+    expect(find.text(tester.l10n.snapActionInstallingLabel), findsNothing);
+    expect(find.button(tester.l10n.snapActionRemoveLabel), findsNothing);
+
+    transactionCompleter.complete();
+    await tester.pumpAndSettle();
+    expect(find.byType(YaruCircularProgressIndicator), findsNothing);
+  });
+
+  testWidgets('dismissing the uninstall prompt restores the actions', (
+    tester,
+  ) async {
+    // ignore: close_sinks
+    final errors = registerMockErrorStreamControllerService();
+    final transactionCompleter = Completer<void>();
+    createMockPackageKitService(
+      packageDetails: mockPackage,
+      packageInfo: const PackageKitPackageInfo(
+        info: PackageKitInfo.installed,
+        packageId: PackageKitPackageId(name: 'testdeb', version: '1.0'),
+        summary: 'summary',
+      ),
+      waitTransaction: transactionCompleter.future,
+    );
+
+    await tester.pumpApp(
+      (_) => const ProviderScope(
+        child: LocalDebPage(path: '/path/to/package.deb'),
+      ),
+    );
+    await tester.pump();
+
+    await tester.tapButton(tester.l10n.snapActionRemoveLabel);
+    await tester.pump();
+    expect(find.text(tester.l10n.snapActionRemovingLabel), findsOneWidget);
+
+    transactionCompleter.completeError(
+      PackageKitTransactionCancelled('cancelled'),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text(tester.l10n.snapActionRemovingLabel), findsNothing);
+    expect(find.button(tester.l10n.snapActionRemoveLabel), isEnabled);
+    verifyNever(errors.add(any));
+  });
+
+  testWidgets('failed uninstall reports the error and restores the actions', (
+    tester,
+  ) async {
+    // ignore: close_sinks
+    final errors = registerMockErrorStreamControllerService();
+    final transactionCompleter = Completer<void>();
+    final error = PackageKitServiceError(
+      code: PackageKitError.internalError,
+      details: 'removal failed',
+    );
+    createMockPackageKitService(
+      packageDetails: mockPackage,
+      packageInfo: const PackageKitPackageInfo(
+        info: PackageKitInfo.installed,
+        packageId: PackageKitPackageId(name: 'testdeb', version: '1.0'),
+        summary: 'summary',
+      ),
+      waitTransaction: transactionCompleter.future,
+      lastError: error,
+    );
+
+    await tester.pumpApp(
+      (_) => const ProviderScope(
+        child: LocalDebPage(path: '/path/to/package.deb'),
+      ),
+    );
+    await tester.pump();
+
+    await tester.tapButton(tester.l10n.snapActionRemoveLabel);
+    await tester.pump();
+
+    transactionCompleter.completeError(PackageKitTransactionError('failed'));
+    await tester.pumpAndSettle();
+
+    expect(find.text(tester.l10n.snapActionRemovingLabel), findsNothing);
+    expect(find.button(tester.l10n.snapActionRemoveLabel), isEnabled);
+    verify(errors.add(error)).called(1);
   });
 
   for (final installedVersion in ['0.9', '1.1']) {
@@ -103,6 +219,7 @@ void main() {
 
       expect(find.button(tester.l10n.snapActionInstalledLabel), findsNothing);
       expect(find.button(tester.l10n.snapActionInstallLabel), isEnabled);
+      expect(find.button(tester.l10n.snapActionRemoveLabel), isEnabled);
       expect(
         find.text(tester.l10n.localDebInstalledVersion(installedVersion)),
         findsOneWidget,
@@ -140,6 +257,7 @@ void main() {
     );
     await tester.pumpAndSettle();
     expect(find.button(tester.l10n.snapActionInstallLabel), isEnabled);
+    expect(find.button(tester.l10n.snapActionRemoveLabel), findsNothing);
     expect(
       find.text(tester.l10n.localDebInstalledVersion('1.1')),
       findsNothing,
