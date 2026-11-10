@@ -1,5 +1,6 @@
 import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/packagekit/packagekit.dart';
+import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -83,8 +84,7 @@ class LocalDebModel extends _$LocalDebModel {
         activeTransactionKind: LocalDebTransactionKind.install,
       ),
     );
-    await packageKit.waitTransaction(activeTransactionId);
-    ref.invalidateSelf();
+    await _waitAndRefresh(activeTransactionId);
   }
 
   Future<void> remove() async {
@@ -98,8 +98,22 @@ class LocalDebModel extends _$LocalDebModel {
         activeTransactionKind: LocalDebTransactionKind.remove,
       ),
     );
-    await packageKit.waitTransaction(activeTransactionId);
-    ref.invalidateSelf();
+    await _waitAndRefresh(activeTransactionId);
+  }
+
+  Future<void> _waitAndRefresh(int transactionId) async {
+    final packageKit = getService<PackageKitService>();
+    try {
+      await packageKit.waitTransaction(transactionId);
+    } on PackageKitTransactionCancelled {
+      // Dismissing the polkit prompt is not an error.
+    } on PackageKitTransactionError catch (e) {
+      ref
+          .read(errorStreamControllerProvider)
+          .add(packageKit.lastErrorFor(transactionId) ?? e);
+    } finally {
+      ref.invalidateSelf();
+    }
   }
 
   Future<void> cancel() async {
