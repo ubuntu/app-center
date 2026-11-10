@@ -67,12 +67,20 @@ AsyncValue<PackageSourceSnapshot> snapSourceSnapshot(
   final change = changeId == null
       ? null
       : ref.watch(activeChangeProvider(changeId));
+  final progress = changeId == null
+      ? null
+      : ref.watch(snapChangeProgressProvider(changeId));
   final localSnap = data?.localSnap;
   final canLaunch =
       localSnap != null && ref.watch(launchProvider(localSnap)).isLaunchable;
   return mapAsyncValue(
     model,
-    (data) => snapSnapshotFromData(data, change: change, canLaunch: canLaunch),
+    (data) => snapSnapshotFromData(
+      data,
+      change: change,
+      progress: progress,
+      canLaunch: canLaunch,
+    ),
   );
 }
 
@@ -102,6 +110,7 @@ PackageSourceSnapshot snapSnapshotWithoutStore(String snapName, Snap? local) {
 PackageSourceSnapshot snapSnapshotFromData(
   SnapData data, {
   SnapdChange? change,
+  double? progress,
   bool canLaunch = false,
 }) {
   final local = data.localSnap;
@@ -206,9 +215,7 @@ PackageSourceSnapshot snapSnapshotFromData(
         ? null
         : ObservedOperation(
             kind: _operationKind(change?.kind, isInstalled: local != null),
-            progress: change == null || change.tasks.isEmpty
-                ? null
-                : change.progress,
+            progress: progress,
             cancellable: !(change?.ready ?? false),
           ),
   );

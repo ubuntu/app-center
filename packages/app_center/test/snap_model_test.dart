@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_center/snapd/snapd.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
@@ -350,34 +351,125 @@ void main() {
   });
 
   group('change progress', () {
-    final testCases = [
-      (
-        name: 'no tasks',
-        change: SnapdChange(id: '', spawnTime: DateTime(1970)),
-        expectedProgress: 0.0,
-      ),
-      (
-        name: '60% completed',
-        change: SnapdChange(
-          id: '',
-          spawnTime: DateTime(1970),
-          tasks: const [
-            SnapdTask(id: '', progress: SnapdTaskProgress(done: 2, total: 3)),
-            SnapdTask(id: '', progress: SnapdTaskProgress(done: 4, total: 7)),
-          ],
-        ),
-        expectedProgress: 0.6,
-      ),
-    ];
-    for (final testCase in testCases) {
-      test(
-        testCase.name,
-        () => expect(
-          testCase.change.progress,
-          equals(testCase.expectedProgress),
-        ),
+    SnapdTask task(
+      String kind,
+      String status, {
+      int done = 0,
+      int total = 0,
+    }) => SnapdTask(
+      id: '',
+      kind: kind,
+      status: status,
+      progress: SnapdTaskProgress(done: done, total: total),
+    );
+    SnapdChange change(List<SnapdTask> tasks) =>
+        SnapdChange(id: '', spawnTime: DateTime(1970), tasks: tasks);
+
+    test('no tasks', () => expect(change([]).progress, 0.0));
+
+    test('ignores byte units of a download when weighing other tasks', () {
+      final progress = change([
+        task('prerequisites', 'Done', done: 1, total: 1),
+        task('download-snap', 'Doing', total: 100000000),
+        task('mount-snap', 'Do', total: 1),
+        task('link-snap', 'Do', total: 1),
+      ]).progress;
+      // No jump back to zero when the download total replaces 0/1.
+      expect(progress, closeTo(0.1, 1e-9));
+    });
+
+    test('is not complete when only the download is', () {
+      final progress = change([
+        task('download-snap', 'Done', done: 100, total: 100),
+        task('mount-snap', 'Doing', done: 1, total: 1),
+        task('link-snap', 'Do', total: 1),
+      ]).progress;
+      expect(progress, closeTo(0.7, 1e-9));
+    });
+
+    test('weighs downloads equally regardless of their size', () {
+      final progress = change([
+        task('download-snap', 'Done', done: 5, total: 5),
+        task('download-snap', 'Doing', done: 50, total: 100),
+      ]).progress;
+      expect(progress, closeTo(0.75, 1e-9));
+    });
+
+    test('uses the full range without downloads', () {
+      final progress = change([
+        task('stop-snap-services', 'Done', done: 1, total: 1),
+        task('unlink-snap', 'Doing', done: 1, total: 1),
+        task('discard-snap', 'Do', total: 1),
+        task('clear-snap', 'Do', total: 1),
+      ]).progress;
+      expect(progress, closeTo(0.25, 1e-9));
+    });
+
+    test('is complete when all tasks are done', () {
+      final progress = change([
+        task('download-snap', 'Done', done: 100, total: 100),
+        task('link-snap', 'Done', done: 1, total: 1),
+      ]).progress;
+      expect(progress, 1.0);
+    });
+  });
+
+  group('change progress provider', () {
+    SnapdChange change(List<SnapdTask> tasks) =>
+        SnapdChange(id: 'c', spawnTime: DateTime(1970), tasks: tasks);
+    const done = SnapdTask(
+      id: '',
+      kind: 'link-snap',
+      status: 'Done',
+      progress: SnapdTaskProgress(done: 1, total: 1),
+    );
+    const queued = SnapdTask(
+      id: '',
+      kind: 'link-snap',
+      status: 'Do',
+      progress: SnapdTaskProgress(total: 1),
+    );
+
+    late StreamController<SnapdChange> changes;
+    late ProviderContainer container;
+    late List<double?> values;
+
+    setUp(() {
+      changes = StreamController<SnapdChange>();
+      addTearDown(changes.close);
+      final snapd = registerMockSnapdService();
+      when(snapd.watchChange('c')).thenAnswer((_) => changes.stream);
+      container = createContainer();
+      values = [];
+      container.listen(
+        snapChangeProgressProvider('c'),
+        (_, next) => values.add(next),
+        fireImmediately: true,
       );
+    });
+
+    Future<void> emit(List<SnapdTask> tasks) async {
+      changes.add(change(tasks));
+      await Future<void>.delayed(Duration.zero);
     }
+
+    test('is null without a change id', () {
+      expect(container.read(snapChangeProgressProvider(null)), isNull);
+    });
+
+    test('is null until the change has tasks', () async {
+      await emit([]);
+      expect(values, [null]);
+    });
+
+    test('never goes backwards when tasks are added', () async {
+      await emit([done, queued]);
+      await emit([done, queued, queued, queued]);
+      await emit([done, done, queued, queued]);
+      await emit([done, done, done, queued]);
+
+      expect(values, [null, 0.5, 0.75]);
+    });
   });
 
   group('revert', () {
