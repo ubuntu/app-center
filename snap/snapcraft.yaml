@@ -36,6 +36,12 @@ parts:
     plugin: nil
     override-build: |
       set -eux
+
+      # Each part builds in its own shell, so this must be repeated here
+      if [ $CRAFT_ARCH_BUILD_FOR = riscv64 ]; then
+        export FLUTTER_STORAGE_BASE_URL=https://flutter-experimental.ubuntu.com
+      fi
+
       fvm install
       fvm dart pub global activate melos
 
