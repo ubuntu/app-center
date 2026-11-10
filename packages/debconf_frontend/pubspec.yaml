@@ -1,0 +1,21 @@
+name: debconf_frontend
+description: Flutter dialogs for the questions debconf asks while setting up Debian packages.
+repository: https://github.com/ubuntu/app-center/tree/main/packages/debconf_frontend
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: '>=3.13.0 <4.0.0'
+  flutter: '>=3.47.6'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  ubuntu_localizations: ^0.5.2+5
+  ubuntu_widgets: ^0.8.0
+  yaru: ^10.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  ubuntu_lints: ^0.4.2
