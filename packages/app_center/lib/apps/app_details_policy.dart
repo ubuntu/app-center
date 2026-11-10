@@ -34,6 +34,7 @@ class AppDetailsPolicyInput {
     this.operations = const [],
     this.ratings,
     this.acknowledgedIssues = const {},
+    this.checkingUninstall = false,
   });
 
   final ResolvedAppIdentity identity;
@@ -42,6 +43,8 @@ class AppDetailsPolicyInput {
   // Null when no ratings are known for the app-metadata owner.
   final AsyncValue<RatingsSummary?>? ratings;
   final Set<IssueId> acknowledgedIssues;
+  // Whether an uninstall is being checked for dependents.
+  final bool checkingUninstall;
 }
 
 class AppDetailsComposition {
@@ -328,7 +331,7 @@ class _Composer {
             kind: OperationKind.remove,
             targetId: snapshot.installed?.channel,
           ),
-          disabledReason: _busy
+          disabledReason: _busy || input.checkingUninstall
               ? DisabledReason.busy
               : snapshot.capabilities.removeBlocked,
         ),

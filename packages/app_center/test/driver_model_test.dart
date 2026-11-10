@@ -917,7 +917,9 @@ void main() {
           ),
         },
       );
-      when(packageKit.removeAll(any)).thenAnswer((_) async => 11);
+      when(
+        packageKit.removeAll(any, allowDeps: anyNamed('allowDeps')),
+      ).thenAnswer((_) async => 11);
       final container = createContainer();
 
       await container.read(driverModelProvider(_gpuSysPath).future);
@@ -927,7 +929,9 @@ void main() {
       await notifier.uninstall();
 
       final removedIds =
-          verify(packageKit.removeAll(captureAny)).captured.single
+          verify(
+                packageKit.removeAll(captureAny, allowDeps: true),
+              ).captured.single
               as Iterable<PackageKitPackageId>;
       expect(removedIds.single.name, 'nvidia-driver-550');
 
@@ -1065,7 +1069,9 @@ void main() {
         await notifier.uninstall();
 
         final removedIds =
-            verify(packageKit.removeAll(captureAny)).captured.single
+            verify(
+                  packageKit.removeAll(captureAny, allowDeps: true),
+                ).captured.single
                 as Iterable<PackageKitPackageId>;
         expect(
           removedIds.map((id) => id.name).toSet(),
@@ -1166,8 +1172,10 @@ void main() {
         // No explicit removal of the previous candidate's packages -
         // conflict resolution during the install transaction is relied
         // on instead.
-        verifyNever(packageKit.removeAll(any));
-        verifyNever(packageKit.remove(any));
+        verifyNever(
+          packageKit.removeAll(any, allowDeps: anyNamed('allowDeps')),
+        );
+        verifyNever(packageKit.remove(any, allowDeps: anyNamed('allowDeps')));
       },
     );
 

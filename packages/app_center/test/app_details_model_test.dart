@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:app_center/apps/app_details_entry.dart';
 import 'package:app_center/apps/app_details_model.dart';
 import 'package:app_center/apps/app_details_state.dart';
 import 'package:app_center/apps/package_details_backend.dart';
 import 'package:app_center/apps/package_operation_coordinator.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
+import 'package:app_center/providers/uninstall_check_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'test_utils.dart';
@@ -242,6 +246,108 @@ void main() {
 
     expect(view().activePackage.format, PackageFormat.deb);
     expect(view().app.name.valueOrNull, 'Snap App');
+  });
+
+  group('uninstall confirmation', () {
+    Future<AppDetailsViewState> startInstalled() => start(
+      snap: createSourceSnapshot(testSnapKey, installState: _installed),
+      deb: createSourceSnapshot(testDebKey),
+    );
+
+    test('asks with the dependents and runs once confirmed', () async {
+      final initial = await startInstalled();
+      backend.dependentsBySource[testSnapKey] = ['plugin-a'];
+      List<String>? asked;
+
+      final receipt = await model().execute(
+        initial.actions.primary!.id,
+        confirmUninstall: (dependents) async {
+          asked = dependents;
+          return true;
+        },
+      );
+
+      expect(asked, ['plugin-a']);
+      expect(receipt, isA<AcceptedCommand>());
+      expect(backend.executed, hasLength(1));
+    });
+
+    test('does not run when declined', () async {
+      final initial = await startInstalled();
+      backend.dependentsBySource[testSnapKey] = ['plugin-a'];
+
+      final receipt = await model().execute(
+        initial.actions.primary!.id,
+        confirmUninstall: (_) async => false,
+      );
+
+      expect(receipt, const CommandReceipt.completed());
+      expect(backend.executed, isEmpty);
+    });
+
+    test('does not run with dependents when nothing can confirm', () async {
+      final initial = await startInstalled();
+      backend.dependentsBySource[testSnapKey] = ['plugin-a'];
+
+      final receipt = await model().execute(initial.actions.primary!.id);
+
+      expect(receipt, const CommandReceipt.completed());
+      expect(backend.executed, isEmpty);
+    });
+
+    test('does not run when dependents cannot be determined', () async {
+      // ignore: close_sinks
+      final errors = registerMockErrorStreamControllerService();
+      final initial = await startInstalled();
+      final error = Exception('simulation failed');
+      backend.dependentsError = error;
+
+      final receipt = await model().execute(
+        initial.actions.primary!.id,
+        confirmUninstall: (_) async => true,
+      );
+
+      expect(receipt, const CommandReceipt.rejected(CommandRejection.failed));
+      expect(backend.executed, isEmpty);
+      verify(errors.add(error)).called(1);
+    });
+
+    test('allows one uninstall check at a time', () async {
+      final initial = await startInstalled();
+      backend.dependentsBySource[testSnapKey] = ['plugin-a'];
+      final answer = Completer<bool>();
+      final id = initial.actions.primary!.id;
+
+      final first = model().execute(
+        id,
+        confirmUninstall: (_) => answer.future,
+      );
+      await Future<void>.delayed(Duration.zero);
+      expect(container.read(uninstallCheckProvider), isTrue);
+
+      final second = await model().execute(
+        id,
+        confirmUninstall: (_) async => true,
+      );
+      expect(second, const CommandReceipt.rejected(CommandRejection.busy));
+
+      answer.complete(false);
+      await first;
+      expect(container.read(uninstallCheckProvider), isFalse);
+    });
+
+    test('does not ask without dependents', () async {
+      final initial = await startInstalled();
+      var asked = false;
+
+      final receipt = await model().execute(
+        initial.actions.primary!.id,
+        confirmUninstall: (_) async => asked = true,
+      );
+
+      expect(asked, isFalse);
+      expect(receipt, isA<AcceptedCommand>());
+    });
   });
 
   test('rejects duplicate, disabled and unknown actions', () async {

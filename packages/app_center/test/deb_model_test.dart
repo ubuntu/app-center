@@ -196,6 +196,7 @@ void main() {
           name: 'testdeb',
           version: '1.0',
         ),
+        allowDeps: true,
       ),
     ).called(1);
   });

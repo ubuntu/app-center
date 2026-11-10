@@ -241,6 +241,86 @@ void main() {
     });
   });
 
+  group('simulateRemove', () {
+    test('returns only the other packages that would be removed', () async {
+      const requested = PackageKitPackageId(name: 'foo', version: '1.0');
+      final events = [
+        for (final (info, name) in [
+          (PackageKitInfo.removing, 'foo'),
+          (PackageKitInfo.removing, 'foo-plugin'),
+          (PackageKitInfo.installed, 'bar'),
+        ])
+          PackageKitPackageEvent(
+            info: info,
+            packageId: PackageKitPackageId(name: name, version: '1.0'),
+            summary: name,
+          ),
+      ];
+      final transaction = createMockPackageKitTransaction(events: events);
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: createMockPackageKitClient(transaction: transaction),
+        fs: MemoryFileSystem.test(),
+      );
+      addTearDown(packageKit.dispose);
+      final dependents = await packageKit.simulateRemove([requested]);
+      expect(dependents, [events[1]]);
+      verify(
+        transaction.removePackages(
+          [requested],
+          allowDeps: true,
+          transactionFlags: {PackageKitTransactionFlag.simulate},
+        ),
+      ).called(1);
+    });
+
+    test('reports a failed simulation only by throwing', () async {
+      const error = PackageKitErrorCodeEvent(
+        code: PackageKitError.packageNotFound,
+        details: 'cannot resolve',
+      );
+      final transaction = createMockPackageKitTransaction(
+        events: [error],
+        exit: PackageKitExit.failed,
+      );
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: createMockPackageKitClient(transaction: transaction),
+        fs: MemoryFileSystem.test(),
+      );
+      addTearDown(packageKit.dispose);
+      final published = <PackageKitServiceError>[];
+      packageKit.errorStream.listen(published.add);
+
+      await expectLater(
+        packageKit.simulateRemove([
+          const PackageKitPackageId(name: 'foo', version: '1.0'),
+        ]),
+        throwsA(
+          isA<PackageKitTransactionError>().having(
+            (e) => e.message,
+            'message',
+            'cannot resolve',
+          ),
+        ),
+      );
+      await Future<void>.delayed(Duration.zero);
+      expect(published, isEmpty);
+    });
+
+    test('empty input does not create a transaction', () async {
+      final client = createMockPackageKitClient();
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: client,
+        fs: MemoryFileSystem.test(),
+      );
+      addTearDown(packageKit.dispose);
+      expect(await packageKit.simulateRemove([]), isEmpty);
+      verifyNever(client.createTransaction());
+    });
+  });
+
   test('install local package', () async {
     final completer = Completer();
     final mockTransaction = createMockPackageKitTransaction(
@@ -323,6 +403,27 @@ void main() {
     await packageKit.waitTransaction(id);
     expect(packageKit.getTransaction(id), isNull);
   });
+
+  for (final allowDeps in [false, true]) {
+    test('removeAll passes allowDeps: $allowDeps', () async {
+      final mockTransaction = createMockPackageKitTransaction();
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: createMockPackageKitClient(transaction: mockTransaction),
+        fs: MemoryFileSystem.test(),
+      );
+      await packageKit.activateService();
+      const foo = PackageKitPackageId(name: 'foo', version: '1.0');
+
+      await packageKit.waitTransaction(
+        await packageKit.removeAll([foo], allowDeps: allowDeps),
+      );
+
+      verify(
+        mockTransaction.removePackages([foo], allowDeps: allowDeps),
+      ).called(1);
+    });
+  }
 
   group('resolve', () {
     test('unique package', () async {

@@ -173,6 +173,10 @@ abstract interface class PackageDetailsBackend {
 
   Future<void> cancel(Ref ref, SourceKey key);
 
+  /// Names of other packages that uninstalling [key] would also remove,
+  /// without removing anything.
+  Future<List<String>> listDependents(Ref ref, SourceKey key);
+
   Future<void> open(Ref ref, SourceKey key);
 }
 

@@ -121,7 +121,7 @@ class DriverModel extends _$DriverModel {
     }
     return _driverAction(
       DriverActionKind.uninstall,
-      () => _packageKit.removeAll(installed.packageIds),
+      () => _packageKit.removeAll(installed.packageIds, allowDeps: true),
     );
   }
 

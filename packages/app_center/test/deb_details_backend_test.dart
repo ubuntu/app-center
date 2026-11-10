@@ -370,7 +370,7 @@ void main() {
         await execute(container, OperationKind.remove),
         OperationOutcome.failed,
       );
-      verifyNever(packageKit.remove(any));
+      verifyNever(packageKit.remove(any, allowDeps: anyNamed('allowDeps')));
     });
 
     test('removes', () async {
@@ -382,7 +382,9 @@ void main() {
         await execute(container, OperationKind.remove),
         OperationOutcome.success,
       );
-      verify(packageKit.remove(_installedId)).called(1);
+      verify(
+        packageKit.remove(_installedId, allowDeps: true),
+      ).called(1);
     });
 
     test('declined authorization is a cancellation', () async {

@@ -158,6 +158,7 @@ class InstalledApps extends _$InstalledApps {
     final debInfo = (app as ManageDebData).debInfo;
     final transactionId = await _packageKit.remove(
       debInfo.packageInfo.packageId,
+      allowDeps: true,
     );
     log.info('Remove transaction started: $transactionId for $debId');
     _updateDebTransactionId(debId, transactionId);

@@ -22,6 +22,7 @@ AppDetailsComposition _compose({
   List<TrackedOperation> operations = const [],
   AsyncValue<RatingsSummary?>? ratings,
   Set<IssueId> acknowledged = const {},
+  bool checkingUninstall = false,
 }) => _policy.compose(
   AppDetailsPolicyInput(
     identity:
@@ -35,6 +36,7 @@ AppDetailsComposition _compose({
     operations: operations,
     ratings: ratings,
     acknowledgedIssues: acknowledged,
+    checkingUninstall: checkingUninstall,
   ),
 );
 
@@ -696,6 +698,18 @@ void main() {
       expect(
         state.formats.map((f) => f.action?.disabledReason),
         everyElement(DisabledReason.busy),
+      );
+    });
+
+    test('uninstall is disabled while checking dependents', () {
+      final state = _compose(
+        snap: _snap(_installed),
+        deb: _deb(),
+        checkingUninstall: true,
+      ).state;
+      expect(
+        format(state, PackageFormat.snap).action?.disabledReason,
+        DisabledReason.busy,
       );
     });
 

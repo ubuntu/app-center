@@ -692,7 +692,7 @@ void main() {
       await container.read(installedAppsProvider.notifier).removeDeb('gimp');
 
       // Verify PackageKit remove was called
-      verify(mockPackageKit.remove(any)).called(1);
+      verify(mockPackageKit.remove(any, allowDeps: true)).called(1);
       verify(mockPackageKit.waitTransaction(any)).called(1);
 
       // Verify deb was removed from list

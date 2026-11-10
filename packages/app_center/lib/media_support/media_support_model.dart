@@ -116,7 +116,7 @@ class MediaSupportModel extends _$MediaSupportModel {
 
   Future<void> uninstall() => _runAction(
     MediaSupportAction.uninstall,
-    () => _packageKit.removeAll(state.value!.installedIds),
+    () => _packageKit.removeAll(state.value!.installedIds, allowDeps: true),
   );
 
   Future<void> retry() => switch (state.value?.lastAction) {

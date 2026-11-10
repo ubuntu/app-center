@@ -388,7 +388,7 @@ void main() {
     );
     expect(tester.widget<PushButton>(confirmButtonFinder).onPressed, isNull);
 
-    verifyNever(packageKit.removeAll(any));
+    verifyNever(packageKit.removeAll(any, allowDeps: anyNamed('allowDeps')));
 
     await tester.tap(
       find.text(tester.l10n.driversPageUninstallAcknowledgeLabel),
@@ -401,13 +401,129 @@ void main() {
     await tester.pumpAndSettle();
 
     verify(
-      packageKit.removeAll([
-        const PackageKitPackageId(
-          name: 'bcmwl-kernel-source',
-          version: '6.30',
-        ),
-      ]),
+      packageKit.removeAll(
+        [
+          const PackageKitPackageId(
+            name: 'bcmwl-kernel-source',
+            version: '6.30',
+          ),
+        ],
+        allowDeps: true,
+      ),
     ).called(1);
+  });
+
+  testWidgets('lists dependents before uninstalling and respects cancel', (
+    tester,
+  ) async {
+    registerMockDriversService(devices: [_wifiDevice()]);
+    final packageKit = createMockPackageKitService(
+      resolveMap: {
+        'bcmwl-kernel-source': const PackageKitPackageInfo(
+          info: PackageKitInfo.installed,
+          packageId: PackageKitPackageId(
+            name: 'bcmwl-kernel-source',
+            version: '6.30',
+          ),
+          summary: 'summary',
+        ),
+      },
+      simulatedRemove: [
+        const PackageKitPackageEvent(
+          packageId: PackageKitPackageId(name: 'wifi-tools', version: '1.0'),
+          info: PackageKitInfo.removing,
+          summary: 'wifi-tools',
+        ),
+      ],
+    );
+
+    await tester.pumpScopedApp((_) => const DriversPage());
+    await tester.pumpAndSettle();
+    await tester.tap(find.byIcon(YaruIcons.view_more));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(tester.l10n.snapActionRemoveLabel));
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.text(tester.l10n.driversPageUninstallAcknowledgeLabel),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.ancestor(
+        of: find.text(tester.l10n.snapActionRemoveLabel),
+        matching: find.bySubtype<PushButton>(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('wifi-tools'), findsOneWidget);
+    await tester.tap(find.text(tester.l10n.snapActionCancelLabel));
+    await tester.pumpAndSettle();
+
+    verifyNever(packageKit.removeAll(any, allowDeps: anyNamed('allowDeps')));
+  });
+
+  testWidgets('retrying a failed uninstall asks for confirmation first', (
+    tester,
+  ) async {
+    registerMockDriversService(devices: [_wifiDevice()]);
+    final packageKit = createMockPackageKitService(
+      lastError: const PackageKitErrorCodeEvent(
+        code: PackageKitError.packageDownloadFailed,
+        details: 'network unreachable',
+      ),
+      resolveMap: {
+        'bcmwl-kernel-source': const PackageKitPackageInfo(
+          info: PackageKitInfo.installed,
+          packageId: PackageKitPackageId(
+            name: 'bcmwl-kernel-source',
+            version: '6.30',
+          ),
+          summary: 'summary',
+        ),
+      },
+      simulatedRemove: [
+        const PackageKitPackageEvent(
+          packageId: PackageKitPackageId(name: 'wifi-tools', version: '1.0'),
+          info: PackageKitInfo.removing,
+          summary: 'wifi-tools',
+        ),
+      ],
+    );
+    when(packageKit.waitTransaction(any)).thenThrow(
+      PackageKitTransactionError('failed', exit: PackageKitExit.failed),
+    );
+
+    await tester.pumpScopedApp((_) => const DriversPage());
+    await tester.pumpAndSettle();
+    await tester.tap(find.byIcon(YaruIcons.view_more));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(tester.l10n.snapActionRemoveLabel));
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.text(tester.l10n.driversPageUninstallAcknowledgeLabel),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.ancestor(
+        of: find.text(tester.l10n.snapActionRemoveLabel),
+        matching: find.bySubtype<PushButton>(),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(tester.l10n.snapActionRemoveLabel).last);
+    await tester.pumpAndSettle();
+    verify(
+      packageKit.removeAll(any, allowDeps: true),
+    ).called(1);
+
+    await tester.tap(find.text(tester.l10n.driversPageRetryLabel));
+    await tester.pumpAndSettle();
+
+    expect(find.text('wifi-tools'), findsOneWidget);
+    await tester.tap(find.text(tester.l10n.snapActionCancelLabel));
+    await tester.pumpAndSettle();
+
+    verifyNever(packageKit.removeAll(any, allowDeps: anyNamed('allowDeps')));
   });
 
   testWidgets(

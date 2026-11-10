@@ -4,6 +4,7 @@ import 'package:app_center/apps/app_details_entry.dart';
 import 'package:app_center/apps/app_details_labels.dart';
 import 'package:app_center/apps/app_details_model.dart';
 import 'package:app_center/apps/app_details_state.dart';
+import 'package:app_center/apps/uninstall_dependents_dialog.dart';
 import 'package:app_center/constants.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
@@ -156,7 +157,19 @@ class _FormatTableState extends ConsumerState<_FormatTable> {
     if (action == null) return const SizedBox.shrink();
     return OutlinedButton(
       onPressed: action.enabled
-          ? () => unawaited(model.execute(action.id))
+          ? () => unawaited(
+              model.execute(
+                action.id,
+                confirmUninstall: (dependents) =>
+                    confirmUninstallWithDependents(
+                      context,
+                      appName:
+                          widget.state.app.name.valueOrNull ??
+                          widget.state.app.appId,
+                      dependents: dependents,
+                    ),
+              ),
+            )
           : null,
       child: Text(action.kind.localize(l10n)),
     );

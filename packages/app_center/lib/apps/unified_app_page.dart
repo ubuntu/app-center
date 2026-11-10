@@ -8,6 +8,7 @@ import 'package:app_center/apps/app_page.dart';
 import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/apps/package_format_dialog.dart';
+import 'package:app_center/apps/uninstall_dependents_dialog.dart';
 import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
@@ -180,8 +181,18 @@ class _ActionBar extends ConsumerWidget {
         )
         .toList();
 
-    VoidCallback? run(ActionDescriptor action) =>
-        action.enabled ? () => unawaited(model.execute(action.id)) : null;
+    VoidCallback? run(ActionDescriptor action) => action.enabled
+        ? () => unawaited(
+            model.execute(
+              action.id,
+              confirmUninstall: (dependents) => confirmUninstallWithDependents(
+                context,
+                appName: state.app.name.valueOrNull ?? state.app.appId,
+                dependents: dependents,
+              ),
+            ),
+          )
+        : null;
 
     return Wrap(
       runSpacing: kSpacing,
