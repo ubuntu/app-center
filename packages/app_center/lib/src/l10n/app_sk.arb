@@ -614,5 +614,21 @@
                 "type": "String"
             }
         }
+    },
+    "uninstallDependentsTitle": "Odinštalovať {appName} a závislé balíky?",
+    "@uninstallDependentsTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "uninstallDependentsMessage": "Tieto balíky závisia od {appName} a budú tiež odinštalované:",
+    "@uninstallDependentsMessage": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
     }
 }
