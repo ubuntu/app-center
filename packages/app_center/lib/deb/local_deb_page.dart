@@ -1,6 +1,7 @@
 import 'package:app_center/apps/app_page.dart';
 import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/constants.dart';
+import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/deb/local_deb_model.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/extensions/string_extensions.dart';
@@ -155,8 +156,7 @@ class _LocalDebActionButtons extends ConsumerWidget {
                   const SizedBox(width: 8),
                   Flexible(
                     child: Text(
-                      debData.activeTransactionKind ==
-                              LocalDebTransactionKind.remove
+                      debData.activeTransactionKind == DebTransactionKind.remove
                           ? l10n.snapActionRemovingLabel
                           : l10n.snapActionInstallingLabel,
                     ),

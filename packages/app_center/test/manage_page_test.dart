@@ -757,6 +757,74 @@ void main() {
     );
   });
 
+  testWidgets('deb without an AppStream entry is not clickable', (
+    tester,
+  ) async {
+    final chrome = LocalDebInfo(
+      id: 'google-chrome-stable',
+      packageInfo: const PackageKitPackageEvent(
+        info: PackageKitInfo.installed,
+        packageId: PackageKitPackageId(
+          name: 'google-chrome-stable',
+          version: '157.0',
+          data: 'manual:google_llc-stable-main',
+        ),
+        summary: 'The web browser from Google',
+      ),
+      hasDesktopEntry: true,
+    );
+    final semantics = tester.ensureSemantics();
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+          localDebsProvider.overrideWith((ref) async => [chrome]),
+          localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
+          packageTypeFilterProvider.overrideWith((_) => PackageTypeFilter.deb),
+        ],
+        child: const ManagePage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final tile = find.snapTile('google-chrome-stable');
+    expect(tile, findsOneWidget);
+    expect(
+      find.descendant(of: tile, matching: find.byType(Clickable)),
+      findsNothing,
+    );
+    final inkWell = tester.widget<InkWell>(
+      find
+          .ancestor(
+            of: find.descendant(of: tile, matching: find.byType(AppIcon)),
+            matching: find.byType(InkWell),
+          )
+          .first,
+    );
+    expect(inkWell.onTap, isNull);
+    expect(
+      find.bySemanticsLabel(RegExp('^google-chrome-stable, ')),
+      findsOneWidget,
+    );
+    expect(
+      find.bySemanticsLabel(
+        RegExp(
+          '^google-chrome-stable, .*'
+          '${RegExp.escape(tester.l10n.managePageShowDetailsLabel)}',
+        ),
+      ),
+      findsNothing,
+    );
+
+    await tester.tap(find.text('google-chrome-stable'));
+    await tester.pumpAndSettle();
+    expect(tile, findsOneWidget);
+
+    semantics.dispose();
+  });
+
   testWidgets('mixed snap and deb updates shown', (tester) async {
     final debUpdate = createLocalDebInfo(
       id: 'gimp',

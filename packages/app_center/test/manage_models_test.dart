@@ -207,6 +207,24 @@ void main() {
             ),
             summary: 'No desktop file',
           ),
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.installed,
+            packageId: PackageKitPackageId(
+              name: 'ac-test-app',
+              version: '1.0',
+              data: 'manual:local',
+            ),
+            summary: 'Installed from a local file',
+          ),
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.installed,
+            packageId: PackageKitPackageId(
+              name: 'gnome-authenticator',
+              version: '4.0',
+              data: 'manual:ubuntu-resolute-universe',
+            ),
+            summary: 'Manually installed from the Ubuntu archive',
+          ),
         ],
         packageFiles: {
           'google-chrome-stable': [
@@ -215,14 +233,18 @@ void main() {
           ],
           'apport-gtk': ['/usr/share/applications/apport-gtk.desktop'],
           'tailscale': ['/usr/sbin/tailscaled'],
+          'ac-test-app': ['/usr/share/applications/ac-test-app.desktop'],
+          'gnome-authenticator': [
+            '/usr/share/applications/com.belmoussaoui.Authenticator.desktop',
+          ],
         },
       );
 
       final container = createContainer();
       final debs = await container.read(localDebsProvider.future);
 
-      expect(debs.map((d) => d.id), ['google-chrome-stable']);
-      final chrome = debs.single;
+      expect(debs.map((d) => d.id), ['google-chrome-stable', 'ac-test-app']);
+      final chrome = debs.first;
       expect(chrome.component, isNull);
       expect(chrome.hasDesktopEntry, isTrue);
       expect(ManageAppData.localDeb(debInfo: chrome).isLaunchable, isTrue);
@@ -230,6 +252,56 @@ void main() {
         ManageAppData.localDeb(debInfo: chrome).name,
         'google-chrome-stable',
       );
+    });
+
+    test('keeps the installed list when listing files fails', () async {
+      registerMockSnapdService(
+        installedSnaps: [
+          createSnap(
+            name: 'firefox',
+            title: 'Firefox',
+            apps: [const SnapApp(name: 'firefox')],
+          ),
+        ],
+      );
+      createMockAppstreamService(
+        components: [
+          createAppstreamComponent(
+            id: 'gimp',
+            name: 'GIMP',
+            packageName: 'gimp',
+          ),
+        ],
+      );
+      final packageKit = createMockPackageKitService(
+        installedPackages: [
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.installed,
+            packageId: PackageKitPackageId(name: 'gimp', version: '2.10'),
+            summary: 'GNU Image Manipulation Program',
+          ),
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.installed,
+            packageId: PackageKitPackageId(
+              name: 'google-chrome-stable',
+              version: '157.0',
+              data: 'manual:google_llc-stable-main',
+            ),
+            summary: 'The web browser from Google',
+          ),
+        ],
+      );
+      when(
+        packageKit.getFiles(any),
+      ).thenAnswer((_) async => throw Exception('GetFiles failed'));
+
+      final container = createContainer(
+        overrides: [showLocalSystemAppsProvider.overrideWith((ref) => true)],
+      );
+      final installed = await container.read(installedAppsProvider.future);
+
+      expect(installed.map((a) => a.name), containsAll(['Firefox', 'GIMP']));
+      expect(installed, hasLength(2));
     });
 
     test('includes update info when available', () async {
@@ -616,6 +688,54 @@ void main() {
       expect(updates.first.id, equals('gimp'));
     });
 
+    test('silentUpdatesCheck includes third-party desktop apps', () async {
+      registerMockSnapdService(installedSnaps: []);
+      const chromeId = PackageKitPackageId(
+        name: 'google-chrome-stable',
+        version: '157.0',
+        data: 'manual:google_llc-stable-main',
+      );
+      createMockAppstreamService();
+      createMockPackageKitService(
+        installedPackages: [
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.installed,
+            packageId: chromeId,
+            summary: 'The web browser from Google',
+          ),
+        ],
+        packageFiles: {
+          'google-chrome-stable': [
+            '/usr/share/applications/google-chrome.desktop',
+          ],
+        },
+        availableUpdates: [
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'google-chrome-stable',
+              version: '158.0',
+            ),
+            summary: 'Chrome update',
+          ),
+        ],
+      );
+
+      final container = createContainer(
+        overrides: [localDebsProvider.overrideWith((ref) async => [])],
+      );
+      await container.read(localDebUpdatesModelProvider.future);
+
+      await container
+          .read(localDebUpdatesModelProvider.notifier)
+          .silentUpdatesCheck();
+
+      final updates = container.read(localDebUpdatesModelProvider).value!;
+      expect(updates.map((d) => d.id), ['google-chrome-stable']);
+      expect(updates.single.hasDesktopEntry, isTrue);
+      expect(updates.single.updateVersion, '158.0');
+    });
+
     test('cancelTransaction stops in-progress update', () async {
       registerMockSnapdService(installedSnaps: []);
 
@@ -760,6 +880,43 @@ void main() {
       verify(mockPackageKit.waitTransaction(any)).called(1);
 
       // Verify deb was removed from list
+      installed = container.read(installedAppsProvider).value!;
+      expect(installed, isEmpty);
+    });
+
+    test('removeDeb removes a deb without an AppStream entry', () async {
+      registerMockSnapdService(installedSnaps: []);
+      final mockPackageKit = createMockPackageKitService();
+      const chromeId = PackageKitPackageId(
+        name: 'google-chrome-stable',
+        version: '157.0',
+        data: 'manual:google_llc-stable-main',
+      );
+      final chrome = LocalDebInfo(
+        id: 'google-chrome-stable',
+        packageInfo: const PackageKitPackageEvent(
+          info: PackageKitInfo.installed,
+          packageId: chromeId,
+          summary: 'The web browser from Google',
+        ),
+        hasDesktopEntry: true,
+      );
+
+      final container = createContainer(
+        overrides: [
+          localDebsProvider.overrideWith((ref) async => [chrome]),
+          localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
+        ],
+      );
+
+      var installed = await container.read(installedAppsProvider.future);
+      expect(installed.map((a) => a.name), ['google-chrome-stable']);
+
+      await container
+          .read(installedAppsProvider.notifier)
+          .removeDeb('google-chrome-stable');
+
+      verify(mockPackageKit.remove(chromeId)).called(1);
       installed = container.read(installedAppsProvider).value!;
       expect(installed, isEmpty);
     });

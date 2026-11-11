@@ -53,14 +53,25 @@ class ManageAppTile extends ConsumerWidget {
     final sizeText = shouldShowSize
         ? context.formatByteSize(app.installedSize!, precision: 0)
         : null;
+    // The deb details page is driven by the Appstream component.
+    final canShowDetails = switch (app) {
+      ManageDebData(:final debInfo) => debInfo.component != null,
+      ManageSnapData() => true,
+    };
     final tileSemanticLabel = [
       app.name,
       sourceSemanticLabel(l10n, app),
       if (dateTimeSinceUpdate != null)
         dateTimeSinceUpdate.managePageUpdateSinceDateTimeAgo(l10n),
       if (sizeText != null) l10n.managePageInstalledSizeSemanticLabel(sizeText),
-      l10n.managePageShowDetailsLabel,
+      if (canShowDetails) l10n.managePageShowDetailsLabel,
     ].join(', ');
+    final nameText = Text(
+      app.name,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      textAlign: TextAlign.start,
+    );
     final actionButtons = Align(
       alignment: Alignment.centerRight,
       child: IntrinsicWidth(
@@ -113,7 +124,7 @@ class ManageAppTile extends ConsumerWidget {
             label: tileSemanticLabel,
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
-              onTap: () => _navigateToApp(context),
+              onTap: canShowDetails ? () => _navigateToApp(context) : null,
               child: ExcludeSemantics(
                 child: switch (app) {
                   ManageDebData(debInfo: final debInfo)
@@ -132,15 +143,12 @@ class ManageAppTile extends ConsumerWidget {
               child: Align(
                 alignment: AlignmentDirectional.centerStart,
                 child: ExcludeSemantics(
-                  child: Clickable(
-                    onTap: () => _navigateToApp(context),
-                    child: Text(
-                      app.name,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.start,
-                    ),
-                  ),
+                  child: canShowDetails
+                      ? Clickable(
+                          onTap: () => _navigateToApp(context),
+                          child: nameText,
+                        )
+                      : nameText,
                 ),
               ),
             ),
@@ -230,11 +238,8 @@ class ManageAppTile extends ConsumerWidget {
     app.map(
       snap: (snapData) =>
           StoreNavigator.pushSnap(context, name: snapData.snap.name),
-      localDeb: (debData) {
-        // The deb details page is driven by the Appstream component.
-        if (debData.debInfo.component == null) return;
-        StoreNavigator.pushDeb(context, id: debData.debInfo.id);
-      },
+      localDeb: (debData) =>
+          StoreNavigator.pushDeb(context, id: debData.debInfo.id),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:app_center/appstream/appstream.dart';
+import 'package:app_center/manage/logger.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
@@ -82,15 +83,20 @@ Future<Map<String, AppstreamComponent>> componentsByPackage(Ref ref) async {
   return appstream.getComponentsByPackage();
 }
 
-// The apt backend prefixes the package ID data with `manual:` or `auto:`.
-bool _isManuallyInstalled(PackageKitPackageId id) =>
-    id.data.startsWith('manual:');
+// Package ID data is `<auto|manual>:<origin>`, e.g. `manual:local`.
+// Ubuntu origins are skipped so they can't bypass the compulsory check.
+bool _isManualThirdPartyInstall(PackageKitPackageId id) {
+  const prefix = 'manual:';
+  return id.data.startsWith(prefix) &&
+      !id.data.substring(prefix.length).startsWith('ubuntu');
+}
 
+// Must stay a path check: the confined snap can't read the host's files.
 bool _isDesktopEntry(String path) =>
     path.startsWith('/usr/share/applications/') && path.endsWith('.desktop');
 
-/// Returns the names of manually installed packages that have no Appstream
-/// component but ship a desktop entry, e.g. third-party debs like Google Chrome.
+/// Returns the names of manually installed third-party packages that have no
+/// Appstream component but ship a desktop entry, e.g. Google Chrome.
 @riverpod
 Future<Set<String>> desktopAppPackages(Ref ref) async {
   // Watch both before awaiting: callers that only `read` this provider let it
@@ -103,9 +109,16 @@ Future<Set<String>> desktopAppPackages(Ref ref) async {
       .map((pkg) => pkg.packageId)
       .where(
         (id) =>
-            _isManuallyInstalled(id) && !componentsByPkg.containsKey(id.name),
+            _isManualThirdPartyInstall(id) &&
+            !componentsByPkg.containsKey(id.name),
       );
-  final files = await getService<PackageKitService>().getFiles(candidates);
+  final Map<String, List<String>> files;
+  try {
+    files = await getService<PackageKitService>().getFiles(candidates);
+  } on Exception catch (e) {
+    log.warning('Could not list files of installed packages: $e');
+    return {};
+  }
   return {
     for (final entry in files.entries)
       if (entry.value.any(_isDesktopEntry)) entry.key,
