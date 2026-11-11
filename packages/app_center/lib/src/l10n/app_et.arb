@@ -621,5 +621,21 @@
                 "type": "String"
             }
         }
+    },
+    "uninstallDependentsTitle": "Kas eemaldad „{appName}“ paketi ja selle sõltuvused?",
+    "@uninstallDependentsTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "uninstallDependentsMessage": "Järgnevad paketid sõltuvad „{appName}“ paketist ning kuuluvad ka eemaldamisele:",
+    "@uninstallDependentsMessage": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
     }
 }
