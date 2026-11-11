@@ -614,5 +614,13 @@
                 "type": "String"
             }
         }
+    },
+    "uninstallDependentsMessage": "Dessa paket beror på {appName} och kommer också att avinstalleras:",
+    "@uninstallDependentsMessage": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
     }
 }
