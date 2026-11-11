@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:app_center/deb/deb.dart';
+import 'package:app_center/deb/local_deb_model.dart';
 import 'package:app_center/l10n.dart';
+import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -192,6 +194,56 @@ void main() {
     expect(find.text(tester.l10n.snapActionRemovingLabel), findsNothing);
     expect(find.button(tester.l10n.snapActionRemoveLabel), isEnabled);
     verify(errors.add(error)).called(1);
+  });
+
+  testWidgets('double clicking uninstall starts one transaction', (
+    tester,
+  ) async {
+    final removeCompleter = Completer<int>();
+    final packageKit = createMockPackageKitService(
+      packageDetails: mockPackage,
+      packageInfo: const PackageKitPackageInfo(
+        info: PackageKitInfo.installed,
+        packageId: PackageKitPackageId(name: 'testdeb', version: '1.0'),
+        summary: 'summary',
+      ),
+    );
+    when(packageKit.remove(any)).thenAnswer((_) => removeCompleter.future);
+
+    await tester.pumpApp(
+      (_) => const ProviderScope(
+        child: LocalDebPage(path: '/path/to/package.deb'),
+      ),
+    );
+    await tester.pump();
+
+    await tester.tapButton(tester.l10n.snapActionRemoveLabel);
+    await tester.tapButton(tester.l10n.snapActionRemoveLabel);
+    removeCompleter.complete(0);
+    await tester.pumpAndSettle();
+
+    verify(packageKit.remove(any)).called(1);
+  });
+
+  test('uninstall refreshes the installed packages for Manage', () async {
+    final packageKit = createMockPackageKitService(
+      packageDetails: mockPackage,
+      packageInfo: const PackageKitPackageInfo(
+        info: PackageKitInfo.installed,
+        packageId: PackageKitPackageId(name: 'testdeb', version: '1.0'),
+        summary: 'summary',
+      ),
+    );
+    final container = createContainer();
+    container.listen(installedPackagesProvider, (_, __) {});
+    await container.read(installedPackagesProvider.future);
+    const path = '/path/to/package.deb';
+    await container.read(localDebModelProvider(path: path).future);
+
+    await container.read(localDebModelProvider(path: path).notifier).remove();
+    await container.read(installedPackagesProvider.future);
+
+    verify(packageKit.getInstalledPackages()).called(2);
   });
 
   for (final installedVersion in ['0.9', '1.1']) {
