@@ -611,5 +611,21 @@
                 "type": "String"
             }
         }
+    },
+    "uninstallDependentsTitle": "{appName} eta mendeko paketeak desinstalatu?",
+    "@uninstallDependentsTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "uninstallDependentsMessage": "{appName}(r)en mendeko paketeak ere desinstalatuko dira:",
+    "@uninstallDependentsMessage": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
     }
 }
