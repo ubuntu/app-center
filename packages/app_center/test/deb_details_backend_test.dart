@@ -147,6 +147,16 @@ void main() {
       expect(snapshot.targets, isEmpty);
     });
 
+    test('package name comes from PackageKit, not the AppStream ID', () {
+      final snapshot = debSnapshotFromData(_data());
+      expect(snapshot.packageName.valueOrNull, 'test-app');
+    });
+
+    test('package name falls back to AppStream without package info', () {
+      final snapshot = debSnapshotFromData(_data(withPackage: false));
+      expect(snapshot.packageName.valueOrNull, 'test-app');
+    });
+
     test('own transaction is cancellable with progress', () {
       final snapshot = debSnapshotFromData(
         _data(
@@ -215,6 +225,7 @@ void main() {
       expect(snapshot.key, testDebKey);
       expect(snapshot.installState, InstallState.unknown);
       expect(snapshot.appName.valueOrNull, 'Test App');
+      expect(snapshot.packageName.valueOrNull, 'test-app');
       expect(snapshot.links.valueOrNull, isEmpty);
       expect(snapshot.targets, isEmpty);
       expect(debSnapshotFromData(_data(withPackage: false)), snapshot);

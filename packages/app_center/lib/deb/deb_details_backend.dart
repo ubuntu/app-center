@@ -311,6 +311,7 @@ PackageSourceSnapshot _debSnapshot({
         : installed
         ? InstallState.installed
         : InstallState.notInstalled,
+    packageName: FieldState.fromNullable(packageName),
     installed: installedRelease,
     installCandidate: installCandidate,
     updateCandidate: updateCandidate,
@@ -352,6 +353,7 @@ PackageSourceSnapshot debSnapshotFromComponent(
     key: SourceKey(format: PackageFormat.deb, id: id),
     installState: InstallState.unknown,
     appName: FieldState.fromNullable(nonEmpty(component.getLocalizedName())),
+    packageName: FieldState.fromNullable(component.package),
     icon: icon,
     summary: FieldState.fromNullable(
       nonEmpty(component.getLocalizedSummary()),

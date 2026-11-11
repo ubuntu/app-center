@@ -311,6 +311,10 @@ class _InfoBar extends StatelessWidget {
           label: Text(l10n.appDetailsPackageFormatLabel),
           value: Text(active.format.localize(l10n)),
         ),
+        _InfoItem(
+          label: Text(l10n.appDetailsPackageNameLabel),
+          value: Text(active.packageName.valueOrNull ?? kMissingValue),
+        ),
       ],
     );
   }

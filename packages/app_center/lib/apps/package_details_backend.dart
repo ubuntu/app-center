@@ -64,6 +64,7 @@ abstract class PackageSourceSnapshot with _$PackageSourceSnapshot {
     required SourceKey key,
     required InstallState installState,
     @Default(FieldState<String>.unavailable()) FieldState<String> appName,
+    @Default(FieldState<String>.unavailable()) FieldState<String> packageName,
     @Default(FieldState<ImageRef>.unavailable()) FieldState<ImageRef> icon,
     @Default(FieldState<String>.unavailable()) FieldState<String> summary,
     @Default(FieldState<RichContent>.unavailable())

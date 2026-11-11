@@ -311,6 +311,7 @@
     "appMoreActionsSemanticLabel": "More actions",
     "appDetailsAdditionalInfoLabel": "Additional information",
     "appDetailsPackageFormatLabel": "Package format",
+    "appDetailsPackageNameLabel": "Package name",
     "appDetailsCategoryLabel": "Category",
     "appDetailsInstallDateLabel": "Installation date",
     "appDetailsInstalledSizeLabel": "Installed size",

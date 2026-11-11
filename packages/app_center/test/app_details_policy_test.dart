@@ -152,6 +152,7 @@ void main() {
         'https://example.com/Snap-shot.png',
       ]);
       expect(state.activePackage.publisher.valueOrNull?.name, 'Deb Publisher');
+      expect(state.activePackage.packageName.valueOrNull, 'test-app');
       expect(state.activePackage.categories.valueOrNull, [
         AppCategory.utilities,
       ]);

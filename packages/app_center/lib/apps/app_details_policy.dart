@@ -139,6 +139,7 @@ class _Composer {
         format: activeKey.format,
         installState: installState,
         reason: reason,
+        packageName: _field(active, (s) => s.packageName),
         publisher: publisher,
         categories: _field(active, (s) => s.categories),
         confinement: release?.confinement != null

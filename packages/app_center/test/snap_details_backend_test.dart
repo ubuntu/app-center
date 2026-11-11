@@ -83,6 +83,7 @@ void main() {
       expect(snapshot.key, testSnapKey);
       expect(snapshot.installState, InstallState.notInstalled);
       expect(snapshot.appName.valueOrNull, 'Test Snap');
+      expect(snapshot.packageName.valueOrNull, 'testsnap');
       expect(
         snapshot.icon.valueOrNull,
         const ImageRef.network('https://example.com/icon.png'),
@@ -221,6 +222,7 @@ void main() {
       final snapshot = snapSnapshotWithoutStore('testsnap', _localSnap());
       expect(snapshot.installState, InstallState.installed);
       expect(snapshot.appName, isA<FieldFailed<String>>());
+      expect(snapshot.packageName.valueOrNull, 'testsnap');
       expect(snapshot.installed?.candidateId, 'rev:1');
     });
   });

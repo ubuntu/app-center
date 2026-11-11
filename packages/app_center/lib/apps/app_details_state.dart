@@ -150,6 +150,7 @@ abstract class ActivePackageSection with _$ActivePackageSection {
     required PackageFormat format,
     required InstallState installState,
     required ActiveReason reason,
+    required FieldState<String> packageName,
     required FieldState<Publisher> publisher,
     required FieldState<List<AppCategory>> categories,
     required FieldState<AppConfinement> confinement,

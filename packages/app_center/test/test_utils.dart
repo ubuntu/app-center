@@ -865,6 +865,7 @@ PackageSourceSnapshot createSourceSnapshot(
     key: key,
     installState: installState,
     appName: FieldState.value('$label App'),
+    packageName: FieldState.value(isSnap ? 'testsnap' : 'test-app'),
     icon: FieldState.value(ImageRef.network('https://example.com/$label.png')),
     summary: FieldState.value('$label summary'),
     description: FieldState.value(

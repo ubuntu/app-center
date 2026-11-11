@@ -123,6 +123,7 @@ PackageSourceSnapshot snapSnapshotWithoutStore(String snapName, Snap? local) {
         ? InstallState.notInstalled
         : InstallState.installed,
     appName: FieldState<String>.failed(),
+    packageName: FieldState.value(snapName),
     icon: FieldState<ImageRef>.failed(),
     summary: FieldState<String>.failed(),
     description: FieldState<RichContent>.failed(),
@@ -204,6 +205,7 @@ PackageSourceSnapshot snapSnapshotFromData(
         ? InstallState.notInstalled
         : InstallState.installed,
     appName: FieldState.value(snap.titleOrName),
+    packageName: FieldState.value(data.name),
     icon: FieldState.fromNullable(
       snap.iconUrl == null ? null : ImageRef.network(snap.iconUrl!),
     ),
