@@ -1,4 +1,6 @@
+import 'package:app_center/apps/app_details_entry.dart';
 import 'package:app_center/apps/apps_utils.dart';
+import 'package:app_center/apps/package_details_backend.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
 import 'package:app_center/snapd/snap_category_enum.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
@@ -279,5 +281,28 @@ abstract class AppDetailsViewState with _$AppDetailsViewState {
     @Default([]) List<FormatOption> formats,
     OperationView? operation,
     @Default([]) List<AppDetailsIssue> issues,
+    // False while a loading source could still change the active package;
+    // actions are on hold until then.
+    @Default(true) bool decided,
+    // ViewModel-private: what the page was composed from and what its
+    // actions run.
+    ResolvedAppIdentity? identity,
+    @Default({}) Map<ActionId, ActionBinding> bindings,
+    @Default({}) Map<IssueId, OperationId> operationIssues,
+    @Default({}) Set<IssueId> acknowledgedIssues,
   }) = _AppDetailsViewState;
+}
+
+/// The ViewModel-private binding of an [ActionId] to its fixed target.
+@freezed
+abstract class ActionBinding with _$ActionBinding {
+  const factory ActionBinding({
+    required SourceKey source,
+    required ActionKind kind,
+    required String targetLabel,
+    PackageCommand? command,
+    OperationId? operationId,
+    PackageRelease? targetCandidate,
+    DisabledReason? disabledReason,
+  }) = _ActionBinding;
 }

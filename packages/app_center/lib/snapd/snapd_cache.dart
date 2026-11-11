@@ -110,6 +110,84 @@ mixin SnapdCache on SnapdClient {
   }
 }
 
+/// Snaps snapd returned to any caller in the app.
+sealed class SnapdResult {
+  const SnapdResult();
+}
+
+final class FoundSnaps extends SnapdResult {
+  const FoundSnaps(this.snaps, {this.name});
+
+  final List<Snap> snaps;
+  // Set for a lookup by exact name.
+  final String? name;
+}
+
+final class LocalSnap extends SnapdResult {
+  const LocalSnap(this.name, this.snap);
+
+  final String name;
+  // Null when the snap is not installed.
+  final Snap? snap;
+}
+
+final class InstalledSnaps extends SnapdResult {
+  const InstalledSnaps(this.snaps);
+
+  final List<Snap> snaps;
+}
+
+/// Reports what snapd returns, so it can be shown before a page's own
+/// requests finish.
+mixin SnapdResults on SnapdClient {
+  final _results = StreamController<SnapdResult>.broadcast();
+
+  Stream<SnapdResult> get snapResults => _results.stream;
+
+  @override
+  Future<List<Snap>> find({
+    String? query,
+    String? name,
+    String? commonId,
+    String? category,
+    @Deprecated('Replaced with category') String? section,
+    SnapFindFilter? filter,
+    SnapFindScope? scope,
+  }) async {
+    final snaps = await super.find(
+      query: query,
+      name: name,
+      commonId: commonId,
+      category: category,
+      // ignore: deprecated_member_use
+      section: section,
+      filter: filter,
+      scope: scope,
+    );
+    _results.add(FoundSnaps(snaps, name: name));
+    return snaps;
+  }
+
+  @override
+  Future<Snap> getSnap(String name) async {
+    try {
+      final snap = await super.getSnap(name);
+      _results.add(LocalSnap(name, snap));
+      return snap;
+    } on SnapdException catch (e) {
+      if (e.kind == 'snap-not-found') _results.add(LocalSnap(name, null));
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<Snap>> getSnaps({SnapsFilter? filter}) async {
+    final snaps = await super.getSnaps(filter: filter);
+    _results.add(InstalledSnaps(snaps));
+    return snaps;
+  }
+}
+
 @Riverpod(keepAlive: true)
 class StoreSnap extends _$StoreSnap {
   @override

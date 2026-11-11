@@ -346,6 +346,9 @@ class AppstreamService {
     return scored.map((e) => e.component).toList();
   }
 
+  AppstreamComponent? tryGetFromId(String id) =>
+      _componentsById[id.trim().toLowerCase()];
+
   AppstreamComponent getFromId(String id) {
     // Even though appstream IDs are unique, we can have multiple entries with
     // the same ID in the pool, since we're loading the metadata from multiple

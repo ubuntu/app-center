@@ -77,15 +77,18 @@ class DebModel extends _$DebModel {
   @override
   Future<DebData> build(String id) async {
     final appstream = getService<AppstreamService>();
+    // Pages can open before startup has finished loading AppStream.
+    await appstream.init();
     final component = appstream.getFromId(id);
 
     await packageKit.activateService();
 
     final packageInfo = await _getPackageInfo(component);
-    final updatePackageId = await _getUpdate(packageInfo!);
-    final details = (await packageKit.getDetails([
-      packageInfo.packageId,
-    ]))[packageInfo.packageId.name];
+    final (updatePackageId, allDetails) = await (
+      _getUpdate(packageInfo!),
+      packageKit.getDetails([packageInfo.packageId]),
+    ).wait;
+    final details = allDetails[packageInfo.packageId.name];
 
     final errorListener = packageKit.errorStream.listen(_onError);
     ref.onDispose(errorListener.cancel);
@@ -165,6 +168,7 @@ class DebModel extends _$DebModel {
   Future<PackageKitPackageId?> _getUpdate(
     PackageKitPackageEvent packageInfo,
   ) async {
+    if (packageInfo.info != PackageKitInfo.installed) return null;
     final detailsEvent = await packageKit.getUpdateDetails(
       packageInfo.packageId,
     );

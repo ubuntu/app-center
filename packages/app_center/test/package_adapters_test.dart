@@ -190,6 +190,26 @@ void main() {
     );
   });
 
+  test('Snap adapter finds a seen snap by name without the store', () async {
+    final snapd = MockSnapdService();
+    final snap = createSnap(
+      name: 'vlc',
+      commonIds: ['org.videolan.vlc'],
+      apps: [],
+    );
+
+    final descriptor = await SnapPackageAdapter(
+      snapd: snapd,
+      seenByName: (name) => name == 'vlc' ? snap : null,
+    ).findByPackageName('vlc');
+
+    expect(descriptor?.packageId, 'vlc');
+    expect(descriptor?.commonIds, ['org.videolan.vlc']);
+    verifyNever(
+      snapd.find(name: anyNamed('name'), scope: anyNamed('scope')),
+    );
+  });
+
   test('Deb adapter finds desktop file paths', () async {
     final pool = MockAppstreamPool();
     const component = AppstreamComponent(
