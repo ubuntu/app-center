@@ -201,7 +201,7 @@
     "externalResources": "Pliaj rimedoj",
     "externalResourcesButtonLabel": "Ekscii pli",
     "debPageErrorNoPackageInfo": "Neniu paka informo troviĝis",
-    "openInBrowser": "Malfermi per TTT-legilo",
+    "openInBrowser": "Malfermi per retumilo",
     "installAll": "Instali ĉiujn",
     "snapPageShareLinkCopiedMessage": "Ligilo kopiita al tondujo",
     "snapReportSelectReportReasonLabel": "Elektu kialon por raporti ĉi tiun programon",
@@ -301,7 +301,7 @@
     "debPageDocumentationLinkLabel": "Lernu pri administrado de Debian-pakoj",
     "snapPageGalleryNextSemanticLabel": "Sekva bildo",
     "snapPageGalleryPreviousSemanticLabel": "Antaŭa bildo",
-    "snapPageShareSemanticLabel": "Kopii hiperligon",
+    "snapPageShareSemanticLabel": "Kopii ligilon",
     "snapPageReportSemanticLabel": "Raporti",
     "sectionExpandSemanticLabel": "Malkaŝi {section}",
     "@sectionExpandSemanticLabel": {
@@ -319,8 +319,8 @@
             }
         }
     },
-    "debPageShareSemanticLabel": "Kopii hiperligon",
-    "debPageShareLinkCopiedMessage": "Hiperligo kopiiĝis",
+    "debPageShareSemanticLabel": "Kopii ligilon",
+    "debPageShareLinkCopiedMessage": "Ligilo kopiiĝis",
     "snapPageGalleryImageSemanticLabel": "Bildo {n}",
     "@snapPageGalleryImageSemanticLabel": {
         "placeholders": {
@@ -611,6 +611,22 @@
         "description": "The version already installed when viewing a local Debian package file.",
         "placeholders": {
             "version": {
+                "type": "String"
+            }
+        }
+    },
+    "uninstallDependentsTitle": "Ĉu malinstali {appName} kaj pakojn dependantajn de ĝi?",
+    "@uninstallDependentsTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "uninstallDependentsMessage": "Jen tiuj pakoj, kiuj dependas de {appName} kaj estas malinstalotaj kune:",
+    "@uninstallDependentsMessage": {
+        "placeholders": {
+            "appName": {
                 "type": "String"
             }
         }
