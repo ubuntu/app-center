@@ -51,11 +51,10 @@ packages:
   appstream:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "8e036920739f7850fafd6c0736d254211716526d"
-      resolved-ref: "8e036920739f7850fafd6c0736d254211716526d"
-      url: "https://github.com/canonical/appstream.dart.git"
-    source: git
+      name: appstream
+      sha256: "4c06023aaaa13029acc26d87fe9db13ee532a7d4c0ddada8402fcbdb222aed82"
+      url: "https://pub.dev"
+    source: hosted
     version: "0.3.0"
   archive:
     dependency: transitive

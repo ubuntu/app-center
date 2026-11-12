@@ -156,12 +156,12 @@ class AppstreamService {
     return AppstreamPool(
       locales: keys.isEmpty ? null : keys,
       // languages and contentRatings stay: the deb details model reads them.
-      omit: const {
+      omit: const [
         AppstreamDetail.cachedIcons,
         AppstreamDetail.releaseNotes,
         AppstreamDetail.screenshotCaptions,
         AppstreamDetail.screenshotThumbnails,
-      },
+      ],
     );
   }
 
@@ -175,7 +175,6 @@ class AppstreamService {
   final _componentsByDesktopId = <String, AppstreamComponent>{};
   final _componentsByAlias = <String, AppstreamComponent>{};
   final _componentsByPackage = <String, AppstreamComponent>{};
-  var _components = const <AppstreamComponent>[];
 
   bool get initialized => _initialized;
 
@@ -199,9 +198,8 @@ class AppstreamService {
     _componentsByAlias.clear();
     _componentsByPackage.clear();
 
-    _components = _pool.components;
     final sharedWords = <String, String>{};
-    for (final component in _components) {
+    for (final component in _pool.components) {
       _cache.add(
         _CachedComponent.fromAppstream(component, sharedWords),
       );
@@ -350,7 +348,7 @@ class AppstreamService {
     if (tokens.isEmpty) {
       if (search.length <= 1) {
         // Search query too broad, matching everything
-        return _components;
+        return _pool.components;
       } else {
         // No valid search tokens
         return [];

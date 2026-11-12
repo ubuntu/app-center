@@ -237,7 +237,7 @@ void main() {
     verify(pool.load()).called(2);
   });
 
-  test('serves components of a loaded pool by their position', () async {
+  test('serves every lookup from a pool loaded from catalog files', () async {
     final tempDir = await Directory.systemTemp.createTemp('appstream_service');
     addTearDown(() => tempDir.delete(recursive: true));
     final yamlDir = Directory('${tempDir.path}/swcatalog/yaml');
