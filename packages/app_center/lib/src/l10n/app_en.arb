@@ -607,7 +607,7 @@
             }
         }
     },
-    "debSetupFailedBody": "This often happens when a package needs to ask questions during setup. App Center can't show these questions yet.",
+    "debSetupFailedBody": "The package's setup script stopped before finishing. This can happen when its setup questions are cancelled.",
     "debSetupFailedTerminalHint": "To finish the setup, run this command in the Terminal:",
     "debSetupFailedDetailsLabel": "Technical details"
 }

@@ -17,7 +17,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:github/github.dart';
 import 'package:gtk/gtk.dart';
-import 'package:packagekit/packagekit.dart';
 import 'package:path/path.dart' as p;
 import 'package:snapcraft_launcher/snapcraft_launcher.dart';
 import 'package:ubuntu_logger/ubuntu_logger.dart';
@@ -67,9 +66,14 @@ Future<void> main(List<String> args) async {
   unawaited(appstream.init());
   registerServiceInstance(appstream);
 
-  registerService(PackageKitClient.new);
   registerService(
-    PackageKitService.new,
+    DebconfService.new,
+    dispose: (service) => service.dispose(),
+  );
+  registerService(
+    () => PackageKitService(
+      debconfSocket: getService<DebconfService>().socketPath,
+    ),
     dispose: (service) => service.dispose(),
   );
   registerService(

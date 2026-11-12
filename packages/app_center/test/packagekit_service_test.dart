@@ -1135,6 +1135,132 @@ void main() {
     });
   });
 
+  group('debconf socket', () {
+    const socket = '/run/user/1000/app-center-debconf.socket';
+    const foo = PackageKitPackageId(name: 'foo', version: '1.0');
+    final transactionPath = DBusObjectPath('/1_debconf');
+
+    MockDBusClient createDbus({bool acceptHints = true}) {
+      final dbus = createMockDbusClient();
+      when(
+        dbus.callMethod(
+          destination: _packageKitDBusName,
+          path: DBusObjectPath('/org/freedesktop/PackageKit'),
+          interface: _packageKitDBusName,
+          name: 'CreateTransaction',
+          replySignature: DBusSignature('o'),
+        ),
+      ).thenAnswer((_) async => DBusMethodSuccessResponse([transactionPath]));
+      final setHints = when(
+        dbus.callMethod(
+          destination: _packageKitDBusName,
+          path: transactionPath,
+          interface: '$_packageKitDBusName.Transaction',
+          name: 'SetHints',
+          values: anyNamed('values'),
+          replySignature: DBusSignature(''),
+        ),
+      );
+      if (acceptHints) {
+        setHints.thenAnswer((_) async => DBusMethodSuccessResponse());
+      } else {
+        setHints.thenThrow(
+          DBusMethodResponseException(
+            DBusMethodErrorResponse('org.freedesktop.DBus.Error.Failed'),
+          ),
+        );
+      }
+      return dbus;
+    }
+
+    PackageKitClient createClient(PackageKitTransaction transaction) {
+      final client = createMockPackageKitClient(transaction: transaction);
+      when(client.locale).thenReturn(null);
+      when(client.background).thenReturn(false);
+      when(client.interactive).thenReturn(true);
+      when(client.idle).thenReturn(true);
+      when(client.cacheAge).thenReturn(0xffffffff);
+      when(
+        client.getTransaction(transactionPath),
+      ).thenAnswer((_) async => transaction);
+      return client;
+    }
+
+    test('is passed to transactions that run setup scripts', () async {
+      final dbus = createDbus();
+      final transaction = createMockPackageKitTransaction();
+      final client = createClient(transaction);
+      final packageKit = PackageKitService(
+        dbus: dbus,
+        client: client,
+        fs: MemoryFileSystem.test(),
+        debconfSocket: () async => socket,
+      );
+      await packageKit.activateService();
+
+      await packageKit.install(foo).then(packageKit.waitTransaction);
+
+      final hints = verify(
+        dbus.callMethod(
+          destination: _packageKitDBusName,
+          path: transactionPath,
+          interface: '$_packageKitDBusName.Transaction',
+          name: 'SetHints',
+          values: captureAnyNamed('values'),
+          replySignature: DBusSignature(''),
+        ),
+      ).captured.single;
+      expect(hints, [
+        DBusArray.string([
+          'background=false',
+          'interactive=true',
+          'idle=true',
+          'cache-age=4294967295',
+          'frontend-socket=$socket',
+        ]),
+      ]);
+      verify(transaction.installPackages([foo])).called(1);
+      verifyNever(client.createTransaction());
+    });
+
+    test('is dropped if PackageKit rejects it', () async {
+      final transaction = createMockPackageKitTransaction();
+      final client = createClient(transaction);
+      final packageKit = PackageKitService(
+        dbus: createDbus(acceptHints: false),
+        client: client,
+        fs: MemoryFileSystem.test(),
+        debconfSocket: () async => socket,
+      );
+      await packageKit.activateService();
+
+      await packageKit.install(foo).then(packageKit.waitTransaction);
+
+      verify(client.createTransaction()).called(1);
+      verify(transaction.installPackages([foo])).called(1);
+    });
+
+    test('is not requested for transactions without setup scripts', () async {
+      var requested = false;
+      final client = createMockPackageKitClient();
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: client,
+        fs: MemoryFileSystem.test(),
+        debconfSocket: () async {
+          requested = true;
+          return socket;
+        },
+      );
+      await packageKit.activateService();
+
+      await packageKit.simulateInstall([foo]);
+
+      expect(requested, isFalse);
+      verify(client.createTransaction()).called(1);
+    });
+  });
+
   group('packageWithFailedSetup', () {
     for (final testCase in [
       (

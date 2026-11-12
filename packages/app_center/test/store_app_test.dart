@@ -8,6 +8,7 @@ import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/search/search_field.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store_app.dart';
+import 'package:debconf_frontend/debconf_frontend.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +17,7 @@ import 'package:gtk/gtk.dart';
 import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_localizations/ubuntu_localizations.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 
@@ -383,6 +385,57 @@ void main() {
         );
       });
     });
+  });
+
+  testWidgets('debconf questions are asked in a dialog', (tester) async {
+    final request = DebconfRequest(
+      const DebconfPrompt(
+        title: 'Configuring foo',
+        questions: [
+          DebconfQuestion(
+            name: 'foo/name',
+            type: DebconfQuestionType.string,
+            description: 'Your name:',
+            value: 'Bob',
+          ),
+        ],
+      ),
+    );
+    registerMockSnapdService();
+    registerMockService<GtkApplicationNotifier>(
+      createMockGtkApplicationNotifier(),
+    );
+    registerMockDriversService();
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          debconfRequestsProvider.overrideWith((ref) => Stream.value(request)),
+        ],
+        child: const StoreApp(),
+      ),
+    );
+    await tester.pump();
+
+    final dialog = find.byType(DebconfDialog);
+    expect(
+      find.descendant(of: dialog, matching: find.text('Configuring foo')),
+      findsOneWidget,
+    );
+    final l10n = UbuntuLocalizations.of(tester.element(dialog));
+    await tester.tap(
+      find.descendant(of: dialog, matching: find.text(l10n.continueLabel)),
+    );
+    await tester.pumpAndSettle();
+
+    expect(dialog, findsNothing);
+    expect(
+      await request.result,
+      isA<DebconfAnswered>().having(
+        (result) => result.values,
+        'values',
+        {'foo/name': 'Bob'},
+      ),
+    );
   });
 
   group('shortcuts', () {

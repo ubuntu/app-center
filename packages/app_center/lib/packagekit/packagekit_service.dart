@@ -9,7 +9,6 @@ import 'package:file/local.dart';
 import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:path/path.dart' as p;
-import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:xdg_desktop_portal/xdg_desktop_portal.dart';
 
 export 'package:packagekit/packagekit.dart' show PackageKitTransaction;
@@ -141,9 +140,11 @@ class PackageKitService {
     @visibleForTesting this._documentsPortal,
     @visibleForTesting FileSystem? fs,
     @visibleForTesting this._runtimeDir,
-  }) : _client = client ?? getService<PackageKitClient>(),
-       _dbus = dbus ?? DBusClient.system(),
+    this._debconfSocket,
+  }) : _dbus = dbus ?? DBusClient.system(),
        _fs = fs ?? const LocalFileSystem() {
+    // Transactions only accept calls from the connection that created them.
+    _client = client ?? PackageKitClient(bus: _dbus);
     _nameOwnerSubscription = _dbus.nameOwnerChanged.listen((event) {
       if (event.name == _packageKitBusName && event.newOwner == null) {
         _isAvailable = false;
@@ -151,11 +152,15 @@ class PackageKitService {
     });
   }
 
-  final PackageKitClient _client;
+  late final PackageKitClient _client;
   final DBusClient _dbus;
   final XdgDocumentsPortal? _documentsPortal;
   final FileSystem _fs;
   final String? _runtimeDir;
+
+  /// The socket on which setup scripts can ask debconf questions, if any.
+  final Future<String?> Function()? _debconfSocket;
+
   XdgDesktopPortalClient? _desktopPortalClient;
   io.Directory? _mountPoint;
   late final StreamSubscription<DBusNameOwnerChangedEvent>
@@ -263,16 +268,18 @@ class PackageKitService {
   /// Creates a new `PackageKitTransaction` and invokes `action` on it, if
   /// provided. If a `listener` is provided it will receive the `PackageKitEvent`s
   /// from the transaction. [onDone] is called once the transaction finishes or
-  /// is destroyed (useful for cleanup).
+  /// is destroyed (useful for cleanup). Set [debconf] if the transaction runs
+  /// package setup scripts, which may ask questions.
   /// Returns an internal transaction id.
   Future<int> _createTransaction({
     Future<void> Function(PackageKitTransaction transaction)? action,
     void Function(PackageKitEvent event)? listener,
     void Function()? onDone,
     _MutationSpec? mutation,
+    bool debconf = false,
   }) async {
     await activateService();
-    final transaction = await _client.createTransaction();
+    final transaction = await _newTransaction(debconf: debconf);
     final id = _nextId++;
     _transactions[id] = transaction;
 
@@ -369,6 +376,56 @@ class PackageKitService {
     return id;
   }
 
+  Future<PackageKitTransaction> _newTransaction({required bool debconf}) async {
+    final socket = debconf ? await _debconfSocket?.call() : null;
+    if (socket != null) {
+      try {
+        return await _createTransactionWithHints(['frontend-socket=$socket']);
+      } on DBusMethodResponseException catch (e) {
+        log.warning('PackageKit did not accept the debconf socket: $e');
+      }
+    }
+    return _client.createTransaction();
+  }
+
+  // PackageKitClient.createTransaction() can't pass extra hints.
+  Future<PackageKitTransaction> _createTransactionWithHints(
+    List<String> hints,
+  ) async {
+    final response =
+        await DBusRemoteObject(
+          _dbus,
+          name: _packageKitBusName,
+          path: DBusObjectPath('/org/freedesktop/PackageKit'),
+        ).callMethod(
+          _packageKitBusName,
+          'CreateTransaction',
+          const [],
+          replySignature: DBusSignature('o'),
+        );
+    final path = response.returnValues.first.asObjectPath();
+    await DBusRemoteObject(
+      _dbus,
+      name: _packageKitBusName,
+      path: path,
+    ).callMethod(
+      '$_packageKitBusName.Transaction',
+      'SetHints',
+      [
+        DBusArray.string([
+          if (_client.locale case final locale?) 'locale=$locale',
+          'background=${_client.background}',
+          'interactive=${_client.interactive}',
+          'idle=${_client.idle}',
+          'cache-age=${_client.cacheAge}',
+          ...hints,
+        ]),
+      ],
+      replySignature: DBusSignature(''),
+    );
+    return _client.getTransaction(path);
+  }
+
   /// Waits until the transaction specified by the internal `id` has finished.
   /// Throws a [PackageKitTransactionCancelled] if the transaction was
   /// cancelled by the user — explicitly, or by dismissing the polkit dialog,
@@ -437,6 +494,7 @@ class PackageKitService {
           kind: PackageKitMutationKind.install,
           packageIds: [packageId],
         ),
+        debconf: true,
       );
 
   /// Creates a transaction that installs all of the given packages by
@@ -448,6 +506,7 @@ class PackageKitService {
           kind: PackageKitMutationKind.install,
           packageIds: packageId.toList(),
         ),
+        debconf: true,
       );
 
   /// Returns packages an install would add or replace, without installing them.
@@ -487,6 +546,7 @@ class PackageKitService {
         action: (transaction) => transaction.installFiles([resolvedPath]),
         onDone: tempCopy != null ? () => _deleteTempCopy(tempCopy) : null,
         mutation: (kind: PackageKitMutationKind.installLocal, packageIds: []),
+        debconf: true,
       );
     } on Exception catch (_) {
       if (tempCopy != null) await _deleteTempCopy(tempCopy);
@@ -514,6 +574,7 @@ class PackageKitService {
   Future<int> remove(PackageKitPackageId packageId) async => _createTransaction(
     action: (transaction) => transaction.removePackages([packageId]),
     mutation: (kind: PackageKitMutationKind.remove, packageIds: [packageId]),
+    debconf: true,
   );
 
   /// Creates a transaction that removes all of the given packages by
@@ -525,11 +586,13 @@ class PackageKitService {
           kind: PackageKitMutationKind.remove,
           packageIds: packageIds.toList(),
         ),
+        debconf: true,
       );
 
   Future<int> update(PackageKitPackageId packageId) async => _createTransaction(
     action: (transaction) => transaction.updatePackages([packageId]),
     mutation: (kind: PackageKitMutationKind.update, packageIds: [packageId]),
+    debconf: true,
   );
 
   /// Creates a transaction that updates all of the given packages by
@@ -538,6 +601,7 @@ class PackageKitService {
     Iterable<PackageKitPackageId> packageIds,
   ) async => _createTransaction(
     action: (transaction) => transaction.updatePackages(packageIds),
+    debconf: true,
   );
 
   static Future<String> _getNativeArchitecture() async {
@@ -750,6 +814,7 @@ class PackageKitService {
           kind: PackageKitMutationKind.update,
           packageIds: packageIds.toList(),
         ),
+        debconf: true,
       ).then(waitTransaction);
 
   /// Returns all installed packages on the system.
@@ -770,8 +835,8 @@ class PackageKitService {
 
   Future<void> dispose() async {
     await _nameOwnerSubscription.cancel();
-    await _dbus.close();
     await _client.close();
+    await _dbus.close();
     await _taggedErrorStreamController.close();
     await _mutationController.close();
     await _desktopPortalClient?.close();

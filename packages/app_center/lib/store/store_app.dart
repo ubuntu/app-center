@@ -20,11 +20,13 @@ import 'package:app_center/store/store_pages.dart';
 import 'package:app_center/store/store_providers.dart';
 import 'package:app_center/store/store_routes.dart';
 import 'package:app_center/widgets/widgets.dart';
+import 'package:debconf_frontend/debconf_frontend.dart';
 import 'package:flutter/material.dart' hide AboutDialog, showAboutDialog;
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 
 // Making a provider to provide navigatorKeyTwo
@@ -37,6 +39,13 @@ final yaruPageControllerProvider = Provider(
 );
 
 final routeNameProvider = StateProvider<String?>((ref) => null);
+
+/// Questions from package setup scripts, to show to the user.
+final debconfRequestsProvider = StreamProvider(
+  (ref) =>
+      tryGetService<DebconfService>()?.requests ??
+      const Stream<DebconfRequest>.empty(),
+);
 
 class StoreApp extends ConsumerStatefulWidget {
   const StoreApp({super.key});
@@ -162,12 +171,28 @@ class _StoreAppHome extends ConsumerWidget {
     );
   }
 
+  Future<void> _askDebconf(BuildContext context, DebconfRequest request) async {
+    final prompt = request.prompt;
+    request.answer(
+      await showDebconfDialog(
+        context,
+        title: prompt.title,
+        questions: prompt.questions,
+        canGoBack: prompt.canGoBack,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     YaruWindow.of(context).setTitle(l10n.appCenterLabel);
 
     final textScalar = MediaQuery.textScalerOf(context);
+
+    ref.listen(debconfRequestsProvider, (_, next) {
+      if (next.value case final request?) _askDebconf(context, request);
+    });
 
     ref.listen(errorStreamProvider, (_, error) {
       if (!error.hasValue) return;
