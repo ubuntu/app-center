@@ -38,3 +38,25 @@ class DebconfQuestion {
   /// The current value in debconf's format, e.g. `true` or `a, b`.
   final String value;
 }
+
+/// What the user did with a page of debconf questions.
+sealed class DebconfDialogResult {
+  const DebconfDialogResult();
+}
+
+/// The questions were answered; [values] has the value of every question.
+final class DebconfAnswered extends DebconfDialogResult {
+  const DebconfAnswered(this.values);
+
+  final Map<String, String> values;
+}
+
+/// The user wants to go back to the previous questions.
+final class DebconfWentBack extends DebconfDialogResult {
+  const DebconfWentBack();
+}
+
+/// The user cancelled the setup.
+final class DebconfCancelled extends DebconfDialogResult {
+  const DebconfCancelled();
+}
