@@ -243,8 +243,8 @@
     "localDebWarningTitle": "Eble nesekura",
     "localDebDialogConfirmation": "Ĉu vi certe volas instali ĝin?",
     "localDebLearnMore": "Lernu pli pri triapartiaj pakoj",
-    "localDebDialogMessage": "Tiu pako estas disponigita de tria partio kaj povas minaci vian sistemon kaj personajn datenojn.",
-    "localDebWarningBody": "Tiu pako estas disponigita de tria partio. Instalado de pakoj ekster la Apocentro povas pliigi la riskon al via sistemo kaj personaj datenoj. Certigu, ke vi fidas la fonton antaŭ ol daŭrigi.",
+    "localDebDialogMessage": "Tiu pako estas disponigita de tria partio kaj povas minaci vian sistemon kaj personajn datumoj.",
+    "localDebWarningBody": "Tiu pako estas disponigita de tria partio. Instalado de pakoj ekster la Apocentro povas pliigi la riskon al via sistemo kaj personaj datumoj. Certigu, ke vi fidas la fonton antaŭ ol daŭrigi.",
     "managePageDebUpdatesMessage": "Ĝisdatigon de Debian-pakoj respondecas la Ĝisdatigilo de Programaroj.",
     "snapActionInstalledLabel": "Instalita",
     "errorViewNetworkErrorAction": "Kontrolu vian konekton kaj reprovu.",
@@ -435,7 +435,7 @@
     "driversPageRestartRequiredTitle": "Deviga restarto",
     "driversPageBranchLts": "Longdaŭra subteno",
     "driversPageRestartRequiredMessage": "Restartigu vian komputilon por fini la aplikadon de ŝanĝoj al peliloj.",
-    "driversPageNoDriversFoundMessage": "Uzante apriorajn zorgilojn. Neniu plia zorgilo troviĝis.",
+    "driversPageNoDriversFoundMessage": "Uzante defaŭltajn zorgilojn. Neniu plia zorgilo troviĝis.",
     "driversPageSwitchBranchRecommendedLabel": "{branch} (rekomendata)",
     "@driversPageSwitchBranchRecommendedLabel": {
         "placeholders": {
@@ -597,8 +597,8 @@
         }
     },
     "mediaSupportPageAdditionalMediaTitle": "Subteno de pliaj aŭdvidaĵoj",
-    "mediaSupportPageDescription": "Ubuntu instaliĝas apriore kun kelkaj malfermitkodaj programoj por aŭdvidaĵoj. Eble pliaj programoj necesas por spekti aŭ modifi kelkajn aŭdvidajn dosierformojn.",
-    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Malinstalu ĝin antaŭ ol reinstali ĝin aliforme. Apaj datenoj ne estas komunaj inter formoj.} =2{Malinstalu ambaŭ por ŝanĝi al alia formo. Apaj datenoj ne estas komunaj inter formoj.} other{Malinstalu ilin por ŝanĝi al alia formo. Apaj datenoj ne estas komunaj inter formoj.}}",
+    "mediaSupportPageDescription": "Ubuntu instaliĝas defaŭlte kun kelkaj malfermitkodaj programoj por aŭdvidaĵoj. Eble pliaj programoj necesas por spekti aŭ modifi kelkajn aŭdvidajn dosierformojn.",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Malinstalu ĝin antaŭ ol reinstali ĝin aliforme. Apaj datumoj ne estas komunaj inter formoj.} =2{Malinstalu ambaŭ por ŝanĝi al alia formo. Apaj datumoj ne estas komunaj inter formoj.} other{Malinstalu ilin por ŝanĝi al alia formo. Apaj datumoj ne estas komunaj inter formoj.}}",
     "@appDetailsUninstallToChangeFormat": {
         "placeholders": {
             "count": {
