@@ -490,7 +490,7 @@
             }
         }
     },
-    "managePageUpdateAppRestartRequiredSemanticLabel": "Aktualizovanie aplikácie {appName}, vyžaduje reštart",
+    "managePageUpdateAppRestartRequiredSemanticLabel": "Aktualizácia aplikácie {appName} vyžaduje reštart",
     "@managePageUpdateAppRestartRequiredSemanticLabel": {
         "placeholders": {
             "appName": {
