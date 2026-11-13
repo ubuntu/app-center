@@ -220,7 +220,9 @@ class _SnapAppActionsState extends ConsumerState<_SnapAppActions> {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (shouldQuitToUpdate) ...[
-          const ExcludeSemantics(child: QuitToUpdateNotice()),
+          const Flexible(
+            child: ExcludeSemantics(child: QuitToUpdateNotice()),
+          ),
           const SizedBox(width: kSpacing),
         ],
         if (widget.showOnlyUpdate)
