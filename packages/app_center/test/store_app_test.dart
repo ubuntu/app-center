@@ -304,6 +304,51 @@ void main() {
       expect(badge, findsOneWidget);
       expect((tester.widget<Badge>(badge).label! as Text).data, equals('2'));
     });
+
+    testWidgets('back button exposes Go back label on its semantics node', (
+      tester,
+    ) async {
+      registerMockService<GtkApplicationNotifier>(
+        createMockGtkApplicationNotifier(),
+      );
+      registerMockService<RatingsService>(registerMockRatingsService());
+      registerMockSnapdService();
+      final semantics = tester.ensureSemantics();
+      await tester.pumpApp(
+        (_) => ProviderScope(
+          // Override canGoBackProvider directly: overriding routeNameProvider
+          // does not work because StoreObserver overwrites it with the
+          // initial route name in a post-frame callback on pump.
+          overrides: [canGoBackProvider.overrideWithValue(true)],
+          child: const StoreApp(),
+        ),
+      );
+      await tester.pump();
+
+      final backButton = find.byType(YaruBackButton);
+      expect(backButton, findsOneWidget);
+      expect(
+        find.bySemanticsLabel(tester.l10n.backButtonSemanticLabel),
+        findsOneWidget,
+      );
+      // getSemantics on the button widget returns an ancestor container node;
+      // resolve the labeled node itself via its semantics label.
+      expect(
+        tester.getSemantics(
+          find.bySemanticsLabel(tester.l10n.backButtonSemanticLabel),
+        ),
+        matchesSemantics(
+          label: tester.l10n.backButtonSemanticLabel,
+          isButton: true,
+          hasEnabledState: true,
+          isEnabled: true,
+          isFocusable: true,
+          hasTapAction: true,
+          hasFocusAction: true,
+        ),
+      );
+      semantics.dispose();
+    });
   });
 
   group('error handling', () {
