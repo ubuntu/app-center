@@ -202,8 +202,7 @@ class _SnapAppActionsState extends ConsumerState<_SnapAppActions> {
       if (activeChange?.ready != true) {
         return ActiveChangeStatus(
           actionLabel: activeChange?.localize(l10n),
-          progress:
-              ref.watch(snapChangeProgressProvider(activeChangeId)) ?? 0,
+          progress: ref.watch(snapChangeProgressProvider(activeChangeId)) ?? 0,
           onCancelPressed: _busy ? null : _cancelActiveChange,
           appName: widget.appName,
         );
