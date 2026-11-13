@@ -38,8 +38,10 @@ void main() {
       ),
     );
     // The banner hides its icons on small layouts; widen the window so the
-    // icons render.
-    tester.view.physicalSize = const Size(1400, 900);
+    // icons render. physicalSize is in physical pixels, so scale by the
+    // device pixel ratio (3.0 in tests) to get a 1400x900 logical window.
+    tester.view.physicalSize =
+        const Size(1400, 900) * tester.view.devicePixelRatio;
     await tester.pumpAndSettle();
 
     final slogan = tester.l10n.snapCategoryArtAndDesignSlogan;
@@ -48,9 +50,16 @@ void main() {
     for (final title in ['GIMP', 'Krita']) {
       final icon = find.bySemanticsLabel(title);
       expect(icon, findsOneWidget);
+      // The InkWell contributes tap/focus actions and focusability, not the
+      // isButton flag, so assert the actions the node actually carries.
       expect(
         tester.getSemantics(icon),
-        matchesSemantics(label: title, isButton: true),
+        matchesSemantics(
+          label: title,
+          isFocusable: true,
+          hasTapAction: true,
+          hasFocusAction: true,
+        ),
       );
     }
     semantics.dispose();
