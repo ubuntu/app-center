@@ -255,7 +255,7 @@
     "errorViewCheckStatusLabel": "Skontrolovať stav",
     "errorViewNetworkErrorAction": "Skontrolujte svoje pripojenie a skúste to znova.",
     "errorViewNetworkErrorTitle": "Pripojte sa k internetu",
-    "snapdExceptionRunningApps": "Nepodarilo sa aktualizovať {snapName}, pretože je práve spustený.",
+    "snapdExceptionRunningApps": "Aplikáciu {snapName} sa nepodarilo aktualizovať, pretože je práve spustená.",
     "@snapdExceptionRunningApps": {
         "placeholders": {
             "snapName": {
