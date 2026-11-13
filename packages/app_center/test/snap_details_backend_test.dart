@@ -464,7 +464,7 @@ void main() {
         await execute(container, OperationKind.remove),
         OperationOutcome.success,
       );
-      verify(service.remove('testsnap')).called(1);
+      verify(service.remove('testsnap', purge: false)).called(1);
     });
 
     test('declined authorization is a cancellation', () async {

@@ -174,7 +174,7 @@ void main() {
     expect(removeButton, findsOneWidget);
     await tester.tap(removeButton);
     await tester.pumpAndSettle();
-    verify(service.remove(any)).called(1);
+    verify(service.remove(any, purge: false)).called(1);
 
     expect(find.text(tester.l10n.snapActionUpdateLabel), findsNothing);
     final l10n = tester.l10n;
@@ -243,7 +243,7 @@ void main() {
 
     await tester.tap(find.text(tester.l10n.snapActionRemoveLabel));
     await tester.pumpAndSettle();
-    verify(service.remove(any)).called(1);
+    verify(service.remove(any, purge: false)).called(1);
 
     expect(
       find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
@@ -336,7 +336,7 @@ void main() {
     expect(removeButton, findsOneWidget);
     await tester.tap(removeButton);
     await tester.pumpAndSettle();
-    verify(service.remove(any)).called(1);
+    verify(service.remove(any, purge: false)).called(1);
 
     expect(find.text(tester.l10n.snapActionUpdateLabel), findsNothing);
     final l10n = tester.l10n;
