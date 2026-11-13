@@ -327,7 +327,8 @@ void main() {
       final semantics = find.ancestor(
         of: manageTile,
         matching: find.byWidgetPredicate(
-          (widget) => widget is Semantics && widget.properties.button == true,
+          (widget) =>
+              widget is Semantics && (widget.properties.button ?? false),
         ),
       );
       expect(semantics, findsOneWidget);
