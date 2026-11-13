@@ -278,8 +278,9 @@ void main() {
               (ref, searchParameters) =>
                   Stream.error(Exception('Network error')),
             ),
-            appstreamSearchProvider
-                .overrideWith((ref, query) => Stream.value([])),
+            appstreamSearchProvider.overrideWith(
+              (ref, query) => Stream.value([]),
+            ),
           ],
           child: SearchField(
             onSearch: (_) {},
