@@ -338,13 +338,20 @@ class _RemoveMenuButton extends StatelessWidget {
             ),
           ],
           builder: (context, controller, child) => YaruFocusBorder.primary(
-            child: OutlinedButton.icon(
+            child: OutlinedButton(
               onPressed: () =>
                   controller.isOpen ? controller.close() : controller.open(),
               style: kSuppressFocusOverlay,
-              icon: const Icon(Icons.arrow_drop_down, size: 18),
-              iconAlignment: IconAlignment.end,
-              label: ExcludeSemantics(child: Text(label)),
+              child: ExcludeSemantics(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(label),
+                    const SizedBox(width: 2),
+                    const Icon(Icons.arrow_drop_down, size: 16),
+                  ],
+                ),
+              ),
             ),
           ),
         ),

@@ -302,7 +302,10 @@ void main() {
         child: const ManagePage(),
       ),
     );
-    await tester.pumpAndSettle();
+    // Bounded pumps only: this page setup never settles (same pattern as the
+    // neighbouring tile tests), so pumpAndSettle would time out.
+    await tester.pump();
+    await tester.pump();
 
     final tile = find.snapTile('Firefox');
     final removeButton = find.descendant(
@@ -315,12 +318,14 @@ void main() {
     expect(find.text(tester.l10n.snapActionPurgeLabel), findsNothing);
 
     await tester.tap(removeButton);
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
 
     expect(find.text(tester.l10n.snapActionPurgeLabel), findsOneWidget);
 
     await tester.tap(find.text(tester.l10n.snapActionPurgeLabel));
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump();
 
     verify(service.remove('firefox', purge: true)).called(1);
   });
