@@ -52,10 +52,10 @@ packages:
     dependency: "direct main"
     description:
       name: appstream
-      sha256: b3b578ed8bfa32b4b038240ef3ccacda33532e69ffb69a38cb7246bdacb9f561
+      sha256: "4c06023aaaa13029acc26d87fe9db13ee532a7d4c0ddada8402fcbdb222aed82"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.11"
+    version: "0.3.0"
   archive:
     dependency: transitive
     description:

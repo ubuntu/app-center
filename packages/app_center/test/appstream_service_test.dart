@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app_center/appstream/appstream.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -177,6 +179,8 @@ void main() {
     expect(result['0ad'], component1);
     expect(result['qbrew'], component2);
     expect(result.containsKey(''), isFalse);
+    expect(result.keys, unorderedEquals(['0ad', 'qbrew']));
+    expect(() => result['x'] = component1, throwsUnsupportedError);
   });
 
   test('indexes component identity metadata', () async {
@@ -231,5 +235,46 @@ void main() {
     expect(await service.findByPackageName('0ad'), isNull);
     expect(await service.findByPackageName('QBrew'), component2);
     verify(pool.load()).called(2);
+  });
+
+  test('serves every lookup from a pool loaded from catalog files', () async {
+    final tempDir = await Directory.systemTemp.createTemp('appstream_service');
+    addTearDown(() => tempDir.delete(recursive: true));
+    final yamlDir = Directory('${tempDir.path}/swcatalog/yaml');
+    await yamlDir.create(recursive: true);
+
+    String entry(String id, String package, String name) =>
+        '---\nType: desktop-application\nID: $id\nPackage: $package\n'
+        'Name:\n  C: $name\nSummary:\n  C: About $name\n'
+        'Launchable:\n  desktop-id:\n  - $id.desktop\n';
+    const header = '---\nFile: DEP-11\nVersion: "0.12"\nOrigin: test\n';
+    // The preferred duplicate comes second, in a file of its own.
+    await File('${yamlDir.path}/a.yml').writeAsString(
+      header +
+          entry('org.example.One', 'z-one', 'One duplicate') +
+          entry('org.example.Two', 'two', 'Second'),
+    );
+    await File('${yamlDir.path}/b.yml').writeAsString(
+      header +
+          entry('org.example.One', 'one', 'One') +
+          entry('org.example.Three', 'three', 'Third'),
+    );
+    service = AppstreamService(
+      pool: AppstreamPool(catalogDirPrefixes: [tempDir.path]),
+    );
+    await service.init();
+
+    final two = await service.findById('org.example.two');
+    expect(two!.getLocalizedName(), 'Second');
+    expect(identical(await service.findById('org.example.Two'), two), isTrue);
+    expect((await service.findById('org.example.One'))!.package, 'one');
+    expect(
+      (await service.findByDesktopId('org.example.Three.desktop'))!.package,
+      'three',
+    );
+    expect((await service.findByPackageName('three'))!.id, 'org.example.Three');
+    expect(service.getComponentsByPackage()['two'], same(two));
+    expect((await service.search('third')).single.package, 'three');
+    expect(service.getFromId('org.example.Three').package, 'three');
   });
 }

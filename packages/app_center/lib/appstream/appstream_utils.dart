@@ -56,15 +56,7 @@ extension LocalizedComponent on AppstreamComponent {
   }
 
   String? bestLanguageKey<T>(Map<String, T> keyedByLanguage) {
-    final locale = PlatformDispatcher.instance.locale;
-
-    if (locale.toLanguageTag() == 'und') return null;
-
-    final countryCode = locale.countryCode;
-    final languageCode = locale.languageCode;
-    final fullLocale = '${languageCode}_$countryCode';
-    const fallback = 'C';
-    final candidates = [fullLocale, languageCode, fallback];
+    final candidates = translationKeys(PlatformDispatcher.instance.locale);
     final keys = keyedByLanguage.keys;
 
     for (final candidate in candidates) {
@@ -73,6 +65,19 @@ extension LocalizedComponent on AppstreamComponent {
 
     return null;
   }
+}
+
+/// Keys to look up for [locale], most specific first; empty if undetermined.
+List<String> translationKeys(Locale locale) {
+  if (locale.toLanguageTag() == 'und') return const [];
+
+  final countryCode = locale.countryCode;
+  final languageCode = locale.languageCode;
+  const fallback = 'C';
+  if (countryCode == null || countryCode.isEmpty) {
+    return [languageCode, fallback];
+  }
+  return ['${languageCode}_$countryCode', languageCode, fallback];
 }
 
 extension Metadata on AppstreamComponent {
