@@ -98,11 +98,30 @@ class DriversService {
     );
   }
 
-  /// Returns whether the `com.ubuntu.Drivers` D-Bus service is reachable
+  /// Returns whether the `com.ubuntu.Drivers` D-Bus service is reachable.
+  ///
+  /// Introspects the service's object instead of pinging it: the
+  /// `ubuntu-drivers-observe` snap interface permits `Introspect`, but not
+  /// `org.freedesktop.DBus.Peer.Ping`.
   Future<bool> isAvailable() async {
+    final object = DBusRemoteObject(
+      _dbus,
+      name: _serviceName,
+      path: _objectPath,
+    );
+
     try {
-      await _dbus.ping(_serviceName);
+      await object.introspect();
       return true;
+    } on DBusAccessDeniedException catch (e) {
+      log.warning(
+        'Drivers service access denied '
+        '(is ubuntu-drivers-observe connected?): $e',
+      );
+      return false;
+    } on DBusServiceUnknownException catch (e) {
+      log.warning('Drivers service not installed: $e');
+      return false;
     } on Exception catch (e) {
       log.warning('Drivers service unavailable: $e');
       return false;
