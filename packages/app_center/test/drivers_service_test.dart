@@ -20,14 +20,27 @@ Future<DBusMethodSuccessResponse> _driversCall(MockDBusClient dbus) =>
       replySignature: DBusSignature('aa{sv}'),
     );
 
+/// The `Introspect` call `DriversService.isAvailable` makes.
+Future<DBusMethodSuccessResponse> _introspectCall(MockDBusClient dbus) =>
+    dbus.callMethod(
+      path: DBusObjectPath(_driversDBusObjectPath),
+      destination: _driversDBusName,
+      name: 'Introspect',
+      interface: 'org.freedesktop.DBus.Introspectable',
+      replySignature: DBusSignature('s'),
+    );
+
 void main() {
   group('isAvailable', () {
-    test('returns true if the service responds to a ping', () async {
+    test('returns true if the service responds to Introspect', () async {
       final dbus = createMockDbusClient();
-      when(dbus.ping(_driversDBusName)).thenAnswer((_) async {});
+      when(_introspectCall(dbus)).thenAnswer(
+        (_) async => DBusMethodSuccessResponse([const DBusString('<node/>')]),
+      );
 
       final drivers = DriversService(dbus: dbus);
       expect(await drivers.isAvailable(), isTrue);
+      verifyNever(dbus.ping(any));
     });
 
     test(
@@ -35,7 +48,7 @@ void main() {
       '(e.g. ubuntu-drivers-common is not installed)',
       () async {
         final dbus = createMockDbusClient();
-        when(dbus.ping(_driversDBusName)).thenThrow(
+        when(_introspectCall(dbus)).thenThrow(
           DBusServiceUnknownException(
             DBusMethodErrorResponse(
               'org.freedesktop.DBus.Error.ServiceUnknown',
@@ -48,9 +61,30 @@ void main() {
       },
     );
 
+    test(
+      'returns false if access is denied '
+      '(e.g. ubuntu-drivers-observe interface not connected)',
+      () async {
+        final dbus = createMockDbusClient();
+        when(_introspectCall(dbus)).thenThrow(
+          DBusAccessDeniedException(
+            DBusMethodErrorResponse('org.freedesktop.DBus.Error.AccessDenied', [
+              const DBusString(
+                'An AppArmor policy prevents this sender from sending '
+                'this message to this recipient',
+              ),
+            ]),
+          ),
+        );
+
+        final drivers = DriversService(dbus: dbus);
+        expect(await drivers.isAvailable(), isFalse);
+      },
+    );
+
     test('returns false on other D-Bus method errors', () async {
       final dbus = createMockDbusClient();
-      when(dbus.ping(_driversDBusName)).thenThrow(
+      when(_introspectCall(dbus)).thenThrow(
         DBusMethodResponseException(
           DBusMethodErrorResponse('org.freedesktop.DBus.Error.Failed'),
         ),
@@ -65,9 +99,7 @@ void main() {
       '(e.g. the D-Bus daemon itself is unreachable)',
       () async {
         final dbus = createMockDbusClient();
-        when(
-          dbus.ping(_driversDBusName),
-        ).thenThrow(Exception('socket closed'));
+        when(_introspectCall(dbus)).thenThrow(Exception('socket closed'));
 
         final drivers = DriversService(dbus: dbus);
         expect(await drivers.isAvailable(), isFalse);
