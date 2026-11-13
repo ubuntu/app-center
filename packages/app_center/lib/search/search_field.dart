@@ -75,6 +75,8 @@ class _SearchFieldState extends ConsumerState<SearchField> {
         final AutoCompleteOptions options;
         try {
           options = await ref.read(autoCompleteProvider.future);
+        } on Exception {
+          return <AutoCompleteOption>[];
         } finally {
           subscription.close();
         }
