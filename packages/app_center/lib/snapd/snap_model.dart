@@ -18,8 +18,9 @@ part 'snap_model.g.dart';
 /// Share of the overall progress taken by the download phase.
 const _downloadWeight = 0.7;
 
-final snapInitialChannelProvider =
-    StateProvider.family<String?, String>((ref, snapName) => null);
+final snapInitialChannelProvider = StateProvider.family<String?, String>(
+  (ref, snapName) => null,
+);
 
 @Riverpod(keepAlive: true)
 class SnapModel extends _$SnapModel {
