@@ -5,10 +5,12 @@ import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'test_utils.dart';
 
 void main() {
+  tearDown(resetAllServices);
   final refreshableSnaps = [
     createSnap(
       name: 'testsnap3',
@@ -48,6 +50,71 @@ void main() {
       final model = await container.read(snapUpdatesModelProvider.future);
       expect(model.single.name, equals('firefox'));
     });
+
+    test('keeps held snaps in the list with hold state exposed', () async {
+      final heldSnap = createSnap(
+        name: 'held-snap',
+        hold: DateTime.now().add(const Duration(days: 30)),
+      );
+      final activeSnap = createSnap(name: 'active-snap');
+      registerMockSnapdService(
+        refreshableSnaps: [heldSnap, activeSnap],
+      );
+      final container = createContainer();
+      final model = await container.read(snapUpdatesModelProvider.future);
+      expect(model.length, equals(2));
+      final held = model.getSnap('held-snap')!;
+      expect(held.isHeld, isTrue);
+      expect(model.getSnap('active-snap')!.isHeld, isFalse);
+    });
+
+    test('snaps with an expired hold are not marked as held', () async {
+      final expiredHoldSnap = createSnap(
+        name: 'expired-hold-snap',
+        hold: DateTime.now().subtract(const Duration(days: 1)),
+      );
+      registerMockSnapdService(
+        refreshableSnaps: [expiredHoldSnap],
+      );
+      final container = createContainer();
+      final model = await container.read(snapUpdatesModelProvider.future);
+      expect(model.single.isHeld, isFalse);
+    });
+  });
+
+  test('update all skips held snaps', () async {
+    final heldSnap = createSnap(
+      name: 'held-snap',
+      hold: DateTime.now().add(const Duration(days: 30)),
+    );
+    final activeSnap = createSnap(
+      name: 'active-snap',
+      channel: 'latest/stable',
+      channels: {
+        'latest/stable': SnapChannel(
+          confinement: SnapConfinement.strict,
+          size: 1337,
+          releasedAt: DateTime(1970),
+          version: '1.0',
+        ),
+      },
+    );
+    final service = registerMockSnapdService(
+      localSnap: activeSnap,
+      storeSnap: activeSnap,
+      refreshableSnaps: [heldSnap, activeSnap],
+      installedSnaps: [heldSnap, activeSnap],
+    );
+    final container = createContainer();
+    await container.read(snapModelProvider('active-snap').future);
+    await container.read(snapUpdatesModelProvider.future);
+    await container.read(snapUpdatesModelProvider.notifier).refreshAll();
+    verify(
+      service.refresh('active-snap', channel: anyNamed('channel')),
+    ).called(1);
+    verifyNever(
+      service.refresh('held-snap', channel: anyNamed('channel')),
+    );
   });
 
   test('update all', () async {
