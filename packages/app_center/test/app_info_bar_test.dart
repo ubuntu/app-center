@@ -1,9 +1,11 @@
 import 'package:app_center/deb/deb_model.dart';
-import 'package:app_center/ratings/ratings.dart';
-import 'package:app_center/snapd/snapd.dart';
+import 'package:app_center/packagekit/packagekit.dart';
+import 'package:app_center/snapd/snap_data.dart';
 import 'package:app_center/widgets/app_info_bar.dart';
+import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -18,17 +20,15 @@ void main() {
   tearDown(resetAllServices);
 
   group('SnapInfoBar', () {
-    testWidgets('renders SelectionArea allowing keyboard focus', (
-      tester,
-    ) async {
-      final snap = createSnap(
-        name: 'testsnap',
-        version: '1.0.0',
-        website: 'https://example.com',
-      );
+    testWidgets('links can receive keyboard focus', (tester) async {
       final snapData = SnapData(
         name: 'testsnap',
-        storeSnap: snap,
+        localSnap: null,
+        storeSnap: createSnap(
+          name: 'testsnap',
+          version: '1.0.0',
+          website: 'https://example.com',
+        ),
       );
 
       await tester.pumpApp(
@@ -38,28 +38,33 @@ void main() {
       );
       await tester.pump();
 
-      final selectionAreas = find.byType(SelectionArea);
-      expect(selectionAreas, findsWidgets);
-
-      // Verify SelectionAreas do not have focus disabled
-      for (final element in tester.widgetList<SelectionArea>(selectionAreas)) {
-        expect(element.focusNode?.canRequestFocus, isNot(isFalse));
-      }
+      await expectLinkFocusable(tester);
     });
   });
 
   group('DebInfoBar', () {
-    testWidgets('renders SelectionArea allowing keyboard focus', (
-      tester,
-    ) async {
+    testWidgets('links can receive keyboard focus', (tester) async {
+      final subscription = const Stream<PackageKitServiceError>.empty().listen(
+        null,
+      );
+      addTearDown(subscription.cancel);
       final debData = DebData(
-        component: AppstreamComponent(
+        id: 'test.deb',
+        component: const AppstreamComponent(
           id: 'test.deb',
-          name: 'Test Deb',
-          summary: 'Test Deb Summary',
-          pkgname: 'testdeb',
-          version: '1.0',
+          type: AppstreamComponentType.desktopApplication,
+          package: 'testdeb',
+          name: {'C': 'Test Deb'},
+          summary: {'C': 'Test Deb Summary'},
+          urls: [
+            AppstreamUrl(
+              'https://example.com',
+              type: AppstreamUrlType.homepage,
+            ),
+          ],
         ),
+        hasUpdate: false,
+        errorStream: subscription,
       );
 
       await tester.pumpApp(
@@ -69,12 +74,40 @@ void main() {
       );
       await tester.pump();
 
-      final selectionAreas = find.byType(SelectionArea);
-      expect(selectionAreas, findsWidgets);
-
-      for (final element in tester.widgetList<SelectionArea>(selectionAreas)) {
-        expect(element.focusNode?.canRequestFocus, isNot(isFalse));
-      }
+      await expectLinkFocusable(tester);
     });
   });
+}
+
+/// Verifies that the link rendered by the info bar can receive keyboard
+/// focus: the wrapping [SelectionArea] must not block focus, the link's
+/// focus node must accept focus, and tabbing must reach the link.
+Future<void> expectLinkFocusable(WidgetTester tester) async {
+  final link = find.byType(HyperlinkText);
+  expect(link, findsOneWidget);
+
+  // The SelectionArea wrapping the link must not disable focus.
+  for (final area in tester.widgetList<SelectionArea>(
+    find.byType(SelectionArea),
+  )) {
+    expect(area.focusNode?.canRequestFocus, isNot(isFalse));
+  }
+
+  final linkText = find.descendant(of: link, matching: find.byType(Text));
+  final focusNode = Focus.of(tester.element(linkText));
+  expect(focusNode.canRequestFocus, isTrue);
+
+  // Tabbing through the page reaches the link.
+  var reachedByTab = false;
+  for (var i = 0; i < 20 && !reachedByTab; i++) {
+    await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+    await tester.pump();
+    reachedByTab = focusNode.hasFocus;
+  }
+  expect(reachedByTab, isTrue);
+
+  // The link also gains focus when focus is requested directly.
+  focusNode.requestFocus();
+  await tester.pump();
+  expect(focusNode.hasFocus, isTrue);
 }
