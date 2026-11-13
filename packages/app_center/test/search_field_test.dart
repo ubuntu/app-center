@@ -274,9 +274,18 @@ void main() {
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
-            snapSearchProvider.overrideWith(
-              (ref, searchParameters) =>
-                  Stream.error(Exception('Network error')),
+            // A terminal error state, not an erroring stream: Stream.error
+            // trips Riverpod 3's default retry + pause-on-cancel and leaves
+            // the provider stuck in loading at teardown (StateError on
+            // dispose). The error state still exercises the optionsBuilder
+            // catch end to end through the real autoCompleteProvider.
+            snapSearchProvider(
+              const SnapSearchParameters(query: 'test'),
+            ).overrideWithValue(
+              AsyncValue.error(
+                Exception('Network error'),
+                StackTrace.empty,
+              ),
             ),
             appstreamSearchProvider.overrideWith(
               (ref, query) => Stream.value([]),
@@ -293,6 +302,13 @@ void main() {
 
       final textField = find.byType(TextField);
       await tester.enterText(textField, 'test');
+      await tester.pumpAndSettle();
+      // Riverpod retries a failed provider up to 10 times with backoff, and
+      // the no-op listenManual subscription schedules no frames, so
+      // pumpAndSettle returns while retries are still pending. Advance past
+      // the whole retry loop (~43s) so the failure settles and the
+      // optionsBuilder catch actually runs before asserting.
+      await tester.pump(const Duration(seconds: 60));
       await tester.pumpAndSettle();
 
       // The failed autocomplete must not surface an exception to the
