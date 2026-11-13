@@ -1,4 +1,5 @@
 import 'package:app_center/deb/deb_model.dart';
+import 'package:app_center/layout.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/snapd/snap_data.dart';
 import 'package:app_center/widgets/app_info_bar.dart';
@@ -33,7 +34,9 @@ void main() {
 
       await tester.pumpApp(
         (_) => ProviderScope(
-          child: SnapInfoBar(snapData: snapData),
+          child: ResponsiveLayoutBuilder(
+            builder: (_) => SnapInfoBar(snapData: snapData),
+          ),
         ),
       );
       await tester.pump();
@@ -69,7 +72,9 @@ void main() {
 
       await tester.pumpApp(
         (_) => ProviderScope(
-          child: DebInfoBar(debData: debData),
+          child: ResponsiveLayoutBuilder(
+            builder: (_) => DebInfoBar(debData: debData),
+          ),
         ),
       );
       await tester.pump();
