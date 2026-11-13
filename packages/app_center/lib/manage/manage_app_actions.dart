@@ -119,6 +119,12 @@ class ManageAppActions extends ConsumerWidget {
       snapLauncher,
       context,
     );
+    final removePurgeCallback = SnapAction.removePurge.callback(
+      snapData,
+      snapViewModel,
+      snapLauncher,
+      context,
+    );
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -146,10 +152,12 @@ class ManageAppActions extends ConsumerWidget {
             ),
             const SizedBox(width: kSpacing),
           ],
-          _AccessibleActionButton(
+          _RemoveMenuButton(
             label: SnapAction.remove.label(l10n),
+            purgeLabel: SnapAction.removePurge.label(l10n),
             semanticLabel: l10n.managePageRemoveAppSemanticLabel(app.name),
-            onPressed: removeCallback,
+            onRemovePressed: removeCallback,
+            onRemovePurgePressed: removePurgeCallback,
           ),
         ],
       ],
@@ -286,6 +294,58 @@ class _AccessibleActionButton extends StatelessWidget {
             style: kSuppressFocusOverlay,
             child: ExcludeSemantics(
               child: Text(label),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// An [OutlinedButton] that opens a menu with the plain remove action and the
+/// remove-with-purge action (which also removes the snap's user data). The
+/// trigger button keeps the accessible name override and focus border of
+/// [_AccessibleActionButton].
+class _RemoveMenuButton extends StatelessWidget {
+  const _RemoveMenuButton({
+    required this.label,
+    required this.purgeLabel,
+    required this.semanticLabel,
+    required this.onRemovePressed,
+    required this.onRemovePurgePressed,
+  });
+
+  final String label;
+  final String purgeLabel;
+  final String semanticLabel;
+  final VoidCallback? onRemovePressed;
+  final VoidCallback? onRemovePurgePressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return MergeSemantics(
+      child: Semantics(
+        label: semanticLabel,
+        child: MenuAnchor(
+          menuChildren: [
+            MenuItemButton(
+              onPressed: onRemovePressed,
+              child: Text(label),
+            ),
+            MenuItemButton(
+              onPressed: onRemovePurgePressed,
+              child: Text(purgeLabel),
+            ),
+          ],
+          builder: (context, controller, child) => YaruFocusBorder.primary(
+            child: OutlinedButton(
+              onPressed: () =>
+                  controller.isOpen ? controller.close() : controller.open(),
+              style: kSuppressFocusOverlay,
+              // Same shape as [_AccessibleActionButton]'s button: the tile
+              // actions row has no room for a dropdown arrow icon (it
+              // overflows by 2.4px when Open and Uninstall both show).
+              child: ExcludeSemantics(child: Text(label)),
             ),
           ),
         ),

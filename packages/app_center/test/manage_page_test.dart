@@ -278,6 +278,58 @@ void main() {
     },
   );
 
+  testWidgets('uninstall dropdown offers plain remove and purge options', (
+    tester,
+  ) async {
+    final snap = createSnap(
+      name: 'firefox',
+      title: 'Firefox',
+      version: '1.0',
+      channel: 'latest/stable',
+    );
+    final service = registerMockSnapdService(
+      installedSnaps: [snap],
+      refreshableSnaps: [],
+    );
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          ...debProviderOverrides,
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+        ],
+        child: const ManagePage(),
+      ),
+    );
+    // Bounded pumps only: this page setup never settles (same pattern as the
+    // neighbouring tile tests), so pumpAndSettle would time out.
+    await tester.pump();
+    await tester.pump();
+
+    final tile = find.snapTile('Firefox');
+    final removeButton = find.descendant(
+      of: tile,
+      matching: find.buttonWithText(tester.l10n.snapActionRemoveLabel),
+    );
+    expect(removeButton, findsOneWidget);
+
+    // The purge option is only visible once the dropdown menu is opened.
+    expect(find.text(tester.l10n.snapActionPurgeLabel), findsNothing);
+
+    await tester.tap(removeButton);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
+
+    expect(find.text(tester.l10n.snapActionPurgeLabel), findsOneWidget);
+
+    await tester.tap(find.text(tester.l10n.snapActionPurgeLabel));
+    await tester.pump();
+    await tester.pump();
+
+    verify(service.remove('firefox', purge: true)).called(1);
+  });
+
   testWidgets('launch desktop snap', (tester) async {
     await resetAllServices();
     registerMockSnapdService(
