@@ -414,13 +414,13 @@
     "driversPageSectionAvailable": "Disponible",
     "driversPageSectionInstalled": "Installé",
     "driversPageSectionUnsupported": "Pas de pilotes disponibles",
-    "driversPageDeviceClassNetwork": "Réseau(x)",
+    "driversPageDeviceClassNetwork": "Réseau",
     "driversPageDeviceClassCamera": "Caméra",
     "driversPageDeviceClassUsb": "USB",
     "driversPageDeviceClassAudio": "Audio",
     "driversPageDeviceClassOther": "Autre(s) type(s)",
     "driversPageBranchLts": "Support à long terme",
-    "driversPageBranchNewFeature": "Nouveautés",
+    "driversPageBranchNewFeature": "Nouvelles fonctionnalités",
     "driversPageRestartRequiredTitle": "Redémarrage requis",
     "driversPageRestartRequiredMessage": "Redémarrez votre ordinateur pour terminer l'application des changements de pilote.",
     "driversPageErrorLabel": "Erreur",
@@ -506,7 +506,7 @@
             }
         }
     },
-    "managePageCancelActionSemanticLabel": "Annuler {action} de {appName}",
+    "managePageCancelActionSemanticLabel": "Annuler {action} pour {appName}",
     "@managePageCancelActionSemanticLabel": {
         "placeholders": {
             "action": {
@@ -558,7 +558,7 @@
             }
         }
     },
-    "managePageVersionUpdateSemanticLabel": "De version {version} vers {updateVersion}",
+    "managePageVersionUpdateSemanticLabel": "Version {version} vers {updateVersion}",
     "@managePageVersionUpdateSemanticLabel": {
         "placeholders": {
             "version": {
@@ -569,7 +569,7 @@
             }
         }
     },
-    "appDetailsChoosePackageFormatAction": "Choisissez le format de paquet…",
+    "appDetailsChoosePackageFormatAction": "Choisir format de paquet…",
     "appDetailsChoosePackageFormatTitle": "Choisissez le format de paquet",
     "appDetailsPackageSourceLabel": "Source",
     "appDetailsVerifiedPublisherSemanticLabel": "Éditeur vérifié",
@@ -595,7 +595,7 @@
             }
         }
     },
-    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Désinstaller avant d'installer un format de paquet différent. Les données d'application ne sont pas partagées entre les formats.} =2{Désinstaller les deux pour passer à un format différent. Les données d'application ne sont pas partagées entre les formats.} other{Les désinstaller pour passer à un format différent. Les données d'application ne sont pas partagées entre les formats.}}",
+    "appDetailsUninstallToChangeFormat": "{count, plural, =1{Désinstaller avant d'installer un format de paquet différent. Les données d'app ne sont pas partagées entre les formats.} =2{Désinstaller les deux pour passer à un format différent. Les données d'app ne sont pas partagées entre les formats.} other{Les désinstaller pour passer à un format différent. Les données d'app ne sont pas partagées entre les formats.}}",
     "@appDetailsUninstallToChangeFormat": {
         "placeholders": {
             "count": {
@@ -605,12 +605,28 @@
     },
     "appDetailsPackageFormatsLearnMore": "En savoir plus sur les formats de paquets",
     "appDetailsInstalledSizeLabel": "Taille installée",
-    "appDetailsInstalledAsMultipleFormats": "Installé comme plusieurs formats de paquets",
+    "appDetailsInstalledAsMultipleFormats": "Installé sous plusieurs formats de paquets",
     "localDebInstalledVersion": "Version installée : {version}",
     "@localDebInstalledVersion": {
         "description": "The version already installed when viewing a local Debian package file.",
         "placeholders": {
             "version": {
+                "type": "String"
+            }
+        }
+    },
+    "uninstallDependentsTitle": "Désinstaller {appName} et les paquets dépendants ?",
+    "@uninstallDependentsTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "uninstallDependentsMessage": "Ces paquets dépendent de {appName} et seront désinstallés aussi :",
+    "@uninstallDependentsMessage": {
+        "placeholders": {
+            "appName": {
                 "type": "String"
             }
         }

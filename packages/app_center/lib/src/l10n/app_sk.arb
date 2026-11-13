@@ -188,7 +188,7 @@
     "snapReportPrivacyAgreementLabel": "Odoslaním tohto formulára potvrdzujem, že som si prečítal(a) a súhlasím s ",
     "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Ochranou údajov Canonical ",
     "snapReportPrivacyAgreementAndLabel": "a ",
-    "snapReportPrivacyAgreementPrivacyPolicy": "Zásadami ochrany",
+    "snapReportPrivacyAgreementPrivacyPolicy": "Zásadami súkromia",
     "debPageErrorNoPackageInfo": "Nenašli sa žiadne informácie o balíku",
     "externalResources": "Ďalšie zdroje",
     "externalResourcesButtonLabel": "Objavte viac",
@@ -255,7 +255,7 @@
     "errorViewCheckStatusLabel": "Skontrolovať stav",
     "errorViewNetworkErrorAction": "Skontrolujte svoje pripojenie a skúste to znova.",
     "errorViewNetworkErrorTitle": "Pripojte sa k internetu",
-    "snapdExceptionRunningApps": "Nepodarilo sa aktualizovať {snapName}, pretože je práve spustený.",
+    "snapdExceptionRunningApps": "Aplikáciu {snapName} sa nepodarilo aktualizovať, pretože je práve spustená.",
     "@snapdExceptionRunningApps": {
         "placeholders": {
             "snapName": {
@@ -490,7 +490,7 @@
             }
         }
     },
-    "managePageUpdateAppRestartRequiredSemanticLabel": "Aktualizovať {appName}, vyžaduje sa reštart",
+    "managePageUpdateAppRestartRequiredSemanticLabel": "Aktualizácia aplikácie {appName} vyžaduje reštart",
     "@managePageUpdateAppRestartRequiredSemanticLabel": {
         "placeholders": {
             "appName": {
@@ -611,6 +611,22 @@
         "description": "The version already installed when viewing a local Debian package file.",
         "placeholders": {
             "version": {
+                "type": "String"
+            }
+        }
+    },
+    "uninstallDependentsTitle": "Odinštalovať {appName} a závislé balíky?",
+    "@uninstallDependentsTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "uninstallDependentsMessage": "Tieto balíky sú naviazané na aplikáciu {appName} a odinštalujú sa tiež:",
+    "@uninstallDependentsMessage": {
+        "placeholders": {
+            "appName": {
                 "type": "String"
             }
         }

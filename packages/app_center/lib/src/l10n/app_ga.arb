@@ -621,5 +621,21 @@
                 "type": "String"
             }
         }
+    },
+    "uninstallDependentsTitle": "Díshuiteáil {appName} agus pacáistí atá ag brath air?",
+    "@uninstallDependentsTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "uninstallDependentsMessage": "Braitheann na pacáistí seo ar {appName} agus bainfear iad freisin:",
+    "@uninstallDependentsMessage": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
     }
 }

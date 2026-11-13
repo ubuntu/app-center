@@ -614,5 +614,21 @@
                 "type": "String"
             }
         }
+    },
+    "uninstallDependentsTitle": "{appName} und die davon abhängigen Pakete deinstallieren?",
+    "@uninstallDependentsTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "uninstallDependentsMessage": "Diese Pakete hängen von {appName} ab und werden ebenfalls deinstalliert:",
+    "@uninstallDependentsMessage": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
     }
 }
