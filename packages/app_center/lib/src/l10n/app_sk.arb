@@ -585,7 +585,7 @@
             }
         }
     },
-    "appDetailsInstalledAsTwoFormats": "{first} a {second} sú oba nainštalované",
+    "appDetailsInstalledAsTwoFormats": "{first} a {second} sú obe nainštalované",
     "@appDetailsInstalledAsTwoFormats": {
         "placeholders": {
             "first": {
