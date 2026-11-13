@@ -40,12 +40,10 @@ class ManageAppActions extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
 
     return app.map(
-      snap: (snapData) => _buildSnapActions(
-        context,
-        ref,
-        l10n,
-        snapData.snap,
-        snapData.updateVersion,
+      snap: (snapData) => _SnapAppActions(
+        snap: snapData.snap,
+        showOnlyUpdate: showOnlyUpdate,
+        appName: app.name,
       ),
       localDeb: (debData) => _buildDebActions(
         context,
@@ -54,102 +52,6 @@ class ManageAppActions extends ConsumerWidget {
         debData.debInfo,
         debData.debInfo.isCompulsoryFor(ref.watch(currentDesktopsProvider)),
       ),
-    );
-  }
-
-  /// Builds snap action buttons using the per-snap [SnapModel]. Shows a loading
-  /// indicator while the snap model loads, an active change status when a snapd
-  /// operation is in progress, or the appropriate action buttons (update, open,
-  /// remove) otherwise.
-  Widget _buildSnapActions(
-    BuildContext context,
-    WidgetRef ref,
-    AppLocalizations l10n,
-    Snap snap,
-    String? updateVersion,
-  ) {
-    final snapModel = ref.watch(snapModelProvider(snap.name));
-    if (!snapModel.hasValue) {
-      return const Center(
-        child: SizedBox.square(
-          dimension: kLoaderMediumHeight,
-          child: YaruCircularProgressIndicator(),
-        ),
-      );
-    }
-    final snapData = snapModel.value!;
-    final shouldQuitToUpdate = snapData.localSnap?.refreshInhibit != null;
-    final snapViewModel = ref.watch(snapModelProvider(snap.name).notifier);
-    final snapLauncher = snapData.localSnap == null
-        ? null
-        : ref.watch(launchProvider(snapData.localSnap!));
-    final canOpen = snapLauncher?.isLaunchable ?? false;
-    final hasActiveChange = snapData.activeChangeId != null;
-    if (hasActiveChange) {
-      return ActiveChangeStatus(
-        actionLabel: ref
-            .watch(activeChangeProvider(snapData.activeChangeId))
-            ?.localize(l10n),
-        progress:
-            ref.watch(snapChangeProgressProvider(snapData.activeChangeId)) ?? 0,
-        onCancelPressed: () =>
-            ref.read(snapModelProvider(snap.name).notifier).cancel(),
-        appName: app.name,
-      );
-    }
-
-    final updateCallback = SnapAction.update.callback(
-      snapData,
-      snapViewModel,
-      snapLauncher,
-      context,
-    );
-    final openCallback = SnapAction.open.callback(
-      snapData,
-      snapViewModel,
-      snapLauncher,
-      context,
-    );
-    final removeCallback = SnapAction.remove.callback(
-      snapData,
-      snapViewModel,
-      snapLauncher,
-      context,
-    );
-
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (shouldQuitToUpdate) ...[
-          const ExcludeSemantics(child: QuitToUpdateNotice()),
-          const SizedBox(width: kSpacing),
-        ],
-        if (showOnlyUpdate)
-          _AccessibleActionButton(
-            label: SnapAction.update.label(l10n),
-            semanticLabel: shouldQuitToUpdate
-                ? l10n.managePageUpdateAppRestartRequiredSemanticLabel(
-                    app.name,
-                  )
-                : l10n.managePageUpdateAppSemanticLabel(app.name),
-            onPressed: updateCallback,
-          ),
-        if (!showOnlyUpdate && snapData.isInstalled) ...[
-          if (canOpen) ...[
-            _AccessibleActionButton(
-              label: SnapAction.open.label(l10n),
-              semanticLabel: l10n.managePageOpenAppSemanticLabel(app.name),
-              onPressed: openCallback,
-            ),
-            const SizedBox(width: kSpacing),
-          ],
-          _AccessibleActionButton(
-            label: SnapAction.remove.label(l10n),
-            semanticLabel: l10n.managePageRemoveAppSemanticLabel(app.name),
-            onPressed: removeCallback,
-          ),
-        ],
-      ],
     );
   }
 
@@ -255,6 +157,158 @@ class ManageAppActions extends ConsumerWidget {
       packageIds: [debInfo.packageInfo.packageId],
     );
     if (confirmed) await notifier.removeDeb(debInfo.id);
+  }
+}
+
+/// Snap action buttons for a manage page tile.
+///
+/// Display decisions use the [Snap] data directly plus the lightweight
+/// [snapActiveChangeProvider], so no per-tile [SnapModel] is built eagerly:
+/// rendering a tile costs one `getChanges` seed lookup instead of a full model
+/// build (`getSnap` + store lookup + `getChanges` + `hasPreviousRevision`).
+/// The [SnapModel] is only built (awaited) when an action is actually invoked,
+/// keeping the tile cheap while actions stay correct.
+class _SnapAppActions extends ConsumerStatefulWidget {
+  const _SnapAppActions({
+    required this.snap,
+    required this.showOnlyUpdate,
+    required this.appName,
+  });
+
+  final Snap snap;
+  final bool showOnlyUpdate;
+  final String appName;
+
+  @override
+  ConsumerState<_SnapAppActions> createState() => _SnapAppActionsState();
+}
+
+class _SnapAppActionsState extends ConsumerState<_SnapAppActions> {
+  /// Guards against double-taps in the gap between pressing a button and the
+  /// active change becoming visible.
+  var _busy = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final snap = widget.snap;
+
+    // Lightweight active-change lookup: covers changes started from this tile
+    // as well as changes already in progress (e.g. when the app launched).
+    final activeChangeId = ref.watch(snapActiveChangeProvider(snap.name));
+    if (activeChangeId != null) {
+      final activeChange = ref.watch(activeChangeProvider(activeChangeId));
+      // A seeded change may already be done by the time we subscribe to it.
+      if (activeChange?.ready != true) {
+        return ActiveChangeStatus(
+          actionLabel: activeChange?.localize(l10n),
+          progress: ref.watch(snapChangeProgressProvider(activeChangeId)) ?? 0,
+          onCancelPressed: _busy ? null : _cancelActiveChange,
+          appName: widget.appName,
+        );
+      }
+    }
+
+    final shouldQuitToUpdate = snap.refreshInhibit != null;
+    // launchProvider only wraps the Snap, so watching it stays cheap, and
+    // SnapLauncher.isLaunchable keeps the full launchability check.
+    final launcher = ref.watch(launchProvider(snap));
+    final canOpen = launcher.isLaunchable;
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (shouldQuitToUpdate) ...[
+          const Flexible(
+            child: ExcludeSemantics(child: QuitToUpdateNotice()),
+          ),
+          const SizedBox(width: kSpacing),
+        ],
+        if (widget.showOnlyUpdate)
+          _AccessibleActionButton(
+            label: SnapAction.update.label(l10n),
+            semanticLabel: shouldQuitToUpdate
+                ? l10n.managePageUpdateAppRestartRequiredSemanticLabel(
+                    widget.appName,
+                  )
+                : l10n.managePageUpdateAppSemanticLabel(widget.appName),
+            onPressed: _busy ? null : () => _performAction(SnapAction.update),
+          ),
+        // Tiles in the installed section always carry the local snap, so the
+        // snap is installed by construction; _performAction re-checks
+        // isInstalled against the loaded model before acting.
+        if (!widget.showOnlyUpdate) ...[
+          if (canOpen) ...[
+            _AccessibleActionButton(
+              label: SnapAction.open.label(l10n),
+              semanticLabel: l10n.managePageOpenAppSemanticLabel(
+                widget.appName,
+              ),
+              onPressed: launcher.open,
+            ),
+            const SizedBox(width: kSpacing),
+          ],
+          _AccessibleActionButton(
+            label: SnapAction.remove.label(l10n),
+            semanticLabel: l10n.managePageRemoveAppSemanticLabel(
+              widget.appName,
+            ),
+            onPressed: _busy ? null : () => _performAction(SnapAction.remove),
+          ),
+        ],
+      ],
+    );
+  }
+
+  /// Runs [action] against the snap's [SnapModel], building it first if needed.
+  ///
+  /// The model is awaited before invoking the action (actions assert on loaded
+  /// state), and [SnapAction.callback] stays the single source of truth for
+  /// the isInstalled/storeSnap guards once the model is loaded.
+  Future<void> _performAction(SnapAction action) async {
+    if (_busy) return;
+    setState(() => _busy = true);
+    try {
+      final snapName = widget.snap.name;
+      late final SnapData data;
+      try {
+        data = await ref.read(snapModelProvider(snapName).future);
+      } on Object catch (_) {
+        // The model failed to build (e.g. the snap is gone): nothing to do.
+        return;
+      }
+      if (!mounted) return;
+      final model = ref.read(snapModelProvider(snapName).notifier);
+      if (action == SnapAction.remove && !data.isInstalled) return;
+      if (action.callback(data, model, null, context) == null) return;
+      switch (action) {
+        case SnapAction.update:
+          await model.refresh();
+        case SnapAction.remove:
+          await model.remove();
+        case _:
+          return;
+      }
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  /// Aborts the active change, building the [SnapModel] first if needed so
+  /// that [SnapModel.cancel] sees the in-progress change id.
+  Future<void> _cancelActiveChange() async {
+    if (_busy) return;
+    setState(() => _busy = true);
+    try {
+      final snapName = widget.snap.name;
+      await ref.read(snapModelProvider(snapName).future);
+      if (!mounted) return;
+      await ref.read(snapModelProvider(snapName).notifier).cancel();
+    } on Object catch (_) {
+      // The model failed to build or there is nothing to abort.
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
   }
 }
 

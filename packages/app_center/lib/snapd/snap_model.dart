@@ -50,6 +50,9 @@ class SnapModel extends _$SnapModel {
         .firstWhereOrNull((change) => !change.ready)
         ?.id;
     if (activeChangeId != null) {
+      // Feed the lightweight provider too, so the manage page shows the
+      // active change even when the model was built directly.
+      ref.read(snapActiveChangeProvider(snapName).notifier).set(activeChangeId);
       unawaited(_listenUntilDone(activeChangeId, ref));
     }
 
@@ -124,7 +127,7 @@ class SnapModel extends _$SnapModel {
         .read(currentlyInstallingModelProvider.notifier)
         .add(snapName, model!);
     _updateChangeId(changeId);
-    await _listenUntilDone(changeId, ref);
+    await _trackActiveChange(changeId, () => _listenUntilDone(changeId, ref));
     ref.container
         .read(currentlyInstallingModelProvider.notifier)
         .remove(snapName);
@@ -134,11 +137,11 @@ class SnapModel extends _$SnapModel {
   }
 
   /// Cancels (aborts) the currently active operation which is tracked by
-  /// the `activeChangeId`.
+  /// the `activeChangeId`. Aborting needs no store data, only loaded state.
   Future<void> cancel() async {
     assert(
-      state.hasStoreSnap,
-      'The snap must be loaded from the store before aborting an action',
+      state.hasValue,
+      'The snap must be loaded before aborting an action',
     );
     final changeIdToAbort = state.value?.activeChangeId;
     if (changeIdToAbort == null) {
@@ -169,17 +172,20 @@ class SnapModel extends _$SnapModel {
           SnapConfinement.classic,
     );
     _updateChangeId(changeId);
-    return _listenUntilDone(changeId, ref).then((completedSuccessfully) {
-      if (removeFromList && completedSuccessfully) {
-        ref
-            .read(snapUpdatesModelProvider.notifier)
-            .removeFromList(snapData.name);
-        ref
-            .read(filteredLocalSnapsProvider.notifier)
-            .addToList(snapData.localSnap!);
-      }
-      return completedSuccessfully;
-    });
+    return _trackActiveChange(
+      changeId,
+      () => _listenUntilDone(changeId, ref).then((completedSuccessfully) {
+        if (removeFromList && completedSuccessfully) {
+          ref
+              .read(snapUpdatesModelProvider.notifier)
+              .removeFromList(snapData.name);
+          ref
+              .read(filteredLocalSnapsProvider.notifier)
+              .addToList(snapData.localSnap!);
+        }
+        return completedSuccessfully;
+      }),
+    );
   }
 
   /// Uninstalls the snap.
@@ -187,7 +193,7 @@ class SnapModel extends _$SnapModel {
     assert(state.hasValue, 'The snap must be loaded before removing it');
     final changeId = await _snapd.remove(snapName);
     _updateChangeId(changeId);
-    await _listenUntilDone(changeId, ref);
+    await _trackActiveChange(changeId, () => _listenUntilDone(changeId, ref));
     ref.read(snapUpdatesModelProvider.notifier).removeFromList(snapName);
     ref.read(filteredLocalSnapsProvider.notifier).removeFromList(snapName);
   }
@@ -206,10 +212,12 @@ class SnapModel extends _$SnapModel {
     try {
       final changeId = await _snapd.revert(snapName);
       _updateChangeId(changeId);
-      await _listenUntilDone(changeId, ref);
+      await _trackActiveChange(changeId, () async {
+        await _listenUntilDone(changeId, ref);
 
-      // After successful revert, force refresh to update version and revert availability
-      ref.invalidateSelf();
+        // After successful revert, force refresh to update version and revert availability
+        ref.invalidateSelf();
+      });
     } on SnapdException catch (e) {
       // If snapd says there is no revision to revert to, keep UI consistent
       if (e.statusCode == 400 &&
@@ -248,6 +256,21 @@ class SnapModel extends _$SnapModel {
     }
   }
 
+  /// Exposes [changeId] via [snapActiveChangeProvider] while [operation] runs,
+  /// so the manage page can show progress/cancel UI for this snap without
+  /// eagerly building a [SnapModel] per tile.
+  Future<T> _trackActiveChange<T>(
+    String changeId,
+    Future<T> Function() operation,
+  ) async {
+    ref.read(snapActiveChangeProvider(snapName).notifier).set(changeId);
+    try {
+      return await operation();
+    } finally {
+      ref.read(snapActiveChangeProvider(snapName).notifier).clear();
+    }
+  }
+
   Future<bool> _listenUntilDone(
     String changeId,
     Ref ref, {
@@ -283,6 +306,44 @@ class SnapModel extends _$SnapModel {
     }
     return completedSuccessfully;
   }
+}
+
+/// Active snapd change id per snap name, without building the full [SnapModel].
+///
+/// Lightweight source of "which snap has an operation in flight", used by the
+/// manage page to show progress/cancel UI without eagerly building a
+/// [SnapModel] per tile. Seeded from snapd's in-progress changes (so changes
+/// started before the app launched are picked up) and fed by
+/// [SnapModel.install], [SnapModel.refresh], [SnapModel.remove] and
+/// [SnapModel.revert] via [SnapActiveChange.set]/[SnapActiveChange.clear].
+@Riverpod(keepAlive: true)
+class SnapActiveChange extends _$SnapActiveChange {
+  late final _snapd = getService<SnapdService>();
+
+  @override
+  String? build(String snapName) {
+    // Seed asynchronously on purpose: a failed lookup just means
+    // "no active change".
+    unawaited(_seed(snapName));
+    return null;
+  }
+
+  Future<void> _seed(String snapName) async {
+    try {
+      final id = (await _snapd.getChanges(
+        name: snapName,
+      )).firstWhereOrNull((change) => !change.ready)?.id;
+      if (id != null) state = id;
+    } on Object catch (_) {
+      // snapd unreachable: leave as "no active change".
+    }
+  }
+
+  /// Marks [changeId] as the active change for the snap.
+  void set(String changeId) => state = changeId;
+
+  /// Clears the active change, e.g. after the operation completed.
+  void clear() => state = null;
 }
 
 /// Provides the progress of the snapd operations for the given change IDs.

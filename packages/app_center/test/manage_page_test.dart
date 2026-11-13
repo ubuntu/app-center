@@ -363,6 +363,9 @@ void main() {
     );
 
     await tester.tap(find.text(tester.l10n.managePageUpdateAllLabel));
+    // Refresh-all builds each snap's model lazily before refreshing, so
+    // the refresh lands asynchronously; settle before verifying it ran.
+    await tester.pumpAndSettle();
     verify(
       snapd.refresh(
         refreshableSnaps.first.name,
