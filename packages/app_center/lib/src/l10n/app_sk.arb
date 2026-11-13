@@ -188,7 +188,7 @@
     "snapReportPrivacyAgreementLabel": "Odoslaním tohto formulára potvrdzujem, že som si prečítal(a) a súhlasím s ",
     "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Ochranou údajov Canonical ",
     "snapReportPrivacyAgreementAndLabel": "a ",
-    "snapReportPrivacyAgreementPrivacyPolicy": "Zásadami ochrany",
+    "snapReportPrivacyAgreementPrivacyPolicy": "Zásadami súkromia",
     "debPageErrorNoPackageInfo": "Nenašli sa žiadne informácie o balíku",
     "externalResources": "Ďalšie zdroje",
     "externalResourcesButtonLabel": "Objavte viac",
@@ -585,7 +585,7 @@
             }
         }
     },
-    "appDetailsInstalledAsTwoFormats": "{first} a {second} sú obe nainštalované",
+    "appDetailsInstalledAsTwoFormats": "{first} a {second} sú oba nainštalované",
     "@appDetailsInstalledAsTwoFormats": {
         "placeholders": {
             "first": {
