@@ -102,6 +102,8 @@ class _ContributorView extends ConsumerWidget {
     final state = ref.watch(contributorsProvider(repo));
     final light = Theme.of(context).brightness == Brightness.light;
 
+    if (state.hasError) return const SizedBox.shrink();
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,

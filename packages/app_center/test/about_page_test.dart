@@ -31,6 +31,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('App Center'), findsOneWidget);
+    expect(find.text(tester.l10n.aboutPageContributorTitle), findsOneWidget);
     expect(find.byTooltip('user1'), findsOneWidget);
     expect(find.byTooltip('user2'), findsOneWidget);
   });
@@ -52,6 +53,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('App Center'), findsOneWidget);
+    expect(find.text(tester.l10n.aboutPageContributorTitle), findsNothing);
     expect(find.textContaining('Exception'), findsNothing);
     expect(find.textContaining('Network error'), findsNothing);
   });
