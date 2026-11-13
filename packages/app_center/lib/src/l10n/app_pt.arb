@@ -606,7 +606,7 @@
     "driversPageUninstallWarningTitle": "A desinstalação de controladores pode causar problemas",
     "driversPageUninstallWarningMessage": "Pode não ser fácil reinstalar os controladores, especialmente se estiverem relacionados com a placa gráfica ou com a rede.",
     "driversPageUninstallAcknowledgeLabel": "Compreendo o risco",
-    "localDebInstalledVersion": "A versão já instalada ao visualizar um ficheiro do pacote Debian local.",
+    "localDebInstalledVersion": "Versão instalada: {version}",
     "@localDebInstalledVersion": {
         "description": "The version already installed when viewing a local Debian package file.",
         "placeholders": {
