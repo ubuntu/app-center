@@ -29,18 +29,23 @@ enum ResponsiveLayoutType {
   large,
 }
 
-class ResponsiveLayout extends InheritedWidget {
+enum ResponsiveLayoutAspect {
+  breakpoint,
+  width,
+}
+
+class ResponsiveLayout extends InheritedModel<ResponsiveLayoutAspect> {
   ResponsiveLayout({
-    required this.constraints,
+    required BoxConstraints constraints,
     required super.child,
     super.key,
-  }) {
+  }) : _maxWidth = constraints.maxWidth {
     final (
       cardColumnCount,
       cardSize,
       snapInfoColumnCount,
       type,
-    ) = switch (constraints.maxWidth + kPaneWidth + 1) {
+    ) = switch (_maxWidth + kPaneWidth + 1) {
       // 1px for YaruNavigationRail's separator
       < kBreakPointSmall => (1, kCardSizeWide, 3, ResponsiveLayoutType.small),
       < kBreakPointLarge => (
@@ -57,7 +62,7 @@ class ResponsiveLayout extends InheritedWidget {
     this.type = type;
   }
 
-  final BoxConstraints constraints;
+  final double _maxWidth;
 
   late final int cardColumnCount;
   late final Size cardSize;
@@ -69,12 +74,15 @@ class ResponsiveLayout extends InheritedWidget {
       (cardColumnCount - 1) * (kCardSpacing - 2 * kCardMargin) + // spacing
       2 * kCardMargin; // left+right margin of outermost cards
 
-  EdgeInsets get padding => EdgeInsets.symmetric(
-    horizontal: (constraints.maxWidth - totalWidth) / 2.0,
+  EdgeInsets get _padding => EdgeInsets.symmetric(
+    horizontal: (_maxWidth - totalWidth) / 2.0,
   );
 
   static ResponsiveLayout? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<ResponsiveLayout>();
+      InheritedModel.inheritFrom<ResponsiveLayout>(
+        context,
+        aspect: ResponsiveLayoutAspect.breakpoint,
+      );
 
   static ResponsiveLayout of(BuildContext context) {
     final layout = ResponsiveLayout.maybeOf(context);
@@ -82,20 +90,45 @@ class ResponsiveLayout extends InheritedWidget {
     return layout!;
   }
 
+  static EdgeInsets paddingOf(BuildContext context) {
+    final layout = InheritedModel.inheritFrom<ResponsiveLayout>(
+      context,
+      aspect: ResponsiveLayoutAspect.width,
+    );
+    assert(layout != null, 'No ResponsiveLayout found in this context');
+    return layout!._padding;
+  }
+
   @override
   bool updateShouldNotify(covariant ResponsiveLayout oldWidget) {
-    return oldWidget.constraints != constraints;
+    return oldWidget._maxWidth != _maxWidth;
+  }
+
+  @override
+  bool updateShouldNotifyDependent(
+    covariant ResponsiveLayout oldWidget,
+    Set<ResponsiveLayoutAspect> dependencies,
+  ) {
+    return (dependencies.contains(ResponsiveLayoutAspect.breakpoint) &&
+            oldWidget.type != type) ||
+        (dependencies.contains(ResponsiveLayoutAspect.width) &&
+            oldWidget._maxWidth != _maxWidth);
   }
 }
 
-class ResponsiveLayoutBuilder extends LayoutBuilder {
-  ResponsiveLayoutBuilder({required WidgetBuilder builder, super.key})
-    : super(
-        builder: (context, constraints) => ResponsiveLayout(
-          constraints: constraints,
-          child: Builder(builder: builder),
-        ),
-      );
+class ResponsiveLayoutBuilder extends StatelessWidget {
+  const ResponsiveLayoutBuilder({required this.builder, super.key});
+
+  final WidgetBuilder builder;
+
+  @override
+  Widget build(BuildContext context) {
+    final child = Builder(builder: builder);
+    return LayoutBuilder(
+      builder: (context, constraints) =>
+          ResponsiveLayout(constraints: constraints, child: child),
+    );
+  }
 }
 
 class ResponsiveLayoutScrollView extends StatelessWidget {
@@ -111,7 +144,7 @@ class ResponsiveLayoutScrollView extends StatelessWidget {
           slivers: slivers
               .map(
                 (s) => SliverPadding(
-                  padding: ResponsiveLayout.of(context).padding,
+                  padding: ResponsiveLayout.paddingOf(context),
                   sliver: s,
                 ),
               )
