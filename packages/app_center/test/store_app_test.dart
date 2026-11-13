@@ -305,12 +305,15 @@ void main() {
       expect((tester.widget<Badge>(badge).label! as Text).data, equals('2'));
     });
 
-    testWidgets('back button has Go back semantic label', (tester) async {
+    testWidgets('back button exposes Go back label on its semantics node', (
+      tester,
+    ) async {
       registerMockService<GtkApplicationNotifier>(
         createMockGtkApplicationNotifier(),
       );
       registerMockService<RatingsService>(registerMockRatingsService());
       registerMockSnapdService();
+      final semantics = tester.ensureSemantics();
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
@@ -323,15 +326,18 @@ void main() {
 
       final backButton = find.byType(YaruBackButton);
       expect(backButton, findsOneWidget);
-      final semantics = find.ancestor(
-        of: backButton,
-        matching: find.byWidgetPredicate(
-          (widget) =>
-              widget is Semantics &&
-              widget.properties.label == tester.l10n.backButtonSemanticLabel,
+      expect(
+        find.bySemanticsLabel(tester.l10n.backButtonSemanticLabel),
+        findsOneWidget,
+      );
+      expect(
+        tester.getSemantics(backButton),
+        matchesSemantics(
+          label: tester.l10n.backButtonSemanticLabel,
+          isButton: true,
         ),
       );
-      expect(semantics, findsOneWidget);
+      semantics.dispose();
     });
   });
 
