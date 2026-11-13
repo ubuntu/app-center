@@ -256,7 +256,7 @@ void main() {
     await container.read(snapModelProvider('testsnap').future);
     await container.read(snapModelProvider('testsnap').notifier).remove();
 
-    verify(service.remove('testsnap', purge: false)).called(1);
+    verify(service.remove('testsnap')).called(1);
   });
 
   test('keeps the change active until the refreshed state is ready', () async {
