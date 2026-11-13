@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/snap_updates_model.dart';
@@ -12,6 +13,9 @@ import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 part 'snap_model.g.dart';
+
+/// Share of the overall progress taken by the download phase.
+const _downloadWeight = 0.7;
 
 @Riverpod(keepAlive: true)
 class SnapModel extends _$SnapModel {
@@ -334,15 +338,65 @@ class _ActiveChange extends Notifier<SnapdChange?> {
 }
 
 extension SnapdChangeX on SnapdChange {
+  /// Mean task completion, with downloads weighted as a separate phase.
+  ///
+  /// snapd task progress units differ per task (bytes for downloads, 0/1 for
+  /// most others), so raw values must not be summed across tasks.
   double get progress {
-    var done = 0.0;
-    var total = 0.0;
-    for (final task in tasks) {
-      done += task.progress.done;
-      total += task.progress.total;
-    }
+    final downloads = tasks.where((task) => task.isDownload);
+    final others = tasks.where((task) => !task.isDownload);
+    if (downloads.isEmpty) return _meanFraction(others);
+    if (others.isEmpty) return _meanFraction(downloads);
+    return _downloadWeight * _meanFraction(downloads) +
+        (1 - _downloadWeight) * _meanFraction(others);
+  }
+}
 
-    return total != 0 ? done / total : 0;
+double _meanFraction(Iterable<SnapdTask> tasks) =>
+    tasks.isEmpty ? 0 : tasks.map((task) => task.fraction).sum / tasks.length;
+
+extension on SnapdTask {
+  bool get isDownload => kind == 'download-snap';
+
+  double get fraction => switch (status) {
+    'Done' => 1,
+    // An unset progress is reported as 1/1 for any status but Do.
+    'Doing' when progress.total > 1 => (progress.done / progress.total).clamp(
+      0.0,
+      1.0,
+    ),
+    _ => 0,
+  };
+}
+
+/// Progress (0.0 to 1.0) of a snapd change, or null while it has no tasks.
+///
+/// Never goes backwards, since snapd can add tasks (e.g. a base snap) to a
+/// running change.
+final snapChangeProgressProvider =
+    NotifierProvider.family<_SnapChangeProgress, double?, String?>(
+      _SnapChangeProgress.new,
+    );
+
+class _SnapChangeProgress extends Notifier<double?> {
+  _SnapChangeProgress(this.id);
+
+  final String? id;
+
+  @override
+  double? build() {
+    final id = this.id;
+    if (id == null) return null;
+    ref.listen(activeChangeProvider(id), (_, change) {
+      final next = _advance(state, change);
+      if (next != state) state = next;
+    });
+    return _advance(null, ref.read(activeChangeProvider(id)));
+  }
+
+  static double? _advance(double? current, SnapdChange? change) {
+    if (change == null || change.tasks.isEmpty) return current;
+    return math.max(current ?? 0, change.progress);
   }
 }
 

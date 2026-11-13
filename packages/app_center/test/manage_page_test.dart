@@ -471,7 +471,12 @@ void main() {
       spawnTime: DateTime(1970),
       kind: 'refresh-snap',
       tasks: [
-        const SnapdTask(id: '', progress: SnapdTaskProgress(done: 1, total: 4)),
+        const SnapdTask(
+          id: '',
+          kind: 'download-snap',
+          status: 'Doing',
+          progress: SnapdTaskProgress(done: 1, total: 4),
+        ),
       ],
     );
 
