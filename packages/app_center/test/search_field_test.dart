@@ -294,7 +294,14 @@ void main() {
       await tester.enterText(textField, 'test');
       await tester.pumpAndSettle();
 
+      // The failed autocomplete must not surface an exception to the
+      // framework, and no options view may appear.
+      expect(tester.takeException(), isNull);
       expect(find.byType(TextField), findsOneWidget);
+      expect(
+        find.text(tester.l10n.searchFieldSearchForLabel('test')),
+        findsNothing,
+      );
     });
   });
 }
