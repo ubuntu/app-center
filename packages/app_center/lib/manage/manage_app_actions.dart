@@ -342,16 +342,10 @@ class _RemoveMenuButton extends StatelessWidget {
               onPressed: () =>
                   controller.isOpen ? controller.close() : controller.open(),
               style: kSuppressFocusOverlay,
-              child: ExcludeSemantics(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(label),
-                    const SizedBox(width: 2),
-                    const Icon(Icons.arrow_drop_down, size: 16),
-                  ],
-                ),
-              ),
+              // Same shape as [_AccessibleActionButton]'s button: the tile
+              // actions row has no room for a dropdown arrow icon (it
+              // overflows by 2.4px when Open and Uninstall both show).
+              child: ExcludeSemantics(child: Text(label)),
             ),
           ),
         ),
