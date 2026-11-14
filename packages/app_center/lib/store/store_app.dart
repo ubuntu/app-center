@@ -16,6 +16,7 @@ import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/search/search.dart';
 import 'package:app_center/snapd/seen_snaps_model.dart';
+import 'package:app_center/snapd/snap_model.dart';
 import 'package:app_center/snapd/snap_page.dart';
 import 'package:app_center/store/store_navigator.dart';
 import 'package:app_center/store/store_observer.dart';
@@ -62,6 +63,30 @@ class _StoreAppState extends ConsumerState<StoreApp>
 
   NavigatorState get _navigator => _navigatorKey.currentState!;
 
+  /// Seeds the install channel requested by a snap route (e.g. from a
+  /// `snap://` URL with a `channel` parameter) before the snap page opens,
+  /// so [SnapModel] can set up the requested channel from the start.
+  ///
+  /// Called only from lifecycle/listener callbacks ([initState] and the
+  /// [routeStreamProvider] listener), never from `build`, so seeding is
+  /// not a build-time side effect. A snap route without a channel clears
+  /// any previously seeded value for that snap.
+  ///
+  /// The [initState] call is deferred to a post-frame callback: Riverpod
+  /// forbids modifying a provider from `initState`, which runs inside
+  /// the build scope. The callback runs right after the first frame,
+  /// still before the snap page's data arrives, and [SnapModel] watches
+  /// the provider, so the requested channel is picked up either way.
+  void _seedInitialChannel(String? route) {
+    if (route == null) return;
+    final settings = RouteSettings(name: route);
+    if (!StoreRoutes.isSnap(settings)) return;
+    final snapName = StoreRoutes.snapOf(settings);
+    if (snapName == null) return;
+    ref.read(snapInitialChannelProvider(snapName).notifier).state =
+        StoreRoutes.channelOf(settings);
+  }
+
   void _handlePointerDown(PointerDownEvent event) {
     if (event.buttons & kBackMouseButton == 0) return;
     final rootNavigator = ref
@@ -77,6 +102,15 @@ class _StoreAppState extends ConsumerState<StoreApp>
     super.initState();
     // Created up front so it sees what the first searches return.
     ref.read(seenSnapsModelProvider);
+    // Seed the install channel requested by the initial route (e.g. a
+    // `snap://` URL) before the snap page opens, so `SnapModel` picks it
+    // up as its initial selected channel. Only the write is deferred:
+    // reading the route here is fine, but Riverpod forbids modifying a
+    // provider from `initState` (see `_seedInitialChannel`).
+    final initialRoute = ref.read(initialRouteProvider);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _seedInitialChannel(initialRoute),
+    );
     WidgetsBinding.instance.addObserver(this);
     _locale = _resolveFontLocale(
       WidgetsBinding.instance.platformDispatcher.locales,
@@ -99,7 +133,10 @@ class _StoreAppState extends ConsumerState<StoreApp>
   @override
   Widget build(BuildContext context) {
     ref.listen(routeStreamProvider, (prev, next) {
-      next.whenData((route) => _navigator.pushNamed(route));
+      next.whenData((route) {
+        _seedInitialChannel(route);
+        _navigator.pushNamed(route);
+      });
     });
 
     return Listener(
