@@ -34,6 +34,25 @@ void main() {
 
   group('App Center deep links', () {
     late MockPackageKitService kit;
+    late List<MethodCall> windowCalls;
+
+    setUp(() {
+      windowCalls = [];
+      const channel = MethodChannel('window_manager');
+      binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        channel,
+        (call) async {
+          windowCalls.add(call);
+          return null;
+        },
+      );
+      addTearDown(
+        () => binding.defaultBinaryMessenger.setMockMethodCallHandler(
+          channel,
+          null,
+        ),
+      );
+    });
 
     Future<GtkApplicationNotifier> pumpStoreApp(
       WidgetTester tester, {
@@ -50,6 +69,38 @@ void main() {
       await tester.pumpWidget(const ProviderScope(child: StoreApp()));
       await tester.pumpAndSettle();
       return app;
+    }
+
+    for (final testCase in [
+      (name: 'empty arguments', args: <String>[]),
+      (name: 'unsupported arguments', args: ['--unsupported']),
+      (name: 'repeated deep links', args: ['appcenter://addons']),
+    ]) {
+      testWidgets('requests focus for every delivery of ${testCase.name}', (
+        tester,
+      ) async {
+        final app = await pumpStoreApp(tester);
+        expect(windowCalls, isEmpty);
+
+        for (var delivery = 1; delivery <= 2; delivery++) {
+          app.notifyCommandLine(testCase.args);
+          await tester.pumpAndSettle();
+
+          expect(
+            windowCalls.map((call) => call.method),
+            List.filled(delivery, 'focus'),
+          );
+        }
+
+        await tester.pumpWidget(const SizedBox.shrink());
+        await tester.pumpAndSettle();
+        windowCalls.clear();
+
+        app.notifyCommandLine(testCase.args);
+        await tester.pumpAndSettle();
+
+        expect(windowCalls, isEmpty);
+      });
     }
 
     for (final entry in {
