@@ -418,7 +418,7 @@
     "driversPageDeviceClassCamera": "Caméra",
     "driversPageDeviceClassUsb": "USB",
     "driversPageDeviceClassAudio": "Audio",
-    "driversPageDeviceClassOther": "Autre(s) type(s)",
+    "driversPageDeviceClassOther": "Autre",
     "driversPageBranchLts": "Support à long terme",
     "driversPageBranchNewFeature": "Nouvelles fonctionnalités",
     "driversPageRestartRequiredTitle": "Redémarrage requis",
