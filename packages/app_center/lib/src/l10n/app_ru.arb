@@ -614,5 +614,21 @@
                 "type": "String"
             }
         }
+    },
+    "uninstallDependentsTitle": "Удалить {appName} и пакеты зависимостей?",
+    "@uninstallDependentsTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "uninstallDependentsMessage": "Эти пакеты зависят от {appName} и также будут удалены:",
+    "@uninstallDependentsMessage": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
     }
 }
