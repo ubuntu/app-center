@@ -156,6 +156,14 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
 
       Future<void> refreshSnap(String snapName) async {
         // snapModel watches this provider, so ref.read would assert a cycle.
+        // The model is built lazily; await it before invoking refresh(),
+        // which asserts on loaded state.
+        try {
+          await ref.container.read(snapModelProvider(snapName).future);
+        } on Exception catch (e) {
+          errors[snapName] = e;
+          return;
+        }
         final refreshFuture = ref.container
             .read(snapModelProvider(snapName).notifier)
             .refresh();
