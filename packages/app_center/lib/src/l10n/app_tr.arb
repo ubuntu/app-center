@@ -385,5 +385,96 @@
                 "type": "String"
             }
         }
+    },
+    "uninstallDependentsTitle": "{appName} ve bağımlı paketler kaldırılsın mı?",
+    "@uninstallDependentsTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "uninstallDependentsMessage": "Bu paketler {appName} uygulamasına bağımlıdır ve onlar da kaldırılacaktır:",
+    "@uninstallDependentsMessage": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "{channel} kanalı, sürüm {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "{channel} kanalı, {version} sürümünden {updateVersion} sürümüne",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "{version} sürümünden {updateVersion} sürümüne",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "driversPageUninstallWarningTitle": "Sürücüleri kaldırmak sorunlara yol açabilir",
+    "driversPageUninstallWarningMessage": "Sürücüleri kolayca yeniden kuramayabilirsiniz, özellikle de grafik veya ağ ile ilgiliyse.",
+    "driversPageUninstallAcknowledgeLabel": "Riski anlıyorum",
+    "managePagePackageTypeSnap": "Snap",
+    "managePageOpenAppSemanticLabel": "{appName} uygulamasını aç",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "{appName} uygulamasını güncelle",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppRestartRequiredSemanticLabel": "{appName} uygulamasını güncelle, tamamlamak için yeniden başlatma gerekli",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageCancelActionSemanticLabel": "{appName} için {action} işlemini iptal et",
+    "@managePageCancelActionSemanticLabel": {
+        "placeholders": {
+            "action": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
     }
 }
