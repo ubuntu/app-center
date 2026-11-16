@@ -24,11 +24,13 @@ class AppCard extends StatelessWidget {
     this.iconUrl,
     this.footer,
     this.iconWidget,
+    this.badge,
   });
 
   AppCard.fromSnap({
     required Snap snap,
     VoidCallback? onTap,
+    Widget? badge,
   }) : this(
          key: ValueKey(snap.id),
          title: AppTitle.fromSnap(snap),
@@ -36,17 +38,20 @@ class AppCard extends StatelessWidget {
          iconUrl: snap.iconUrl,
          footer: _RatingsInfo(snap: snap),
          onTap: onTap,
+         badge: badge,
        );
 
   AppCard.fromDeb({
     required AppstreamComponent component,
     VoidCallback? onTap,
+    Widget? badge,
   }) : this(
          key: ValueKey(component.id),
          title: AppTitle.fromDeb(component),
          summary: component.getLocalizedSummary(),
          iconWidget: DebAppIcon(component: component),
          onTap: onTap,
+         badge: badge,
        );
 
   AppCard.fromTool({
@@ -78,6 +83,9 @@ class AppCard extends StatelessWidget {
   final Widget? iconWidget;
   final Widget? footer;
 
+  /// Small marker at the top end of the card.
+  final Widget? badge;
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -107,6 +115,10 @@ class AppCard extends StatelessWidget {
                   footer: footer,
                 ),
               ),
+              if (badge != null) ...[
+                const SizedBox(width: 8, height: 8),
+                badge!,
+              ],
             ],
           ),
         ),

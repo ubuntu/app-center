@@ -308,6 +308,7 @@ class _StoreAppHome extends ConsumerWidget {
               body: SearchPage(
                 query: StoreRoutes.queryOf(settings),
                 category: StoreRoutes.categoryOf(settings),
+                unifiedResults: unifiedDetailsEnabled,
               ),
             ),
           ),
