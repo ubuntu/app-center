@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:app_center/appstream/appstream.dart';
+import 'package:app_center/deb/deb_details_backend.dart'
+    show appCategoriesFromFreedesktop;
 import 'package:app_center/mapping/deb_package_adapter.dart';
 import 'package:app_center/mapping/identifier_normalization.dart';
 import 'package:app_center/mapping/package_mapping_resolver.dart';
@@ -118,9 +120,15 @@ List<UnifiedSearchResult> mergeSearchResults(
 ///
 /// A failing source is left out, unless there is nothing else to show.
 final unifiedSearchProvider = Provider.autoDispose
-    .family<AsyncValue<List<UnifiedSearchResult>>, String>((ref, query) {
+    .family<
+      AsyncValue<List<UnifiedSearchResult>>,
+      ({String query, SnapCategoryEnum? category})
+    >((ref, parameters) {
+      final (:query, :category) = parameters;
       final snaps = ref.watch(
-        sortedSnapSearchProvider(SnapSearchParameters(query: query)),
+        sortedSnapSearchProvider(
+          SnapSearchParameters(query: query, category: category),
+        ),
       );
       final debs = ref.watch(appstreamSearchProvider(query));
       final sources = <AsyncValue<Object?>>[snaps, debs];
@@ -128,10 +136,20 @@ final unifiedSearchProvider = Provider.autoDispose
       if (sources.any((source) => !source.hasValue && !source.hasError)) {
         return const AsyncLoading();
       }
-      final results = mergeSearchResults(
-        snaps.value ?? const [],
-        debs.value ?? const [],
-      );
+      // Snaps come already filtered by the store; debs map their own categories.
+      final results =
+          mergeSearchResults(
+                snaps.value ?? const [],
+                debs.value ?? const [],
+              )
+              .where(
+                (result) =>
+                    category == null ||
+                    result.snap != null ||
+                    appCategoriesFromFreedesktop(result.deb!)
+                        .contains(category),
+              )
+              .toList();
       final failed = sources.where((source) => source.hasError).firstOrNull;
       if (results.isEmpty && failed != null) {
         return AsyncError(failed.error!, failed.stackTrace ?? StackTrace.empty);

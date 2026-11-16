@@ -13,12 +13,14 @@ AppstreamComponent _deb(
   String? package,
   List<String> desktopIds = const [],
   List<String> provides = const [],
+  List<String> categories = const [],
 }) => AppstreamComponent(
   id: id,
   type: AppstreamComponentType.desktopApplication,
   package: package ?? id,
   name: {'C': id},
   summary: const {'C': ''},
+  categories: categories,
   launchables: [
     for (final desktopId in desktopIds) AppstreamLaunchableDesktopId(desktopId),
   ],
@@ -135,38 +137,65 @@ void main() {
 
   group('unifiedSearchProvider', () {
     const query = 'edit';
-    const snapParameters = SnapSearchParameters(query: query);
 
-    Future<AsyncValue<List<UnifiedSearchResult>>> search(
-      List<AppstreamComponent> debs,
-    ) async {
+    // Snap search fails when [snaps] is null.
+    Future<AsyncValue<List<UnifiedSearchResult>>> search({
+      required List<AppstreamComponent> debs,
+      List<Snap>? snaps,
+      SnapCategoryEnum? category,
+    }) async {
+      final parameters = (query: query, category: category);
       final container = createContainer(
         overrides: [
           snapSearchProvider.overrideWith(
-            (ref, _) => Stream.error(Exception('offline')),
+            (ref, _) => snaps == null
+                ? Stream.error(Exception('offline'))
+                : Stream.value(snaps),
           ),
           appstreamSearchProvider.overrideWith((ref, _) => Stream.value(debs)),
         ],
       );
-      container.listen(unifiedSearchProvider(query), (_, _) {});
-      await expectLater(
-        container.read(sortedSnapSearchProvider(snapParameters).future),
-        throwsException,
-      );
+      container.listen(unifiedSearchProvider(parameters), (_, _) {});
+      await container
+          .read(
+            sortedSnapSearchProvider(
+              SnapSearchParameters(query: query, category: category),
+            ).future,
+          )
+          .catchError((_) => <Snap>[]);
       await container.read(appstreamSearchProvider(query).future);
-      return container.read(unifiedSearchProvider(query));
+      return container.read(unifiedSearchProvider(parameters));
     }
 
     test('shows the other results when one source fails', () async {
-      final results = await search([_deb('org.example.Notes')]);
+      final results = await search(debs: [_deb('org.example.Notes')]);
 
       expect(_pairs(results.requireValue), [(null, 'org.example.Notes')]);
     });
 
     test('fails when a source fails and there are no results', () async {
-      final results = await search([]);
+      final results = await search(debs: []);
 
       expect(results.hasError, isTrue);
+    });
+
+    test('keeps only debs of the selected category', () async {
+      final results = await search(
+        snaps: [
+          createSnap(name: 'editor', commonIds: ['org.example.Editor']),
+        ],
+        debs: [
+          _deb('org.example.Editor'),
+          _deb('org.example.Ide', categories: ['Development']),
+          _deb('org.example.Game', categories: ['Game']),
+        ],
+        category: SnapCategoryEnum.development,
+      );
+
+      expect(_pairs(results.requireValue), [
+        ('editor', 'org.example.Editor'),
+        (null, 'org.example.Ide'),
+      ]);
     });
   });
 }

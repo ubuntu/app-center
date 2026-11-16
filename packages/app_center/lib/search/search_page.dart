@@ -94,68 +94,72 @@ class SearchPage extends StatelessWidget {
                         );
                       },
                     ),
-                    if (query != null && !unified) ...[
+                    if (query != null) ...[
                       const SizedBox(width: 24),
                       Text(l10n.searchPageFilterByLabel),
                       const SizedBox(width: 8),
+                      if (!unified) ...[
+                        Expanded(
+                          child: Consumer(
+                            builder: (context, ref, child) {
+                              return MenuButtonBuilder<PackageFormat>(
+                                values: PackageFormat.values,
+                                itemBuilder: (context, packageFormat, child) =>
+                                    Text(packageFormat.localize(l10n)),
+                                onSelected: (value) =>
+                                    ref
+                                            .read(
+                                              packageFormatProvider.notifier,
+                                            )
+                                            .state =
+                                        value,
+                                child: Text(
+                                  ref
+                                      .watch(packageFormatProvider)
+                                      .localize(l10n),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                      ],
                       Expanded(
                         child: Consumer(
                           builder: (context, ref, child) {
-                            return MenuButtonBuilder<PackageFormat>(
-                              values: PackageFormat.values,
-                              itemBuilder: (context, packageFormat, child) =>
-                                  Text(packageFormat.localize(l10n)),
+                            if (!unified &&
+                                ref.watch(packageFormatProvider) ==
+                                    PackageFormat.deb) {
+                              return const SizedBox.shrink();
+                            }
+                            return MenuButtonBuilder<SnapCategoryEnum?>(
+                              values:
+                                  <SnapCategoryEnum?>[null] +
+                                  SnapCategoryEnum.values
+                                      .whereNot((c) => c.hidden)
+                                      .toList(),
+                              itemBuilder: (context, category, child) => Text(
+                                category?.localize(l10n) ??
+                                    l10n.snapCategoryAll,
+                              ),
                               onSelected: (value) =>
                                   ref
-                                          .read(packageFormatProvider.notifier)
+                                          .read(
+                                            snapCategoryProvider(
+                                              initialCategory,
+                                            ).notifier,
+                                          )
                                           .state =
                                       value,
                               child: Text(
-                                ref.watch(packageFormatProvider).localize(l10n),
+                                ref
+                                        .watch(
+                                          snapCategoryProvider(initialCategory),
+                                        )
+                                        ?.localize(l10n) ??
+                                    l10n.snapCategoryAll,
                               ),
                             );
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Consumer(
-                          builder: (context, ref, child) {
-                            return switch (ref.watch(packageFormatProvider)) {
-                              PackageFormat.snap =>
-                                MenuButtonBuilder<SnapCategoryEnum?>(
-                                  values:
-                                      <SnapCategoryEnum?>[null] +
-                                      SnapCategoryEnum.values
-                                          .whereNot((c) => c.hidden)
-                                          .toList(),
-                                  itemBuilder: (context, category, child) =>
-                                      Text(
-                                        category?.localize(l10n) ??
-                                            l10n.snapCategoryAll,
-                                      ),
-                                  onSelected: (value) =>
-                                      ref
-                                              .read(
-                                                snapCategoryProvider(
-                                                  initialCategory,
-                                                ).notifier,
-                                              )
-                                              .state =
-                                          value,
-                                  child: Text(
-                                    ref
-                                            .watch(
-                                              snapCategoryProvider(
-                                                initialCategory,
-                                              ),
-                                            )
-                                            ?.localize(l10n) ??
-                                        l10n.snapCategoryAll,
-                                  ),
-                                ),
-                              PackageFormat.deb => const SizedBox.shrink(),
-                            };
                           },
                         ),
                       ),
@@ -350,7 +354,10 @@ class _UnifiedSearchResults extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final results = ref.watch(unifiedSearchProvider(query));
+    final category = ref.watch(snapCategoryProvider(null));
+    final results = ref.watch(
+      unifiedSearchProvider((query: query, category: category)),
+    );
     return results.when(
       data: (data) => data.isNotEmpty
           ? ResponsiveLayoutScrollView(
@@ -387,11 +394,15 @@ class _UnifiedSearchResults extends ConsumerWidget {
                 children: [
                   const Spacer(),
                   Text(
-                    l10n.searchPageNoResults(query),
+                    category == null
+                        ? l10n.searchPageNoResults(query)
+                        : l10n.searchPageNoResultsCategory,
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   Text(
-                    l10n.searchPageNoResultsHint,
+                    category == null
+                        ? l10n.searchPageNoResultsHint
+                        : l10n.searchPageNoResultsCategoryHint,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const Spacer(flex: 3),
@@ -402,7 +413,11 @@ class _UnifiedSearchResults extends ConsumerWidget {
         error: error,
         onRetry: () {
           ref
-            ..invalidate(snapSearchProvider(SnapSearchParameters(query: query)))
+            ..invalidate(
+              snapSearchProvider(
+                SnapSearchParameters(query: query, category: category),
+              ),
+            )
             ..invalidate(appstreamSearchProvider(query));
         },
       ),
