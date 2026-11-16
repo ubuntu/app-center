@@ -1315,6 +1315,64 @@ void main() {
       expect(installed.map((a) => a.id), ['inkscape']);
     });
 
+    test('a removal started elsewhere leaves Manage when it ends', () async {
+      registerMockSnapdService(installedSnaps: []);
+      createMockAppstreamService(
+        components: [
+          createAppstreamComponent(
+            id: 'gimp',
+            name: 'GIMP',
+            packageName: 'gimp',
+          ),
+        ],
+      );
+      const gimpId = PackageKitPackageId(name: 'gimp', version: '2.10');
+      final packageKit = createMockPackageKitService(
+        installedPackages: [
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.installed,
+            packageId: gimpId,
+            summary: 'GNU Image Manipulation Program',
+          ),
+        ],
+      );
+      final mutations = StreamController<PackageKitMutation>.broadcast();
+      addTearDown(mutations.close);
+      when(packageKit.mutationEvents).thenAnswer((_) => mutations.stream);
+      when(packageKit.activeMutations).thenReturn([
+        const PackageKitMutation(
+          transactionId: 7,
+          kind: PackageKitMutationKind.remove,
+          packageIds: [gimpId],
+        ),
+      ]);
+
+      final container = createContainer(
+        overrides: [showLocalSystemAppsProvider.overrideWith((ref) => true)],
+      );
+      container.listen(installedAppsProvider, (_, __) {});
+      var installed = await container.read(installedAppsProvider.future);
+      expect(
+        installed.whereType<ManageDebData>().single.debInfo.activeTransactionId,
+        7,
+      );
+
+      when(packageKit.activeMutations).thenReturn([]);
+      when(packageKit.getInstalledPackages()).thenAnswer((_) async => []);
+      mutations.add(
+        const PackageKitMutation(
+          transactionId: 7,
+          kind: PackageKitMutationKind.remove,
+          packageIds: [gimpId],
+          outcome: PackageKitMutationOutcome.success,
+        ),
+      );
+      await pumpEventQueue();
+
+      installed = await container.read(installedAppsProvider.future);
+      expect(installed, isEmpty);
+    });
+
     test('package type filter - deb only', () async {
       registerMockSnapdService(
         installedSnaps: [

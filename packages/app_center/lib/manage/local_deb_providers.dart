@@ -148,6 +148,7 @@ Future<Set<String>> desktopAppPackages(Ref ref) async {
 /// 5. PackageKit details - size and description
 @riverpod
 Future<List<LocalDebInfo>> localDebs(Ref ref) async {
+  final packageKit = getService<PackageKitService>();
   // Watch before awaiting: desktop apps arriving rebuilds this mid-flight.
   final desktopApps =
       ref.watch(desktopAppPackagesProvider.select((s) => s.value)) ??
@@ -155,6 +156,15 @@ Future<List<LocalDebInfo>> localDebs(Ref ref) async {
   final installedFuture = ref.watch(installedPackagesProvider.future);
   final componentsFuture = ref.watch(componentsByPackageProvider.future);
   final updatesFuture = ref.watch(debsWithUpdatesProvider.future);
+  // Transactions started elsewhere don't refresh this list when they end.
+  final shownTransactions = <int>{};
+  final subscription = packageKit.mutationEvents
+      .where((m) => m.isTerminal && shownTransactions.contains(m.transactionId))
+      .listen((_) {
+        ref.invalidate(installedPackagesProvider);
+        ref.invalidate(debsWithUpdatesProvider);
+      });
+  ref.onDispose(subscription.cancel);
   final installed = await installedFuture;
   final componentsByPkg = await componentsFuture;
   final updatesMap = await updatesFuture;
@@ -169,11 +179,12 @@ Future<List<LocalDebInfo>> localDebs(Ref ref) async {
 
   final details = guiPackages.isEmpty
       ? const <String, PackageKitDetailsEvent>{}
-      : await getService<PackageKitService>().getDetails(
+      : await packageKit.getDetails(
           guiPackages.map((p) => p.packageId).toList(),
         );
   // A rebuild mid-transaction must keep the progress and Cancel controls.
-  final activeMutations = getService<PackageKitService>().activeMutations;
+  final activeMutations = packageKit.activeMutations;
+  shownTransactions.addAll(activeMutations.map((m) => m.transactionId));
 
   return guiPackages.map((pkg) {
     final name = pkg.packageId.name;
