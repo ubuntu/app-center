@@ -114,11 +114,14 @@ class _Banner extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    slogan,
-                    style: titleTextStyle.copyWith(color: _kForegroundColor),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
+                  Semantics(
+                    container: true,
+                    child: Text(
+                      slogan,
+                      style: titleTextStyle.copyWith(color: _kForegroundColor),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
                   ),
                   if (buttonLabel != null) ...[
                     const SizedBox(height: 24),
@@ -199,36 +202,38 @@ class _BannerIconState extends State<_BannerIcon> {
       verticalOffset: widget.maxSize.height / 2,
       message: widget.snap.titleOrName,
       triggerMode: TooltipTriggerMode.manual,
-      child: InkWell(
-        onTap: () => StoreNavigator.pushSnap(context, name: widget.snap.name),
-        onHover: _toggleFocus,
-        onFocusChange: _toggleFocus,
-        child: SizedBox(
-          height: widget.maxSize.height,
-          width: widget.maxSize.width,
-          child: Center(
-            child: TweenAnimationBuilder(
-              curve: Curves.easeIn,
-              tween: Tween<double>(begin: 1.0, end: scale),
-              duration: _kHoverDelay,
-              builder: (context, scale, child) => Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 24,
-                      color: Colors.black.withAlpha(0x19),
+      excludeFromSemantics: true,
+      child: Semantics(
+        label: widget.snap.titleOrName,
+        child: InkWell(
+          onTap: () => StoreNavigator.pushSnap(context, name: widget.snap.name),
+          onHover: _toggleFocus,
+          onFocusChange: _toggleFocus,
+          child: SizedBox(
+            height: widget.maxSize.height,
+            width: widget.maxSize.width,
+            child: Center(
+              child: TweenAnimationBuilder(
+                curve: Curves.easeIn,
+                tween: Tween<double>(begin: 1.0, end: scale),
+                duration: _kHoverDelay,
+                builder: (context, scale, child) => Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 24,
+                        color: Colors.black.withAlpha(0x19),
+                      ),
+                    ],
+                  ),
+                  child: ExcludeSemantics(
+                    child: AppIcon(
+                      iconUrl: widget.snap.iconUrl,
+                      size: widget.iconSize.height * scale,
                     ),
-                  ],
-                ),
-                child: Semantics(
-                  label: widget.snap.titleOrName,
-                  button: true,
-                  child: AppIcon(
-                    iconUrl: widget.snap.iconUrl,
-                    size: widget.iconSize.height * scale,
                   ),
                 ),
               ),
