@@ -13,3 +13,13 @@ Future<List<PackageKitPackageEvent>> installedPackages(Ref ref) async {
   if (!packageKit.isAvailable) return [];
   return packageKit.getInstalledPackages();
 }
+
+/// Returns a map of package name -> update package ID.
+@riverpod
+Future<Map<String, PackageKitPackageId>> debsWithUpdates(Ref ref) async {
+  final packageKit = getService<PackageKitService>();
+  await packageKit.activateService();
+  if (!packageKit.isAvailable) return {};
+  final updates = await packageKit.getUpdates();
+  return {for (final u in updates) u.packageId.name: u.packageId};
+}

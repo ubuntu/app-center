@@ -131,6 +131,7 @@ class LocalDebModel extends _$LocalDebModel {
       ref.invalidateSelf();
       // The Manage page lists the same packages.
       ref.invalidate(installedPackagesProvider);
+      ref.invalidate(debsWithUpdatesProvider);
     }
   }
 

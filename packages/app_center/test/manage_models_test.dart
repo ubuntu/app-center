@@ -1235,11 +1235,84 @@ void main() {
       ).thenAnswer((_) async => [chrome]);
       removal.complete();
       await removeDeb;
-      container.invalidate(debsWithUpdatesProvider);
       await pumpEventQueue();
 
       installed = await container.read(installedAppsProvider.future);
       expect(installed.map((a) => a.name), ['google-chrome-stable']);
+    });
+
+    test('removing a deb does not bring back an applied update', () async {
+      registerMockSnapdService(installedSnaps: []);
+      createMockAppstreamService(
+        components: [
+          createAppstreamComponent(
+            id: 'gimp',
+            name: 'GIMP',
+            packageName: 'gimp',
+          ),
+          createAppstreamComponent(
+            id: 'inkscape',
+            name: 'Inkscape',
+            packageName: 'inkscape',
+          ),
+        ],
+      );
+      const inkscapeUpdate = PackageKitPackageId(
+        name: 'inkscape',
+        version: '1.1',
+      );
+      final packageKit = createMockPackageKitService(
+        installedPackages: [
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.installed,
+            packageId: PackageKitPackageId(name: 'gimp', version: '2.10'),
+            summary: 'GNU Image Manipulation Program',
+          ),
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.installed,
+            packageId: PackageKitPackageId(name: 'inkscape', version: '1.0'),
+            summary: 'Vector graphics editor',
+          ),
+        ],
+        availableUpdates: [
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.available,
+            packageId: inkscapeUpdate,
+            summary: 'Vector graphics editor',
+          ),
+        ],
+      );
+
+      final container = createContainer(
+        overrides: [showLocalSystemAppsProvider.overrideWith((ref) => true)],
+      );
+      container.listen(installedAppsProvider, (_, __) {});
+      await container.read(installedAppsProvider.future);
+      final updates = await container.read(localDebUpdatesModelProvider.future);
+      expect(updates.map((d) => d.id), ['inkscape']);
+
+      await container
+          .read(localDebUpdatesModelProvider.notifier)
+          .updateDeb('inkscape');
+      when(packageKit.getInstalledPackages()).thenAnswer(
+        (_) async => [
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.installed,
+            packageId: inkscapeUpdate,
+            summary: 'Vector graphics editor',
+          ),
+        ],
+      );
+      when(packageKit.getUpdates()).thenAnswer((_) async => []);
+      await container.read(installedAppsProvider.notifier).removeDeb('gimp');
+      await pumpEventQueue();
+
+      expect(
+        await container.read(localDebUpdatesModelProvider.future),
+        isEmpty,
+      );
+      final installed = await container.read(installedAppsProvider.future);
+      expect(installed.map((a) => a.id), ['inkscape']);
     });
 
     test('package type filter - deb only', () async {

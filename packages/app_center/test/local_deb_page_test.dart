@@ -300,7 +300,7 @@ void main() {
     expect(find.button(tester.l10n.snapActionInstallLabel), isEnabled);
   });
 
-  test('uninstall refreshes the installed packages for Manage', () async {
+  test('uninstall refreshes the packages and updates for Manage', () async {
     final packageKit = createMockPackageKitService(
       packageDetails: mockPackage,
       packageInfo: const PackageKitPackageInfo(
@@ -311,14 +311,18 @@ void main() {
     );
     final container = createContainer();
     container.listen(installedPackagesProvider, (_, __) {});
+    container.listen(debsWithUpdatesProvider, (_, __) {});
     await container.read(installedPackagesProvider.future);
+    await container.read(debsWithUpdatesProvider.future);
     const path = '/path/to/package.deb';
     await container.read(localDebModelProvider(path: path).future);
 
     await container.read(localDebModelProvider(path: path).notifier).remove();
     await container.read(installedPackagesProvider.future);
+    await container.read(debsWithUpdatesProvider.future);
 
     verify(packageKit.getInstalledPackages()).called(2);
+    verify(packageKit.getUpdates()).called(2);
   });
 
   for (final installedVersion in ['0.9', '1.1']) {
