@@ -9,7 +9,7 @@ on:
 
 jobs:
   integration:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: canonical/desktop-engineering/gh-actions/flutter/setup@e1069c189573b3525a60f54c5107ea3264f80805
       - run: sudo apt update
@@ -31,7 +31,7 @@ jobs:
       - name: Run integration tests
         run: |
           cd packages/app_center && \
-          sudo cp integration_test/assets/packagekit-ci.pkla /var/lib/polkit-1/localauthority/50-local.d/
-          sudo cp integration_test/assets/snapd-ci.pkla /var/lib/polkit-1/localauthority/50-local.d/
+          sudo cp integration_test/assets/10-packagekit-ci.rules /etc/polkit-1/rules.d/
+          sudo cp integration_test/assets/10-snapd-ci.rules /etc/polkit-1/rules.d/
           LANG=en_US.UTF-8 xvfb-run -a -s '-screen 0 1024x768x24 +extension GLX' \
           flutter test integration_test

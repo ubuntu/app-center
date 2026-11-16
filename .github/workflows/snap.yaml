@@ -18,7 +18,7 @@ on:
 
 jobs:
   matrix:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     outputs:
       include: ${{ steps.set.outputs.include }}
     steps:
@@ -36,13 +36,13 @@ jobs:
           fi
           case "$platforms" in
             all)
-              include='[{"platform":"amd64","runs-on":"ubuntu-24.04"},{"platform":"arm64","runs-on":"ubuntu-24.04-arm"}]'
+              include='[{"platform":"amd64","runs-on":"ubuntu-26.04"},{"platform":"arm64","runs-on":"ubuntu-26.04-arm"}]'
               ;;
             amd64)
-              include='[{"platform":"amd64","runs-on":"ubuntu-24.04"}]'
+              include='[{"platform":"amd64","runs-on":"ubuntu-26.04"}]'
               ;;
             arm64)
-              include='[{"platform":"arm64","runs-on":"ubuntu-24.04-arm"}]'
+              include='[{"platform":"arm64","runs-on":"ubuntu-26.04-arm"}]'
               ;;
             *)
               echo "Unknown platforms value: $platforms" >&2

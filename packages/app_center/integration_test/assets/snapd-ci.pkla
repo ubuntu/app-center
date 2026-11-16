@@ -1,4 +1,0 @@
-[Allow privileged snapd actions without prompting, for use in integration tests in destructive CI environments only]
-Identity=unix-user:*
-Action=io.snapcraft.snapd.manage
-ResultAny=yes
