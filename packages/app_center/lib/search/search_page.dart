@@ -368,7 +368,7 @@ class _UnifiedSearchResults extends ConsumerWidget {
                       if (result.snap case final snap?)
                         AppCard.fromSnap(
                           snap: snap,
-                          badge: _FormatIcons(result),
+                          badge: SearchResultFormatIcons(result),
                           onTap: () => StoreNavigator.pushSearchSnap(
                             context,
                             name: snap.name,
@@ -378,7 +378,7 @@ class _UnifiedSearchResults extends ConsumerWidget {
                       else
                         AppCard.fromDeb(
                           component: result.deb!,
-                          badge: _FormatIcons(result),
+                          badge: SearchResultFormatIcons(result),
                           onTap: () => StoreNavigator.pushDeb(
                             context,
                             id: result.deb!.id,
@@ -426,8 +426,9 @@ class _UnifiedSearchResults extends ConsumerWidget {
   }
 }
 
-class _FormatIcons extends StatelessWidget {
-  const _FormatIcons(this.result);
+/// Marks which package formats a search result has.
+class SearchResultFormatIcons extends StatelessWidget {
+  const SearchResultFormatIcons(this.result, {super.key});
 
   final UnifiedSearchResult result;
 

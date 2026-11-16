@@ -1,6 +1,7 @@
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/constants.dart';
 import 'package:app_center/l10n.dart';
+import 'package:app_center/search/search_page.dart';
 import 'package:app_center/search/search_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/widgets.dart';
@@ -14,6 +15,8 @@ sealed class AutoCompleteOption {
   String get title => switch (this) {
     AutoCompleteSnapOption(snap: final snap) => snap.titleOrName,
     AutoCompleteDebOption(deb: final deb) => deb.getLocalizedName(),
+    AutoCompleteAppOption(result: final result) =>
+      result.snap?.titleOrName ?? result.deb!.getLocalizedName(),
     AutoCompleteSearchOption(query: final query) => query,
   };
 }
@@ -28,6 +31,12 @@ class AutoCompleteDebOption extends AutoCompleteOption {
   final AppstreamComponent deb;
 }
 
+/// An app from the merged snap and deb results.
+class AutoCompleteAppOption extends AutoCompleteOption {
+  AutoCompleteAppOption(this.result);
+  final UnifiedSearchResult result;
+}
+
 class AutoCompleteSearchOption extends AutoCompleteOption {
   AutoCompleteSearchOption(this.query);
   final String query;
@@ -39,6 +48,7 @@ class SearchField extends ConsumerStatefulWidget {
     required this.onSnapSelected,
     required this.onDebSelected,
     required this.searchFocus,
+    this.unifiedResults = false,
     super.key,
   });
 
@@ -46,6 +56,9 @@ class SearchField extends ConsumerStatefulWidget {
   final ValueChanged<String> onSnapSelected;
   final ValueChanged<String> onDebSelected;
   final FocusNode searchFocus;
+
+  /// Whether snaps and debs are suggested in one list.
+  final bool unifiedResults;
 
   @override
   ConsumerState<SearchField> createState() => _SearchFieldState();
@@ -80,6 +93,23 @@ class _SearchFieldState extends ConsumerState<SearchField> {
         }
         if (options.snaps.isEmpty && options.debs.isEmpty) return [];
         _optionsAvailable = true;
+        if (widget.unifiedResults) {
+          final results = mergeSearchResults(
+            options.snaps.toList(),
+            options.debs.toList(),
+          );
+          return <AutoCompleteOption>[
+            AutoCompleteSearchOption(query.text),
+            ...results
+                .where((result) => result.snap != null)
+                .take(3)
+                .map(AutoCompleteAppOption.new),
+            ...results
+                .where((result) => result.snap == null)
+                .take(3)
+                .map(AutoCompleteAppOption.new),
+          ];
+        }
         final snapOptions = options.snaps
             .take(3)
             .map<AutoCompleteOption>(AutoCompleteSnapOption.new)
@@ -98,6 +128,7 @@ class _SearchFieldState extends ConsumerState<SearchField> {
       optionsViewBuilder: (context, onSelected, options) {
         final snapOptions = options.whereType<AutoCompleteSnapOption>();
         final debOptions = options.whereType<AutoCompleteDebOption>();
+        final appOptions = options.whereType<AutoCompleteAppOption>();
         final searchOption = options
             .whereType<AutoCompleteSearchOption>()
             .single;
@@ -114,6 +145,16 @@ class _SearchFieldState extends ConsumerState<SearchField> {
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 children: [
+                  if (appOptions.isNotEmpty) ...[
+                    ...appOptions.map(
+                      (e) => _AutoCompleteTile(
+                        option: e,
+                        onTap: () => onSelected(e),
+                        selected: e == highlightedOption,
+                      ),
+                    ),
+                    const Divider(),
+                  ],
                   if (snapOptions.isNotEmpty) ...[
                     ListTile(
                       title: Text(
@@ -162,6 +203,10 @@ class _SearchFieldState extends ConsumerState<SearchField> {
           snap.name,
         ),
         AutoCompleteDebOption(deb: final deb) => widget.onDebSelected(deb.id),
+        AutoCompleteAppOption(result: final result) =>
+          result.snap != null
+              ? widget.onSnapSelected(result.snap!.name)
+              : widget.onDebSelected(result.deb!.id),
         AutoCompleteSearchOption(query: final query) => widget.onSearch(query),
       },
       fieldViewBuilder: (context, controller, node, onFieldSubmitted) {
@@ -253,6 +298,15 @@ class _AutoCompleteTile extends StatelessWidget {
           size: _iconSize,
           component: deb,
         ),
+        onTap: onTap,
+      ),
+      AutoCompleteAppOption(result: final result) => ListTile(
+        selected: selected,
+        title: Text(option.title),
+        leading: result.snap != null
+            ? AppIcon(size: _iconSize, iconUrl: result.snap!.iconUrl)
+            : DebAppIcon(size: _iconSize, component: result.deb!),
+        trailing: SearchResultFormatIcons(result),
         onTap: onTap,
       ),
       AutoCompleteSearchOption(query: final query) => ListTile(

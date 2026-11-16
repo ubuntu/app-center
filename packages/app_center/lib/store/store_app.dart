@@ -230,6 +230,7 @@ class _StoreAppHome extends ConsumerWidget {
       }
     });
 
+    final unifiedDetailsEnabled = ref.watch(unifiedDetailsEnabledProvider);
     final searchField = YaruWindowTitleBar(
       border: BorderSide.none,
       leading: _MaybeBackButton(navigatorKey),
@@ -240,10 +241,10 @@ class _StoreAppHome extends ConsumerWidget {
           onSnapSelected: (name) => navigator.pushSnap(name: name),
           onDebSelected: (id) => navigator.pushDeb(id: id),
           searchFocus: searchFocus,
+          unifiedResults: unifiedDetailsEnabled,
         ),
       ),
     );
-    final unifiedDetailsEnabled = ref.watch(unifiedDetailsEnabledProvider);
 
     return Scaffold(
       body: YaruMasterDetailPage(
