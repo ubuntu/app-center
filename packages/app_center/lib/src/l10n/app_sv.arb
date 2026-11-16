@@ -622,5 +622,13 @@
                 "type": "String"
             }
         }
+    },
+    "uninstallDependentsTitle": "Avinstallera {appName} och beroende paket?",
+    "@uninstallDependentsTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
     }
 }
