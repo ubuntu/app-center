@@ -102,6 +102,8 @@ class _ContributorView extends ConsumerWidget {
     final state = ref.watch(contributorsProvider(repo));
     final light = Theme.of(context).brightness == Brightness.light;
 
+    if (state.hasError) return const SizedBox.shrink();
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,7 +112,7 @@ class _ContributorView extends ConsumerWidget {
         const SizedBox(height: 15),
         state.when(
           data: _ContributorWrap.new,
-          error: (error, stackTrace) => Text(error.toString()),
+          error: (_, __) => const SizedBox.shrink(),
           loading: () => Shimmer.fromColors(
             baseColor: light ? kShimmerBaseLight : kShimmerBaseDark,
             highlightColor: light
