@@ -202,6 +202,23 @@ void main() {
       expect(debs.first.hasUpdate, isTrue);
       expect(debs.first.updateVersion, equals('2.11'));
     });
+
+    test('lists only snaps when PackageKit is unavailable', () async {
+      createMockAppstreamService();
+      final packageKit = createMockPackageKitService(available: false);
+      registerMockSnapdService(installedSnaps: [createSnap(name: 'firefox')]);
+
+      final container = createContainer();
+      container.read(showLocalSystemAppsProvider.notifier).state = true;
+      final apps = await container.read(installedAppsProvider.future);
+      await container
+          .read(localDebUpdatesModelProvider.notifier)
+          .silentUpdatesCheck();
+
+      expect(apps.single, isA<ManageSnapData>());
+      verifyNever(packageKit.getInstalledPackages());
+      verifyNever(packageKit.getUpdates());
+    });
   });
 
   group('localDebUpdatesModel provider', () {

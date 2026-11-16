@@ -68,6 +68,7 @@ abstract class LocalDebInfo with _$LocalDebInfo {
 Future<List<PackageKitPackageEvent>> installedPackages(Ref ref) async {
   final packageKit = getService<PackageKitService>();
   await packageKit.activateService();
+  if (!packageKit.isAvailable) return [];
   return packageKit.getInstalledPackages();
 }
 
@@ -84,6 +85,7 @@ Future<Map<String, AppstreamComponent>> componentsByPackage(Ref ref) async {
 Future<Map<String, PackageKitPackageId>> debsWithUpdates(Ref ref) async {
   final packageKit = getService<PackageKitService>();
   await packageKit.activateService();
+  if (!packageKit.isAvailable) return {};
   final updates = await packageKit.getUpdates();
   return {for (final u in updates) u.packageId.name: u.packageId};
 }

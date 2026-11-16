@@ -468,9 +468,11 @@ MockPackageKitService createMockPackageKitService({
   List<PackageKitPackageEvent>? simulatedInstall,
   List<PackageKitPackageEvent>? simulatedRemove,
   PackageKitServiceError? lastError,
+  bool available = true,
 }) {
   final packageKit = MockPackageKitService();
   when(packageKit.activateService()).thenAnswer((_) async {});
+  when(packageKit.isAvailable).thenReturn(available);
   when(packageKit.isPackageCached(any)).thenReturn(false);
   when(packageKit.cachedPackage(any)).thenReturn(null);
 
