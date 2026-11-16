@@ -182,6 +182,8 @@ Future<List<LocalDebInfo>> localDebs(Ref ref) async {
       : await getService<PackageKitService>().getDetails(
           guiPackages.map((p) => p.packageId).toList(),
         );
+  // A rebuild mid-transaction must keep the progress and Cancel controls.
+  final activeMutations = getService<PackageKitService>().activeMutations;
 
   return guiPackages.map((pkg) {
     final name = pkg.packageId.name;
@@ -193,6 +195,9 @@ Future<List<LocalDebInfo>> localDebs(Ref ref) async {
       hasDesktopEntry: desktopApps.contains(name),
       details: details[name],
       updatePackageId: updatesMap[name],
+      activeTransactionId: activeMutations
+          .firstWhereOrNull((m) => m.affects(name))
+          ?.transactionId,
     );
   }).toList();
 }

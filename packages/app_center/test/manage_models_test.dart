@@ -1160,6 +1160,88 @@ void main() {
       expect(installed, isEmpty);
     });
 
+    test('a rebuild keeps a running removal and not the removed deb', () async {
+      registerMockSnapdService(installedSnaps: []);
+      createMockAppstreamService(
+        components: [
+          createAppstreamComponent(
+            id: 'gimp',
+            name: 'GIMP',
+            packageName: 'gimp',
+          ),
+        ],
+      );
+      const gimpId = PackageKitPackageId(name: 'gimp', version: '2.10');
+      const chrome = PackageKitPackageEvent(
+        info: PackageKitInfo.installed,
+        packageId: PackageKitPackageId(
+          name: 'google-chrome-stable',
+          version: '157.0',
+          data: 'manual:google_llc-stable-main',
+        ),
+        summary: 'The web browser from Google',
+      );
+      final removal = Completer<void>();
+      final packageKit = createMockPackageKitService(
+        installedPackages: [
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.installed,
+            packageId: gimpId,
+            summary: 'GNU Image Manipulation Program',
+          ),
+          chrome,
+        ],
+        transactionId: 7,
+        waitTransaction: removal.future,
+      );
+      final files = Completer<Map<String, List<String>>>();
+      when(packageKit.getFiles(any)).thenAnswer((_) => files.future);
+
+      final container = createContainer(
+        overrides: [showLocalSystemAppsProvider.overrideWith((ref) => true)],
+      );
+      container.listen(installedAppsProvider, (_, __) {});
+      await pumpEventQueue();
+      await container.read(installedAppsProvider.future);
+
+      when(packageKit.activeMutations).thenReturn([
+        const PackageKitMutation(
+          transactionId: 7,
+          kind: PackageKitMutationKind.remove,
+          packageIds: [gimpId],
+        ),
+      ]);
+      final removeDeb = container
+          .read(installedAppsProvider.notifier)
+          .removeDeb('gimp');
+      await pumpEventQueue();
+      files.complete({
+        'google-chrome-stable': [
+          '/usr/share/applications/google-chrome.desktop',
+        ],
+      });
+      await pumpEventQueue();
+
+      var installed = await container.read(installedAppsProvider.future);
+      final gimp = installed.whereType<ManageDebData>().singleWhere(
+        (app) => app.id == 'gimp',
+      );
+      expect(gimp.debInfo.activeTransactionId, 7);
+      expect(installed.map((a) => a.name), contains('google-chrome-stable'));
+
+      when(packageKit.activeMutations).thenReturn([]);
+      when(
+        packageKit.getInstalledPackages(),
+      ).thenAnswer((_) async => [chrome]);
+      removal.complete();
+      await removeDeb;
+      container.invalidate(debsWithUpdatesProvider);
+      await pumpEventQueue();
+
+      installed = await container.read(installedAppsProvider.future);
+      expect(installed.map((a) => a.name), ['google-chrome-stable']);
+    });
+
     test('package type filter - deb only', () async {
       registerMockSnapdService(
         installedSnaps: [
