@@ -319,11 +319,30 @@ void main() {
         ),
         createSnap(name: 'writer', title: 'Writer Snap'),
       ],
+      const SnapSearchParameters(
+        query: 'edit',
+        category: SnapCategoryEnum.development,
+      ): [
+        createSnap(
+          name: 'editor',
+          title: 'Editor Snap',
+          commonIds: ['org.example.Editor'],
+        ),
+      ],
     });
     final debSearch = createMockDebSearchProvider({
       'edit': [
-        createAppstreamComponent(id: 'org.example.Notes', name: 'Notes Deb'),
+        createAppstreamComponent(
+          id: 'org.example.Notes',
+          name: 'Notes Deb',
+          categories: ['Office'],
+        ),
         createAppstreamComponent(id: 'org.example.Editor', name: 'Editor Deb'),
+        createAppstreamComponent(
+          id: 'org.example.Ide',
+          name: 'IDE Deb',
+          categories: ['Development'],
+        ),
       ],
     });
 
@@ -362,12 +381,43 @@ void main() {
           .appCards;
       expect(
         resultCards.map((card) => card.title.title).toList(),
-        equals(['Editor Snap', 'Writer Snap', 'Notes Deb']),
+        equals(['Editor Snap', 'Writer Snap', 'Notes Deb', 'IDE Deb']),
       );
-      expect(find.byIcon(YaruIcons.package_snap), findsNWidgets(2));
-      expect(find.byIcon(YaruIcons.package_deb), findsNWidgets(2));
+      Finder icon(String title, IconData icon) => find.descendant(
+        of: find.widgetWithText(AppCard, title),
+        matching: find.byIcon(icon),
+      );
+      expect(icon('Editor Snap', YaruIcons.package_snap), findsOneWidget);
+      expect(icon('Editor Snap', YaruIcons.package_deb), findsOneWidget);
+      expect(icon('Writer Snap', YaruIcons.package_deb), findsNothing);
+      expect(icon('Notes Deb', YaruIcons.package_snap), findsNothing);
+      expect(icon('Notes Deb', YaruIcons.package_deb), findsOneWidget);
       expect(find.text(tester.l10n.searchPageSortByLabel), findsOneWidget);
-      expect(find.text(tester.l10n.searchPageFilterByLabel), findsNothing);
+      expect(find.byType(MenuButtonBuilder<PackageFormat>), findsNothing);
+      expect(
+        find.widgetWithText(
+          MenuButtonBuilder<SnapCategoryEnum?>,
+          tester.l10n.snapCategoryAll,
+        ),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('filters by category', (tester) async {
+      await pumpUnifiedSearch(tester);
+
+      await tester.tap(find.text(tester.l10n.snapCategoryAll));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(tester.l10n.snapCategoryDevelopment));
+      await tester.pumpAndSettle();
+
+      final resultCards = tester
+          .widget<AppCardGrid>(find.byType(AppCardGrid))
+          .appCards;
+      expect(
+        resultCards.map((card) => card.title.title).toList(),
+        equals(['Editor Snap', 'IDE Deb']),
+      );
     });
 
     testWidgets('opens a snap result', (tester) async {
