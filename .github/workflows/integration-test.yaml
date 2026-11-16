@@ -28,6 +28,13 @@ jobs:
       - name: Run melos gen-l10n
         run: melos gen-l10n
 
+      - name: Ensure snapd is ready
+        run: |
+          sudo snap wait system seed.loaded
+          sudo snap install snapd
+          snap list
+          snap changes
+
       - name: Run integration tests
         run: |
           cd packages/app_center && \
