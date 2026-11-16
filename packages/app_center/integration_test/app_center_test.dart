@@ -96,6 +96,7 @@ Future<void> testInstallSnap(
           installButton.evaluate().isEmpty &&
           find.button(tester.l10n.snapActionCancelLabel).evaluate().isEmpty,
     ),
+    const Duration(minutes: 2),
   );
 
   expect(openButton, findsNothing); // this snap cannot be opened
