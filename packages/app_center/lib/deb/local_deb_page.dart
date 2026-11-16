@@ -1,11 +1,13 @@
 import 'package:app_center/apps/app_page.dart';
 import 'package:app_center/apps/app_title_bar.dart';
+import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/constants.dart';
 import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/deb/local_deb_model.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
+import 'package:app_center/providers/current_desktops_provider.dart';
 import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +23,19 @@ class LocalDebPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final model = ref.watch(localDebModelProvider(path: path));
+    // Removal stays hidden until AppStream says the desktop doesn't need it.
+    final components = ref.watch(componentsByPackageProvider).value;
+    final desktops = ref.watch(currentDesktopsProvider);
     return model.when(
-      data: (debData) => _LocalDebPage(debData: debData),
+      data: (debData) {
+        final component = components?[debData.details.packageId.name];
+        return _LocalDebPage(
+          debData: debData,
+          canRemove:
+              components != null &&
+              !(component?.isCompulsoryFor(desktops) ?? false),
+        );
+      },
       loading: () => const Center(child: YaruCircularProgressIndicator()),
       error: (error, stackTrace) => ErrorView(
         error: error,
@@ -33,9 +46,10 @@ class LocalDebPage extends ConsumerWidget {
 }
 
 class _LocalDebPage extends StatelessWidget {
-  const _LocalDebPage({required this.debData});
+  const _LocalDebPage({required this.debData, required this.canRemove});
 
   final LocalDebData debData;
+  final bool canRemove;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +81,7 @@ class _LocalDebPage extends StatelessWidget {
         spacing: kSpacing,
         runSpacing: kSpacing,
         children: [
-          _LocalDebActionButtons(debData: debData),
+          _LocalDebActionButtons(debData: debData, canRemove: canRemove),
           if (debData.installedVersion case final String installedVersion)
             Text(l10n.localDebInstalledVersion(installedVersion)),
         ],
@@ -91,9 +105,13 @@ class _LocalDebPage extends StatelessWidget {
 enum _Actions { install, cancel }
 
 class _LocalDebActionButtons extends ConsumerWidget {
-  const _LocalDebActionButtons({required this.debData});
+  const _LocalDebActionButtons({
+    required this.debData,
+    required this.canRemove,
+  });
 
   final LocalDebData debData;
+  final bool canRemove;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -187,7 +205,7 @@ class _LocalDebActionButtons extends ConsumerWidget {
         if (debData.activeTransactionId != null) ...[
           const SizedBox(width: kSpacing),
           cancelButton,
-        ] else if (debData.installedVersion != null) ...[
+        ] else if (debData.installedVersion != null && canRemove) ...[
           const SizedBox(width: kSpacing),
           uninstallButton,
         ],

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/manage/app_providers.dart';
 import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/manage/logger.dart';
@@ -52,7 +53,8 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
       final componentsByPkg = await ref.read(
         componentsByPackageProvider.future,
       );
-      final desktopApps = await ref.read(desktopAppPackagesProvider.future);
+      final desktopApps =
+          ref.read(desktopAppPackagesProvider).value ?? const <String>{};
 
       // Build map of package name -> update package ID
       final newUpdatesMap = {

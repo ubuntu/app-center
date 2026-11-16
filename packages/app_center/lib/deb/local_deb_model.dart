@@ -1,6 +1,5 @@
 import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/deb/deb_model.dart';
-import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -113,10 +112,20 @@ class LocalDebModel extends _$LocalDebModel {
     } on PackageKitTransactionCancelled {
       // Dismissing the polkit prompt is not an error.
     } on Exception catch (e) {
-      final error = transactionId != null
+      final lastError = transactionId != null
           ? packageKit.lastErrorFor(transactionId)
           : null;
-      ref.read(errorStreamControllerProvider).add(error ?? e);
+      ref.read(errorStreamControllerProvider).add(
+        switch (e) {
+          _ when lastError != null => lastError,
+          PackageKitServiceError() || PackageKitTransactionError() => e,
+          // Only the PackageKit types above get an error dialog.
+          _ => PackageKitServiceError(
+            code: PackageKitError.internalError,
+            details: e.toString(),
+          ),
+        },
+      );
     } finally {
       _busy = false;
       ref.invalidateSelf();
@@ -125,14 +134,10 @@ class LocalDebModel extends _$LocalDebModel {
     }
   }
 
+  // The `finally` in _runTransaction resets the state once the cancel lands.
   Future<void> cancel() async {
     final transactionId = state.value?.activeTransactionId;
     if (transactionId == null) return;
     await getService<PackageKitService>().cancelTransaction(transactionId);
-    if (state.value case final data?) {
-      state = AsyncValue.data(
-        data.copyWith(activeTransactionId: null, activeTransactionKind: null),
-      );
-    }
   }
 }

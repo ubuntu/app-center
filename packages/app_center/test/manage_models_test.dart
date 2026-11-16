@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_center/appstream/appstream_utils.dart';
 import 'package:app_center/manage/app_providers.dart';
 import 'package:app_center/manage/local_deb_providers.dart';
@@ -6,7 +8,9 @@ import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage_app_data.dart';
 import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/packagekit/packagekit.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:logging/logging.dart' show Level, LogRecord, Logger;
 import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:snapd/snapd.dart';
@@ -125,7 +129,7 @@ void main() {
       );
 
       final container = createContainer();
-      final debs = await container.read(localDebsProvider.future);
+      final debs = await readLocalDebs(container);
 
       expect(debs, hasLength(2));
       expect(debs.map((d) => d.id), containsAll(['gimp', 'inkscape']));
@@ -162,7 +166,7 @@ void main() {
       );
 
       final container = createContainer();
-      final debs = await container.read(localDebsProvider.future);
+      final debs = await readLocalDebs(container);
 
       expect(debs, hasLength(1));
       expect(debs.first.id, equals('gimp'));
@@ -241,7 +245,7 @@ void main() {
       );
 
       final container = createContainer();
-      final debs = await container.read(localDebsProvider.future);
+      final debs = await readLocalDebs(container);
 
       expect(debs.map((d) => d.id), ['google-chrome-stable', 'ac-test-app']);
       final chrome = debs.first;
@@ -298,10 +302,164 @@ void main() {
       final container = createContainer(
         overrides: [showLocalSystemAppsProvider.overrideWith((ref) => true)],
       );
+      container.listen(installedAppsProvider, (_, __) {});
+      await pumpEventQueue();
       final installed = await container.read(installedAppsProvider.future);
 
       expect(installed.map((a) => a.name), containsAll(['Firefox', 'GIMP']));
       expect(installed, hasLength(2));
+    });
+
+    test('lists snaps and AppStream debs while files are listed', () async {
+      registerMockSnapdService(
+        installedSnaps: [
+          createSnap(
+            name: 'firefox',
+            title: 'Firefox',
+            apps: [const SnapApp(name: 'firefox')],
+          ),
+        ],
+      );
+      createMockAppstreamService(
+        components: [
+          createAppstreamComponent(
+            id: 'gimp',
+            name: 'GIMP',
+            packageName: 'gimp',
+          ),
+        ],
+      );
+      final packageKit = createMockPackageKitService(
+        installedPackages: [
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.installed,
+            packageId: PackageKitPackageId(name: 'gimp', version: '2.10'),
+            summary: 'GNU Image Manipulation Program',
+          ),
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.installed,
+            packageId: PackageKitPackageId(
+              name: 'google-chrome-stable',
+              version: '157.0',
+              data: 'manual:google_llc-stable-main',
+            ),
+            summary: 'The web browser from Google',
+          ),
+        ],
+      );
+      final files = Completer<Map<String, List<String>>>();
+      when(packageKit.getFiles(any)).thenAnswer((_) => files.future);
+
+      final container = createContainer(
+        overrides: [showLocalSystemAppsProvider.overrideWith((ref) => true)],
+      );
+      container.listen(installedAppsProvider, (_, __) {});
+      await pumpEventQueue();
+      var installed = await container.read(installedAppsProvider.future);
+      expect(
+        installed.map((a) => a.name),
+        unorderedEquals(['Firefox', 'GIMP']),
+      );
+
+      files.complete({
+        'google-chrome-stable': [
+          '/usr/share/applications/google-chrome.desktop',
+        ],
+      });
+      await pumpEventQueue();
+      installed = await container.read(installedAppsProvider.future);
+      expect(
+        installed.map((a) => a.name),
+        unorderedEquals(['Firefox', 'GIMP', 'google-chrome-stable']),
+      );
+    });
+
+    test('lists files only for new or changed packages', () async {
+      PackageKitPackageId id(String name, String version) =>
+          PackageKitPackageId(
+            name: name,
+            version: version,
+            data: 'manual:local',
+          );
+      PackageKitPackageEvent installed(PackageKitPackageId id) =>
+          PackageKitPackageEvent(
+            info: PackageKitInfo.installed,
+            packageId: id,
+            summary: id.name,
+          );
+      createMockAppstreamService();
+      final packageKit = createMockPackageKitService(
+        installedPackages: [
+          installed(id('chrome', '1')),
+          installed(id('slack', '1')),
+        ],
+        packageFiles: {
+          'chrome': ['/usr/share/applications/chrome.desktop'],
+          'slack': ['/usr/bin/slack'],
+        },
+      );
+      final container = createContainer();
+
+      await readLocalDebs(container);
+      expect(verify(packageKit.getFiles(captureAny)).captured.single, [
+        id('chrome', '1'),
+        id('slack', '1'),
+      ]);
+
+      container.invalidate(installedPackagesProvider);
+      await readLocalDebs(container);
+      verifyNever(packageKit.getFiles(any));
+
+      when(packageKit.getInstalledPackages()).thenAnswer(
+        (_) async => [
+          installed(id('chrome', '2')),
+          installed(id('slack', '1')),
+        ],
+      );
+      container.invalidate(installedPackagesProvider);
+      final debs = await readLocalDebs(container);
+      expect(verify(packageKit.getFiles(captureAny)).captured.single, [
+        id('chrome', '2'),
+      ]);
+      expect(debs.map((d) => d.packageInfo.packageId), [id('chrome', '2')]);
+    });
+
+    test('warns when package IDs have no manual:/auto: prefix', () async {
+      final previousLevel = Logger.root.level;
+      Logger.root.level = Level.ALL;
+      final records = <LogRecord>[];
+      final subscription = Logger.root.onRecord.listen(records.add);
+      addTearDown(() {
+        subscription.cancel();
+        Logger.root.level = previousLevel;
+      });
+      createMockAppstreamService();
+      createMockPackageKitService(
+        installedPackages: [
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.installed,
+            packageId: PackageKitPackageId(
+              name: 'google-chrome-stable',
+              version: '157.0',
+              data: 'google_llc-stable-main',
+            ),
+            summary: 'The web browser from Google',
+          ),
+        ],
+        packageFiles: {
+          'google-chrome-stable': [
+            '/usr/share/applications/google-chrome.desktop',
+          ],
+        },
+      );
+
+      final debs = await readLocalDebs(createContainer());
+
+      expect(debs, isEmpty);
+      expect(
+        records.map((r) => r.message),
+        contains(contains('manual:/auto:')),
+      );
     });
 
     test('includes update info when available', () async {
@@ -332,7 +490,7 @@ void main() {
       );
 
       final container = createContainer();
-      final debs = await container.read(localDebsProvider.future);
+      final debs = await readLocalDebs(container);
 
       expect(debs, hasLength(1));
       expect(debs.first.hasUpdate, isTrue);
@@ -741,6 +899,8 @@ void main() {
       final container = createContainer(
         overrides: [localDebsProvider.overrideWith((ref) async => [])],
       );
+      container.listen(desktopAppPackagesProvider, (_, __) {});
+      await container.read(desktopAppPackagesProvider.future);
       await container.read(localDebUpdatesModelProvider.future);
 
       await container
@@ -751,6 +911,68 @@ void main() {
       expect(updates.map((d) => d.id), ['google-chrome-stable']);
       expect(updates.single.hasDesktopEntry, isTrue);
       expect(updates.single.updateVersion, '158.0');
+    });
+
+    test('silentUpdatesCheck does not wait for listing files', () async {
+      registerMockSnapdService(installedSnaps: []);
+      createMockAppstreamService(
+        components: [
+          createAppstreamComponent(
+            id: 'gimp',
+            name: 'GIMP',
+            packageName: 'gimp',
+          ),
+        ],
+      );
+      final packageKit = createMockPackageKitService(
+        installedPackages: [
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.installed,
+            packageId: PackageKitPackageId(name: 'gimp', version: '2.10'),
+            summary: 'GNU Image Manipulation Program',
+          ),
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.installed,
+            packageId: PackageKitPackageId(
+              name: 'google-chrome-stable',
+              version: '157.0',
+              data: 'manual:google_llc-stable-main',
+            ),
+            summary: 'The web browser from Google',
+          ),
+        ],
+        availableUpdates: [
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(name: 'gimp', version: '2.11'),
+            summary: 'GIMP update',
+          ),
+          const PackageKitPackageEvent(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'google-chrome-stable',
+              version: '158.0',
+            ),
+            summary: 'Chrome update',
+          ),
+        ],
+      );
+      when(
+        packageKit.getFiles(any),
+      ).thenAnswer((_) => Completer<Map<String, List<String>>>().future);
+
+      final container = createContainer(
+        overrides: [localDebsProvider.overrideWith((ref) async => [])],
+      );
+      container.listen(desktopAppPackagesProvider, (_, __) {});
+      await container.read(localDebUpdatesModelProvider.future);
+
+      await container
+          .read(localDebUpdatesModelProvider.notifier)
+          .silentUpdatesCheck();
+
+      final updates = container.read(localDebUpdatesModelProvider).value!;
+      expect(updates.map((d) => d.id), ['gimp']);
     });
 
     test('cancelTransaction stops in-progress update', () async {
@@ -1235,4 +1457,12 @@ void main() {
       expect(installed.map((a) => a.name).toList(), ['With Date', 'No Date']);
     });
   });
+}
+
+/// Reads [localDebsProvider] once the third-party desktop apps are merged in.
+Future<List<LocalDebInfo>> readLocalDebs(ProviderContainer container) async {
+  container.listen(localDebsProvider, (_, __) {});
+  await container.read(desktopAppPackagesProvider.future);
+  await pumpEventQueue();
+  return container.read(localDebsProvider.future);
 }

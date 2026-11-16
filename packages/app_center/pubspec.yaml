@@ -69,6 +69,7 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   json_serializable: ^6.8.0
+  logging: ^1.2.0
   mockito: ^5.4.4
   riverpod_generator: ^4.0.9
   ubuntu_lints: ^0.4.2
