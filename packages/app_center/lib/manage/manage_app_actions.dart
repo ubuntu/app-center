@@ -46,6 +46,7 @@ class ManageAppActions extends ConsumerWidget {
         l10n,
         snapData.snap,
         snapData.updateVersion,
+        snapData.isHeld,
       ),
       localDeb: (debData) => _buildDebActions(
         context,
@@ -67,6 +68,7 @@ class ManageAppActions extends ConsumerWidget {
     AppLocalizations l10n,
     Snap snap,
     String? updateVersion,
+    bool isHeld,
   ) {
     final snapModel = ref.watch(snapModelProvider(snap.name));
     if (!snapModel.hasValue) {
@@ -132,7 +134,9 @@ class ManageAppActions extends ConsumerWidget {
                     app.name,
                   )
                 : l10n.managePageUpdateAppSemanticLabel(app.name),
-            onPressed: updateCallback,
+            // A held snap cannot be refreshed; it stays visible in the list
+            // with an "on hold" badge until the hold is lifted.
+            onPressed: isHeld ? null : updateCallback,
           ),
         if (!showOnlyUpdate && snapData.isInstalled) ...[
           if (canOpen) ...[

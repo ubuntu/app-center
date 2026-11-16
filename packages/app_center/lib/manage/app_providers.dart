@@ -54,6 +54,8 @@ Future<List<ManageAppData>> appUpdates(Ref ref) async {
     return ManageAppData.snap(
       snap: installed ?? storeSnap,
       updateVersion: storeSnap.version,
+      // The refresh candidate carries the hold state (`snap refresh --hold`).
+      hold: storeSnap.hold,
     );
   });
 
