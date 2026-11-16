@@ -1,6 +1,8 @@
+import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/search/search.dart';
 import 'package:app_center/snapd/multisnap_model.dart';
 import 'package:app_center/snapd/snapd.dart';
+import 'package:app_center/store/store.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +11,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:mockito/mockito.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
+import 'package:yaru/yaru.dart';
 
 import 'test_utils.dart';
 import 'test_utils.mocks.dart';
@@ -303,6 +306,89 @@ void main() {
         findsOneWidget,
       );
       expect(find.byType(AppCardGrid), findsNothing);
+    });
+  });
+
+  group('unified results', () {
+    final snapSearch = createMockSnapSearchProvider({
+      const SnapSearchParameters(query: 'edit'): [
+        createSnap(
+          name: 'editor',
+          title: 'Editor Snap',
+          commonIds: ['org.example.Editor'],
+        ),
+        createSnap(name: 'writer', title: 'Writer Snap'),
+      ],
+    });
+    final debSearch = createMockDebSearchProvider({
+      'edit': [
+        createAppstreamComponent(id: 'org.example.Notes', name: 'Notes Deb'),
+        createAppstreamComponent(id: 'org.example.Editor', name: 'Editor Deb'),
+      ],
+    });
+
+    Future<List<String>> pumpUnifiedSearch(WidgetTester tester) async {
+      final routes = <String>[];
+      await tester.pumpApp(
+        (_) => ProviderScope(
+          overrides: [
+            snapSearchProvider.overrideWith((ref, query) => snapSearch(query)),
+            appstreamSearchProvider.overrideWith(
+              (ref, query) => debSearch(query),
+            ),
+          ],
+          child: Navigator(
+            onGenerateRoute: (settings) {
+              routes.add(settings.name!);
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (_) => settings.name == Navigator.defaultRouteName
+                    ? const SearchPage(query: 'edit', unifiedResults: true)
+                    : const SizedBox.shrink(),
+              );
+            },
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      return routes;
+    }
+
+    testWidgets('lists snaps, then debs without a snap', (tester) async {
+      await pumpUnifiedSearch(tester);
+
+      final resultCards = tester
+          .widget<AppCardGrid>(find.byType(AppCardGrid))
+          .appCards;
+      expect(
+        resultCards.map((card) => card.title.title).toList(),
+        equals(['Editor Snap', 'Writer Snap', 'Notes Deb']),
+      );
+      expect(find.byIcon(YaruIcons.package_snap), findsNWidgets(2));
+      expect(find.byIcon(YaruIcons.package_deb), findsNWidgets(2));
+      expect(find.text(tester.l10n.searchPageSortByLabel), findsOneWidget);
+      expect(find.text(tester.l10n.searchPageFilterByLabel), findsNothing);
+    });
+
+    testWidgets('opens a snap result', (tester) async {
+      final routes = await pumpUnifiedSearch(tester);
+
+      await tester.tap(find.text('Editor Snap'));
+      await tester.pumpAndSettle();
+
+      expect(
+        routes.last,
+        StoreRoutes.namedSearchSnap(name: 'editor', query: 'edit'),
+      );
+    });
+
+    testWidgets('opens a deb result', (tester) async {
+      final routes = await pumpUnifiedSearch(tester);
+
+      await tester.tap(find.text('Notes Deb'));
+      await tester.pumpAndSettle();
+
+      expect(routes.last, StoreRoutes.namedDeb(id: 'org.example.Notes'));
     });
   });
 }

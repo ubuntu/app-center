@@ -15,16 +15,25 @@ import 'package:yaru/yaru.dart';
 
 // TODO: break down into smaller widgets
 class SearchPage extends StatelessWidget {
-  const SearchPage({super.key, this.query, String? category})
-    : initialCategoryName = category;
+  const SearchPage({
+    super.key,
+    this.query,
+    String? category,
+    this.unifiedResults = false,
+  }) : initialCategoryName = category;
 
   final String? query;
   final String? initialCategoryName;
+
+  /// Whether a query search lists snaps and debs together.
+  final bool unifiedResults;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final initialCategory = initialCategoryName?.toSnapCategoryEnum();
+    final unified =
+        unifiedResults && query != null && initialCategoryName == null;
     return ResponsiveLayoutBuilder(
       builder: (context) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -85,7 +94,7 @@ class SearchPage extends StatelessWidget {
                         );
                       },
                     ),
-                    if (query != null) ...[
+                    if (query != null && !unified) ...[
                       const SizedBox(width: 24),
                       Text(l10n.searchPageFilterByLabel),
                       const SizedBox(width: 8),
@@ -164,20 +173,22 @@ class SearchPage extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Consumer(
-              builder: (context, ref, child) {
-                final packageFormat = initialCategoryName != null
-                    ? PackageFormat.snap
-                    : ref.watch(packageFormatProvider);
-                return switch (packageFormat) {
-                  PackageFormat.snap => _SnapSearchResults(
-                    initialCategory: initialCategory,
-                    query: query,
+            child: unified
+                ? _UnifiedSearchResults(query: query!)
+                : Consumer(
+                    builder: (context, ref, child) {
+                      final packageFormat = initialCategoryName != null
+                          ? PackageFormat.snap
+                          : ref.watch(packageFormatProvider);
+                      return switch (packageFormat) {
+                        PackageFormat.snap => _SnapSearchResults(
+                          initialCategory: initialCategory,
+                          query: query,
+                        ),
+                        PackageFormat.deb => _DebSearchResults(query: query),
+                      };
+                    },
                   ),
-                  PackageFormat.deb => _DebSearchResults(query: query),
-                };
-              },
-            ),
           ),
         ],
       ),
@@ -327,6 +338,101 @@ class _SnapSearchResults extends ConsumerWidget {
         },
       ),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
+    );
+  }
+}
+
+class _UnifiedSearchResults extends ConsumerWidget {
+  const _UnifiedSearchResults({required this.query});
+
+  final String query;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final results = ref.watch(unifiedSearchProvider(query));
+    return results.when(
+      data: (data) => data.isNotEmpty
+          ? ResponsiveLayoutScrollView(
+              slivers: [
+                AppCardGrid(
+                  appCards: [
+                    for (final result in data)
+                      if (result.snap case final snap?)
+                        AppCard.fromSnap(
+                          snap: snap,
+                          badge: _FormatIcons(result),
+                          onTap: () => StoreNavigator.pushSearchSnap(
+                            context,
+                            name: snap.name,
+                            query: query,
+                          ),
+                        )
+                      else
+                        AppCard.fromDeb(
+                          component: result.deb!,
+                          badge: _FormatIcons(result),
+                          onTap: () => StoreNavigator.pushDeb(
+                            context,
+                            id: result.deb!.id,
+                          ),
+                        ),
+                  ],
+                ),
+              ],
+            )
+          : Padding(
+              padding: ResponsiveLayout.of(context).padding,
+              child: Column(
+                children: [
+                  const Spacer(),
+                  Text(
+                    l10n.searchPageNoResults(query),
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  Text(
+                    l10n.searchPageNoResultsHint,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const Spacer(flex: 3),
+                ],
+              ),
+            ),
+      error: (error, stack) => ErrorView(
+        error: error,
+        onRetry: () {
+          ref
+            ..invalidate(snapSearchProvider(SnapSearchParameters(query: query)))
+            ..invalidate(appstreamSearchProvider(query));
+        },
+      ),
+      loading: () => const Center(child: YaruCircularProgressIndicator()),
+    );
+  }
+}
+
+class _FormatIcons extends StatelessWidget {
+  const _FormatIcons(this.result);
+
+  final UnifiedSearchResult result;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (result.snap != null)
+          Tooltip(
+            message: l10n.packageFormatSnapLabel,
+            child: const Icon(YaruIcons.package_snap, size: 16),
+          ),
+        if (result.deb != null)
+          Tooltip(
+            message: l10n.packageFormatDebLabel,
+            child: const Icon(YaruIcons.package_deb, size: 16),
+          ),
+      ],
     );
   }
 }
