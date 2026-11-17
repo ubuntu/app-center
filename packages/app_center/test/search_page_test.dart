@@ -392,7 +392,6 @@ void main() {
       expect(icon('Writer Snap', YaruIcons.package_deb), findsNothing);
       expect(icon('Notes Deb', YaruIcons.package_snap), findsNothing);
       expect(icon('Notes Deb', YaruIcons.package_deb), findsOneWidget);
-      expect(find.text(tester.l10n.searchPageSortByLabel), findsOneWidget);
       expect(find.byType(MenuButtonBuilder<PackageFormat>), findsNothing);
       expect(
         find.widgetWithText(
@@ -401,6 +400,24 @@ void main() {
         ),
         findsOneWidget,
       );
+    });
+
+    testWidgets('puts the filters beside the title on wide pages', (
+      tester,
+    ) async {
+      await pumpUnifiedSearch(tester);
+      double centerOf(String text) => tester.getCenter(find.text(text)).dy;
+      final title = tester.l10n.searchPageTitle('edit');
+      final filterBy = tester.l10n.searchPageFilterByLabel;
+
+      expect(centerOf(filterBy), greaterThan(centerOf(title)));
+
+      addTearDown(tester.view.reset);
+      tester.view.physicalSize =
+          const Size(1400, 800) * tester.view.devicePixelRatio;
+      await tester.pumpAndSettle();
+
+      expect(centerOf(filterBy), closeTo(centerOf(title), 1));
     });
 
     testWidgets('filters by category', (tester) async {

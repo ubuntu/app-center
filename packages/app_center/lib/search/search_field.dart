@@ -94,20 +94,12 @@ class _SearchFieldState extends ConsumerState<SearchField> {
         if (options.snaps.isEmpty && options.debs.isEmpty) return [];
         _optionsAvailable = true;
         if (widget.unifiedResults) {
-          final results = mergeSearchResults(
-            options.snaps.toList(),
-            options.debs.toList(),
-          );
           return <AutoCompleteOption>[
             AutoCompleteSearchOption(query.text),
-            ...results
-                .where((result) => result.snap != null)
-                .take(3)
-                .map(AutoCompleteAppOption.new),
-            ...results
-                .where((result) => result.snap == null)
-                .take(3)
-                .map(AutoCompleteAppOption.new),
+            ...mergeSearchResults(
+              options.snaps.toList(),
+              options.debs.toList(),
+            ).take(3).map(AutoCompleteAppOption.new),
           ];
         }
         final snapOptions = options.snaps
