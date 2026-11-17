@@ -329,6 +329,10 @@ void main() {
           commonIds: ['org.example.Editor'],
         ),
       ],
+      const SnapSearchParameters(query: 'many'): [
+        for (final title in ['One', 'Two', 'Three', 'Four'])
+          createSnap(name: title.toLowerCase(), title: title),
+      ],
     });
     final debSearch = createMockDebSearchProvider({
       'edit': [
@@ -346,7 +350,10 @@ void main() {
       ],
     });
 
-    Future<List<String>> pumpUnifiedSearch(WidgetTester tester) async {
+    Future<List<String>> pumpUnifiedSearch(
+      WidgetTester tester, {
+      String query = 'edit',
+    }) async {
       final routes = <String>[];
       await tester.pumpApp(
         (_) => ProviderScope(
@@ -362,7 +369,7 @@ void main() {
               return MaterialPageRoute(
                 settings: settings,
                 builder: (_) => settings.name == Navigator.defaultRouteName
-                    ? const SearchPage(query: 'edit', unifiedResults: true)
+                    ? SearchPage(query: query, unifiedResults: true)
                     : const SizedBox.shrink(),
               );
             },
@@ -372,6 +379,32 @@ void main() {
       await tester.pumpAndSettle();
       return routes;
     }
+
+    testWidgets('shows more results on request', (tester) async {
+      await pumpUnifiedSearch(tester, query: 'many');
+      List<String> titles() => tester
+          .widget<AppCardGrid>(find.byType(AppCardGrid))
+          .appCards
+          .map((card) => card.title.title)
+          .toList();
+      final showMore = find.text(tester.l10n.searchPageShowMoreLabel);
+
+      expect(titles(), ['One', 'Two', 'Three']);
+
+      await tester.scrollUntilVisible(
+        showMore,
+        200,
+        scrollable: find.descendant(
+          of: find.byType(CustomScrollView),
+          matching: find.byType(Scrollable),
+        ),
+      );
+      await tester.tap(showMore);
+      await tester.pumpAndSettle();
+
+      expect(titles(), ['One', 'Two', 'Three', 'Four']);
+      expect(showMore, findsNothing);
+    });
 
     testWidgets('lists snaps, then debs without a snap', (tester) async {
       await pumpUnifiedSearch(tester);

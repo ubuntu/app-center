@@ -135,15 +135,89 @@ void main() {
     });
   });
 
+  group('pageSearchResults', () {
+    List<List<(String?, String?)>> pages(
+      List<Snap> snaps,
+      List<AppstreamComponent> debs, {
+      SnapSortOrder? sortOrder,
+    }) => [
+      for (final page in pageSearchResults(snaps, debs, sortOrder: sortOrder))
+        _pairs(page),
+    ];
+
+    test('pages through the top snaps and debs, matched across all', () {
+      expect(
+        pages(
+          [
+            createSnap(name: 's1', commonIds: ['org.example.One']),
+            createSnap(name: 's2'),
+            createSnap(name: 's3'),
+            createSnap(name: 's4', commonIds: ['org.example.Four']),
+          ],
+          [
+            _deb('org.example.Four'),
+            _deb('org.example.One'),
+            _deb('org.example.Two'),
+            _deb('org.example.Three'),
+          ],
+        ),
+        [
+          [
+            ('s1', 'org.example.One'),
+            ('s2', null),
+            ('s3', null),
+            ('s4', 'org.example.Four'),
+            (null, 'org.example.Two'),
+          ],
+          [(null, 'org.example.Three')],
+        ],
+      );
+    });
+
+    test('sorts the snaps within each page', () {
+      expect(
+        pages(
+          [
+            createSnap(name: 'b'),
+            createSnap(name: 'c'),
+            createSnap(name: 'a'),
+            createSnap(name: 'aa'),
+          ],
+          [],
+          sortOrder: SnapSortOrder.alphabeticalAsc,
+        ),
+        [
+          [('a', null), ('b', null), ('c', null)],
+          [('aa', null)],
+        ],
+      );
+    });
+
+    test('skips pages without new apps', () {
+      expect(
+        pages(
+          [
+            for (final id in ['A', 'B', 'C'])
+              createSnap(name: id, commonIds: ['org.example.$id']),
+          ],
+          [
+            for (final id in ['D', 'E', 'F', 'A', 'B', 'C'])
+              _deb('org.example.$id'),
+          ],
+        ),
+        hasLength(1),
+      );
+    });
+  });
+
   group('unifiedSearchProvider', () {
     const query = 'edit';
 
     // Snap search fails when [snaps] is null.
-    Future<AsyncValue<List<UnifiedSearchResult>>> search({
+    Future<AsyncValue<List<List<UnifiedSearchResult>>>> search({
       required List<AppstreamComponent> debs,
       List<Snap>? snaps,
       SnapCategoryEnum? category,
-      SnapSortOrder? sortOrder,
     }) async {
       final parameters = (query: query, category: category);
       final container = createContainer(
@@ -156,7 +230,6 @@ void main() {
           appstreamSearchProvider.overrideWith((ref, _) => Stream.value(debs)),
         ],
       );
-      container.read(snapSortOrderProvider.notifier).state = sortOrder;
       container.listen(unifiedSearchProvider(parameters), (_, _) {});
       await container
           .read(
@@ -169,54 +242,12 @@ void main() {
       return container.read(unifiedSearchProvider(parameters));
     }
 
-    test('merges the top 3 snaps with the top 3 debs', () async {
-      final results = await search(
-        snaps: [
-          createSnap(name: 's1', commonIds: ['org.example.One']),
-          createSnap(name: 's2'),
-          createSnap(name: 's3'),
-          createSnap(name: 's4', commonIds: ['org.example.Four']),
-        ],
-        debs: [
-          _deb('org.example.Four'),
-          _deb('org.example.One'),
-          _deb('org.example.Two'),
-          _deb('org.example.Three'),
-        ],
-      );
-
-      expect(_pairs(results.requireValue), [
-        ('s1', 'org.example.One'),
-        ('s2', null),
-        ('s3', null),
-        (null, 'org.example.Four'),
-        (null, 'org.example.Two'),
-      ]);
-    });
-
-    test('sorts the top snaps without picking other ones', () async {
-      final results = await search(
-        snaps: [
-          createSnap(name: 'b'),
-          createSnap(name: 'c'),
-          createSnap(name: 'a'),
-          createSnap(name: 'aa'),
-        ],
-        debs: [],
-        sortOrder: SnapSortOrder.alphabeticalAsc,
-      );
-
-      expect(_pairs(results.requireValue), [
-        ('a', null),
-        ('b', null),
-        ('c', null),
-      ]);
-    });
-
     test('shows the other results when one source fails', () async {
       final results = await search(debs: [_deb('org.example.Notes')]);
 
-      expect(_pairs(results.requireValue), [(null, 'org.example.Notes')]);
+      expect(_pairs(results.requireValue.single), [
+        (null, 'org.example.Notes'),
+      ]);
     });
 
     test('fails when a source fails and there are no results', () async {
@@ -238,7 +269,7 @@ void main() {
         category: SnapCategoryEnum.development,
       );
 
-      expect(_pairs(results.requireValue), [
+      expect(_pairs(results.requireValue.single), [
         ('editor', 'org.example.Editor'),
         (null, 'org.example.Ide'),
       ]);
