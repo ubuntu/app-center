@@ -16,11 +16,11 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   testWidgets('install and remove a snap', (tester) async {
-    final file = File('/snap/bin/hello');
+    final file = File('/snap/bin/busybox-static');
     await app.main([]);
     await tester.pumpUntil(find.byType(StoreApp));
     await tester.pumpAndSettle();
-    await testSearchSnap(tester, packageName: 'hello');
+    await testSearchSnap(tester, packageName: 'busybox-static');
     await testInstallSnap(tester, installedFile: file);
     await testRemoveSnap(tester, installedFile: file);
   });

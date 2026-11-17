@@ -31,7 +31,7 @@ jobs:
       - name: Ensure snapd is ready
         run: |
           sudo snap wait system seed.loaded
-          sudo snap install snapd core20
+          sudo snap install snapd
           snap list
           snap changes
 
