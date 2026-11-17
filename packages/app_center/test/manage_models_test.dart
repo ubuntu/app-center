@@ -504,6 +504,8 @@ void main() {
 
       final container = createContainer();
       container.read(showLocalSystemAppsProvider.notifier).state = true;
+      container.listen(installedAppsProvider, (_, __) {});
+      await pumpEventQueue();
       final apps = await container.read(installedAppsProvider.future);
       await container
           .read(localDebUpdatesModelProvider.notifier)
@@ -1155,7 +1157,7 @@ void main() {
           .read(installedAppsProvider.notifier)
           .removeDeb('google-chrome-stable');
 
-      verify(mockPackageKit.remove(chromeId)).called(1);
+      verify(mockPackageKit.remove(chromeId, allowDeps: true)).called(1);
       installed = container.read(installedAppsProvider).value!;
       expect(installed, isEmpty);
     });

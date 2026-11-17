@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_center/apps/app_page.dart';
 import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/appstream/appstream.dart';
@@ -7,7 +9,9 @@ import 'package:app_center/deb/local_deb_model.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
+import 'package:app_center/packagekit/packagekit_remove_dialog.dart';
 import 'package:app_center/providers/current_desktops_provider.dart';
+import 'package:app_center/providers/uninstall_check_provider.dart';
 import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -191,10 +195,24 @@ class _LocalDebActionButtons extends ConsumerWidget {
       child: Text(l10n.snapActionCancelLabel),
     );
 
+    Future<void> remove() async {
+      final packageId = debData.installedPackageId;
+      if (packageId == null) return;
+      final notifier = ref.read(
+        localDebModelProvider(path: debData.path).notifier,
+      );
+      final confirmed = await confirmPackageKitRemoval(
+        context,
+        appName: debData.details.packageId.name,
+        packageIds: [packageId],
+      );
+      if (confirmed) await notifier.remove();
+    }
+
     final uninstallButton = OutlinedButton(
-      onPressed: ref
-          .read(localDebModelProvider(path: debData.path).notifier)
-          .remove,
+      onPressed: ref.watch(uninstallCheckProvider)
+          ? null
+          : () => unawaited(remove()),
       child: Text(l10n.snapActionRemoveLabel),
     );
 

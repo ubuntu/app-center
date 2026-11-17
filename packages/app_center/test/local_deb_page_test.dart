@@ -107,7 +107,9 @@ void main() {
     await tester.pump();
 
     final removed =
-        verify(packageKit.remove(captureAny)).captured.single
+        verify(
+              packageKit.remove(captureAny, allowDeps: true),
+            ).captured.single
             as PackageKitPackageId;
     expect(removed.name, 'testdeb');
     expect(removed.version, '1.0');
@@ -173,7 +175,9 @@ void main() {
         summary: 'summary',
       ),
     );
-    when(packageKit.remove(any)).thenAnswer((_) => removeCompleter.future);
+    when(
+      packageKit.remove(any, allowDeps: anyNamed('allowDeps')),
+    ).thenAnswer((_) => removeCompleter.future);
 
     await tester.pumpApp(
       (_) => const ProviderScope(
@@ -187,7 +191,7 @@ void main() {
     removeCompleter.complete(0);
     await tester.pumpAndSettle();
 
-    verify(packageKit.remove(any)).called(1);
+    verify(packageKit.remove(any, allowDeps: true)).called(1);
   });
 
   testWidgets('actions return only once a cancel lands', (tester) async {
@@ -228,7 +232,44 @@ void main() {
     await tester.tapButton(tester.l10n.snapActionRemoveLabel);
     await tester.pumpAndSettle();
 
-    verify(packageKit.remove(any)).called(2);
+    verify(packageKit.remove(any, allowDeps: true)).called(2);
+  });
+
+  testWidgets('uninstall asks first when other packages depend on it', (
+    tester,
+  ) async {
+    final packageKit = createMockPackageKitService(
+      packageDetails: mockPackage,
+      packageInfo: const PackageKitPackageInfo(
+        info: PackageKitInfo.installed,
+        packageId: PackageKitPackageId(name: 'testdeb', version: '1.0'),
+        summary: 'summary',
+      ),
+      simulatedRemove: [
+        const PackageKitPackageEvent(
+          info: PackageKitInfo.removing,
+          packageId: PackageKitPackageId(name: 'testdeb-plugin', version: '1'),
+          summary: 'summary',
+        ),
+      ],
+    );
+
+    await tester.pumpApp(
+      (_) => const ProviderScope(
+        child: LocalDebPage(path: '/path/to/package.deb'),
+      ),
+    );
+    await tester.pump();
+    await tester.tapButton(tester.l10n.snapActionRemoveLabel);
+    await tester.pumpAndSettle();
+
+    expect(find.text('testdeb-plugin'), findsOneWidget);
+    verifyNever(packageKit.remove(any, allowDeps: anyNamed('allowDeps')));
+
+    await tester.tap(find.button(tester.l10n.snapActionRemoveLabel).last);
+    await tester.pumpAndSettle();
+
+    verify(packageKit.remove(any, allowDeps: true)).called(1);
   });
 
   testWidgets('no uninstall for a package the desktop needs', (tester) async {

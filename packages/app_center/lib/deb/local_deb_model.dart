@@ -86,7 +86,7 @@ class LocalDebModel extends _$LocalDebModel {
     if (packageId == null) return;
     await _runTransaction(
       DebTransactionKind.remove,
-      () => getService<PackageKitService>().remove(packageId),
+      () => getService<PackageKitService>().remove(packageId, allowDeps: true),
     );
   }
 
