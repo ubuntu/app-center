@@ -413,12 +413,17 @@ class _MinHeightAsProgressIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        const Visibility(
-          visible: false,
-          maintainSize: true,
-          maintainAnimation: true,
-          maintainState: true,
-          child: YaruCircularProgressIndicator(),
+        // maintainSize requires maintainAnimation, which would keep the hidden
+        // indicator ticking (and the app rendering frames) forever.
+        const TickerMode(
+          enabled: false,
+          child: Visibility(
+            visible: false,
+            maintainSize: true,
+            maintainAnimation: true,
+            maintainState: true,
+            child: YaruCircularProgressIndicator(),
+          ),
         ),
         child,
       ],

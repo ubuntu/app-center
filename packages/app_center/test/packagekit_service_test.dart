@@ -80,6 +80,34 @@ void main() {
       expect(packageKit.isAvailable, isFalse);
     });
 
+    test('service not installed', () async {
+      final dbus = createMockDbusClient();
+      when(
+        dbus.callMethod(
+          path: DBusObjectPath(_dBusObjectPath),
+          destination: _dBusName,
+          name: 'StartServiceByName',
+          interface: _dBusInterface,
+          values: const [DBusString(_packageKitDBusName), DBusUint32(0)],
+        ),
+      ).thenThrow(
+        DBusServiceUnknownException(
+          DBusMethodErrorResponse('org.freedesktop.DBus.Error.ServiceUnknown'),
+        ),
+      );
+      final client = createMockPackageKitClient();
+      final packageKit = PackageKitService(
+        dbus: dbus,
+        client: client,
+        fs: MemoryFileSystem.test(),
+      );
+
+      await packageKit.activateService();
+
+      expect(packageKit.isAvailable, isFalse);
+      verifyNever(client.connect());
+    });
+
     test('service reactivated after losing its D-Bus owner', () async {
       final ownerChanges = StreamController<DBusNameOwnerChangedEvent>();
       final dbus = createMockDbusClient();

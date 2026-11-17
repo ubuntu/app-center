@@ -418,7 +418,7 @@
     "driversPageDeviceClassCamera": "Caméra",
     "driversPageDeviceClassUsb": "USB",
     "driversPageDeviceClassAudio": "Audio",
-    "driversPageDeviceClassOther": "Autre(s) type(s)",
+    "driversPageDeviceClassOther": "Autre",
     "driversPageBranchLts": "Support à long terme",
     "driversPageBranchNewFeature": "Nouvelles fonctionnalités",
     "driversPageRestartRequiredTitle": "Redémarrage requis",
@@ -573,7 +573,7 @@
     "appDetailsChoosePackageFormatTitle": "Choisissez le format de paquet",
     "appDetailsPackageSourceLabel": "Source",
     "appDetailsVerifiedPublisherSemanticLabel": "Éditeur vérifié",
-    "appDetailsStarredPublisherSemanticLabel": "Éditeur récompensé",
+    "appDetailsStarredPublisherSemanticLabel": "Éditeur évalué",
     "appDetailsPackageSourceSnapStore": "Centre d'applications Snap",
     "appDetailsPackageSourceUbuntuArchive": "Archive Ubuntu",
     "appDetailsInstalledAsFormat": "Déjà installé en {format}",
@@ -623,7 +623,7 @@
             }
         }
     },
-    "uninstallDependentsMessage": "Ces paquets dépendent de {appName} et seront désinstallés aussi :",
+    "uninstallDependentsMessage": "Les paquets suivants dépendent de {appName} et seront désinstallés aussi :",
     "@uninstallDependentsMessage": {
         "placeholders": {
             "appName": {

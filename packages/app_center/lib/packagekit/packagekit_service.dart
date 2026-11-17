@@ -254,12 +254,12 @@ class PackageKitService {
       name: 'org.freedesktop.DBus',
       path: DBusObjectPath('/org/freedesktop/DBus'),
     );
-    await object.callMethod(
-      'org.freedesktop.DBus',
-      'StartServiceByName',
-      const [DBusString(_packageKitBusName), DBusUint32(0)],
-    );
     try {
+      await object.callMethod(
+        'org.freedesktop.DBus',
+        'StartServiceByName',
+        const [DBusString(_packageKitBusName), DBusUint32(0)],
+      );
       await _client.connect();
       _isAvailable = true;
     } on DBusServiceUnknownException catch (_) {
