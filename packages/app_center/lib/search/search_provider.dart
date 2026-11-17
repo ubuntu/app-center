@@ -116,14 +116,54 @@ List<UnifiedSearchResult> mergeSearchResults(
   ];
 }
 
-const _resultsPerFormat = 3;
+const _firstPageSize = 3;
+const _pageSize = 9;
 
-/// The top snap and deb search results for a query, merged into one list.
+/// Splits the merged results into pages: the first holds the apps among the
+/// top 3 snaps and debs, each next one the apps among the next 9 of each.
+///
+/// Snaps and debs are matched across the full lists, so a page never repeats
+/// or changes an app from an earlier page. [sortOrder] reorders the snaps
+/// within each page.
+List<List<UnifiedSearchResult>> pageSearchResults(
+  List<Snap> snaps,
+  List<AppstreamComponent> debs, {
+  SnapSortOrder? sortOrder,
+}) {
+  final merged = mergeSearchResults(snaps, debs);
+  final snapEntries = Map<Snap, int>.identity();
+  final debEntries = Map<AppstreamComponent, int>.identity();
+  for (final (index, result) in merged.indexed) {
+    if (result.snap case final snap?) snapEntries[snap] = index;
+    if (result.deb case final deb?) debEntries[deb] = index;
+  }
+
+  final shown = <int>{};
+  final pages = <List<UnifiedSearchResult>>[];
+  for (
+    var start = 0, size = _firstPageSize;
+    start < snaps.length || start < debs.length;
+    start += size, size = _pageSize
+  ) {
+    final page = [
+      for (final index in [
+        for (final snap in snaps.skip(start).take(size).sortedSnaps(sortOrder))
+          snapEntries[snap]!,
+        for (final deb in debs.skip(start).take(size)) debEntries[deb]!,
+      ])
+        if (shown.add(index)) merged[index],
+    ];
+    if (page.isNotEmpty) pages.add(page);
+  }
+  return pages;
+}
+
+/// Snap and deb search results for a query, merged and split into pages.
 ///
 /// A failing source is left out, unless there is nothing else to show.
 final unifiedSearchProvider = Provider.autoDispose
     .family<
-      AsyncValue<List<UnifiedSearchResult>>,
+      AsyncValue<List<List<UnifiedSearchResult>>>,
       ({String query, SnapCategoryEnum? category})
     >((ref, parameters) {
       final (:query, :category) = parameters;
@@ -139,24 +179,21 @@ final unifiedSearchProvider = Provider.autoDispose
       if (sources.any((source) => !source.hasValue && !source.hasError)) {
         return const AsyncLoading();
       }
-      // Sorting reorders the top snaps rather than picking other ones.
-      final topSnaps = (snaps.value ?? const <Snap>[])
-          .take(_resultsPerFormat)
-          .sortedSnaps(sortOrder)
-          .toList();
-      // Snaps come already filtered by the store; debs map their own categories.
-      final topDebs = (debs.value ?? const <AppstreamComponent>[])
-          .where(
-            (deb) =>
-                category == null ||
-                appCategoriesFromFreedesktop(deb).contains(category),
-          )
-          .take(_resultsPerFormat)
-          .toList();
-      final results = mergeSearchResults(topSnaps, topDebs);
+      final pages = pageSearchResults(
+        snaps.value ?? const [],
+        // Snaps come already filtered by the store; debs map their own
+        // categories.
+        [
+          for (final deb in debs.value ?? const <AppstreamComponent>[])
+            if (category == null ||
+                appCategoriesFromFreedesktop(deb).contains(category))
+              deb,
+        ],
+        sortOrder: sortOrder,
+      );
       final failed = sources.where((source) => source.hasError).firstOrNull;
-      if (results.isEmpty && failed != null) {
+      if (pages.isEmpty && failed != null) {
         return AsyncError(failed.error!, failed.stackTrace ?? StackTrace.empty);
       }
-      return AsyncData(results);
+      return AsyncData(pages);
     });

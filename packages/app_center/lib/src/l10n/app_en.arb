@@ -265,6 +265,7 @@
     "searchPageNoResultsCategoryHint": "Try a different category or use more general keywords",
     "searchPageSortByLabel": "Sort by",
     "searchPageRelevanceLabel": "Relevance",
+    "searchPageShowMoreLabel": "Show more",
     "searchPageTitle": "Results for \"{query}\"",
     "@searchPageTitle": {
         "placeholders": {

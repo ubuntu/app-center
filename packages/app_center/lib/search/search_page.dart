@@ -388,25 +388,37 @@ class _SnapSearchResults extends ConsumerWidget {
   }
 }
 
-class _UnifiedSearchResults extends ConsumerWidget {
+class _UnifiedSearchResults extends ConsumerStatefulWidget {
   const _UnifiedSearchResults({required this.query});
 
   final String query;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_UnifiedSearchResults> createState() =>
+      _UnifiedSearchResultsState();
+}
+
+class _UnifiedSearchResultsState extends ConsumerState<_UnifiedSearchResults> {
+  var _shownPages = 1;
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final query = widget.query;
     final category = ref.watch(snapCategoryProvider(null));
     final results = ref.watch(
       unifiedSearchProvider((query: query, category: category)),
     );
+    ref
+      ..listen(snapCategoryProvider(null), (_, _) => _showFirstPage())
+      ..listen(snapSortOrderProvider, (_, _) => _showFirstPage());
     return results.when(
-      data: (data) => data.isNotEmpty
+      data: (pages) => pages.isNotEmpty
           ? ResponsiveLayoutScrollView(
               slivers: [
                 AppCardGrid(
                   appCards: [
-                    for (final result in data)
+                    for (final result in pages.take(_shownPages).flattened)
                       if (result.snap case final snap?)
                         AppCard.fromSnap(
                           snap: snap,
@@ -428,6 +440,20 @@ class _UnifiedSearchResults extends ConsumerWidget {
                         ),
                   ],
                 ),
+                if (_shownPages < pages.length)
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: kPagePadding,
+                      ),
+                      child: Center(
+                        child: OutlinedButton(
+                          onPressed: () => setState(() => _shownPages++),
+                          child: Text(l10n.searchPageShowMoreLabel),
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             )
           : Padding(
@@ -466,6 +492,8 @@ class _UnifiedSearchResults extends ConsumerWidget {
       loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
   }
+
+  void _showFirstPage() => setState(() => _shownPages = 1);
 }
 
 /// Marks which package formats a search result has.
