@@ -143,6 +143,7 @@ void main() {
       required List<AppstreamComponent> debs,
       List<Snap>? snaps,
       SnapCategoryEnum? category,
+      SnapSortOrder? sortOrder,
     }) async {
       final parameters = (query: query, category: category);
       final container = createContainer(
@@ -155,10 +156,11 @@ void main() {
           appstreamSearchProvider.overrideWith((ref, _) => Stream.value(debs)),
         ],
       );
+      container.read(snapSortOrderProvider.notifier).state = sortOrder;
       container.listen(unifiedSearchProvider(parameters), (_, _) {});
       await container
           .read(
-            sortedSnapSearchProvider(
+            snapSearchProvider(
               SnapSearchParameters(query: query, category: category),
             ).future,
           )
@@ -166,6 +168,50 @@ void main() {
       await container.read(appstreamSearchProvider(query).future);
       return container.read(unifiedSearchProvider(parameters));
     }
+
+    test('merges the top 3 snaps with the top 3 debs', () async {
+      final results = await search(
+        snaps: [
+          createSnap(name: 's1', commonIds: ['org.example.One']),
+          createSnap(name: 's2'),
+          createSnap(name: 's3'),
+          createSnap(name: 's4', commonIds: ['org.example.Four']),
+        ],
+        debs: [
+          _deb('org.example.Four'),
+          _deb('org.example.One'),
+          _deb('org.example.Two'),
+          _deb('org.example.Three'),
+        ],
+      );
+
+      expect(_pairs(results.requireValue), [
+        ('s1', 'org.example.One'),
+        ('s2', null),
+        ('s3', null),
+        (null, 'org.example.Four'),
+        (null, 'org.example.Two'),
+      ]);
+    });
+
+    test('sorts the top snaps without picking other ones', () async {
+      final results = await search(
+        snaps: [
+          createSnap(name: 'b'),
+          createSnap(name: 'c'),
+          createSnap(name: 'a'),
+          createSnap(name: 'aa'),
+        ],
+        debs: [],
+        sortOrder: SnapSortOrder.alphabeticalAsc,
+      );
+
+      expect(_pairs(results.requireValue), [
+        ('a', null),
+        ('b', null),
+        ('c', null),
+      ]);
+    });
 
     test('shows the other results when one source fails', () async {
       final results = await search(debs: [_deb('org.example.Notes')]);
@@ -185,7 +231,7 @@ void main() {
           createSnap(name: 'editor', commonIds: ['org.example.Editor']),
         ],
         debs: [
-          _deb('org.example.Editor'),
+          _deb('org.example.Editor', categories: ['Development']),
           _deb('org.example.Ide', categories: ['Development']),
           _deb('org.example.Game', categories: ['Game']),
         ],

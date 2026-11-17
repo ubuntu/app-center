@@ -116,7 +116,9 @@ List<UnifiedSearchResult> mergeSearchResults(
   ];
 }
 
-/// Snap and deb search results for a query as a single list.
+const _resultsPerFormat = 3;
+
+/// The top snap and deb search results for a query, merged into one list.
 ///
 /// A failing source is left out, unless there is nothing else to show.
 final unifiedSearchProvider = Provider.autoDispose
@@ -126,30 +128,32 @@ final unifiedSearchProvider = Provider.autoDispose
     >((ref, parameters) {
       final (:query, :category) = parameters;
       final snaps = ref.watch(
-        sortedSnapSearchProvider(
+        snapSearchProvider(
           SnapSearchParameters(query: query, category: category),
         ),
       );
       final debs = ref.watch(appstreamSearchProvider(query));
+      final sortOrder = ref.watch(snapSortOrderProvider);
       final sources = <AsyncValue<Object?>>[snaps, debs];
 
       if (sources.any((source) => !source.hasValue && !source.hasError)) {
         return const AsyncLoading();
       }
+      // Sorting reorders the top snaps rather than picking other ones.
+      final topSnaps = (snaps.value ?? const <Snap>[])
+          .take(_resultsPerFormat)
+          .sortedSnaps(sortOrder)
+          .toList();
       // Snaps come already filtered by the store; debs map their own categories.
-      final results =
-          mergeSearchResults(
-                snaps.value ?? const [],
-                debs.value ?? const [],
-              )
-              .where(
-                (result) =>
-                    category == null ||
-                    result.snap != null ||
-                    appCategoriesFromFreedesktop(result.deb!)
-                        .contains(category),
-              )
-              .toList();
+      final topDebs = (debs.value ?? const <AppstreamComponent>[])
+          .where(
+            (deb) =>
+                category == null ||
+                appCategoriesFromFreedesktop(deb).contains(category),
+          )
+          .take(_resultsPerFormat)
+          .toList();
+      final results = mergeSearchResults(topSnaps, topDebs);
       final failed = sources.where((source) => source.hasError).firstOrNull;
       if (results.isEmpty && failed != null) {
         return AsyncError(failed.error!, failed.stackTrace ?? StackTrace.empty);
