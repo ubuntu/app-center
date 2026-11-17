@@ -45,60 +45,37 @@ class SearchPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (query != null)
-                  Semantics(
-                    focused: true,
-                    header: true,
-                    child: Text(
-                      l10n.searchPageTitle(query!),
-                      style: Theme.of(context).textTheme.headlineSmall,
+                if (unified)
+                  _UnifiedHeader(query: query!)
+                else ...[
+                  if (query != null)
+                    Semantics(
+                      focused: true,
+                      header: true,
+                      child: Text(
+                        l10n.searchPageTitle(query!),
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
                     ),
-                  ),
-                if (initialCategory != null)
-                  Semantics(
-                    focused: true,
-                    header: true,
-                    child: Text(
-                      initialCategory.localize(l10n),
-                      style: Theme.of(context).textTheme.headlineSmall,
+                  if (initialCategory != null)
+                    Semantics(
+                      focused: true,
+                      header: true,
+                      child: Text(
+                        initialCategory.localize(l10n),
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
                     ),
-                  ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Text(l10n.searchPageSortByLabel),
-                    const SizedBox(width: 8),
-                    Consumer(
-                      builder: (context, ref, child) {
-                        final sortOrder = ref.watch(snapSortOrderProvider);
-                        return MenuButtonBuilder<SnapSortOrder?>(
-                          expanded: false,
-                          values: const [
-                            null,
-                            SnapSortOrder.alphabeticalAsc,
-                            SnapSortOrder.alphabeticalDesc,
-                            SnapSortOrder.downloadSizeAsc,
-                            SnapSortOrder.downloadSizeDesc,
-                          ],
-                          itemBuilder: (context, sortOrder, child) => Text(
-                            sortOrder?.localize(l10n) ??
-                                l10n.snapSortOrderRelevance,
-                          ),
-                          onSelected: (value) =>
-                              ref.read(snapSortOrderProvider.notifier).state =
-                                  value,
-                          child: Text(
-                            sortOrder?.localize(l10n) ??
-                                l10n.snapSortOrderRelevance,
-                          ),
-                        );
-                      },
-                    ),
-                    if (query != null) ...[
-                      const SizedBox(width: 24),
-                      Text(l10n.searchPageFilterByLabel),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Text(l10n.searchPageSortByLabel),
                       const SizedBox(width: 8),
-                      if (!unified) ...[
+                      const _SortMenu(),
+                      if (query != null) ...[
+                        const SizedBox(width: 24),
+                        Text(l10n.searchPageFilterByLabel),
+                        const SizedBox(width: 8),
                         Expanded(
                           child: Consumer(
                             builder: (context, ref, child) {
@@ -123,49 +100,21 @@ class SearchPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 8),
-                      ],
-                      Expanded(
-                        child: Consumer(
-                          builder: (context, ref, child) {
-                            if (!unified &&
-                                ref.watch(packageFormatProvider) ==
-                                    PackageFormat.deb) {
-                              return const SizedBox.shrink();
-                            }
-                            return MenuButtonBuilder<SnapCategoryEnum?>(
-                              values:
-                                  <SnapCategoryEnum?>[null] +
-                                  SnapCategoryEnum.values
-                                      .whereNot((c) => c.hidden)
-                                      .toList(),
-                              itemBuilder: (context, category, child) => Text(
-                                category?.localize(l10n) ??
-                                    l10n.snapCategoryAll,
-                              ),
-                              onSelected: (value) =>
-                                  ref
-                                          .read(
-                                            snapCategoryProvider(
-                                              initialCategory,
-                                            ).notifier,
-                                          )
-                                          .state =
-                                      value,
-                              child: Text(
-                                ref
-                                        .watch(
-                                          snapCategoryProvider(initialCategory),
-                                        )
-                                        ?.localize(l10n) ??
-                                    l10n.snapCategoryAll,
-                              ),
-                            );
-                          },
+                        Expanded(
+                          child: Consumer(
+                            builder: (context, ref, child) =>
+                                switch (ref.watch(packageFormatProvider)) {
+                                  PackageFormat.snap => _CategoryMenu(
+                                    initialCategory: initialCategory,
+                                  ),
+                                  PackageFormat.deb => const SizedBox.shrink(),
+                                },
+                          ),
                         ),
-                      ),
+                      ],
                     ],
-                  ],
-                ),
+                  ),
+                ],
                 if (initialCategory == SnapCategoryEnum.gameDev ||
                     initialCategory == SnapCategoryEnum.gameEmulators ||
                     initialCategory == SnapCategoryEnum.gnomeGames ||
@@ -196,6 +145,99 @@ class SearchPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _UnifiedHeader extends StatelessWidget {
+  const _UnifiedHeader({required this.query});
+
+  final String query;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final title = Semantics(
+      focused: true,
+      header: true,
+      child: Text(
+        l10n.searchPageTitle(query),
+        style: Theme.of(context).textTheme.headlineSmall,
+      ),
+    );
+    final filters = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(l10n.searchPageSortByLabel),
+        const SizedBox(width: 8),
+        const _SortMenu(),
+        const SizedBox(width: 24),
+        Text(l10n.searchPageFilterByLabel),
+        const SizedBox(width: 8),
+        const _CategoryMenu(expanded: false),
+      ],
+    );
+    // Single-column pages are too narrow for the title and filters on one line.
+    if (ResponsiveLayout.of(context).type == ResponsiveLayoutType.small) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [title, const SizedBox(height: 8), filters],
+      );
+    }
+    return Row(
+      children: [
+        Expanded(child: title),
+        const SizedBox(width: 24),
+        filters,
+      ],
+    );
+  }
+}
+
+class _SortMenu extends ConsumerWidget {
+  const _SortMenu();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final sortOrder = ref.watch(snapSortOrderProvider);
+    return MenuButtonBuilder<SnapSortOrder?>(
+      expanded: false,
+      values: const [
+        null,
+        SnapSortOrder.alphabeticalAsc,
+        SnapSortOrder.alphabeticalDesc,
+        SnapSortOrder.downloadSizeAsc,
+        SnapSortOrder.downloadSizeDesc,
+      ],
+      itemBuilder: (context, sortOrder, child) =>
+          Text(sortOrder?.localize(l10n) ?? l10n.snapSortOrderRelevance),
+      onSelected: (value) =>
+          ref.read(snapSortOrderProvider.notifier).state = value,
+      child: Text(sortOrder?.localize(l10n) ?? l10n.snapSortOrderRelevance),
+    );
+  }
+}
+
+class _CategoryMenu extends ConsumerWidget {
+  const _CategoryMenu({this.initialCategory, this.expanded = true});
+
+  final SnapCategoryEnum? initialCategory;
+  final bool expanded;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final category = snapCategoryProvider(initialCategory);
+    return MenuButtonBuilder<SnapCategoryEnum?>(
+      expanded: expanded,
+      values:
+          <SnapCategoryEnum?>[null] +
+          SnapCategoryEnum.values.whereNot((c) => c.hidden).toList(),
+      itemBuilder: (context, category, child) =>
+          Text(category?.localize(l10n) ?? l10n.snapCategoryAll),
+      onSelected: (value) => ref.read(category.notifier).state = value,
+      child: Text(ref.watch(category)?.localize(l10n) ?? l10n.snapCategoryAll),
     );
   }
 }

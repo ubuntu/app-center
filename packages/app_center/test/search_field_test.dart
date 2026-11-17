@@ -141,6 +141,7 @@ void main() {
       'edit': [
         createAppstreamComponent(id: 'org.example.Notes', name: 'Notes Deb'),
         createAppstreamComponent(id: 'org.example.Editor', name: 'Editor Deb'),
+        createAppstreamComponent(id: 'org.example.Paper', name: 'Paper Deb'),
       ],
     });
 
@@ -172,7 +173,7 @@ void main() {
       await tester.pumpAndSettle();
     }
 
-    testWidgets('lists snaps, then debs without a snap', (tester) async {
+    testWidgets('lists 3 apps, snaps first', (tester) async {
       await pumpUnifiedField(tester);
 
       final tops = [
@@ -181,6 +182,7 @@ void main() {
       ];
       expect(tops, [...tops]..sort());
       expect(find.text('Editor Deb'), findsNothing);
+      expect(find.text('Paper Deb'), findsNothing);
       expect(find.text(tester.l10n.searchFieldSnapSection), findsNothing);
       expect(find.text(tester.l10n.searchFieldDebSection), findsNothing);
       expect(
