@@ -9,6 +9,7 @@ import 'package:app_center/mapping/package_mapping_resolver.dart';
 import 'package:app_center/mapping/snap_package_adapter.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:appstream/appstream.dart';
+import 'package:collection/collection.dart' show mergeSort;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:snapd/snapd.dart';
@@ -123,12 +124,12 @@ const _pageSize = 9;
 /// top 3 snaps and debs, each next one the apps among the next 9 of each.
 ///
 /// Snaps and debs are matched across the full lists, so a page never repeats
-/// or changes an app from an earlier page. [sortOrder] reorders the snaps
-/// within each page.
+/// or changes an app from an earlier page. Debs failing [showDeb] still pair
+/// with snaps but get no card of their own.
 List<List<UnifiedSearchResult>> pageSearchResults(
   List<Snap> snaps,
   List<AppstreamComponent> debs, {
-  SnapSortOrder? sortOrder,
+  bool Function(AppstreamComponent deb)? showDeb,
 }) {
   final merged = mergeSearchResults(snaps, debs);
   final snapEntries = Map<Snap, int>.identity();
@@ -137,25 +138,53 @@ List<List<UnifiedSearchResult>> pageSearchResults(
     if (result.snap case final snap?) snapEntries[snap] = index;
     if (result.deb case final deb?) debEntries[deb] = index;
   }
+  final shownDebs = showDeb == null ? debs : debs.where(showDeb).toList();
 
   final shown = <int>{};
   final pages = <List<UnifiedSearchResult>>[];
   for (
     var start = 0, size = _firstPageSize;
-    start < snaps.length || start < debs.length;
+    start < snaps.length || start < shownDebs.length;
     start += size, size = _pageSize
   ) {
     final page = [
       for (final index in [
-        for (final snap in snaps.skip(start).take(size).sortedSnaps(sortOrder))
-          snapEntries[snap]!,
-        for (final deb in debs.skip(start).take(size)) debEntries[deb]!,
+        for (final snap in snaps.skip(start).take(size)) snapEntries[snap]!,
+        for (final deb in shownDebs.skip(start).take(size)) debEntries[deb]!,
       ])
         if (shown.add(index)) merged[index],
     ];
     if (page.isNotEmpty) pages.add(page);
   }
   return pages;
+}
+
+/// Sorts [results] by [order], keeping their order for ties and for orders
+/// that don't apply. Debs have no download size, so they sort last by size.
+List<UnifiedSearchResult> sortSearchResults(
+  Iterable<UnifiedSearchResult> results,
+  SnapSortOrder? order,
+) {
+  String title(UnifiedSearchResult result) =>
+      (result.snap?.titleOrName ?? result.deb!.getLocalizedName())
+          .toLowerCase();
+  int bySize(UnifiedSearchResult a, UnifiedSearchResult b, int direction) =>
+      switch ((a.snap?.downloadSize, b.snap?.downloadSize)) {
+        (final sizeA?, final sizeB?) => direction * sizeA.compareTo(sizeB),
+        (null, null) => 0,
+        (null, _) => 1,
+        (_, null) => -1,
+      };
+  int compare(UnifiedSearchResult a, UnifiedSearchResult b) => switch (order) {
+    SnapSortOrder.alphabeticalAsc => title(a).compareTo(title(b)),
+    SnapSortOrder.alphabeticalDesc => title(b).compareTo(title(a)),
+    SnapSortOrder.downloadSizeAsc => bySize(a, b, 1),
+    SnapSortOrder.downloadSizeDesc => bySize(a, b, -1),
+    _ => 0,
+  };
+  final sorted = results.toList();
+  mergeSort(sorted, compare: compare);
+  return sorted;
 }
 
 /// Snap and deb search results for a query, merged and split into pages.
@@ -173,7 +202,6 @@ final unifiedSearchProvider = Provider.autoDispose
         ),
       );
       final debs = ref.watch(appstreamSearchProvider(query));
-      final sortOrder = ref.watch(snapSortOrderProvider);
       final sources = <AsyncValue<Object?>>[snaps, debs];
 
       if (sources.any((source) => !source.hasValue && !source.hasError)) {
@@ -181,15 +209,12 @@ final unifiedSearchProvider = Provider.autoDispose
       }
       final pages = pageSearchResults(
         snaps.value ?? const [],
+        debs.value ?? const [],
         // Snaps come already filtered by the store; debs map their own
-        // categories.
-        [
-          for (final deb in debs.value ?? const <AppstreamComponent>[])
-            if (category == null ||
-                appCategoriesFromFreedesktop(deb).contains(category))
-              deb,
-        ],
-        sortOrder: sortOrder,
+        // categories, which may differ from their snap's.
+        showDeb: category == null
+            ? null
+            : (deb) => appCategoriesFromFreedesktop(deb).contains(category),
       );
       final failed = sources.where((source) => source.hasError).firstOrNull;
       if (pages.isEmpty && failed != null) {

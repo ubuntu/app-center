@@ -133,15 +133,24 @@ void main() {
         ('two', null),
       ]);
     });
+
+    test('matches store snaps, which list no apps, by package name', () {
+      final results = mergeSearchResults(
+        [createSnap(name: 'shotwell', type: 'app')],
+        [_deb('org.gnome.Shotwell.desktop', package: 'shotwell')],
+      );
+
+      expect(_pairs(results), [('shotwell', 'org.gnome.Shotwell.desktop')]);
+    });
   });
 
   group('pageSearchResults', () {
     List<List<(String?, String?)>> pages(
       List<Snap> snaps,
       List<AppstreamComponent> debs, {
-      SnapSortOrder? sortOrder,
+      bool Function(AppstreamComponent)? showDeb,
     }) => [
-      for (final page in pageSearchResults(snaps, debs, sortOrder: sortOrder))
+      for (final page in pageSearchResults(snaps, debs, showDeb: showDeb))
         _pairs(page),
     ];
 
@@ -174,21 +183,21 @@ void main() {
       );
     });
 
-    test('sorts the snaps within each page', () {
+    test('pairs hidden debs with snaps without showing them alone', () {
       expect(
         pages(
           [
-            createSnap(name: 'b'),
-            createSnap(name: 'c'),
-            createSnap(name: 'a'),
-            createSnap(name: 'aa'),
+            createSnap(name: 'vlc', commonIds: ['org.videolan.vlc']),
           ],
-          [],
-          sortOrder: SnapSortOrder.alphabeticalAsc,
+          [
+            _deb('org.videolan.vlc'),
+            _deb('org.example.Hidden'),
+            _deb('org.example.Shown'),
+          ],
+          showDeb: (deb) => deb.id == 'org.example.Shown',
         ),
         [
-          [('a', null), ('b', null), ('c', null)],
-          [('aa', null)],
+          [('vlc', 'org.videolan.vlc'), (null, 'org.example.Shown')],
         ],
       );
     });
@@ -207,6 +216,32 @@ void main() {
         ),
         hasLength(1),
       );
+    });
+  });
+
+  group('sortSearchResults', () {
+    final results = <UnifiedSearchResult>[
+      (snap: createSnap(name: 'b', title: 'b', downloadSize: 20), deb: null),
+      (snap: null, deb: _deb('a')),
+      (snap: createSnap(name: 'c', title: 'c', downloadSize: 10), deb: null),
+    ];
+    List<String?> sorted(SnapSortOrder? order) => [
+      for (final (snap, deb) in _pairs(sortSearchResults(results, order)))
+        snap ?? deb,
+    ];
+
+    test('keeps relevance order', () {
+      expect(sorted(null), ['b', 'a', 'c']);
+    });
+
+    test('sorts snaps and debs together by name', () {
+      expect(sorted(SnapSortOrder.alphabeticalAsc), ['a', 'b', 'c']);
+      expect(sorted(SnapSortOrder.alphabeticalDesc), ['c', 'b', 'a']);
+    });
+
+    test('sorts by size with debs last', () {
+      expect(sorted(SnapSortOrder.downloadSizeAsc), ['c', 'b', 'a']);
+      expect(sorted(SnapSortOrder.downloadSizeDesc), ['b', 'c', 'a']);
     });
   });
 
@@ -262,7 +297,7 @@ void main() {
           createSnap(name: 'editor', commonIds: ['org.example.Editor']),
         ],
         debs: [
-          _deb('org.example.Editor', categories: ['Development']),
+          _deb('org.example.Editor'),
           _deb('org.example.Ide', categories: ['Development']),
           _deb('org.example.Game', categories: ['Game']),
         ],
