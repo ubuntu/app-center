@@ -9,7 +9,7 @@ on:
 
 jobs:
   analyze:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: canonical/desktop-engineering/gh-actions/flutter/setup@e1069c189573b3525a60f54c5107ea3264f80805
       - run: melos generate
@@ -17,13 +17,13 @@ jobs:
       - run: melos analyze --fatal-infos
 
   format:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: canonical/desktop-engineering/gh-actions/flutter/setup@e1069c189573b3525a60f54c5107ea3264f80805
       - run: melos format:exclude
 
   l10n:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: canonical/desktop-engineering/gh-actions/flutter/setup@e1069c189573b3525a60f54c5107ea3264f80805
       - run: melos generate
@@ -46,7 +46,7 @@ jobs:
           delete-branch: true
 
   test:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: canonical/desktop-engineering/gh-actions/flutter/setup@e1069c189573b3525a60f54c5107ea3264f80805
       - run: sudo apt update && sudo apt install -y lcov
