@@ -165,31 +165,39 @@ class _UnifiedHeader extends StatelessWidget {
         style: Theme.of(context).textTheme.headlineSmall,
       ),
     );
-    final filters = Row(
-      mainAxisSize: MainAxisSize.min,
+    final filters = Wrap(
+      spacing: 24,
+      runSpacing: 8,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        Text(l10n.searchPageSortByLabel),
-        const SizedBox(width: 8),
-        const _SortMenu(),
-        const SizedBox(width: 24),
-        Text(l10n.searchPageFilterByLabel),
-        const SizedBox(width: 8),
-        const _CategoryMenu(expanded: false),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(l10n.searchPageSortByLabel),
+            const SizedBox(width: 8),
+            const _SortMenu(),
+          ],
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(l10n.searchPageFilterByLabel),
+            const SizedBox(width: 8),
+            const _CategoryMenu(expanded: false),
+          ],
+        ),
       ],
     );
-    // Single-column pages are too narrow for the title and filters on one line.
-    if (ResponsiveLayout.of(context).type == ResponsiveLayoutType.small) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [title, const SizedBox(height: 8), filters],
-      );
-    }
-    return Row(
-      children: [
-        Expanded(child: title),
-        const SizedBox(width: 24),
-        filters,
-      ],
+    // Filters sit beside the title, or wrap below it when there is no room.
+    return SizedBox(
+      width: double.infinity,
+      child: Wrap(
+        alignment: WrapAlignment.spaceBetween,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        spacing: 24,
+        runSpacing: 8,
+        children: [title, filters],
+      ),
     );
   }
 }
@@ -406,19 +414,21 @@ class _UnifiedSearchResultsState extends ConsumerState<_UnifiedSearchResults> {
     final l10n = AppLocalizations.of(context);
     final query = widget.query;
     final category = ref.watch(snapCategoryProvider(null));
+    final sortOrder = ref.watch(snapSortOrderProvider);
     final results = ref.watch(
       unifiedSearchProvider((query: query, category: category)),
     );
-    ref
-      ..listen(snapCategoryProvider(null), (_, _) => _showFirstPage())
-      ..listen(snapSortOrderProvider, (_, _) => _showFirstPage());
+    ref.listen(snapCategoryProvider(null), (_, _) => _showFirstPage());
     return results.when(
       data: (pages) => pages.isNotEmpty
           ? ResponsiveLayoutScrollView(
               slivers: [
                 AppCardGrid(
                   appCards: [
-                    for (final result in pages.take(_shownPages).flattened)
+                    for (final result in sortSearchResults(
+                      pages.take(_shownPages).flattened,
+                      sortOrder,
+                    ))
                       if (result.snap case final snap?)
                         AppCard.fromSnap(
                           snap: snap,

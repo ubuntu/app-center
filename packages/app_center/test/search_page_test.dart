@@ -453,6 +453,38 @@ void main() {
       expect(centerOf(filterBy), closeTo(centerOf(title), 1));
     });
 
+    testWidgets('wraps the filters with large text', (tester) async {
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      tester.platformDispatcher.textScaleFactorTestValue = 2;
+
+      await pumpUnifiedSearch(tester);
+
+      expect(tester.takeException(), isNull);
+      expect(
+        tester.getCenter(find.text(tester.l10n.searchPageFilterByLabel)).dy,
+        greaterThan(
+          tester.getCenter(find.text(tester.l10n.searchPageSortByLabel)).dy,
+        ),
+      );
+    });
+
+    testWidgets('sorts snaps and debs together', (tester) async {
+      await pumpUnifiedSearch(tester);
+
+      await tester.tap(find.text(tester.l10n.snapSortOrderRelevance));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(tester.l10n.snapSortOrderAlphabeticalAsc));
+      await tester.pumpAndSettle();
+
+      final resultCards = tester
+          .widget<AppCardGrid>(find.byType(AppCardGrid))
+          .appCards;
+      expect(
+        resultCards.map((card) => card.title.title).toList(),
+        equals(['Editor Snap', 'IDE Deb', 'Notes Deb', 'Writer Snap']),
+      );
+    });
+
     testWidgets('filters by category', (tester) async {
       await pumpUnifiedSearch(tester);
 
