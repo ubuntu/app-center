@@ -219,6 +219,57 @@ void main() {
     });
   });
 
+  group('suggestSearchResults', () {
+    test('picks an app in both formats, a snap and a deb', () {
+      final results = suggestSearchResults(
+        [
+          createSnap(name: 's1'),
+          createSnap(name: 's2', commonIds: ['org.example.Both']),
+          createSnap(name: 's3'),
+        ],
+        [_deb('org.example.D1'), _deb('org.example.Both')],
+      );
+
+      expect(_pairs(results), [
+        ('s2', 'org.example.Both'),
+        ('s1', null),
+        (null, 'org.example.D1'),
+      ]);
+    });
+
+    test('picks 2 snaps and a deb without an app in both formats', () {
+      final results = suggestSearchResults(
+        [
+          createSnap(name: 's1'),
+          createSnap(name: 's2'),
+          createSnap(name: 's3'),
+        ],
+        [_deb('org.example.D1'), _deb('org.example.D2')],
+      );
+
+      expect(_pairs(results), [
+        ('s1', null),
+        ('s2', null),
+        (null, 'org.example.D1'),
+      ]);
+    });
+
+    test('fills free slots with other results', () {
+      final results = suggestSearchResults(
+        [],
+        [
+          for (final id in ['D1', 'D2', 'D3', 'D4']) _deb('org.example.$id'),
+        ],
+      );
+
+      expect(_pairs(results), [
+        (null, 'org.example.D1'),
+        (null, 'org.example.D2'),
+        (null, 'org.example.D3'),
+      ]);
+    });
+  });
+
   group('sortSearchResults', () {
     final results = <UnifiedSearchResult>[
       (snap: createSnap(name: 'b', title: 'b', downloadSize: 20), deb: null),

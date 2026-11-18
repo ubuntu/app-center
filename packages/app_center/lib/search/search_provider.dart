@@ -159,6 +159,26 @@ List<List<UnifiedSearchResult>> pageSearchResults(
   return pages;
 }
 
+/// Picks up to 3 suggestions from the first page of results: an app in both
+/// formats, a snap and a deb, or without such an app 2 snaps and a deb. Slots
+/// left free go to the other results.
+List<UnifiedSearchResult> suggestSearchResults(
+  List<Snap> snaps,
+  List<AppstreamComponent> debs,
+) {
+  final candidates = pageSearchResults(snaps, debs).firstOrNull ?? const [];
+  final both = candidates.where((r) => r.snap != null && r.deb != null);
+  final snapOnly = candidates.where((r) => r.deb == null);
+  final debOnly = candidates.where((r) => r.snap == null);
+  final picks = both.isNotEmpty
+      ? [both.first, ...snapOnly.take(1), ...debOnly.take(1)]
+      : [...snapOnly.take(2), ...debOnly.take(1)];
+  return [
+    ...picks,
+    ...candidates.where((r) => !picks.contains(r)),
+  ].take(3).toList();
+}
+
 /// Sorts [results] by [order], keeping their order for ties and for orders
 /// that don't apply. Debs have no download size, so they sort last by size.
 List<UnifiedSearchResult> sortSearchResults(

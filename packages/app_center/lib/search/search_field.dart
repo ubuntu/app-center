@@ -96,10 +96,10 @@ class _SearchFieldState extends ConsumerState<SearchField> {
         if (widget.unifiedResults) {
           return <AutoCompleteOption>[
             AutoCompleteSearchOption(query.text),
-            ...mergeSearchResults(
+            ...suggestSearchResults(
               options.snaps.toList(),
               options.debs.toList(),
-            ).take(3).map(AutoCompleteAppOption.new),
+            ).map(AutoCompleteAppOption.new),
           ];
         }
         final snapOptions = options.snaps
