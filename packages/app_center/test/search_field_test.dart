@@ -173,7 +173,9 @@ void main() {
       await tester.pumpAndSettle();
     }
 
-    testWidgets('lists 3 apps, snaps first', (tester) async {
+    testWidgets('lists an app in both formats, a snap and a deb', (
+      tester,
+    ) async {
       await pumpUnifiedField(tester);
 
       final tops = [
