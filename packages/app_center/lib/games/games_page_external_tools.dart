@@ -17,7 +17,7 @@ class ExternalTools extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: ResponsiveLayout.of(context).padding,
+            padding: ResponsiveLayout.paddingOf(context),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
