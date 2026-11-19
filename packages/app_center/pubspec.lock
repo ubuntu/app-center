@@ -248,6 +248,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
+  cupertino_ui:
+    dependency: transitive
+    description:
+      name: cupertino_ui
+      sha256: c3eaf7f5bdfee36deb0b14a4cbf7602f1b6b8d8b8576b81f38fc08c25881c94c
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.7"
   dart_style:
     dependency: transitive
     description:
@@ -763,6 +771,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.13.0"
+  material_ui:
+    dependency: "direct main"
+    description:
+      name: material_ui
+      sha256: a6b19012df437a356cbc01f8ea22a105e07194c47c9a6009da0032a0ce35c4ab
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.11.1"
   matrix4_transform:
     dependency: transitive
     description:
@@ -1308,10 +1324,10 @@ packages:
     dependency: "direct main"
     description:
       name: ubuntu_localizations
-      sha256: ce27a25aed582a674adae27db4c8329ffac7b8a9a00eb0e10572e43bd40910c3
+      sha256: "23d0ff93138989570777976f2025f5871f0604a5705d4f489041c5f7106d79a0"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.2+5"
+    version: "0.6.0"
   ubuntu_logger:
     dependency: "direct main"
     description:
@@ -1332,18 +1348,18 @@ packages:
     dependency: "direct main"
     description:
       name: ubuntu_test
-      sha256: "29aa4a0a64f4da80981206b420ddb8706950f85ef45a30ce8337ee717eecb79a"
+      sha256: "9077c48077eed39757cb1d582efd5dc04207dc9ec22fdf284443ac1574be6f0b"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.3+2"
+    version: "0.3.0"
   ubuntu_widgets:
     dependency: "direct main"
     description:
       name: ubuntu_widgets
-      sha256: ec247d89dc4f14de357662b24b32d17c22ef95c14cd827fbf65d988347a9fae1
+      sha256: "57e74055fe30323959cca2efc0e8adfdbfe4a00abcc71456f3caffc3b8ce7ef1"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.2"
+    version: "0.9.0"
   url_launcher:
     dependency: "direct main"
     description:
@@ -1548,18 +1564,18 @@ packages:
     dependency: "direct main"
     description:
       name: yaru
-      sha256: b4f3167b9f138ffd20998bfa36d003dcf5e7979cf2652e4a01835dec66361e33
+      sha256: "22b000cd45d8fe6bc5d2e76df83f7aa81d903ac09f463360d9a2f72f2226e05e"
       url: "https://pub.dev"
     source: hosted
-    version: "11.0.0"
+    version: "12.0.0"
   yaru_test:
     dependency: "direct main"
     description:
       name: yaru_test
-      sha256: "1dcf6b185ad9facc27a3d19c76f7e0520de4edb216f5391a9c8f655b293731b2"
+      sha256: a2a89bb2ed0be61b04ecb82aa5fab9a41c799c83ed292418d8a68175e73afcd8
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.5"
+    version: "1.0.0"
   yaru_window:
     dependency: "direct main"
     description:

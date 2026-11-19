@@ -23,13 +23,13 @@ import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:file/memory.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:flutter_riverpod/misc.dart' show Override, ProviderListenable;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gtk/gtk.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
@@ -37,6 +37,10 @@ import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'test_utils.mocks.dart';
+
+Finder findMaterialTooltip(String message) => find.byWidgetPredicate(
+  (widget) => widget is Tooltip && widget.message == message,
+);
 
 extension WidgetTesterX on WidgetTester {
   BuildContext get context => element(find.byType(Scaffold).first);

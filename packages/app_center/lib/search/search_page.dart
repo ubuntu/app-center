@@ -8,8 +8,8 @@ import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru/yaru.dart';
 

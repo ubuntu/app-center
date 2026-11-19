@@ -1,6 +1,6 @@
 import 'package:app_center/l10n.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:yaru/theme.dart';
 
 extension RatingsBandL10n on RatingsBand {

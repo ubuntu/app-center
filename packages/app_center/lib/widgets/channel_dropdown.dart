@@ -1,7 +1,7 @@
 import 'package:app_center/apps/app_details_labels.dart';
 import 'package:app_center/l10n.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 
 const kChannelDropdownWidth = 350.0;
