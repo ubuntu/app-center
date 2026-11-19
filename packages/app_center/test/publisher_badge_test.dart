@@ -26,7 +26,7 @@ void main() {
       final message = validation.localizeTooltip(tester.l10n)!;
 
       expect(find.byIcon(icon), findsOneWidget);
-      expect(find.byTooltip(message), findsOneWidget);
+      expect(findMaterialTooltip(message), findsOneWidget);
       expect(find.bySemanticsLabel(message), findsOneWidget);
       semantics.dispose();
     });

@@ -71,7 +71,7 @@ void main() {
     final l10n = tester.l10n;
 
     expect(
-      find.byTooltip(l10n.appDetailsVerifiedPublisherTooltip),
+      findMaterialTooltip(l10n.appDetailsVerifiedPublisherTooltip),
       findsOneWidget,
     );
     expect(
@@ -102,7 +102,7 @@ void main() {
     final l10n = tester.l10n;
 
     expect(
-      find.byTooltip(l10n.appDetailsStarredPublisherTooltip),
+      findMaterialTooltip(l10n.appDetailsStarredPublisherTooltip),
       findsOneWidget,
     );
     expect(

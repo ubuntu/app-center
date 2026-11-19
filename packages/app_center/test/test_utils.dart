@@ -38,6 +38,10 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'test_utils.mocks.dart';
 
+Finder findMaterialTooltip(String message) => find.byWidgetPredicate(
+  (widget) => widget is Tooltip && widget.message == message,
+);
+
 extension WidgetTesterX on WidgetTester {
   BuildContext get context => element(find.byType(Scaffold).first);
   AppLocalizations get l10n => AppLocalizations.of(context);

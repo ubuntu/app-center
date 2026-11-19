@@ -97,7 +97,7 @@ void main() {
     );
 
     expect(
-      find.byTooltip(tester.l10n.appDetailsVerifiedPublisherTooltip),
+      findMaterialTooltip(tester.l10n.appDetailsVerifiedPublisherTooltip),
       findsOneWidget,
     );
   });
