@@ -381,16 +381,17 @@ void main() {
       return routes;
     }
 
+    List<String> cardTitles(WidgetTester tester) => [
+      for (final card
+          in tester.widget<AppCardGrid>(find.byType(AppCardGrid)).appCards)
+        card.title.title,
+    ];
+
     testWidgets('shows more results on request', (tester) async {
       await pumpUnifiedSearch(tester, query: 'many');
-      List<String> titles() => tester
-          .widget<AppCardGrid>(find.byType(AppCardGrid))
-          .appCards
-          .map((card) => card.title.title)
-          .toList();
       final showMore = find.text(tester.l10n.searchPageShowMoreLabel);
 
-      expect(titles(), ['One', 'Two', 'Three']);
+      expect(cardTitles(tester), ['One', 'Two', 'Three']);
 
       await tester.scrollUntilVisible(
         showMore,
@@ -403,20 +404,19 @@ void main() {
       await tester.tap(showMore);
       await tester.pumpAndSettle();
 
-      expect(titles(), ['One', 'Two', 'Three', 'Four']);
+      expect(cardTitles(tester), ['One', 'Two', 'Three', 'Four']);
       expect(showMore, findsNothing);
     });
 
     testWidgets('lists snaps, then debs without a snap', (tester) async {
       await pumpUnifiedSearch(tester);
 
-      final resultCards = tester
-          .widget<AppCardGrid>(find.byType(AppCardGrid))
-          .appCards;
-      expect(
-        resultCards.map((card) => card.title.title).toList(),
-        equals(['Editor Snap', 'Writer Snap', 'Notes Deb', 'IDE Deb']),
-      );
+      expect(cardTitles(tester), [
+        'Editor Snap',
+        'Writer Snap',
+        'Notes Deb',
+        'IDE Deb',
+      ]);
       Finder icon(String title, IconData icon) => find.descendant(
         of: find.widgetWithText(AppCard, title),
         matching: find.byIcon(icon),
@@ -483,36 +483,30 @@ void main() {
       await tester.tap(find.text(tester.l10n.snapSortOrderAlphabeticalAsc));
       await tester.pumpAndSettle();
 
-      final resultCards = tester
-          .widget<AppCardGrid>(find.byType(AppCardGrid))
-          .appCards;
-      expect(
-        resultCards.map((card) => card.title.title).toList(),
-        equals(['Editor Snap', 'IDE Deb', 'Notes Deb', 'Writer Snap']),
-      );
+      expect(cardTitles(tester), [
+        'Editor Snap',
+        'IDE Deb',
+        'Notes Deb',
+        'Writer Snap',
+      ]);
     });
 
     testWidgets('filters by package format', (tester) async {
       await pumpUnifiedSearch(tester);
-      List<String> titles() => tester
-          .widget<AppCardGrid>(find.byType(AppCardGrid))
-          .appCards
-          .map((card) => card.title.title)
-          .toList();
 
       await tester.tap(find.text(tester.l10n.packageFormatAllLabel));
       await tester.pumpAndSettle();
       await tester.tap(find.text(tester.l10n.packageFormatSnapLabel).last);
       await tester.pumpAndSettle();
 
-      expect(titles(), ['Editor Snap', 'Writer Snap']);
+      expect(cardTitles(tester), ['Editor Snap', 'Writer Snap']);
 
       await tester.tap(find.text(tester.l10n.packageFormatSnapLabel));
       await tester.pumpAndSettle();
       await tester.tap(find.text(tester.l10n.packageFormatDebLabel).last);
       await tester.pumpAndSettle();
 
-      expect(titles(), ['Notes Deb', 'Editor Deb', 'IDE Deb']);
+      expect(cardTitles(tester), ['Notes Deb', 'Editor Deb', 'IDE Deb']);
     });
 
     testWidgets('filters by category', (tester) async {
@@ -523,13 +517,7 @@ void main() {
       await tester.tap(find.text(tester.l10n.snapCategoryDevelopment));
       await tester.pumpAndSettle();
 
-      final resultCards = tester
-          .widget<AppCardGrid>(find.byType(AppCardGrid))
-          .appCards;
-      expect(
-        resultCards.map((card) => card.title.title).toList(),
-        equals(['Editor Snap', 'IDE Deb']),
-      );
+      expect(cardTitles(tester), ['Editor Snap', 'IDE Deb']);
     });
 
     testWidgets('opens a snap result with its deb', (tester) async {
