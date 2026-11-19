@@ -1,9 +1,13 @@
+import 'dart:async';
+
+import 'package:app_center/apps/app_details_entry.dart';
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/search/search_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
 
 import 'test_utils.dart';
@@ -149,8 +153,14 @@ void main() {
       List<Snap> snaps,
       List<AppstreamComponent> debs, {
       bool Function(AppstreamComponent)? showDeb,
+      PackageFormat? format,
     }) => [
-      for (final page in pageSearchResults(snaps, debs, showDeb: showDeb))
+      for (final page in pageSearchResults(
+        snaps,
+        debs,
+        showDeb: showDeb,
+        format: format,
+      ))
         _pairs(page),
     ];
 
@@ -215,6 +225,93 @@ void main() {
           ],
         ),
         hasLength(1),
+      );
+    });
+
+    group('limited to one format', () {
+      final snaps = [
+        createSnap(name: 's1', commonIds: ['org.example.D2']),
+        for (var i = 2; i <= 7; i++) createSnap(name: 's$i'),
+      ];
+      final debs = [
+        for (var i = 1; i <= 7; i++) _deb('org.example.D$i'),
+      ];
+
+      test('pages through 6 snaps at first', () {
+        expect(pages(snaps, debs, format: PackageFormat.snap), [
+          [
+            ('s1', 'org.example.D2'),
+            for (var i = 2; i <= 6; i++) ('s$i', null),
+          ],
+          [('s7', null)],
+        ]);
+      });
+
+      test('pages through 6 debs at first, keeping their snaps', () {
+        expect(pages(snaps, debs, format: PackageFormat.deb), [
+          [
+            (null, 'org.example.D1'),
+            ('s1', 'org.example.D2'),
+            for (var i = 3; i <= 6; i++) (null, 'org.example.D$i'),
+          ],
+          [(null, 'org.example.D7')],
+        ]);
+      });
+    });
+  });
+
+  group('shownSearchResults', () {
+    final pages = <List<UnifiedSearchResult>>[
+      [
+        (snap: createSnap(name: 'b', title: 'b'), deb: null),
+        (snap: createSnap(name: 'c', title: 'c'), deb: null),
+      ],
+      [(snap: null, deb: _deb('a'))],
+    ];
+    List<String?> shown(int shownPages, SnapSortOrder? order) => [
+      for (final (snap, deb) in _pairs(
+        shownSearchResults(pages, shownPages, order),
+      ))
+        snap ?? deb,
+    ];
+
+    test('keeps the revealed pages for relevance', () {
+      expect(shown(1, null), ['b', 'c']);
+      expect(shown(2, null), ['b', 'c', 'a']);
+    });
+
+    test('sorts all results before taking the revealed count', () {
+      expect(shown(1, SnapSortOrder.alphabeticalAsc), ['a', 'b']);
+      expect(shown(2, SnapSortOrder.alphabeticalAsc), ['a', 'b', 'c']);
+    });
+  });
+
+  group('searchResultEntry', () {
+    List<String> sourcesOf(AppDetailsEntry entry) => [
+      for (final key in entry.provisionalIdentity.sourceKeys) key.value,
+    ];
+
+    test('carries the matched pair', () {
+      final entry = searchResultEntry((
+        snap: createSnap(name: 'shotwell', type: 'app'),
+        deb: _deb('org.gnome.Shotwell.desktop', package: 'shotwell'),
+      ));
+
+      expect(entry, isA<IdentityEntry>());
+      expect(sourcesOf(entry), [
+        'snap:shotwell',
+        'deb:org.gnome.Shotwell.desktop',
+      ]);
+    });
+
+    test('names a single source otherwise', () {
+      expect(
+        searchResultEntry((snap: createSnap(name: 'vlc'), deb: null)),
+        const AppDetailsEntry.snap('vlc'),
+      );
+      expect(
+        searchResultEntry((snap: null, deb: _deb('org.videolan.vlc'))),
+        const AppDetailsEntry.debComponent('org.videolan.vlc'),
       );
     });
   });
@@ -305,7 +402,7 @@ void main() {
       List<Snap>? snaps,
       SnapCategoryEnum? category,
     }) async {
-      final parameters = (query: query, category: category);
+      final parameters = (query: query, category: category, format: null);
       final container = createContainer(
         overrides: [
           snapSearchProvider.overrideWith(
@@ -313,7 +410,7 @@ void main() {
                 ? Stream.error(Exception('offline'))
                 : Stream.value(snaps),
           ),
-          appstreamSearchProvider.overrideWith((ref, _) => Stream.value(debs)),
+          appstreamResultsProvider.overrideWith((ref, _) async => debs),
         ],
       );
       container.listen(unifiedSearchProvider(parameters), (_, _) {});
@@ -324,9 +421,44 @@ void main() {
             ).future,
           )
           .catchError((_) => <Snap>[]);
-      await container.read(appstreamSearchProvider(query).future);
+      await container.read(appstreamResultsProvider(query).future);
       return container.read(unifiedSearchProvider(parameters));
     }
+
+    test('waits for AppStream to load', () async {
+      final loaded = Completer<void>();
+      final appstream = createMockAppstreamService(initialized: false);
+      when(appstream.init()).thenAnswer((_) => loaded.future);
+      when(
+        appstream.search(query),
+      ).thenAnswer((_) async => [_deb('org.example.Notes')]);
+      const parameters = (query: query, category: null, format: null);
+      final container = createContainer(
+        overrides: [
+          snapSearchProvider.overrideWith((ref, _) => Stream.value([])),
+        ],
+      );
+      container.listen(unifiedSearchProvider(parameters), (_, _) {});
+      await container.read(
+        snapSearchProvider(const SnapSearchParameters(query: query)).future,
+      );
+      await Future<void>.delayed(Duration.zero);
+
+      expect(
+        container.read(unifiedSearchProvider(parameters)).isLoading,
+        isTrue,
+      );
+
+      loaded.complete();
+      await container.read(appstreamResultsProvider(query).future);
+
+      expect(
+        _pairs(
+          container.read(unifiedSearchProvider(parameters)).requireValue.single,
+        ),
+        [(null, 'org.example.Notes')],
+      );
+    });
 
     test('shows the other results when one source fails', () async {
       final results = await search(debs: [_deb('org.example.Notes')]);

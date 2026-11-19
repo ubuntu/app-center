@@ -240,6 +240,7 @@ class _StoreAppHome extends ConsumerWidget {
           onSearch: (query) => navigator.pushAndRemoveSearch(query: query),
           onSnapSelected: (name) => navigator.pushSnap(name: name),
           onDebSelected: (id) => navigator.pushDeb(id: id),
+          onResultSelected: (result) => navigator.pushSearchResult(result),
           searchFocus: searchFocus,
           unifiedResults: unifiedDetailsEnabled,
         ),
@@ -295,9 +296,12 @@ class _StoreAppHome extends ConsumerWidget {
               appBar: searchField,
               body: unifiedDetailsEnabled
                   ? UnifiedAppPage(
-                      entry: AppDetailsEntry.snap(
-                        StoreRoutes.snapOf(settings)!,
-                      ),
+                      entry: switch (settings.arguments) {
+                        final AppDetailsEntry entry => entry,
+                        _ => AppDetailsEntry.snap(
+                          StoreRoutes.snapOf(settings)!,
+                        ),
+                      },
                     )
                   : SnapPage(snapName: StoreRoutes.snapOf(settings)!),
             ),

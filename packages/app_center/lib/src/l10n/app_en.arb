@@ -357,6 +357,7 @@
     "appDetailsPackageFormatsLearnMore": "Learn more about package formats",
     "packageFormatDebLabel": "Debian packages",
     "packageFormatSnapLabel": "Snap packages",
+    "packageFormatAllLabel": "All packages",
     "snapActionCancelLabel": "Cancel",
     "snapActionInstallLabel": "Install",
     "snapActionInstalledLabel": "Installed",

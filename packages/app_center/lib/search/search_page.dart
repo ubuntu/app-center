@@ -183,9 +183,10 @@ class _UnifiedHeader extends StatelessWidget {
           children: [
             Text(l10n.searchPageFilterByLabel),
             const SizedBox(width: 8),
-            const _CategoryMenu(expanded: false),
+            const _FormatMenu(),
           ],
         ),
+        const _CategoryMenu(expanded: false),
       ],
     );
     // Filters sit beside the title, or wrap below it when there is no room.
@@ -223,6 +224,25 @@ class _SortMenu extends ConsumerWidget {
       onSelected: (value) =>
           ref.read(snapSortOrderProvider.notifier).state = value,
       child: Text(sortOrder?.localize(l10n) ?? l10n.snapSortOrderRelevance),
+    );
+  }
+}
+
+class _FormatMenu extends ConsumerWidget {
+  const _FormatMenu();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    String label(PackageFormat? format) =>
+        format?.localize(l10n) ?? l10n.packageFormatAllLabel;
+    return MenuButtonBuilder<PackageFormat?>(
+      expanded: false,
+      values: const [null, PackageFormat.snap, PackageFormat.deb],
+      itemBuilder: (context, format, child) => Text(label(format)),
+      onSelected: (value) =>
+          ref.read(unifiedPackageFormatProvider.notifier).state = value,
+      child: Text(label(ref.watch(unifiedPackageFormatProvider))),
     );
   }
 }
@@ -414,28 +434,37 @@ class _UnifiedSearchResultsState extends ConsumerState<_UnifiedSearchResults> {
     final l10n = AppLocalizations.of(context);
     final query = widget.query;
     final category = ref.watch(snapCategoryProvider(null));
+    final format = ref.watch(unifiedPackageFormatProvider);
     final sortOrder = ref.watch(snapSortOrderProvider);
     final results = ref.watch(
-      unifiedSearchProvider((query: query, category: category)),
+      unifiedSearchProvider((
+        query: query,
+        category: category,
+        format: format,
+      )),
     );
-    ref.listen(snapCategoryProvider(null), (_, _) => _showFirstPage());
+    ref
+      ..listen(snapCategoryProvider(null), (_, _) => _showFirstPage())
+      ..listen(unifiedPackageFormatProvider, (_, _) => _showFirstPage());
     return results.when(
       data: (pages) => pages.isNotEmpty
           ? ResponsiveLayoutScrollView(
               slivers: [
                 AppCardGrid(
                   appCards: [
-                    for (final result in sortSearchResults(
-                      pages.take(_shownPages).flattened,
+                    for (final result in shownSearchResults(
+                      pages,
+                      _shownPages,
                       sortOrder,
                     ))
-                      if (result.snap case final snap?)
+                      if (result.snap case final snap?
+                          when format != PackageFormat.deb)
                         AppCard.fromSnap(
                           snap: snap,
                           badge: SearchResultFormatIcons(result),
-                          onTap: () => StoreNavigator.pushSearchSnap(
+                          onTap: () => StoreNavigator.pushSearchResult(
                             context,
-                            name: snap.name,
+                            result,
                             query: query,
                           ),
                         )
@@ -443,9 +472,10 @@ class _UnifiedSearchResultsState extends ConsumerState<_UnifiedSearchResults> {
                         AppCard.fromDeb(
                           component: result.deb!,
                           badge: SearchResultFormatIcons(result),
-                          onTap: () => StoreNavigator.pushDeb(
+                          onTap: () => StoreNavigator.pushSearchResult(
                             context,
-                            id: result.deb!.id,
+                            result,
+                            query: query,
                           ),
                         ),
                   ],
@@ -496,7 +526,7 @@ class _UnifiedSearchResultsState extends ConsumerState<_UnifiedSearchResults> {
                 SnapSearchParameters(query: query, category: category),
               ),
             )
-            ..invalidate(appstreamSearchProvider(query));
+            ..invalidate(appstreamResultsProvider(query));
         },
       ),
       loading: () => const Center(child: YaruCircularProgressIndicator()),

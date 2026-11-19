@@ -1,15 +1,19 @@
 import 'dart:async';
 
+import 'package:app_center/apps/app_details_entry.dart';
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/deb/deb_details_backend.dart'
     show appCategoriesFromFreedesktop;
 import 'package:app_center/mapping/deb_package_adapter.dart';
 import 'package:app_center/mapping/identifier_normalization.dart';
 import 'package:app_center/mapping/package_mapping_resolver.dart';
+import 'package:app_center/mapping/package_source_descriptor.dart'
+    show PackageSourceDescriptor;
 import 'package:app_center/mapping/snap_package_adapter.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:appstream/appstream.dart';
-import 'package:collection/collection.dart' show mergeSort;
+import 'package:collection/collection.dart'
+    show IterableIterableExtension, mergeSort;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:snapd/snapd.dart';
@@ -20,6 +24,11 @@ final queryProvider = StateProvider<String?>((_) => null);
 
 final packageFormatProvider = StateProvider.autoDispose<PackageFormat>(
   (_) => PackageFormat.snap,
+);
+
+/// Package format the unified results are limited to, or null for all.
+final unifiedPackageFormatProvider = StateProvider.autoDispose<PackageFormat?>(
+  (_) => null,
 );
 
 typedef AutoCompleteOptions = ({
@@ -55,6 +64,30 @@ final autoCompleteProvider = FutureProvider<AutoCompleteOptions>((ref) async {
 /// One search result; it is shown as the snap when it has both formats.
 typedef UnifiedSearchResult = ({Snap? snap, AppstreamComponent? deb});
 
+// Store search results list no apps, so an app-type snap counts as a desktop
+// app for package-name matching.
+PackageSourceDescriptor _searchSnapSource(Snap snap) {
+  final source = snapSourceDescriptor(snap);
+  return snap.type == 'app'
+      ? source.copyWith(isDesktopApplication: true)
+      : source;
+}
+
+/// The details entry of [result], carrying a matched pair as is, since
+/// looking the snap up again may pick another of its debs.
+AppDetailsEntry searchResultEntry(UnifiedSearchResult result) {
+  final (:snap, :deb) = result;
+  if (snap == null) return AppDetailsEntry.debComponent(deb!.id);
+  if (deb == null) return AppDetailsEntry.snap(snap.name);
+  final identity = const PackageMappingResolver().resolve(
+    _searchSnapSource(snap),
+    [debSourceDescriptor(deb)],
+  );
+  return identity == null
+      ? AppDetailsEntry.snap(snap.name)
+      : AppDetailsEntry.identity(identity);
+}
+
 /// Pairs each snap with its matching deb, keeping the snap order, followed by
 /// the debs without a match in their own order.
 List<UnifiedSearchResult> mergeSearchResults(
@@ -62,7 +95,7 @@ List<UnifiedSearchResult> mergeSearchResults(
   List<AppstreamComponent> debs,
 ) {
   const resolver = PackageMappingResolver();
-  final snapSources = snaps.map(snapSourceDescriptor).toList();
+  final snapSources = snaps.map(_searchSnapSource).toList();
   final debSources = debs.map(debSourceDescriptor).toList();
 
   // Only pairs sharing an identifier can match, so only those are tested.
@@ -122,6 +155,7 @@ const _pageSize = 9;
 
 /// Splits the merged results into pages: the first holds the apps among the
 /// top 3 snaps and debs, each next one the apps among the next 9 of each.
+/// Limited to one [format], pages take twice as many of it instead.
 ///
 /// Snaps and debs are matched across the full lists, so a page never repeats
 /// or changes an app from an earlier page. Debs failing [showDeb] still pair
@@ -130,6 +164,7 @@ List<List<UnifiedSearchResult>> pageSearchResults(
   List<Snap> snaps,
   List<AppstreamComponent> debs, {
   bool Function(AppstreamComponent deb)? showDeb,
+  PackageFormat? format,
 }) {
   final merged = mergeSearchResults(snaps, debs);
   final snapEntries = Map<Snap, int>.identity();
@@ -138,19 +173,26 @@ List<List<UnifiedSearchResult>> pageSearchResults(
     if (result.snap case final snap?) snapEntries[snap] = index;
     if (result.deb case final deb?) debEntries[deb] = index;
   }
-  final shownDebs = showDeb == null ? debs : debs.where(showDeb).toList();
+  final pagedSnaps = format == PackageFormat.deb ? const <Snap>[] : snaps;
+  final pagedDebs = format == PackageFormat.snap
+      ? const <AppstreamComponent>[]
+      : showDeb == null
+      ? debs
+      : debs.where(showDeb).toList();
+  final scale = format == null ? 1 : 2;
 
   final shown = <int>{};
   final pages = <List<UnifiedSearchResult>>[];
   for (
-    var start = 0, size = _firstPageSize;
-    start < snaps.length || start < shownDebs.length;
-    start += size, size = _pageSize
+    var start = 0, size = _firstPageSize * scale;
+    start < pagedSnaps.length || start < pagedDebs.length;
+    start += size, size = _pageSize * scale
   ) {
     final page = [
       for (final index in [
-        for (final snap in snaps.skip(start).take(size)) snapEntries[snap]!,
-        for (final deb in shownDebs.skip(start).take(size)) debEntries[deb]!,
+        for (final snap in pagedSnaps.skip(start).take(size))
+          snapEntries[snap]!,
+        for (final deb in pagedDebs.skip(start).take(size)) debEntries[deb]!,
       ])
         if (shown.add(index)) merged[index],
     ];
@@ -207,21 +249,37 @@ List<UnifiedSearchResult> sortSearchResults(
   return sorted;
 }
 
+/// The results shown after revealing [shownPages] of [pages]. Relevance keeps
+/// the pages as they are; another [order] sorts all results first, then shows
+/// as many as those pages hold.
+List<UnifiedSearchResult> shownSearchResults(
+  List<List<UnifiedSearchResult>> pages,
+  int shownPages,
+  SnapSortOrder? order,
+) {
+  final revealed = pages.take(shownPages).flattened.toList();
+  if (order == null) return revealed;
+  return sortSearchResults(
+    pages.flattened,
+    order,
+  ).take(revealed.length).toList();
+}
+
 /// Snap and deb search results for a query, merged and split into pages.
 ///
 /// A failing source is left out, unless there is nothing else to show.
 final unifiedSearchProvider = Provider.autoDispose
     .family<
       AsyncValue<List<List<UnifiedSearchResult>>>,
-      ({String query, SnapCategoryEnum? category})
+      ({String query, SnapCategoryEnum? category, PackageFormat? format})
     >((ref, parameters) {
-      final (:query, :category) = parameters;
+      final (:query, :category, :format) = parameters;
       final snaps = ref.watch(
         snapSearchProvider(
           SnapSearchParameters(query: query, category: category),
         ),
       );
-      final debs = ref.watch(appstreamSearchProvider(query));
+      final debs = ref.watch(appstreamResultsProvider(query));
       final sources = <AsyncValue<Object?>>[snaps, debs];
 
       if (sources.any((source) => !source.hasValue && !source.hasError)) {
@@ -235,6 +293,7 @@ final unifiedSearchProvider = Provider.autoDispose
         showDeb: category == null
             ? null
             : (deb) => appCategoriesFromFreedesktop(deb).contains(category),
+        format: format,
       );
       final failed = sources.where((source) => source.hasError).firstOrNull;
       if (pages.isEmpty && failed != null) {
