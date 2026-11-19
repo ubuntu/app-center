@@ -6,9 +6,9 @@ import 'package:app_center_ratings_client/app_center_ratings_client.dart'
     as ratings;
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:glib/glib.dart';
 import 'package:jwt_decode/jwt_decode.dart';
+import 'package:material_ui/material_ui.dart';
 
 class RatingsService {
   RatingsService(this.client, {@visibleForTesting String? id})

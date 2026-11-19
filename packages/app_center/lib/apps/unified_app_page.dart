@@ -20,9 +20,9 @@ import 'package:app_center/widgets/shimmer_placeholder.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:yaru/yaru.dart';
 

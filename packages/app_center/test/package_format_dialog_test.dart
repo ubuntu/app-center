@@ -5,9 +5,9 @@ import 'package:app_center/apps/package_details_backend.dart';
 import 'package:app_center/apps/package_format_dialog.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 

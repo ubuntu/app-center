@@ -6,7 +6,7 @@ import 'package:collection/collection.dart';
 import 'package:dbus/dbus.dart';
 import 'package:file/file.dart';
 import 'package:file/local.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:path/path.dart' as p;
 import 'package:ubuntu_service/ubuntu_service.dart';

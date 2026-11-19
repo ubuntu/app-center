@@ -13,10 +13,10 @@ import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/snapd/snapd_cache.dart';
 import 'package:app_center/store/store_app.dart';
 import 'package:app_center/widgets/widgets.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru/yaru.dart';
 

@@ -2,8 +2,8 @@ import 'package:app_center/apps/app_details_state.dart';
 import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:yaru/yaru.dart';
 
 const kMissingValue = '—';

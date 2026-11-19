@@ -1,6 +1,6 @@
 import 'package:app_center/extensions/string_extensions.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:material_ui/material_ui.dart';
 
 class MarkdownDescription extends StatelessWidget {
   const MarkdownDescription({required this.data, super.key});

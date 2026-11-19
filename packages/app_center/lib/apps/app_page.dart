@@ -1,6 +1,6 @@
 import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/layout.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 const _infoBarPadding = 32.0;
 
