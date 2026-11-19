@@ -10,4 +10,5 @@ Terminal=false
 Categories=System;Utility;PackageManager;SoftwareManagement;Network;Settings;
 Keywords=Ubuntu;Applications;Apps;Store;Software;Snaps;
 Name=App Center Updates
+Name[sv]=Uppdateringar för Appcentral
 NoDisplay=true
