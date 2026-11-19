@@ -49,8 +49,9 @@ class SearchField extends ConsumerStatefulWidget {
     required this.onDebSelected,
     required this.searchFocus,
     this.unifiedResults = false,
+    this.onResultSelected,
     super.key,
-  });
+  }) : assert(!unifiedResults || onResultSelected != null);
 
   final ValueChanged<String> onSearch;
   final ValueChanged<String> onSnapSelected;
@@ -59,6 +60,9 @@ class SearchField extends ConsumerStatefulWidget {
 
   /// Whether snaps and debs are suggested in one list.
   final bool unifiedResults;
+
+  /// Opens a suggestion from the merged list.
+  final ValueChanged<UnifiedSearchResult>? onResultSelected;
 
   @override
   ConsumerState<SearchField> createState() => _SearchFieldState();
@@ -195,10 +199,9 @@ class _SearchFieldState extends ConsumerState<SearchField> {
           snap.name,
         ),
         AutoCompleteDebOption(deb: final deb) => widget.onDebSelected(deb.id),
-        AutoCompleteAppOption(result: final result) =>
-          result.snap != null
-              ? widget.onSnapSelected(result.snap!.name)
-              : widget.onDebSelected(result.deb!.id),
+        AutoCompleteAppOption(result: final result) => widget.onResultSelected!(
+          result,
+        ),
         AutoCompleteSearchOption(query: final query) => widget.onSearch(query),
       },
       fieldViewBuilder: (context, controller, node, onFieldSubmitted) {

@@ -127,7 +127,6 @@ PackageSourceDescriptor snapSourceDescriptor(Snap snap) {
     desktopId: app?.desktopFile,
     packageName: snap.name,
     aliases: aliases,
-    // Store search results don't list apps, only the snap type.
-    isDesktopApplication: snap.apps.isNotEmpty || snap.type == 'app',
+    isDesktopApplication: snap.apps.isNotEmpty,
   );
 }

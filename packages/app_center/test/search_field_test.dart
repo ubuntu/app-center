@@ -147,8 +147,7 @@ void main() {
 
     Future<void> pumpUnifiedField(
       WidgetTester tester, {
-      ValueChanged<String>? onSnapSelected,
-      ValueChanged<String>? onDebSelected,
+      ValueChanged<UnifiedSearchResult>? onResultSelected,
     }) async {
       await tester.pumpApp(
         (_) => ProviderScope(
@@ -162,8 +161,9 @@ void main() {
           ],
           child: SearchField(
             onSearch: (_) {},
-            onSnapSelected: onSnapSelected ?? (_) {},
-            onDebSelected: onDebSelected ?? (_) {},
+            onSnapSelected: (_) {},
+            onDebSelected: (_) {},
+            onResultSelected: onResultSelected ?? (_) {},
             searchFocus: FocusNode(),
             unifiedResults: true,
           ),
@@ -194,19 +194,14 @@ void main() {
     });
 
     testWidgets('opens the selected app', (tester) async {
-      final snaps = <String>[];
-      final debs = <String>[];
-      await pumpUnifiedField(
-        tester,
-        onSnapSelected: snaps.add,
-        onDebSelected: debs.add,
-      );
+      final selected = <UnifiedSearchResult>[];
+      await pumpUnifiedField(tester, onResultSelected: selected.add);
 
-      await tester.tap(find.text('Notes Deb'));
+      await tester.tap(find.text('Editor Snap'));
       await tester.pumpAndSettle();
 
-      expect(debs, ['org.example.Notes']);
-      expect(snaps, isEmpty);
+      expect(selected.single.snap?.name, 'editor');
+      expect(selected.single.deb?.id, 'org.example.Editor');
     });
   });
 

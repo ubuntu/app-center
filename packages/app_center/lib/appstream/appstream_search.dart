@@ -17,3 +17,12 @@ final appstreamSearchProvider =
       }
       yield await appstream.search(query);
     });
+
+/// Like [appstreamSearchProvider], but stays loading until the AppStream cache
+/// is ready instead of reporting no results.
+final appstreamResultsProvider = FutureProvider.autoDispose
+    .family<List<AppstreamComponent>, String>((ref, query) async {
+      final appstream = getService<AppstreamService>();
+      await appstream.init();
+      return appstream.search(query);
+    });
