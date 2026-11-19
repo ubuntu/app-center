@@ -373,14 +373,10 @@ void main() {
       (snap: null, deb: _deb('a')),
       (snap: createSnap(name: 'c', title: 'c', downloadSize: 10), deb: null),
     ];
-    List<String?> sorted(SnapSortOrder? order) => [
+    List<String?> sorted(SnapSortOrder order) => [
       for (final (snap, deb) in _pairs(sortSearchResults(results, order)))
         snap ?? deb,
     ];
-
-    test('keeps relevance order', () {
-      expect(sorted(null), ['b', 'a', 'c']);
-    });
 
     test('sorts snaps and debs together by name', () {
       expect(sorted(SnapSortOrder.alphabeticalAsc), ['a', 'b', 'c']);

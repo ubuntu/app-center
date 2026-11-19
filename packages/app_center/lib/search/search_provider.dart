@@ -225,7 +225,7 @@ List<UnifiedSearchResult> suggestSearchResults(
 /// that don't apply. Debs have no download size, so they sort last by size.
 List<UnifiedSearchResult> sortSearchResults(
   Iterable<UnifiedSearchResult> results,
-  SnapSortOrder? order,
+  SnapSortOrder order,
 ) {
   String title(UnifiedSearchResult result) =>
       (result.snap?.titleOrName ?? result.deb!.getLocalizedName())
