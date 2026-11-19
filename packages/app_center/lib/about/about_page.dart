@@ -84,8 +84,10 @@ class _AboutFooter extends StatelessWidget {
     // TODO: terms and conditions, privacy policy
     return Align(
       alignment: AlignmentDirectional.bottomStart,
-      child: MarkdownBody(
-        data: '©️ ${DateTime.now().year} Canonical Ltd.',
+      child: LegacyMaterialBridge(
+        child: MarkdownBody(
+          data: '©️ ${DateTime.now().year} Canonical Ltd.',
+        ),
       ),
     );
   }
