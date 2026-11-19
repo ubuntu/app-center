@@ -43,7 +43,7 @@
     "snapCategoryFeatured": "Elstaraj",
     "managePageSearchFieldSearchHint": "Serĉi instalitajn apojn",
     "snapActionCancelLabel": "Nuligi",
-    "snapPagePublisherLabel": "Eldonejo",
+    "snapPagePublisherLabel": "Eldonanto",
     "snapPageDescriptionLabel": "Priskribo",
     "explorePageLabel": "Esplori",
     "searchFieldSnapSection": "Snap-pakoj",
@@ -630,5 +630,7 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "appDetailsVerifiedPublisherTooltip": "Konfirmita eldonanto: Canonical konfirmis, ke ĉi tiu fidata organizaĵo eldonas verajn, bone mastrumatajn snap-apojn.",
+    "appDetailsStarredPublisherTooltip": "Elstara eldonanto: Canonical rekonas, ke ĉi tiu fidata komunumano eldonas altkvalitajn snap-apojn."
 }

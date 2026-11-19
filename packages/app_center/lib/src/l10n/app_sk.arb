@@ -630,5 +630,7 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "appDetailsVerifiedPublisherTooltip": "Overený vydavateľ: dôveryhodná organizácia overená spoločnosťou Canonical, ktorá zverejňuje originálne a dobre udržiavané snapy.",
+    "appDetailsStarredPublisherTooltip": "Obľúbený vydavateľ: dôveryhodný člen komunity uznávaný spoločnosťou Canonical za zverejňovanie vysokokvalitných snapov."
 }
