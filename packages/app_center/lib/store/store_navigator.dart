@@ -102,15 +102,14 @@ extension StoreNavigatorState on NavigatorState {
 
   /// Opens [result] under its snap's route when it has one, passing the
   /// details entry as the route argument.
-  Future<void> pushSearchResult(UnifiedSearchResult result, {String? query}) {
-    if (result.snap case final snap?) {
-      return pushNamed(
-        StoreRoutes.namedSearchSnap(name: snap.name, query: query),
-        arguments: searchResultEntry(result),
+  Future<void> pushSearchResult(UnifiedSearchResult result, {String? query}) =>
+      result.fold(
+        onSnap: (snap) => pushNamed(
+          StoreRoutes.namedSearchSnap(name: snap.name, query: query),
+          arguments: searchResultEntry(result),
+        ),
+        onDeb: (deb) => pushDeb(id: deb.id),
       );
-    }
-    return pushDeb(id: result.deb!.id);
-  }
 
   Future<void> pushExternalTools({String? query, String? category}) {
     return pushNamed(StoreRoutes.externalTools);

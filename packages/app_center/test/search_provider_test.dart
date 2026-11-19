@@ -36,6 +36,32 @@ List<(String?, String?)> _pairs(List<UnifiedSearchResult> results) => [
 ];
 
 void main() {
+  group('UnifiedSearchResult', () {
+    String folded(UnifiedSearchResult result) =>
+        result.fold(onSnap: (snap) => 'snap', onDeb: (deb) => 'deb');
+
+    test('folds to the snap when it has one', () {
+      final snap = createSnap(name: 'vlc', title: 'VLC');
+
+      expect(folded(UnifiedSearchResult(snap: snap)), 'snap');
+      expect(
+        folded(UnifiedSearchResult(snap: snap, deb: _deb('org.videolan.vlc'))),
+        'snap',
+      );
+      expect(
+        UnifiedSearchResult(snap: snap, deb: _deb('org.videolan.vlc')).title,
+        'VLC',
+      );
+    });
+
+    test('folds to the deb otherwise', () {
+      final result = UnifiedSearchResult(deb: _deb('org.videolan.vlc'));
+
+      expect(folded(result), 'deb');
+      expect(result.title, 'org.videolan.vlc');
+    });
+  });
+
   group('mergeSearchResults', () {
     test('keeps snap order and appends unmatched debs in order', () {
       final results = mergeSearchResults(
@@ -263,10 +289,14 @@ void main() {
   group('shownSearchResults', () {
     final pages = <List<UnifiedSearchResult>>[
       [
-        (snap: createSnap(name: 'b', title: 'b'), deb: null),
-        (snap: createSnap(name: 'c', title: 'c'), deb: null),
+        UnifiedSearchResult(
+          snap: createSnap(name: 'b', title: 'b'),
+        ),
+        UnifiedSearchResult(
+          snap: createSnap(name: 'c', title: 'c'),
+        ),
       ],
-      [(snap: null, deb: _deb('a'))],
+      [UnifiedSearchResult(deb: _deb('a'))],
     ];
     List<String?> shown(int shownPages, SnapSortOrder? order) => [
       for (final (snap, deb) in _pairs(
@@ -292,10 +322,12 @@ void main() {
     ];
 
     test('carries the matched pair', () {
-      final entry = searchResultEntry((
-        snap: createSnap(name: 'shotwell', type: 'app'),
-        deb: _deb('org.gnome.Shotwell.desktop', package: 'shotwell'),
-      ));
+      final entry = searchResultEntry(
+        UnifiedSearchResult(
+          snap: createSnap(name: 'shotwell', type: 'app'),
+          deb: _deb('org.gnome.Shotwell.desktop', package: 'shotwell'),
+        ),
+      );
 
       expect(entry, isA<IdentityEntry>());
       expect(sourcesOf(entry), [
@@ -306,11 +338,11 @@ void main() {
 
     test('names a single source otherwise', () {
       expect(
-        searchResultEntry((snap: createSnap(name: 'vlc'), deb: null)),
+        searchResultEntry(UnifiedSearchResult(snap: createSnap(name: 'vlc'))),
         const AppDetailsEntry.snap('vlc'),
       );
       expect(
-        searchResultEntry((snap: null, deb: _deb('org.videolan.vlc'))),
+        searchResultEntry(UnifiedSearchResult(deb: _deb('org.videolan.vlc'))),
         const AppDetailsEntry.debComponent('org.videolan.vlc'),
       );
     });
@@ -369,9 +401,13 @@ void main() {
 
   group('sortSearchResults', () {
     final results = <UnifiedSearchResult>[
-      (snap: createSnap(name: 'b', title: 'b', downloadSize: 20), deb: null),
-      (snap: null, deb: _deb('a')),
-      (snap: createSnap(name: 'c', title: 'c', downloadSize: 10), deb: null),
+      UnifiedSearchResult(
+        snap: createSnap(name: 'b', title: 'b', downloadSize: 20),
+      ),
+      UnifiedSearchResult(deb: _deb('a')),
+      UnifiedSearchResult(
+        snap: createSnap(name: 'c', title: 'c', downloadSize: 10),
+      ),
     ];
     List<String?> sorted(SnapSortOrder order) => [
       for (final (snap, deb) in _pairs(sortSearchResults(results, order)))
