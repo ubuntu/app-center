@@ -1,8 +1,8 @@
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/constants.dart';
 import 'package:app_center/l10n.dart';
-import 'package:app_center/search/search_page.dart';
 import 'package:app_center/search/search_provider.dart';
+import 'package:app_center/search/search_result_format_icons.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:appstream/appstream.dart';
@@ -15,8 +15,7 @@ sealed class AutoCompleteOption {
   String get title => switch (this) {
     AutoCompleteSnapOption(snap: final snap) => snap.titleOrName,
     AutoCompleteDebOption(deb: final deb) => deb.getLocalizedName(),
-    AutoCompleteAppOption(result: final result) =>
-      result.snap?.titleOrName ?? result.deb!.getLocalizedName(),
+    AutoCompleteAppOption(result: final result) => result.title,
     AutoCompleteSearchOption(query: final query) => query,
   };
 }
@@ -298,9 +297,10 @@ class _AutoCompleteTile extends StatelessWidget {
       AutoCompleteAppOption(result: final result) => ListTile(
         selected: selected,
         title: Text(option.title),
-        leading: result.snap != null
-            ? AppIcon(size: _iconSize, iconUrl: result.snap!.iconUrl)
-            : DebAppIcon(size: _iconSize, component: result.deb!),
+        leading: result.fold<Widget>(
+          onSnap: (snap) => AppIcon(size: _iconSize, iconUrl: snap.iconUrl),
+          onDeb: (deb) => DebAppIcon(size: _iconSize, component: deb),
+        ),
         trailing: SearchResultFormatIcons(result),
         onTap: onTap,
       ),

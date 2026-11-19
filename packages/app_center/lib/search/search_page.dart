@@ -7,6 +7,7 @@ import 'package:app_center/snapd/multisnap_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store.dart';
 import 'package:app_center/widgets/widgets.dart';
+import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,7 +31,6 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     final initialCategory = initialCategoryName?.toSnapCategoryEnum();
     final unified =
         unifiedResults && query != null && initialCategoryName == null;
@@ -42,110 +42,130 @@ class SearchPage extends StatelessWidget {
             padding:
                 const EdgeInsets.symmetric(vertical: kPagePadding) +
                 ResponsiveLayout.of(context).padding,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (unified)
-                  _UnifiedHeader(query: query!)
-                else ...[
-                  if (query != null)
-                    Semantics(
-                      focused: true,
-                      header: true,
-                      child: Text(
-                        l10n.searchPageTitle(query!),
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                    ),
-                  if (initialCategory != null)
-                    Semantics(
-                      focused: true,
-                      header: true,
-                      child: Text(
-                        initialCategory.localize(l10n),
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                    ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Text(l10n.searchPageSortByLabel),
-                      const SizedBox(width: 8),
-                      const _SortMenu(),
-                      if (query != null) ...[
-                        const SizedBox(width: 24),
-                        Text(l10n.searchPageFilterByLabel),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Consumer(
-                            builder: (context, ref, child) {
-                              return MenuButtonBuilder<PackageFormat>(
-                                values: PackageFormat.values,
-                                itemBuilder: (context, packageFormat, child) =>
-                                    Text(packageFormat.localize(l10n)),
-                                onSelected: (value) =>
-                                    ref
-                                            .read(
-                                              packageFormatProvider.notifier,
-                                            )
-                                            .state =
-                                        value,
-                                child: Text(
-                                  ref
-                                      .watch(packageFormatProvider)
-                                      .localize(l10n),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Consumer(
-                            builder: (context, ref, child) =>
-                                switch (ref.watch(packageFormatProvider)) {
-                                  PackageFormat.snap => _CategoryMenu(
-                                    initialCategory: initialCategory,
-                                  ),
-                                  PackageFormat.deb => const SizedBox.shrink(),
-                                },
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ],
-                if (initialCategory == SnapCategoryEnum.gameDev ||
-                    initialCategory == SnapCategoryEnum.gameEmulators ||
-                    initialCategory == SnapCategoryEnum.gnomeGames ||
-                    initialCategory == SnapCategoryEnum.kdeGames) ...[
-                  const SizedBox(height: kPagePadding),
-                  InstallAll(initialCategory: initialCategory),
-                ],
-              ],
-            ),
+            child: unified
+                ? _UnifiedHeader(query: query!)
+                : _LegacyHeader(query: query, initialCategory: initialCategory),
           ),
           Expanded(
             child: unified
                 ? _UnifiedSearchResults(query: query!)
-                : Consumer(
-                    builder: (context, ref, child) {
-                      final packageFormat = initialCategoryName != null
-                          ? PackageFormat.snap
-                          : ref.watch(packageFormatProvider);
-                      return switch (packageFormat) {
-                        PackageFormat.snap => _SnapSearchResults(
-                          initialCategory: initialCategory,
-                          query: query,
-                        ),
-                        PackageFormat.deb => _DebSearchResults(query: query),
-                      };
-                    },
+                : _LegacyResults(
+                    query: query,
+                    initialCategory: initialCategory,
                   ),
           ),
         ],
       ),
     );
+  }
+}
+
+/// Header of the search page without unified results.
+class _LegacyHeader extends StatelessWidget {
+  const _LegacyHeader({required this.query, required this.initialCategory});
+
+  final String? query;
+  final SnapCategoryEnum? initialCategory;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final initialCategory = this.initialCategory;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (query != null)
+          Semantics(
+            focused: true,
+            header: true,
+            child: Text(
+              l10n.searchPageTitle(query!),
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+          ),
+        if (initialCategory != null)
+          Semantics(
+            focused: true,
+            header: true,
+            child: Text(
+              initialCategory.localize(l10n),
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+          ),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            Text(l10n.searchPageSortByLabel),
+            const SizedBox(width: 8),
+            const _SortMenu(),
+            if (query != null) ...[
+              const SizedBox(width: 24),
+              Text(l10n.searchPageFilterByLabel),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Consumer(
+                  builder: (context, ref, child) {
+                    return MenuButtonBuilder<PackageFormat>(
+                      values: PackageFormat.values,
+                      itemBuilder: (context, packageFormat, child) =>
+                          Text(packageFormat.localize(l10n)),
+                      onSelected: (value) =>
+                          ref.read(packageFormatProvider.notifier).state =
+                              value,
+                      child: Text(
+                        ref.watch(packageFormatProvider).localize(l10n),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Consumer(
+                  builder: (context, ref, child) =>
+                      switch (ref.watch(packageFormatProvider)) {
+                        PackageFormat.snap => _CategoryMenu(
+                          initialCategory: initialCategory,
+                        ),
+                        PackageFormat.deb => const SizedBox.shrink(),
+                      },
+                ),
+              ),
+            ],
+          ],
+        ),
+        if (initialCategory == SnapCategoryEnum.gameDev ||
+            initialCategory == SnapCategoryEnum.gameEmulators ||
+            initialCategory == SnapCategoryEnum.gnomeGames ||
+            initialCategory == SnapCategoryEnum.kdeGames) ...[
+          const SizedBox(height: kPagePadding),
+          InstallAll(initialCategory: initialCategory),
+        ],
+      ],
+    );
+  }
+}
+
+/// Snap or deb results, picked by the package format filter, of the search
+/// page without unified results.
+class _LegacyResults extends ConsumerWidget {
+  const _LegacyResults({required this.query, required this.initialCategory});
+
+  final String? query;
+  final SnapCategoryEnum? initialCategory;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final packageFormat = initialCategory != null
+        ? PackageFormat.snap
+        : ref.watch(packageFormatProvider);
+    return switch (packageFormat) {
+      PackageFormat.snap => _SnapSearchResults(
+        initialCategory: initialCategory,
+        query: query,
+      ),
+      PackageFormat.deb => _DebSearchResults(query: query),
+    };
   }
 }
 
@@ -457,27 +477,7 @@ class _UnifiedSearchResultsState extends ConsumerState<_UnifiedSearchResults> {
                       _shownPages,
                       sortOrder,
                     ))
-                      if (result.snap case final snap?
-                          when format != PackageFormat.deb)
-                        AppCard.fromSnap(
-                          snap: snap,
-                          badge: SearchResultFormatIcons(result),
-                          onTap: () => StoreNavigator.pushSearchResult(
-                            context,
-                            result,
-                            query: query,
-                          ),
-                        )
-                      else
-                        AppCard.fromDeb(
-                          component: result.deb!,
-                          badge: SearchResultFormatIcons(result),
-                          onTap: () => StoreNavigator.pushSearchResult(
-                            context,
-                            result,
-                            query: query,
-                          ),
-                        ),
+                      _card(result, format),
                   ],
                 ),
                 if (_shownPages < pages.length)
@@ -534,32 +534,21 @@ class _UnifiedSearchResultsState extends ConsumerState<_UnifiedSearchResults> {
   }
 
   void _showFirstPage() => setState(() => _shownPages = 1);
-}
 
-/// Marks which package formats a search result has.
-class SearchResultFormatIcons extends StatelessWidget {
-  const SearchResultFormatIcons(this.result, {super.key});
-
-  final UnifiedSearchResult result;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (result.snap != null)
-          Tooltip(
-            message: l10n.packageFormatSnapLabel,
-            child: const Icon(YaruIcons.package_snap, size: 16),
-          ),
-        if (result.deb != null)
-          Tooltip(
-            message: l10n.packageFormatDebLabel,
-            child: const Icon(YaruIcons.package_deb, size: 16),
-          ),
-      ],
-    );
+  // With only debs listed, an app in both formats shows as its deb.
+  AppCard _card(UnifiedSearchResult result, PackageFormat? format) {
+    final badge = SearchResultFormatIcons(result);
+    void open() =>
+        StoreNavigator.pushSearchResult(context, result, query: widget.query);
+    AppCard debCard(AppstreamComponent deb) =>
+        AppCard.fromDeb(component: deb, badge: badge, onTap: open);
+    return format == PackageFormat.deb
+        ? debCard(result.deb!)
+        : result.fold(
+            onSnap: (snap) =>
+                AppCard.fromSnap(snap: snap, badge: badge, onTap: open),
+            onDeb: debCard,
+          );
   }
 }
 

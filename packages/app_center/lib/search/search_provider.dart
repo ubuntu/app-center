@@ -61,8 +61,32 @@ final autoCompleteProvider = FutureProvider<AutoCompleteOptions>((ref) async {
   return (snaps: <Snap>[], debs: <AppstreamComponent>[]);
 });
 
-/// One search result; it is shown as the snap when it has both formats.
-typedef UnifiedSearchResult = ({Snap? snap, AppstreamComponent? deb});
+/// One search result: an app as a snap, a deb or both, shown as the snap when
+/// it has both.
+final class UnifiedSearchResult {
+  const UnifiedSearchResult({this.snap, this.deb})
+    : assert(snap != null || deb != null);
+
+  final Snap? snap;
+  final AppstreamComponent? deb;
+
+  /// Uses the snap when present, otherwise the deb.
+  T fold<T>({
+    required T Function(Snap snap) onSnap,
+    required T Function(AppstreamComponent deb) onDeb,
+  }) => switch ((snap, deb)) {
+    (final Snap snap, _) => onSnap(snap),
+    (null, final AppstreamComponent deb) => onDeb(deb),
+    (null, null) => throw StateError(
+      'UnifiedSearchResult must contain a snap or a deb',
+    ),
+  };
+
+  String get title => fold(
+    onSnap: (snap) => snap.titleOrName,
+    onDeb: (deb) => deb.getLocalizedName(),
+  );
+}
 
 // Store search results list no apps, so an app-type snap counts as a desktop
 // app for package-name matching.
@@ -76,16 +100,17 @@ PackageSourceDescriptor _searchSnapSource(Snap snap) {
 /// The details entry of [result], carrying a matched pair as is, since
 /// looking the snap up again may pick another of its debs.
 AppDetailsEntry searchResultEntry(UnifiedSearchResult result) {
-  final (:snap, :deb) = result;
-  if (snap == null) return AppDetailsEntry.debComponent(deb!.id);
-  if (deb == null) return AppDetailsEntry.snap(snap.name);
-  final identity = const PackageMappingResolver().resolve(
-    _searchSnapSource(snap),
-    [debSourceDescriptor(deb)],
+  if (result case UnifiedSearchResult(:final snap?, :final deb?)) {
+    final identity = const PackageMappingResolver().resolve(
+      _searchSnapSource(snap),
+      [debSourceDescriptor(deb)],
+    );
+    if (identity != null) return AppDetailsEntry.identity(identity);
+  }
+  return result.fold(
+    onSnap: (snap) => AppDetailsEntry.snap(snap.name),
+    onDeb: (deb) => AppDetailsEntry.debComponent(deb.id),
   );
-  return identity == null
-      ? AppDetailsEntry.snap(snap.name)
-      : AppDetailsEntry.identity(identity);
 }
 
 /// Pairs each snap with its matching deb, keeping the snap order, followed by
@@ -144,9 +169,9 @@ List<UnifiedSearchResult> mergeSearchResults(
 
   return [
     for (final (index, snap) in snaps.indexed)
-      (snap: snap, deb: debBySnap[index]),
+      UnifiedSearchResult(snap: snap, deb: debBySnap[index]),
     for (final (index, deb) in debs.indexed)
-      if (!matchedDebs.contains(index)) (snap: null, deb: deb),
+      if (!matchedDebs.contains(index)) UnifiedSearchResult(deb: deb),
   ];
 }
 
@@ -227,9 +252,7 @@ List<UnifiedSearchResult> sortSearchResults(
   Iterable<UnifiedSearchResult> results,
   SnapSortOrder order,
 ) {
-  String title(UnifiedSearchResult result) =>
-      (result.snap?.titleOrName ?? result.deb!.getLocalizedName())
-          .toLowerCase();
+  String title(UnifiedSearchResult result) => result.title.toLowerCase();
   int bySize(UnifiedSearchResult a, UnifiedSearchResult b, int direction) =>
       switch ((a.snap?.downloadSize, b.snap?.downloadSize)) {
         (final sizeA?, final sizeB?) => direction * sizeA.compareTo(sizeB),
