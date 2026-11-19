@@ -42,6 +42,8 @@ dependencies:
   package_info_plus: ^8.0.2
   packagekit: ^0.2.8
   path: ^1.9.0
+  # Yaru's desktop detection needs the platform 3.2-compatible release.
+  platform_linux: ^0.1.4
   riverpod_annotation: ^4.0.7
   shimmer: ^3.0.0
   snapcraft_launcher: ^0.1.1

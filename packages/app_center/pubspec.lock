@@ -948,13 +948,13 @@ packages:
     source: hosted
     version: "3.2.0"
   platform_linux:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: platform_linux
-      sha256: "907b7c6da6ee6eea61cd1266b7bd72e2d5bbf7e85160221e8ac5583a44e7a1c7"
+      sha256: cb0d0088a6f7de6c9f1ede711387b73f1c9f165f780b0d9dca5885b66bc6bdec
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.2+1"
+    version: "0.1.4"
   plugin_platform_interface:
     dependency: transitive
     description:
