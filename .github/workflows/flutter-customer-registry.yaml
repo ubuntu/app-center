@@ -1,0 +1,41 @@
+name: Flutter customer registry
+
+# This workflow is intentionally not a required branch-protection check. It
+# reports incompatibilities with the latest Flutter main while the stable CI
+# workflow remains the merge gate.
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 4 * * *'
+
+concurrency:
+  group: flutter-customer-registry-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  flutter-main:
+    name: Flutter main customer tests
+    runs-on: ubuntu-26.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v6
+      - uses: canonical/desktop-engineering/gh-actions/flutter/setup@e1069c189573b3525a60f54c5107ea3264f80805
+        with:
+          checkout: false
+      - name: Run Flutter Customer Test Registry flow
+        env:
+          REGISTRY_EVIDENCE_DIR: ${{ runner.temp }}/flutter-registry-evidence
+        run: melos run run-flutter-registry-test
+      - name: Upload registry evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: flutter-registry-evidence
+          path: ${{ runner.temp }}/flutter-registry-evidence
+          if-no-files-found: warn

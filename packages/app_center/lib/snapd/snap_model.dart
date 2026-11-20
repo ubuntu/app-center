@@ -244,7 +244,14 @@ class SnapModel extends _$SnapModel {
   void _removeChangeId(String changeId) {
     final data = state.value;
     if (data != null && data.activeChangeId == changeId) {
-      state = AsyncData(data.copyWith(activeChangeId: null));
+      state = AsyncData(
+        data.copyWith(
+          // Omitting activeChangeId keeps the previous change id; explicit
+          // null is required to clear it.
+          // ignore: avoid_redundant_argument_values
+          activeChangeId: null,
+        ),
+      );
     }
   }
 

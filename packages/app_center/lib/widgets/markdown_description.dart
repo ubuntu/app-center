@@ -1,5 +1,7 @@
 import 'package:app_center/extensions/string_extensions.dart';
 import 'package:app_center/widgets/legacy_material_bridge.dart';
+// flutter_markdown's stylesheet requires the SDK's ThemeData.
+// ignore: deprecated_member_use
 import 'package:flutter/material.dart' as legacy;
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:material_ui/material_ui.dart';

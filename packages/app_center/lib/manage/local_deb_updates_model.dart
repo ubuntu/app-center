@@ -114,7 +114,13 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
       removeFromList(debId);
       // Add the updated deb to the installed apps list (with update cleared)
       final updatedDeb = deb.copyWith(
+        // Omitting updatePackageId keeps the previous update id; explicit
+        // null is required to clear it after the update completes.
+        // ignore: avoid_redundant_argument_values
         updatePackageId: null,
+        // Omitting activeTransactionId keeps the previous transaction id;
+        // explicit null is required to clear it.
+        // ignore: avoid_redundant_argument_values
         activeTransactionId: null,
       );
       ref.read(installedAppsProvider.notifier).addDebToList(updatedDeb);
