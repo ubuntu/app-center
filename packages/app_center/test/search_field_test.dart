@@ -268,4 +268,57 @@ void main() {
       verifyNever(mockSelectedCallback(any));
     });
   });
+
+  group('error handling', () {
+    testWidgets('gracefully handles autocomplete error', (tester) async {
+      await tester.pumpApp(
+        (_) => ProviderScope(
+          overrides: [
+            // A terminal error state, not an erroring stream: Stream.error
+            // trips Riverpod 3's default retry + pause-on-cancel and leaves
+            // the provider stuck in loading at teardown (StateError on
+            // dispose). The error state still exercises the optionsBuilder
+            // catch end to end through the real autoCompleteProvider.
+            snapSearchProvider(
+              const SnapSearchParameters(query: 'test'),
+            ).overrideWithValue(
+              AsyncValue.error(
+                Exception('Network error'),
+                StackTrace.empty,
+              ),
+            ),
+            appstreamSearchProvider.overrideWith(
+              (ref, query) => Stream.value([]),
+            ),
+          ],
+          child: SearchField(
+            onSearch: (_) {},
+            onSnapSelected: (_) {},
+            onDebSelected: (_) {},
+            searchFocus: FocusNode(),
+          ),
+        ),
+      );
+
+      final textField = find.byType(TextField);
+      await tester.enterText(textField, 'test');
+      await tester.pumpAndSettle();
+      // Riverpod retries a failed provider up to 10 times with backoff, and
+      // the no-op listenManual subscription schedules no frames, so
+      // pumpAndSettle returns while retries are still pending. Advance past
+      // the whole retry loop (~43s) so the failure settles and the
+      // optionsBuilder catch actually runs before asserting.
+      await tester.pump(const Duration(seconds: 60));
+      await tester.pumpAndSettle();
+
+      // The failed autocomplete must not surface an exception to the
+      // framework, and no options view may appear.
+      expect(tester.takeException(), isNull);
+      expect(find.byType(TextField), findsOneWidget);
+      expect(
+        find.text(tester.l10n.searchFieldSearchForLabel('test')),
+        findsNothing,
+      );
+    });
+  });
 }
