@@ -630,5 +630,6 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "appDetailsVerifiedPublisherTooltip": "Verifizierter Herausgeber: Eine vertrauenswürdige Organisation, die von Canonical verifiziert wurde, um echte, gut gepflegte Snaps zu veröffentlichen."
 }
