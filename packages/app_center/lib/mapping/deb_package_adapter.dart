@@ -53,30 +53,7 @@ class DebPackageAdapter implements PackageFormatAdapter {
 
   PackageSourceDescriptor? _descriptorForComponent(
     AppstreamComponent? component,
-  ) {
-    if (component == null) return null;
-
-    final desktopId = component.launchables
-        .whereType<AppstreamLaunchableDesktopId>()
-        .map((launchable) => launchable.desktopId)
-        .firstOrNull;
-    final aliases = component.provides
-        .whereType<AppstreamProvidesId>()
-        .map((provide) => provide.id)
-        .toList();
-    final packageName = component.package;
-
-    return PackageSourceDescriptor(
-      format: format,
-      packageId: packageName ?? component.id,
-      commonIds: [component.id],
-      desktopId: desktopId,
-      packageName: packageName,
-      aliases: aliases,
-      isDesktopApplication:
-          component.type == AppstreamComponentType.desktopApplication,
-    );
-  }
+  ) => component == null ? null : debSourceDescriptor(component);
 
   @override
   Future<PackageRuntimeState> getRuntimeState(String packageName) async {
@@ -97,4 +74,27 @@ class DebPackageAdapter implements PackageFormatAdapter {
       hasUpdate: update != null,
     );
   }
+}
+
+PackageSourceDescriptor debSourceDescriptor(AppstreamComponent component) {
+  final desktopId = component.launchables
+      .whereType<AppstreamLaunchableDesktopId>()
+      .map((launchable) => launchable.desktopId)
+      .firstOrNull;
+  final aliases = component.provides
+      .whereType<AppstreamProvidesId>()
+      .map((provide) => provide.id)
+      .toList();
+  final packageName = component.package;
+
+  return PackageSourceDescriptor(
+    format: PackageFormat.deb,
+    packageId: packageName ?? component.id,
+    commonIds: [component.id],
+    desktopId: desktopId,
+    packageName: packageName,
+    aliases: aliases,
+    isDesktopApplication:
+        component.type == AppstreamComponentType.desktopApplication,
+  );
 }

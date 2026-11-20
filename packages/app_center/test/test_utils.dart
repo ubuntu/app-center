@@ -597,6 +597,7 @@ AppstreamComponent createAppstreamComponent({
   AppstreamComponentType type = AppstreamComponentType.desktopApplication,
   List<AppstreamLaunchable>? launchables,
   List<String> compulsoryForDesktops = const [],
+  List<String> categories = const [],
 }) {
   return AppstreamComponent(
     id: id ?? 'test-component',
@@ -607,6 +608,7 @@ AppstreamComponent createAppstreamComponent({
     launchables:
         launchables ?? [const AppstreamLaunchableDesktopId('test.desktop')],
     compulsoryForDesktops: compulsoryForDesktops,
+    categories: categories,
   );
 }
 

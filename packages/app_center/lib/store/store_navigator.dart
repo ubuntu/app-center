@@ -1,3 +1,4 @@
+import 'package:app_center/search/search_provider.dart';
 import 'package:app_center/store/store_routes.dart';
 import 'package:flutter/widgets.dart';
 
@@ -35,6 +36,14 @@ class StoreNavigator {
       query: query,
       category: category,
     );
+  }
+
+  static Future<void> pushSearchResult(
+    BuildContext context,
+    UnifiedSearchResult result, {
+    String? query,
+  }) {
+    return Navigator.of(context).pushSearchResult(result, query: query);
   }
 
   static Future<void> pushExternalTools(BuildContext context) {
@@ -90,6 +99,17 @@ extension StoreNavigatorState on NavigatorState {
       ),
     );
   }
+
+  /// Opens [result] under its snap's route when it has one, passing the
+  /// details entry as the route argument.
+  Future<void> pushSearchResult(UnifiedSearchResult result, {String? query}) =>
+      result.fold(
+        onSnap: (snap) => pushNamed(
+          StoreRoutes.namedSearchSnap(name: snap.name, query: query),
+          arguments: searchResultEntry(result),
+        ),
+        onDeb: (deb) => pushDeb(id: deb.id),
+      );
 
   Future<void> pushExternalTools({String? query, String? category}) {
     return pushNamed(StoreRoutes.externalTools);

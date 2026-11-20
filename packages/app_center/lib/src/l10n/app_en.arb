@@ -265,6 +265,7 @@
     "searchPageNoResultsCategoryHint": "Try a different category or use more general keywords",
     "searchPageSortByLabel": "Sort by",
     "searchPageRelevanceLabel": "Relevance",
+    "searchPageShowMoreLabel": "Show more",
     "searchPageTitle": "Results for \"{query}\"",
     "@searchPageTitle": {
         "placeholders": {
@@ -356,6 +357,7 @@
     "appDetailsPackageFormatsLearnMore": "Learn more about package formats",
     "packageFormatDebLabel": "Debian packages",
     "packageFormatSnapLabel": "Snap packages",
+    "packageFormatAllLabel": "All packages",
     "snapActionCancelLabel": "Cancel",
     "snapActionInstallLabel": "Install",
     "snapActionInstalledLabel": "Installed",

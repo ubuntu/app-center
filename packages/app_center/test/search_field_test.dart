@@ -126,6 +126,85 @@ void main() {
     });
   });
 
+  group('unified options', () {
+    final snapSearch = createMockSnapSearchProvider({
+      const SnapSearchParameters(query: 'edit'): [
+        createSnap(
+          name: 'editor',
+          title: 'Editor Snap',
+          commonIds: ['org.example.Editor'],
+        ),
+        createSnap(name: 'writer', title: 'Writer Snap'),
+      ],
+    });
+    final debSearch = createMockDebSearchProvider({
+      'edit': [
+        createAppstreamComponent(id: 'org.example.Notes', name: 'Notes Deb'),
+        createAppstreamComponent(id: 'org.example.Editor', name: 'Editor Deb'),
+        createAppstreamComponent(id: 'org.example.Paper', name: 'Paper Deb'),
+      ],
+    });
+
+    Future<void> pumpUnifiedField(
+      WidgetTester tester, {
+      ValueChanged<UnifiedSearchResult>? onResultSelected,
+    }) async {
+      await tester.pumpApp(
+        (_) => ProviderScope(
+          overrides: [
+            snapSearchProvider.overrideWith(
+              (ref, searchParameters) => snapSearch(searchParameters),
+            ),
+            appstreamSearchProvider.overrideWith(
+              (ref, query) => debSearch(query),
+            ),
+          ],
+          child: SearchField(
+            onSearch: (_) {},
+            onSnapSelected: (_) {},
+            onDebSelected: (_) {},
+            onResultSelected: onResultSelected ?? (_) {},
+            searchFocus: FocusNode(),
+            unifiedResults: true,
+          ),
+        ),
+      );
+      await tester.enterText(find.byType(TextField), 'edit');
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('lists an app in both formats, a snap and a deb', (
+      tester,
+    ) async {
+      await pumpUnifiedField(tester);
+
+      final tops = [
+        for (final title in ['Editor Snap', 'Writer Snap', 'Notes Deb'])
+          tester.getTopLeft(find.text(title)).dy,
+      ];
+      expect(tops, [...tops]..sort());
+      expect(find.text('Editor Deb'), findsNothing);
+      expect(find.text('Paper Deb'), findsNothing);
+      expect(find.text(tester.l10n.searchFieldSnapSection), findsNothing);
+      expect(find.text(tester.l10n.searchFieldDebSection), findsNothing);
+      expect(
+        find.text(tester.l10n.searchFieldSearchForLabel('edit')),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('opens the selected app', (tester) async {
+      final selected = <UnifiedSearchResult>[];
+      await pumpUnifiedField(tester, onResultSelected: selected.add);
+
+      await tester.tap(find.text('Editor Snap'));
+      await tester.pumpAndSettle();
+
+      expect(selected.single.snap?.name, 'editor');
+      expect(selected.single.deb?.id, 'org.example.Editor');
+    });
+  });
+
   testWidgets('options still load when rebuilt during a slow search', (
     tester,
   ) async {
