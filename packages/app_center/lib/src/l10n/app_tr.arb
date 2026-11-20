@@ -476,5 +476,23 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "appConfinementClassic": "Kısıtlamasız",
+    "appConfinementUnrestricted": "Kısıtlamasız",
+    "appConfinementStrictTooltip": "Bu uygulamanın kaynaklarınıza erişimi kısıtlıdır. İzinlerini Ayarlar uygulamasından yönetebilirsiniz.",
+    "appConfinementClassicTooltip": "Bu uygulama klasik kısıtlama yöntemini kullanır ve sistem kaynaklarınıza tam erişim sağlar. Bu, geliştirme uygulamalarında yaygındır.",
+    "appLicenseUnknown": "Bilinmeyen",
+    "appPublishedUnknown": "Bilinmeyen",
+    "appDetailsAdditionalInfoLabel": "Ek bilgi",
+    "appDetailsPackageFormatLabel": "Paket biçimi",
+    "appDetailsCategoryLabel": "Kategori",
+    "appDetailsInstallDateLabel": "Kurulum tarihi",
+    "appDetailsInstalledSizeLabel": "Kurulu boyut",
+    "appDetailsNotInstalled": "Kurulu değil",
+    "appDetailsNotAvailable": "Mevcut değil",
+    "appDetailsChoosePackageFormatAction": "Paket biçimi seç",
+    "appDetailsChoosePackageFormatTitle": "Paket biçimi seç",
+    "appDetailsPackageSourceLabel": "Kaynak",
+    "appDetailsVerifiedPublisherSemanticLabel": "Doğrulanmış yayıncı",
+    "appDetailsStarredPublisherSemanticLabel": "Yıldızlı yayıncı"
 }
