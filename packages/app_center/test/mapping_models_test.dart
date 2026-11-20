@@ -19,7 +19,17 @@ void main() {
     );
 
     expect(first, second);
-    expect(first.copyWith(packageName: null).packageName, isNull);
+    expect(
+      first
+          .copyWith(
+            // Freezed's generated copyWith treats omission as "keep the current
+            // value"; explicit null is required to clear packageName.
+            // ignore: avoid_redundant_argument_values
+            packageName: null,
+          )
+          .packageName,
+      isNull,
+    );
   });
 
   test('identity finds sources by format', () {

@@ -1,5 +1,7 @@
 import 'package:app_center/l10n.dart';
 import 'package:app_center/widgets/markdown_description.dart';
+// Verify the SDK Material theme used by flutter_markdown.
+// ignore: deprecated_member_use
 import 'package:flutter/material.dart' as legacy;
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_test/flutter_test.dart';

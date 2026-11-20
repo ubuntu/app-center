@@ -85,7 +85,14 @@ class LocalDebModel extends _$LocalDebModel {
     );
     final packageKit = getService<PackageKitService>();
     await packageKit.cancelTransaction(state.value!.activeTransactionId!);
-    state = AsyncValue.data(state.value!.copyWith(activeTransactionId: null));
+    state = AsyncValue.data(
+      state.value!.copyWith(
+        // Omitting activeTransactionId keeps the previous transaction id;
+        // explicit null is required to clear it.
+        // ignore: avoid_redundant_argument_values
+        activeTransactionId: null,
+      ),
+    );
   }
 
   Stream<PackageKitServiceError> get errorStream =>

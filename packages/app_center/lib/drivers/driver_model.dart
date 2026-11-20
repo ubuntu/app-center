@@ -172,6 +172,9 @@ class DriverModel extends _$DriverModel {
         state.value!.copyWith(
           activeTransactionId: transactionId,
           activeActionKind: kind,
+          // Omitting error keeps the previous error; explicit null is required
+          // to clear it when a new action starts.
+          // ignore: avoid_redundant_argument_values
           error: null,
         ),
       );
@@ -181,7 +184,13 @@ class DriverModel extends _$DriverModel {
         final requiresRestart = _packageKit.requiresRestartFor(transactionId);
         state = AsyncData(
           state.value!.copyWith(
+            // Omitting activeTransactionId keeps the previous transaction id;
+            // explicit null is required to clear it.
+            // ignore: avoid_redundant_argument_values
             activeTransactionId: null,
+            // Omitting activeActionKind keeps the previous action kind;
+            // explicit null is required to clear it.
+            // ignore: avoid_redundant_argument_values
             activeActionKind: null,
             requiresRestart: requiresRestart,
           ),
@@ -191,14 +200,26 @@ class DriverModel extends _$DriverModel {
         if (e.exit == PackageKitExit.cancelled) {
           state = AsyncData(
             state.value!.copyWith(
+              // Omitting activeTransactionId keeps the previous transaction
+              // id; explicit null is required to clear it.
+              // ignore: avoid_redundant_argument_values
               activeTransactionId: null,
+              // Omitting activeActionKind keeps the previous action kind;
+              // explicit null is required to clear it.
+              // ignore: avoid_redundant_argument_values
               activeActionKind: null,
             ),
           );
         } else {
           state = AsyncData(
             state.value!.copyWith(
+              // Omitting activeTransactionId keeps the previous transaction
+              // id; explicit null is required to clear it.
+              // ignore: avoid_redundant_argument_values
               activeTransactionId: null,
+              // Omitting activeActionKind keeps the previous action kind;
+              // explicit null is required to clear it.
+              // ignore: avoid_redundant_argument_values
               activeActionKind: null,
               error: _packageKit.lastErrorFor(transactionId),
             ),

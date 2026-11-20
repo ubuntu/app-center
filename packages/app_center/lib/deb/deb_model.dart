@@ -141,7 +141,13 @@ class DebModel extends _$DebModel {
     await packageKit.cancelTransaction(state.value!.activeTransactionId!);
     state = AsyncValue.data(
       state.value!.copyWith(
+        // Omitting activeTransactionId keeps the previous transaction id;
+        // explicit null is required to clear it.
+        // ignore: avoid_redundant_argument_values
         activeTransactionId: null,
+        // Omitting activeTransactionKind keeps the previous transaction kind;
+        // explicit null is required to clear it.
+        // ignore: avoid_redundant_argument_values
         activeTransactionKind: null,
       ),
     );
@@ -151,7 +157,13 @@ class DebModel extends _$DebModel {
     state = AsyncValue.data(
       state.value!.copyWith(
         error: error,
+        // Omitting activeTransactionId keeps the previous transaction id;
+        // explicit null is required to clear it.
+        // ignore: avoid_redundant_argument_values
         activeTransactionId: null,
+        // Omitting activeTransactionKind keeps the previous transaction kind;
+        // explicit null is required to clear it.
+        // ignore: avoid_redundant_argument_values
         activeTransactionKind: null,
       ),
     );
@@ -236,7 +248,13 @@ class DebModel extends _$DebModel {
   void _clearActiveTransaction() {
     state = AsyncValue.data(
       state.value!.copyWith(
+        // Omitting activeTransactionId keeps the previous transaction id;
+        // explicit null is required to clear it.
+        // ignore: avoid_redundant_argument_values
         activeTransactionId: null,
+        // Omitting activeTransactionKind keeps the previous transaction kind;
+        // explicit null is required to clear it.
+        // ignore: avoid_redundant_argument_values
         activeTransactionKind: null,
       ),
     );

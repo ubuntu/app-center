@@ -1,6 +1,8 @@
 import 'package:app_center/l10n.dart';
 import 'package:app_center/widgets/markdown_description.dart';
 import 'package:flutter/gestures.dart';
+// Verify the SDK Material localizations used by legacy widgets.
+// ignore: deprecated_member_use
 import 'package:flutter/material.dart' as legacy;
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
