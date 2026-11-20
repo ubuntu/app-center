@@ -4,6 +4,9 @@
 # This is the entry point behind `melos run run-flutter-registry-test`. It
 # deliberately switches the local FVM selection to `main`, then uses that SDK
 # directly instead of the SDK that Melos selected before running this script.
+#
+# Set REGISTRY_KEEP_TEMP=1 to keep the disposable checkout for debugging; the
+# evidence directory is always retained.
 set -euo pipefail
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -111,28 +114,55 @@ git -C "$checkout" \
 cd "$checkout"
 
 log "prepare"
+set +e
 dart run scripts/customer_testing.dart prepare 2>&1 | tee "$evidence_dir/prepare.log"
+prepare_status=${PIPESTATUS[0]}
+set -e
 
+git status --porcelain > "$evidence_dir/prepare-status.txt"
 git add -A
 git diff --cached --stat > "$evidence_dir/prepare-diff-stat.txt"
 git diff --cached > "$evidence_dir/prepare-diff.patch"
+if [[ "$prepare_status" -ne 0 ]]; then
+  log "prepare failed with exit $prepare_status"
+  exit "$prepare_status"
+fi
+# `prepare` can legitimately change only ignored files. Create the base commit
+# anyway so the update diff is isolated from the caller's checkout.
 git -C "$checkout" \
   -c user.name="App Center registry CI" \
   -c user.email="app-center-registry-ci@localhost" \
-  commit -qm "prepare"
+  commit --allow-empty -qm "prepare"
 
+update_status=0
 for package in packages/app_center_ratings_client packages/app_center; do
   log "update $package"
+  set +e
   (
     cd "$package"
     flutter packages get
     dart fix --apply
   ) 2>&1 | tee "$evidence_dir/update-$(basename "$package").log"
+  package_status=${PIPESTATUS[0]}
+  set -e
+  if [[ "$package_status" -ne 0 ]]; then
+    update_status=$package_status
+    break
+  fi
 done
 
 git status --porcelain > "$evidence_dir/update-status.txt"
-git diff --stat > "$evidence_dir/update-diff-stat.txt"
-git diff > "$evidence_dir/update-diff.patch"
+git add -A
+git diff --cached --stat > "$evidence_dir/update-diff-stat.txt"
+git diff --cached > "$evidence_dir/update-diff.patch"
+if [[ "$update_status" -ne 0 ]]; then
+  log "update failed with exit $update_status"
+  exit "$update_status"
+fi
+git -C "$checkout" \
+  -c user.name="App Center registry CI" \
+  -c user.email="app-center-registry-ci@localhost" \
+  commit --allow-empty -qm "update"
 
 log "test"
 set +e
@@ -141,8 +171,9 @@ test_status=${PIPESTATUS[0]}
 set -e
 
 git status --porcelain > "$evidence_dir/test-status.txt"
-git diff --stat > "$evidence_dir/test-diff-stat.txt"
-git diff > "$evidence_dir/test-diff.patch"
+git add -A
+git diff --cached --stat > "$evidence_dir/test-diff-stat.txt"
+git diff --cached > "$evidence_dir/test-diff.patch"
 
 if [[ "$test_status" -ne 0 ]]; then
   log "customer tests failed with exit $test_status"

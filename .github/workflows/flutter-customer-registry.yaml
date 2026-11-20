@@ -10,7 +10,6 @@ on:
       - main
   schedule:
     - cron: '0 4 * * *'
-  workflow_dispatch:
 
 concurrency:
   group: flutter-customer-registry-${{ github.ref }}
