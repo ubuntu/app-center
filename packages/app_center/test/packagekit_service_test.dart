@@ -163,6 +163,7 @@ void main() {
     verify(
       mockTransaction.installPackages(
         [const PackageKitPackageId(name: 'foo', version: '1.0')],
+        transactionFlags: {PackageKitTransactionFlag.onlyTrusted},
       ),
     ).called(1);
     final transaction = packageKit.getTransaction(id);
@@ -190,7 +191,12 @@ void main() {
       const PackageKitPackageId(name: 'bar', version: '2.0'),
     ];
     final id = await packageKit.installAll(packages);
-    verify(mockTransaction.installPackages(packages)).called(1);
+    verify(
+      mockTransaction.installPackages(
+        packages,
+        transactionFlags: {PackageKitTransactionFlag.onlyTrusted},
+      ),
+    ).called(1);
     final transaction = packageKit.getTransaction(id);
     expect(transaction, isNotNull);
     completer.complete();
@@ -756,6 +762,7 @@ void main() {
     verify(
       mockTransaction.installPackages(
         [const PackageKitPackageId(name: 'foo', version: '1.0')],
+        transactionFlags: {PackageKitTransactionFlag.onlyTrusted},
       ),
     ).called(1);
     final transaction = packageKit.getTransaction(id);
@@ -1021,7 +1028,57 @@ void main() {
       const PackageKitPackageId(name: 'bar', version: '2.0'),
     ];
     await packageKit.updateAll(packages);
-    verify(mockTransaction.updatePackages(packages)).called(1);
+    verify(
+      mockTransaction.updatePackages(
+        packages,
+        transactionFlags: {PackageKitTransactionFlag.onlyTrusted},
+      ),
+    ).called(1);
+  });
+
+  test('update', () async {
+    final mockTransaction = createMockPackageKitTransaction();
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    const package = PackageKitPackageId(name: 'foo', version: '1.0');
+    final id = await packageKit.update(package);
+    await packageKit.waitTransaction(id);
+    verify(
+      mockTransaction.updatePackages(
+        [package],
+        transactionFlags: {PackageKitTransactionFlag.onlyTrusted},
+      ),
+    ).called(1);
+  });
+
+  test('updateAllPackages', () async {
+    final mockTransaction = createMockPackageKitTransaction();
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    final packages = [
+      const PackageKitPackageId(name: 'foo', version: '1.0'),
+      const PackageKitPackageId(name: 'bar', version: '2.0'),
+    ];
+    final id = await packageKit.updateAllPackages(packages);
+    await packageKit.waitTransaction(id);
+    verify(
+      mockTransaction.updatePackages(
+        packages,
+        transactionFlags: {PackageKitTransactionFlag.onlyTrusted},
+      ),
+    ).called(1);
   });
 
   test('getInstalledPackages', () async {
@@ -1389,7 +1446,12 @@ void main() {
 
     test('start failure is terminal', () async {
       final transaction = createMockPackageKitTransaction();
-      when(transaction.installPackages(any)).thenThrow(Exception('denied'));
+      when(
+        transaction.installPackages(
+          any,
+          transactionFlags: anyNamed('transactionFlags'),
+        ),
+      ).thenThrow(Exception('denied'));
       final packageKit = createService(transaction);
       final events = <PackageKitMutation>[];
       packageKit.mutationEvents.listen(events.add);
