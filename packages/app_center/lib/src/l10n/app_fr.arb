@@ -630,5 +630,6 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "appDetailsVerifiedPublisherTooltip": "Éditeur vérifié : une organisation de confiance vérifiée par Canonical, pour publier des snaps authentiques et bien entretenus."
 }
