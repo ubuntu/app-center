@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/manage/app_providers.dart';
 import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/manage/logger.dart';
@@ -52,17 +53,20 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
       final componentsByPkg = await ref.read(
         componentsByPackageProvider.future,
       );
+      final desktopApps =
+          ref.read(desktopAppPackagesProvider).value ?? const <String>{};
 
       // Build map of package name -> update package ID
       final newUpdatesMap = {
         for (final u in updatesMap) u.packageId.name: u.packageId,
       };
 
-      // Filter to packages with Appstream entries that have updates
+      // Filter to packages with Appstream or desktop entries that have updates
       final guiPackagesWithUpdates = installed
           .where(
             (pkg) =>
-                componentsByPkg.containsKey(pkg.packageId.name) &&
+                (componentsByPkg.containsKey(pkg.packageId.name) ||
+                    desktopApps.contains(pkg.packageId.name)) &&
                 newUpdatesMap.containsKey(pkg.packageId.name),
           )
           .toList();
@@ -81,6 +85,7 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
           id: component?.id ?? name,
           packageInfo: pkg,
           component: component,
+          hasDesktopEntry: desktopApps.contains(name),
           details: details[name],
           updatePackageId: newUpdatesMap[name],
         );

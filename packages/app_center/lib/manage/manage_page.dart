@@ -129,6 +129,7 @@ class ManagePage extends ConsumerWidget {
         ),
 
         appUpdatesModel.when(
+          skipLoadingOnReload: true,
           data: (updates) {
             return SliverList.builder(
               itemCount: updates.length,
@@ -202,6 +203,8 @@ class ManagePage extends ConsumerWidget {
           builder: (context, ref, child) {
             final installedAppsModel = ref.watch(installedAppsProvider);
             return installedAppsModel.when(
+              // Third-party debs are merged in later; keep the list meanwhile.
+              skipLoadingOnReload: true,
               data: (apps) => SliverList.builder(
                 itemCount: apps.length,
                 itemBuilder: (context, index) => ManageAppTile(

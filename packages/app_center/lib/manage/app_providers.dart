@@ -166,6 +166,10 @@ class InstalledApps extends _$InstalledApps {
       await _packageKit.waitTransaction(transactionId);
       log.info('Remove transaction completed: $transactionId for $debId');
       _removeDebFromList(debId);
+      // Otherwise a later rebuild brings back the removed deb or an applied
+      // update.
+      ref.invalidate(installedPackagesProvider);
+      ref.invalidate(debsWithUpdatesProvider);
     } finally {
       // Always clear the transaction state, even if cancelled or failed
       _updateDebTransactionId(debId, null);

@@ -57,7 +57,7 @@ sealed class ManageAppData with _$ManageAppData {
   /// vs a system/library package.
   bool get isLaunchable => when(
     snap: (snap, _) => snap.apps.isNotEmpty,
-    localDeb: (debInfo) => debInfo.hasAppstreamEntry,
+    localDeb: (debInfo) => debInfo.hasAppstreamEntry || debInfo.hasDesktopEntry,
   );
 
   /// Install/release date. For snaps, this is the install date. For debs,
