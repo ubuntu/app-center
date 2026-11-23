@@ -1,5 +1,6 @@
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:snapd/snapd.dart';
 
 import 'test_utils.dart';
 
@@ -67,6 +68,27 @@ void main() {
       );
 
       expect(snapData.isInstalled, isFalse);
+    });
+  });
+
+  group('defaultSelectedChannel', () {
+    final channel = SnapChannel(releasedAt: DateTime(2026));
+    final storeSnap = createSnap(
+      channel: '18/stable',
+      channels: {'16/stable': channel, '18/stable': channel},
+    );
+
+    test('prefers the store default channel', () {
+      expect(SnapData.defaultSelectedChannel(null, storeSnap), '18/stable');
+    });
+
+    test('keeps the tracked channel of an installed snap', () {
+      final localSnap = createSnap(trackingChannel: '16/stable');
+
+      expect(
+        SnapData.defaultSelectedChannel(localSnap, storeSnap),
+        '16/stable',
+      );
     });
   });
 }

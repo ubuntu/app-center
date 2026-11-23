@@ -72,6 +72,8 @@ abstract class SnapData extends AppMetadata with _$SnapData {
 
     if (localChannel != null && (channels?.contains(localChannel) ?? false)) {
       return localChannel;
+    } else if (channels?.contains(storeSnap?.channel) ?? false) {
+      return storeSnap!.channel;
     } else if (channels?.contains('latest/stable') ?? false) {
       return 'latest/stable';
     } else {
