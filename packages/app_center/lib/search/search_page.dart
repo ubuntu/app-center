@@ -7,7 +7,6 @@ import 'package:app_center/snapd/multisnap_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store.dart';
 import 'package:app_center/widgets/widgets.dart';
-import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -203,10 +202,9 @@ class _UnifiedHeader extends StatelessWidget {
           children: [
             Text(l10n.searchPageFilterByLabel),
             const SizedBox(width: 8),
-            const _FormatMenu(),
+            const _CategoryMenu(expanded: false),
           ],
         ),
-        const _CategoryMenu(expanded: false),
       ],
     );
     // Filters sit beside the title, or wrap below it when there is no room.
@@ -244,25 +242,6 @@ class _SortMenu extends ConsumerWidget {
       onSelected: (value) =>
           ref.read(snapSortOrderProvider.notifier).state = value,
       child: Text(sortOrder?.localize(l10n) ?? l10n.snapSortOrderRelevance),
-    );
-  }
-}
-
-class _FormatMenu extends ConsumerWidget {
-  const _FormatMenu();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
-    String label(PackageFormat? format) =>
-        format?.localize(l10n) ?? l10n.packageFormatAllLabel;
-    return MenuButtonBuilder<PackageFormat?>(
-      expanded: false,
-      values: const [null, PackageFormat.snap, PackageFormat.deb],
-      itemBuilder: (context, format, child) => Text(label(format)),
-      onSelected: (value) =>
-          ref.read(unifiedPackageFormatProvider.notifier).state = value,
-      child: Text(label(ref.watch(unifiedPackageFormatProvider))),
     );
   }
 }
@@ -454,47 +433,40 @@ class _UnifiedSearchResultsState extends ConsumerState<_UnifiedSearchResults> {
     final l10n = AppLocalizations.of(context);
     final query = widget.query;
     final category = ref.watch(snapCategoryProvider(null));
-    final format = ref.watch(unifiedPackageFormatProvider);
     final sortOrder = ref.watch(snapSortOrderProvider);
     final results = ref.watch(
-      unifiedSearchProvider((
-        query: query,
-        category: category,
-        format: format,
-      )),
+      unifiedSearchProvider((query: query, category: category)),
     );
-    ref
-      ..listen(snapCategoryProvider(null), (_, _) => _showFirstPage())
-      ..listen(unifiedPackageFormatProvider, (_, _) => _showFirstPage());
+    ref.listen(snapCategoryProvider(null), (_, _) => _showFirstPage());
     return results.when(
       data: (pages) => pages.isNotEmpty
-          ? ResponsiveLayoutScrollView(
-              slivers: [
-                AppCardGrid(
-                  appCards: [
-                    for (final result in shownSearchResults(
-                      pages,
-                      _shownPages,
-                      sortOrder,
-                    ))
-                      _card(result, format),
+          ? NotificationListener<ScrollMetricsNotification>(
+              onNotification: (notification) => _revealMore(
+                notification.metrics,
+                notification.depth,
+                pages.length,
+              ),
+              child: NotificationListener<ScrollUpdateNotification>(
+                onNotification: (notification) => _revealMore(
+                  notification.metrics,
+                  notification.depth,
+                  pages.length,
+                ),
+                child: ResponsiveLayoutScrollView(
+                  slivers: [
+                    AppCardGrid(
+                      appCards: [
+                        for (final result in shownSearchResults(
+                          pages,
+                          _shownPages,
+                          sortOrder,
+                        ))
+                          _card(result),
+                      ],
+                    ),
                   ],
                 ),
-                if (_shownPages < pages.length)
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: kPagePadding,
-                      ),
-                      child: Center(
-                        child: OutlinedButton(
-                          onPressed: () => setState(() => _shownPages++),
-                          child: Text(l10n.searchPageShowMoreLabel),
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
+              ),
             )
           : Padding(
               padding: ResponsiveLayout.paddingOf(context),
@@ -535,20 +507,23 @@ class _UnifiedSearchResultsState extends ConsumerState<_UnifiedSearchResults> {
 
   void _showFirstPage() => setState(() => _shownPages = 1);
 
-  // With only debs listed, an app in both formats shows as its deb.
-  AppCard _card(UnifiedSearchResult result, PackageFormat? format) {
-    final badge = SearchResultFormatIcons(result);
+  // Reveals the next page once less than a screen of results is left below.
+  bool _revealMore(ScrollMetrics metrics, int depth, int pageCount) {
+    if (depth == 0 &&
+        _shownPages < pageCount &&
+        metrics.extentAfter < metrics.viewportDimension) {
+      setState(() => _shownPages++);
+    }
+    return false;
+  }
+
+  AppCard _card(UnifiedSearchResult result) {
     void open() =>
         StoreNavigator.pushSearchResult(context, result, query: widget.query);
-    AppCard debCard(AppstreamComponent deb) =>
-        AppCard.fromDeb(component: deb, badge: badge, onTap: open);
-    return format == PackageFormat.deb
-        ? debCard(result.deb!)
-        : result.fold(
-            onSnap: (snap) =>
-                AppCard.fromSnap(snap: snap, badge: badge, onTap: open),
-            onDeb: debCard,
-          );
+    return result.fold(
+      onSnap: (snap) => AppCard.fromSnap(snap: snap, onTap: open),
+      onDeb: (deb) => AppCard.fromDeb(component: deb, onTap: open),
+    );
   }
 }
 

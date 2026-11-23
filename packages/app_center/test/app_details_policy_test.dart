@@ -785,15 +785,15 @@ void main() {
       );
     });
 
-    test('uninstall is disabled while checking dependents', () {
+    test('uninstall and install are disabled while checking dependents', () {
       final state = _compose(
         snap: _snap(_installed),
         deb: _deb(),
         checkingUninstall: true,
       ).state;
       expect(
-        format(state, PackageFormat.snap).action?.disabledReason,
-        DisabledReason.busy,
+        state.formats.map((f) => f.action?.disabledReason),
+        [DisabledReason.busy, DisabledReason.busy],
       );
     });
 

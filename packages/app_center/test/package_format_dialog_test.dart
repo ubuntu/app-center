@@ -5,6 +5,7 @@ import 'package:app_center/apps/package_details_backend.dart';
 import 'package:app_center/apps/package_format_dialog.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
+import 'package:app_center/widgets/active_change_content.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
@@ -138,6 +139,39 @@ void main() {
     await tester.tap(install);
     await tester.pump();
     expect(backend.executed, isEmpty);
+  });
+
+  testWidgets('keeps the warning and shows progress while uninstalling', (
+    tester,
+  ) async {
+    await pumpDialog(
+      tester,
+      snap: createSourceSnapshot(
+        testSnapKey,
+        activeOperation: const ObservedOperation(
+          kind: OperationKind.remove,
+          progress: 0.4,
+        ),
+      ),
+      deb: createSourceSnapshot(testDebKey),
+    );
+    final l10n = tester.l10n;
+
+    expect(
+      find.text(
+        l10n.appDetailsInstalledAsFormat(l10n.managePagePackageTypeSnap),
+      ),
+      findsOneWidget,
+    );
+    expect(
+      tester.widget<ActiveChangeStatus>(find.byType(ActiveChangeStatus)),
+      isA<ActiveChangeStatus>().having((s) => s.progress, 'progress', 0.4),
+    );
+    final install = find.widgetWithText(
+      OutlinedButton,
+      l10n.snapActionInstallLabel,
+    );
+    expect(tester.widget<OutlinedButton>(install).onPressed, isNull);
   });
 
   testWidgets('does not warn when the only format is installed', (

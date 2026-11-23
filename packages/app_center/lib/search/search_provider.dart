@@ -26,11 +26,6 @@ final packageFormatProvider = StateProvider.autoDispose<PackageFormat>(
   (_) => PackageFormat.snap,
 );
 
-/// Package format the unified results are limited to, or null for all.
-final unifiedPackageFormatProvider = StateProvider.autoDispose<PackageFormat?>(
-  (_) => null,
-);
-
 typedef AutoCompleteOptions = ({
   Iterable<Snap> snaps,
   Iterable<AppstreamComponent> debs,
@@ -180,7 +175,6 @@ const _pageSize = 9;
 
 /// Splits the merged results into pages: the first holds the apps among the
 /// top 3 snaps and debs, each next one the apps among the next 9 of each.
-/// Limited to one [format], pages take twice as many of it instead.
 ///
 /// Snaps and debs are matched across the full lists, so a page never repeats
 /// or changes an app from an earlier page. Debs failing [showDeb] still pair
@@ -189,7 +183,6 @@ List<List<UnifiedSearchResult>> pageSearchResults(
   List<Snap> snaps,
   List<AppstreamComponent> debs, {
   bool Function(AppstreamComponent deb)? showDeb,
-  PackageFormat? format,
 }) {
   final merged = mergeSearchResults(snaps, debs);
   final snapEntries = Map<Snap, int>.identity();
@@ -198,26 +191,19 @@ List<List<UnifiedSearchResult>> pageSearchResults(
     if (result.snap case final snap?) snapEntries[snap] = index;
     if (result.deb case final deb?) debEntries[deb] = index;
   }
-  final pagedSnaps = format == PackageFormat.deb ? const <Snap>[] : snaps;
-  final pagedDebs = format == PackageFormat.snap
-      ? const <AppstreamComponent>[]
-      : showDeb == null
-      ? debs
-      : debs.where(showDeb).toList();
-  final scale = format == null ? 1 : 2;
+  final shownDebs = showDeb == null ? debs : debs.where(showDeb).toList();
 
   final shown = <int>{};
   final pages = <List<UnifiedSearchResult>>[];
   for (
-    var start = 0, size = _firstPageSize * scale;
-    start < pagedSnaps.length || start < pagedDebs.length;
-    start += size, size = _pageSize * scale
+    var start = 0, size = _firstPageSize;
+    start < snaps.length || start < shownDebs.length;
+    start += size, size = _pageSize
   ) {
     final page = [
       for (final index in [
-        for (final snap in pagedSnaps.skip(start).take(size))
-          snapEntries[snap]!,
-        for (final deb in pagedDebs.skip(start).take(size)) debEntries[deb]!,
+        for (final snap in snaps.skip(start).take(size)) snapEntries[snap]!,
+        for (final deb in shownDebs.skip(start).take(size)) debEntries[deb]!,
       ])
         if (shown.add(index)) merged[index],
     ];
@@ -294,9 +280,9 @@ List<UnifiedSearchResult> shownSearchResults(
 final unifiedSearchProvider = Provider.autoDispose
     .family<
       AsyncValue<List<List<UnifiedSearchResult>>>,
-      ({String query, SnapCategoryEnum? category, PackageFormat? format})
+      ({String query, SnapCategoryEnum? category})
     >((ref, parameters) {
-      final (:query, :category, :format) = parameters;
+      final (:query, :category) = parameters;
       final snaps = ref.watch(
         snapSearchProvider(
           SnapSearchParameters(query: query, category: category),
@@ -316,7 +302,6 @@ final unifiedSearchProvider = Provider.autoDispose
         showDeb: category == null
             ? null
             : (deb) => appCategoriesFromFreedesktop(deb).contains(category),
-        format: format,
       );
       final failed = sources.where((source) => source.hasError).firstOrNull;
       if (pages.isEmpty && failed != null) {

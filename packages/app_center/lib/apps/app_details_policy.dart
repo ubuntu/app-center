@@ -363,7 +363,7 @@ class _Composer {
           candidateId: candidate?.candidateId,
         ),
         disabledReason: switch (snapshot.installState) {
-          _ when _busy => DisabledReason.busy,
+          _ when _busy || input.checkingUninstall => DisabledReason.busy,
           InstallState.unknown => DisabledReason.installStateUnknown,
           InstallState.notInstalled when _isOtherFormatInstalled(key) =>
             DisabledReason.otherFormatInstalled,

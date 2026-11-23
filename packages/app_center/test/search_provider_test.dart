@@ -179,14 +179,8 @@ void main() {
       List<Snap> snaps,
       List<AppstreamComponent> debs, {
       bool Function(AppstreamComponent)? showDeb,
-      PackageFormat? format,
     }) => [
-      for (final page in pageSearchResults(
-        snaps,
-        debs,
-        showDeb: showDeb,
-        format: format,
-      ))
+      for (final page in pageSearchResults(snaps, debs, showDeb: showDeb))
         _pairs(page),
     ];
 
@@ -252,37 +246,6 @@ void main() {
         ),
         hasLength(1),
       );
-    });
-
-    group('limited to one format', () {
-      final snaps = [
-        createSnap(name: 's1', commonIds: ['org.example.D2']),
-        for (var i = 2; i <= 7; i++) createSnap(name: 's$i'),
-      ];
-      final debs = [
-        for (var i = 1; i <= 7; i++) _deb('org.example.D$i'),
-      ];
-
-      test('pages through 6 snaps at first', () {
-        expect(pages(snaps, debs, format: PackageFormat.snap), [
-          [
-            ('s1', 'org.example.D2'),
-            for (var i = 2; i <= 6; i++) ('s$i', null),
-          ],
-          [('s7', null)],
-        ]);
-      });
-
-      test('pages through 6 debs at first, keeping their snaps', () {
-        expect(pages(snaps, debs, format: PackageFormat.deb), [
-          [
-            (null, 'org.example.D1'),
-            ('s1', 'org.example.D2'),
-            for (var i = 3; i <= 6; i++) (null, 'org.example.D$i'),
-          ],
-          [(null, 'org.example.D7')],
-        ]);
-      });
     });
   });
 
@@ -434,7 +397,7 @@ void main() {
       List<Snap>? snaps,
       SnapCategoryEnum? category,
     }) async {
-      final parameters = (query: query, category: category, format: null);
+      final parameters = (query: query, category: category);
       final container = createContainer(
         overrides: [
           snapSearchProvider.overrideWith(
@@ -464,7 +427,7 @@ void main() {
       when(
         appstream.search(query),
       ).thenAnswer((_) async => [_deb('org.example.Notes')]);
-      const parameters = (query: query, category: null, format: null);
+      const parameters = (query: query, category: null);
       final container = createContainer(
         overrides: [
           snapSearchProvider.overrideWith((ref, _) => Stream.value([])),

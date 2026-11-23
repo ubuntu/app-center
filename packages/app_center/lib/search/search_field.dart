@@ -2,7 +2,6 @@ import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/constants.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/search/search_provider.dart';
-import 'package:app_center/search/search_result_format_icons.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:appstream/appstream.dart';
@@ -301,7 +300,6 @@ class _AutoCompleteTile extends StatelessWidget {
           onSnap: (snap) => AppIcon(size: _iconSize, iconUrl: snap.iconUrl),
           onDeb: (deb) => DebAppIcon(size: _iconSize, component: deb),
         ),
-        trailing: SearchResultFormatIcons(result),
         onTap: onTap,
       ),
       AutoCompleteSearchOption(query: final query) => ListTile(

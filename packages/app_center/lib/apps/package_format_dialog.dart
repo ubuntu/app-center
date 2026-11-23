@@ -9,6 +9,7 @@ import 'package:app_center/constants.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
+import 'package:app_center/widgets/active_change_content.dart';
 import 'package:app_center/widgets/channel_dropdown.dart';
 import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:collection/collection.dart';
@@ -36,9 +37,13 @@ class PackageFormatDialog extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final state = ref.watch(appDetailsModelProvider(entry)).value;
+    final operation = state?.operation;
+    // A format being uninstalled still counts until the removal finishes.
     final installed = [
       for (final option in state?.formats ?? const <FormatOption>[])
-        if (option.installState == InstallState.installed)
+        if (option.installState == InstallState.installed ||
+            (operation?.kind == OperationKind.remove &&
+                operation?.sourceId == option.sourceId))
           option.format.localize(l10n),
     ];
 
@@ -149,9 +154,13 @@ class _FormatTableState extends ConsumerState<_FormatTable> {
   ) {
     final operation = widget.state.operation;
     if (operation != null && operation.sourceId == sourceId) {
-      return OutlinedButton(
-        onPressed: null,
-        child: Text(operation.kind.localize(l10n)),
+      return ActiveChangeStatus(
+        key: ValueKey(operation.id),
+        actionLabel: operation.kind.localize(l10n),
+        progress: operation.progress,
+        onCancelPressed: operation.canCancel
+            ? () => unawaited(model.cancel(operation.id))
+            : null,
       );
     }
     if (action == null) return const SizedBox.shrink();

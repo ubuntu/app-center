@@ -12,7 +12,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:mockito/mockito.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
-import 'package:yaru/yaru.dart';
 
 import 'test_utils.dart';
 import 'test_utils.mocks.dart';
@@ -334,6 +333,10 @@ void main() {
         for (final title in ['One', 'Two', 'Three', 'Four'])
           createSnap(name: title.toLowerCase(), title: title),
       ],
+      const SnapSearchParameters(query: 'lots'): [
+        for (var i = 1; i <= 40; i++)
+          createSnap(name: 'snap$i', title: 'Snap $i'),
+      ],
     });
     final debSearch = createMockDebSearchProvider({
       'edit': [
@@ -387,25 +390,27 @@ void main() {
         card.title.title,
     ];
 
-    testWidgets('shows more results on request', (tester) async {
+    testWidgets('fills the page with results', (tester) async {
       await pumpUnifiedSearch(tester, query: 'many');
-      final showMore = find.text(tester.l10n.searchPageShowMoreLabel);
 
-      expect(cardTitles(tester), ['One', 'Two', 'Three']);
+      expect(cardTitles(tester), ['One', 'Two', 'Three', 'Four']);
+    });
+
+    testWidgets('shows more results while scrolling', (tester) async {
+      await pumpUnifiedSearch(tester, query: 'lots');
+
+      expect(cardTitles(tester).length, lessThan(40));
 
       await tester.scrollUntilVisible(
-        showMore,
+        find.text('Snap 40'),
         200,
         scrollable: find.descendant(
           of: find.byType(CustomScrollView),
           matching: find.byType(Scrollable),
         ),
       );
-      await tester.tap(showMore);
-      await tester.pumpAndSettle();
 
-      expect(cardTitles(tester), ['One', 'Two', 'Three', 'Four']);
-      expect(showMore, findsNothing);
+      expect(cardTitles(tester), hasLength(40));
     });
 
     testWidgets('lists snaps, then debs without a snap', (tester) async {
@@ -417,21 +422,9 @@ void main() {
         'Notes Deb',
         'IDE Deb',
       ]);
-      Finder icon(String title, IconData icon) => find.descendant(
-        of: find.widgetWithText(AppCard, title),
-        matching: find.byIcon(icon),
-      );
-      expect(icon('Editor Snap', YaruIcons.package_snap), findsOneWidget);
-      expect(icon('Editor Snap', YaruIcons.package_deb), findsOneWidget);
-      expect(icon('Writer Snap', YaruIcons.package_deb), findsNothing);
-      expect(icon('Notes Deb', YaruIcons.package_snap), findsNothing);
-      expect(icon('Notes Deb', YaruIcons.package_deb), findsOneWidget);
       expect(
-        find.widgetWithText(
-          MenuButtonBuilder<PackageFormat?>,
-          tester.l10n.packageFormatAllLabel,
-        ),
-        findsOneWidget,
+        find.byWidgetPredicate((widget) => widget is MenuButtonBuilder),
+        findsNWidgets(2),
       );
       expect(
         find.widgetWithText(
@@ -489,24 +482,6 @@ void main() {
         'Notes Deb',
         'Writer Snap',
       ]);
-    });
-
-    testWidgets('filters by package format', (tester) async {
-      await pumpUnifiedSearch(tester);
-
-      await tester.tap(find.text(tester.l10n.packageFormatAllLabel));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text(tester.l10n.packageFormatSnapLabel).last);
-      await tester.pumpAndSettle();
-
-      expect(cardTitles(tester), ['Editor Snap', 'Writer Snap']);
-
-      await tester.tap(find.text(tester.l10n.packageFormatSnapLabel));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text(tester.l10n.packageFormatDebLabel).last);
-      await tester.pumpAndSettle();
-
-      expect(cardTitles(tester), ['Notes Deb', 'Editor Deb', 'IDE Deb']);
     });
 
     testWidgets('filters by category', (tester) async {
