@@ -141,7 +141,9 @@ class DebModel extends _$DebModel {
     await packageKit.cancelTransaction(state.value!.activeTransactionId!);
     state = AsyncValue.data(
       state.value!.copyWith(
+        // ignore: avoid_redundant_argument_values
         activeTransactionId: null,
+        // ignore: avoid_redundant_argument_values
         activeTransactionKind: null,
       ),
     );
@@ -151,7 +153,9 @@ class DebModel extends _$DebModel {
     state = AsyncValue.data(
       state.value!.copyWith(
         error: error,
+        // ignore: avoid_redundant_argument_values
         activeTransactionId: null,
+        // ignore: avoid_redundant_argument_values
         activeTransactionKind: null,
       ),
     );
@@ -236,7 +240,9 @@ class DebModel extends _$DebModel {
   void _clearActiveTransaction() {
     state = AsyncValue.data(
       state.value!.copyWith(
+        // ignore: avoid_redundant_argument_values
         activeTransactionId: null,
+        // ignore: avoid_redundant_argument_values
         activeTransactionKind: null,
       ),
     );

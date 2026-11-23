@@ -19,7 +19,15 @@ void main() {
     );
 
     expect(first, second);
-    expect(first.copyWith(packageName: null).packageName, isNull);
+    expect(
+      first
+          .copyWith(
+            // ignore: avoid_redundant_argument_values
+            packageName: null,
+          )
+          .packageName,
+      isNull,
+    );
   });
 
   test('identity finds sources by format', () {

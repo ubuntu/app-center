@@ -166,7 +166,9 @@ class MediaSupportModel extends _$MediaSupportModel {
     } on PackageKitTransactionCancelled catch (_) {
       state = AsyncData(
         state.value!.copyWith(
+          // ignore: avoid_redundant_argument_values
           activeTransactionId: null,
+          // ignore: avoid_redundant_argument_values
           activeAction: null,
           lastAction: action,
           hasError: false,
@@ -175,7 +177,9 @@ class MediaSupportModel extends _$MediaSupportModel {
     } on PackageKitTransactionError catch (error) {
       state = AsyncData(
         state.value!.copyWith(
+          // ignore: avoid_redundant_argument_values
           activeTransactionId: null,
+          // ignore: avoid_redundant_argument_values
           activeAction: null,
           lastAction: action,
           hasError: error.exit != PackageKitExit.cancelled,
@@ -184,7 +188,9 @@ class MediaSupportModel extends _$MediaSupportModel {
     } on Exception catch (_) {
       state = AsyncData(
         state.value!.copyWith(
+          // ignore: avoid_redundant_argument_values
           activeTransactionId: null,
+          // ignore: avoid_redundant_argument_values
           activeAction: null,
           lastAction: action,
           hasError: true,
