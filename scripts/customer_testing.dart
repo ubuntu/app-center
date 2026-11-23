@@ -55,17 +55,17 @@ Future<bool> _prepare(Directory root) async {
 
   final workspace = _MelosWorkspace.load(root);
 
-  return _withMelos(root, () async {
-    if (!await workspace.bootstrap()) {
+  return _withMelos(root, (runMelos) async {
+    if (!await workspace.bootstrap(runMelos)) {
       return false;
     }
-    return _runCodegen(root);
+    return _runCodegen(runMelos);
   });
 }
 
 /// Runs the selected customer tests and reports any failures.
 Future<bool> _test(Directory root) async {
-  final codegenOk = await _withMelos(root, () => _runCodegen(root));
+  final codegenOk = await _withMelos(root, _runCodegen);
   if (!codegenOk) {
     return false;
   }
@@ -74,23 +74,16 @@ Future<bool> _test(Directory root) async {
 
   final appCenterPkg = Directory('${root.path}/$_appPackage');
   final failures = <String>[];
-  final concurrency = Platform.numberOfProcessors.clamp(1, 4);
-  var nextIndex = 0;
-  Future<void> worker() async {
-    while (nextIndex < selectedCases.length) {
-      final selected = selectedCases[nextIndex++];
-      final fileName = selected.file.split('/').last;
-      final testName = selected.name.toLowerCase().replaceAll(' ', '-');
-      final label = '$fileName:$testName';
-      final failureReason =
-          await _runSelectedCase(label, selected, appCenterPkg);
-      if (failureReason != null) {
-        failures.add('${selected.file}: ${selected.name} ($failureReason)');
-      }
+  // Flutter test processes in the same package share build and asset files.
+  for (final selected in selectedCases) {
+    final fileName = selected.file.split('/').last;
+    final testName = selected.name.toLowerCase().replaceAll(' ', '-');
+    final label = '$fileName:$testName';
+    final failureReason = await _runSelectedCase(label, selected, appCenterPkg);
+    if (failureReason != null) {
+      failures.add('${selected.file}: ${selected.name} ($failureReason)');
     }
   }
-
-  await Future.wait(List.generate(concurrency, (_) => worker()));
 
   print(
     '[customer-testing] summary command=test total=${selectedCases.length} '
@@ -104,15 +97,13 @@ Future<bool> _test(Directory root) async {
   return failures.isEmpty;
 }
 
-/// The workspace root and temporarily relaxed `melos.yaml` contents.
+/// The workspace's temporarily relaxed `melos.yaml` contents.
 class _MelosWorkspace {
   const _MelosWorkspace({
-    required this.root,
     required this.configFile,
     required this.originalBytes,
   });
 
-  final Directory root;
   final File configFile;
   final List<int> originalBytes;
 
@@ -122,7 +113,6 @@ class _MelosWorkspace {
     final originalBytes = configFile.readAsBytesSync();
 
     return _MelosWorkspace(
-      root: root,
       configFile: configFile,
       originalBytes: originalBytes,
     );
@@ -130,13 +120,13 @@ class _MelosWorkspace {
 
   /// Bootstraps with a temporarily relaxed lockfile setting and always restores
   /// the original `melos.yaml` bytes, including when bootstrap fails to start.
-  Future<bool> bootstrap() async {
+  Future<bool> bootstrap(_RunMelos runMelos) async {
     var bootstrapOk = false;
     try {
       if (!_updateMelosConfig()) {
         return false;
       }
-      bootstrapOk = await _runMelos(root, 'bootstrap', const ['bootstrap']);
+      bootstrapOk = await runMelos('bootstrap', const ['bootstrap']);
     } finally {
       _restore();
     }
@@ -403,85 +393,54 @@ String _inferCasePassFailReason(int exitCode, _MachineOutput machine) {
   return 'passed';
 }
 
-/// Runs an action with the repository's locked Melos temporarily activated.
-Future<bool> _withMelos(Directory root, Future<bool> Function() body) async {
-  final melosPath = _melosPackagePath(root);
-  if (melosPath == null) {
-    return false;
-  }
-  final activateOk = await _runPhase(
-    label: 'melos-activate',
-    executable: _dart,
-    arguments: ['pub', 'global', 'activate', '--source', 'path', melosPath],
-    workingDirectory: root,
-  );
-  if (!activateOk) {
-    return false;
-  }
-  try {
-    return await body();
-  } finally {
-    await _runPhase(
-      label: 'melos-deactivate',
-      executable: _dart,
-      arguments: const ['pub', 'global', 'deactivate', 'melos'],
-      workingDirectory: root,
-    );
-  }
-}
+typedef _RunMelos = Future<bool> Function(String label, List<String> arguments);
 
-/// Locates the resolved Melos package path from the Dart package config.
-String? _melosPackagePath(Directory root) {
-  final file = File('${root.path}/.dart_tool/package_config.json');
-  if (!file.existsSync()) {
-    stderr.writeln(
-      '[customer-testing] error=missing ${file.path}; run dart pub get first',
+/// Runs an action with a workspace Melos runner and a shim for nested commands.
+Future<bool> _withMelos(
+  Directory root,
+  Future<bool> Function(_RunMelos runMelos) body,
+) async {
+  final shimDir =
+      Directory.systemTemp.createTempSync('customer-testing-melos-');
+  try {
+    final shimFile = File('${shimDir.path}/melos');
+    shimFile.writeAsStringSync(
+      '#!/usr/bin/env sh\n'
+      'exec "$_dart" run melos --sdk-path auto "\$@"\n',
     );
-    return null;
-  }
-  final decoded = jsonDecode(file.readAsStringSync()) as Map<String, Object?>;
-  final packages = decoded['packages'] as List<Object?>? ?? const [];
-  for (final entry in packages) {
-    if (entry is Map<String, Object?> && entry['name'] == 'melos') {
-      final rootUri = entry['rootUri'] as String?;
-      if (rootUri != null) {
-        return file.parent.uri.resolve(rootUri).toFilePath();
-      }
+    final chmod = Process.runSync('chmod', ['+x', shimFile.path]);
+    if (chmod.exitCode != 0) {
+      stderr.writeln('[customer-testing] could not make Melos shim executable: '
+          '${chmod.stderr}');
+      return false;
+    }
+
+    final environment = Map<String, String>.from(Platform.environment);
+    environment['MELOS_SDK_PATH'] = 'auto';
+    environment['PATH'] = '${shimDir.path}:${environment['PATH'] ?? ''}';
+
+    Future<bool> runMelos(String label, List<String> arguments) => _runPhase(
+          label: label,
+          executable: _dart,
+          arguments: ['run', 'melos', '--sdk-path', 'auto', ...arguments],
+          workingDirectory: root,
+          environment: environment,
+        );
+
+    return await body(runMelos);
+  } finally {
+    if (shimDir.existsSync()) {
+      shimDir.deleteSync(recursive: true);
     }
   }
-  stderr.writeln('[customer-testing] error=melos not found in ${file.path}');
-  return null;
 }
 
-Future<bool> _runCodegen(Directory root) async {
-  final generateOk = await _runMelos(root, 'generate', const [
-    'run',
-    'generate',
-  ]);
+Future<bool> _runCodegen(_RunMelos runMelos) async {
+  final generateOk = await runMelos('generate', const ['run', 'generate']);
   if (!generateOk) {
     return false;
   }
-  return _runMelos(root, 'gen-l10n', const ['run', 'gen-l10n']);
-}
-
-/// Runs a Melos command using the Dart SDK on `PATH`.
-Future<bool> _runMelos(
-  Directory root,
-  String label,
-  List<String> arguments,
-) {
-  final environment = Map<String, String>.from(Platform.environment);
-  environment['MELOS_SDK_PATH'] = 'auto';
-  final pubCache =
-      environment['PUB_CACHE'] ?? '${environment['HOME'] ?? ''}/.pub-cache';
-  environment['PATH'] = '$pubCache/bin:${environment['PATH'] ?? ''}';
-  return _runPhase(
-    label: label,
-    executable: _dart,
-    arguments: <String>['run', 'melos', '--sdk-path', 'auto', ...arguments],
-    workingDirectory: root,
-    environment: environment,
-  );
+  return runMelos('gen-l10n', const ['run', 'gen-l10n']);
 }
 
 /// Runs a logged build or setup step with inherited stdio.

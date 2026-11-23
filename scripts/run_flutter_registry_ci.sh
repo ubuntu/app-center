@@ -144,8 +144,8 @@ for package in packages/app_center_ratings_client packages/app_center; do
   log "update $package"
   set +e
   (
-    cd "$package"
-    flutter packages get
+    cd "$package" &&
+    flutter packages get &&
     dart fix --apply
   ) 2>&1 | tee "$evidence_dir/update-$(basename "$package").log"
   package_status=${PIPESTATUS[0]}
