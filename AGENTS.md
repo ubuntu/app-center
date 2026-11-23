@@ -23,6 +23,8 @@ melos integration_test         # Integration tests (needs xvfb, polkitd)
 melos analyze --fatal-infos    # Lint (CI fails on infos)
 melos format:exclude           # Format non-generated Dart files
 melos protoc                   # Regenerate gRPC protobuf code
+melos customer:test            # Run the selected customer tests
+melos run run-flutter-registry-test  # Reproduce the registry flow on Flutter main
 ```
 
 # Monorepo Layout
@@ -47,6 +49,8 @@ Build with `snapcraft` at repo root. Clean prior build state with `snapcraft cle
 # CI
 
 Runs: analyze, format, coverage, l10n freshness, integration tests. All must pass.
+`flutter-customer-registry.yaml` additionally runs the customer-test selection on
+Flutter main; it reports failures but is not a required merge check.
 
 # Env Vars (for local dev without snap)
 

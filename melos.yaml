@@ -79,6 +79,13 @@ scripts:
     melos exec -c 1 --fail-fast --dir-exists=test -- \
       flutter test
 
+  # Run the customer-test selection using the FVM-pinned SDK.
+  customer:test: dart scripts/customer_testing.dart test
+
+  # Reproduce the Flutter Customer Test Registry flow on Flutter main.
+  # This is the non-required Flutter-main CI entry point.
+  run-flutter-registry-test: ./scripts/run_flutter_registry_ci.sh
+
   # run pub upgrade in all packages
   upgrade: melos pub upgrade
 
