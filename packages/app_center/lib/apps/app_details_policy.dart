@@ -125,7 +125,9 @@ class _Composer {
             ? FieldState<String>.unavailable()
             : FieldState<String>.value(r.version!),
       ),
-      size: installState == InstallState.installed
+      size:
+          installState == InstallState.installed &&
+              releaseKind != ReleaseKind.update
           ? snapshot?.installed?.size ?? FieldState<ByteSize>.unavailable()
           : _releaseField(active, release, (r) => r.size),
       releaseDate: _releaseField(active, release, (r) => r.releaseDate),
@@ -517,13 +519,12 @@ class _Composer {
       installState: snapshot.installState,
       publisher: _field(source, (s) => s.publisher),
       channel: release?.channel,
+      packageName: input.identity.identity.getSource(key.format)?.packageName,
       version: FieldState.fromNullable(release?.version),
       confinement: release?.confinement != null
           ? FieldState.value(release!.confinement!)
           : _field(source, (s) => s.confinement),
-      size: snapshot.installState == InstallState.installed
-          ? FieldState<ByteSize>.unavailable()
-          : release?.size ?? FieldState<ByteSize>.unavailable(),
+      size: release?.size ?? FieldState<ByteSize>.unavailable(),
       releaseDate: release?.releaseDate ?? FieldState<DateTime>.unavailable(),
       action: switch (snapshot.installState) {
         InstallState.installed => _uninstall(key, snapshot),

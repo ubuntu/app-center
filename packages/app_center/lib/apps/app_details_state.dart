@@ -238,6 +238,7 @@ abstract class FormatOption with _$FormatOption {
     required FieldState<ByteSize> size,
     required FieldState<DateTime> releaseDate,
     String? channel,
+    String? packageName,
     // Uninstalls the installed release, otherwise installs the default one.
     ActionDescriptor? action,
   }) = _FormatOption;

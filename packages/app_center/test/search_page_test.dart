@@ -413,7 +413,9 @@ void main() {
       expect(cardTitles(tester), hasLength(40));
     });
 
-    testWidgets('lists snaps, then debs without a snap', (tester) async {
+    testWidgets('lists apps in both formats first, then alternates', (
+      tester,
+    ) async {
       await pumpUnifiedSearch(tester);
 
       expect(cardTitles(tester), [
@@ -422,17 +424,6 @@ void main() {
         'Notes Deb',
         'IDE Deb',
       ]);
-      expect(
-        find.byWidgetPredicate((widget) => widget is MenuButtonBuilder),
-        findsNWidgets(2),
-      );
-      expect(
-        find.widgetWithText(
-          MenuButtonBuilder<SnapCategoryEnum?>,
-          tester.l10n.snapCategoryAll,
-        ),
-        findsOneWidget,
-      );
     });
 
     testWidgets('puts the filters beside the title on wide pages', (

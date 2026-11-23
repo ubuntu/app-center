@@ -184,7 +184,7 @@ void main() {
         _pairs(page),
     ];
 
-    test('pages through the top snaps and debs, matched across all', () {
+    test('pages through the top snaps and debs, both formats first', () {
       expect(
         pages(
           [
@@ -203,10 +203,10 @@ void main() {
         [
           [
             ('s1', 'org.example.One'),
-            ('s2', null),
-            ('s3', null),
             ('s4', 'org.example.Four'),
+            ('s2', null),
             (null, 'org.example.Two'),
+            ('s3', null),
           ],
           [(null, 'org.example.Three')],
         ],

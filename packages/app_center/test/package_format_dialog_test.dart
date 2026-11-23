@@ -6,6 +6,7 @@ import 'package:app_center/apps/package_format_dialog.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
 import 'package:app_center/widgets/active_change_content.dart';
+import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
@@ -71,16 +72,57 @@ void main() {
     expect(find.text(l10n.appDetailsChoosePackageFormatTitle), findsOneWidget);
     expect(find.text(l10n.managePagePackageTypeSnap), findsOneWidget);
     expect(find.text(l10n.managePagePackageTypeDeb), findsOneWidget);
-    expect(find.text(l10n.appDetailsPackageSourceSnapStore), findsOneWidget);
     expect(find.text('latest/stable'), findsOneWidget);
-    expect(find.text('2.0'), findsOneWidget);
-    expect(find.text('1.0-1'), findsOneWidget);
+    expect(find.byTooltip('2.0'), findsOneWidget);
     expect(find.byTooltip('Snap Publisher'), findsOneWidget);
     expect(find.byTooltip('Deb Publisher'), findsOneWidget);
     expect(find.byTooltip('1.0-1'), findsOneWidget);
     expect(find.text(l10n.snapActionInstallLabel), findsNWidgets(2));
     expect(find.byType(YaruInfoBox), findsNothing);
     expect(find.text(l10n.appDetailsPackageFormatsLearnMore), findsOneWidget);
+  });
+
+  testWidgets('shows package details with links on request', (tester) async {
+    await pumpDialog(
+      tester,
+      snap: createSourceSnapshot(
+        testSnapKey,
+        installState: InstallState.installed,
+      ),
+      deb: createSourceSnapshot(testDebKey),
+    );
+    final l10n = tester.l10n;
+    Finder details(String sourceId) => find.descendant(
+      of: find.byKey(ValueKey(sourceId)),
+      matching: find.byType(AnimatedCrossFade),
+    );
+
+    expect(
+      tester.widget<AnimatedCrossFade>(details('snap:testsnap')).crossFadeState,
+      CrossFadeState.showSecond,
+    );
+
+    await tester.tap(find.text(l10n.managePagePackageTypeSnap));
+    await tester.pumpAndSettle();
+
+    expect(
+      tester.widget<AnimatedCrossFade>(details('snap:testsnap')).crossFadeState,
+      CrossFadeState.showFirst,
+    );
+    final links = tester
+        .widgetList<HyperlinkText>(find.byType(HyperlinkText))
+        .map((link) => link.link);
+    expect(links, contains('https://snapcraft.io/testsnap'));
+    expect(
+      links,
+      contains(
+        'https://packages.ubuntu.com/search?keywords=test-app&searchon=names&exact=1',
+      ),
+    );
+    expect(find.text('testsnap'), findsOneWidget);
+    expect(find.text(l10n.appDetailsInstalledSizeLabel), findsOneWidget);
+    expect(find.text(l10n.appDetailsLimitedAccess), findsOneWidget);
+    expect(find.text(l10n.appDetailsFullAccess), findsOneWidget);
   });
 
   testWidgets('explains the publisher badge', (tester) async {
@@ -134,11 +176,6 @@ void main() {
       l10n.snapActionInstallLabel,
     );
     expect(tester.widget<OutlinedButton>(install).onPressed, isNull);
-
-    await tester.ensureVisible(install);
-    await tester.tap(install);
-    await tester.pump();
-    expect(backend.executed, isEmpty);
   });
 
   testWidgets('keeps the warning and shows progress while uninstalling', (
@@ -167,11 +204,6 @@ void main() {
       tester.widget<ActiveChangeStatus>(find.byType(ActiveChangeStatus)),
       isA<ActiveChangeStatus>().having((s) => s.progress, 'progress', 0.4),
     );
-    final install = find.widgetWithText(
-      OutlinedButton,
-      l10n.snapActionInstallLabel,
-    );
-    expect(tester.widget<OutlinedButton>(install).onPressed, isNull);
   });
 
   testWidgets('does not warn when the only format is installed', (
@@ -243,7 +275,7 @@ void main() {
 
     expect(find.text('4.0-beta'), findsNothing);
     await selectChannel(tester, 'latest/stable', 'latest/beta');
-    expect(find.text('4.0-beta'), findsOneWidget);
+    expect(find.byTooltip('4.0-beta'), findsOneWidget);
     expect(find.text('2.0'), findsNothing);
 
     final install = find

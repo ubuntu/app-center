@@ -175,6 +175,8 @@ const _pageSize = 9;
 
 /// Splits the merged results into pages: the first holds the apps among the
 /// top 3 snaps and debs, each next one the apps among the next 9 of each.
+/// Each page lists the apps in both formats first, then alternates snaps and
+/// debs.
 ///
 /// Snaps and debs are matched across the full lists, so a page never repeats
 /// or changes an app from an earlier page. Debs failing [showDeb] still pair
@@ -207,7 +209,17 @@ List<List<UnifiedSearchResult>> pageSearchResults(
       ])
         if (shown.add(index)) merged[index],
     ];
-    if (page.isNotEmpty) pages.add(page);
+    final snapOnly = page.where((result) => result.deb == null).toList();
+    final debOnly = page.where((result) => result.snap == null).toList();
+    if (page.isNotEmpty) {
+      pages.add([
+        ...page.where((result) => result.snap != null && result.deb != null),
+        for (var i = 0; i < snapOnly.length || i < debOnly.length; i++) ...[
+          if (i < snapOnly.length) snapOnly[i],
+          if (i < debOnly.length) debOnly[i],
+        ],
+      ]);
+    }
   }
   return pages;
 }

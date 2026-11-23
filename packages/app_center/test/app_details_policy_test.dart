@@ -246,7 +246,7 @@ void main() {
       expect(state.footer.installDate.valueOrNull, DateTime(2026, 2, 3));
     });
 
-    test('installed app shows its installed size, even with an update', () {
+    test('installed app with an update shows the update size', () {
       final release = _compose(
         snap: createSourceSnapshot(
           testSnapKey,
@@ -256,7 +256,7 @@ void main() {
       ).state.release;
       expect(release.kind, ReleaseKind.update);
       expect(release.version.valueOrNull, testSnapUpdate.version);
-      expect(release.size.valueOrNull?.kind, SizeKind.installed);
+      expect(release.size, testSnapUpdate.size);
     });
 
     test('channel of displayed release is separate from installed one', () {
@@ -745,8 +745,10 @@ void main() {
       final deb = format(state, PackageFormat.deb);
 
       expect(snap.installState, _installed);
-      expect(snap.size, isA<FieldUnavailable<ByteSize>>());
+      expect(snap.size.valueOrNull?.kind, SizeKind.installed);
+      expect(snap.packageName, 'testsnap');
       expect(deb.size.valueOrNull?.kind, SizeKind.download);
+      expect(deb.packageName, 'test-app');
       expect(snap.action?.kind, ActionKind.uninstall);
       expect(snap.action?.enabled, isTrue);
       expect(deb.installState, _notInstalled);
