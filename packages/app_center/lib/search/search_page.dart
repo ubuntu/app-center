@@ -429,6 +429,12 @@ class _UnifiedSearchResultsState extends ConsumerState<_UnifiedSearchResults> {
   var _shownPages = 1;
 
   @override
+  void didUpdateWidget(_UnifiedSearchResults oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.query != widget.query) _shownPages = 1;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final query = widget.query;
@@ -437,7 +443,9 @@ class _UnifiedSearchResultsState extends ConsumerState<_UnifiedSearchResults> {
     final results = ref.watch(
       unifiedSearchProvider((query: query, category: category)),
     );
-    ref.listen(snapCategoryProvider(null), (_, _) => _showFirstPage());
+    ref
+      ..listen(snapCategoryProvider(null), (_, _) => _showFirstPage())
+      ..listen(snapSortOrderProvider, (_, _) => _showFirstPage());
     return results.when(
       data: (pages) => pages.isNotEmpty
           ? NotificationListener<ScrollMetricsNotification>(
@@ -453,6 +461,8 @@ class _UnifiedSearchResultsState extends ConsumerState<_UnifiedSearchResults> {
                   pages.length,
                 ),
                 child: ResponsiveLayoutScrollView(
+                  // A new list starts at the top.
+                  key: ValueKey((query, category, sortOrder)),
                   slivers: [
                     AppCardGrid(
                       appCards: [

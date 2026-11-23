@@ -5,6 +5,7 @@ import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/apps/package_details_backend.dart';
 import 'package:app_center/apps/package_operation_coordinator.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
+import 'package:app_center/mapping/unified_app_identity.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -754,6 +755,35 @@ void main() {
       expect(deb.installState, _notInstalled);
       expect(deb.action?.kind, ActionKind.install);
       expect(deb.action?.disabledReason, DisabledReason.otherFormatInstalled);
+    });
+
+    test('package names fall back to the sources', () {
+      final state = _compose(
+        identity: const ResolvedAppIdentity(
+          identity: UnifiedAppIdentity(
+            unifiedId: 'org.test.app',
+            appStreamId: 'org.test.app',
+            sources: [
+              PackageSourceDescriptor(
+                format: PackageFormat.snap,
+                packageId: 'testsnap',
+                commonIds: ['org.test.app'],
+              ),
+              PackageSourceDescriptor(
+                format: PackageFormat.deb,
+                packageId: 'test-app',
+                packageName: '',
+                commonIds: ['org.test.app'],
+              ),
+            ],
+          ),
+        ),
+        snap: _snap(),
+        deb: _deb(),
+      ).state;
+
+      expect(format(state, PackageFormat.snap).packageName, 'testsnap');
+      expect(format(state, PackageFormat.deb).packageName, 'test-app');
     });
 
     test('every installed format can be uninstalled', () {

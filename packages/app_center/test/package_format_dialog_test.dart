@@ -121,8 +121,8 @@ void main() {
     );
     expect(find.text('testsnap'), findsOneWidget);
     expect(find.text(l10n.appDetailsInstalledSizeLabel), findsOneWidget);
-    expect(find.text(l10n.appDetailsLimitedAccess), findsOneWidget);
-    expect(find.text(l10n.appDetailsFullAccess), findsOneWidget);
+    expect(find.text(l10n.appConfinementStrictTooltip), findsOneWidget);
+    expect(find.text(l10n.appConfinementUnrestrictedTooltip), findsOneWidget);
   });
 
   testWidgets('explains the publisher badge', (tester) async {

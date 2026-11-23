@@ -380,6 +380,8 @@ class _FormatTableState extends ConsumerState<_FormatTable> {
         confinement: confinement,
         releaseDate: (target?.releaseDate ?? option.releaseDate).valueOrNull,
         size: (target?.size ?? option.size).valueOrNull,
+        showsInstalled:
+            target == null && option.installState == InstallState.installed,
       ),
     );
   }
@@ -413,6 +415,7 @@ class _PackageDetails extends StatelessWidget {
     required this.confinement,
     required this.releaseDate,
     required this.size,
+    required this.showsInstalled,
   });
 
   final FormatOption option;
@@ -421,12 +424,15 @@ class _PackageDetails extends StatelessWidget {
   final AppConfinement? confinement;
   final DateTime? releaseDate;
   final ByteSize? size;
+  final bool showsInstalled;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final packageName = option.packageName;
+    final packageName = (option.packageName?.isEmpty ?? true)
+        ? null
+        : option.packageName;
     final source = switch (option.format) {
       PackageFormat.snap => l10n.appDetailsPackageSourceSnapStore,
       PackageFormat.deb => l10n.appDetailsPackageSourceUbuntuArchive,
@@ -440,11 +446,7 @@ class _PackageDetails extends StatelessWidget {
         {'keywords': name, 'searchon': 'names', 'exact': '1'},
       ).toString(),
     };
-    final access = switch (confinement) {
-      null || AppConfinement.unknown => null,
-      AppConfinement.strict => l10n.appDetailsLimitedAccess,
-      _ => l10n.appDetailsFullAccess,
-    };
+    final access = confinement?.localizeTooltip(l10n);
 
     Widget item(String label, Widget value) => SizedBox(
       width: width,
@@ -460,55 +462,68 @@ class _PackageDetails extends StatelessWidget {
       ),
     );
 
-    return YaruBorderContainer(
-      margin: const EdgeInsets.only(bottom: kSpacing),
-      padding: const EdgeInsets.all(kSpacing),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              item(
-                l10n.appDetailsPackageSourceLabel,
-                link == null
-                    ? Text(source)
-                    : HyperlinkText(text: source, link: link),
-              ),
-              item(l10n.snapPageVersionLabel, Text(version ?? kMissingValue)),
-              item(
-                l10n.appDetailsPackageNameLabel,
-                Text(packageName ?? kMissingValue),
-              ),
-            ],
-          ),
-          const SizedBox(height: kSpacing),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              item(
-                size?.kind == SizeKind.installed
-                    ? l10n.appDetailsInstalledSizeLabel
-                    : l10n.snapPageDownloadSizeLabel,
-                Text(switch (size) {
-                  final size? => context.formatByteSize(size.bytes),
-                  null => kMissingValue,
-                }),
-              ),
-              item(
-                l10n.snapPagePublishedLabel,
-                Text(switch (releaseDate) {
-                  final date? => formatAppDate(date),
-                  null => kMissingValue,
-                }),
-              ),
-            ],
-          ),
-          if (access != null) ...[
+    return SizedBox(
+      width: double.infinity,
+      child: YaruBorderContainer(
+        margin: const EdgeInsets.only(bottom: kSpacing),
+        padding: const EdgeInsets.all(kSpacing),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              spacing: kSpacing,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                item(
+                  l10n.appDetailsPackageSourceLabel,
+                  link == null
+                      ? Text(source)
+                      : HyperlinkText(text: source, link: link),
+                ),
+                item(
+                  l10n.snapPageVersionLabel,
+                  Text(version ?? kMissingValue),
+                ),
+                item(
+                  l10n.appDetailsPackageNameLabel,
+                  Text(packageName ?? kMissingValue),
+                ),
+              ],
+            ),
             const SizedBox(height: kSpacing),
-            Text(access),
+            Row(
+              spacing: kSpacing,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                item(
+                  size?.kind == SizeKind.installed ||
+                          (size == null && showsInstalled)
+                      ? l10n.appDetailsInstalledSizeLabel
+                      : l10n.snapPageDownloadSizeLabel,
+                  Text(switch (size) {
+                    final size? => context.formatByteSize(size.bytes),
+                    null => kMissingValue,
+                  }),
+                ),
+                item(
+                  l10n.snapPagePublishedLabel,
+                  Text(switch (releaseDate) {
+                    final date? => formatAppDate(date),
+                    null => kMissingValue,
+                  }),
+                ),
+              ],
+            ),
+            if (access != null) ...[
+              const SizedBox(height: kSpacing),
+              // Keeps the text from widening the table when expanded.
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 3 * width + 2 * kSpacing),
+                child: Text(access),
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

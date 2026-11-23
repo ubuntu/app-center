@@ -519,7 +519,15 @@ class _Composer {
       installState: snapshot.installState,
       publisher: _field(source, (s) => s.publisher),
       channel: release?.channel,
-      packageName: input.identity.identity.getSource(key.format)?.packageName,
+      packageName: switch (input.identity.identity
+          .getSource(key.format)
+          ?.packageName) {
+        final name? when name.isNotEmpty => name,
+        _ => switch (key.format) {
+          PackageFormat.snap => key.id,
+          PackageFormat.deb => snapshot.targets.firstOrNull?.id,
+        },
+      },
       version: FieldState.fromNullable(release?.version),
       confinement: release?.confinement != null
           ? FieldState.value(release!.confinement!)

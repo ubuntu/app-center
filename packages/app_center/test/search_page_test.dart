@@ -413,6 +413,30 @@ void main() {
       expect(cardTitles(tester), hasLength(40));
     });
 
+    testWidgets('starts a re-sorted list at the top', (tester) async {
+      await pumpUnifiedSearch(tester, query: 'lots');
+      final scrollable = find.descendant(
+        of: find.byType(CustomScrollView),
+        matching: find.byType(Scrollable),
+      );
+      await tester.scrollUntilVisible(
+        find.text('Snap 40'),
+        200,
+        scrollable: scrollable,
+      );
+
+      await tester.tap(find.text(tester.l10n.snapSortOrderRelevance));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(tester.l10n.snapSortOrderAlphabeticalAsc));
+      await tester.pumpAndSettle();
+
+      expect(
+        tester.state<ScrollableState>(scrollable).position.pixels,
+        0,
+      );
+      expect(cardTitles(tester).length, lessThan(40));
+    });
+
     testWidgets('lists apps in both formats first, then alternates', (
       tester,
     ) async {

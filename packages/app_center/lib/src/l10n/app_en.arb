@@ -356,8 +356,6 @@
     "appDetailsPackageFormatsLearnMore": "Learn more about package formats",
     "appDetailsPackageNameLabel": "Package name",
     "appDetailsPackageDetailsLabel": "Package details",
-    "appDetailsLimitedAccess": "This app has limited access to your resources. You can control its permissions in the Settings app.",
-    "appDetailsFullAccess": "This app has full access to your resources.",
     "packageFormatDebLabel": "Debian packages",
     "packageFormatSnapLabel": "Snap packages",
     "snapActionCancelLabel": "Cancel",
