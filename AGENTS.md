@@ -50,7 +50,9 @@ Build with `snapcraft` at repo root. Clean prior build state with `snapcraft cle
 
 Runs: analyze, format, coverage, l10n freshness, integration tests. All must pass.
 `flutter-customer-registry.yaml` additionally runs the customer-test selection on
-Flutter main; it reports failures but is not a required merge check.
+Flutter main daily on the default branch, and on demand for any branch via
+`workflow_dispatch`. Scheduled results are reported by `scripts/report_flutter_main.sh`: one
+issue when the tests fail, and a comment on it when they pass again.
 
 # Env Vars (for local dev without snap)
 

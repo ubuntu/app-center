@@ -29,9 +29,16 @@ evidence_dir="$(cd "$evidence_dir" && pwd)"
 export REGISTRY_EVIDENCE_DIR="$evidence_dir"
 
 temp_root=""
+# The phase being run, so a failure can be attributed. Only a failure in the
+# "test" phase is a customer-test regression; earlier phases depend on tooling
+# and network access that can fail intermittently.
+phase="setup"
 cleanup() {
   local status=$?
   set +e
+  if [[ "$status" -ne 0 ]]; then
+    echo "$phase" > "$evidence_dir/failed-phase.txt"
+  fi
   if [[ -n "$temp_root" && -d "$temp_root/app-center/.git" ]]; then
     # Everything the update and test phases changed since the "prepare" commit.
     git -C "$temp_root/app-center" add -A
@@ -83,17 +90,20 @@ commit "registry baseline"
 
 cd "$checkout"
 
+phase="prepare"
 log "prepare"
 dart scripts/customer_testing.dart prepare 2>&1 | tee "$evidence_dir/prepare.log"
 commit "prepare"
 
 # The registry's update contract: `flutter packages get`, then `dart fix --apply`.
+phase="update"
 for package in packages/app_center_ratings_client packages/app_center; do
   log "update $package"
   (cd "$package" && flutter packages get && dart fix --apply) 2>&1 |
     tee "$evidence_dir/update-$(basename "$package").log"
 done
 
+phase="test"
 log "test"
 dart scripts/customer_testing.dart test 2>&1 | tee "$evidence_dir/test.log"
 
