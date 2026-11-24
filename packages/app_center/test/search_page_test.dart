@@ -329,10 +329,6 @@ void main() {
           commonIds: ['org.example.Editor'],
         ),
       ],
-      const SnapSearchParameters(query: 'many'): [
-        for (final title in ['One', 'Two', 'Three', 'Four'])
-          createSnap(name: title.toLowerCase(), title: title),
-      ],
       const SnapSearchParameters(query: 'lots'): [
         for (var i = 1; i <= 40; i++)
           createSnap(name: 'snap$i', title: 'Snap $i'),
@@ -390,25 +386,8 @@ void main() {
         card.title.title,
     ];
 
-    testWidgets('fills the page with results', (tester) async {
-      await pumpUnifiedSearch(tester, query: 'many');
-
-      expect(cardTitles(tester), ['One', 'Two', 'Three', 'Four']);
-    });
-
-    testWidgets('shows more results while scrolling', (tester) async {
+    testWidgets('lists every result', (tester) async {
       await pumpUnifiedSearch(tester, query: 'lots');
-
-      expect(cardTitles(tester).length, lessThan(40));
-
-      await tester.scrollUntilVisible(
-        find.text('Snap 40'),
-        200,
-        scrollable: find.descendant(
-          of: find.byType(CustomScrollView),
-          matching: find.byType(Scrollable),
-        ),
-      );
 
       expect(cardTitles(tester), hasLength(40));
     });
@@ -434,7 +413,6 @@ void main() {
         tester.state<ScrollableState>(scrollable).position.pixels,
         0,
       );
-      expect(cardTitles(tester).length, lessThan(40));
     });
 
     testWidgets('lists apps in both formats first, then alternates', (

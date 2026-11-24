@@ -244,11 +244,11 @@ List<UnifiedSearchResult> suggestSearchResults(
   ].take(3).toList();
 }
 
-/// Sorts [results] by [order], keeping their order for ties and for orders
-/// that don't apply. Debs have no download size, so they sort last by size.
+/// Sorts [results] by [order], keeping their order for ties and for relevance.
+/// Debs have no download size, so they sort last by size.
 List<UnifiedSearchResult> sortSearchResults(
   Iterable<UnifiedSearchResult> results,
-  SnapSortOrder order,
+  SnapSortOrder? order,
 ) {
   String title(UnifiedSearchResult result) => result.title.toLowerCase();
   int bySize(UnifiedSearchResult a, UnifiedSearchResult b, int direction) =>
@@ -270,28 +270,12 @@ List<UnifiedSearchResult> sortSearchResults(
   return sorted;
 }
 
-/// The results shown after revealing [shownPages] of [pages]. Relevance keeps
-/// the pages as they are; another [order] sorts all results first, then shows
-/// as many as those pages hold.
-List<UnifiedSearchResult> shownSearchResults(
-  List<List<UnifiedSearchResult>> pages,
-  int shownPages,
-  SnapSortOrder? order,
-) {
-  final revealed = pages.take(shownPages).flattened.toList();
-  if (order == null) return revealed;
-  return sortSearchResults(
-    pages.flattened,
-    order,
-  ).take(revealed.length).toList();
-}
-
-/// Snap and deb search results for a query, merged and split into pages.
+/// Snap and deb search results for a query, merged in page order.
 ///
 /// A failing source is left out, unless there is nothing else to show.
 final unifiedSearchProvider = Provider.autoDispose
     .family<
-      AsyncValue<List<List<UnifiedSearchResult>>>,
+      AsyncValue<List<UnifiedSearchResult>>,
       ({String query, SnapCategoryEnum? category})
     >((ref, parameters) {
       final (:query, :category) = parameters;
@@ -306,7 +290,7 @@ final unifiedSearchProvider = Provider.autoDispose
       if (sources.any((source) => !source.hasValue && !source.hasError)) {
         return const AsyncLoading();
       }
-      final pages = pageSearchResults(
+      final results = pageSearchResults(
         snaps.value ?? const [],
         debs.value ?? const [],
         // Snaps come already filtered by the store; debs map their own
@@ -314,10 +298,10 @@ final unifiedSearchProvider = Provider.autoDispose
         showDeb: category == null
             ? null
             : (deb) => appCategoriesFromFreedesktop(deb).contains(category),
-      );
+      ).flattened.toList();
       final failed = sources.where((source) => source.hasError).firstOrNull;
-      if (pages.isEmpty && failed != null) {
+      if (results.isEmpty && failed != null) {
         return AsyncError(failed.error!, failed.stackTrace ?? StackTrace.empty);
       }
-      return AsyncData(pages);
+      return AsyncData(results);
     });

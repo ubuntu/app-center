@@ -415,68 +415,32 @@ class _SnapSearchResults extends ConsumerWidget {
   }
 }
 
-class _UnifiedSearchResults extends ConsumerStatefulWidget {
+class _UnifiedSearchResults extends ConsumerWidget {
   const _UnifiedSearchResults({required this.query});
 
   final String query;
 
   @override
-  ConsumerState<_UnifiedSearchResults> createState() =>
-      _UnifiedSearchResultsState();
-}
-
-class _UnifiedSearchResultsState extends ConsumerState<_UnifiedSearchResults> {
-  var _shownPages = 1;
-
-  @override
-  void didUpdateWidget(_UnifiedSearchResults oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.query != widget.query) _shownPages = 1;
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final query = widget.query;
     final category = ref.watch(snapCategoryProvider(null));
     final sortOrder = ref.watch(snapSortOrderProvider);
     final results = ref.watch(
       unifiedSearchProvider((query: query, category: category)),
     );
-    ref
-      ..listen(snapCategoryProvider(null), (_, _) => _showFirstPage())
-      ..listen(snapSortOrderProvider, (_, _) => _showFirstPage());
     return results.when(
-      data: (pages) => pages.isNotEmpty
-          ? NotificationListener<ScrollMetricsNotification>(
-              onNotification: (notification) => _revealMore(
-                notification.metrics,
-                notification.depth,
-                pages.length,
-              ),
-              child: NotificationListener<ScrollUpdateNotification>(
-                onNotification: (notification) => _revealMore(
-                  notification.metrics,
-                  notification.depth,
-                  pages.length,
-                ),
-                child: ResponsiveLayoutScrollView(
-                  // A new list starts at the top.
-                  key: ValueKey((query, category, sortOrder)),
-                  slivers: [
-                    AppCardGrid(
-                      appCards: [
-                        for (final result in shownSearchResults(
-                          pages,
-                          _shownPages,
-                          sortOrder,
-                        ))
-                          _card(result),
-                      ],
-                    ),
+      data: (results) => results.isNotEmpty
+          ? ResponsiveLayoutScrollView(
+              // A new list starts at the top.
+              key: ValueKey((query, category, sortOrder)),
+              slivers: [
+                AppCardGrid(
+                  appCards: [
+                    for (final result in sortSearchResults(results, sortOrder))
+                      _card(context, result),
                   ],
                 ),
-              ),
+              ],
             )
           : Padding(
               padding: ResponsiveLayout.paddingOf(context),
@@ -515,21 +479,9 @@ class _UnifiedSearchResultsState extends ConsumerState<_UnifiedSearchResults> {
     );
   }
 
-  void _showFirstPage() => setState(() => _shownPages = 1);
-
-  // Reveals the next page once less than a screen of results is left below.
-  bool _revealMore(ScrollMetrics metrics, int depth, int pageCount) {
-    if (depth == 0 &&
-        _shownPages < pageCount &&
-        metrics.extentAfter < metrics.viewportDimension) {
-      setState(() => _shownPages++);
-    }
-    return false;
-  }
-
-  AppCard _card(UnifiedSearchResult result) {
+  AppCard _card(BuildContext context, UnifiedSearchResult result) {
     void open() =>
-        StoreNavigator.pushSearchResult(context, result, query: widget.query);
+        StoreNavigator.pushSearchResult(context, result, query: query);
     return result.fold(
       onSnap: (snap) => AppCard.fromSnap(snap: snap, onTap: open),
       onDeb: (deb) => AppCard.fromDeb(component: deb, onTap: open),

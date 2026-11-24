@@ -249,36 +249,6 @@ void main() {
     });
   });
 
-  group('shownSearchResults', () {
-    final pages = <List<UnifiedSearchResult>>[
-      [
-        UnifiedSearchResult(
-          snap: createSnap(name: 'b', title: 'b'),
-        ),
-        UnifiedSearchResult(
-          snap: createSnap(name: 'c', title: 'c'),
-        ),
-      ],
-      [UnifiedSearchResult(deb: _deb('a'))],
-    ];
-    List<String?> shown(int shownPages, SnapSortOrder? order) => [
-      for (final (snap, deb) in _pairs(
-        shownSearchResults(pages, shownPages, order),
-      ))
-        snap ?? deb,
-    ];
-
-    test('keeps the revealed pages for relevance', () {
-      expect(shown(1, null), ['b', 'c']);
-      expect(shown(2, null), ['b', 'c', 'a']);
-    });
-
-    test('sorts all results before taking the revealed count', () {
-      expect(shown(1, SnapSortOrder.alphabeticalAsc), ['a', 'b']);
-      expect(shown(2, SnapSortOrder.alphabeticalAsc), ['a', 'b', 'c']);
-    });
-  });
-
   group('searchResultEntry', () {
     List<String> sourcesOf(AppDetailsEntry entry) => [
       for (final key in entry.provisionalIdentity.sourceKeys) key.value,
@@ -372,10 +342,14 @@ void main() {
         snap: createSnap(name: 'c', title: 'c', downloadSize: 10),
       ),
     ];
-    List<String?> sorted(SnapSortOrder order) => [
+    List<String?> sorted(SnapSortOrder? order) => [
       for (final (snap, deb) in _pairs(sortSearchResults(results, order)))
         snap ?? deb,
     ];
+
+    test('keeps the order for relevance', () {
+      expect(sorted(null), ['b', 'a', 'c']);
+    });
 
     test('sorts snaps and debs together by name', () {
       expect(sorted(SnapSortOrder.alphabeticalAsc), ['a', 'b', 'c']);
@@ -392,7 +366,7 @@ void main() {
     const query = 'edit';
 
     // Snap search fails when [snaps] is null.
-    Future<AsyncValue<List<List<UnifiedSearchResult>>>> search({
+    Future<AsyncValue<List<UnifiedSearchResult>>> search({
       required List<AppstreamComponent> debs,
       List<Snap>? snaps,
       SnapCategoryEnum? category,
@@ -449,7 +423,7 @@ void main() {
 
       expect(
         _pairs(
-          container.read(unifiedSearchProvider(parameters)).requireValue.single,
+          container.read(unifiedSearchProvider(parameters)).requireValue,
         ),
         [(null, 'org.example.Notes')],
       );
@@ -458,7 +432,7 @@ void main() {
     test('shows the other results when one source fails', () async {
       final results = await search(debs: [_deb('org.example.Notes')]);
 
-      expect(_pairs(results.requireValue.single), [
+      expect(_pairs(results.requireValue), [
         (null, 'org.example.Notes'),
       ]);
     });
@@ -482,7 +456,7 @@ void main() {
         category: SnapCategoryEnum.development,
       );
 
-      expect(_pairs(results.requireValue.single), [
+      expect(_pairs(results.requireValue), [
         ('editor', 'org.example.Editor'),
         (null, 'org.example.Ide'),
       ]);
