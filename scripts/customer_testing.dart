@@ -1,5 +1,9 @@
 // Flutter Customer Test Registry driver for App Center.
 // Usage: dart scripts/customer_testing.dart <prepare|test>
+//
+// The selected cases run on Linux only. Other hosts exit successfully before
+// any work, so the registry's cross-platform shards neither fail nor pretend to
+// have run tests.
 
 import 'dart:convert';
 import 'dart:io';
@@ -25,6 +29,14 @@ Future<void> main(List<String> arguments) async {
   }
 
   final command = arguments.single;
+  if (!Platform.isLinux) {
+    print(
+      '[customer-testing] command=$command skipped: only Linux is supported '
+      '(host=${Platform.operatingSystem})',
+    );
+    return;
+  }
+
   final root = Directory.current;
   print('[customer-testing] command=$command root=${root.path}');
   await _recordEnvironment(root, command);
@@ -53,7 +65,7 @@ Future<bool> _prepare(Directory root) async {
     return false;
   }
 
-  final workspace = _MelosWorkspace.load(root);
+  final workspace = _MelosWorkspaceConfig.load(root);
 
   return _withMelos(root, (runMelos) async {
     if (!await workspace.bootstrap(runMelos)) {
@@ -79,9 +91,9 @@ Future<bool> _test(Directory root) async {
     final fileName = selected.file.split('/').last;
     final testName = selected.name.toLowerCase().replaceAll(' ', '-');
     final label = '$fileName:$testName';
-    final failureReason = await _runSelectedCase(label, selected, appCenterPkg);
-    if (failureReason != null) {
-      failures.add('${selected.file}: ${selected.name} ($failureReason)');
+    final outcome = await _runSelectedCase(label, selected, appCenterPkg);
+    if (outcome case _CaseFailed(:final reason)) {
+      failures.add('${selected.file}: ${selected.name} ($reason)');
     }
   }
 
@@ -98,8 +110,8 @@ Future<bool> _test(Directory root) async {
 }
 
 /// The workspace's temporarily relaxed `melos.yaml` contents.
-class _MelosWorkspace {
-  const _MelosWorkspace({
+class _MelosWorkspaceConfig {
+  const _MelosWorkspaceConfig({
     required this.configFile,
     required this.originalBytes,
   });
@@ -108,11 +120,11 @@ class _MelosWorkspace {
   final List<int> originalBytes;
 
   /// Loads `melos.yaml` below [root].
-  static _MelosWorkspace load(Directory root) {
+  static _MelosWorkspaceConfig load(Directory root) {
     final configFile = File('${root.path}/$_melosConfigName');
     final originalBytes = configFile.readAsBytesSync();
 
-    return _MelosWorkspace(
+    return _MelosWorkspaceConfig(
       configFile: configFile,
       originalBytes: originalBytes,
     );
@@ -209,8 +221,30 @@ class _TestCase {
   final String name;
 }
 
-/// Runs a single customer test case and returns `null` on pass or a failure reason.
-Future<String?> _runSelectedCase(
+/// The result of running one selected case.
+sealed class _CaseOutcome {
+  const _CaseOutcome();
+
+  /// The reason reported in logs.
+  String get reason;
+}
+
+final class _CasePassed extends _CaseOutcome {
+  const _CasePassed();
+
+  @override
+  String get reason => 'passed';
+}
+
+final class _CaseFailed extends _CaseOutcome {
+  const _CaseFailed(this.reason);
+
+  @override
+  final String reason;
+}
+
+/// Runs a single customer test case.
+Future<_CaseOutcome> _runSelectedCase(
   String label,
   _TestCase selected,
   Directory appDirectory,
@@ -225,17 +259,15 @@ Future<String?> _runSelectedCase(
     testFilePath,
   ];
   final argv = <String>['flutter', ...arguments];
-  print(
-    '[customer-testing] phase=$label start cwd=${appDirectory.path} '
-    'argv=${jsonEncode(argv)}',
-  );
+  _logPhaseStart(label, appDirectory, argv);
   final stopwatch = Stopwatch()..start();
   final captured = await _runCaptured('flutter', arguments, appDirectory);
   stopwatch.stop();
 
   final machine = _interpretMachineOutput(captured.stdout, selected.name);
-  final reason = _inferCasePassFailReason(captured.exit, machine);
-  final passed = reason == 'passed';
+  final outcome = _inferCaseOutcome(captured.exit, machine);
+  final reason = outcome.reason;
+  final passed = outcome is _CasePassed;
 
   _writeEvidence('cases/$label.stdout.log', captured.stdout);
   _writeEvidence('cases/$label.stderr.log', captured.stderr);
@@ -254,22 +286,23 @@ Future<String?> _runSelectedCase(
     'skipped=${machine.skippedDone} result=${machine.results} '
     'malformed=${machine.malformed}',
   );
-  print(
-    '[customer-testing] phase=$label cwd=${appDirectory.path} '
-    'argv=${jsonEncode(argv)} exit=${passed ? 0 : 1} '
-    'seconds=${_formatSeconds(stopwatch)} note=passed=$passed '
-    'testDone=${machine.matchingDone} skipped=${machine.skippedDone} '
-    'result=${machine.results} malformed=${machine.malformed} '
-    'reason=$reason',
+  _logPhaseEnd(
+    label,
+    appDirectory,
+    argv,
+    exit: passed ? 0 : 1,
+    stopwatch: stopwatch,
+    note: 'passed=$passed testDone=${machine.matchingDone} '
+        'skipped=${machine.skippedDone} result=${machine.results} '
+        'malformed=${machine.malformed} reason=$reason',
   );
   if (!passed) {
     stderr.writeln(
       '[customer-testing] case=$label failed name=${jsonEncode(selected.name)} '
       'reason=$reason',
     );
-    return reason;
   }
-  return null;
+  return outcome;
 }
 
 void _writeRawStream(String label, String stream, String content) {
@@ -373,24 +406,25 @@ _MachineOutput _interpretMachineOutput(String stdoutText, String expectedName) {
   );
 }
 
-/// Summarizes why a customer test case failed.
-String _inferCasePassFailReason(int exitCode, _MachineOutput machine) {
+/// Decides whether a case passed, or why it failed.
+_CaseOutcome _inferCaseOutcome(int exitCode, _MachineOutput machine) {
   if (machine.matchingDone == 0) {
-    return 'no-matching-test-done';
+    return const _CaseFailed('no-matching-test-done');
   }
   if (machine.matchingDone > 1) {
-    return 'multiple-matching-tests';
+    return const _CaseFailed('multiple-matching-tests');
   }
   if (machine.skippedDone > 0) {
-    return 'skipped';
+    return const _CaseFailed('skipped');
   }
   if (machine.results.isEmpty || machine.results.single != 'success') {
-    return 'result-${machine.results.isEmpty ? 'missing' : machine.results.single}';
+    final result = machine.results.isEmpty ? 'missing' : machine.results.single;
+    return _CaseFailed('result-$result');
   }
   if (exitCode != 0) {
-    return 'nonzero-exit';
+    return const _CaseFailed('nonzero-exit');
   }
-  return 'passed';
+  return const _CasePassed();
 }
 
 typedef _RunMelos = Future<bool> Function(String label, List<String> arguments);
@@ -452,10 +486,7 @@ Future<bool> _runPhase({
   Map<String, String>? environment,
 }) async {
   final argv = <String>[executable, ...arguments];
-  print(
-    '[customer-testing] phase=$label start cwd=${workingDirectory.path} '
-    'argv=${jsonEncode(argv)}',
-  );
+  _logPhaseStart(label, workingDirectory, argv);
   final stopwatch = Stopwatch()..start();
   var exit = 1;
   try {
@@ -475,11 +506,30 @@ Future<bool> _runPhase({
   } finally {
     stopwatch.stop();
   }
-  print(
-    '[customer-testing] phase=$label cwd=${workingDirectory.path} '
-    'argv=${jsonEncode(argv)} exit=$exit seconds=${_formatSeconds(stopwatch)}',
-  );
+  _logPhaseEnd(label, workingDirectory, argv, exit: exit, stopwatch: stopwatch);
   return exit == 0;
+}
+
+void _logPhaseStart(String label, Directory directory, List<String> argv) {
+  print(
+    '[customer-testing] phase=$label start cwd=${directory.path} '
+    'argv=${jsonEncode(argv)}',
+  );
+}
+
+void _logPhaseEnd(
+  String label,
+  Directory directory,
+  List<String> argv, {
+  required int exit,
+  required Stopwatch stopwatch,
+  String? note,
+}) {
+  print(
+    '[customer-testing] phase=$label cwd=${directory.path} '
+    'argv=${jsonEncode(argv)} exit=$exit '
+    'seconds=${_formatSeconds(stopwatch)}${note == null ? '' : ' note=$note'}',
+  );
 }
 
 /// Records the active Dart, Flutter, and Git environment for diagnostics.

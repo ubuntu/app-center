@@ -1,12 +1,11 @@
 name: Flutter customer registry
 
-# This workflow is intentionally not a required branch-protection check. The
-# schedule is the only trigger: it tests App Center's default branch against the
-# latest Flutter main SDK. Pull requests keep using the App Center pinned SDK in
-# `.fvmrc` and already run the widget tests containing the selected cases.
+# This workflow is intentionally not a required branch-protection check. It runs
+# the Flutter Customer Test Registry flow for each pull request against the latest
+# Flutter main SDK. A failure shows as a red check but must not block merging;
+# the normal CI keeps testing with the App Center pinned SDK in `.fvmrc`.
 on:
-  schedule:
-    - cron: '0 4 * * *'
+  pull_request:
 
 concurrency:
   group: flutter-customer-registry-${{ github.ref }}
@@ -22,13 +21,16 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v6
-      - uses: canonical/desktop-engineering/gh-actions/flutter/setup@e1069c189573b3525a60f54c5107ea3264f80805
-        with:
-          checkout: false
+      # Install only FVM. The wrapper selects Flutter main itself, so the pinned
+      # SDK is never bootstrapped in the checkout the run copies.
+      - name: Install FVM
+        run: |
+          curl -fsSL https://fvm.app/install.sh | bash -s -- 4.3.1
+          echo "$HOME/fvm/bin" >> "$GITHUB_PATH"
       - name: Run Flutter Customer Test Registry flow
         env:
           REGISTRY_EVIDENCE_DIR: ${{ runner.temp }}/flutter-registry-evidence
-        run: melos run run-flutter-registry-test
+        run: bash scripts/run_flutter_registry_ci.sh
       - name: Upload registry evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -36,69 +38,3 @@ jobs:
           name: flutter-registry-evidence
           path: ${{ runner.temp }}/flutter-registry-evidence
           if-no-files-found: warn
-
-  report-failure:
-    name: Report Flutter main investigation
-    needs: flutter-main
-    if: failure()
-    runs-on: ubuntu-26.04
-    permissions:
-      contents: read
-      issues: write
-      actions: read
-    # Serialize issue lookup and creation so concurrent failures cannot open
-    # more than one investigation.
-    concurrency:
-      group: flutter-main-investigation
-      cancel-in-progress: false
-    steps:
-      - name: Download registry evidence
-        continue-on-error: true
-        uses: actions/download-artifact@v4
-        with:
-          name: flutter-registry-evidence
-          path: ${{ runner.temp }}/flutter-registry-evidence
-      - name: Open one Flutter main investigation
-        env:
-          GH_TOKEN: ${{ github.token }}
-          GH_REPO: ${{ github.repository }}
-          APP_CENTER_SHA: ${{ github.sha }}
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          EVIDENCE_DIR: ${{ runner.temp }}/flutter-registry-evidence
-        run: |
-          set -euo pipefail
-          marker='<!-- flutter-main-investigation -->'
-
-          flutter_revision='unavailable'
-          version_file="$EVIDENCE_DIR/flutter-version.json"
-          if [[ -f "$version_file" ]]; then
-            flutter_revision="$(jq -r '.frameworkRevision // "unavailable"' "$version_file" 2>/dev/null || echo unavailable)"
-          fi
-
-          issues_file="$RUNNER_TEMP/flutter-main-issues.json"
-          gh api --paginate \
-            "repos/$GH_REPO/issues?state=open&per_page=100" > "$issues_file"
-          open_count="$(jq -s --arg marker "$marker" \
-            '[.[][] | select(.pull_request == null and ((.body // "") | contains($marker)))] | length' \
-            "$issues_file")"
-          if [[ "$open_count" != "0" ]]; then
-            echo "A Flutter main investigation is already open; no issue created."
-            exit 0
-          fi
-
-          body_file="$RUNNER_TEMP/flutter-main-investigation.md"
-          cat > "$body_file" <<EOF
-          $marker
-          The nightly Flutter main customer test run failed.
-
-          - App Center commit: \`$APP_CENTER_SHA\`
-          - Flutter revision: \`$flutter_revision\`
-          - Workflow run: $RUN_URL
-
-          This issue is opened once per investigation. Later failures upload
-          evidence but do not create another issue or post a comment. A green
-          run does not close the issue; the team decides when to close it.
-          EOF
-          gh issue create \
-            --title 'Flutter main investigation: App Center customer tests failing' \
-            --body-file "$body_file"
