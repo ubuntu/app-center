@@ -89,8 +89,10 @@ Future<bool> _test(Directory root) async {
   // Flutter test processes in the same package share build and asset files.
   for (final selected in selectedCases) {
     final fileName = selected.file.split('/').last;
-    final testName = selected.name.toLowerCase().replaceAll(' ', '-');
-    final label = '$fileName:$testName';
+    // Labels name evidence files, which artifact uploads restrict (no `:`).
+    final testName =
+        selected.name.toLowerCase().replaceAll(RegExp(r'[^a-z0-9._]+'), '-');
+    final label = '$fileName--$testName';
     final outcome = await _runSelectedCase(label, selected, appCenterPkg);
     if (outcome case _CaseFailed(:final reason)) {
       failures.add('${selected.file}: ${selected.name} ($reason)');
