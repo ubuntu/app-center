@@ -23,6 +23,20 @@ log() {
   printf '[registry-ci] %s\n' "$*"
 }
 
+# Copy a worktree exactly as it is on disk: tracked files with uncommitted
+# edits, new untracked files, and no files that were deleted or ignored.
+snapshot_worktree() {
+  local source="$1" destination="$2" index_dir index tree
+  # A throwaway index lets git snapshot your worktree without touching the
+  # index you have staged things in.
+  index_dir="$(mktemp -d "${TMPDIR:-/tmp}/worktree-index.XXXXXX")"
+  index="$index_dir/index"
+  GIT_INDEX_FILE="$index" git -C "$source" add -A
+  tree="$(GIT_INDEX_FILE="$index" git -C "$source" write-tree)"
+  rm -rf "$index_dir"
+  git -C "$source" archive --format=tar "$tree" | tar -xf - -C "$destination"
+}
+
 evidence_dir="${REGISTRY_EVIDENCE_DIR:-$(mktemp -d "${TMPDIR:-/tmp}/app-center-registry-evidence.XXXXXX")}"
 mkdir -p "$evidence_dir"
 evidence_dir="$(cd "$evidence_dir" && pwd)"
@@ -71,10 +85,7 @@ temp_root="$(mktemp -d "${TMPDIR:-/tmp}/app-center-registry.XXXXXX")"
 checkout="$temp_root/app-center"
 mkdir -p "$checkout"
 log "copying tracked and worktree files to $checkout"
-(
-  cd "$repo_root"
-  git ls-files -z --cached --others --exclude-standard | tar --null -T - -cf -
-) | tar -xf - -C "$checkout"
+snapshot_worktree "$repo_root" "$checkout"
 
 # A synthetic repository retains exactly what the registry's automatic update
 # changed without copying the caller's history.
