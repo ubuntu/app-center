@@ -437,7 +437,7 @@
     "driversPageRestartRequiredMessage": "Reštartujte počítač, aby sa prejavili zmeny v ovládačoch.",
     "driversPageErrorLabel": "Chyba",
     "driversPageRetryLabel": "Skúsiť znova",
-    "driversPageNoDriversFoundMessage": "Používajú sa zabudované ovládače. Nenašli sa žiadne ďalšie ovládače.",
+    "driversPageNoDriversFoundMessage": "Používajú sa vstavané ovládače. Nenašli sa žiadne ďalšie ovládače.",
     "driversPageUnavailableTitle": "Správa ovládačov nie je dostupná",
     "driversPageUnsupportedMessage": "Služba správy ovládačov nie je dostupná. Uistite sa, že snapd je aktuálny a ubuntu-drivers-common je nainštalovaný.",
     "driversPageSwitchBranchLabel": "Prepnúť vetvu",
@@ -623,7 +623,7 @@
             }
         }
     },
-    "uninstallDependentsMessage": "Tieto balíky sú naviazané na aplikáciu {appName} a odinštalujú sa tiež:",
+    "uninstallDependentsMessage": "Tieto balíky sú naviazané na {appName} a odinštalujú sa tiež:",
     "@uninstallDependentsMessage": {
         "placeholders": {
             "appName": {

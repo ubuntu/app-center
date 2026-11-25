@@ -614,5 +614,23 @@
         }
     },
     "addonsPageFirmwareTitle": "Belső vezérlőprogram",
-    "addonsPageFirmwareDescription": "Frissítse a hardvert a jobb teljesítmény és a biztonság érdekében"
+    "addonsPageFirmwareDescription": "Frissítse a hardvert a jobb teljesítmény és a biztonság érdekében",
+    "appDetailsVerifiedPublisherTooltip": "Ellenőrzött kiadó: a Canonical által ellenőrzött, megbízható szervezet, amely hiteles, gondosan karbantartott snapeket tesz közzé.",
+    "appDetailsStarredPublisherTooltip": "Csillagozott kiadó: a Canonical által elismert, megbízható közösségi tag, aki kiváló minőségű snapeket tesz közzé.",
+    "uninstallDependentsTitle": "Eltávolítja a(z) {appName} alkalmazást és a függőségi csomagokat?",
+    "@uninstallDependentsTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "uninstallDependentsMessage": "Ezek a csomagok a(z) {appName} alkalmazástól függenek, és ezek is el lesznek távolítva:",
+    "@uninstallDependentsMessage": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }

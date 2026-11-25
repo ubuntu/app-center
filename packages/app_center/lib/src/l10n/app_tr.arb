@@ -476,5 +476,73 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "appConfinementClassic": "Kısıtlamasız",
+    "appConfinementUnrestricted": "Kısıtlamasız",
+    "appConfinementStrictTooltip": "Bu uygulamanın kaynaklarınıza erişimi kısıtlıdır. İzinlerini Ayarlar uygulamasından yönetebilirsiniz.",
+    "appConfinementClassicTooltip": "Bu uygulama klasik kısıtlama yöntemini kullanır ve sistem kaynaklarınıza tam erişim sağlar. Bu, geliştirme uygulamalarında yaygındır.",
+    "appLicenseUnknown": "Bilinmeyen",
+    "appPublishedUnknown": "Bilinmeyen",
+    "appDetailsAdditionalInfoLabel": "Ek bilgi",
+    "appDetailsPackageFormatLabel": "Paket biçimi",
+    "appDetailsCategoryLabel": "Kategori",
+    "appDetailsInstallDateLabel": "Kurulum tarihi",
+    "appDetailsInstalledSizeLabel": "Kurulu boyut",
+    "appDetailsNotInstalled": "Kurulu değil",
+    "appDetailsNotAvailable": "Mevcut değil",
+    "appDetailsChoosePackageFormatAction": "Paket biçimi seç",
+    "appDetailsChoosePackageFormatTitle": "Paket biçimi seç",
+    "appDetailsPackageSourceLabel": "Kaynak",
+    "appDetailsVerifiedPublisherSemanticLabel": "Doğrulanmış yayıncı",
+    "appDetailsStarredPublisherSemanticLabel": "Yıldızlı yayıncı",
+    "appDetailsPackageSourceSnapStore": "Snap Mağazası",
+    "appDetailsPackageSourceUbuntuArchive": "Ubuntu arşivi",
+    "appDetailsInstalledAsFormat": "Zaten {format} olarak kurulu",
+    "@appDetailsInstalledAsFormat": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsTwoFormats": "Hem {first} hem de {second} kurulu",
+    "@appDetailsInstalledAsTwoFormats": {
+        "placeholders": {
+            "first": {
+                "type": "String"
+            },
+            "second": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsInstalledAsMultipleFormats": "Birden fazla paket biçiminde kurulu",
+    "appDetailsPackageFormatsLearnMore": "Paket biçimleri hakkında daha fazla bilgi edinin",
+    "snapActionSwitchChannelTitle": "{appName} için kanalı değiştir",
+    "@snapActionSwitchChannelTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "localDebInstalledVersion": "Kurulu sürüm: {version}",
+    "@localDebInstalledVersion": {
+        "description": "The version already installed when viewing a local Debian package file.",
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "codecProprietaryDisclaimer": "Önerilen kodeklerden bazıları sahipli olabilir.",
+    "snapActionRevertLabel": "Güncellemeyi geri al",
+    "snapRevertConfirmRevert": "Geri al",
+    "snapRevertNoPreviousRevisionMessage": "Geri dönülebilecek önceki bir yerel revizyon mevcut değil.",
+    "addonsPageLabel": "Eklentiler",
+    "addonsPageAdditionalDriversTitle": "Ek sürücüler",
+    "addonsPageMediaSupportTitle": "Medya desteği",
+    "addonsPageFirmwareTitle": "Donanım yazılımı",
+    "addonsPageFirmwareDescription": "Daha iyi performans ve güvenlik için donanımı güncelleyin",
+    "mediaSupportPageInstallButton": "Kur"
 }
