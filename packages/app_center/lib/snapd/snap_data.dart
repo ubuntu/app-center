@@ -66,16 +66,23 @@ abstract class SnapData extends AppMetadata with _$SnapData {
   /// Only true when an older local revision exists.
   bool get canRevert => isInstalled && hasPreviousLocalRevision;
 
+  static const _risks = ['stable', 'candidate', 'beta', 'edge'];
+
   static String? defaultSelectedChannel(Snap? localSnap, Snap? storeSnap) {
     final channels = storeSnap?.channels.keys;
     final localChannel = localSnap?.trackingChannel;
+    final storeTrack = storeSnap?.channel.split('/').first ?? '';
+    final defaultTrack = storeTrack.isEmpty || _risks.contains(storeTrack)
+        ? 'latest'
+        : storeTrack;
+    final defaultChannel = _risks
+        .map((risk) => '$defaultTrack/$risk')
+        .firstWhereOrNull((c) => channels?.contains(c) ?? false);
 
     if (localChannel != null && (channels?.contains(localChannel) ?? false)) {
       return localChannel;
-    } else if (channels?.contains(storeSnap?.channel) ?? false) {
-      return storeSnap!.channel;
-    } else if (channels?.contains('latest/stable') ?? false) {
-      return 'latest/stable';
+    } else if (defaultChannel != null) {
+      return defaultChannel;
     } else {
       return channels?.firstWhereOrNull((c) => c.contains('stable')) ??
           channels?.firstOrNull;

@@ -90,5 +90,30 @@ void main() {
         '16/stable',
       );
     });
+
+    test('reads a risk-only store channel as the latest track', () {
+      final storeSnap = createSnap(
+        channel: 'stable',
+        channels: {'1/stable': channel, 'latest/stable': channel},
+      );
+
+      expect(SnapData.defaultSelectedChannel(null, storeSnap), 'latest/stable');
+    });
+
+    test('picks the highest risk on the default track', () {
+      final storeSnap = createSnap(
+        channel: 'candidate',
+        channels: {
+          'esr/stable': channel,
+          'latest/candidate': channel,
+          'latest/edge': channel,
+        },
+      );
+
+      expect(
+        SnapData.defaultSelectedChannel(null, storeSnap),
+        'latest/candidate',
+      );
+    });
   });
 }
