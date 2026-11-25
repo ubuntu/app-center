@@ -159,7 +159,7 @@ class _DebActionButtons extends ConsumerWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (primaryActionButton != null) primaryActionButton,
+              ?primaryActionButton,
             ],
           )
         else

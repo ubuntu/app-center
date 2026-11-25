@@ -98,7 +98,7 @@ class AppTitleBar extends StatelessWidget {
                 child: title,
               ),
             ),
-            if (actions != null) actions!,
+            ?actions,
           ],
         ),
         if (banner != null) ...[
