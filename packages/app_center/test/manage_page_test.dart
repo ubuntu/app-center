@@ -138,7 +138,7 @@ void main() {
       (_) => ProviderScope(
         overrides: [
           ...debProviderOverrides,
-          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
         ],
         child: const ManagePage(),
@@ -200,7 +200,7 @@ void main() {
       (_) => ProviderScope(
         overrides: [
           ...debProviderOverrides,
-          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
         ],
         child: const ManagePage(),
@@ -251,7 +251,7 @@ void main() {
         (_) => ProviderScope(
           overrides: [
             ...debProviderOverrides,
-            launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+            launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
             showLocalSystemAppsProvider.overrideWith((ref) => true),
           ],
           child: const ManagePage(),
@@ -343,7 +343,7 @@ void main() {
       (_) => ProviderScope(
         overrides: [
           ...debProviderOverrides,
-          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
         ],
         child: const ManagePage(),
@@ -376,7 +376,7 @@ void main() {
     final container = createContainer(
       overrides: [
         ...debProviderOverrides,
-        launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+        launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
         showLocalSystemAppsProvider.overrideWith((ref) => true),
       ],
     );
@@ -418,7 +418,7 @@ void main() {
         (_) => ProviderScope(
           overrides: [
             ...debProviderOverrides,
-            launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+            launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
             ...overrides,
           ],
           child: const ManagePage(),
@@ -488,7 +488,7 @@ void main() {
     final container = createContainer(
       overrides: [
         ...debProviderOverrides,
-        launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+        launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
         showLocalSystemAppsProvider.overrideWith((ref) => true),
         activeChangeProvider.overrideWithBuild((_, _) => mockChange),
         currentlyRefreshAllSnapsProvider.overrideWith((_) => [snapName]),
@@ -532,7 +532,7 @@ void main() {
       (_) => ProviderScope(
         overrides: [
           ...debProviderOverrides,
-          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
           activeChangeProvider.overrideWithBuild((_, _) => mockChange),
           currentlyRefreshAllSnapsProvider.overrideWith((_) => ['name']),
         ],
@@ -558,7 +558,7 @@ void main() {
     final container = createContainer(
       overrides: [
         ...debProviderOverrides,
-        launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+        launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
         showLocalSystemAppsProvider.overrideWith((ref) => true),
       ],
     );
@@ -592,7 +592,7 @@ void main() {
       final container = createContainer(
         overrides: [
           ...debProviderOverrides,
-          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
         ],
       );
@@ -631,7 +631,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
           localDebsProvider.overrideWith((ref) async => [debUpdate]),
           localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
@@ -667,7 +667,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
           localDebsProvider.overrideWith((ref) async => []),
           localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
@@ -707,7 +707,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
           localDebsProvider.overrideWith(
             (ref) async => [compulsoryDebWithUpdate],
@@ -743,7 +743,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
           localDebsProvider.overrideWith((ref) async => [defaultInstalledDeb]),
           localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
@@ -777,7 +777,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
           localDebsProvider.overrideWith((ref) async => [debUpdate]),
           localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
@@ -795,7 +795,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
           localDebsProvider.overrideWith((ref) async => [defaultInstalledDeb]),
           localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
@@ -817,7 +817,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
           ...debProviderOverrides,
           localSnapFilterProvider.overrideWith((_) => 'Another'),
@@ -843,7 +843,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
           localDebsProvider.overrideWith((ref) async => [compulsoryDeb]),
           localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
@@ -869,7 +869,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
           localDebsProvider.overrideWith((ref) async => [defaultInstalledDeb]),
           localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
@@ -954,7 +954,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          launchProvider.overrideWith((_, _) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
           localDebsProvider.overrideWith((ref) async => [debUpdate]),
           localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),

@@ -178,7 +178,7 @@ MockSnapdService registerMockSnapdService({
   when(service.snapResults).thenAnswer((_) => const Stream.empty());
   when(
     service.getStoreSnaps(any),
-  ).thenAnswer((_) => Stream.value([if (storeSnap != null) storeSnap]));
+  ).thenAnswer((_) => Stream.value([?storeSnap]));
   if (localSnap != null) {
     when(service.getSnap(any)).thenAnswer((_) async => localSnap);
   } else if (storeSnap != null && localSnap == null) {
@@ -222,7 +222,7 @@ MockSnapdService registerMockSnapdService({
   ).thenAnswer((_) async => refreshableSnaps ?? []);
   when(
     service.find(name: anyNamed('name')),
-  ).thenAnswer((_) async => [if (storeSnap != null) storeSnap]);
+  ).thenAnswer((_) async => [?storeSnap]);
   when(service.getSnaps()).thenAnswer((_) async => installedSnaps ?? []);
   when(service.getSnaps(filter: SnapsFilter.refreshInhibited)).thenAnswer(
     (_) async =>
@@ -427,7 +427,7 @@ MockAppstreamService createMockAppstreamService({
   when(appstream.initialized).thenReturn(initialized);
   when(appstream.init()).thenAnswer((_) async {});
 
-  final allComponents = components ?? [if (component != null) component];
+  final allComponents = components ?? [?component];
 
   when(appstream.getFromId(any)).thenAnswer((invocation) {
     final id = invocation.positionalArguments.first as String;

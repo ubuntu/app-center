@@ -59,7 +59,7 @@ void main() {
       registerMockSnapdService(localSnap: localSnap, storeSnap: storeSnap);
       final subscription = container.listen(
         snapModelProvider(snapName),
-        (_, __) {},
+        (_, _) {},
       );
       await container.read(snapModelProvider(snapName).future);
       final snapData = subscription.read().value;
@@ -90,7 +90,7 @@ void main() {
       registerMockSnapdService(localSnap: localSnap);
       final subscription = container.listen(
         snapModelProvider(snapName),
-        (_, __) {},
+        (_, _) {},
       );
       await container.read(snapModelProvider(snapName).future);
       final snapData = subscription.read().value;
@@ -109,7 +109,7 @@ void main() {
       );
       final subscription = container.listen(
         snapModelProvider(snapName),
-        (_, __) {},
+        (_, _) {},
       );
       await container.read(snapModelProvider(snapName).future);
       final snapData = subscription.read().value;
@@ -130,7 +130,7 @@ void main() {
       final service = registerMockSnapdService(storeSnap: storeSnap);
       final subscription = container.listen(
         snapModelProvider('testsnap').future,
-        (_, __) {},
+        (_, _) {},
       );
       await subscription.read();
       await container.read(snapModelProvider('testsnap').notifier).install();
@@ -266,7 +266,7 @@ void main() {
       localSnap: localSnap,
       storeSnap: storeSnap,
     );
-    container.listen(snapModelProvider('testsnap'), (_, __) {});
+    container.listen(snapModelProvider('testsnap'), (_, _) {});
     await container.read(snapModelProvider('testsnap').future);
 
     final refreshGetSnap = Completer<Snap>();

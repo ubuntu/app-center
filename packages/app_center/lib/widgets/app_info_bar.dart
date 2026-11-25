@@ -110,7 +110,7 @@ class SnapInfoBar extends ConsumerWidget {
 
     return _AppInfoBar(
       appInfos: [
-        if (ratingsInfoItem != null) ratingsInfoItem,
+        ?ratingsInfoItem,
         _AppInfoItem.downloadSize(context: context, appData: snapData),
         _AppInfoItem.confinement(context: context, appData: snapData),
         _AppInfoItem.version(context: context, appData: snapData),

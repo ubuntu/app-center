@@ -99,7 +99,7 @@ class InstalledApps extends _$InstalledApps {
 
     _allApps = [...snapApps, ...debApps];
 
-    void refreshFunction(_, __) => _applyFilters();
+    void refreshFunction(_, _) => _applyFilters();
     ref.listen(localSnapFilterProvider, refreshFunction);
     ref.listen(showLocalSystemAppsProvider, refreshFunction);
     ref.listen(appSortOrderProvider, refreshFunction);

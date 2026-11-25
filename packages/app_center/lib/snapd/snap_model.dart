@@ -42,7 +42,7 @@ class SnapModel extends _$SnapModel {
 
     final localSnap = await local;
     final storeSnap = await store.onError(
-      (_, __) => null,
+      (_, _) => null,
       test: (_) => localSnap != null,
     );
 

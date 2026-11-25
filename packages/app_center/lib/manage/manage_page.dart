@@ -213,7 +213,7 @@ class ManagePage extends ConsumerWidget {
                   hasFixedSize: true,
                 ),
               ),
-              error: (_, __) =>
+              error: (_, _) =>
                   const SliverToBoxAdapter(child: SizedBox.shrink()),
               loading: () => const SliverToBoxAdapter(
                 child: Center(

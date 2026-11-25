@@ -163,7 +163,7 @@ void main() {
 
       container.listen(
         errorStreamProvider,
-        (_, __) {
+        (_, _) {
           expectAsync1<void, SnapdException>(
             (e) {
               expect(e.kind, equals('error kind'));
