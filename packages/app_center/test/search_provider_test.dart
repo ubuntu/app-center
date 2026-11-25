@@ -63,7 +63,7 @@ void main() {
   });
 
   group('mergeSearchResults', () {
-    test('keeps snap order and appends unmatched debs in order', () {
+    test('lists apps in both formats first, then alternates the rest', () {
       final results = mergeSearchResults(
         [
           createSnap(name: 'gimp', commonIds: ['org.gimp.GIMP']),
@@ -80,10 +80,29 @@ void main() {
 
       expect(_pairs(results), [
         ('gimp', 'org.gimp.GIMP'),
-        ('krita', null),
         ('vlc', 'org.videolan.vlc'),
+        ('krita', null),
         (null, 'org.kde.kdenlive'),
         (null, 'org.inkscape.Inkscape'),
+      ]);
+    });
+
+    test('pairs hidden debs with snaps without listing them alone', () {
+      final results = mergeSearchResults(
+        [
+          createSnap(name: 'vlc', commonIds: ['org.videolan.vlc']),
+        ],
+        [
+          _deb('org.videolan.vlc'),
+          _deb('org.example.Hidden'),
+          _deb('org.example.Shown'),
+        ],
+        showDeb: (deb) => deb.id == 'org.example.Shown',
+      );
+
+      expect(_pairs(results), [
+        ('vlc', 'org.videolan.vlc'),
+        (null, 'org.example.Shown'),
       ]);
     });
 
@@ -144,8 +163,8 @@ void main() {
       );
 
       expect(_pairs(results), [
-        ('editor-a', null),
         ('editor-b', 'org.example.Editor'),
+        ('editor-a', null),
       ]);
     });
 
@@ -171,81 +190,6 @@ void main() {
       );
 
       expect(_pairs(results), [('shotwell', 'org.gnome.Shotwell.desktop')]);
-    });
-  });
-
-  group('pageSearchResults', () {
-    List<List<(String?, String?)>> pages(
-      List<Snap> snaps,
-      List<AppstreamComponent> debs, {
-      bool Function(AppstreamComponent)? showDeb,
-    }) => [
-      for (final page in pageSearchResults(snaps, debs, showDeb: showDeb))
-        _pairs(page),
-    ];
-
-    test('pages through the top snaps and debs, both formats first', () {
-      expect(
-        pages(
-          [
-            createSnap(name: 's1', commonIds: ['org.example.One']),
-            createSnap(name: 's2'),
-            createSnap(name: 's3'),
-            createSnap(name: 's4', commonIds: ['org.example.Four']),
-          ],
-          [
-            _deb('org.example.Four'),
-            _deb('org.example.One'),
-            _deb('org.example.Two'),
-            _deb('org.example.Three'),
-          ],
-        ),
-        [
-          [
-            ('s1', 'org.example.One'),
-            ('s4', 'org.example.Four'),
-            ('s2', null),
-            (null, 'org.example.Two'),
-            ('s3', null),
-          ],
-          [(null, 'org.example.Three')],
-        ],
-      );
-    });
-
-    test('pairs hidden debs with snaps without showing them alone', () {
-      expect(
-        pages(
-          [
-            createSnap(name: 'vlc', commonIds: ['org.videolan.vlc']),
-          ],
-          [
-            _deb('org.videolan.vlc'),
-            _deb('org.example.Hidden'),
-            _deb('org.example.Shown'),
-          ],
-          showDeb: (deb) => deb.id == 'org.example.Shown',
-        ),
-        [
-          [('vlc', 'org.videolan.vlc'), (null, 'org.example.Shown')],
-        ],
-      );
-    });
-
-    test('skips pages without new apps', () {
-      expect(
-        pages(
-          [
-            for (final id in ['A', 'B', 'C'])
-              createSnap(name: id, commonIds: ['org.example.$id']),
-          ],
-          [
-            for (final id in ['D', 'E', 'F', 'A', 'B', 'C'])
-              _deb('org.example.$id'),
-          ],
-        ),
-        hasLength(1),
-      );
     });
   });
 
@@ -278,57 +222,6 @@ void main() {
         searchResultEntry(UnifiedSearchResult(deb: _deb('org.videolan.vlc'))),
         const AppDetailsEntry.debComponent('org.videolan.vlc'),
       );
-    });
-  });
-
-  group('suggestSearchResults', () {
-    test('picks an app in both formats, a snap and a deb', () {
-      final results = suggestSearchResults(
-        [
-          createSnap(name: 's1'),
-          createSnap(name: 's2', commonIds: ['org.example.Both']),
-          createSnap(name: 's3'),
-        ],
-        [_deb('org.example.D1'), _deb('org.example.Both')],
-      );
-
-      expect(_pairs(results), [
-        ('s2', 'org.example.Both'),
-        ('s1', null),
-        (null, 'org.example.D1'),
-      ]);
-    });
-
-    test('picks 2 snaps and a deb without an app in both formats', () {
-      final results = suggestSearchResults(
-        [
-          createSnap(name: 's1'),
-          createSnap(name: 's2'),
-          createSnap(name: 's3'),
-        ],
-        [_deb('org.example.D1'), _deb('org.example.D2')],
-      );
-
-      expect(_pairs(results), [
-        ('s1', null),
-        ('s2', null),
-        (null, 'org.example.D1'),
-      ]);
-    });
-
-    test('fills free slots with other results', () {
-      final results = suggestSearchResults(
-        [],
-        [
-          for (final id in ['D1', 'D2', 'D3', 'D4']) _deb('org.example.$id'),
-        ],
-      );
-
-      expect(_pairs(results), [
-        (null, 'org.example.D1'),
-        (null, 'org.example.D2'),
-        (null, 'org.example.D3'),
-      ]);
     });
   });
 

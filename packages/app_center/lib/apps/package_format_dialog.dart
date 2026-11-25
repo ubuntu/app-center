@@ -18,7 +18,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:yaru/yaru.dart';
 
-const _kChannelDropdownWidth = 220.0;
+const _kChannelDropdownWidth = 170.0;
 const _kDialogMaxWidth = 1040.0;
 
 Future<void> showPackageFormatDialog(
@@ -162,6 +162,7 @@ class _FormatTable extends ConsumerStatefulWidget {
 
 class _FormatTableState extends ConsumerState<_FormatTable> {
   final _selectedChannels = <String, String>{};
+  final _expanded = <String>{};
 
   Widget _cell(Widget child) =>
       Padding(padding: const EdgeInsets.all(kSpacing), child: child);
@@ -221,14 +222,7 @@ class _FormatTableState extends ConsumerState<_FormatTable> {
     return _cell(
       ChannelDropdown(
         width: _kChannelDropdownWidth,
-        channels: [
-          for (final channel in channels)
-            ChannelDropdownItem(
-              name: channel.label,
-              version: channel.version.valueOrNull,
-              releasedAt: channel.releaseDate.valueOrNull,
-            ),
-        ],
+        channels: [for (final channel in channels) channel.label],
         selected: selected,
         label: selected ?? kMissingValue,
         onSelected: (value) =>
@@ -306,9 +300,26 @@ class _FormatTableState extends ConsumerState<_FormatTable> {
         ? target.confinement
         : option.confinement.valueOrNull;
 
+    final expanded = _expanded.contains(option.sourceId);
+
     return YaruExpandable(
       key: ValueKey(option.sourceId),
-      expandIconSemanticLabel: l10n.appDetailsPackageDetailsLabel,
+      isExpanded: expanded,
+      onChange: (value) => setState(
+        () => value
+            ? _expanded.add(option.sourceId)
+            : _expanded.remove(option.sourceId),
+      ),
+      // YaruExpandable turns its icon a quarter; this adds another for down/up.
+      expandIcon: AnimatedRotation(
+        turns: expanded ? .25 : 0,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeInOutCubic,
+        child: Icon(
+          YaruIcons.pan_down,
+          semanticLabel: l10n.appDetailsPackageDetailsLabel,
+        ),
+      ),
       header: Row(
         children: [
           SizedBox(
@@ -363,6 +374,7 @@ class _FormatTableState extends ConsumerState<_FormatTable> {
               },
             ),
           ),
+          const Spacer(),
           _cell(
             _action(
               l10n,
@@ -393,10 +405,10 @@ class _ColumnWidths {
 
   _ColumnWidths._(TextScaler scaler)
     : format = scaler.scale(130),
-      publisher = scaler.scale(170),
-      version = scaler.scale(140),
+      publisher = scaler.scale(160),
+      version = scaler.scale(120),
       permissions = scaler.scale(120),
-      detail = scaler.scale(240);
+      detail = scaler.scale(180);
 
   static const channel = _kChannelDropdownWidth + 2 * kSpacing;
 
@@ -467,62 +479,59 @@ class _PackageDetails extends StatelessWidget {
       child: YaruBorderContainer(
         margin: const EdgeInsets.only(bottom: kSpacing),
         padding: const EdgeInsets.all(kSpacing),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              spacing: kSpacing,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                item(
-                  l10n.appDetailsPackageSourceLabel,
-                  link == null
-                      ? Text(source)
-                      : HyperlinkText(text: source, link: link),
-                ),
-                item(
-                  l10n.snapPageVersionLabel,
-                  Text(version ?? kMissingValue),
-                ),
-                item(
-                  l10n.appDetailsPackageNameLabel,
-                  Text(packageName ?? kMissingValue),
-                ),
-              ],
-            ),
-            const SizedBox(height: kSpacing),
-            Row(
-              spacing: kSpacing,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                item(
-                  size?.kind == SizeKind.installed ||
-                          (size == null && showsInstalled)
-                      ? l10n.appDetailsInstalledSizeLabel
-                      : l10n.snapPageDownloadSizeLabel,
-                  Text(switch (size) {
-                    final size? => context.formatByteSize(size.bytes),
-                    null => kMissingValue,
-                  }),
-                ),
-                item(
-                  l10n.snapPagePublishedLabel,
-                  Text(switch (releaseDate) {
-                    final date? => formatAppDate(date),
-                    null => kMissingValue,
-                  }),
-                ),
-              ],
-            ),
-            if (access != null) ...[
-              const SizedBox(height: kSpacing),
-              // Keeps the text from widening the table when expanded.
-              ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 3 * width + 2 * kSpacing),
-                child: Text(access),
+        child: SelectionArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                spacing: kSpacing,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  item(
+                    l10n.appDetailsPackageSourceLabel,
+                    link == null
+                        ? Text(source)
+                        : HyperlinkText(text: source, link: link),
+                  ),
+                  item(
+                    l10n.snapPageVersionLabel,
+                    Text(version ?? kMissingValue),
+                  ),
+                  item(
+                    l10n.appDetailsPackageNameLabel,
+                    Text(packageName ?? kMissingValue),
+                  ),
+                  item(
+                    size?.kind == SizeKind.installed ||
+                            (size == null && showsInstalled)
+                        ? l10n.appDetailsInstalledSizeLabel
+                        : l10n.snapPageDownloadSizeLabel,
+                    Text(switch (size) {
+                      final size? => context.formatByteSize(size.bytes),
+                      null => kMissingValue,
+                    }),
+                  ),
+                  item(
+                    l10n.snapPagePublishedLabel,
+                    Text(switch (releaseDate) {
+                      final date? => formatAppDate(date),
+                      null => kMissingValue,
+                    }),
+                  ),
+                ],
               ),
+              if (access != null) ...[
+                const SizedBox(height: kSpacing),
+                // Keeps the text from widening the table when expanded.
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: 5 * width + 4 * kSpacing,
+                  ),
+                  child: Text(access),
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );

@@ -12,8 +12,7 @@ import 'package:app_center/mapping/package_source_descriptor.dart'
 import 'package:app_center/mapping/snap_package_adapter.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:appstream/appstream.dart';
-import 'package:collection/collection.dart'
-    show IterableIterableExtension, mergeSort;
+import 'package:collection/collection.dart' show mergeSort;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:snapd/snapd.dart';
@@ -27,8 +26,8 @@ final packageFormatProvider = StateProvider.autoDispose<PackageFormat>(
 );
 
 typedef AutoCompleteOptions = ({
-  Iterable<Snap> snaps,
-  Iterable<AppstreamComponent> debs,
+  List<Snap> snaps,
+  List<AppstreamComponent> debs,
 });
 
 final autoCompleteProvider = FutureProvider<AutoCompleteOptions>((ref) async {
@@ -108,12 +107,15 @@ AppDetailsEntry searchResultEntry(UnifiedSearchResult result) {
   );
 }
 
-/// Pairs each snap with its matching deb, keeping the snap order, followed by
-/// the debs without a match in their own order.
+/// Pairs each snap with its matching deb. Lists the apps in both formats first,
+/// then alternates the other snaps and debs, each in their source order.
+///
+/// Debs failing [showDeb] still pair with snaps but get no result of their own.
 List<UnifiedSearchResult> mergeSearchResults(
   List<Snap> snaps,
-  List<AppstreamComponent> debs,
-) {
+  List<AppstreamComponent> debs, {
+  bool Function(AppstreamComponent deb)? showDeb,
+}) {
   const resolver = PackageMappingResolver();
   final snapSources = snaps.map(_searchSnapSource).toList();
   final debSources = debs.map(debSourceDescriptor).toList();
@@ -162,86 +164,27 @@ List<UnifiedSearchResult> mergeSearchResults(
     matchedDebs.add(match.deb);
   }
 
-  return [
-    for (final (index, snap) in snaps.indexed)
-      UnifiedSearchResult(snap: snap, deb: debBySnap[index]),
+  final both = <UnifiedSearchResult>[];
+  final snapOnly = <UnifiedSearchResult>[];
+  for (final (index, snap) in snaps.indexed) {
+    final deb = debBySnap[index];
+    (deb == null ? snapOnly : both).add(
+      UnifiedSearchResult(snap: snap, deb: deb),
+    );
+  }
+  final debOnly = [
     for (final (index, deb) in debs.indexed)
-      if (!matchedDebs.contains(index)) UnifiedSearchResult(deb: deb),
+      if (!matchedDebs.contains(index) && (showDeb?.call(deb) ?? true))
+        UnifiedSearchResult(deb: deb),
   ];
-}
 
-const _firstPageSize = 3;
-const _pageSize = 9;
-
-/// Splits the merged results into pages: the first holds the apps among the
-/// top 3 snaps and debs, each next one the apps among the next 9 of each.
-/// Each page lists the apps in both formats first, then alternates snaps and
-/// debs.
-///
-/// Snaps and debs are matched across the full lists, so a page never repeats
-/// or changes an app from an earlier page. Debs failing [showDeb] still pair
-/// with snaps but get no card of their own.
-List<List<UnifiedSearchResult>> pageSearchResults(
-  List<Snap> snaps,
-  List<AppstreamComponent> debs, {
-  bool Function(AppstreamComponent deb)? showDeb,
-}) {
-  final merged = mergeSearchResults(snaps, debs);
-  final snapEntries = Map<Snap, int>.identity();
-  final debEntries = Map<AppstreamComponent, int>.identity();
-  for (final (index, result) in merged.indexed) {
-    if (result.snap case final snap?) snapEntries[snap] = index;
-    if (result.deb case final deb?) debEntries[deb] = index;
-  }
-  final shownDebs = showDeb == null ? debs : debs.where(showDeb).toList();
-
-  final shown = <int>{};
-  final pages = <List<UnifiedSearchResult>>[];
-  for (
-    var start = 0, size = _firstPageSize;
-    start < snaps.length || start < shownDebs.length;
-    start += size, size = _pageSize
-  ) {
-    final page = [
-      for (final index in [
-        for (final snap in snaps.skip(start).take(size)) snapEntries[snap]!,
-        for (final deb in shownDebs.skip(start).take(size)) debEntries[deb]!,
-      ])
-        if (shown.add(index)) merged[index],
-    ];
-    final snapOnly = page.where((result) => result.deb == null).toList();
-    final debOnly = page.where((result) => result.snap == null).toList();
-    if (page.isNotEmpty) {
-      pages.add([
-        ...page.where((result) => result.snap != null && result.deb != null),
-        for (var i = 0; i < snapOnly.length || i < debOnly.length; i++) ...[
-          if (i < snapOnly.length) snapOnly[i],
-          if (i < debOnly.length) debOnly[i],
-        ],
-      ]);
-    }
-  }
-  return pages;
-}
-
-/// Picks up to 3 suggestions from the first page of results: an app in both
-/// formats, a snap and a deb, or without such an app 2 snaps and a deb. Slots
-/// left free go to the other results.
-List<UnifiedSearchResult> suggestSearchResults(
-  List<Snap> snaps,
-  List<AppstreamComponent> debs,
-) {
-  final candidates = pageSearchResults(snaps, debs).firstOrNull ?? const [];
-  final both = candidates.where((r) => r.snap != null && r.deb != null);
-  final snapOnly = candidates.where((r) => r.deb == null);
-  final debOnly = candidates.where((r) => r.snap == null);
-  final picks = both.isNotEmpty
-      ? [both.first, ...snapOnly.take(1), ...debOnly.take(1)]
-      : [...snapOnly.take(2), ...debOnly.take(1)];
   return [
-    ...picks,
-    ...candidates.where((r) => !picks.contains(r)),
-  ].take(3).toList();
+    ...both,
+    for (var i = 0; i < snapOnly.length || i < debOnly.length; i++) ...[
+      if (i < snapOnly.length) snapOnly[i],
+      if (i < debOnly.length) debOnly[i],
+    ],
+  ];
 }
 
 /// Sorts [results] by [order], keeping their order for ties and for relevance.
@@ -270,7 +213,7 @@ List<UnifiedSearchResult> sortSearchResults(
   return sorted;
 }
 
-/// Snap and deb search results for a query, merged in page order.
+/// Snap and deb search results for a query, merged.
 ///
 /// A failing source is left out, unless there is nothing else to show.
 final unifiedSearchProvider = Provider.autoDispose
@@ -290,7 +233,7 @@ final unifiedSearchProvider = Provider.autoDispose
       if (sources.any((source) => !source.hasValue && !source.hasError)) {
         return const AsyncLoading();
       }
-      final results = pageSearchResults(
+      final results = mergeSearchResults(
         snaps.value ?? const [],
         debs.value ?? const [],
         // Snaps come already filtered by the store; debs map their own
@@ -298,7 +241,7 @@ final unifiedSearchProvider = Provider.autoDispose
         showDeb: category == null
             ? null
             : (deb) => appCategoriesFromFreedesktop(deb).contains(category),
-      ).flattened.toList();
+      );
       final failed = sources.where((source) => source.hasError).firstOrNull;
       if (results.isEmpty && failed != null) {
         return AsyncError(failed.error!, failed.stackTrace ?? StackTrace.empty);

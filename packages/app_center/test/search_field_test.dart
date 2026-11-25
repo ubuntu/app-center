@@ -173,7 +173,7 @@ void main() {
       await tester.pumpAndSettle();
     }
 
-    testWidgets('lists an app in both formats, a snap and a deb', (
+    testWidgets('lists the first 3 merged results', (
       tester,
     ) async {
       await pumpUnifiedField(tester);

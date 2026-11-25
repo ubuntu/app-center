@@ -109,6 +109,32 @@ void main() {
       tester.widget<AnimatedCrossFade>(details('snap:testsnap')).crossFadeState,
       CrossFadeState.showFirst,
     );
+    // Turned a quarter more than YaruExpandable's own turn, pointing up.
+    expect(
+      tester
+          .widget<AnimatedRotation>(
+            find
+                .ancestor(
+                  of: find
+                      .descendant(
+                        of: find.byKey(const ValueKey('snap:testsnap')),
+                        matching: find.byIcon(YaruIcons.pan_down),
+                      )
+                      .last,
+                  matching: find.byType(AnimatedRotation),
+                )
+                .first,
+          )
+          .turns,
+      .25,
+    );
+    expect(
+      find.descendant(
+        of: find.byType(SelectionArea),
+        matching: find.text('testsnap'),
+      ),
+      findsOneWidget,
+    );
     final links = tester
         .widgetList<HyperlinkText>(find.byType(HyperlinkText))
         .map((link) => link.link);
@@ -202,7 +228,9 @@ void main() {
     );
     expect(
       tester.widget<ActiveChangeStatus>(find.byType(ActiveChangeStatus)),
-      isA<ActiveChangeStatus>().having((s) => s.progress, 'progress', 0.4),
+      isA<ActiveChangeStatus>()
+          .having((s) => s.actionLabel, 'label', l10n.snapActionRemovingLabel)
+          .having((s) => s.progress, 'progress', 0.4),
     );
   });
 
