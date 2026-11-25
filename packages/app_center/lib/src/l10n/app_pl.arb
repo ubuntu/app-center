@@ -180,9 +180,9 @@
     "snapReportEnterValidEmailError": "Podaj ważny adres e -mail",
     "snapReportDetailsHint": "Komentarz...",
     "snapReportPrivacyAgreementLabel": "Przesyłając ten formularz, potwierdzam przeczytanie i akceptację ",
-    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "oświadczenia o ochronie prywatności ",
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Informacje o ochronie prywatności firmy Canonical ",
     "snapReportPrivacyAgreementAndLabel": "i ",
-    "snapReportPrivacyAgreementPrivacyPolicy": "polityki prywatności firmy Canonical",
+    "snapReportPrivacyAgreementPrivacyPolicy": "Polityka prywatności",
     "debPageErrorNoPackageInfo": "Nie znaleziono informacji o pakiecie",
     "externalResourcesButtonLabel": "Odkryj więcej",
     "externalResourcesDisclaimer": "Uwaga: wszystkie te narzędzia są zewnętrzne. Nie są własnością firmy Canonical i nie są przez nią dystrybuowane.",
@@ -574,7 +574,7 @@
     "appDetailsChoosePackageFormatTitle": "Wybierz format pakietu",
     "appDetailsPackageSourceLabel": "Źródło",
     "appDetailsVerifiedPublisherSemanticLabel": "Zweryfikowany wydawca",
-    "appDetailsStarredPublisherSemanticLabel": "Ulubiony wydawca",
+    "appDetailsStarredPublisherSemanticLabel": "Wyróżniony wydawca",
     "appDetailsPackageSourceSnapStore": "Snap Store",
     "appDetailsPackageSourceUbuntuArchive": "Archiwum Ubuntu",
     "appDetailsInstalledAsFormat": "Już zainstalowano jako {format}",
@@ -630,5 +630,7 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "appDetailsVerifiedPublisherTooltip": "Zweryfikowany wydawca: zaufana organizacja zweryfikowana przez firmę Canonical pod kątem publikowania prawdziwych, dobrze utrzymanych snapów.",
+    "appDetailsStarredPublisherTooltip": "Wyróżniony wydawca: zaufany członek społeczności, uznany przez firmę Canonical za publikowanie wysokiej jakości snapów."
 }

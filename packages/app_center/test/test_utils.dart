@@ -23,13 +23,13 @@ import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:file/memory.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:flutter_riverpod/misc.dart' show Override, ProviderListenable;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gtk/gtk.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
@@ -37,6 +37,10 @@ import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'test_utils.mocks.dart';
+
+Finder findMaterialTooltip(String message) => find.byWidgetPredicate(
+  (widget) => widget is Tooltip && widget.message == message,
+);
 
 extension WidgetTesterX on WidgetTester {
   BuildContext get context => element(find.byType(Scaffold).first);
@@ -174,7 +178,7 @@ MockSnapdService registerMockSnapdService({
   when(service.snapResults).thenAnswer((_) => const Stream.empty());
   when(
     service.getStoreSnaps(any),
-  ).thenAnswer((_) => Stream.value([if (storeSnap != null) storeSnap]));
+  ).thenAnswer((_) => Stream.value([?storeSnap]));
   if (localSnap != null) {
     when(service.getSnap(any)).thenAnswer((_) async => localSnap);
   } else if (storeSnap != null && localSnap == null) {
@@ -218,7 +222,7 @@ MockSnapdService registerMockSnapdService({
   ).thenAnswer((_) async => refreshableSnaps ?? []);
   when(
     service.find(name: anyNamed('name')),
-  ).thenAnswer((_) async => [if (storeSnap != null) storeSnap]);
+  ).thenAnswer((_) async => [?storeSnap]);
   when(service.getSnaps()).thenAnswer((_) async => installedSnaps ?? []);
   when(service.getSnaps(filter: SnapsFilter.refreshInhibited)).thenAnswer(
     (_) async =>
@@ -423,7 +427,7 @@ MockAppstreamService createMockAppstreamService({
   when(appstream.initialized).thenReturn(initialized);
   when(appstream.init()).thenAnswer((_) async {});
 
-  final allComponents = components ?? [if (component != null) component];
+  final allComponents = components ?? [?component];
 
   when(appstream.getFromId(any)).thenAnswer((invocation) {
     final id = invocation.positionalArguments.first as String;

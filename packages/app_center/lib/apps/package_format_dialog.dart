@@ -12,8 +12,8 @@ import 'package:app_center/mapping/package_source_descriptor.dart';
 import 'package:app_center/widgets/channel_dropdown.dart';
 import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:yaru/yaru.dart';
 
 const _kChannelDropdownWidth = 220.0;

@@ -12,9 +12,9 @@ import 'package:app_center/packagekit/packagekit_remove_dialog.dart';
 import 'package:app_center/providers/current_desktops_provider.dart';
 import 'package:app_center/providers/uninstall_check_provider.dart';
 import 'package:app_center/widgets/widgets.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:yaru/yaru.dart';
 
 class DebPage extends ConsumerWidget {
@@ -159,7 +159,7 @@ class _DebActionButtons extends ConsumerWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (primaryActionButton != null) primaryActionButton,
+              ?primaryActionButton,
             ],
           )
         else

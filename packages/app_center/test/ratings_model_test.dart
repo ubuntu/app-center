@@ -116,7 +116,7 @@ void main() {
     final container = createContainer();
     final mockService = getService<RatingsService>();
     final model = container.read(ratingsModelProvider(snap.name).notifier);
-    container.listen(ratingsModelProvider(snap.name), (_, __) {});
+    container.listen(ratingsModelProvider(snap.name), (_, _) {});
     await container.read(ratingsModelProvider(snap.name).future);
     await withClock(
       Clock.fixed(DateTime(1984)),
@@ -177,7 +177,7 @@ void main() {
       final container = createContainer();
       final mockService = getService<RatingsService>();
       final model = container.read(ratingsModelProvider('firefox').notifier);
-      container.listen(ratingsModelProvider('firefox'), (_, __) {});
+      container.listen(ratingsModelProvider('firefox'), (_, _) {});
       await container.read(ratingsModelProvider('firefox').future);
 
       await withClock(

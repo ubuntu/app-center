@@ -188,10 +188,10 @@ packages:
     dependency: "direct main"
     description:
       name: clock
-      sha256: fddb70d9b5277016c77a80201021d40a2247104d9f4aa7bab7157b7e3f05b84b
+      sha256: e51d50bca3217c9a9fa2b41a30e4a38971133f5f9ec7a3d57bae095007f1d28e
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.2"
+    version: "1.1.3"
   code_assets:
     dependency: transitive
     description:
@@ -248,6 +248,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
+  cupertino_ui:
+    dependency: transitive
+    description:
+      name: cupertino_ui
+      sha256: c3eaf7f5bdfee36deb0b14a4cbf7602f1b6b8d8b8576b81f38fc08c25881c94c
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.7"
   dart_style:
     dependency: transitive
     description:
@@ -374,10 +382,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_lints
-      sha256: "5398f14efa795ffb7a33e9b6a08798b26a180edac4ad7db3f231e40f82ce11e1"
+      sha256: "3105dc8492f6183fb076ccf1f351ac3d60564bff92e20bfc4af9cc1651f4e7e1"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.0"
+    version: "6.0.0"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
@@ -703,10 +711,10 @@ packages:
     dependency: transitive
     description:
       name: lints
-      sha256: c35bb79562d980e9a453fc715854e1ed39e24e7d0297a880ef54e17f9874a9d7
+      sha256: "12f842a479589fea194fe5c5a3095abc7be0c1f2ddfa9a0e76aed1dbd26a87df"
       url: "https://pub.dev"
     source: hosted
-    version: "5.1.1"
+    version: "6.1.0"
   list_counter:
     dependency: transitive
     description:
@@ -763,6 +771,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.13.0"
+  material_ui:
+    dependency: "direct main"
+    description:
+      name: material_ui
+      sha256: a6b19012df437a356cbc01f8ea22a105e07194c47c9a6009da0032a0ce35c4ab
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.11.1"
   matrix4_transform:
     dependency: transitive
     description:
@@ -932,13 +948,13 @@ packages:
     source: hosted
     version: "3.2.0"
   platform_linux:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: platform_linux
-      sha256: "907b7c6da6ee6eea61cd1266b7bd72e2d5bbf7e85160221e8ac5583a44e7a1c7"
+      sha256: cb0d0088a6f7de6c9f1ede711387b73f1c9f165f780b0d9dca5885b66bc6bdec
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.2+1"
+    version: "0.1.4"
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -1212,10 +1228,10 @@ packages:
     dependency: transitive
     description:
       name: stack_trace
-      sha256: "8b27215b45d22309b5cddda1aa2b19bdfec9df0e765f2de506401c071d38d1b1"
+      sha256: "277654b3034d17ac6f9f1cb5595db011b1d5d41e8806866db28e0abaa101c490"
       url: "https://pub.dev"
     source: hosted
-    version: "1.12.1"
+    version: "1.12.2"
   state_notifier:
     dependency: transitive
     description:
@@ -1300,18 +1316,18 @@ packages:
     dependency: "direct dev"
     description:
       name: ubuntu_lints
-      sha256: "423ae7d5d91097acf4b91e544f76ddabc52cf7cf9b9b0ca142ef4f7e4f726836"
+      sha256: e39ea35195963b9aa4cab7f071cafdf2ab36ba79cba39102a0a119b7465b9c97
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.2"
+    version: "0.4.3"
   ubuntu_localizations:
     dependency: "direct main"
     description:
       name: ubuntu_localizations
-      sha256: ce27a25aed582a674adae27db4c8329ffac7b8a9a00eb0e10572e43bd40910c3
+      sha256: "23d0ff93138989570777976f2025f5871f0604a5705d4f489041c5f7106d79a0"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.2+5"
+    version: "0.6.0"
   ubuntu_logger:
     dependency: "direct main"
     description:
@@ -1332,18 +1348,18 @@ packages:
     dependency: "direct main"
     description:
       name: ubuntu_test
-      sha256: "29aa4a0a64f4da80981206b420ddb8706950f85ef45a30ce8337ee717eecb79a"
+      sha256: "9077c48077eed39757cb1d582efd5dc04207dc9ec22fdf284443ac1574be6f0b"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.3+2"
+    version: "0.3.0"
   ubuntu_widgets:
     dependency: "direct main"
     description:
       name: ubuntu_widgets
-      sha256: ec247d89dc4f14de357662b24b32d17c22ef95c14cd827fbf65d988347a9fae1
+      sha256: "57e74055fe30323959cca2efc0e8adfdbfe4a00abcc71456f3caffc3b8ce7ef1"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.2"
+    version: "0.9.0"
   url_launcher:
     dependency: "direct main"
     description:
@@ -1444,10 +1460,10 @@ packages:
     dependency: transitive
     description:
       name: vector_math
-      sha256: "92b9910f66ed1057fd4da7b040ae7c74cafacf885bdc81be496928d5049b032d"
+      sha256: fa49e1674cb84acb900141714e6c6e1f9ae099827c24d141430ff6819db4e1bc
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.3"
+    version: "2.4.4"
   vm_service:
     dependency: transitive
     description:
@@ -1548,18 +1564,18 @@ packages:
     dependency: "direct main"
     description:
       name: yaru
-      sha256: b4f3167b9f138ffd20998bfa36d003dcf5e7979cf2652e4a01835dec66361e33
+      sha256: "22b000cd45d8fe6bc5d2e76df83f7aa81d903ac09f463360d9a2f72f2226e05e"
       url: "https://pub.dev"
     source: hosted
-    version: "11.0.0"
+    version: "12.0.0"
   yaru_test:
     dependency: "direct main"
     description:
       name: yaru_test
-      sha256: "1dcf6b185ad9facc27a3d19c76f7e0520de4edb216f5391a9c8f655b293731b2"
+      sha256: a2a89bb2ed0be61b04ecb82aa5fab9a41c799c83ed292418d8a68175e73afcd8
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.5"
+    version: "1.0.0"
   yaru_window:
     dependency: "direct main"
     description:

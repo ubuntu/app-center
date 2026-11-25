@@ -20,7 +20,7 @@ jobs:
       github.event.sender.login == 'weblate' &&
       github.event.pull_request.user.login == 'weblate' &&
       github.event.pull_request.head.repo.owner.login == 'weblate'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - uses: canonical/desktop-engineering/gh-actions/flutter/weblate-l10n@f0377b0b730d3c0e8961e929bb22d70ee20e9062
         with:

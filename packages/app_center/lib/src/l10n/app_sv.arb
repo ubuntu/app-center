@@ -630,5 +630,7 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "appDetailsVerifiedPublisherTooltip": "Verifierad utgivare: en betrodd organisation som har verifierats av Canonical för att publicera äkta och väl underhållna snap-paket.",
+    "appDetailsStarredPublisherTooltip": "Stjärnmärkt utgivare: en betrodd medlem i gemenskapen som av Canonical har uppmärksammats för att publicera snap-paket av hög kvalitet."
 }

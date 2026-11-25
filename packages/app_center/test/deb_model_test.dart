@@ -29,7 +29,7 @@ void main() {
     final packageKit = createMockPackageKitService(packageInfo: packageInfo);
     createMockAppstreamService(component: component);
     final container = ProviderContainer();
-    final provider = container.listen(debModelProvider('testdeb'), (_, __) {});
+    final provider = container.listen(debModelProvider('testdeb'), (_, _) {});
 
     await expectLater(
       container.read(debModelProvider('testdeb').future),
@@ -46,7 +46,7 @@ void main() {
     createMockPackageKitService(packageInfo: packageInfo);
     final appstream = createMockAppstreamService(component: component);
     final container = ProviderContainer();
-    container.listen(debModelProvider('testdeb'), (_, __) {});
+    container.listen(debModelProvider('testdeb'), (_, _) {});
 
     await container.read(debModelProvider('testdeb').future);
 
@@ -57,7 +57,7 @@ void main() {
     final packageKit = createMockPackageKitService(packageInfo: packageInfo);
     createMockAppstreamService(component: component);
     final container = ProviderContainer();
-    container.listen(debModelProvider('testdeb'), (_, __) {});
+    container.listen(debModelProvider('testdeb'), (_, _) {});
 
     final data = await container.read(debModelProvider('testdeb').future);
 
@@ -72,7 +72,7 @@ void main() {
     );
     createMockAppstreamService(component: component);
     final container = ProviderContainer();
-    container.listen(debModelProvider('testdeb'), (_, __) {});
+    container.listen(debModelProvider('testdeb'), (_, _) {});
 
     await expectLater(
       container.read(debModelProvider('testdeb').future),
@@ -101,7 +101,7 @@ void main() {
     );
     createMockAppstreamService(component: component);
     final container = ProviderContainer();
-    container.listen(debModelProvider('testdeb'), (_, __) {});
+    container.listen(debModelProvider('testdeb'), (_, _) {});
 
     await expectLater(
       container.read(debModelProvider('testdeb').future),
@@ -144,7 +144,7 @@ void main() {
     );
     createMockAppstreamService(component: component);
     final container = ProviderContainer();
-    container.listen(debModelProvider('testdeb'), (_, __) {});
+    container.listen(debModelProvider('testdeb'), (_, _) {});
 
     await expectLater(
       container.read(debModelProvider('testdeb').future),
@@ -187,7 +187,7 @@ void main() {
     );
     createMockAppstreamService(component: component);
     final container = ProviderContainer();
-    container.listen(debModelProvider('testdeb'), (_, __) {});
+    container.listen(debModelProvider('testdeb'), (_, _) {});
 
     await expectLater(
       container.read(debModelProvider('testdeb').future),
@@ -208,7 +208,7 @@ void main() {
     );
     createMockAppstreamService(component: component);
     final container = ProviderContainer();
-    container.listen(debModelProvider('testdeb'), (_, __) {});
+    container.listen(debModelProvider('testdeb'), (_, _) {});
 
     await expectLater(
       container.read(debModelProvider('testdeb').future),
@@ -240,7 +240,7 @@ void main() {
     );
     createMockAppstreamService(component: component);
     final container = ProviderContainer();
-    final provider = container.listen(debModelProvider('testdeb'), (_, __) {});
+    final provider = container.listen(debModelProvider('testdeb'), (_, _) {});
 
     await expectLater(
       container.read(debModelProvider('testdeb').future),

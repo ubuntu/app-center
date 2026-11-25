@@ -163,7 +163,7 @@
     "snapSortOrderRelevance": "Relevancia",
     "snapSortOrderDownloadSizeDesc": "Tamaño (de mayor a menor)",
     "appstreamUrlTypeBugtracker": "Rastreador de errores",
-    "managePageShowSystemSnapsLabel": "Mostrar «snaps» del sistema",
+    "managePageShowSystemSnapsLabel": "Mostrar snaps del sistema",
     "searchPageFilterByLabel": "Filtrar por",
     "snapSortOrderInstalledDateDesc": "Lo más reciente",
     "gamesPageTitle": "Juegos",
@@ -473,5 +473,118 @@
     "appDetailsNotInstalled": "No instalado",
     "appDetailsNotAvailable": "No disponible",
     "addonsPageFirmwareTitle": "Micromática",
-    "addonsPageFirmwareDescription": "Actualice los componentes del equipo para mejorar el rendimiento y la seguridad"
+    "addonsPageFirmwareDescription": "Actualice los componentes del equipo para mejorar el rendimiento y la seguridad",
+    "managePageOpenAppSemanticLabel": "Abrir {appName}",
+    "@managePageOpenAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppSemanticLabel": "Actualizar {appName}",
+    "@managePageUpdateAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageRemoveAppSemanticLabel": "Desinstalar {appName}",
+    "@managePageRemoveAppSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsPackageSourceSnapStore": "Tienda de snaps",
+    "appDetailsPackageSourceUbuntuArchive": "Archivo de Ubuntu",
+    "appDetailsPackageFormatsLearnMore": "Más información sobre los formatos de empaquetamiento",
+    "localDebInstalledVersion": "Versión instalada: {version}",
+    "@localDebInstalledVersion": {
+        "description": "The version already installed when viewing a local Debian package file.",
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionSemanticLabel": "Versión {version}",
+    "@managePageVersionSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdateAppRestartRequiredSemanticLabel": "Actualizar {appName}; requerirá un reinicio",
+    "@managePageUpdateAppRestartRequiredSemanticLabel": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageInstalledSizeSemanticLabel": "Tamaño: {size}",
+    "@managePageInstalledSizeSemanticLabel": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionSemanticLabel": "Canal {channel}, versión {version}",
+    "@managePageChannelVersionSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageChannelVersionUpdateSemanticLabel": "Canal {channel}, de versión {version} a {updateVersion}",
+    "@managePageChannelVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageVersionUpdateSemanticLabel": "De versión {version} a {updateVersion}",
+    "@managePageVersionUpdateSemanticLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            },
+            "updateVersion": {
+                "type": "String"
+            }
+        }
+    },
+    "uninstallDependentsTitle": "¿Quiere desinstalar {appName} y los paquetes dependientes?",
+    "@uninstallDependentsTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "uninstallDependentsMessage": "Estos paquetes dependen de {appName} y también se desinstalarán:",
+    "@uninstallDependentsMessage": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsPackageSourceLabel": "Fuente"
 }

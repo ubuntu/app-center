@@ -10,9 +10,9 @@ import 'package:app_center/snapd/snap_data.dart';
 import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:app_center/widgets/shimmer_placeholder.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:yaru/yaru.dart';
 
@@ -110,7 +110,7 @@ class SnapInfoBar extends ConsumerWidget {
 
     return _AppInfoBar(
       appInfos: [
-        if (ratingsInfoItem != null) ratingsInfoItem,
+        ?ratingsInfoItem,
         _AppInfoItem.downloadSize(context: context, appData: snapData),
         _AppInfoItem.confinement(context: context, appData: snapData),
         _AppInfoItem.version(context: context, appData: snapData),

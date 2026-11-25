@@ -1,0 +1,6 @@
+// Allow privileged snapd actions without prompting, for use in integration tests in destructive CI environments only
+polkit.addRule(function(action, subject) {
+    if (action.id == "io.snapcraft.snapd.manage") {
+        return polkit.Result.YES;
+    }
+});
