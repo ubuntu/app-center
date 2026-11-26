@@ -348,14 +348,37 @@ void main() {
   });
 
   testWidgets(
-    'revert button appears in dropdown when previous revision exists',
+    'revert reports when the previous revision is no longer available',
     (tester) async {
+      final name = localSnap.name;
       final service = registerMockSnapdService(
         localSnap: localSnap,
         storeSnap: storeSnap,
       );
-
-      when(service.hasPreviousRevision(any)).thenAnswer((_) async => true);
+      var hasPreviousRevision = true;
+      when(
+        service.hasPreviousRevision(name),
+      ).thenAnswer((_) async => hasPreviousRevision);
+      when(service.getLocalRevisions(name)).thenAnswer(
+        (_) async => [
+          LocalRevisionInfo(
+            revision: localSnap.revision,
+            version: localSnap.version,
+            active: true,
+          ),
+          const LocalRevisionInfo(
+            revision: 41,
+            version: '1.0.0',
+            active: false,
+          ),
+        ],
+      );
+      when(service.revert(name)).thenThrow(
+        SnapdException(
+          statusCode: 400,
+          message: 'cannot revert "$name": no revision to revert to',
+        ),
+      );
 
       final snapLauncher = createMockSnapLauncher(isLaunchable: true);
 
@@ -368,11 +391,12 @@ void main() {
       await tester.pumpApp(
         (_) => UncontrolledProviderScope(
           container: container,
-          child: const SnapPage(snapName: 'testsnap'),
+          child: SnapPage(snapName: name),
         ),
       );
-      await container.read(snapModelProvider('testsnap').future);
-      await container.read(ratingsModelProvider('testsnap').future);
+      final model = snapModelProvider(name);
+      await container.read(model.future);
+      await container.read(ratingsModelProvider(name).future);
       await tester.pumpAndSettle();
 
       final viewMoreButton = find.descendant(
@@ -383,8 +407,22 @@ void main() {
       await tester.tap(viewMoreButton);
       await tester.pumpAndSettle();
 
-      final revertButton = find.text(tester.l10n.snapActionRevertLabel);
-      expect(revertButton, findsOneWidget);
+      final l10n = tester.l10n;
+      final revertButton = find.text(l10n.snapActionRevertLabel);
+      await tester.tap(revertButton);
+      await tester.pumpAndSettle();
+      expect(find.text(l10n.snapRevertConfirmMessage), findsOneWidget);
+
+      hasPreviousRevision = false;
+      await tester.tap(find.text(l10n.snapRevertConfirmRevert));
+      await tester.pumpAndSettle();
+
+      verify(service.revert(name)).called(1);
+      expect(
+        find.text(l10n.snapRevertNoPreviousRevisionMessage),
+        findsOneWidget,
+      );
+      expect(container.read(model).requireValue.canRevert, isFalse);
     },
   );
 

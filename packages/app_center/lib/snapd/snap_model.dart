@@ -211,15 +211,13 @@ class SnapModel extends _$SnapModel {
       // After successful revert, force refresh to update version and revert availability
       ref.invalidateSelf();
     } on SnapdException catch (e) {
-      // If snapd says there is no revision to revert to, keep UI consistent
+      // Refresh the list of revisions if the previous one is gone.
       if (e.statusCode == 400 &&
           e.message.contains('no revision to revert to')) {
         ref.invalidateSelf();
-        return;
+      } else {
+        state = AsyncData(currentData.copyWith(hasPreviousLocalRevision: true));
       }
-
-      // For other errors, restore previous state and rethrow to be handled upstream
-      state = AsyncData(currentData.copyWith(hasPreviousLocalRevision: true));
       rethrow;
     }
   }
