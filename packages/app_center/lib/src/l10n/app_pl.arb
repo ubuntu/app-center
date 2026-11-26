@@ -632,5 +632,7 @@
         }
     },
     "appDetailsVerifiedPublisherTooltip": "Zweryfikowany wydawca: zaufana organizacja zweryfikowana przez firmę Canonical pod kątem publikowania prawdziwych, dobrze utrzymanych snapów.",
-    "appDetailsStarredPublisherTooltip": "Wyróżniony wydawca: zaufany członek społeczności, uznany przez firmę Canonical za publikowanie wysokiej jakości snapów."
+    "appDetailsStarredPublisherTooltip": "Wyróżniony wydawca: zaufany członek społeczności, uznany przez firmę Canonical za publikowanie wysokiej jakości snapów.",
+    "appDetailsPackageNameLabel": "Nazwa pakietu",
+    "appDetailsPackageDetailsLabel": "Szczegóły pakietu"
 }
