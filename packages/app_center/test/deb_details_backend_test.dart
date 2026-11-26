@@ -115,6 +115,24 @@ void main() {
       expect(snapshot.targets.single.isInstalled, isFalse);
     });
 
+    test('maps main deb categories onto the snap list', () {
+      List<AppCategory> categories(List<String> names) =>
+          appCategoriesFromFreedesktop(
+            AppstreamComponent(
+              id: 'org.test.app',
+              type: AppstreamComponentType.desktopApplication,
+              package: 'test-app',
+              name: const {'C': 'Test App'},
+              summary: const {'C': 'summary'},
+              categories: names,
+            ),
+          );
+
+      expect(categories(['AudioVideo', 'Video']), [AppCategory.musicAndAudio]);
+      expect(categories(['Network', 'Chat']), [AppCategory.social]);
+      expect(categories(['System', 'Settings', 'Photography']), isEmpty);
+    });
+
     test('installed deb with an exact update candidate', () {
       final snapshot = debSnapshotFromData(
         _data(updatePackageId: _updateId),

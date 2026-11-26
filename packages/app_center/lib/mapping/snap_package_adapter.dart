@@ -58,7 +58,7 @@ class SnapPackageAdapter implements PackageFormatAdapter {
   @override
   Future<PackageSourceDescriptor?> findByPackageName(String packageName) async {
     final seen = _seenByName?.call(packageName);
-    if (seen != null) return _descriptorForSnap(seen);
+    if (seen != null) return snapSourceDescriptor(seen);
     final snaps = await _find(
       () => _snapdService.find(
         name: packageName,
@@ -88,27 +88,7 @@ class SnapPackageAdapter implements PackageFormatAdapter {
       ..sort((a, b) => a.name.compareTo(b.name));
     return matching.firstOrNull == null
         ? null
-        : _descriptorForSnap(matching.first);
-  }
-
-  PackageSourceDescriptor _descriptorForSnap(Snap snap) {
-    final app = snap.apps.firstWhereOrNull(
-      (app) => app.commonId != null || app.desktopFile != null,
-    );
-    final desktopId = app?.desktopFile;
-    final aliases = {
-      ...snap.apps.map((app) => app.commonId).whereType<String>(),
-    }.toList()..sort();
-
-    return PackageSourceDescriptor(
-      format: format,
-      packageId: snap.name,
-      commonIds: snap.commonIds,
-      desktopId: desktopId,
-      packageName: snap.name,
-      aliases: aliases,
-      isDesktopApplication: snap.apps.isNotEmpty,
-    );
+        : snapSourceDescriptor(matching.first);
   }
 
   @override
@@ -130,4 +110,23 @@ class SnapPackageAdapter implements PackageFormatAdapter {
       channelOrOrigin: localSnap.trackingChannel,
     );
   }
+}
+
+PackageSourceDescriptor snapSourceDescriptor(Snap snap) {
+  final app = snap.apps.firstWhereOrNull(
+    (app) => app.commonId != null || app.desktopFile != null,
+  );
+  final aliases = {
+    ...snap.apps.map((app) => app.commonId).whereType<String>(),
+  }.toList()..sort();
+
+  return PackageSourceDescriptor(
+    format: PackageFormat.snap,
+    packageId: snap.name,
+    commonIds: snap.commonIds,
+    desktopId: app?.desktopFile,
+    packageName: snap.name,
+    aliases: aliases,
+    isDesktopApplication: snap.apps.isNotEmpty,
+  );
 }

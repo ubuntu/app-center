@@ -4,11 +4,13 @@ import 'package:app_center/apps/app_details_entry.dart';
 import 'package:app_center/apps/app_details_labels.dart';
 import 'package:app_center/apps/app_details_model.dart';
 import 'package:app_center/apps/app_details_state.dart';
+import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/apps/uninstall_dependents_dialog.dart';
 import 'package:app_center/constants.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
+import 'package:app_center/widgets/active_change_content.dart';
 import 'package:app_center/widgets/channel_dropdown.dart';
 import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:collection/collection.dart';
@@ -16,7 +18,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:yaru/yaru.dart';
 
-const _kChannelDropdownWidth = 220.0;
+const _kChannelDropdownWidth = 170.0;
+const _kDialogMaxWidth = 1040.0;
 
 Future<void> showPackageFormatDialog(
   BuildContext context,
@@ -36,50 +39,76 @@ class PackageFormatDialog extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final state = ref.watch(appDetailsModelProvider(entry)).value;
+    final operation = state?.operation;
+    // A format being uninstalled still counts until the removal finishes.
     final installed = [
       for (final option in state?.formats ?? const <FormatOption>[])
-        if (option.installState == InstallState.installed)
+        if (option.installState == InstallState.installed ||
+            (operation?.kind == OperationKind.remove &&
+                operation?.sourceId == option.sourceId))
           option.format.localize(l10n),
     ];
 
-    return SimpleDialog(
-      contentPadding: kDialogContentPadding,
-      titlePadding: EdgeInsets.zero,
-      title: YaruDialogTitleBar(
-        title: Text(l10n.appDetailsChoosePackageFormatTitle),
-      ),
-      children: [
-        if (state == null)
-          const Center(child: YaruCircularProgressIndicator())
-        else ...[
-          if (installed.isNotEmpty && state.formats.length > 1) ...[
-            YaruInfoBox(
-              yaruInfoType: YaruInfoType.warning,
-              title: Text(switch (installed) {
-                [final format] => l10n.appDetailsInstalledAsFormat(format),
-                [final first, final second] =>
-                  l10n.appDetailsInstalledAsTwoFormats(first, second),
-                _ => l10n.appDetailsInstalledAsMultipleFormats,
-              }),
-              subtitle: Text(
-                l10n.appDetailsUninstallToChangeFormat(installed.length),
+    return Dialog(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: _kDialogMaxWidth),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            YaruDialogTitleBar(
+              title: Text(l10n.appDetailsChoosePackageFormatTitle),
+            ),
+            Flexible(
+              child: SingleChildScrollView(
+                padding: kDialogContentPadding,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    if (state == null)
+                      const Center(child: YaruCircularProgressIndicator())
+                    else ...[
+                      if (installed.isNotEmpty && state.formats.length > 1) ...[
+                        YaruInfoBox(
+                          yaruInfoType: YaruInfoType.warning,
+                          title: Text(switch (installed) {
+                            [final format] => l10n.appDetailsInstalledAsFormat(
+                              format,
+                            ),
+                            [final first, final second] =>
+                              l10n.appDetailsInstalledAsTwoFormats(
+                                first,
+                                second,
+                              ),
+                            _ => l10n.appDetailsInstalledAsMultipleFormats,
+                          }),
+                          subtitle: Text(
+                            l10n.appDetailsUninstallToChangeFormat(
+                              installed.length,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: kSpacing),
+                      ],
+                      _HorizontalScrollView(
+                        child: _FormatTable(entry: entry, state: state),
+                      ),
+                      const SizedBox(height: kPagePadding),
+                      Align(
+                        alignment: AlignmentDirectional.centerStart,
+                        child: HyperlinkText(
+                          text: l10n.appDetailsPackageFormatsLearnMore,
+                          link: packageFormatsDocsUrl,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
               ),
             ),
-            const SizedBox(height: kSpacing),
           ],
-          _HorizontalScrollView(
-            child: _FormatTable(entry: entry, state: state),
-          ),
-          const SizedBox(height: kPagePadding),
-          Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: HyperlinkText(
-              text: l10n.appDetailsPackageFormatsLearnMore,
-              link: packageFormatsDocsUrl,
-            ),
-          ),
-        ],
-      ],
+        ),
+      ),
     );
   }
 }
@@ -104,14 +133,19 @@ class _HorizontalScrollViewState extends State<_HorizontalScrollView> {
 
   // Material only adds automatic scrollbars to vertical scroll views.
   @override
-  Widget build(BuildContext context) => Scrollbar(
-    controller: _controller,
-    thumbVisibility: true,
-    child: SingleChildScrollView(
+  Widget build(BuildContext context) => LayoutBuilder(
+    builder: (context, constraints) => Scrollbar(
       controller: _controller,
-      scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.only(bottom: kSpacing),
-      child: widget.child,
+      thumbVisibility: true,
+      child: SingleChildScrollView(
+        controller: _controller,
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.only(bottom: kSpacing),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minWidth: constraints.maxWidth),
+          child: widget.child,
+        ),
+      ),
     ),
   );
 }
@@ -128,6 +162,7 @@ class _FormatTable extends ConsumerStatefulWidget {
 
 class _FormatTableState extends ConsumerState<_FormatTable> {
   final _selectedChannels = <String, String>{};
+  final _expanded = <String>{};
 
   Widget _cell(Widget child) =>
       Padding(padding: const EdgeInsets.all(kSpacing), child: child);
@@ -149,9 +184,13 @@ class _FormatTableState extends ConsumerState<_FormatTable> {
   ) {
     final operation = widget.state.operation;
     if (operation != null && operation.sourceId == sourceId) {
-      return OutlinedButton(
-        onPressed: null,
-        child: Text(operation.kind.localize(l10n)),
+      return ActiveChangeStatus(
+        key: ValueKey(operation.id),
+        actionLabel: operation.kind.localize(l10n),
+        progress: operation.progress,
+        onCancelPressed: operation.canCancel
+            ? () => unawaited(model.cancel(operation.id))
+            : null,
       );
     }
     if (action == null) return const SizedBox.shrink();
@@ -183,14 +222,7 @@ class _FormatTableState extends ConsumerState<_FormatTable> {
     return _cell(
       ChannelDropdown(
         width: _kChannelDropdownWidth,
-        channels: [
-          for (final channel in channels)
-            ChannelDropdownItem(
-              name: channel.label,
-              version: channel.version.valueOrNull,
-              releasedAt: channel.releaseDate.valueOrNull,
-            ),
-        ],
+        channels: [for (final channel in channels) channel.label],
         selected: selected,
         label: selected ?? kMissingValue,
         onSelected: (value) =>
@@ -203,40 +235,54 @@ class _FormatTableState extends ConsumerState<_FormatTable> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final state = widget.state;
     final model = ref.read(appDetailsModelProvider(widget.entry).notifier);
+    final widths = _ColumnWidths.of(context);
+    const divider = Divider(height: 1);
 
-    return Table(
-      defaultColumnWidth: const IntrinsicColumnWidth(),
-      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-      border: TableBorder(
-        horizontalInside: BorderSide(color: theme.dividerColor),
-      ),
-      children: [
-        TableRow(
-          children: [
-            _header(theme, l10n.appDetailsPackageFormatLabel),
-            _header(theme, l10n.snapPagePublisherLabel),
-            _header(theme, l10n.appDetailsPackageSourceLabel),
-            _header(theme, l10n.snapPageChannelLabel),
-            _header(theme, l10n.snapPageVersionLabel),
-            _header(theme, l10n.snapPageConfinementLabel),
-            _header(theme, l10n.snapPagePublishedLabel),
-            _header(theme, l10n.snapPageDownloadSizeLabel),
-            const SizedBox.shrink(),
+    // Rows lay out their columns separately, so all take the widest row's width.
+    return IntrinsicWidth(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              SizedBox(
+                width: widths.format,
+                child: _header(theme, l10n.appDetailsPackageFormatLabel),
+              ),
+              SizedBox(
+                width: widths.publisher,
+                child: _header(theme, l10n.snapPagePublisherLabel),
+              ),
+              SizedBox(
+                width: _ColumnWidths.channel,
+                child: _header(theme, l10n.snapPageChannelLabel),
+              ),
+              SizedBox(
+                width: widths.version,
+                child: _header(theme, l10n.snapPageVersionLabel),
+              ),
+              SizedBox(
+                width: widths.permissions,
+                child: _header(theme, l10n.snapPageConfinementLabel),
+              ),
+            ],
+          ),
+          for (final option in widget.state.formats) ...[
+            divider,
+            _row(l10n, theme, model, widths, option),
           ],
-        ),
-        for (final option in state.formats)
-          _row(context, l10n, theme, model, option),
-      ],
+          divider,
+        ],
+      ),
     );
   }
 
-  TableRow _row(
-    BuildContext context,
+  Widget _row(
     AppLocalizations l10n,
     ThemeData theme,
     AppDetailsModel model,
+    _ColumnWidths widths,
     FormatOption option,
   ) {
     final channels =
@@ -253,73 +299,241 @@ class _FormatTableState extends ConsumerState<_FormatTable> {
     final confinement = target != null
         ? target.confinement
         : option.confinement.valueOrNull;
-    final releaseDate = (target?.releaseDate ?? option.releaseDate).valueOrNull;
-    final size = (target?.size ?? option.size).valueOrNull;
 
-    return TableRow(
+    final expanded = _expanded.contains(option.sourceId);
+
+    return YaruExpandable(
       key: ValueKey(option.sourceId),
-      children: [
-        _cell(
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                option.format.localize(l10n),
-                style: const TextStyle(fontWeight: FontWeight.w500),
-              ),
-              if (option.installState == InstallState.installed)
-                Text(
-                  l10n.snapActionInstalledLabel,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.success,
-                  ),
-                ),
-            ],
-          ),
+      isExpanded: expanded,
+      onChange: (value) => setState(
+        () => value
+            ? _expanded.add(option.sourceId)
+            : _expanded.remove(option.sourceId),
+      ),
+      // YaruExpandable turns its icon a quarter; this adds another for down/up.
+      expandIcon: AnimatedRotation(
+        turns: expanded ? .25 : 0,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeInOutCubic,
+        child: Icon(
+          YaruIcons.pan_down,
+          semanticLabel: l10n.appDetailsPackageDetailsLabel,
         ),
-        _cell(_PublisherLabel(option.publisher.valueOrNull)),
-        _text(switch (option.format) {
-          PackageFormat.snap => l10n.appDetailsPackageSourceSnapStore,
-          PackageFormat.deb => l10n.appDetailsPackageSourceUbuntuArchive,
-        }),
-        _channel(option, channels),
-        _cell(
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 150),
-            child: Tooltip(
-              message: version ?? '',
-              child: Text(
-                version ?? kMissingValue,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+      ),
+      header: Row(
+        children: [
+          SizedBox(
+            width: widths.format,
+            child: _cell(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    option.format.localize(l10n),
+                    style: const TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                  if (option.installState == InstallState.installed)
+                    Text(
+                      l10n.snapActionInstalledLabel,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.success,
+                      ),
+                    ),
+                ],
               ),
             ),
           ),
-        ),
-        _cell(
-          switch (confinement) {
-            final confinement? => ConfinementLabel(confinement),
-            null => const Text(kMissingValue),
-          },
-        ),
-        _text(switch (releaseDate) {
-          final date? => formatAppDate(date),
-          null => null,
-        }),
-        _text(switch (size) {
-          final size? => context.formatByteSize(size.bytes),
-          null => null,
-        }),
-        _cell(
-          _action(
-            l10n,
-            model,
-            option.sourceId,
-            target != null ? target.action : option.action,
+          SizedBox(
+            width: widths.publisher,
+            child: _cell(_PublisherLabel(option.publisher.valueOrNull)),
+          ),
+          SizedBox(
+            width: _ColumnWidths.channel,
+            child: _channel(option, channels),
+          ),
+          SizedBox(
+            width: widths.version,
+            child: _cell(
+              Tooltip(
+                message: version ?? '',
+                child: Text(
+                  version ?? kMissingValue,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: widths.permissions,
+            child: _cell(
+              switch (confinement) {
+                final confinement? => ConfinementLabel(confinement),
+                null => const Text(kMissingValue),
+              },
+            ),
+          ),
+          const Spacer(),
+          _cell(
+            _action(
+              l10n,
+              model,
+              option.sourceId,
+              target != null ? target.action : option.action,
+            ),
+          ),
+        ],
+      ),
+      child: _PackageDetails(
+        option: option,
+        width: widths.detail,
+        version: version,
+        confinement: confinement,
+        releaseDate: (target?.releaseDate ?? option.releaseDate).valueOrNull,
+        size: (target?.size ?? option.size).valueOrNull,
+        showsInstalled:
+            target == null && option.installState == InstallState.installed,
+      ),
+    );
+  }
+}
+
+class _ColumnWidths {
+  _ColumnWidths.of(BuildContext context)
+    : this._(MediaQuery.textScalerOf(context));
+
+  _ColumnWidths._(TextScaler scaler)
+    : format = scaler.scale(130),
+      publisher = scaler.scale(160),
+      version = scaler.scale(120),
+      permissions = scaler.scale(120),
+      detail = scaler.scale(180);
+
+  static const channel = _kChannelDropdownWidth + 2 * kSpacing;
+
+  final double format;
+  final double publisher;
+  final double version;
+  final double permissions;
+  final double detail;
+}
+
+class _PackageDetails extends StatelessWidget {
+  const _PackageDetails({
+    required this.option,
+    required this.width,
+    required this.version,
+    required this.confinement,
+    required this.releaseDate,
+    required this.size,
+    required this.showsInstalled,
+  });
+
+  final FormatOption option;
+  final double width;
+  final String? version;
+  final AppConfinement? confinement;
+  final DateTime? releaseDate;
+  final ByteSize? size;
+  final bool showsInstalled;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final packageName = (option.packageName?.isEmpty ?? true)
+        ? null
+        : option.packageName;
+    final source = switch (option.format) {
+      PackageFormat.snap => l10n.appDetailsPackageSourceSnapStore,
+      PackageFormat.deb => l10n.appDetailsPackageSourceUbuntuArchive,
+    };
+    final link = switch ((option.format, packageName)) {
+      (_, null) => null,
+      (PackageFormat.snap, final name?) => '$snapStoreBaseUrl/$name',
+      (PackageFormat.deb, final name?) => Uri.https(
+        ubuntuPackagesHost,
+        '/search',
+        {'keywords': name, 'searchon': 'names', 'exact': '1'},
+      ).toString(),
+    };
+    final access = confinement?.localizeTooltip(l10n);
+
+    Widget item(String label, Widget value) => SizedBox(
+      width: width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor),
+          ),
+          value,
+        ],
+      ),
+    );
+
+    return SizedBox(
+      width: double.infinity,
+      child: YaruBorderContainer(
+        margin: const EdgeInsets.only(bottom: kSpacing),
+        padding: const EdgeInsets.all(kSpacing),
+        child: SelectionArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                spacing: kSpacing,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  item(
+                    l10n.appDetailsPackageSourceLabel,
+                    link == null
+                        ? Text(source)
+                        : HyperlinkText(text: source, link: link),
+                  ),
+                  item(
+                    l10n.snapPageVersionLabel,
+                    Text(version ?? kMissingValue),
+                  ),
+                  item(
+                    l10n.appDetailsPackageNameLabel,
+                    Text(packageName ?? kMissingValue),
+                  ),
+                  item(
+                    size?.kind == SizeKind.installed ||
+                            (size == null && showsInstalled)
+                        ? l10n.appDetailsInstalledSizeLabel
+                        : l10n.snapPageDownloadSizeLabel,
+                    Text(switch (size) {
+                      final size? => context.formatByteSize(size.bytes),
+                      null => kMissingValue,
+                    }),
+                  ),
+                  item(
+                    l10n.snapPagePublishedLabel,
+                    Text(switch (releaseDate) {
+                      final date? => formatAppDate(date),
+                      null => kMissingValue,
+                    }),
+                  ),
+                ],
+              ),
+              if (access != null) ...[
+                const SizedBox(height: kSpacing),
+                // Keeps the text from widening the table when expanded.
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: 5 * width + 4 * kSpacing,
+                  ),
+                  child: Text(access),
+                ),
+              ],
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 }

@@ -354,6 +354,8 @@
         }
     },
     "appDetailsPackageFormatsLearnMore": "Learn more about package formats",
+    "appDetailsPackageNameLabel": "Package name",
+    "appDetailsPackageDetailsLabel": "Package details",
     "packageFormatDebLabel": "Debian packages",
     "packageFormatSnapLabel": "Snap packages",
     "snapActionCancelLabel": "Cancel",

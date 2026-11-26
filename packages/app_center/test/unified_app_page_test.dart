@@ -25,6 +25,7 @@ void main() {
   Future<void> pumpPage(
     WidgetTester tester, {
     ObservedOperation? activeOperation,
+    PackageSourceSnapshot? snap,
   }) async {
     lookup = Completer();
     final backend = FakePackageDetailsBackend();
@@ -40,7 +41,11 @@ void main() {
         ).overrideWith((ref) => const AsyncData(null)),
         fakeSnapshotProvider(testSnapKey).overrideWith(
           (ref) => AsyncData(
-            createSourceSnapshot(testSnapKey, activeOperation: activeOperation),
+            snap ??
+                createSourceSnapshot(
+                  testSnapKey,
+                  activeOperation: activeOperation,
+                ),
           ),
         ),
       ],
@@ -90,5 +95,20 @@ void main() {
 
     await finishLookup(tester);
     expect(find.byType(ActiveChangeStatus), findsOneWidget);
+  });
+
+  testWidgets('shows the download size of an update', (tester) async {
+    await pumpPage(
+      tester,
+      snap: createSourceSnapshot(
+        testSnapKey,
+        installState: InstallState.installed,
+        withUpdate: true,
+      ),
+    );
+    await finishLookup(tester);
+
+    expect(find.text(tester.l10n.snapPageDownloadSizeLabel), findsOneWidget);
+    expect(find.text(tester.l10n.appDetailsInstalledSizeLabel), findsNothing);
   });
 }

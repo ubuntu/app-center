@@ -70,7 +70,7 @@ class ConfinementLabel extends StatelessWidget {
             Icon(YaruIcons.shield, size: 12),
             SizedBox(width: 2),
           ],
-          Text(confinement.localize(l10n)),
+          Flexible(child: Text(confinement.localize(l10n))),
         ],
       ),
     );

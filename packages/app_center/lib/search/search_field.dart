@@ -14,6 +14,7 @@ sealed class AutoCompleteOption {
   String get title => switch (this) {
     AutoCompleteSnapOption(snap: final snap) => snap.titleOrName,
     AutoCompleteDebOption(deb: final deb) => deb.getLocalizedName(),
+    AutoCompleteAppOption(result: final result) => result.title,
     AutoCompleteSearchOption(query: final query) => query,
   };
 }
@@ -28,6 +29,12 @@ class AutoCompleteDebOption extends AutoCompleteOption {
   final AppstreamComponent deb;
 }
 
+/// An app from the merged snap and deb results.
+class AutoCompleteAppOption extends AutoCompleteOption {
+  AutoCompleteAppOption(this.result);
+  final UnifiedSearchResult result;
+}
+
 class AutoCompleteSearchOption extends AutoCompleteOption {
   AutoCompleteSearchOption(this.query);
   final String query;
@@ -39,13 +46,21 @@ class SearchField extends ConsumerStatefulWidget {
     required this.onSnapSelected,
     required this.onDebSelected,
     required this.searchFocus,
+    this.unifiedResults = false,
+    this.onResultSelected,
     super.key,
-  });
+  }) : assert(!unifiedResults || onResultSelected != null);
 
   final ValueChanged<String> onSearch;
   final ValueChanged<String> onSnapSelected;
   final ValueChanged<String> onDebSelected;
   final FocusNode searchFocus;
+
+  /// Whether snaps and debs are suggested in one list.
+  final bool unifiedResults;
+
+  /// Opens a suggestion from the merged list.
+  final ValueChanged<UnifiedSearchResult>? onResultSelected;
 
   @override
   ConsumerState<SearchField> createState() => _SearchFieldState();
@@ -80,6 +95,15 @@ class _SearchFieldState extends ConsumerState<SearchField> {
         }
         if (options.snaps.isEmpty && options.debs.isEmpty) return [];
         _optionsAvailable = true;
+        if (widget.unifiedResults) {
+          return <AutoCompleteOption>[
+            AutoCompleteSearchOption(query.text),
+            ...mergeSearchResults(
+              options.snaps,
+              options.debs,
+            ).take(3).map(AutoCompleteAppOption.new),
+          ];
+        }
         final snapOptions = options.snaps
             .take(3)
             .map<AutoCompleteOption>(AutoCompleteSnapOption.new)
@@ -98,6 +122,7 @@ class _SearchFieldState extends ConsumerState<SearchField> {
       optionsViewBuilder: (context, onSelected, options) {
         final snapOptions = options.whereType<AutoCompleteSnapOption>();
         final debOptions = options.whereType<AutoCompleteDebOption>();
+        final appOptions = options.whereType<AutoCompleteAppOption>();
         final searchOption = options
             .whereType<AutoCompleteSearchOption>()
             .single;
@@ -114,6 +139,16 @@ class _SearchFieldState extends ConsumerState<SearchField> {
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 children: [
+                  if (appOptions.isNotEmpty) ...[
+                    ...appOptions.map(
+                      (e) => _AutoCompleteTile(
+                        option: e,
+                        onTap: () => onSelected(e),
+                        selected: e == highlightedOption,
+                      ),
+                    ),
+                    const Divider(),
+                  ],
                   if (snapOptions.isNotEmpty) ...[
                     ListTile(
                       title: Text(
@@ -162,6 +197,9 @@ class _SearchFieldState extends ConsumerState<SearchField> {
           snap.name,
         ),
         AutoCompleteDebOption(deb: final deb) => widget.onDebSelected(deb.id),
+        AutoCompleteAppOption(result: final result) => widget.onResultSelected!(
+          result,
+        ),
         AutoCompleteSearchOption(query: final query) => widget.onSearch(query),
       },
       fieldViewBuilder: (context, controller, node, onFieldSubmitted) {
@@ -252,6 +290,15 @@ class _AutoCompleteTile extends StatelessWidget {
         leading: DebAppIcon(
           size: _iconSize,
           component: deb,
+        ),
+        onTap: onTap,
+      ),
+      AutoCompleteAppOption(result: final result) => ListTile(
+        selected: selected,
+        title: Text(option.title),
+        leading: result.fold<Widget>(
+          onSnap: (snap) => AppIcon(size: _iconSize, iconUrl: snap.iconUrl),
+          onDeb: (deb) => DebAppIcon(size: _iconSize, component: deb),
         ),
         onTap: onTap,
       ),
