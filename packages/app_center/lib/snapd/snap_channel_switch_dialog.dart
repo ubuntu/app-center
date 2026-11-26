@@ -172,7 +172,7 @@ class _ChannelDropdown extends ConsumerWidget {
               visualDensity: VisualDensity.standard,
             ),
             itemStyle: MenuItemButton.styleFrom(
-              maximumSize: const Size.fromHeight(100),
+              maximumSize: Size.infinite,
             ),
             child: Text(
               channelText,
@@ -205,41 +205,36 @@ class _ChannelDropdownEntry extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: DefaultTextStyle(
-        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-          overflow: TextOverflow.ellipsis,
-        ),
-        child: SizedBox(
-          width: _kChannelDropdownWidth - 24,
-          child: Semantics(
-            button: true,
-            label: channelInfo.entries
-                .map((e) => '${e.key} ${e.value}')
-                .join(' '),
-            child: ExcludeSemantics(
-              child: Row(
-                children: [
-                  DefaultTextStyle.merge(
-                    style: TextStyle(
-                      color: Theme.of(context).hintColor,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisSize: MainAxisSize.min,
-                      children: channelInfo.keys.map(Text.new).toList(),
-                    ),
+        style: Theme.of(context).textTheme.bodyMedium!,
+        child: Semantics(
+          button: true,
+          label: channelInfo.entries
+              .map((e) => '${e.key} ${e.value}')
+              .join(' '),
+          child: ExcludeSemantics(
+            child: Table(
+              columnWidths: const {
+                0: MinColumnWidth(
+                  IntrinsicColumnWidth(),
+                  FractionColumnWidth(0.45),
+                ),
+              },
+              children: [
+                for (final entry in channelInfo.entries)
+                  TableRow(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsetsDirectional.only(end: 8),
+                        child: Text(
+                          entry.key,
+                          style: TextStyle(color: Theme.of(context).hintColor),
+                          textAlign: TextAlign.end,
+                        ),
+                      ),
+                      Text(entry.value ?? ''),
+                    ],
                   ),
-                  const SizedBox(width: 8),
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: channelInfo.values.nonNulls
-                          .map((e) => Text(e, maxLines: 1))
-                          .toList(),
-                    ),
-                  ),
-                ],
-              ),
+              ],
             ),
           ),
         ),
