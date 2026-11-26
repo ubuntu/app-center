@@ -96,7 +96,13 @@ class _LegacyHeader extends StatelessWidget {
           children: [
             Text(l10n.searchPageSortByLabel),
             const SizedBox(width: 8),
-            const _SortMenu(),
+            Consumer(
+              builder: (context, ref, child) => _SortMenu(
+                supportsDownloadSize:
+                    initialCategory != null ||
+                    ref.watch(packageFormatProvider) == PackageFormat.snap,
+              ),
+            ),
             if (query != null) ...[
               const SizedBox(width: 24),
               Text(l10n.searchPageFilterByLabel),
@@ -222,26 +228,32 @@ class _UnifiedHeader extends StatelessWidget {
 }
 
 class _SortMenu extends ConsumerWidget {
-  const _SortMenu();
+  const _SortMenu({this.supportsDownloadSize = true});
+
+  final bool supportsDownloadSize;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final sortOrder = ref.watch(snapSortOrderProvider);
-    return MenuButtonBuilder<SnapSortOrder?>(
-      expanded: false,
-      values: const [
-        null,
-        SnapSortOrder.alphabeticalAsc,
-        SnapSortOrder.alphabeticalDesc,
+    final orders = <SnapSortOrder?>[
+      null,
+      SnapSortOrder.alphabeticalAsc,
+      SnapSortOrder.alphabeticalDesc,
+      if (supportsDownloadSize) ...[
         SnapSortOrder.downloadSizeAsc,
         SnapSortOrder.downloadSizeDesc,
       ],
+    ];
+    final selectedOrder = orders.contains(sortOrder) ? sortOrder : null;
+    return MenuButtonBuilder<SnapSortOrder?>(
+      expanded: false,
+      values: orders,
       itemBuilder: (context, sortOrder, child) =>
           Text(sortOrder?.localize(l10n) ?? l10n.snapSortOrderRelevance),
       onSelected: (value) =>
           ref.read(snapSortOrderProvider.notifier).state = value,
-      child: Text(sortOrder?.localize(l10n) ?? l10n.snapSortOrderRelevance),
+      child: Text(selectedOrder?.localize(l10n) ?? l10n.snapSortOrderRelevance),
     );
   }
 }
@@ -301,7 +313,7 @@ class _DebSearchResults extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final results = ref.watch(appstreamSearchProvider(query ?? ''));
+    final results = ref.watch(sortedDebSearchProvider(query ?? ''));
     return results.when(
       data: (data) => data.isNotEmpty
           ? ResponsiveLayoutScrollView(

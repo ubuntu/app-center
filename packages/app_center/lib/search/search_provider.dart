@@ -25,6 +25,28 @@ final packageFormatProvider = StateProvider.autoDispose<PackageFormat>(
   (_) => PackageFormat.snap,
 );
 
+final sortedDebSearchProvider = Provider.autoDispose
+    .family<AsyncValue<List<AppstreamComponent>>, String>((ref, query) {
+      final results = ref.watch(appstreamSearchProvider(query));
+      final direction = switch (ref.watch(snapSortOrderProvider)) {
+        SnapSortOrder.alphabeticalAsc => 1,
+        SnapSortOrder.alphabeticalDesc => -1,
+        _ => 0,
+      };
+      if (direction == 0) return results;
+
+      return results.whenData((debs) {
+        final sorted = debs.toList();
+        mergeSort(
+          sorted,
+          compare: (a, b) =>
+              direction *
+              _compareTitles(a.getLocalizedName(), b.getLocalizedName()),
+        );
+        return sorted;
+      });
+    });
+
 typedef AutoCompleteOptions = ({
   List<Snap> snaps,
   List<AppstreamComponent> debs,
@@ -193,7 +215,6 @@ List<UnifiedSearchResult> sortSearchResults(
   Iterable<UnifiedSearchResult> results,
   SnapSortOrder? order,
 ) {
-  String title(UnifiedSearchResult result) => result.title.toLowerCase();
   int bySize(UnifiedSearchResult a, UnifiedSearchResult b, int direction) =>
       switch ((a.snap?.downloadSize, b.snap?.downloadSize)) {
         (final sizeA?, final sizeB?) => direction * sizeA.compareTo(sizeB),
@@ -202,8 +223,8 @@ List<UnifiedSearchResult> sortSearchResults(
         (_, null) => -1,
       };
   int compare(UnifiedSearchResult a, UnifiedSearchResult b) => switch (order) {
-    SnapSortOrder.alphabeticalAsc => title(a).compareTo(title(b)),
-    SnapSortOrder.alphabeticalDesc => title(b).compareTo(title(a)),
+    SnapSortOrder.alphabeticalAsc => _compareTitles(a.title, b.title),
+    SnapSortOrder.alphabeticalDesc => _compareTitles(b.title, a.title),
     SnapSortOrder.downloadSizeAsc => bySize(a, b, 1),
     SnapSortOrder.downloadSizeDesc => bySize(a, b, -1),
     _ => 0,
@@ -212,6 +233,9 @@ List<UnifiedSearchResult> sortSearchResults(
   mergeSort(sorted, compare: compare);
   return sorted;
 }
+
+int _compareTitles(String a, String b) =>
+    a.toLowerCase().compareTo(b.toLowerCase());
 
 /// Snap and deb search results for a query, merged.
 ///

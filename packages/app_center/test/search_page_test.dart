@@ -263,6 +263,74 @@ void main() {
         ]),
       );
     });
+
+    testWidgets('Debian results sort by displayed application name', (
+      tester,
+    ) async {
+      final debSearch = createMockDebSearchProvider({
+        'testsn': [
+          createAppstreamComponent(id: 'org.example.B', name: 'Zebra Editor'),
+          createAppstreamComponent(id: 'org.example.C', name: 'alpha Editor'),
+          createAppstreamComponent(id: 'org.example.A', name: 'Notes'),
+        ],
+      });
+      var searches = 0;
+      await tester.pumpApp(
+        (_) => ProviderScope(
+          overrides: [
+            snapSearchProvider.overrideWith(
+              (ref, query) => mockSearchProvider(query),
+            ),
+            appstreamSearchProvider.overrideWith((ref, query) {
+              searches++;
+              return debSearch(query);
+            }),
+          ],
+          child: const SearchPage(query: 'testsn'),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final l10n = tester.l10n;
+      await tester.tap(find.byType(MenuButtonBuilder<PackageFormat>));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(l10n.packageFormatDebLabel));
+      await tester.pumpAndSettle();
+
+      final sortMenu = find.byType(MenuButtonBuilder<SnapSortOrder?>);
+      Future<void> sortBy(String label) async {
+        await tester.tap(sortMenu);
+        await tester.pumpAndSettle();
+        await tester.tap(find.text(label));
+        await tester.pumpAndSettle();
+      }
+
+      List<String> titles() => [
+        for (final card
+            in tester.widget<AppCardGrid>(find.byType(AppCardGrid)).appCards)
+          card.title.title,
+      ];
+
+      await sortBy(l10n.snapSortOrderAlphabeticalAsc);
+      expect(titles(), [
+        'alpha Editor',
+        'Notes',
+        'Zebra Editor',
+      ]);
+
+      await sortBy(l10n.snapSortOrderAlphabeticalDesc);
+      expect(titles(), ['Zebra Editor', 'Notes', 'alpha Editor']);
+
+      await sortBy(l10n.snapSortOrderRelevance);
+      expect(titles(), ['Zebra Editor', 'alpha Editor', 'Notes']);
+      expect(searches, 1);
+      expect(
+        tester
+            .widget<MenuButtonBuilder<SnapSortOrder?>>(sortMenu)
+            .entries
+            .map((entry) => entry.value),
+        [null, SnapSortOrder.alphabeticalAsc, SnapSortOrder.alphabeticalDesc],
+      );
+    });
   });
 
   group('no results', () {
