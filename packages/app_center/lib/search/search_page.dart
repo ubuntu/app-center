@@ -1,4 +1,5 @@
 import 'package:app_center/appstream/appstream.dart';
+import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
@@ -283,8 +284,24 @@ class InstallAll extends ConsumerWidget {
     final multiSnapModel = ref.watch(multiSnapModelProvider(initialCategory!));
     return Center(
       child: ElevatedButton(
-        onPressed: multiSnapModel.installAll,
-        child: Text(l10n.installAll),
+        onPressed: multiSnapModel.canInstall ? multiSnapModel.installAll : null,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (multiSnapModel.isInstalling) ...[
+              const SizedBox.square(
+                dimension: kLoaderHeight,
+                child: YaruCircularProgressIndicator(strokeWidth: 2),
+              ),
+              const SizedBox(width: kSpacingSmall),
+            ],
+            Text(
+              multiSnapModel.isInstalling
+                  ? l10n.snapActionInstallingLabel
+                  : l10n.installAll,
+            ),
+          ],
+        ),
       ),
     );
   }

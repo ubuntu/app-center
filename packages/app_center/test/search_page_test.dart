@@ -1,7 +1,9 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:app_center/apps/app_details_entry.dart';
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/search/search.dart';
-import 'package:app_center/snapd/multisnap_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store.dart';
 import 'package:app_center/widgets/widgets.dart';
@@ -10,11 +12,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mockito/mockito.dart';
+import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 
 import 'test_utils.dart';
-import 'test_utils.mocks.dart';
 
 const snapId = 'r4LxMVp7zWramXsJQAKdamxy6TAWlaDD';
 const snapName = 'signal-desktop';
@@ -61,8 +63,6 @@ void main() {
       createSnap(name: 'image-processor', title: 'Image Processor'),
     ],
   });
-  final multiSnapModel = MockMultiSnapModel();
-
   testWidgets('query', (tester) async {
     await tester.pumpApp(
       (_) => ProviderScope(
@@ -144,17 +144,35 @@ void main() {
     expect(find.text('Educational Snap'), findsOneWidget);
   });
 
-  testWidgets('games-bundle', (tester) async {
+  testWidgets('games bundle shows progress until snapd completes', (
+    tester,
+  ) async {
+    const category = SnapCategoryEnum.gameDev;
+    const changeId = 'bundle-install';
+    final changes = StreamController<SnapdChange>.broadcast();
+    addTearDown(changes.close);
+    final names = category.featuredSnapNames!;
+    final service = registerMockSnapdService();
+    when(service.getStoreSnaps(names)).thenAnswer(
+      (_) => Stream.value(names.map((name) => createSnap(name: name)).toList()),
+    );
+    when(service.installMany(names)).thenAnswer((_) async => changeId);
+    when(service.watchChange(changeId)).thenAnswer((_) => changes.stream);
+    final showBundle = ValueNotifier(true);
+    addTearDown(showBundle.dispose);
+
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
           snapSearchProvider.overrideWith(
             (ref, query) => mockSearchProvider(query),
           ),
-          multiSnapModelProvider.overrideWith((ref, arg) => multiSnapModel),
         ],
-        child: const SearchPage(
-          category: 'gameDev',
+        child: ValueListenableBuilder(
+          valueListenable: showBundle,
+          builder: (context, visible, child) => visible
+              ? const SearchPage(category: 'gameDev')
+              : const SizedBox.shrink(),
         ),
       ),
     );
@@ -168,8 +186,33 @@ void main() {
     expect(find.text('Image Processor'), findsOneWidget);
     expect(find.text('Test Snap'), findsNothing);
 
-    await tester.tap(find.byType(ElevatedButton));
-    verify(multiSnapModel.installAll()).called(1);
+    final button = find.byType(ElevatedButton);
+    await tester.tap(button);
+    await tester.pump();
+
+    final l10n = tester.l10n;
+    expect(find.text(l10n.snapActionInstallingLabel), findsOneWidget);
+    expect(tester.widget<ElevatedButton>(button).onPressed, isNull);
+    verify(service.installMany(names)).called(1);
+
+    changes.addError(const SocketException('snapd briefly disconnected'));
+    await tester.pump();
+    expect(find.text(l10n.snapActionInstallingLabel), findsOneWidget);
+
+    showBundle.value = false;
+    await tester.pump();
+    await tester.pump();
+    showBundle.value = true;
+    await tester.pump();
+    expect(find.text(l10n.snapActionInstallingLabel), findsOneWidget);
+
+    changes.add(
+      SnapdChange(id: changeId, spawnTime: DateTime(1970), ready: true),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text(l10n.installAll), findsOneWidget);
+    expect(tester.widget<ElevatedButton>(button).onPressed, isNotNull);
   });
 
   group('sort results', () {
