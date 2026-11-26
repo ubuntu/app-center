@@ -632,5 +632,7 @@
         }
     },
     "appDetailsVerifiedPublisherTooltip": "Konfirmita eldonanto: Canonical konfirmis, ke ĉi tiu fidata organizaĵo eldonas verajn, bone mastrumatajn snap-apojn.",
-    "appDetailsStarredPublisherTooltip": "Elstara eldonanto: Canonical rekonas, ke ĉi tiu fidata komunumano eldonas altkvalitajn snap-apojn."
+    "appDetailsStarredPublisherTooltip": "Elstara eldonanto: Canonical rekonas, ke ĉi tiu fidata komunumano eldonas altkvalitajn snap-apojn.",
+    "appDetailsPackageNameLabel": "Nomo de pako",
+    "appDetailsPackageDetailsLabel": "Detaloj pri pako"
 }
