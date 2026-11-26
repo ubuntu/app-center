@@ -1,0 +1,28 @@
+{
+  "tests": {
+    "packages/app_center/test/package_format_dialog_test.dart": [
+      "lists every format without a warning when none installed",
+      "explains the publisher badge",
+      "blocks installing another format while one is installed",
+      "does not warn when the only format is installed",
+      "warns when several formats are installed",
+      "installs the snap from the picked channel",
+      "switches the channel of an installed snap"
+    ],
+    "packages/app_center/test/uninstall_dependents_dialog_test.dart": [
+      "lists every dependent and confirms",
+      "cancel declines",
+      "shows a scrollbar only when the list overflows",
+      "package names are selectable",
+      "scrolls a long list"
+    ],
+    "packages/app_center/test/markdown_description_test.dart": [
+      "markdown follows the dark theme and selection color"
+    ],
+    "packages/app_center/test/material_localizations_test.dart": [
+      "markdown selection menu uses en Material labels",
+      "markdown selection menu uses fr Material labels",
+      "markdown selection menu uses dz Material labels"
+    ]
+  }
+}
