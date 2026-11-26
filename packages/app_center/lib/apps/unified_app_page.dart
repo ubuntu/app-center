@@ -78,6 +78,7 @@ class _UnifiedAppView extends StatelessWidget {
     final categories = _categoryLabels(l10n, state.activePackage.categories);
 
     return AppPage(
+      selectable: true,
       titleBar: AppTitleBar(
         iconUrl: icon?.mapOrNull(
           network: (icon) => icon.url,
@@ -114,10 +115,13 @@ class _UnifiedAppView extends StatelessWidget {
           ),
           const SizedBox(height: kPagePadding),
           if (screenshots.isNotEmpty) ...[
-            ScreenshotGallery(
-              title: name,
-              urls: screenshots,
-              height: layout.totalWidth / 2,
+            // Dragging over the gallery would select text through it.
+            SelectionContainer.disabled(
+              child: ScreenshotGallery(
+                title: name,
+                urls: screenshots,
+                height: layout.totalWidth / 2,
+              ),
             ),
             const SizedBox(height: kSectionSpacing),
           ],
@@ -147,14 +151,19 @@ class _Description extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => switch (description.type) {
-    RichContentType.markdown => MarkdownDescription(data: description.text),
+    // The page is wrapped in a SelectionArea, so the description must not
+    // create its own selectable texts to join the page-wide selection.
+    RichContentType.markdown => MarkdownDescription(
+      data: description.text,
+      selectable: false,
+    ),
     RichContentType.html => Html(
       data: description.text,
       style: {
         'body': Style(margin: Margins.zero, padding: HtmlPaddings.zero),
       },
     ),
-    RichContentType.plain => SelectableText(description.text),
+    RichContentType.plain => Text(description.text),
   };
 }
 
@@ -194,66 +203,70 @@ class _ActionBar extends ConsumerWidget {
           )
         : null;
 
-    return Wrap(
-      runSpacing: kSpacing,
-      spacing: kSpacing,
-      crossAxisAlignment: WrapCrossAlignment.center,
-      children: [
-        // Actions may still target another package.
-        if (!state.decided)
-          const SizedBox.square(
-            dimension: kLoaderMediumHeight,
-            child: YaruCircularProgressIndicator(),
-          )
-        else ...[
-          if (operation != null)
-            ActiveChangeStatus(
-              key: ValueKey(operation.id),
-              actionLabel: operation.kind.localize(l10n),
-              progress: operation.progress,
-              onCancelPressed: operation.canCancel
-                  ? () => unawaited(model.cancel(operation.id))
-                  : null,
+    // The action buttons are not text content; dragging over them should not
+    // select their labels.
+    return SelectionContainer.disabled(
+      child: Wrap(
+        runSpacing: kSpacing,
+        spacing: kSpacing,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          // Actions may still target another package.
+          if (!state.decided)
+            const SizedBox.square(
+              dimension: kLoaderMediumHeight,
+              child: YaruCircularProgressIndicator(),
             )
-          else if (primary != null)
-            YaruSplitButton(
-              onPressed: run(primary),
-              child: Text(
-                primary.kind.localize(l10n),
-                overflow: TextOverflow.ellipsis,
+          else ...[
+            if (operation != null)
+              ActiveChangeStatus(
+                key: ValueKey(operation.id),
+                actionLabel: operation.kind.localize(l10n),
+                progress: operation.progress,
+                onCancelPressed: operation.canCancel
+                    ? () => unawaited(model.cancel(operation.id))
+                    : null,
+              )
+            else if (primary != null)
+              YaruSplitButton(
+                onPressed: run(primary),
+                child: Text(
+                  primary.kind.localize(l10n),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-          for (final action in otherActions)
-            OutlinedButton(
-              onPressed: run(action),
-              child: Text(action.kind.localize(l10n)),
-            ),
-          if (uninstall != null)
-            OutlinedButton(
-              onPressed: run(uninstall),
-              child: Text(l10n.snapActionRemoveLabel),
-            ),
-          if (state.formats.isNotEmpty)
-            YaruPopupMenuButton<void>(
-              showArrow: false,
-              semanticLabel: l10n.appMoreActionsSemanticLabel,
-              childPadding: const EdgeInsets.symmetric(horizontal: 2),
-              itemBuilder: (_) => [
-                PopupMenuItem<void>(
-                  onTap: () =>
-                      unawaited(showPackageFormatDialog(context, entry)),
-                  child: IntrinsicWidth(
-                    child: ListTile(
-                      mouseCursor: SystemMouseCursors.click,
-                      title: Text(l10n.appDetailsChoosePackageFormatAction),
+            for (final action in otherActions)
+              OutlinedButton(
+                onPressed: run(action),
+                child: Text(action.kind.localize(l10n)),
+              ),
+            if (uninstall != null)
+              OutlinedButton(
+                onPressed: run(uninstall),
+                child: Text(l10n.snapActionRemoveLabel),
+              ),
+            if (state.formats.isNotEmpty)
+              YaruPopupMenuButton<void>(
+                showArrow: false,
+                semanticLabel: l10n.appMoreActionsSemanticLabel,
+                childPadding: const EdgeInsets.symmetric(horizontal: 2),
+                itemBuilder: (_) => [
+                  PopupMenuItem<void>(
+                    onTap: () =>
+                        unawaited(showPackageFormatDialog(context, entry)),
+                    child: IntrinsicWidth(
+                      child: ListTile(
+                        mouseCursor: SystemMouseCursors.click,
+                        title: Text(l10n.appDetailsChoosePackageFormatAction),
+                      ),
                     ),
                   ),
-                ),
-              ],
-              child: const Icon(YaruIcons.view_more),
-            ),
+                ],
+                child: const Icon(YaruIcons.view_more),
+              ),
+          ],
         ],
-      ],
+      ),
     );
   }
 }
@@ -363,12 +376,9 @@ class _InfoItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           label,
-          SelectionArea(
-            focusNode: FocusNode(canRequestFocus: false),
-            child: DefaultTextStyle.merge(
-              style: const TextStyle(fontWeight: FontWeight.w500),
-              child: value,
-            ),
+          DefaultTextStyle.merge(
+            style: const TextStyle(fontWeight: FontWeight.w500),
+            child: value,
           ),
         ],
       ),

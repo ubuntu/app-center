@@ -60,4 +60,21 @@ void main() {
     expect(editable.selectionColor, selectionColor);
     expect(editable.cursorColor, cursorColor);
   });
+
+  testWidgets('content joins a surrounding selection', (tester) async {
+    await tester.pumpApp(
+      (_) => SelectionArea(
+        child: MarkdownDescription(data: 'Description', selectable: false),
+      ),
+    );
+
+    expect(
+      tester.widget<MarkdownBody>(find.byType(MarkdownBody)).selectable,
+      isFalse,
+    );
+    // Instead of its own selectable texts, the content is plain text that
+    // joins the surrounding selection area.
+    expect(find.byType(legacy.SelectableText), findsNothing);
+    expect(find.text('Description'), findsOneWidget);
+  });
 }
