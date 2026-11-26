@@ -159,95 +159,98 @@ void main() {
     tester,
   ) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.linux;
+    try {
+      final clipboardCalls = <MethodCall>[];
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        SystemChannels.platform,
+        (message) async {
+          clipboardCalls.add(message);
+          return message.method == 'Clipboard.getData'
+              ? <String, dynamic>{'text': ''}
+              : null;
+        },
+      );
 
-    final clipboardCalls = <MethodCall>[];
-    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
-      SystemChannels.platform,
-      (message) async {
-        clipboardCalls.add(message);
-        return message.method == 'Clipboard.getData'
-            ? <String, dynamic>{'text': ''}
-            : null;
-      },
-    );
+      await pumpPage(tester);
+      await finishLookup(tester);
 
-    await pumpPage(tester);
-    await finishLookup(tester);
-
-    final start = tester.getCenter(find.text('Snap summary'));
-    final end = tester.getCenter(find.text('Snap description'));
-    final gesture = await tester.startGesture(
-      start,
-      kind: PointerDeviceKind.mouse,
-    );
-    for (var i = 0; i < 10; i++) {
-      await gesture.moveBy((end - start) / 10);
+      final start = tester.getCenter(find.text('Snap summary'));
+      final end = tester.getCenter(find.text('Snap description'));
+      final gesture = await tester.startGesture(
+        start,
+        kind: PointerDeviceKind.mouse,
+      );
+      for (var i = 0; i < 10; i++) {
+        await gesture.moveBy((end - start) / 10);
+        await tester.pump();
+      }
+      await gesture.up();
       await tester.pump();
+
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.controlLeft);
+      await tester.sendKeyEvent(LogicalKeyboardKey.keyC);
+      await tester.sendKeyUpEvent(LogicalKeyboardKey.controlLeft);
+      await tester.pump();
+
+      final setData = clipboardCalls
+          .where((call) => call.method == 'Clipboard.setData')
+          .toList();
+      expect(setData, isNotEmpty);
+      final copied = setData.single.arguments as Map;
+      // The selection starts and ends mid-word, so only check the parts of
+      // both sections that the dragged range must cover.
+      expect(copied['text'] as String, contains('mmary'));
+      expect(copied['text'] as String, contains('Snap de'));
+    } finally {
+      debugDefaultTargetPlatformOverride = null;
     }
-    await gesture.up();
-    await tester.pump();
-
-    await tester.sendKeyDownEvent(LogicalKeyboardKey.controlLeft);
-    await tester.sendKeyEvent(LogicalKeyboardKey.keyC);
-    await tester.sendKeyUpEvent(LogicalKeyboardKey.controlLeft);
-    await tester.pump();
-
-    final setData = clipboardCalls
-        .where((call) => call.method == 'Clipboard.setData')
-        .toList();
-    expect(setData, isNotEmpty);
-    final copied = setData.single.arguments as Map;
-    // The selection starts and ends mid-word, so only check the parts of
-    // both sections that the dragged range must cover.
-    expect(copied['text'] as String, contains('mmary'));
-    expect(copied['text'] as String, contains('Snap de'));
-
-    debugDefaultTargetPlatformOverride = null;
   });
 
   testWidgets('keeps scrolling with the mouse wheel and the keyboard', (
     tester,
   ) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.linux;
+    try {
+      await pumpPage(tester);
+      await finishLookup(tester);
 
-    await pumpPage(tester);
-    await finishLookup(tester);
+      // Shrink the window so the page content overflows.
+      tester.view.physicalSize =
+          (const Size(800, 250) + const Offset(54, 54)) *
+          tester.view.devicePixelRatio;
+      addTearDown(tester.view.resetPhysicalSize);
+      await tester.pump();
 
-    // Shrink the window so the page content overflows.
-    tester.view.physicalSize =
-        (const Size(800, 250) + const Offset(54, 54)) *
-        tester.view.devicePixelRatio;
-    await tester.pump();
+      final position = Scrollable.of(tester.element(find.text('Snap summary')))
+          .position;
+      expect(position.maxScrollExtent, greaterThan(0));
 
-    final position = Scrollable.of(tester.element(find.text('Snap summary')))
-        .position;
-    expect(position.maxScrollExtent, greaterThan(0));
+      // Mouse wheel. After shrinking the window, the summary is below the
+      // fold, so the events target the visible app title.
+      final visibleText = find.text('Snap App');
+      await tester.sendEventToBinding(
+        PointerScrollEvent(
+          scrollDelta: const Offset(0, 60),
+          position: tester.getCenter(visibleText),
+        ),
+      );
+      await tester.pump();
+      expect(position.pixels, greaterThan(0));
+      position.jumpTo(0);
 
-    // Mouse wheel. After shrinking the window, the summary is below the
-    // fold, so the events target the visible app title.
-    final visibleText = find.text('Snap App');
-    await tester.sendEventToBinding(
-      PointerScrollEvent(
-        scrollDelta: const Offset(0, 60),
-        position: tester.getCenter(visibleText),
-      ),
-    );
-    await tester.pump();
-    expect(position.pixels, greaterThan(0));
-    position.jumpTo(0);
-
-    // PageDown while the selection area has the focus.
-    final click = await tester.startGesture(
-      tester.getCenter(visibleText),
-      kind: PointerDeviceKind.mouse,
-    );
-    await click.up();
-    await tester.pump();
-    await tester.sendKeyEvent(LogicalKeyboardKey.pageDown);
-    await tester.pump();
-    await tester.pump(const Duration(seconds: 1));
-    expect(position.pixels, greaterThan(0));
-
-    debugDefaultTargetPlatformOverride = null;
+      // PageDown while the selection area has the focus.
+      final click = await tester.startGesture(
+        tester.getCenter(visibleText),
+        kind: PointerDeviceKind.mouse,
+      );
+      await click.up();
+      await tester.pump();
+      await tester.sendKeyEvent(LogicalKeyboardKey.pageDown);
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      expect(position.pixels, greaterThan(0));
+    } finally {
+      debugDefaultTargetPlatformOverride = null;
+    }
   });
 }
