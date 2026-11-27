@@ -74,12 +74,21 @@ void main() {
   group('defaultSelectedChannel', () {
     final channel = SnapChannel(releasedAt: DateTime(2026));
     final storeSnap = createSnap(
-      channel: '18/stable',
+      tracks: ['18', '16'],
       channels: {'16/stable': channel, '18/stable': channel},
     );
 
-    test('prefers the store default channel', () {
+    test('prefers the store default track', () {
       expect(SnapData.defaultSelectedChannel(null, storeSnap), '18/stable');
+    });
+
+    test('prefers the default track over latest/stable', () {
+      final storeSnap = createSnap(
+        tracks: ['16', 'latest'],
+        channels: {'latest/stable': channel, '16/stable': channel},
+      );
+
+      expect(SnapData.defaultSelectedChannel(null, storeSnap), '16/stable');
     });
 
     test('keeps the tracked channel of an installed snap', () {
@@ -91,18 +100,31 @@ void main() {
       );
     });
 
-    test('reads a risk-only store channel as the latest track', () {
+    test('expands abbreviated tracking channels', () {
       final storeSnap = createSnap(
-        channel: 'stable',
-        channels: {'1/stable': channel, 'latest/stable': channel},
+        tracks: ['latest', '16'],
+        channels: {
+          'latest/stable': channel,
+          'latest/beta': channel,
+          '16/stable': channel,
+        },
       );
 
-      expect(SnapData.defaultSelectedChannel(null, storeSnap), 'latest/stable');
+      for (final (tracking, expected) in [
+        ('beta', 'latest/beta'),
+        ('16', '16/stable'),
+      ]) {
+        final localSnap = createSnap(trackingChannel: tracking);
+        expect(
+          SnapData.defaultSelectedChannel(localSnap, storeSnap),
+          expected,
+        );
+      }
     });
 
-    test('picks the highest risk on the default track', () {
+    test('picks the lowest risk on the default track', () {
       final storeSnap = createSnap(
-        channel: 'candidate',
+        tracks: ['latest', 'esr'],
         channels: {
           'esr/stable': channel,
           'latest/candidate': channel,
@@ -114,6 +136,14 @@ void main() {
         SnapData.defaultSelectedChannel(null, storeSnap),
         'latest/candidate',
       );
+    });
+
+    test('ignores tracks that only contain "stable" in their name', () {
+      final storeSnap = createSnap(
+        channels: {'unstable/edge': channel, '2/stable': channel},
+      );
+
+      expect(SnapData.defaultSelectedChannel(null, storeSnap), '2/stable');
     });
   });
 }

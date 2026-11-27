@@ -70,23 +70,36 @@ abstract class SnapData extends AppMetadata with _$SnapData {
 
   static String? defaultSelectedChannel(Snap? localSnap, Snap? storeSnap) {
     final channels = storeSnap?.channels.keys;
-    final localChannel = localSnap?.trackingChannel;
-    final storeTrack = storeSnap?.channel.split('/').first ?? '';
-    final defaultTrack = storeTrack.isEmpty || _risks.contains(storeTrack)
-        ? 'latest'
-        : storeTrack;
-    final defaultChannel = _risks
-        .map((risk) => '$defaultTrack/$risk')
-        .firstWhereOrNull((c) => channels?.contains(c) ?? false);
+    if (channels == null || channels.isEmpty) return null;
 
-    if (localChannel != null && (channels?.contains(localChannel) ?? false)) {
-      return localChannel;
-    } else if (defaultChannel != null) {
-      return defaultChannel;
-    } else {
-      return channels?.firstWhereOrNull((c) => c.contains('stable')) ??
-          channels?.firstOrNull;
+    final localChannel = _fullChannel(localSnap?.trackingChannel);
+    if (channels.contains(localChannel)) return localChannel;
+
+    // The store lists the snap's default track first in its channel map, and
+    // snapd keeps that order in `tracks` (it also treats the first channel-map
+    // entry as the snap's default). A plain `snap install` resolves to
+    // `<default-track>/stable`.
+    final defaultTrack = storeSnap?.tracks.firstOrNull ?? 'latest';
+    return _lowestRiskInTrack(channels, defaultTrack) ??
+        _lowestRiskInTrack(channels, 'latest') ??
+        channels.firstWhereOrNull((c) => c.endsWith('/stable')) ??
+        channels.first;
+  }
+
+  static String? _lowestRiskInTrack(Iterable<String> channels, String track) =>
+      _risks.map((risk) => '$track/$risk').firstWhereOrNull(channels.contains);
+
+  /// Mirrors snapd's `channel.Full`: `stable` -> `latest/stable`,
+  /// `16` -> `16/stable`, `beta/fix` -> `latest/beta/fix`.
+  static String? _fullChannel(String? channel) {
+    if (channel == null) return null;
+    final parts = channel.split('/').where((p) => p.isNotEmpty).toList();
+    if (parts.isEmpty) return null;
+    if (_risks.contains(parts.first) && parts.length <= 2) {
+      return ['latest', ...parts].join('/');
     }
+    if (parts.length == 1) return '${parts.first}/stable';
+    return parts.join('/');
   }
 
   SnapAction? primaryAction([SnapLauncher? snapLauncher]) {
