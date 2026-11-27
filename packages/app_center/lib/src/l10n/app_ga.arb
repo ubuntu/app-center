@@ -639,5 +639,7 @@
         }
     },
     "appDetailsVerifiedPublisherTooltip": "Foilsitheoir fíoraithe: eagraíocht iontaofa atá fíoraithe ag Canonical chun snaps fíor, dea-chothabháilte a fhoilsiú.",
-    "appDetailsStarredPublisherTooltip": "Foilsitheoir réaltaithe: ball den phobal iontaofa atá aitheanta ag Canonical as snaps ardchaighdeáin a fhoilsiú."
+    "appDetailsStarredPublisherTooltip": "Foilsitheoir réaltaithe: ball den phobal iontaofa atá aitheanta ag Canonical as snaps ardchaighdeáin a fhoilsiú.",
+    "appDetailsPackageNameLabel": "Ainm an phacáiste",
+    "appDetailsPackageDetailsLabel": "Sonraí an phacáiste"
 }
