@@ -97,7 +97,9 @@ class _Dialog<T> extends StatelessWidget {
           children: [
             Icon(type.iconData, color: type.getColor(context), size: 48.0),
             const SizedBox(width: 16.0),
-            Flexible(child: child),
+            // Let users select and copy the dialog text, e.g. to paste an
+            // error message into a bug report.
+            Flexible(child: SelectionArea(child: child)),
           ],
         ),
       ),
