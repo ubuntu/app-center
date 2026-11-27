@@ -632,5 +632,7 @@
         }
     },
     "appDetailsVerifiedPublisherTooltip": "Підтверджений видавець: надійна організація, визнана Canonical видавцем справжніх та належним чином підтримуваних пакетів snap.",
-    "appDetailsStarredPublisherTooltip": "Видавець із позначкою «зірочка»: довірений учасник спільноти, визнаний Canonical за публікацію високоякісних пакунків snap."
+    "appDetailsStarredPublisherTooltip": "Видавець із позначкою «зірочка»: довірений учасник спільноти, визнаний Canonical за публікацію високоякісних пакунків snap.",
+    "appDetailsPackageNameLabel": "Назва пакета",
+    "appDetailsPackageDetailsLabel": "Подробиці пакунка"
 }

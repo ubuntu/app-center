@@ -632,5 +632,7 @@
         }
     },
     "appDetailsVerifiedPublisherTooltip": "Проверенный издатель: надёжная организация, подтверждённая компанией Canonical для публикации подлинных и хорошо поддерживаемых пакетов Snap.",
-    "appDetailsStarredPublisherTooltip": "Издатель со звёздочкой: участник сообщества, пользующийся доверием и признанный компанией Canonical за публикацию качественных пакетов Snap."
+    "appDetailsStarredPublisherTooltip": "Издатель со звёздочкой: участник сообщества, пользующийся доверием и признанный компанией Canonical за публикацию качественных пакетов Snap.",
+    "appDetailsPackageNameLabel": "Название пакета",
+    "appDetailsPackageDetailsLabel": "Детали пакета"
 }

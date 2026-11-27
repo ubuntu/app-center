@@ -43,17 +43,17 @@
     "snapPageGalleryLabel": "Galeri",
     "snapPageLinksLabel": "Bağlantılar",
     "snapPagePublisherLabel": "Yayıncı",
-    "snapPagePublishedLabel": "Yayınlanmış",
+    "snapPagePublishedLabel": "Son güncelleme",
     "snapPageSummaryLabel": "Özet",
     "snapPageShareLinkCopiedMessage": "Bağlantı panoya kopyalandı",
     "explorePageCategoriesLabel": "Kategoriler",
     "managePageCheckForUpdates": "Güncellemeleri kontrol et",
     "managePageCheckingForUpdates": "Güncellemeler kontrol ediliyor",
     "managePageDescription": "Uygulamalarınızın mevcut güncellemelerini kontol edin, güncelleyin ve durumlarını yönetin.",
-    "managePageInstalledAndUpdatedLabel": "Yüklü ve güncellenmiş",
+    "managePageInstalledAndUpdatedLabel": "Kurulu uygulamalar",
     "managePageLabel": "Yönet",
     "managePageNoUpdatesAvailableDescription": "Şu an için güncelleme bulunmuyor. Tüm uygulamalarınız güncel.",
-    "managePageSearchFieldSearchHint": "Yüklü uygulamalarınızı arayın",
+    "managePageSearchFieldSearchHint": "Kurulu uygulamaları arayın",
     "managePageShowDetailsLabel": "Ayrıntıları göster",
     "managePageShowSystemSnapsLabel": "Sistem Snap'lerini göster",
     "managePageUpdateAllLabel": "Tümünü güncelle",
@@ -156,7 +156,7 @@
     "snapActionUpdatingLabel": "Güncelleniyor",
     "snapCategoryDefaultButtonLabel": "Daha fazlasını keşfet",
     "snapPageSizeLabel": "Boyut",
-    "snapPageConfinementLabel": "Kısıtlama",
+    "snapPageConfinementLabel": "İzinler",
     "snapPageGalleryNextSemanticLabel": "Sonraki resim",
     "snapPageGalleryPreviousSemanticLabel": "Önceki resim",
     "snapPageGalleryImageSemanticLabel": "Resim {n}",
@@ -339,7 +339,7 @@
     "snapCategoryGnomeGames": "GNOME Oyunları",
     "managePagePackageTypeAll": "Hepsi",
     "managePagePackageTypeDeb": "Deb",
-    "appUrlTypeContact": "{publisher} ile iletişime geç",
+    "appUrlTypeContact": "{publisher} ile iletişime geçin",
     "@appUrlTypeContact": {
         "placeholders": {
             "publisher": {
@@ -348,19 +348,19 @@
         }
     },
     "appUrlTypeHomepage": "Geliştirici web sitesi",
-    "appUrlTypeUnknown": "Link",
-    "appConfinementUnknown": "Bilinmiyor",
+    "appUrlTypeUnknown": "Bağlantı",
+    "appConfinementUnknown": "Bilinmeyen",
     "appConfinementStrict": "Korumalı alanda",
     "appConfinementDevelopment": "Geliştirici Modu",
     "appConfinementUnrestrictedTooltip": "Bu uygulama, kaynaklarınıza tam erişime sahiptir.",
-    "appMoreActionsSemanticLabel": "Daha fazla işlem",
+    "appMoreActionsSemanticLabel": "Diğer eylemler",
     "snapActionRevertingLabel": "Güncelleme geri alınıyor",
     "snapRevertConfirmTitle": "Önceki sürüme geri dönülsün mü?",
     "snapRevertConfirmMessage": "Yeni bir sürüm çıktığında otomatik güncellemeler yeniden başlayacaktır.",
     "snapRevertConfirmCancel": "İptal et",
     "codecPageTitle": "Eksik medya kodekleri",
-    "codecPageDescription": "Bazı video ve ses formatlarını işlemek için aşağıdaki kodekleri yüklemeniz gerekmektedir:",
-    "codecInstallAllButton": "Önerilen kodekleri yükle",
+    "codecPageDescription": "Belirli video ve ses biçimlerini işleyebilmek için aşağıdaki kodekleri kurmanız gerekir:",
+    "codecInstallAllButton": "Önerilen kodekleri kur",
     "managePagePackageTypeLabel": "Paket tipi",
     "managePageInstalledSizeSemanticLabel": "Boyut: {size}",
     "@managePageInstalledSizeSemanticLabel": {
@@ -466,7 +466,7 @@
             }
         }
     },
-    "managePageCancelActionSemanticLabel": "{appName} için {action} işlemini iptal et",
+    "managePageCancelActionSemanticLabel": "{appName} uygulaması için {action} işlemini iptal et",
     "@managePageCancelActionSemanticLabel": {
         "placeholders": {
             "action": {
@@ -490,7 +490,7 @@
     "appDetailsInstalledSizeLabel": "Kurulu boyut",
     "appDetailsNotInstalled": "Kurulu değil",
     "appDetailsNotAvailable": "Mevcut değil",
-    "appDetailsChoosePackageFormatAction": "Paket biçimi seç",
+    "appDetailsChoosePackageFormatAction": "Paket biçimi seç…",
     "appDetailsChoosePackageFormatTitle": "Paket biçimi seç",
     "appDetailsPackageSourceLabel": "Kaynak",
     "appDetailsVerifiedPublisherSemanticLabel": "Doğrulanmış yayıncı",
@@ -544,5 +544,26 @@
     "addonsPageMediaSupportTitle": "Medya desteği",
     "addonsPageFirmwareTitle": "Donanım yazılımı",
     "addonsPageFirmwareDescription": "Daha iyi performans ve güvenlik için donanımı güncelleyin",
-    "mediaSupportPageInstallButton": "Kur"
+    "mediaSupportPageInstallButton": "Kur",
+    "appDetailsPackageNameLabel": "Paket adı",
+    "appDetailsPackageDetailsLabel": "Paket ayrıntıları",
+    "addonsPageAdditionalDriversDescription": "Grafik kartları ve diğer donanımlar için daha iyi destek ekleyin",
+    "addonsPageMediaSupportDescription": "Daha çok medya biçimini desteklemek için ek yazılım kurun",
+    "snapRevertConfirmTitleWithVersions": "{currentVersion} (rev. {currentRevision}) sürümünden {previousVersion} (rev. {previousRevision}) sürümüne geri dönülsün mü?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    }
 }

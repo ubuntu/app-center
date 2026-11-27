@@ -617,5 +617,7 @@
         }
     },
     "appDetailsVerifiedPublisherTooltip": "Təsdiqlənmiş naşir: həqiqi və yaxşı dəstəklənən \"snap\" paketlərini dərc etmək üçün Canonical tərəfindən təsdiqlənmiş etibarlı təşkilat.",
-    "appDetailsStarredPublisherTooltip": "Ulduzlanmış naşir: yüksək keyfiyyətli \"snap\" paketləri dərc etdiyinə görə Canonical tərəfindən tanınan etibarlı icma üzvü."
+    "appDetailsStarredPublisherTooltip": "Ulduzlanmış naşir: yüksək keyfiyyətli \"snap\" paketləri dərc etdiyinə görə Canonical tərəfindən tanınan etibarlı icma üzvü.",
+    "appDetailsPackageNameLabel": "Paket adı",
+    "appDetailsPackageDetailsLabel": "Paket təfərrüatları"
 }
