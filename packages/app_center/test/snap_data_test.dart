@@ -1,5 +1,6 @@
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:snapd/snapd.dart';
 
 import 'test_utils.dart';
 
@@ -67,6 +68,82 @@ void main() {
       );
 
       expect(snapData.isInstalled, isFalse);
+    });
+  });
+
+  group('defaultSelectedChannel', () {
+    final channel = SnapChannel(releasedAt: DateTime(2026));
+    final storeSnap = createSnap(
+      tracks: ['18', '16'],
+      channels: {'16/stable': channel, '18/stable': channel},
+    );
+
+    test('prefers the store default track', () {
+      expect(SnapData.defaultSelectedChannel(null, storeSnap), '18/stable');
+    });
+
+    test('prefers the default track over latest/stable', () {
+      final storeSnap = createSnap(
+        tracks: ['16', 'latest'],
+        channels: {'latest/stable': channel, '16/stable': channel},
+      );
+
+      expect(SnapData.defaultSelectedChannel(null, storeSnap), '16/stable');
+    });
+
+    test('keeps the tracked channel of an installed snap', () {
+      final localSnap = createSnap(trackingChannel: '16/stable');
+
+      expect(
+        SnapData.defaultSelectedChannel(localSnap, storeSnap),
+        '16/stable',
+      );
+    });
+
+    test('expands abbreviated tracking channels', () {
+      final storeSnap = createSnap(
+        tracks: ['latest', '16'],
+        channels: {
+          'latest/stable': channel,
+          'latest/beta': channel,
+          '16/stable': channel,
+        },
+      );
+
+      for (final (tracking, expected) in [
+        ('beta', 'latest/beta'),
+        ('16', '16/stable'),
+      ]) {
+        final localSnap = createSnap(trackingChannel: tracking);
+        expect(
+          SnapData.defaultSelectedChannel(localSnap, storeSnap),
+          expected,
+        );
+      }
+    });
+
+    test('picks the lowest risk on the default track', () {
+      final storeSnap = createSnap(
+        tracks: ['latest', 'esr'],
+        channels: {
+          'esr/stable': channel,
+          'latest/candidate': channel,
+          'latest/edge': channel,
+        },
+      );
+
+      expect(
+        SnapData.defaultSelectedChannel(null, storeSnap),
+        'latest/candidate',
+      );
+    });
+
+    test('ignores tracks that only contain "stable" in their name', () {
+      final storeSnap = createSnap(
+        channels: {'unstable/edge': channel, '2/stable': channel},
+      );
+
+      expect(SnapData.defaultSelectedChannel(null, storeSnap), '2/stable');
     });
   });
 }
