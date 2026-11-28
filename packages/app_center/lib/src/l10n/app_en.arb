@@ -55,12 +55,12 @@
     "managePageQuitToUpdate": "Quit to update",
     "managePageOwnUpdateDescription": "When you quit the application it will automatically update.",
     "managePageOwnUpdateQuitButton": "Quit to update",
-    "managePageCheckForUpdates": "Check for updates",
-    "managePageCheckingForUpdates": "Checking for updates",
+    "managePageCheckForUpdates": "Check for Updates",
+    "managePageCheckingForUpdates": "Checking for Updates",
     "managePageNoInternet": "Can't reach server, check your internet connection or try again later.",
     "managePageDescription": "Check for available updates, update your apps, and manage the status of all your apps.",
     "managePageDebUpdatesMessage": "Debian package updates are handled by the Software Updater.",
-    "managePageInstalledAndUpdatedLabel": "Installed apps",
+    "managePageInstalledAndUpdatedLabel": "Installed Apps",
     "managePageInstallingLabel": "Installing ({n})",
     "@managePageInstallingLabel": {
         "placeholders": {
@@ -174,7 +174,7 @@
         }
     },
     "managePagePackageTypeDeb": "Deb",
-    "managePageUpdateAllLabel": "Update all",
+    "managePageUpdateAllLabel": "Update All",
     "managePageUpdatedDaysAgo": "Updated {n, plural, =1{{n} day} other{{n} days}} ago",
     "@managePageUpdatedDaysAgo": {
         "placeholders": {
@@ -207,7 +207,7 @@
             }
         }
     },
-    "managePageUpdatesAvailable": "Updates available ({n})",
+    "managePageUpdatesAvailable": "Updates Available ({n})",
     "@managePageUpdatesAvailable": {
         "placeholders": {
             "n": {
