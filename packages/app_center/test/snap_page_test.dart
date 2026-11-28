@@ -4,6 +4,7 @@ import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
@@ -439,6 +440,59 @@ void main() {
       tester.l10n.snapActionSwitchChannelLabel,
     );
     expect(switchChannelButton, findsOneWidget);
+  });
+
+  testWidgets('long snap channel details wrap in the localized picker', (
+    tester,
+  ) async {
+    const channel = 'latest/edge';
+    const version = '4.1.0-beta+20260430.g12345678901';
+    final edge = storeSnap.channels[channel]!.copyWith(version: version);
+    registerMockSnapdService(
+      storeSnap: storeSnap.copyWith(
+        channels: {...storeSnap.channels, channel: edge},
+      ),
+    );
+    final container = createContainer();
+
+    await tester.pumpApp(
+      (context) => Localizations.override(
+        context: context,
+        locale: const Locale('de'),
+        child: MediaQuery.withClampedTextScaling(
+          minScaleFactor: 1.4,
+          maxScaleFactor: 1.4,
+          child: UncontrolledProviderScope(
+            container: container,
+            child: ChannelSwitchDialog(snapName: storeSnap.name),
+          ),
+        ),
+      ),
+    );
+    final model = snapModelProvider(storeSnap.name);
+    await container.read(model.future);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('latest/stable 1.0.0'));
+    await tester.pumpAndSettle();
+
+    final versionText = find.text(version);
+    final dateText = find.text(DateFormat.yMd().format(edge.releasedAt));
+    expect(find.text('Zuletzt aktualisiert'), findsNWidgets(2));
+    expect(
+      tester.renderObject<RenderParagraph>(versionText).didExceedMaxLines,
+      isFalse,
+    );
+    expect(
+      tester.getTopLeft(dateText).dy,
+      greaterThanOrEqualTo(tester.getBottomLeft(versionText).dy),
+    );
+
+    await tester.ensureVisible(versionText);
+    await tester.pumpAndSettle();
+    await tester.tap(versionText);
+    await tester.pumpAndSettle();
+    expect(container.read(model).requireValue.selectedChannel, channel);
   });
 
   testWidgets('loading', (tester) async {
