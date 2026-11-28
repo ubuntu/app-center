@@ -1,11 +1,14 @@
+import 'package:app_center/apps/app_details_entry.dart';
+import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/search/search.dart';
 import 'package:app_center/snapd/multisnap_model.dart';
 import 'package:app_center/snapd/snapd.dart';
+import 'package:app_center/store/store.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:mockito/mockito.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
@@ -303,6 +306,212 @@ void main() {
         findsOneWidget,
       );
       expect(find.byType(AppCardGrid), findsNothing);
+    });
+  });
+
+  group('unified results', () {
+    final snapSearch = createMockSnapSearchProvider({
+      const SnapSearchParameters(query: 'edit'): [
+        createSnap(
+          name: 'editor',
+          title: 'Editor Snap',
+          commonIds: ['org.example.Editor'],
+        ),
+        createSnap(name: 'writer', title: 'Writer Snap'),
+      ],
+      const SnapSearchParameters(
+        query: 'edit',
+        category: SnapCategoryEnum.development,
+      ): [
+        createSnap(
+          name: 'editor',
+          title: 'Editor Snap',
+          commonIds: ['org.example.Editor'],
+        ),
+      ],
+      const SnapSearchParameters(query: 'lots'): [
+        for (var i = 1; i <= 40; i++)
+          createSnap(name: 'snap$i', title: 'Snap $i'),
+      ],
+    });
+    final debSearch = createMockDebSearchProvider({
+      'edit': [
+        createAppstreamComponent(
+          id: 'org.example.Notes',
+          name: 'Notes Deb',
+          categories: ['Office'],
+        ),
+        createAppstreamComponent(id: 'org.example.Editor', name: 'Editor Deb'),
+        createAppstreamComponent(
+          id: 'org.example.Ide',
+          name: 'IDE Deb',
+          categories: ['Development'],
+        ),
+      ],
+    });
+
+    Future<List<RouteSettings>> pumpUnifiedSearch(
+      WidgetTester tester, {
+      String query = 'edit',
+    }) async {
+      final routes = <RouteSettings>[];
+      await tester.pumpApp(
+        (_) => ProviderScope(
+          overrides: [
+            snapSearchProvider.overrideWith((ref, query) => snapSearch(query)),
+            appstreamResultsProvider.overrideWith(
+              (ref, query) => debSearch(query).first,
+            ),
+          ],
+          child: Navigator(
+            onGenerateRoute: (settings) {
+              routes.add(settings);
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (_) => settings.name == Navigator.defaultRouteName
+                    ? SearchPage(query: query, unifiedResults: true)
+                    : const SizedBox.shrink(),
+              );
+            },
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      return routes;
+    }
+
+    List<String> cardTitles(WidgetTester tester) => [
+      for (final card
+          in tester.widget<AppCardGrid>(find.byType(AppCardGrid)).appCards)
+        card.title.title,
+    ];
+
+    testWidgets('lists every result', (tester) async {
+      await pumpUnifiedSearch(tester, query: 'lots');
+
+      expect(cardTitles(tester), hasLength(40));
+    });
+
+    testWidgets('starts a re-sorted list at the top', (tester) async {
+      await pumpUnifiedSearch(tester, query: 'lots');
+      final scrollable = find.descendant(
+        of: find.byType(CustomScrollView),
+        matching: find.byType(Scrollable),
+      );
+      await tester.scrollUntilVisible(
+        find.text('Snap 40'),
+        200,
+        scrollable: scrollable,
+      );
+
+      await tester.tap(find.text(tester.l10n.snapSortOrderRelevance));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(tester.l10n.snapSortOrderAlphabeticalAsc));
+      await tester.pumpAndSettle();
+
+      expect(
+        tester.state<ScrollableState>(scrollable).position.pixels,
+        0,
+      );
+    });
+
+    testWidgets('lists apps in both formats first, then alternates', (
+      tester,
+    ) async {
+      await pumpUnifiedSearch(tester);
+
+      expect(cardTitles(tester), [
+        'Editor Snap',
+        'Writer Snap',
+        'Notes Deb',
+        'IDE Deb',
+      ]);
+    });
+
+    testWidgets('puts the filters beside the title on wide pages', (
+      tester,
+    ) async {
+      await pumpUnifiedSearch(tester);
+      double centerOf(String text) => tester.getCenter(find.text(text)).dy;
+      final title = tester.l10n.searchPageTitle('edit');
+      final filterBy = tester.l10n.searchPageFilterByLabel;
+
+      expect(centerOf(filterBy), greaterThan(centerOf(title)));
+
+      addTearDown(tester.view.reset);
+      tester.view.physicalSize =
+          const Size(1400, 800) * tester.view.devicePixelRatio;
+      await tester.pumpAndSettle();
+
+      expect(centerOf(filterBy), closeTo(centerOf(title), 1));
+    });
+
+    testWidgets('wraps the filters with large text', (tester) async {
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      tester.platformDispatcher.textScaleFactorTestValue = 2;
+
+      await pumpUnifiedSearch(tester);
+
+      expect(tester.takeException(), isNull);
+      expect(
+        tester.getCenter(find.text(tester.l10n.searchPageFilterByLabel)).dy,
+        greaterThan(
+          tester.getCenter(find.text(tester.l10n.searchPageSortByLabel)).dy,
+        ),
+      );
+    });
+
+    testWidgets('sorts snaps and debs together', (tester) async {
+      await pumpUnifiedSearch(tester);
+
+      await tester.tap(find.text(tester.l10n.snapSortOrderRelevance));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(tester.l10n.snapSortOrderAlphabeticalAsc));
+      await tester.pumpAndSettle();
+
+      expect(cardTitles(tester), [
+        'Editor Snap',
+        'IDE Deb',
+        'Notes Deb',
+        'Writer Snap',
+      ]);
+    });
+
+    testWidgets('filters by category', (tester) async {
+      await pumpUnifiedSearch(tester);
+
+      await tester.tap(find.text(tester.l10n.snapCategoryAll));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(tester.l10n.snapCategoryDevelopment));
+      await tester.pumpAndSettle();
+
+      expect(cardTitles(tester), ['Editor Snap', 'IDE Deb']);
+    });
+
+    testWidgets('opens a snap result with its deb', (tester) async {
+      final routes = await pumpUnifiedSearch(tester);
+
+      await tester.tap(find.text('Editor Snap'));
+      await tester.pumpAndSettle();
+
+      expect(
+        routes.last.name,
+        StoreRoutes.namedSearchSnap(name: 'editor', query: 'edit'),
+      );
+      final entry = routes.last.arguments! as AppDetailsEntry;
+      expect(
+        entry.provisionalIdentity.sourceKeys.map((key) => key.value),
+        ['snap:editor', 'deb:org.example.Editor'],
+      );
+    });
+
+    testWidgets('opens a deb result', (tester) async {
+      final routes = await pumpUnifiedSearch(tester);
+
+      await tester.tap(find.text('Notes Deb'));
+      await tester.pumpAndSettle();
+
+      expect(routes.last.name, StoreRoutes.namedDeb(id: 'org.example.Notes'));
     });
   });
 }

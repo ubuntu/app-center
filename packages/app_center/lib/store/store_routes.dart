@@ -61,8 +61,8 @@ abstract class StoreRoutes {
 
   static String namedSearch({String? query, String? category}) {
     return namedRoute(StoreRoutes.search, {
-      if (query != null) 'query': query,
-      if (category != null) 'category': category,
+      'query': ?query,
+      'category': ?category,
     });
   }
 
@@ -73,8 +73,8 @@ abstract class StoreRoutes {
   }) {
     return namedRoute(StoreRoutes.snap, {
       'snap': name,
-      if (query != null) 'query': query,
-      if (category != null) 'category': category,
+      'query': ?query,
+      'category': ?category,
     });
   }
 

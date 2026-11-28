@@ -43,6 +43,8 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
   /// Silently checks for deb updates without invalidating the UI.
   /// Only updates the state if the list of updates has changed.
   Future<void> silentUpdatesCheck() async {
+    await _packageKit.activateService();
+    if (!_packageKit.isAvailable) return;
     ref.read(isSilentlyCheckingDebUpdatesProvider.notifier).state = true;
     try {
       final updatesMap = await _packageKit.getUpdates();

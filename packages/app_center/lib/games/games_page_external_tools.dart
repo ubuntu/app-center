@@ -3,8 +3,8 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/snapd/snap_category_enum.dart';
 import 'package:app_center/widgets/widgets.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 class ExternalTools extends StatelessWidget {
   const ExternalTools({super.key});
@@ -17,7 +17,7 @@ class ExternalTools extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: ResponsiveLayout.of(context).padding,
+            padding: ResponsiveLayout.paddingOf(context),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

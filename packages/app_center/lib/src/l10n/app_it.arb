@@ -621,5 +621,21 @@
                 "type": "String"
             }
         }
+    },
+    "uninstallDependentsMessage": "Anche questi pacchetti dipendono da {appName} e saranno disinstallati:",
+    "@uninstallDependentsMessage": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "uninstallDependentsTitle": "Disinstallare {appName} e i pacchetti dipendenti?",
+    "@uninstallDependentsTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
     }
 }

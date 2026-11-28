@@ -637,5 +637,7 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "appDetailsVerifiedPublisherTooltip": "Kontrollitud avaldaja: Canonicali poolt kontrollitud avaldaja, kes teeb õigeid ja kenasti hooldatud snap-pakette.",
+    "appDetailsStarredPublisherTooltip": "Tärniga märgitud avaldaja: Canonicali tunnustatud usaldusväärne kogukonnaliige, kes avaldab kvaliteetseid snap-pakette."
 }

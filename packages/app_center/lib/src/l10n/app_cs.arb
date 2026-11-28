@@ -630,5 +630,7 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "appDetailsVerifiedPublisherTooltip": "Ověřený vydavatel: důvěryhodná organizace, kterou společnost Canonical ověřila za účelem vydávání pravých a dobře udržovaných balíčků snap.",
+    "appDetailsStarredPublisherTooltip": "Vydavatel s hvězdičkou: důvěryhodný člen komunity, kterého společnost Canonical uznává za vydávání vysoce kvalitních balíčků snap."
 }

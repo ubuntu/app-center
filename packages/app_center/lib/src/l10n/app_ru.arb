@@ -614,5 +614,23 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "uninstallDependentsTitle": "Удалить {appName} и пакеты зависимостей?",
+    "@uninstallDependentsTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "uninstallDependentsMessage": "Эти пакеты зависят от {appName} и также будут удалены:",
+    "@uninstallDependentsMessage": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsVerifiedPublisherTooltip": "Проверенный издатель: надёжная организация, подтверждённая компанией Canonical для публикации подлинных и хорошо поддерживаемых пакетов Snap.",
+    "appDetailsStarredPublisherTooltip": "Издатель со звёздочкой: участник сообщества, пользующийся доверием и признанный компанией Canonical за публикацию качественных пакетов Snap."
 }

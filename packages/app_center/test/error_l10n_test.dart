@@ -1,8 +1,8 @@
 import 'package:app_center/error/error.dart';
 import 'package:app_center/error/error_l10n.dart';
 import 'package:app_center/l10n.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:snapd/snapd.dart';
 
 import 'test_utils.dart';

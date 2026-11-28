@@ -590,5 +590,32 @@
         }
     },
     "addonsPageMediaSupportDescription": "Daha çox media formatını dəstəkləmək üçün əlavə proqram təminatı quraşdırın",
-    "mediaSupportPageDescription": "Ubuntu varsayılan olaraq bəzi açıq mənbəli kodeklərlə gəlir. Müəyyən musiqi və video formatlarını oxutmaq və redaktə etmək üçün əlavə proqram təminatı quraşdırmalı ola bilərsiniz."
+    "mediaSupportPageDescription": "Ubuntu varsayılan olaraq bəzi açıq mənbəli kodeklərlə gəlir. Müəyyən musiqi və video formatlarını oxutmaq və redaktə etmək üçün əlavə proqram təminatı quraşdırmalı ola bilərsiniz.",
+    "uninstallDependentsTitle": "{appName} və asılı paketlər sistemdən silinsin?",
+    "@uninstallDependentsTitle": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "uninstallDependentsMessage": "Bu paketlər {appName} tətbiqindən asılıdır və sistemdən silinəcək:",
+    "@uninstallDependentsMessage": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "localDebInstalledVersion": "Quraşdırılmış versiya: {version}",
+    "@localDebInstalledVersion": {
+        "description": "The version already installed when viewing a local Debian package file.",
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "appDetailsVerifiedPublisherTooltip": "Təsdiqlənmiş naşir: həqiqi və yaxşı dəstəklənən \"snap\" paketlərini dərc etmək üçün Canonical tərəfindən təsdiqlənmiş etibarlı təşkilat.",
+    "appDetailsStarredPublisherTooltip": "Ulduzlanmış naşir: yüksək keyfiyyətli \"snap\" paketləri dərc etdiyinə görə Canonical tərəfindən tanınan etibarlı icma üzvü."
 }

@@ -11,9 +11,9 @@ import 'package:app_center/manage/manage_app_data.dart';
 import 'package:app_center/manage/manage_app_tile.dart';
 import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/snapd/currently_installing_model.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru/yaru.dart';
 
@@ -213,7 +213,7 @@ class ManagePage extends ConsumerWidget {
                   hasFixedSize: true,
                 ),
               ),
-              error: (_, __) =>
+              error: (_, _) =>
                   const SliverToBoxAdapter(child: SizedBox.shrink()),
               loading: () => const SliverToBoxAdapter(
                 child: Center(
@@ -413,12 +413,17 @@ class _MinHeightAsProgressIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        const Visibility(
-          visible: false,
-          maintainSize: true,
-          maintainAnimation: true,
-          maintainState: true,
-          child: YaruCircularProgressIndicator(),
+        // maintainSize requires maintainAnimation, which would keep the hidden
+        // indicator ticking (and the app rendering frames) forever.
+        const TickerMode(
+          enabled: false,
+          child: Visibility(
+            visible: false,
+            maintainSize: true,
+            maintainAnimation: true,
+            maintainState: true,
+            child: YaruCircularProgressIndicator(),
+          ),
         ),
         child,
       ],

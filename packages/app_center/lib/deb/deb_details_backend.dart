@@ -416,38 +416,22 @@ ContentRatingLevel? _ageRating(AppstreamComponent component) {
   return ContentRatingLevel.values[levels.map((l) => l.index).maxOrNull ?? 0];
 }
 
+// Deb categories mapped onto the Snap Store list, as agreed in the
+// package-agnostic UX spec. System has no agreed match yet, so it maps to none.
 const _freedesktopCategories = {
-  'AudioVideo': AppCategory.musicAndAudio,
-  'Audio': AppCategory.musicAndAudio,
-  'Music': AppCategory.musicAndAudio,
-  'Video': AppCategory.photoAndVideo,
-  'Photography': AppCategory.photoAndVideo,
   'Graphics': AppCategory.artAndDesign,
-  '2DGraphics': AppCategory.artAndDesign,
-  '3DGraphics': AppCategory.artAndDesign,
-  'VectorGraphics': AppCategory.artAndDesign,
-  'RasterGraphics': AppCategory.artAndDesign,
   'Development': AppCategory.development,
-  'IDE': AppCategory.development,
   'Education': AppCategory.education,
   'Game': AppCategory.games,
-  'Emulator': AppCategory.gameEmulators,
+  'HealthFitness': AppCategory.healthAndFitness,
+  'AudioVideo': AppCategory.musicAndAudio,
+  'Audio': AppCategory.musicAndAudio,
+  'Video': AppCategory.musicAndAudio,
   'Office': AppCategory.productivity,
-  'Email': AppCategory.productivity,
   'Science': AppCategory.science,
-  'Chat': AppCategory.social,
-  'InstantMessaging': AppCategory.social,
-  'IRCClient': AppCategory.social,
-  'Settings': AppCategory.personalisation,
-  'DesktopSettings': AppCategory.personalisation,
-  'System': AppCategory.utilities,
-  'Utility': AppCategory.utilities,
   'Security': AppCategory.security,
-  'Finance': AppCategory.finance,
-  'News': AppCategory.newsAndWeather,
-  'Dictionary': AppCategory.booksAndReference,
-  'Documentation': AppCategory.booksAndReference,
-  'Literature': AppCategory.booksAndReference,
+  'Network': AppCategory.social,
+  'Utility': AppCategory.utilities,
 };
 
 /// Maps freedesktop menu categories onto App Center's taxonomy.

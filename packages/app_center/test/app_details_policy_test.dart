@@ -5,6 +5,7 @@ import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/apps/package_details_backend.dart';
 import 'package:app_center/apps/package_operation_coordinator.dart';
 import 'package:app_center/mapping/package_source_descriptor.dart';
+import 'package:app_center/mapping/unified_app_identity.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -246,7 +247,7 @@ void main() {
       expect(state.footer.installDate.valueOrNull, DateTime(2026, 2, 3));
     });
 
-    test('installed app shows its installed size, even with an update', () {
+    test('installed app with an update shows the update size', () {
       final release = _compose(
         snap: createSourceSnapshot(
           testSnapKey,
@@ -256,7 +257,7 @@ void main() {
       ).state.release;
       expect(release.kind, ReleaseKind.update);
       expect(release.version.valueOrNull, testSnapUpdate.version);
-      expect(release.size.valueOrNull?.kind, SizeKind.installed);
+      expect(release.size, testSnapUpdate.size);
     });
 
     test('channel of displayed release is separate from installed one', () {
@@ -745,13 +746,44 @@ void main() {
       final deb = format(state, PackageFormat.deb);
 
       expect(snap.installState, _installed);
-      expect(snap.size, isA<FieldUnavailable<ByteSize>>());
+      expect(snap.size.valueOrNull?.kind, SizeKind.installed);
+      expect(snap.packageName, 'testsnap');
       expect(deb.size.valueOrNull?.kind, SizeKind.download);
+      expect(deb.packageName, 'test-app');
       expect(snap.action?.kind, ActionKind.uninstall);
       expect(snap.action?.enabled, isTrue);
       expect(deb.installState, _notInstalled);
       expect(deb.action?.kind, ActionKind.install);
       expect(deb.action?.disabledReason, DisabledReason.otherFormatInstalled);
+    });
+
+    test('package names fall back to the sources', () {
+      final state = _compose(
+        identity: const ResolvedAppIdentity(
+          identity: UnifiedAppIdentity(
+            unifiedId: 'org.test.app',
+            appStreamId: 'org.test.app',
+            sources: [
+              PackageSourceDescriptor(
+                format: PackageFormat.snap,
+                packageId: 'testsnap',
+                commonIds: ['org.test.app'],
+              ),
+              PackageSourceDescriptor(
+                format: PackageFormat.deb,
+                packageId: 'test-app',
+                packageName: '',
+                commonIds: ['org.test.app'],
+              ),
+            ],
+          ),
+        ),
+        snap: _snap(),
+        deb: _deb(),
+      ).state;
+
+      expect(format(state, PackageFormat.snap).packageName, 'testsnap');
+      expect(format(state, PackageFormat.deb).packageName, 'test-app');
     });
 
     test('every installed format can be uninstalled', () {
@@ -785,15 +817,15 @@ void main() {
       );
     });
 
-    test('uninstall is disabled while checking dependents', () {
+    test('uninstall and install are disabled while checking dependents', () {
       final state = _compose(
         snap: _snap(_installed),
         deb: _deb(),
         checkingUninstall: true,
       ).state;
       expect(
-        format(state, PackageFormat.snap).action?.disabledReason,
-        DisabledReason.busy,
+        state.formats.map((f) => f.action?.disabledReason),
+        [DisabledReason.busy, DisabledReason.busy],
       );
     });
 

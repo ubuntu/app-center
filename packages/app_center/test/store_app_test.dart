@@ -14,11 +14,11 @@ import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store_app.dart';
 import 'package:app_center/store/store_routes.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gtk/gtk.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:snapd/snapd.dart';
@@ -34,6 +34,25 @@ void main() {
 
   group('App Center deep links', () {
     late MockPackageKitService kit;
+    late List<MethodCall> windowCalls;
+
+    setUp(() {
+      windowCalls = [];
+      const channel = MethodChannel('window_manager');
+      binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        channel,
+        (call) async {
+          windowCalls.add(call);
+          return null;
+        },
+      );
+      addTearDown(
+        () => binding.defaultBinaryMessenger.setMockMethodCallHandler(
+          channel,
+          null,
+        ),
+      );
+    });
 
     Future<GtkApplicationNotifier> pumpStoreApp(
       WidgetTester tester, {
@@ -50,6 +69,38 @@ void main() {
       await tester.pumpWidget(const ProviderScope(child: StoreApp()));
       await tester.pumpAndSettle();
       return app;
+    }
+
+    for (final testCase in [
+      (name: 'empty arguments', args: <String>[]),
+      (name: 'unsupported arguments', args: ['--unsupported']),
+      (name: 'repeated deep links', args: ['appcenter://addons']),
+    ]) {
+      testWidgets('requests focus for every delivery of ${testCase.name}', (
+        tester,
+      ) async {
+        final app = await pumpStoreApp(tester);
+        expect(windowCalls, isEmpty);
+
+        for (var delivery = 1; delivery <= 2; delivery++) {
+          app.notifyCommandLine(testCase.args);
+          await tester.pumpAndSettle();
+
+          expect(
+            windowCalls.map((call) => call.method),
+            List.filled(delivery, 'focus'),
+          );
+        }
+
+        await tester.pumpWidget(const SizedBox.shrink());
+        await tester.pumpAndSettle();
+        windowCalls.clear();
+
+        app.notifyCommandLine(testCase.args);
+        await tester.pumpAndSettle();
+
+        expect(windowCalls, isEmpty);
+      });
     }
 
     for (final entry in {

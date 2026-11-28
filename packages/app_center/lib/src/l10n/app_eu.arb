@@ -627,5 +627,7 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "appDetailsVerifiedPublisherTooltip": "Egiaztatutako argitaratzailea: erakunde fidagarria, ondo mantendutako zinezko snap-ak argitaratzeko Canonicalek egiaztatua.",
+    "appDetailsStarredPublisherTooltip": "Izardun argitaratzailea: komunitateko kide fidagarria, kalitate altuko snap-ak argitaratzeagatik Canonicalek onartua."
 }

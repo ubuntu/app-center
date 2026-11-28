@@ -14,8 +14,8 @@ import 'package:app_center/providers/current_desktops_provider.dart';
 import 'package:app_center/providers/uninstall_check_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/active_change_content.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru/yaru.dart';
 

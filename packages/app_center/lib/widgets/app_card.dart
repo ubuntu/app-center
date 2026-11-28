@@ -1,3 +1,4 @@
+import 'package:app_center/apps/app_details_labels.dart';
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/games/games.dart';
 import 'package:app_center/l10n.dart';
@@ -7,8 +8,8 @@ import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/small_banner.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:appstream/appstream.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:snapd/snapd.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru/yaru.dart';
@@ -82,11 +83,9 @@ class AppCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final cardLabel = [
       '${title.title}.',
-      title.publisher?.isNotEmpty ?? false
-          ? l10n.appCardPublisherSemanticLabel(title.publisher!)
-          : null,
+      ..._publisherSemanticLabels(l10n, title),
       '$summary.',
-    ].nonNulls.join(' ');
+    ].join(' ');
 
     return MergeSemantics(
       child: Semantics(
@@ -157,10 +156,8 @@ class RankedAppCard extends StatelessWidget {
     final cardLabel = [
       '$rank.',
       '${title.title}.',
-      title.publisher?.isNotEmpty ?? false
-          ? l10n.appCardPublisherSemanticLabel(title.publisher!)
-          : null,
-    ].nonNulls.join(' ');
+      ..._publisherSemanticLabels(l10n, title),
+    ].join(' ');
 
     return MergeSemantics(
       child: Semantics(
@@ -216,11 +213,15 @@ class SnapImageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final appTitle = AppTitle.fromSnap(snap);
 
     return Semantics(
       button: true,
-      label: appTitle.title,
+      label: [
+        '${appTitle.title}.',
+        ..._publisherSemanticLabels(l10n, appTitle),
+      ].join(' '),
       child: YaruBanner(
         padding: EdgeInsets.zero,
         onTap: onTap,
@@ -256,6 +257,15 @@ class SnapImageCard extends StatelessWidget {
       ),
     );
   }
+}
+
+List<String> _publisherSemanticLabels(AppLocalizations l10n, AppTitle title) {
+  final validation = title.publisherValidation.localize(l10n);
+  return [
+    if (title.publisher?.isNotEmpty ?? false)
+      l10n.appCardPublisherSemanticLabel(title.publisher!),
+    if (validation != null) '$validation.',
+  ];
 }
 
 class _AppCardBody extends StatelessWidget {

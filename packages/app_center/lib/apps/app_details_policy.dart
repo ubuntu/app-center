@@ -125,7 +125,9 @@ class _Composer {
             ? FieldState<String>.unavailable()
             : FieldState<String>.value(r.version!),
       ),
-      size: installState == InstallState.installed
+      size:
+          installState == InstallState.installed &&
+              releaseKind != ReleaseKind.update
           ? snapshot?.installed?.size ?? FieldState<ByteSize>.unavailable()
           : _releaseField(active, release, (r) => r.size),
       releaseDate: _releaseField(active, release, (r) => r.releaseDate),
@@ -363,7 +365,7 @@ class _Composer {
           candidateId: candidate?.candidateId,
         ),
         disabledReason: switch (snapshot.installState) {
-          _ when _busy => DisabledReason.busy,
+          _ when _busy || input.checkingUninstall => DisabledReason.busy,
           InstallState.unknown => DisabledReason.installStateUnknown,
           InstallState.notInstalled when _isOtherFormatInstalled(key) =>
             DisabledReason.otherFormatInstalled,
@@ -517,13 +519,20 @@ class _Composer {
       installState: snapshot.installState,
       publisher: _field(source, (s) => s.publisher),
       channel: release?.channel,
+      packageName: switch (input.identity.identity
+          .getSource(key.format)
+          ?.packageName) {
+        final name? when name.isNotEmpty => name,
+        _ => switch (key.format) {
+          PackageFormat.snap => key.id,
+          PackageFormat.deb => snapshot.targets.firstOrNull?.id,
+        },
+      },
       version: FieldState.fromNullable(release?.version),
       confinement: release?.confinement != null
           ? FieldState.value(release!.confinement!)
           : _field(source, (s) => s.confinement),
-      size: snapshot.installState == InstallState.installed
-          ? FieldState<ByteSize>.unavailable()
-          : release?.size ?? FieldState<ByteSize>.unavailable(),
+      size: release?.size ?? FieldState<ByteSize>.unavailable(),
       releaseDate: release?.releaseDate ?? FieldState<DateTime>.unavailable(),
       action: switch (snapshot.installState) {
         InstallState.installed => _uninstall(key, snapshot),

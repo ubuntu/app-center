@@ -1,0 +1,81 @@
+name: Flutter customer registry
+
+# This workflow is intentionally not a required branch-protection check. It runs
+# the Flutter Customer Test Registry flow against the latest Flutter main SDK.
+# The daily schedule tests App Center's default branch and reports the result on
+# an issue (see scripts/report_flutter_main.sh). A manual run can select any
+# branch or tag and reports nothing. Pull requests keep using the App Center
+# pinned SDK in `.fvmrc` and are not covered by this workflow.
+on:
+  schedule:
+    - cron: "0 4 * * *"
+  workflow_dispatch:
+
+# The event name keeps a manual run from displacing a queued scheduled run.
+concurrency:
+  group: flutter-customer-registry-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  flutter-main:
+    name: Flutter main customer tests
+    runs-on: ubuntu-26.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v6
+      # Install only FVM. The wrapper selects Flutter main itself, so the pinned
+      # SDK is never bootstrapped in the checkout the run copies. The explicit
+      # version check makes a broken or relocated install fail here instead of
+      # mid-run, and catches a failed download.
+      - name: Install FVM
+        run: |
+          curl -fsSL https://fvm.app/install.sh | bash
+          export PATH="$HOME/fvm/bin:$PATH"
+          fvm --version
+          echo "$HOME/fvm/bin" >> "$GITHUB_PATH"
+      - name: Run Flutter Customer Test Registry flow
+        env:
+          REGISTRY_EVIDENCE_DIR: ${{ runner.temp }}/flutter-registry-evidence
+        run: bash scripts/run_flutter_registry_ci.sh
+      - name: Upload registry evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: flutter-registry-evidence
+          path: ${{ runner.temp }}/flutter-registry-evidence
+          if-no-files-found: warn
+
+  report:
+    name: Report Flutter main result
+    needs: flutter-main
+    if: always() && github.event_name == 'schedule'
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: read
+      issues: write
+      actions: read
+    # Serialize reports so concurrent runs cannot open more than one issue.
+    concurrency:
+      group: flutter-main-investigation
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v6
+      - name: Download registry evidence
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: flutter-registry-evidence
+          path: ${{ runner.temp }}/flutter-registry-evidence
+      - name: Report the result
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RESULT: ${{ needs.flutter-main.result }}
+          EVIDENCE_DIR: ${{ runner.temp }}/flutter-registry-evidence
+          RUN_ID: ${{ github.run_id }}
+          APP_CENTER_SHA: ${{ github.sha }}
+          BRANCH: ${{ github.ref_name }}
+        run: bash scripts/report_flutter_main.sh

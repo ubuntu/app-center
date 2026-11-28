@@ -4,7 +4,7 @@ import 'package:app_center/layout.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/app_icon.dart';
 import 'package:app_center/widgets/app_title.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 const _kTitleIconSize = 96.0;
 
@@ -98,7 +98,7 @@ class AppTitleBar extends StatelessWidget {
                 child: title,
               ),
             ),
-            if (actions != null) actions!,
+            ?actions,
           ],
         ),
         if (banner != null) ...[

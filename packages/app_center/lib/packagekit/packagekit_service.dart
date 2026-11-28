@@ -6,7 +6,7 @@ import 'package:collection/collection.dart';
 import 'package:dbus/dbus.dart';
 import 'package:file/file.dart';
 import 'package:file/local.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:path/path.dart' as p;
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -254,12 +254,12 @@ class PackageKitService {
       name: 'org.freedesktop.DBus',
       path: DBusObjectPath('/org/freedesktop/DBus'),
     );
-    await object.callMethod(
-      'org.freedesktop.DBus',
-      'StartServiceByName',
-      const [DBusString(_packageKitBusName), DBusUint32(0)],
-    );
     try {
+      await object.callMethod(
+        'org.freedesktop.DBus',
+        'StartServiceByName',
+        const [DBusString(_packageKitBusName), DBusUint32(0)],
+      );
       await _client.connect();
       _isAvailable = true;
     } on DBusServiceUnknownException catch (_) {

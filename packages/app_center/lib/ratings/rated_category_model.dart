@@ -1,7 +1,7 @@
 import 'package:app_center/ratings/ratings_service.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';

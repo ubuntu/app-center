@@ -4,8 +4,8 @@ import 'package:app_center/gstreamer/gstreamer.dart';
 import 'package:app_center/gstreamer/gstreamer_model.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:yaru/yaru.dart';
 
 class GStreamerPage extends ConsumerWidget {
@@ -22,7 +22,7 @@ class GStreamerPage extends ConsumerWidget {
       builder: (context) => Padding(
         padding:
             const EdgeInsets.symmetric(vertical: kPagePadding) +
-            ResponsiveLayout.of(context).padding,
+            ResponsiveLayout.paddingOf(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
