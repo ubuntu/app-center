@@ -1,5 +1,7 @@
 import 'package:app_center/apps/apps_utils.dart';
+import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/packagekit/packagekit.dart';
+import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -15,13 +17,17 @@ abstract class LocalDebData extends AppMetadata with _$LocalDebData {
     required PackageKitDetailsEvent details,
     PackageKitPackageInfo? packageInfo,
     int? activeTransactionId,
+    DebTransactionKind? activeTransactionKind,
   }) = _LocalDebData;
 
   LocalDebData._();
 
-  String? get installedVersion => packageInfo?.info == PackageKitInfo.installed
-      ? packageInfo?.packageId.version
+  PackageKitPackageId? get installedPackageId =>
+      packageInfo?.info == PackageKitInfo.installed
+      ? packageInfo?.packageId
       : null;
+
+  String? get installedVersion => installedPackageId?.version;
 
   bool get isInstalled => installedVersion == details.packageId.version;
 
@@ -51,6 +57,9 @@ abstract class LocalDebData extends AppMetadata with _$LocalDebData {
 
 @Riverpod(keepAlive: true)
 class LocalDebModel extends _$LocalDebModel {
+  // Set before the first await so a double click can't start two transactions.
+  bool _busy = false;
+
   @override
   Future<LocalDebData> build({required String path}) async {
     final packageKit = getService<PackageKitService>();
@@ -67,27 +76,69 @@ class LocalDebModel extends _$LocalDebModel {
     return LocalDebData(path: path, details: details, packageInfo: packageInfo);
   }
 
-  Future<void> install() async {
-    assert(state.hasValue, 'install() called during loading or error state');
-    final packageKit = getService<PackageKitService>();
-    final activeTransactionId = await packageKit.installLocal(path);
-    state = AsyncValue.data(
-      state.value!.copyWith(activeTransactionId: activeTransactionId),
+  Future<void> install() => _runTransaction(
+    DebTransactionKind.install,
+    () => getService<PackageKitService>().installLocal(path),
+  );
+
+  Future<void> remove() async {
+    final packageId = state.value?.installedPackageId;
+    if (packageId == null) return;
+    await _runTransaction(
+      DebTransactionKind.remove,
+      () => getService<PackageKitService>().remove(packageId, allowDeps: true),
     );
-    await packageKit.waitTransaction(activeTransactionId);
-    ref.invalidateSelf();
   }
 
+  Future<void> _runTransaction(
+    DebTransactionKind kind,
+    Future<int> Function() start,
+  ) async {
+    if (_busy) return;
+    _busy = true;
+    final packageKit = getService<PackageKitService>();
+    int? transactionId;
+    try {
+      transactionId = await start();
+      if (state.value case final data?) {
+        state = AsyncValue.data(
+          data.copyWith(
+            activeTransactionId: transactionId,
+            activeTransactionKind: kind,
+          ),
+        );
+      }
+      await packageKit.waitTransaction(transactionId);
+    } on PackageKitTransactionCancelled {
+      // Dismissing the polkit prompt is not an error.
+    } on Exception catch (e) {
+      final lastError = transactionId != null
+          ? packageKit.lastErrorFor(transactionId)
+          : null;
+      ref.read(errorStreamControllerProvider).add(
+        switch (e) {
+          _ when lastError != null => lastError,
+          PackageKitServiceError() || PackageKitTransactionError() => e,
+          // Only the PackageKit types above get an error dialog.
+          _ => PackageKitServiceError(
+            code: PackageKitError.internalError,
+            details: e.toString(),
+          ),
+        },
+      );
+    } finally {
+      _busy = false;
+      ref.invalidateSelf();
+      // The Manage page lists the same packages.
+      ref.invalidate(installedPackagesProvider);
+      ref.invalidate(debsWithUpdatesProvider);
+    }
+  }
+
+  // The `finally` in _runTransaction resets the state once the cancel lands.
   Future<void> cancel() async {
-    assert(
-      state.value?.activeTransactionId != null,
-      'cancel() called without active transaction',
-    );
-    final packageKit = getService<PackageKitService>();
-    await packageKit.cancelTransaction(state.value!.activeTransactionId!);
-    state = AsyncValue.data(state.value!.copyWith(activeTransactionId: null));
+    final transactionId = state.value?.activeTransactionId;
+    if (transactionId == null) return;
+    await getService<PackageKitService>().cancelTransaction(transactionId);
   }
-
-  Stream<PackageKitServiceError> get errorStream =>
-      getService<PackageKitService>().errorStream;
 }
