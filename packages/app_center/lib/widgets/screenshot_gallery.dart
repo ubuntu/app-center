@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:yaru/yaru.dart';
 
-class ScreenshotGallery extends StatelessWidget {
+class ScreenshotGallery extends StatefulWidget {
   const ScreenshotGallery({
     required this.title,
     required this.urls,
@@ -18,35 +18,49 @@ class ScreenshotGallery extends StatelessWidget {
   final double? height;
 
   @override
+  State<ScreenshotGallery> createState() => _ScreenshotGalleryState();
+}
+
+class _ScreenshotGalleryState extends State<ScreenshotGallery> {
+  final _controller = YaruCarouselController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return YaruCarousel(
-      height: height ?? 500,
-      width: double.infinity,
-      nextIcon: Icon(
-        YaruIcons.go_next,
-        semanticLabel: l10n.snapPageGalleryNextSemanticLabel,
-      ),
-      previousIcon: Icon(
-        YaruIcons.go_previous,
-        semanticLabel: l10n.snapPageGalleryPreviousSemanticLabel,
-      ),
-      navigationControls: urls.length > 1,
+    return Stack(
       children: [
-        for (int i = 0; i < urls.length; i++)
-          MediaTile(
-            url: urls[i],
-            semanticLabel: l10n.snapPageGalleryImageSemanticLabel(i + 1),
-            onTap: () => showDialog(
-              context: context,
-              builder: (_) => _CarouselDialog(
-                title: title,
-                urls: urls,
-                initialIndex: i,
+        YaruCarousel(
+          controller: _controller,
+          height: widget.height ?? 500,
+          width: double.infinity,
+          children: [
+            for (int i = 0; i < widget.urls.length; i++)
+              MediaTile(
+                url: widget.urls[i],
+                semanticLabel: l10n.snapPageGalleryImageSemanticLabel(i + 1),
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (_) => _CarouselDialog(
+                    title: widget.title,
+                    urls: widget.urls,
+                    initialIndex: i,
+                  ),
+                ),
               ),
-            ),
-          ),
+          ],
+        ),
+        _DirectionalNavigationControls(
+          controller: _controller,
+          itemCount: widget.urls.length,
+          bottomOffset: 36,
+        ),
       ],
     );
   }
@@ -117,19 +131,15 @@ class _CarouselDialog extends StatefulWidget {
 }
 
 class _CarouselDialogState extends State<_CarouselDialog> {
-  late YaruCarouselController controller;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = YaruCarouselController(
-      initialPage: widget.initialIndex,
-    );
-  }
+  late final _controller = YaruCarouselController(
+    initialPage: widget.initialIndex,
+  );
+  final _focusNode = FocusNode();
 
   @override
   void dispose() {
-    controller.dispose();
+    _controller.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -137,14 +147,17 @@ class _CarouselDialogState extends State<_CarouselDialog> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final l10n = AppLocalizations.of(context);
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
 
     return KeyboardListener(
-      focusNode: FocusNode(),
+      focusNode: _focusNode,
+      autofocus: true,
       onKeyEvent: (value) {
+        if (value is! KeyDownEvent) return;
         if (value.logicalKey == LogicalKeyboardKey.arrowRight) {
-          controller.nextPage();
+          isRtl ? _controller.previousPage() : _controller.nextPage();
         } else if (value.logicalKey == LogicalKeyboardKey.arrowLeft) {
-          controller.previousPage();
+          isRtl ? _controller.nextPage() : _controller.previousPage();
         }
       },
       child: SimpleDialog(
@@ -157,26 +170,123 @@ class _CarouselDialogState extends State<_CarouselDialog> {
           SizedBox(
             height: size.height - 150,
             width: size.width,
-            child: YaruCarousel(
-              controller: controller,
-              nextIcon: const Icon(YaruIcons.go_next),
-              previousIcon: const Icon(YaruIcons.go_previous),
-              navigationControls: widget.urls.length > 1,
-              width: size.width,
-              placeIndicatorMarginTop: 20.0,
+            child: Stack(
               children: [
-                for (int i = 0; i < widget.urls.length; i++)
-                  SafeNetworkImage(
-                    url: widget.urls[i],
-                    fit: BoxFit.fitWidth,
-                    semanticLabel: l10n.snapPageGalleryImageSemanticLabel(
-                      i + 1,
-                    ),
+                Positioned.fill(
+                  child: YaruCarousel(
+                    controller: _controller,
+                    height: size.height - 150,
+                    width: size.width,
+                    placeIndicatorMarginTop: 20.0,
+                    children: [
+                      for (int i = 0; i < widget.urls.length; i++)
+                        SafeNetworkImage(
+                          url: widget.urls[i],
+                          fit: BoxFit.contain,
+                          semanticLabel: l10n.snapPageGalleryImageSemanticLabel(
+                            i + 1,
+                          ),
+                        ),
+                    ],
                   ),
+                ),
+                _DirectionalNavigationControls(
+                  controller: _controller,
+                  itemCount: widget.urls.length,
+                  bottomOffset: 40,
+                ),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _DirectionalNavigationControls extends StatelessWidget {
+  const _DirectionalNavigationControls({
+    required this.controller,
+    required this.itemCount,
+    required this.bottomOffset,
+  });
+
+  final YaruCarouselController controller;
+  final int itemCount;
+  final double bottomOffset;
+
+  @override
+  Widget build(BuildContext context) {
+    if (itemCount <= 1) return const SizedBox.shrink();
+
+    final l10n = AppLocalizations.of(context);
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) {
+        final page = controller.hasClients
+            ? (controller.page ?? controller.initialPage).round()
+            : controller.initialPage;
+        final isFirst = page <= 0;
+        final isLast = page >= itemCount - 1;
+
+        return Positioned(
+          top: 0,
+          bottom: bottomOffset,
+          left: 0,
+          right: 0,
+          child: Stack(
+            children: [
+              _buildButton(
+                context: context,
+                alignment: AlignmentDirectional.centerStart,
+                onPressed: isFirst ? null : controller.previousPage,
+                icon: Icon(
+                  isRtl ? YaruIcons.go_next : YaruIcons.go_previous,
+                  semanticLabel: l10n.snapPageGalleryPreviousSemanticLabel,
+                ),
+              ),
+              _buildButton(
+                context: context,
+                alignment: AlignmentDirectional.centerEnd,
+                onPressed: isLast ? null : controller.nextPage,
+                icon: Icon(
+                  isRtl ? YaruIcons.go_previous : YaruIcons.go_next,
+                  semanticLabel: l10n.snapPageGalleryNextSemanticLabel,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildButton({
+    required BuildContext context,
+    required AlignmentGeometry alignment,
+    required VoidCallback? onPressed,
+    required Widget icon,
+  }) {
+    final button = OutlinedButton(
+      style: OutlinedButton.styleFrom(
+        shape: const CircleBorder(),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+      ),
+      onPressed: onPressed,
+      child: icon,
+    );
+
+    return Align(
+      alignment: alignment,
+      child: AnimatedOpacity(
+        opacity: onPressed != null ? 1 : 0,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+        child: (YaruTheme.maybeOf(context)?.focusBorders ?? false)
+            ? YaruFocusBorder.primary(child: button)
+            : button,
       ),
     );
   }
